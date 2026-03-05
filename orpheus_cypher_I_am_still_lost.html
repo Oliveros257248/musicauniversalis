@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>? · ? · ?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: #02040D;
+  color: #EAE6DA;
+  font-family: 'JetBrains Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* PLANET ORBITS — full background */
+canvas#orbits {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+
+/* HIDDEN PATH — barely visible, discoverable on hover */
+canvas#path {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  opacity: 0.04;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+
+canvas#path.revealed { opacity: 0.6; }
+
+.wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 5vh 2rem 10vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* TITLE — just a signal indicator */
+.signal-header {
+  text-align: center;
+  margin-bottom: 6vh;
+}
+
+.signal-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: #D4A843;
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes blink {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.2; transform:scale(0.6); }
+}
+
+.signal-id {
+  display: block;
+  font-size: 0.55rem;
+  color: rgba(212,168,67,0.3);
+  letter-spacing: 0.4em;
+  margin-bottom: 0.3rem;
+}
+
+/* THE CODED TABLE — this IS the puzzle */
+.code-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 6vh;
+}
+
+.code-table tr {
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.code-table tr:hover td { background: rgba(255,255,255,0.015); }
+
+.col-word {
+  font-size: 0.65rem;
+  color: rgba(212,168,67,0.5);
+  letter-spacing: 0.2em;
+  padding: 0.55rem 1.5rem 0.55rem 0;
+  white-space: nowrap;
+  width: 1%;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.col-arrow {
+  color: rgba(255,255,255,0.1);
+  padding: 0.55rem 1rem;
+  font-size: 0.6rem;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.col-stars {
+  font-size: 0.62rem;
+  color: rgba(234,230,218,0.55);
+  padding: 0.55rem 0;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+}
+
+/* Each star name is a span — hover to light up its color */
+.s { 
+  display: inline-block;
+  transition: color 0.2s, text-shadow 0.2s;
+  cursor: default;
+}
+
+/* Star colors by type */
+.s-A { color: rgba(168,212,255,0.55); }
+.s-A:hover { color: #A8D4FF; text-shadow: 0 0 12px rgba(168,212,255,0.8); }
+
+.s-B { color: rgba(232,160,144,0.55); }
+.s-B:hover { color: #E8A090; text-shadow: 0 0 12px rgba(232,160,144,0.8); }
+
+.s-C { color: rgba(255,208,128,0.55); }
+.s-C:hover { color: #FFD080; text-shadow: 0 0 12px rgba(255,208,128,0.8); }
+
+.s-D { color: rgba(176,208,255,0.55); }
+.s-D:hover { color: #B0D0FF; text-shadow: 0 0 12px rgba(176,208,255,0.8); }
+
+.s-E { color: rgba(255,248,224,0.55); }
+.s-E:hover { color: #FFF8E0; text-shadow: 0 0 12px rgba(255,248,224,0.8); }
+
+.s-F { color: rgba(192,224,255,0.55); }
+.s-F:hover { color: #C0E0FF; text-shadow: 0 0 12px rgba(192,224,255,0.8); }
+
+.s-G { color: rgba(128,255,208,0.55); }
+.s-G:hover { color: #80FFD0; text-shadow: 0 0 12px rgba(128,255,208,0.8); }
+
+.s-H { color: rgba(128,128,255,0.55); }
+.s-H:hover { color: #8080FF; text-shadow: 0 0 12px rgba(128,128,255,0.8); }
+
+.s-I { color: rgba(255,176,96,0.55); }
+.s-I:hover { color: #FFB060; text-shadow: 0 0 12px rgba(255,176,96,0.8); }
+
+.s-L { color: rgba(136,152,255,0.55); }
+.s-L:hover { color: #8898FF; text-shadow: 0 0 12px rgba(136,152,255,0.8); }
+
+.s-M { color: rgba(112,128,255,0.55); }
+.s-M:hover { color: #7080FF; text-shadow: 0 0 12px rgba(112,128,255,0.8); }
+
+.s-N { color: rgba(144,160,255,0.55); }
+.s-N:hover { color: #90A0FF; text-shadow: 0 0 12px rgba(144,160,255,0.8); }
+
+.s-O { color: rgba(184,208,255,0.55); }
+.s-O:hover { color: #B8D0FF; text-shadow: 0 0 12px rgba(184,208,255,0.8); }
+
+.s-P { color: rgba(255,240,192,0.55); }
+.s-P:hover { color: #FFF0C0; text-shadow: 0 0 12px rgba(255,240,192,0.8); }
+
+.s-R { color: rgba(255,224,128,0.55); }
+.s-R:hover { color: #FFE080; text-shadow: 0 0 12px rgba(255,224,128,0.8); }
+
+.s-S { color: rgba(112,128,255,0.55); }
+.s-S:hover { color: #7080FF; text-shadow: 0 0 12px rgba(112,128,255,0.8); }
+
+.s-T { color: rgba(255,144,96,0.55); }
+.s-T:hover { color: #FF9060; text-shadow: 0 0 12px rgba(255,144,96,0.8); }
+
+.s-U { color: rgba(128,144,255,0.55); }
+.s-U:hover { color: #8090FF; text-shadow: 0 0 12px rgba(128,144,255,0.8); }
+
+.s-W { color: rgba(64,255,176,0.55); }
+.s-W:hover { color: #40FFB0; text-shadow: 0 0 12px rgba(64,255,176,0.8); }
+
+.s-Y { color: rgba(255,128,112,0.55); }
+.s-Y:hover { color: #FF8070; text-shadow: 0 0 12px rgba(255,128,112,0.8); }
+
+/* separator dots */
+.dot { color: rgba(255,255,255,0.12); padding: 0 0.3em; }
+
+/* BOTTOM SIGNAL */
+.footer-signal {
+  text-align: center;
+  font-size: 0.5rem;
+  color: rgba(212,168,67,0.15);
+  letter-spacing: 0.3em;
+  margin-top: 4vh;
+}
+
+/* SECRET — only visible in page source */
+/* 
+  δ = 0.013643
+  N_res = 73.296
+  KEY: ALMAAZ · [0,11,12,0,0,25]
+  Vigenère cipher. Key repeats.
+  First letter of each star name is the ciphertext letter.
+  Decrypt: shift each letter back by A=0,L=11,M=12,A=0,A=0,Z=25
+  Almaaz holds the 2⁷ in its eclipse period.
+  Merope weeps. Her disk never closes.
+  Total letters: 85. One short of N_res × δ⁻¹.
+  — Project Orpheus
+*/
+</style>
+</head>
+<body>
+
+<canvas id="orbits"></canvas>
+<canvas id="path"></canvas>
+
+<div class="wrap">
+
+  <div class="signal-header">
+    <div class="signal-dot"></div>
+    <span class="signal-id">TRANSMISSION · ALMAAZ KEY · 19.378 kHz</span>
+  </div>
+
+    <table class="code-table">
+    <tr>
+      <td class="col-word">?????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-D">Hadar</span><span class="dot">·</span><span class="s s-C">Polaris</span><span class="dot">·</span><span class="s s-I">Xi Puppis</span><span class="dot">·</span><span class="s s-D">Lesath</span><span class="dot">·</span><span class="s s-E">Omicron Eri</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">?</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-D">Hadar</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">??</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-C">Almaaz</span><span class="dot">·</span><span class="s s-I">Xi Puppis</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">???????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-C">Almaaz</span><span class="dot">·</span><span class="s s-E">Rigil Kentaurus</span><span class="dot">·</span><span class="s s-C">Polaris</span><span class="dot">·</span><span class="s s-G">Gamma Velorum</span><span class="dot">·</span><span class="s s-E">Elnath</span><span class="dot">·</span><span class="s s-E">Fomalhaut</span><span class="dot">·</span><span class="s s-E">Elnath</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">?</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-I">Izar</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">??</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-C">Almaaz</span><span class="dot">·</span><span class="s s-D">Lesath</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-D">Lesath</span><span class="dot">·</span><span class="s s-T">Zaurak</span><span class="dot">·</span><span class="s s-E">Elnath</span><span class="dot">·</span><span class="s s-I">Tarazed</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">??</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-I">Izar</span><span class="dot">·</span><span class="s s-E">Merope</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">???</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-I">Tarazed</span><span class="dot">·</span><span class="s s-D">Saiph</span><span class="dot">·</span><span class="s s-E">QZ Carinae</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-G">WR 104</span><span class="dot">·</span><span class="s s-E">Omicron Eri</span><span class="dot">·</span><span class="s s-I">Kaus Australis</span><span class="dot">·</span><span class="s s-E">Fomalhaut</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">?????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-E">QZ Carinae</span><span class="dot">·</span><span class="s s-I">Unukalhai</span><span class="dot">·</span><span class="s s-E">Fomalhaut</span><span class="dot">·</span><span class="s s-I">Tarazed</span><span class="dot">·</span><span class="s s-G">Gamma Velorum</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-D">Hadar</span><span class="dot">·</span><span class="s s-C">Polaris</span><span class="dot">·</span><span class="s s-I">Xi Puppis</span><span class="dot">·</span><span class="s s-C">Polaris</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">??</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-E">Merope</span><span class="dot">·</span><span class="s s-D">Deneb</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">??????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-C">Polaris</span><span class="dot">·</span><span class="s s-G">WR 104</span><span class="dot">·</span><span class="s s-E">QZ Carinae</span><span class="dot">·</span><span class="s s-C">Almaaz</span><span class="dot">·</span><span class="s s-D">Saiph</span><span class="dot">·</span><span class="s s-D">Deneb</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">??</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-D">Deneb</span><span class="dot">·</span><span class="s s-T">Zaurak</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">???</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-I">Kaus Australis</span><span class="dot">·</span><span class="s s-E">Omicron Eri</span><span class="dot">·</span><span class="s s-I">Unukalhai</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-G">Gamma Velorum</span><span class="dot">·</span><span class="s s-E">Elnath</span><span class="dot">·</span><span class="s s-D">Lesath</span><span class="dot">·</span><span class="s s-D">Deneb</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">???</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-I">Tarazed</span><span class="dot">·</span><span class="s s-D">Hadar</span><span class="dot">·</span><span class="s s-D">Deneb</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">?????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-E">Merope</span><span class="dot">·</span><span class="s s-E">Fomalhaut</span><span class="dot">·</span><span class="s s-E">Elnath</span><span class="dot">·</span><span class="s s-I">Izar</span><span class="dot">·</span><span class="s s-I">Capella</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-E">Vega</span><span class="dot">·</span><span class="s s-D">Hadar</span><span class="dot">·</span><span class="s s-D">Lesath</span><span class="dot">·</span><span class="s s-E">Fomalhaut</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">??</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-I">Izar</span><span class="dot">·</span><span class="s s-D">Saiph</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">???</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-D">Saiph</span><span class="dot">·</span><span class="s s-D">Hadar</span><span class="dot">·</span><span class="s s-C">Polaris</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-E">Elnath</span><span class="dot">·</span><span class="s s-E">Omicron Eri</span><span class="dot">·</span><span class="s s-D">Nunki</span><span class="dot">·</span><span class="s s-E">Fomalhaut</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">???</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-T">Yed Prior</span><span class="dot">·</span><span class="s s-T">Zaurak</span><span class="dot">·</span><span class="s s-G">Gamma Velorum</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-word">????</td>
+      <td class="col-arrow">→</td>
+      <td class="col-stars">
+        <span class="s s-D">Saiph</span><span class="dot">·</span><span class="s s-I">Izar</span><span class="dot">·</span><span class="s s-E">Merope</span><span class="dot">·</span><span class="s s-G">Gamma Velorum</span>
+      </td>
+    </tr>
+  </table>
+
+  <div class="footer-signal">· · · — — — · · · &nbsp;&nbsp; 19.378 kHz &nbsp;&nbsp; · · · — — — · · ·</div>
+
+</div>
+
+<script>
+// ── PLANET ORBITS — background ──
+const oc = document.getElementById('orbits');
+const octx = oc.getContext('2d');
+let t = 0;
+const DELTA = 0.013643;
+
+function resizeOrbits() {
+  oc.width = window.innerWidth;
+  oc.height = window.innerHeight;
+}
+resizeOrbits();
+window.addEventListener('resize', resizeOrbits);
+
+// 6 planets in various resonances — filling the background
+const PLANETS = [
+  { r:0.08, speed:3.1,   size:3,   color:'rgba(168,212,255,0.35)',  phase:0 },
+  { r:0.14, speed:2.0,   size:4,   color:'rgba(255,208,128,0.3)',   phase:1.2 },
+  { r:0.20, speed:1.33,  size:5,   color:'rgba(232,160,144,0.28)',  phase:2.4 },
+  { r:0.27, speed:0.89,  size:3.5, color:'rgba(128,255,208,0.25)',  phase:0.7 },
+  { r:0.34, speed:0.59,  size:6,   color:'rgba(255,240,192,0.22)',  phase:3.1 },
+  { r:0.42, speed:0.39,  size:4.5, color:'rgba(64,255,176,0.2)',    phase:1.8 },
+];
+
+function drawOrbits() {
+  const W = oc.width, H = oc.height;
+  const cx = W/2, cy = H/2;
+  const base = Math.min(W,H) * 0.5;
+
+  octx.clearRect(0,0,W,H);
+
+  // Orbit rings
+  PLANETS.forEach(p => {
+    const r = p.r * base;
+    octx.beginPath();
+    octx.arc(cx, cy, r, 0, Math.PI*2);
+    octx.strokeStyle = 'rgba(255,255,255,0.03)';
+    octx.lineWidth = 0.5;
+    octx.stroke();
+  });
+
+  // Sun — the Aleph, barely visible
+  octx.beginPath();
+  octx.arc(cx, cy, 3 + Math.sin(t)*0.8, 0, Math.PI*2);
+  octx.fillStyle = 'rgba(212,168,67,0.25)';
+  octx.fill();
+
+  // Planets
+  PLANETS.forEach((p, i) => {
+    const r = p.r * base;
+    const commaShift = t * DELTA * (i * 0.07);
+    const angle = t * p.speed + p.phase + commaShift;
+    const px = cx + Math.cos(angle) * r;
+    const py = cy + Math.sin(angle) * r;
+
+    // Trail
+    for(let j=1; j<=8; j++) {
+      const ta = t * p.speed + p.phase + commaShift - j*0.04;
+      const tx2 = cx + Math.cos(ta)*r;
+      const ty2 = cy + Math.sin(ta)*r;
+      octx.beginPath();
+      octx.arc(tx2, ty2, p.size*(1-j/10)*0.5, 0, Math.PI*2);
+      octx.fillStyle = p.color.replace(')', `,${0.15*(1-j/10)})`).replace('rgba','rgba');
+      octx.fill();
+    }
+
+    octx.beginPath();
+    octx.arc(px, py, p.size, 0, Math.PI*2);
+    octx.fillStyle = p.color;
+    octx.fill();
+  });
+
+  // Kairos pulse — every N_res
+  const kPhase = (t * 0.05) % (Math.PI * 2);
+  const kVal = Math.sin(kPhase / 73.296 * Math.PI);
+  if(kVal > 0.98) {
+    const kr = base * 0.5 * (kVal - 0.98) * 50;
+    octx.beginPath();
+    octx.arc(cx, cy, kr, 0, Math.PI*2);
+    octx.strokeStyle = `rgba(212,168,67,${(kVal-0.98)*20})`;
+    octx.lineWidth = 1;
+    octx.stroke();
+  }
+
+  t += 0.008;
+  requestAnimationFrame(drawOrbits);
+}
+drawOrbits();
+
+// ── HIDDEN PATH — the NATA string drawn invisibly, revealed on 5x click ──
+const pathCanvas = document.getElementById('path');
+const pctx = pathCanvas.getContext('2d');
+let clickCount = 0;
+let pathDrawn = false;
+
+function resizePath() {
+  pathCanvas.width = window.innerWidth;
+  pathCanvas.height = window.innerHeight;
+  if(pathDrawn) drawHiddenPath();
+}
+resizePath();
+window.addEventListener('resize', resizePath);
+
+// The full letter sequence
+const LETTERS = 'HPXLO H AX ARPGEFE I AL LZET IM TSQ WOKF QUFTG HPXP MD PWQASD DZ KOU GELD THD MFEIC VHLF IS SHP EONF YZG SIMG'.replace(/ /g,'');
+const STAR_COLORS = {
+  A:'#FFD080', C:'#FFD080', D:'#B0D0FF', E:'#FFF8E0', F:'#C0E0FF',
+  G:'#40FFB0', H:'#8080FF', I:'#FFB060', K:'#FFB060', L:'#8898FF',
+  M:'#A8D4FF', N:'#90A0FF', O:'#B8D0FF', P:'#FFF0C0', Q:'#A8D4FF',
+  R:'#FFF8E0', S:'#7080FF', T:'#FF9060', U:'#FFB060', V:'#FFF8E0',
+  W:'#40FFB0', X:'#FFB060', Y:'#FF8070', Z:'#FF8070'
+};
+
+function drawHiddenPath() {
+  const W = pathCanvas.width, H = pathCanvas.height;
+  pctx.clearRect(0,0,W,H);
+
+  const fullText = 'HPXLOH AXARPGEFE IAL LZETIMTSQWOKFQUFTG HPXPMDPWQASDDZKOUGELDTHDMFEICVHLFISSHPEONFYZGSIMG';
+  const letters = [...fullText].filter(c => c !== ' ');
+  const cols = Math.ceil(Math.sqrt(letters.length * 2));
+  const spacing = Math.min(W, H) / cols;
+
+  let prevX = null, prevY = null;
+  letters.forEach((c, i) => {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const x = spacing * 0.8 + col * spacing + Math.sin(i * 1.3) * spacing * 0.2;
+    const y = spacing * 0.8 + row * spacing + Math.cos(i * 0.9) * spacing * 0.2;
+    const color = STAR_COLORS[c] || '#FFFFFF';
+
+    if(prevX !== null) {
+      pctx.beginPath();
+      pctx.moveTo(prevX, prevY);
+      pctx.lineTo(x, y);
+      pctx.strokeStyle = color + '30';
+      pctx.lineWidth = 0.5;
+      pctx.stroke();
+    }
+
+    pctx.beginPath();
+    pctx.arc(x, y, 2, 0, Math.PI*2);
+    pctx.fillStyle = color;
+    pctx.fill();
+
+    // Letter label — tiny, barely readable
+    pctx.fillStyle = color + '80';
+    pctx.font = '7px JetBrains Mono';
+    pctx.fillText(c, x + 3, y - 3);
+
+    prevX = x; prevY = y;
+  });
+}
+
+drawHiddenPath();
+pathDrawn = true;
+
+// Click 5 times anywhere to reveal the path
+document.addEventListener('click', (e) => {
+  // Don't trigger on star hovers
+  clickCount++;
+  if(clickCount >= 5) {
+    pathCanvas.classList.add('revealed');
+  }
+});
+
+// Easter egg in console
+console.log('%c ORPHEUS IS CALLING ', 'background:#02040D;color:#D4A843;font-family:monospace;font-size:14px;padding:8px;border:1px solid #D4A843;');
+console.log('%c Each star name = one ciphertext letter.', 'color:#9A968C;font-family:monospace;font-size:11px;');
+console.log('%c Take the first letter of each star name. That is your ciphertext.', 'color:#A8D4FF;font-family:monospace;font-size:11px;');
+console.log('%c Then decrypt with Vigenère. Key: ALMAAZ. Shifts: [0,11,12,0,0,25].', 'color:#FFD080;font-family:monospace;font-size:11px;');
+console.log('%c δ = 0.013643 · N_res = 73.296 · 85 letters total. The comma does not close.', 'color:#D4A84360;font-family:monospace;font-size:10px;');
+console.log('%c ε Aurigae · F0 Ia · eclipse period 27.1 years · 2⁷ in its heartbeat.', 'color:#D4A843;font-family:monospace;font-size:11px;');
+</script>
+</body>
+</html>
+
