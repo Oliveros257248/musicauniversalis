@@ -87,6 +87,15 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--bg); font
 .vbtn.gold-btn { border-color:rgba(255,200,50,0.4); color:var(--gold); }
 .vbtn.gold-btn:hover,.vbtn.gold-btn.on { border-color:var(--gold); background:rgba(255,200,50,0.1); }
 
+/* ── POLARIS INDICATOR ── */
+#polaris-indicator {
+  position:fixed; top:12px; left:50%; transform:translateX(-50%);
+  font-family:var(--mono); font-size:10px; letter-spacing:0.12em;
+  color:rgba(200,220,255,0.75); background:rgba(0,10,30,0.75);
+  border:1px solid rgba(200,220,255,0.2); border-radius:8px;
+  padding:5px 14px; pointer-events:none; display:none; z-index:20;
+  text-align:center;
+}
 /* ── ZOOM PANEL (left side) ── */
 #zoompanel {
   top:50%; left:10px; transform:translateY(-50%);
@@ -292,6 +301,8 @@ select:focus,input[type=text]:focus { border-color:var(--accent); }
   <button class="vbtn" id="vapo" style="color:var(--apo);border-color:rgba(255,34,85,0.4)">◈ Track Apophis</button>
   <button class="vbtn" id="vjup">♃ Jupiter Moons</button>
   <button class="vbtn gold-btn" id="vcop">☀ Copernicus</button>
+  <button class="vbtn" id="vsunsrc" title="Lock camera to always look at the Sun from current angle">☀ Center Sun</button>
+  <button class="vbtn" id="vpolaris" title="Orient view toward Polaris — celestial north (α UMi, 433 ly)">✦ Polaris / Aleph</button>
   <button class="vbtn" id="vtrack" style="color:var(--purple);border-color:rgba(192,132,252,0.4)">🎯 Planet Tracker</button>
 </div>
 
@@ -301,6 +312,7 @@ select:focus,input[type=text]:focus { border-color:var(--accent); }
   <input type="range" id="zoom-track" min="0" max="100" value="55" orient="vertical">
   <button class="zoom-btn" id="zout" title="Zoom Out">－</button>
   <div class="zoom-label">ZOOM</div>
+  <div id="au-display" style="font-family:var(--mono);font-size:8px;color:rgba(0,207,255,0.55);text-align:center;margin-top:4px;line-height:1.4;letter-spacing:0.04em;writing-mode:horizontal-tb;width:44px;white-space:normal;word-break:break-all;"></div>
 </div>
 
 <!-- LEFT PANEL — bodies -->
@@ -585,6 +597,7 @@ function zoomDist(){
 }
 let camTh=0.45,camPh=0.3,camTx=0,camTy=0,camTz=0;
 let isDrag=false,lastMX=0,lastMY=0,viewMode='free';
+let centerSunActive=false, polarisActive=false;
 const PJ=m4(),VW=m4(),MVP=m4();
 
 function camPos(){const d=zoomDist();return[d*Math.sin(camTh)*Math.cos(camPh)+camTx,d*Math.cos(camTh)+camTy,d*Math.sin(camTh)*Math.sin(camPh)+camTz];}
@@ -912,6 +925,10 @@ function render(ts){
   const jup=bodies.find(b=>b.name==='Jupiter');
   if(viewMode==='apo'&&apo){camTx=apo.x;camTy=apo.y;camTz=apo.z;}
   if(viewMode==='jup'&&jup){camTx=jup.x;camTy=jup.y;camTz=jup.z;}
+  // Center Sun: lock look-target to Sun (origin)
+  if(centerSunActive){camTx=0;camTy=0;camTz=0;}
+  // Polaris: orient camera to face celestial north pole (+Y axis in ecliptic plane)
+  if(polarisActive){camTh=0.04;camPh=0;}
 
   sampleTrails();
   buildMVP();
@@ -1089,15 +1106,78 @@ function render(ts){
 
   drawRosette();
   drawTracker();
+  drawPolarisOverlay();
 
   requestAnimationFrame(render);
 }
 
+// ── Polaris directional overlay ──────────────────────────────────────
+// Polaris (α UMi) is at ecliptic north: roughly +Y direction in our coordinate system
+// We draw a compass arrow pointing toward celestial north in the overlay canvas
+function drawPolarisOverlay(){
+  if(!polarisActive)return;
+  const W=OV.width,H=OV.height;
+  const cx=W/2,cy=H/2;
+  // Project a point far in the +Y (ecliptic north) direction
+  const northPt=proj2(camTx,camTy+zoomDist()*0.8,camTz);
+  if(!northPt)return;
+  // Direction from screen center to the projected north point
+  const dx=northPt[0]-cx,dy=northPt[1]-cy;
+  const len=Math.sqrt(dx*dx+dy*dy);
+  if(len<1)return;
+  const nx=dx/len,ny=dy/len;
+  // Draw arrow at edge of a circle around center
+  const arrowR=Math.min(W,H)*0.38;
+  const ax=cx+nx*arrowR,ay=cy+ny*arrowR;
+  const headLen=18,headW=7;
+  const perpX=-ny,perpY=nx;
+  OC.save();
+  OC.globalAlpha=0.82;
+  // Arrow shaft
+  OC.beginPath();
+  OC.moveTo(ax-nx*headLen*1.8,ay-ny*headLen*1.8);
+  OC.lineTo(ax,ay);
+  OC.strokeStyle='rgba(180,210,255,0.7)';
+  OC.lineWidth=2;
+  OC.setLineDash([4,3]);
+  OC.stroke();
+  OC.setLineDash([]);
+  // Arrow head
+  OC.beginPath();
+  OC.moveTo(ax,ay);
+  OC.lineTo(ax-nx*headLen+perpX*headW,ay-ny*headLen+perpY*headW);
+  OC.lineTo(ax-nx*headLen-perpX*headW,ay-ny*headLen-perpY*headW);
+  OC.closePath();
+  OC.fillStyle='rgba(180,210,255,0.9)';
+  OC.fill();
+  // Label
+  OC.font='bold 11px "Space Mono",monospace';
+  OC.fillStyle='rgba(200,225,255,0.85)';
+  OC.textAlign='center';
+  OC.fillText('✦ POLARIS', ax+nx*22, ay+ny*22+4);
+  OC.fillText('ALEPH · ℵ · CELESTIAL NORTH', ax+nx*22, ay+ny*22+18);
+  OC.restore();
+}
+
 // ── Zoom controls ──────────────────────────────────────────────────
 const ztrack=document.getElementById('zoom-track');
-ztrack.addEventListener('input',()=>{zoomT=parseInt(ztrack.value)/100;});
-document.getElementById('zin').addEventListener('click',()=>{zoomT=Math.max(0,zoomT-.08);ztrack.value=~~(zoomT*100);});
-document.getElementById('zout').addEventListener('click',()=>{zoomT=Math.min(1,zoomT+.08);ztrack.value=~~(zoomT*100);});
+function updateAULabel(){
+  const d=zoomDist(); // scene units
+  const auEl=document.getElementById('au-display');
+  if(!auEl)return;
+  const au=d/AU;
+  let txt;
+  if(au<0.1)txt=`${(au*149.6).toFixed(0)}Mkm`;
+  else if(au<2)txt=`${au.toFixed(2)} AU`;
+  else if(au<100)txt=`${au.toFixed(1)} AU`;
+  else if(au<1000)txt=`${Math.round(au)} AU`;
+  else txt=`${(au/63241).toFixed(1)} ly`;
+  auEl.textContent=txt;
+}
+ztrack.addEventListener('input',()=>{zoomT=parseInt(ztrack.value)/100;updateAULabel();});
+document.getElementById('zin').addEventListener('click',()=>{zoomT=Math.max(0,zoomT-.08);ztrack.value=~~(zoomT*100);updateAULabel();});
+document.getElementById('zout').addEventListener('click',()=>{zoomT=Math.min(1,zoomT+.08);ztrack.value=~~(zoomT*100);updateAULabel();});
+updateAULabel();
 
 // Scroll zoom — FAST, non-linear, like speed-of-light jump
 CV.addEventListener('wheel',e=>{
@@ -1106,6 +1186,7 @@ CV.addEventListener('wheel',e=>{
   const speed=0.003+(1-zoomT)*0.012;
   zoomT=Math.max(0,Math.min(1,zoomT+e.deltaY*speed));
   ztrack.value=~~(zoomT*100);
+  updateAULabel();
 },{passive:false});
 
 // ── Drag to rotate ─────────────────────────────────────────────────
@@ -1297,6 +1378,44 @@ document.getElementById('vcop').addEventListener('click',()=>{
   const p=document.getElementById('coppanel');
   p.style.display=p.style.display==='none'?'block':'none';
   if(p.style.display==='block')drawCopernicus();
+});
+
+// ── Center Sun toggle ──────────────────────────────────────────────
+document.getElementById('vsunsrc').addEventListener('click',()=>{
+  centerSunActive=!centerSunActive;
+  const btn=document.getElementById('vsunsrc');
+  if(centerSunActive){
+    btn.classList.add('on');
+    btn.style.borderColor='var(--gold)';
+    btn.style.color='var(--gold)';
+    // Snap camera target to Sun immediately
+    camTx=0;camTy=0;camTz=0;
+  } else {
+    btn.classList.remove('on');
+    btn.style.borderColor='';
+    btn.style.color='';
+  }
+});
+
+// ── Polaris / Aleph toggle ─────────────────────────────────────────
+document.getElementById('vpolaris').addEventListener('click',()=>{
+  polarisActive=!polarisActive;
+  const btn=document.getElementById('vpolaris');
+  const ind=document.getElementById('polaris-indicator');
+  if(polarisActive){
+    btn.classList.add('on');
+    btn.style.borderColor='rgba(180,210,255,0.6)';
+    btn.style.color='rgba(180,210,255,0.9)';
+    ind.style.display='block';
+    // Orient camera toward celestial north: camTh near 0 = looking from above along +Y
+    camTh=0.04;camPh=0;
+    if(!centerSunActive){camTx=0;camTy=0;camTz=0;}
+  } else {
+    btn.classList.remove('on');
+    btn.style.borderColor='';
+    btn.style.color='';
+    ind.style.display='none';
+  }
 });
 
 // ── Tracker panel ──────────────────────────────────────────────────
