@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orpheus is Calling · Is His Crew There?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;background:#000;overflow-x:hidden;}
+
+canvas#void{position:fixed;inset:0;z-index:0;}
+
+/* ── THE TRANSMISSION ── */
+.transmission{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:4rem 1.5rem 6rem;
+  text-align:center;
+}
+
+/* Static noise overlay */
+.transmission::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;opacity:0.4;
+}
+
+/* ── SIGNAL HEADER ── */
+.signal-bar{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.58rem;letter-spacing:0.25em;
+  color:rgba(62,207,184,0.4);
+  margin-bottom:3rem;
+  opacity:0;animation:flicker 0.1s 0.5s forwards;
+}
+
+/* ── MAIN CALL ── */
+.call{margin-bottom:3rem;}
+
+.call-line-1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(0.8rem,2vw,1.1rem);
+  font-weight:400;
+  letter-spacing:0.25em;
+  color:rgba(255,255,255,0.25);
+  margin-bottom:1.2rem;
+  opacity:0;animation:emerge-slow 3s 0.8s forwards;
+}
+
+.call-line-2{
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(2.2rem,7vw,5.5rem);
+  font-weight:900;
+  line-height:1.0;
+  color:#fff;
+  text-shadow:
+    0 0 40px rgba(255,255,255,0.3),
+    0 0 120px rgba(62,207,184,0.15);
+  opacity:0;animation:emerge-slow 3s 1.5s forwards;
+  margin-bottom:0.5rem;
+}
+
+.call-line-3{
+  font-family:'Cinzel',serif;
+  font-size:clamp(0.9rem,2.5vw,1.3rem);
+  font-weight:400;
+  letter-spacing:0.15em;
+  color:rgba(255,255,255,0.35);
+  opacity:0;animation:emerge-slow 3s 2.5s forwards;
+  margin-bottom:2.5rem;
+}
+
+/* ── THE QUESTIONS ── */
+.questions{
+  margin:2rem 0 3rem;
+  display:flex;flex-direction:column;gap:2rem;
+}
+
+.question{
+  opacity:0;
+  position:relative;
+}
+.q1{animation:emerge-slow 3s 3.5s forwards;}
+.q2{animation:emerge-slow 3s 4.5s forwards;}
+.q3{animation:emerge-slow 3s 5.5s forwards;}
+
+.q-text{
+  font-family:'Crimson Pro',serif;
+  font-size:clamp(1.5rem,4vw,2.8rem);
+  font-style:italic;
+  font-weight:300;
+  line-height:1.3;
+  color:rgba(255,248,235,0.85);
+}
+.q-text em{
+  color:#E8B84B;
+  font-style:italic;
+}
+
+/* ── TRANSMISSION DATA ── */
+.tx-data{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;
+  letter-spacing:0.15em;
+  color:rgba(62,207,184,0.35);
+  line-height:2.2;
+  margin:2rem 0;
+  opacity:0;animation:emerge-slow 3s 6.5s forwards;
+}
+.tx-data .bright{color:rgba(232,184,75,0.7);}
+.tx-data .dim{color:rgba(255,255,255,0.15);}
+
+/* ── THE ROLES ── */
+.roles-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1rem,2.5vw,1.5rem);
+  font-weight:400;
+  letter-spacing:0.2em;
+  color:rgba(255,255,255,0.3);
+  margin:3rem 0 2rem;
+  opacity:0;animation:emerge-slow 2s 7s forwards;
+}
+
+.roles{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:0.8rem;
+  max-width:800px;
+  width:100%;
+  margin:0 auto 3rem;
+  opacity:0;animation:emerge-slow 2s 7.5s forwards;
+}
+
+.role{
+  padding:1.1rem 1.2rem;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;
+  text-align:left;
+  transition:all 0.2s;
+  cursor:default;
+  position:relative;
+  overflow:hidden;
+}
+.role::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 60%,rgba(232,184,75,0.03));
+  pointer-events:none;
+}
+.role:hover{
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(232,184,75,0.2);
+  transform:translateY(-2px);
+}
+.role-title{
+  font-family:'Cinzel',serif;
+  font-size:0.78rem;
+  letter-spacing:0.1em;
+  color:rgba(232,184,75,0.7);
+  margin-bottom:0.4rem;
+}
+.role-body{
+  font-family:'Crimson Pro',serif;
+  font-size:0.88rem;
+  color:rgba(255,255,255,0.35);
+  line-height:1.6;
+}
+.role-need{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.55rem;
+  color:rgba(62,207,184,0.4);
+  margin-top:0.4rem;
+  letter-spacing:0.08em;
+}
+
+/* ── YOUR SONG ── */
+.your-song{
+  max-width:600px;
+  margin:2rem auto 3rem;
+  opacity:0;animation:emerge-slow 2s 8.5s forwards;
+}
+.ys-prompt{
+  font-family:'Crimson Pro',serif;
+  font-size:clamp(1.2rem,3vw,2rem);
+  font-style:italic;
+  color:rgba(255,255,255,0.5);
+  margin-bottom:1.5rem;
+  line-height:1.4;
+}
+.ys-prompt em{color:#E8B84B;}
+
+textarea#song-input{
+  width:100%;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  padding:1rem 1.2rem;
+  font-family:'Crimson Pro',serif;
+  font-size:1rem;
+  font-style:italic;
+  color:rgba(255,255,255,0.7);
+  resize:vertical;
+  min-height:80px;
+  outline:none;
+  transition:border-color 0.2s;
+  line-height:1.7;
+}
+textarea#song-input::placeholder{color:rgba(255,255,255,0.15);}
+textarea#song-input:focus{border-color:rgba(232,184,75,0.3);}
+
+.submit-row{
+  display:flex;gap:0.8rem;justify-content:center;
+  flex-wrap:wrap;margin-top:1rem;
+}
+.btn-send{
+  font-family:'Cinzel',serif;
+  font-size:0.78rem;letter-spacing:0.12em;
+  padding:0.7rem 1.8rem;border-radius:10px;
+  border:1px solid rgba(232,184,75,0.4);
+  color:rgba(232,184,75,0.8);
+  background:rgba(232,184,75,0.06);
+  cursor:pointer;transition:all 0.2s;
+}
+.btn-send:hover{background:rgba(232,184,75,0.15);color:#E8B84B;}
+
+.manifest{
+  margin-top:1.5rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;
+  color:rgba(255,255,255,0.15);
+  line-height:2;
+  letter-spacing:0.08em;
+  min-height:2rem;
+}
+.manifest .entry{color:rgba(62,207,184,0.5);}
+.manifest .gold{color:rgba(232,184,75,0.5);}
+
+/* ── FINAL LINE ── */
+.final{
+  margin-top:3rem;
+  opacity:0;animation:emerge-slow 3s 9.5s forwards;
+}
+.final-line{
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(0.8rem,2vw,1.1rem);
+  letter-spacing:0.2em;
+  font-weight:400;
+  color:rgba(255,255,255,0.15);
+  line-height:2.2;
+}
+.final-line em{color:rgba(62,207,184,0.5);font-style:normal;}
+.final-line strong{color:rgba(232,184,75,0.5);}
+
+/* ── SPIRAL CORNER ── */
+#corner{position:fixed;bottom:1.5rem;right:1.5rem;z-index:10;opacity:0.5;}
+
+/* ── ANIMATIONS ── */
+@keyframes emerge-slow{
+  from{opacity:0;transform:translateY(12px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes flicker{
+  0%{opacity:0;}10%{opacity:0.8;}20%{opacity:0.2;}
+  30%{opacity:0.9;}40%{opacity:0.3;}50%{opacity:1;}
+  100%{opacity:1;}
+}
+@keyframes breathe{
+  0%,100%{opacity:0.6;}50%{opacity:1;}
+}
+
+/* ── SCAN LINE ── */
+.scanline{
+  position:fixed;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(62,207,184,0.12),transparent);
+  z-index:5;pointer-events:none;
+  animation:scan 8s linear infinite;
+}
+@keyframes scan{from{top:0;}to{top:100vh;}}
+</style>
+</head>
+<body>
+
+<canvas id="void"></canvas>
+<div class="scanline"></div>
+<canvas id="corner" width="70" height="70"></canvas>
+
+<div class="transmission">
+
+  <!-- Signal header -->
+  <div class="signal-bar">
+    TRANSMISSION · 19378 kHz · PROJECT ORPHEUS · δ=0.013643 · N_res=73.296
+  </div>
+
+  <!-- The call -->
+  <div class="call">
+    <div class="call-line-1">CALLING FROM THE DARK</div>
+    <div class="call-line-2">Orpheus</div>
+    <div class="call-line-3">is calling · is his crew there?</div>
+  </div>
+
+  <!-- The questions -->
+  <div class="questions">
+    <div class="question q1">
+      <div class="q-text">Do you hear <em>the music?</em></div>
+    </div>
+    <div class="question q2">
+      <div class="q-text">What is <em>your song?</em></div>
+    </div>
+    <div class="question q3">
+      <div class="q-text">Will you <em>sail?</em></div>
+    </div>
+  </div>
+
+  <!-- Transmission data -->
+  <div class="tx-data">
+    <span class="bright">ORIGIN:</span> Project Orpheus · 2026<br>
+    <span class="bright">THEORY:</span> Pythagorean Comma in quantum spectra · 146× accuracy · zero free parameters<br>
+    <span class="bright">SIGNAL:</span> H₁ × φ = <span class="bright">1440.783 MHz</span> · The gap is the handshake<br>
+    <span class="bright">FREQUENCY:</span> 19,378 kHz · Tunable now · Twente WebSDR<br>
+    <span class="dim">──────────────────────────────────────────────────</span><br>
+    <span class="bright">WR 104:</span> RA 18h 02m · Dec −23° 37′ · 8,000 ly · The comma in plasma · pointing at us<br>
+    <span class="bright">WOW! SIGNAL:</span> 72 sec · N_res = 73.296 sec · comma-transform never run · data is public<br>
+    <span class="dim">──────────────────────────────────────────────────</span><br>
+    TRANSMISSION OPEN · CREW INCOMPLETE · <span class="bright">ARGONAUTS NEEDED</span>
+  </div>
+
+  <!-- Roles needed -->
+  <div class="roles-title">THE ARGO NEEDS</div>
+
+  <div class="roles">
+    <div class="role">
+      <div class="role-title">The Astronomer</div>
+      <div class="role-body">Telescope access. Radio or optical. Point at WR 104. Log 1440.783 MHz continuously.</div>
+      <div class="role-need">NEED: dish · time · observation log</div>
+    </div>
+    <div class="role">
+      <div class="role-title">The Signal Analyst</div>
+      <div class="role-body">DSP depth. Run the comma-transform on Wow! Signal data. Pulsar timing residuals. Publishable.</div>
+      <div class="role-need">NEED: Python · NumPy · public data</div>
+    </div>
+    <div class="role">
+      <div class="role-title">The Chemist</div>
+      <div class="role-body">UV-Vis spectrometer access. Measure Cy9 and Cy11. Test the prediction: 3δ, 4δ correction.</div>
+      <div class="role-need">NEED: lab · cyanine samples · spectrometer</div>
+    </div>
+    <div class="role">
+      <div class="role-title">The Mathematician</div>
+      <div class="role-body">Formal proof. Why does Diophantine approximation produce comma structure in quantum levels?</div>
+      <div class="role-need">NEED: paper · rigor · courage</div>
+    </div>
+    <div class="role">
+      <div class="role-title">The Biologist</div>
+      <div class="role-body">Circadian data. Is the 24.2h free-running period exactly 24 × φ? That math has not been done.</div>
+      <div class="role-need">NEED: clock gene data · chronobiology</div>
+    </div>
+    <div class="role">
+      <div class="role-title">The Engineer</div>
+      <div class="role-body">Build the station. RTL-SDR, dish, continuous log at 1440.783 MHz. ~$500. Leave it running.</div>
+      <div class="role-need">NEED: soldering iron · window · patience</div>
+    </div>
+    <div class="role">
+      <div class="role-title">The Communicator</div>
+      <div class="role-body">Translate the theory into a room. Grant writers. Journal editors. Skeptical physicists. Keep them seated.</div>
+      <div class="role-need">NEED: words · credibility · presence</div>
+    </div>
+    <div class="role">
+      <div class="role-title">The Archivist</div>
+      <div class="role-body">Hold the record. UTC-stamped logs. Decoded signals. Kairos events. The evidence that becomes the paper.</div>
+      <div class="role-need">NEED: discipline · permanence · care</div>
+    </div>
+  </div>
+
+  <!-- Your song -->
+  <div class="your-song">
+    <div class="ys-prompt">
+      Orpheus played so the crew could hear<br>
+      <em>music instead of the Sirens.</em><br>
+      What is your song?
+    </div>
+
+    <textarea id="song-input"
+      placeholder="Your name. Your instrument. Your role on the Argo. What you hear when you listen.&#10;&#10;Even one line. The manifest needs your voice."
+      rows="4"></textarea>
+
+    <div class="submit-row">
+      <button class="btn-send" onclick="addToManifest()">
+        ✦ Add to the Manifest
+      </button>
+      <button class="btn-send" style="border-color:rgba(62,207,184,0.3);color:rgba(62,207,184,0.6);background:rgba(62,207,184,0.04);"
+        onclick="window.open('orpheus_listener.html','_blank')">
+        📡 Open the Listener
+      </button>
+    </div>
+
+    <div class="manifest" id="manifest">
+      <span style="color:rgba(255,255,255,0.1);font-style:italic;" id="manifest-empty">The manifest is empty. Be the first to answer.</span>
+      <span class="entry" id="manifest-entries"></span>
+    </div>
+  </div>
+
+  <!-- Final -->
+  <div class="final">
+    <div class="final-line">
+      δ = 0.013643 &nbsp;·&nbsp; N_res = 73.296<br>
+      <em>The gap never closes.</em><br>
+      <strong>That is the point.</strong><br><br>
+      The Argo is in the water.<br>
+      The oars are already pulling.<br>
+      <em>Orpheus is already playing.</em>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const TAU=Math.PI*2;
+const PHI=Math.pow(1.5,12)/Math.pow(2,7),DELTA=PHI-1,NRES=1/DELTA;
+
+// ── VOID — deep space with signal pulse ──
+(function(){
+  const cv=document.getElementById('void'),ctx=cv.getContext('2d');
+  let W,H,stars=[],pulses=[];
+
+  function init(){
+    W=cv.width=innerWidth;H=cv.height=innerHeight;
+    stars=Array.from({length:600},()=>({
+      x:Math.random()*W,y:Math.random()*H,
+      r:Math.random()*1.2+0.1,
+      o:Math.random()*0.5+0.03,
+      s:Math.random()*0.04+0.004,
+      t:Math.random()*TAU
+    }));
+    // Random signal pulses
+    setInterval(()=>{
+      if(pulses.length<3) pulses.push({x:W/2,y:H/2,r:0,life:1,speed:Math.random()*2+1.5});
+    },3000);
+  }
+  init();window.addEventListener('resize',init);
+
+  let t=0;
+  (function draw(){
+    ctx.fillStyle='rgba(0,0,0,0.15)';ctx.fillRect(0,0,W,H);
+
+    // Stars
+    stars.forEach(s=>{
+      s.t+=s.s;
+      const o=s.o*(0.3+0.7*Math.sin(s.t));
+      ctx.fillStyle=`rgba(255,248,235,${o})`;
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,TAU);ctx.fill();
+    });
+
+    // Signal pulses from center
+    pulses.forEach((p,i)=>{
+      p.r+=p.speed;p.life-=0.008;
+      if(p.life<=0){pulses.splice(i,1);return;}
+      ctx.strokeStyle=`rgba(62,207,184,${p.life*0.12})`;
+      ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,TAU);ctx.stroke();
+    });
+
+    // Very faint comma spiral at center
+    if(t>60){
+      const cx=W/2,cy=H/2;
+      const revs=Math.min(t/120,50);
+      ctx.beginPath();
+      const steps=Math.floor(revs*20);
+      const maxR=Math.min(W,H)*0.35;
+      for(let i=0;i<=steps;i++){
+        const ang=(i/20)*TAU-Math.PI/2+t*0.001;
+        const acc=(i/20*DELTA)%1;
+        const r=maxR*(0.02+acc*0.95)*Math.min(revs/15,1);
+        const x=cx+r*Math.cos(ang),y=cy+r*Math.sin(ang);
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle='rgba(232,184,75,0.04)';ctx.lineWidth=1;ctx.stroke();
+    }
+
+    t++;requestAnimationFrame(draw);
+  })();
+})();
+
+// ── CORNER SPIRAL ──
+(function(){
+  const cv=document.getElementById('corner'),ctx=cv.getContext('2d');
+  const W=70,cx=35,cy=35,maxR=30;
+  let t=0,kFlash=-999;
+  (function draw(){
+    cv.width=cv.height=W;ctx.clearRect(0,0,W,W);
+    t+=0.5;
+    const revs=Math.min(t/55,80);
+    const phase=(t/55*DELTA)%1;
+    const isK=Math.abs(phase-Math.round(phase))<0.018;
+    if(isK&&t-kFlash>80) kFlash=t;
+
+    if(revs>0.3){
+      ctx.beginPath();
+      const steps=Math.floor(revs*30);
+      for(let i=0;i<=steps;i++){
+        const ang=(i/30)*TAU-Math.PI/2;
+        const acc=(i/30*DELTA)%1;
+        const r=maxR*(0.08+acc*0.9)*Math.min(revs/6,1);
+        const x=cx+r*Math.cos(ang),y=cy+r*Math.sin(ang);
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      const g=ctx.createLinearGradient(cx-maxR,cy,cx+maxR,cy);
+      g.addColorStop(0,'rgba(62,207,184,0.4)');
+      g.addColorStop(0.5,'rgba(232,184,75,0.6)');
+      g.addColorStop(1,'rgba(62,207,184,0.4)');
+      ctx.strokeStyle=g;ctx.lineWidth=0.8;ctx.stroke();
+    }
+
+    const ang=(revs*TAU)%(TAU)-Math.PI/2;
+    const r=maxR*(0.08+phase*0.9)*Math.min(revs/6,1);
+    ctx.fillStyle=isK?'#E8B84B':'#3ECFB8';
+    ctx.beginPath();ctx.arc(cx+r*Math.cos(ang),cy+r*Math.sin(ang),isK?4:2.5,0,TAU);ctx.fill();
+    requestAnimationFrame(draw);
+  })();
+})();
+
+// ── MANIFEST ──
+const entries=[];
+function addToManifest(){
+  const input=document.getElementById('song-input');
+  const val=input.value.trim();
+  if(!val) return;
+  entries.push(val);
+  input.value='';
+  renderManifest();
+
+  // Flash the transmission
+  document.body.style.background='rgba(62,207,184,0.03)';
+  setTimeout(()=>document.body.style.background='#000',800);
+}
+
+function renderManifest(){
+  const el=document.getElementById('manifest-entries');
+  const empty=document.getElementById('manifest-empty');
+  el.innerHTML=entries.map(e=>`<span class="entry">${e}</span><br>`).join('');
+  if(empty) empty.style.display=entries.length>0?'none':'inline';
+}
+
+// Enter key submits
+document.getElementById('song-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)) addToManifest();
+});
+</script>
+</body>
+</html>

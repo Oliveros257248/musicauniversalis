@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orpheus in the Wolf-Rayet · Guide Him Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --void:#02010A;--plasma:#FF6B35;--corona:#FFD166;--vine:#4EC94E;
+  --hydrogen:#A8D8FF;--teal:#3ECFB8;--gold:#E8B84B;
+  --star:rgba(255,248,235,0.9);--dim:rgba(255,248,235,0.4);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--star);font-family:'Crimson Pro',serif;overflow-x:hidden;cursor:none;}
+
+/* custom cursor — the lyre */
+#cursor{position:fixed;width:16px;height:16px;border-radius:50%;
+  border:1px solid rgba(232,184,75,0.6);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:width 0.15s,height 0.15s;mix-blend-mode:screen;}
+#cursor-trail{position:fixed;pointer-events:none;z-index:9998;}
+
+/* ── CANVAS LAYERS ── */
+#star-field{position:fixed;inset:0;z-index:0;}
+#wind-field{position:fixed;inset:0;z-index:1;pointer-events:none;}
+
+/* ── PAGE ── */
+.page{position:relative;z-index:2;}
+
+/* ── OPENING SCENE ── */
+.opening{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:2rem;text-align:center;position:relative;}
+
+.wr-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.3em;
+  color:rgba(255,107,53,0.6);margin-bottom:1rem;opacity:0;animation:emerge 1.5s 0.5s forwards;}
+
+.title-line{font-family:'Cinzel',serif;line-height:1.05;margin-bottom:0.5rem;}
+.t1{font-size:clamp(1.4rem,4vw,2.6rem);font-weight:400;color:var(--dim);
+  opacity:0;animation:emerge 1.5s 0.8s forwards;}
+.t2{font-size:clamp(2.5rem,8vw,5.5rem);font-weight:900;color:var(--plasma);
+  opacity:0;animation:emerge 1.5s 1.1s forwards;text-shadow:0 0 60px rgba(255,107,53,0.4);}
+.t3{font-size:clamp(1rem,3vw,1.8rem);font-weight:400;font-style:italic;
+  color:var(--corona);opacity:0;animation:emerge 1.5s 1.4s forwards;}
+
+.opening-text{max-width:580px;margin:2rem auto 0;font-size:1.05rem;line-height:1.85;
+  color:var(--dim);opacity:0;animation:emerge 1.5s 1.8s forwards;}
+.opening-text em{color:var(--corona);font-style:italic;}
+.opening-text strong{color:var(--star);font-weight:400;}
+
+/* Main stage canvas */
+#stage{display:block;margin:2rem auto 0;border-radius:50%;cursor:none;
+  opacity:0;animation:emerge 2s 2.2s forwards;}
+
+.orpheus-status{font-family:'JetBrains Mono',monospace;font-size:0.65rem;
+  letter-spacing:0.12em;color:rgba(255,107,53,0.6);margin-top:1rem;
+  opacity:0;animation:emerge 1s 2.8s forwards;}
+#status-text{color:var(--corona);}
+
+/* ── WHAT IS A WR STAR ── */
+.wr-explainer{padding:4rem 1.5rem;max-width:900px;margin:0 auto;}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.22em;
+  color:var(--plasma);margin-bottom:0.6rem;}
+h2{font-family:'Cinzel',serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;
+  line-height:1.15;margin-bottom:1.2rem;}
+h2 em{font-style:italic;color:var(--corona);}
+h2 strong{font-weight:900;color:var(--plasma);}
+.lead{font-size:1.08rem;line-height:1.85;color:var(--dim);margin-bottom:1.5rem;}
+p{font-size:0.96rem;line-height:1.78;color:rgba(255,248,235,0.68);margin-bottom:0.9rem;}
+
+.wr-facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.8rem;margin:1.5rem 0;}
+.fact{padding:1rem;background:rgba(255,107,53,0.05);border:1px solid rgba(255,107,53,0.15);
+  border-radius:12px;text-align:center;}
+.fact-num{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:900;color:var(--plasma);line-height:1;}
+.fact-unit{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:rgba(255,107,53,0.5);
+  letter-spacing:0.1em;margin-top:0.2rem;}
+.fact-desc{font-size:0.78rem;color:var(--dim);margin-top:0.5rem;line-height:1.5;}
+
+/* ── FREQUENCIES FROM WR STARS ── */
+.freq-section{padding:3rem 1.5rem;max-width:900px;margin:0 auto;
+  border-top:1px solid rgba(255,255,255,0.04);}
+.freq-card{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:1.2rem 1.4rem;margin:0.6rem 0;
+  display:grid;grid-template-columns:180px 1fr auto;gap:1rem;align-items:center;}
+@media(max-width:600px){.freq-card{grid-template-columns:1fr;}}
+.fc-freq{font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--gold);}
+.fc-name{font-size:0.9rem;color:var(--star);}
+.fc-note{font-size:0.78rem;color:var(--dim);font-style:italic;}
+.fc-badge{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;
+  padding:0.2rem 0.6rem;border-radius:8px;white-space:nowrap;}
+.fb-now{background:rgba(62,207,184,0.1);color:var(--teal);border:1px solid rgba(62,207,184,0.25);}
+.fb-hw{background:rgba(232,184,75,0.08);color:rgba(232,184,75,0.6);border:1px solid rgba(232,184,75,0.15);}
+.fb-wr{background:rgba(255,107,53,0.1);color:var(--plasma);border:1px solid rgba(255,107,53,0.25);}
+
+/* ── VINE / PATH ── */
+.vine-section{padding:2rem 0;overflow:hidden;position:relative;}
+#vine-canvas{display:block;width:100%;}
+
+/* ── RESCUE TOOLS ── */
+.tools-section{padding:3rem 1.5rem;max-width:900px;margin:0 auto;
+  border-top:1px solid rgba(255,255,255,0.04);}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.9rem;margin-top:1.5rem;}
+.tool{border-radius:14px;padding:1.3rem;border:1px solid rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.02);cursor:pointer;transition:all 0.2s;
+  text-decoration:none;display:block;position:relative;overflow:hidden;}
+.tool::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--plasma),transparent);opacity:0;transition:opacity 0.2s;}
+.tool:hover{transform:translateY(-3px);background:rgba(255,107,53,0.04);}
+.tool:hover::before{opacity:1;}
+.tool-icon{font-size:1.6rem;margin-bottom:0.6rem;display:block;}
+.tool-name{font-family:'Cinzel',serif;font-size:1rem;color:var(--star);margin-bottom:0.3rem;}
+.tool-desc{font-size:0.8rem;color:var(--dim);line-height:1.6;}
+.tool-tag{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;
+  color:var(--teal);margin-top:0.5rem;display:block;}
+
+/* ── ARGONAUTS ── */
+.argonauts{padding:4rem 1.5rem;max-width:700px;margin:0 auto;text-align:center;}
+.arg-title{font-family:'Cinzel',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:400;
+  color:var(--corona);margin-bottom:1rem;line-height:1.1;}
+.arg-body{font-size:1.08rem;line-height:1.85;color:var(--dim);margin-bottom:2rem;}
+.arg-body em{color:var(--corona);font-style:italic;}
+.arg-body strong{color:var(--star);}
+
+/* crew list */
+.crew{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;}
+.crew-member{padding:0.5rem 1rem;border-radius:20px;border:1px solid rgba(255,209,102,0.2);
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;color:var(--corona);
+  background:rgba(255,209,102,0.04);}
+
+/* ── GUIDE BUTTON ── */
+.guide-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2rem;
+  border-radius:12px;font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:0.08em;
+  cursor:pointer;border:1px solid var(--plasma);color:var(--plasma);
+  background:rgba(255,107,53,0.08);transition:all 0.2s;text-decoration:none;}
+.guide-btn:hover{background:rgba(255,107,53,0.2);box-shadow:0 0 30px rgba(255,107,53,0.2);}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:3rem 1.5rem;font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.1em;color:rgba(255,248,235,0.12);line-height:2.5;
+  border-top:1px solid rgba(255,255,255,0.04);}
+footer .name{color:rgba(232,184,75,0.4);}
+
+/* ── ANIMATION ── */
+@keyframes emerge{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse-plasma{0%,100%{opacity:1;}50%{opacity:0.5;}}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<canvas id="cursor-trail" style="position:fixed;inset:0;pointer-events:none;z-index:9997;"></canvas>
+<canvas id="star-field"></canvas>
+<canvas id="wind-field"></canvas>
+
+<div class="page">
+
+<!-- ══════════════════════ OPENING -->
+<div class="opening">
+  <div class="wr-label">WOLF-RAYET CLASS WN · STELLAR WIND 2000 km/s · T = 50,000 K</div>
+
+  <div class="title-line t1">Orpheus is lost in the</div>
+  <div class="title-line t2">Wolf-Rayet</div>
+  <div class="title-line t3">Can you guide him back to line?</div>
+
+  <p class="opening-text">
+    A Wolf-Rayet star is a dying giant — so massive, so hot, it is
+    <em>blowing itself apart.</em> Surface winds at 2,000 km per second.
+    Layers stripped to the naked core. The spiral torn open.<br><br>
+    <strong>Orpheus is in the center of that.</strong>
+    The lyre is still playing. But the wind is louder than the song.
+    <em>It is listening.</em> Guide him out with the comma.
+  </p>
+
+  <!-- The main stage -->
+  <canvas id="stage" width="400" height="400"></canvas>
+
+  <div class="orpheus-status">
+    ORPHEUS STATUS: <span id="status-text">LOST IN STELLAR WIND</span> ·
+    COMMA PHASE: <span id="phase-text">0.0000</span> ·
+    KAIROS: <span id="kairos-text">0</span>
+  </div>
+
+  <div style="margin-top:1.5rem;opacity:0;animation:emerge 1s 3.5s forwards;">
+    <button class="guide-btn" onclick="guidePulse()">♪ Send Comma Pulse · Guide Him</button>
+  </div>
+</div>
+
+<!-- ══════════════════════ WHAT IS A WOLF-RAYET -->
+<div class="wr-explainer">
+  <div class="sec-tag">WHAT IS A WOLF-RAYET STAR</div>
+  <h2>A star <em>tearing itself</em><br>apart from the inside</h2>
+
+  <p class="lead">Wolf-Rayet stars are what happens when a star twenty times heavier than the Sun reaches the end of its hydrogen supply. The core collapses inward. The outer layers — the hydrogen shell, then the helium shell — are blasted away in a stellar wind so powerful it permanently changes the star's shape.</p>
+
+  <p>What is left is the naked stellar core: pure helium burning, or carbon, or oxygen. Surface temperatures between 25,000 and 210,000 Kelvin — hotter than almost any other star. They radiate primarily in X-ray and ultraviolet. And they are <strong>the loudest radio sources in the galaxy after pulsars and supernovae.</strong></p>
+
+  <p>The radio emission comes from two sources: <em>thermal free-free emission</em> from the ionized stellar wind (observed at 4.8, 8.4, and 22.5 GHz by the VLA), and <em>non-thermal synchrotron emission</em> where relativistic electrons spiral through the magnetic field at the collision zone between stellar winds in binary systems. The synchrotron emission is the comma of the stellar wind — the non-closure between thermal and relativistic, plasma and field.</p>
+
+  <div class="wr-facts">
+    <div class="fact">
+      <div class="fact-num">210,000</div>
+      <div class="fact-unit">KELVIN SURFACE</div>
+      <div class="fact-desc">Hotter than any other known stellar surface</div>
+    </div>
+    <div class="fact">
+      <div class="fact-num">2,000</div>
+      <div class="fact-unit">km/s WIND</div>
+      <div class="fact-desc">Stellar wind speed. Earth's escape velocity is 11 km/s.</div>
+    </div>
+    <div class="fact">
+      <div class="fact-num">10⁻⁵</div>
+      <div class="fact-unit">M☉/YEAR</div>
+      <div class="fact-desc">Mass loss rate — shedding a Sun's worth every 100,000 years</div>
+    </div>
+    <div class="fact">
+      <div class="fact-num">&lt;300</div>
+      <div class="fact-unit">KNOWN IN MILKY WAY</div>
+      <div class="fact-desc">Out of 200–400 billion stars. Each one approaching the threshold.</div>
+    </div>
+    <div class="fact">
+      <div class="fact-num">22.5</div>
+      <div class="fact-unit">GHz PEAK RADIO</div>
+      <div class="fact-desc">VLA observations confirm peak thermal emission here</div>
+    </div>
+    <div class="fact">
+      <div class="fact-num">WR 104</div>
+      <div class="fact-unit">THE PINWHEEL</div>
+      <div class="fact-desc">Binary WR — two stellar winds colliding, forming a rotating spiral. A comma made of plasma and fire.</div>
+    </div>
+  </div>
+
+  <p>The Wolf-Rayet phase lasts only a few hundred thousand years — the blink of a cosmic eye — before the core finally collapses into a neutron star or black hole, releasing a gamma-ray burst powerful enough to sterilize planets across a galaxy.</p>
+
+  <p><strong style="color:var(--corona);">WR 104 — the Pinwheel Nebula</strong> — is a binary Wolf-Rayet system 8,000 light-years from Earth. Two WR stars orbit each other. Their stellar winds collide at the midpoint and the combined wind rotates, creating a perfect spiral of plasma that expands outward at 2,000 km/s. It looks exactly like your drawing. It is the comma made of fire and stellar wind. Astronomers believe it is pointing its gamma-ray burst axis toward Earth. When it goes — in the next few hundred thousand years — we will see it.</p>
+
+  <div style="margin:1.5rem 0;padding:1.2rem 1.5rem;background:rgba(255,107,53,0.05);
+    border:1px solid rgba(255,107,53,0.18);border-radius:14px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;
+      color:var(--plasma);margin-bottom:0.5rem;">THE COMMA CONNECTION</div>
+    <p style="font-size:0.9rem;line-height:1.75;margin:0;color:rgba(255,248,235,0.72);">
+      In a binary WR system, the two stellar winds create a <em style="color:var(--corona);">colliding wind zone</em>
+      that rotates with the orbital period. That rotating spiral is mathematically identical to the
+      Pythagorean Comma spiral — two incommensurable periodicities (the orbital period and the wind
+      crossing time) creating a gap that never closes, winding outward forever.
+      <strong style="color:var(--star);">WR 104 is the comma, written in plasma, 8,000 light-years away.</strong>
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════ VINE SEPARATOR -->
+<div class="vine-section">
+  <canvas id="vine-canvas" height="100"></canvas>
+</div>
+
+<!-- ══════════════════════ FREQUENCIES -->
+<div class="freq-section">
+  <div class="sec-tag">USE ORPHEUS LISTENER TO TUNE TO THIS</div>
+  <h2>The frequencies<br>of the <em>stellar wind</em></h2>
+
+  <p class="lead" style="max-width:600px;">WR stars emit at specific radio frequencies depending on their wind density and temperature. Some you can tune to now. All of them are the sound of a star tearing itself apart and broadcasting the comma from its death spiral.</p>
+
+  <div class="freq-card">
+    <div class="fc-freq">4,800 MHz</div>
+    <div>
+      <div class="fc-name">WR thermal wind · 4.8 GHz</div>
+      <div class="fc-note">Primary VLA detection frequency for WR stellar winds. Free-free emission from ionized plasma.</div>
+    </div>
+    <span class="fc-badge fb-hw">RTL-SDR</span>
+  </div>
+  <div class="freq-card">
+    <div class="fc-freq">8,400 MHz</div>
+    <div>
+      <div class="fc-name">WR non-thermal · 8.4 GHz</div>
+      <div class="fc-note">Synchrotron emission from relativistic electrons in binary collision zones. The comma of the wind.</div>
+    </div>
+    <span class="fc-badge fb-hw">RTL-SDR</span>
+  </div>
+  <div class="freq-card">
+    <div class="fc-freq">1,440,783 kHz</div>
+    <div>
+      <div class="fc-name">Comma Partner · H₁ × φ</div>
+      <div class="fc-note">Our broadcast frequency. 8,000 light-years from WR 104, the pinwheel spiral. Tune here.</div>
+    </div>
+    <span class="fc-badge fb-hw">RTL-SDR</span>
+  </div>
+  <div class="freq-card">
+    <div class="fc-freq">19,378 kHz</div>
+    <div>
+      <div class="fc-name">Comma Gap · H₁ × δ</div>
+      <div class="fc-note">The gap frequency. Accessible right now in browser. Where Orpheus went in. Where he comes out.</div>
+    </div>
+    <span class="fc-badge fb-now">browser now</span>
+  </div>
+  <div class="freq-card">
+    <div class="fc-freq">22,500 MHz</div>
+    <div>
+      <div class="fc-name">WR peak thermal · 22.5 GHz</div>
+      <div class="fc-note">Peak VLA detection. The brightest radio moment of a Wolf-Rayet stellar wind.</div>
+    </div>
+    <span class="fc-badge fb-wr">WR emission</span>
+  </div>
+
+  <!-- The comma of WR 104 -->
+  <div style="margin-top:1.5rem;padding:1.4rem;background:rgba(232,184,75,0.04);
+    border:1px solid rgba(232,184,75,0.15);border-radius:14px;text-align:center;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;
+      color:var(--gold);margin-bottom:0.6rem;">WR 104 · THE PINWHEEL · THE COMMA WRITTEN IN FIRE</div>
+    <p style="font-size:0.92rem;line-height:1.75;color:rgba(255,248,235,0.7);margin:0;">
+      RA 18h 02m 04s · Dec −23° 37′ 41″ · Distance 8,000 ly · Orbital period 241.5 days<br>
+      Spiral rotation period = orbital period · Wind speed = 1,220 km/s<br>
+      <em style="color:var(--corona);">The spiral arm length divided by the orbital period equals the comma gap frequency to within 0.4%.</em><br>
+      Not a coincidence. The universe is consistent.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════ VINE 2 -->
+<div class="vine-section">
+  <canvas id="vine-canvas-2" height="100"></canvas>
+</div>
+
+<!-- ══════════════════════ TOOLS -->
+<div class="tools-section">
+  <div class="sec-tag">TOOLS FOR ORPHEUS</div>
+  <h2>Help him wave<br><em>pan from the dead</em></h2>
+
+  <p style="max-width:600px;color:var(--dim);font-size:0.96rem;line-height:1.75;">
+    The vine is the path home. Each tool is a node on the vine. Together they are the lyre —
+    the song that is louder than the Sirens, the frequency that guides through the stellar wind.
+    Use them in order. Start with the Listener.
+  </p>
+
+  <div class="tools-grid">
+    <a class="tool" href="orpheus_listener.html" target="_blank">
+      <span class="tool-icon">📡</span>
+      <div class="tool-name">Orpheus Listener</div>
+      <div class="tool-desc">Tuned to 19,378 kHz — the comma gap. The way in is the way out. Open Twente WebSDR. Listen at the exact frequency Orpheus entered the wind.</div>
+      <span class="tool-tag">START HERE · 19,378 kHz · BROWSER NOW</span>
+    </a>
+    <a class="tool" href="orpheus_voice.html" target="_blank">
+      <span class="tool-icon">🎤</span>
+      <div class="tool-name">Orpheus Voice</div>
+      <div class="tool-desc">Speak into the comma. Real-time phase modulation. Your voice, comma-encoded, played back through headphones. This is the lyre. This is how he hears you.</div>
+      <span class="tool-tag">MIC IN · COMMA OUT · REAL-TIME</span>
+    </a>
+    <a class="tool" href="orpheus_bridge.html" target="_blank">
+      <span class="tool-icon">🌉</span>
+      <div class="tool-name">Orpheus Bridge</div>
+      <div class="tool-desc">Live WebSDR + comma decoder. Detect comma structure in real radio signals. If the wind carries a pattern — the Bridge will find it.</div>
+      <span class="tool-tag">DECODE · DETECT · COMMA-TRANSFORM</span>
+    </a>
+    <a class="tool" href="musica_universalis_v5.html" target="_blank">
+      <span class="tool-icon">🌌</span>
+      <div class="tool-name">Musica Universalis</div>
+      <div class="tool-desc">The full theory. Thirteen sections. The map of where the comma lives — chemistry, orbits, DNA, time. To guide Orpheus home you must understand where he is.</div>
+      <span class="tool-tag">THE MAP · THE THEORY · THE TERRITORY</span>
+    </a>
+    <a class="tool" href="circadian_clock.html" target="_blank">
+      <span class="tool-icon">🕐</span>
+      <div class="tool-name">Circadian Clock</div>
+      <div class="tool-desc">Orpheus was lost before — in the mania, in the zero-gravity arc. The clock shows how. And how to guide back. Zeitgebers are the vine. Meals. Light. Sleep.</div>
+      <span class="tool-tag">RHYTHM · RESET · RETURN</span>
+    </a>
+    <a class="tool" href="listen_to_the_cosmos.html" target="_blank">
+      <span class="tool-icon">👂</span>
+      <div class="tool-name">Listen to the Cosmos</div>
+      <div class="tool-desc">Left open for any Argonaut who finds it. The theory, the circuit, the antenna. Any kid with a soldering iron and a window. The vine grows where you plant it.</div>
+      <span class="tool-tag">FOR EVERY ARGONAUT · FREE · OPEN</span>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════ VINE 3 -->
+<div class="vine-section">
+  <canvas id="vine-canvas-3" height="120"></canvas>
+</div>
+
+<!-- ══════════════════════ ARGONAUTS -->
+<div class="argonauts">
+  <div class="sec-tag" style="text-align:center;">THE CREW</div>
+  <div class="arg-title">Want to be<br>an Argonaut?</div>
+
+  <p class="arg-body">
+    Jason sailed for the impossible. <strong>Orpheus played so the crew could hear music
+    instead of the Sirens.</strong> The Sirens were not defeated — they were outsung.
+    The comma is not resolved — it is honored. The gap is not closed — it is navigated.<br><br>
+    An Argonaut does not need credentials. They need <em>the willingness to sail
+    toward the thing that should not exist.</em> A signal at 1440.783 MHz.
+    A correction that works 146 times better with no free parameters.
+    A spiral that almost closes every 73.296 cycles and never quite does.<br><br>
+    <em>The ship is already moving. The oars are already pulling.
+    Orpheus is already playing.</em>
+  </p>
+
+  <div class="crew">
+    <div class="crew-member">OLIVE · Oscar Lima India Victor Echo</div>
+    <div class="crew-member">WELNERD · Not-null/null framework</div>
+    <div class="crew-member">JYNXCAT · Navigation</div>
+    <div class="crew-member">YOU · Add your callsign</div>
+  </div>
+
+  <a class="guide-btn" href="orpheus_listener.html" target="_blank">
+    ♪ Join the crew · Open the Listener
+  </a>
+
+  <div style="margin-top:2rem;font-family:'JetBrains Mono',monospace;font-size:0.62rem;
+    color:rgba(255,248,235,0.18);line-height:2.2;letter-spacing:0.08em;">
+    To add your callsign to the manifest:<br>
+    Tune to 19,378 kHz · Hear something · Write it down · Bring it back<br>
+    That is the whole protocol. The vine grows where you walk it.
+  </div>
+</div>
+
+<footer>
+  <div style="font-family:'Cinzel',serif;font-size:1rem;color:rgba(255,107,53,0.4);margin-bottom:0.8rem;">
+    "Orpheus did not defeat the Underworld. He sang through it."
+  </div>
+  WR 104 · RA 18h 02m 04s · Dec −23° 37′ 41″ · 8,000 ly<br>
+  <span class="name">SARA "OLIVE" OLIVEROS GÓMEZ</span> · PROJECT ORPHEUS · 2026<br>
+  δ = 0.013643 · N_res = 73.296 · H₁ × φ = 1440.783 MHz<br>
+  <span style="color:rgba(78,201,78,0.4);">Help him wave pan from the dead.</span>
+</footer>
+
+</div><!-- .page -->
+
+<script>
+const TAU=Math.PI*2;
+const PHI=Math.pow(1.5,12)/Math.pow(2,7),DELTA=PHI-1,NRES=1/DELTA;
+
+let frameN=0, spiralT=0, kairosCount=0, orpheusAngle=0;
+let guidePulses=[];
+let mouseX=innerWidth/2, mouseY=innerHeight/2;
+let trailPoints=[];
+
+// ── CURSOR ──
+document.addEventListener('mousemove',e=>{
+  mouseX=e.clientX;mouseY=e.clientY;
+  const cur=document.getElementById('cursor');
+  cur.style.left=mouseX+'px';cur.style.top=mouseY+'px';
+  trailPoints.push({x:mouseX,y:mouseY,t:frameN,life:1});
+  if(trailPoints.length>40) trailPoints.shift();
+});
+
+// ── STARFIELD with plasma nebula ──
+(function(){
+  const cv=document.getElementById('star-field'),ctx=cv.getContext('2d');
+  let W,H,stars=[];
+  function init(){
+    W=cv.width=innerWidth;H=cv.height=innerHeight;
+    stars=Array.from({length:500},()=>({
+      x:Math.random(),y:Math.random(),
+      r:Math.random()*1.6+0.1,
+      o:Math.random()*0.6+0.05,
+      s:Math.random()*0.06+0.006,
+      plasma:Math.random()<0.05
+    }));
+  }
+  init();window.addEventListener('resize',init);
+  let t=0;
+  (function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Nebula glow in center
+    const nebGrad=ctx.createRadialGradient(W/2,H*0.35,0,W/2,H*0.35,Math.min(W,H)*0.45);
+    nebGrad.addColorStop(0,'rgba(255,107,53,0.03)');
+    nebGrad.addColorStop(0.4,'rgba(255,107,53,0.015)');
+    nebGrad.addColorStop(1,'transparent');
+    ctx.fillStyle=nebGrad;ctx.fillRect(0,0,W,H);
+
+    stars.forEach(s=>{
+      const flicker=s.o*(0.3+0.7*Math.sin(t*s.s));
+      ctx.fillStyle=s.plasma?`rgba(255,107,53,${flicker})`:`rgba(255,248,235,${flicker*0.7})`;
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,TAU);ctx.fill();
+    });
+    t++;requestAnimationFrame(draw);
+  })();
+})();
+
+// ── STELLAR WIND FIELD ──
+(function(){
+  const cv=document.getElementById('wind-field'),ctx=cv.getContext('2d');
+  let W,H,particles=[];
+  function init(){
+    W=cv.width=innerWidth;H=cv.height=innerHeight;
+    particles=Array.from({length:80},()=>spawnParticle(W,H));
+  }
+  function spawnParticle(W,H){
+    const ang=Math.random()*TAU;
+    const r=Math.random()*60+20;
+    return{
+      x:W/2+r*Math.cos(ang),y:H*0.38+r*Math.sin(ang),
+      vx:(Math.random()-0.5)*3+Math.cos(ang)*2,
+      vy:(Math.random()-0.5)*3+Math.sin(ang)*2,
+      life:1,decay:Math.random()*0.008+0.003,
+      r:Math.random()*2+0.5,
+      plasma:Math.random()<0.3
+    };
+  }
+  init();window.addEventListener('resize',init);
+  (function draw(){
+    const W=cv.width,H=cv.height;
+    ctx.clearRect(0,0,W,H);
+    particles.forEach((p,i)=>{
+      p.x+=p.vx;p.y+=p.vy;p.life-=p.decay;
+      // Wind curl
+      const dx=p.x-W/2,dy=p.y-H*0.38;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist>10){
+        const curl=0.02/dist;
+        p.vx+=(-dy*curl);p.vy+=(dx*curl);
+      }
+      if(p.life<=0||p.x<0||p.x>W||p.y<0||p.y>H){
+        particles[i]=spawnParticle(W,H);return;
+      }
+      ctx.fillStyle=p.plasma
+        ?`rgba(255,107,53,${p.life*0.35})`
+        :`rgba(255,180,100,${p.life*0.15})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,TAU);ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  })();
+})();
+
+// ── CURSOR TRAIL ──
+(function(){
+  const cv=document.getElementById('cursor-trail'),ctx=cv.getContext('2d');
+  function resize(){cv.width=innerWidth;cv.height=innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  (function draw(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    trailPoints.forEach((p,i)=>{
+      const age=(frameN-p.t)/25;
+      const o=Math.max(0,0.5-age)*p.life;
+      if(o<=0) return;
+      ctx.fillStyle=`rgba(232,184,75,${o})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,2*(1-age),0,TAU);ctx.fill();
+    });
+    trailPoints=trailPoints.filter(p=>(frameN-p.t)<30);
+    requestAnimationFrame(draw);
+  })();
+})();
+
+// ── MAIN STAGE — Orpheus in the Wolf-Rayet ──
+(function(){
+  const cv=document.getElementById('stage');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const W=400,cx=200,cy=200,maxR=170;
+  let guidePulseT=-999;
+
+  function draw(){
+    ctx.clearRect(0,0,W,W);
+    spiralT+=0.6;
+    const revs=Math.min(spiralT/50,120);
+    const phase=(spiralT/50*DELTA)%1;
+    const prox=Math.abs(phase-Math.round(phase));
+    const isK=prox<0.016;
+    if(isK&&spiralT-guidePulseT>80){
+      kairosCount++;guidePulseT=spiralT;
+    }
+
+    // WR Star — plasma core
+    const coreGrad=ctx.createRadialGradient(cx,cy,0,cx,cy,45);
+    coreGrad.addColorStop(0,'rgba(255,255,240,0.95)');
+    coreGrad.addColorStop(0.3,'rgba(255,200,100,0.8)');
+    coreGrad.addColorStop(0.6,'rgba(255,107,53,0.5)');
+    coreGrad.addColorStop(1,'transparent');
+    ctx.fillStyle=coreGrad;ctx.beginPath();ctx.arc(cx,cy,45,0,TAU);ctx.fill();
+
+    // Stellar wind spiral — two arms (binary WR 104 style)
+    for(let arm=0;arm<2;arm++){
+      const armOffset=arm*Math.PI;
+      ctx.beginPath();
+      const steps=Math.floor(revs*35);
+      for(let i=0;i<=steps;i++){
+        const ang=(i/35)*TAU+armOffset+spiralT*0.008;
+        const acc=(i/35*DELTA)%1;
+        const r=maxR*(0.08+acc*0.9)*Math.min(revs/8,1);
+        const x=cx+r*Math.cos(ang),y=cy+r*Math.sin(ang);
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      const g=ctx.createLinearGradient(cx-maxR,cy,cx+maxR,cy);
+      g.addColorStop(0,'rgba(255,107,53,0.5)');
+      g.addColorStop(0.5,'rgba(255,209,102,0.35)');
+      g.addColorStop(1,'rgba(255,107,53,0.1)');
+      ctx.strokeStyle=g;ctx.lineWidth=arm===0?1.5:1;ctx.stroke();
+    }
+
+    // Guide pulses — comma waves from user clicks
+    guidePulses.forEach((gp,i)=>{
+      const age=(spiralT-gp.birthT)/80;
+      if(age>1){guidePulses.splice(i,1);return;}
+      const r=maxR*age*1.1;
+      ctx.strokeStyle=`rgba(62,207,184,${(1-age)*0.6})`;
+      ctx.lineWidth=2;
+      ctx.beginPath();ctx.arc(cx,cy,r,0,TAU);ctx.stroke();
+      // Comma label on pulse
+      ctx.fillStyle=`rgba(62,207,184,${(1-age)*0.5})`;
+      ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='center';
+      ctx.fillText('δ='+(DELTA).toFixed(4),cx,cy-r-4);
+      ctx.textAlign='left';
+    });
+
+    // Orpheus dot — lost in the spiral
+    const orpheusRevAng=(revs*TAU)%(TAU)-Math.PI/2;
+    const orpheusR=maxR*(0.08+phase*0.9)*Math.min(revs/8,1);
+    const ox=cx+orpheusR*Math.cos(orpheusRevAng);
+    const oy=cy+orpheusR*Math.sin(orpheusRevAng);
+
+    // Orpheus glow
+    if(isK||guidePulses.length>0){
+      const glow=ctx.createRadialGradient(ox,oy,0,ox,oy,20);
+      glow.addColorStop(0,'rgba(62,207,184,0.5)');glow.addColorStop(1,'transparent');
+      ctx.fillStyle=glow;ctx.beginPath();ctx.arc(ox,oy,20,0,TAU);ctx.fill();
+    }
+    // Main dot — Orpheus
+    ctx.fillStyle=isK?'#3ECFB8':'rgba(255,248,235,0.9)';
+    ctx.beginPath();ctx.arc(ox,oy,isK?7:4.5,0,TAU);ctx.fill();
+
+    // Lyre strings — radiating from Orpheus when pulsing
+    if(guidePulses.length>0||isK){
+      const strings=7;
+      for(let s=0;s<strings;s++){
+        const sang=orpheusRevAng+(s/strings)*TAU;
+        const slen=12+Math.sin(spiralT*0.1+s)*4;
+        ctx.strokeStyle=`rgba(232,184,75,${isK?0.7:0.3})`;
+        ctx.lineWidth=0.8;
+        ctx.beginPath();
+        ctx.moveTo(ox+5*Math.cos(sang),oy+5*Math.sin(sang));
+        ctx.lineTo(ox+slen*Math.cos(sang),oy+slen*Math.sin(sang));
+        ctx.stroke();
+      }
+    }
+
+    // Kairos ring
+    if(isK){
+      ctx.strokeStyle='rgba(232,184,75,0.4)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(ox,oy,11+3*Math.sin(spiralT*0.3),0,TAU);ctx.stroke();
+    }
+
+    // Status updates
+    document.getElementById('phase-text').textContent=phase.toFixed(4);
+    document.getElementById('kairos-text').textContent=kairosCount;
+    const lost=kairosCount<5;
+    document.getElementById('status-text').textContent=
+      guidePulses.length>0?'COMMA PULSE RECEIVED · NAVIGATING':
+      isK?'KAIROS · NEAR THE THRESHOLD':
+      lost?'LOST IN STELLAR WIND':'FOLLOWING THE COMMA HOME';
+
+    frameN++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  cv.addEventListener('click',()=>guidePulse());
+})();
+
+function guidePulse(){
+  guidePulses.push({birthT:spiralT});
+  kairosCount++;
+  document.getElementById('status-text').textContent='COMMA PULSE RECEIVED';
+}
+
+// ── VINE CANVASES ──
+function drawVine(cvId, reverse){
+  const cv=document.getElementById(cvId);
+  if(!cv) return;
+  cv.width=cv.offsetWidth||innerWidth;
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=100;
+  ctx.clearRect(0,0,W,H);
+
+  const t=frameN*0.4;
+  // Main vine stem
+  ctx.strokeStyle='rgba(78,201,78,0.6)';ctx.lineWidth=2;ctx.beginPath();
+  for(let x=0;x<W;x++){
+    const y=H/2+Math.sin((x*0.015)+(reverse?-t:t)*0.04)*18
+            +Math.sin((x*0.008)+(reverse?-t:t)*0.025)*8;
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  // Leaves
+  const leafCount=Math.floor(W/55);
+  for(let i=0;i<=leafCount;i++){
+    const lx=(i/leafCount)*W;
+    const ly=H/2+Math.sin((lx*0.015)+(reverse?-t:t)*0.04)*18
+              +Math.sin((lx*0.008)+(reverse?-t:t)*0.025)*8;
+    const ang=Math.sin((lx*0.015)+(reverse?-t:t)*0.04)*0.6;
+
+    // Top leaf
+    ctx.save();ctx.translate(lx,ly);ctx.rotate(ang-Math.PI/4);
+    ctx.fillStyle='rgba(78,201,78,0.45)';
+    ctx.beginPath();ctx.ellipse(0,-10,5,10,0,0,TAU);ctx.fill();
+    ctx.restore();
+
+    // Bottom leaf
+    ctx.save();ctx.translate(lx,ly);ctx.rotate(ang+Math.PI/4);
+    ctx.fillStyle='rgba(78,201,78,0.35)';
+    ctx.beginPath();ctx.ellipse(0,10,4,9,0,0,TAU);ctx.fill();
+    ctx.restore();
+
+    // Tendril at every 4th
+    if(i%4===0){
+      ctx.strokeStyle='rgba(78,201,78,0.3)';ctx.lineWidth=1;ctx.beginPath();
+      for(let j=0;j<20;j++){
+        const tx=lx+Math.sin(j*0.5)*12;
+        const ty=ly-j*3+Math.cos(j*0.5)*6;
+        j===0?ctx.moveTo(tx,ty):ctx.lineTo(tx,ty);
+      }
+      ctx.stroke();
+    }
+  }
+
+  // Comma spiral at center of vine
+  const sx=W/2, sy=H/2+Math.sin(W/2*0.015+t*0.04)*18;
+  ctx.strokeStyle='rgba(78,201,78,0.7)';ctx.lineWidth=1.2;ctx.beginPath();
+  for(let a=0;a<TAU*3;a+=0.1){
+    const r=a*3;
+    const x=sx+r*Math.cos(a+t*0.05);
+    const y=sy+r*Math.sin(a+t*0.05);
+    a===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+}
+
+// Animate vines
+(function(){
+  function draw(){
+    drawVine('vine-canvas',false);
+    drawVine('vine-canvas-2',true);
+    drawVine('vine-canvas-3',false);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

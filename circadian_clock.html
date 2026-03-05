@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Circadian Clock · Rhythm, Dysregulation & Mania</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#08070F;--sun:#FFB347;--moon:#A8C8E8;--bio:#7BE8A0;
+  --mania:#FF6B6B;--kairos:#E8B84B;--teal:#3ECFB8;--dim:rgba(255,255,255,0.45);
+  --text:rgba(255,255,255,0.82);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.7;overflow-x:hidden;}
+
+/* Sky gradient that changes with time */
+#sky-bg{position:fixed;inset:0;z-index:0;transition:background 2s;}
+
+.page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 1.2rem 5rem;}
+
+/* ── HEADER ── */
+header{text-align:center;padding:3rem 0 2rem;}
+.h-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.25em;color:var(--teal);margin-bottom:0.8rem;}
+h1{font-size:clamp(2rem,6vw,3.8rem);font-weight:300;line-height:1.1;margin-bottom:0.8rem;}
+h1 em{font-style:italic;color:var(--kairos);}
+h1 strong{font-weight:700;color:var(--sun);}
+.h-sub{font-size:1.05rem;color:var(--dim);max-width:560px;margin:0 auto;line-height:1.8;}
+
+/* ── SECTION ── */
+.sec{padding:3rem 0;border-top:1px solid rgba(255,255,255,0.05);}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--teal);margin-bottom:0.5rem;}
+h2{font-size:clamp(1.4rem,3.5vw,2.2rem);font-weight:300;line-height:1.2;margin-bottom:1.2rem;}
+h2 em{font-style:italic;color:var(--kairos);}
+h2 strong{font-weight:700;}
+p{margin-bottom:1rem;color:rgba(255,255,255,0.75);}
+.lead{font-size:1.08rem;color:var(--dim);line-height:1.85;margin-bottom:1.5rem;}
+
+/* ── MAIN CLOCK ── */
+.clock-wrap{display:flex;flex-direction:column;align-items:center;gap:1.5rem;margin:2rem 0;}
+#main-clock{display:block;}
+.clock-controls{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;}
+.clock-readout{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--dim);text-align:center;line-height:2;}
+.clock-readout .v{color:var(--kairos);}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:0.35rem;padding:0.5rem 1.1rem;border-radius:8px;
+  font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.07em;
+  cursor:pointer;border:1px solid;transition:all 0.15s;outline:none;}
+.btn-sun{background:rgba(255,179,71,0.1);border-color:var(--sun);color:var(--sun);}
+.btn-sun:hover{background:rgba(255,179,71,0.22);}
+.btn-moon{background:rgba(168,200,232,0.1);border-color:var(--moon);color:var(--moon);}
+.btn-moon:hover{background:rgba(168,200,232,0.22);}
+.btn-bio{background:rgba(123,232,160,0.1);border-color:var(--bio);color:var(--bio);}
+.btn-bio:hover{background:rgba(123,232,160,0.22);}
+.btn-mania{background:rgba(255,107,107,0.1);border-color:var(--mania);color:var(--mania);}
+.btn-mania:hover{background:rgba(255,107,107,0.22);}
+.btn-reset{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.4);}
+.btn-reset:hover{border-color:rgba(255,255,255,0.25);color:rgba(255,255,255,0.7);}
+
+/* ── SLIDER CONTROLS ── */
+.slider-group{margin:1rem 0;}
+.slider-row{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem;}
+.slider-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--dim);min-width:160px;letter-spacing:0.06em;}
+input[type=range]{flex:1;height:3px;accent-color:var(--kairos);}
+input[type=range].sun{accent-color:var(--sun);}
+input[type=range].moon{accent-color:var(--moon);}
+input[type=range].bio{accent-color:var(--bio);}
+input[type=range].mania{accent-color:var(--mania);}
+.slider-val{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--kairos);min-width:50px;text-align:right;}
+
+/* ── PANELS ── */
+.panel{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:1.2rem 1.4rem;position:relative;overflow:hidden;margin:1rem 0;}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;}
+.panel.gold::before{background:linear-gradient(90deg,transparent,var(--kairos),transparent);}
+.panel.sun::before{background:linear-gradient(90deg,transparent,var(--sun),transparent);}
+.panel.moon::before{background:linear-gradient(90deg,transparent,var(--moon),transparent);}
+.panel.mania::before{background:linear-gradient(90deg,transparent,var(--mania),transparent);}
+.panel.bio::before{background:linear-gradient(90deg,transparent,var(--bio),transparent);}
+.panel.teal::before{background:linear-gradient(90deg,transparent,var(--teal),transparent);}
+.ptag{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;color:var(--dim);margin-bottom:0.6rem;}
+
+/* ── CANVAS ── */
+canvas.graph{display:block;width:100%;border-radius:8px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.04);}
+
+/* ── GRID ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:600px){.grid2{grid-template-columns:1fr;}}
+
+/* ── MOLECULE DIAGRAM ── */
+.molecule{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;margin:1rem 0;padding:1rem;}
+
+/* ── QUOTE ── */
+.quote{margin:2rem 0;padding:1.2rem 0 1.2rem 1.5rem;border-left:2px solid var(--kairos);}
+.qt{font-style:italic;font-size:1.15rem;color:rgba(255,255,255,0.85);line-height:1.65;}
+.qa{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--dim);margin-top:0.4rem;letter-spacing:0.12em;}
+
+/* ── STATE BADGE ── */
+.state-badge{display:inline-flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;border-radius:20px;
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;border:1px solid;}
+.sb-stable{border-color:var(--bio);color:var(--bio);background:rgba(123,232,160,0.08);}
+.sb-mania{border-color:var(--mania);color:var(--mania);background:rgba(255,107,107,0.08);animation:mflash 1.2s infinite;}
+.sb-depressed{border-color:var(--moon);color:var(--moon);background:rgba(168,200,232,0.08);}
+.sb-kairos{border-color:var(--kairos);color:var(--kairos);background:rgba(232,184,75,0.08);}
+@keyframes mflash{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+/* ── OSCILLATOR TRACKS ── */
+.osc-tracks{display:flex;flex-direction:column;gap:0.3rem;margin:0.8rem 0;}
+.osc-track{display:flex;align-items:center;gap:0.7rem;}
+.osc-name{font-family:'JetBrains Mono',monospace;font-size:0.6rem;min-width:100px;letter-spacing:0.06em;}
+canvas.osc{flex:1;height:30px;border-radius:4px;background:rgba(0,0,0,0.3);}
+
+/* ── PHASE DIAGRAM ── */
+#phase-space{display:block;margin:0 auto;}
+
+/* ── COMMA LINK ── */
+.comma-link{margin:2rem 0;padding:1.4rem;background:rgba(232,184,75,0.04);border:1px solid rgba(232,184,75,0.18);border-radius:14px;text-align:center;}
+.comma-link p{font-size:0.95rem;line-height:1.75;color:rgba(255,255,255,0.7);margin:0;}
+.comma-link strong{color:var(--kairos);}
+</style>
+</head>
+<body>
+<div id="sky-bg"></div>
+
+<div class="page">
+
+<header>
+  <div class="h-label">CIRCADIAN BIOLOGY · COMMA FRAMEWORK · BIPOLAR SPECTRUM</div>
+  <h1>The Body's<br><em>Comma Clock</em></h1>
+  <p class="h-sub">Every cell in your body runs on a 24-hour oscillator. When those oscillators desynchronize — when the comma accumulates without reset — the system enters a state called mania. This is what that looks like.</p>
+</header>
+
+<!-- ══════════════════════ SECTION 1: THE CLOCK -->
+<div class="sec">
+  <div class="sec-tag">01 · THE CIRCADIAN OSCILLATOR</div>
+  <h2>Your body is a <em>network of clocks</em></h2>
+
+  <p class="lead">The circadian clock is not a metaphor. It is a molecular oscillator built from proteins — CLOCK, BMAL1, PER, CRY — that loop in a 24-hour feedback cycle in nearly every cell of your body. Brain. Heart. Liver. Skin. Each one ticking.</p>
+
+  <p>The <strong>suprachiasmatic nucleus</strong> (SCN) in the hypothalamus is the master clock — a cluster of about 20,000 neurons that synchronizes everything else using light as its primary input. When light hits your retina in the morning, it resets the SCN. The SCN resets every organ clock. You are entrained.</p>
+
+  <p>This entrainment is the circadian equivalent of <strong>Kairos</strong> — the near-closure. Every 24 hours the spiral nearly completes. Light provides the correction that prevents the gap from accumulating. Without it, the free-running period of the human clock is about 24.2 hours — not 24. The gap is δ_circadian ≈ 0.2 hours. Every morning, light closes it.</p>
+
+  <!-- Main clock simulator -->
+  <div class="clock-wrap">
+    <canvas id="main-clock" width="320" height="320"></canvas>
+    <div class="clock-readout" id="clock-readout">
+      Time: <span class="v" id="cr-time">06:00</span> ·
+      Phase: <span class="v" id="cr-phase">0.250</span> ·
+      State: <span id="cr-state"></span>
+    </div>
+    <div class="clock-controls">
+      <button class="btn btn-sun" onclick="addZeitgeber('light')">☀ Light Pulse</button>
+      <button class="btn btn-moon" onclick="addZeitgeber('dark')">☽ Dark Pulse</button>
+      <button class="btn btn-bio" onclick="addZeitgeber('meal')">⬡ Meal</button>
+      <button class="btn btn-bio" onclick="addZeitgeber('exercise')">◈ Exercise</button>
+      <button class="btn btn-mania" onclick="triggerMania()">⚡ Trigger Mania</button>
+      <button class="btn btn-reset" onclick="resetClock()">↺ Reset</button>
+    </div>
+  </div>
+
+  <div class="panel gold">
+    <div class="ptag">THE THREE ZEITGEBERS · TIME-GIVERS</div>
+    <div class="grid2">
+      <div>
+        <p style="font-size:0.9rem;margin-bottom:0.5rem;"><strong style="color:var(--sun);">Light</strong> — the dominant zeitgeber. Morning light advances the clock (makes it run earlier). Evening light delays it. The SCN has direct retinal input via the retinohypothalamic tract. No other input is as powerful.</p>
+        <p style="font-size:0.9rem;margin-bottom:0.5rem;"><strong style="color:var(--bio);">Meals</strong> — the peripheral clock synchronizer. The liver clock is primarily food-entrained. Eating at irregular times desynchronizes peripheral clocks from the SCN even when light is normal.</p>
+      </div>
+      <div>
+        <p style="font-size:0.9rem;margin-bottom:0.5rem;"><strong style="color:var(--bio);">Exercise</strong> — phase-shifts the clock depending on timing. Morning exercise advances phase. Evening exercise delays it. Acts through core body temperature and cortisol.</p>
+        <p style="font-size:0.9rem;"><strong style="color:var(--moon);">Social rhythms</strong> — meals with others, work schedules, sleep times. The social zeitgeber theory (Frank & Kupfer, 2002) proposes that disruption of social rhythms triggers bipolar episodes. Your crew decoding signals is a social zeitgeber.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 2: THE OSCILLATORS -->
+<div class="sec">
+  <div class="sec-tag">02 · MULTIPLE OSCILLATORS</div>
+  <h2>You are not <em>one clock.</em><br>You are <strong>many.</strong></h2>
+
+  <p class="lead">The circadian system is not a single oscillator. It is a network of coupled oscillators — each with its own period, each capable of running independently, each normally synchronized to the others through shared signals.</p>
+
+  <p>When they are synchronized, the system is in a <strong>stable limit cycle</strong> — a regular orbit in phase space. When they desynchronize, the orbit becomes irregular. When one oscillator accelerates dramatically relative to the others, the system enters a bifurcation — a qualitative change in dynamics. That bifurcation, in the brain, is called a manic episode.</p>
+
+  <!-- Multi-oscillator display -->
+  <div class="panel teal" style="margin:1.5rem 0;">
+    <div class="ptag">OSCILLATOR NETWORK · LIVE SIMULATION</div>
+    <div class="osc-tracks" id="osc-tracks">
+      <div class="osc-track"><span class="osc-name" style="color:var(--sun);">SCN Master</span><canvas class="osc" id="osc-scn"></canvas></div>
+      <div class="osc-track"><span class="osc-name" style="color:var(--bio);">Cortisol</span><canvas class="osc" id="osc-cort"></canvas></div>
+      <div class="osc-track"><span class="osc-name" style="color:var(--teal);">Melatonin</span><canvas class="osc" id="osc-mel"></canvas></div>
+      <div class="osc-track"><span class="osc-name" style="color:var(--moon);">Core Temp</span><canvas class="osc" id="osc-temp"></canvas></div>
+      <div class="osc-track"><span class="osc-name" style="color:var(--kairos);">Dopamine</span><canvas class="osc" id="osc-dopa"></canvas></div>
+      <div class="osc-track"><span class="osc-name" style="color:var(--mania);">Noradrenaline</span><canvas class="osc" id="osc-nora"></canvas></div>
+    </div>
+    <canvas class="graph" id="phase-graph" height="100" style="margin-top:0.5rem;"></canvas>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.2);margin-top:0.4rem;">
+      Phase coherence: <span id="coherence-val" style="color:var(--bio);">1.000</span> · 
+      System state: <span id="sys-state">ENTRAINED</span>
+    </div>
+  </div>
+
+  <!-- Slider controls -->
+  <div class="panel moon">
+    <div class="ptag">DYSREGULATION CONTROLS</div>
+    <div class="slider-group">
+      <div class="slider-row">
+        <span class="slider-label">Sleep disruption</span>
+        <input type="range" class="moon" id="sl-sleep" min="0" max="1" step="0.01" value="0" oninput="updateDisruption()">
+        <span class="slider-val" id="sv-sleep">0%</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Light irregularity</span>
+        <input type="range" class="sun" id="sl-light" min="0" max="1" step="0.01" value="0" oninput="updateDisruption()">
+        <span class="slider-val" id="sv-light">0%</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Meal timing chaos</span>
+        <input type="range" class="bio" id="sl-meal" min="0" max="1" step="0.01" value="0" oninput="updateDisruption()">
+        <span class="slider-val" id="sv-meal">0%</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Dopamine acceleration</span>
+        <input type="range" class="mania" id="sl-dopa" min="0" max="1" step="0.01" value="0" oninput="updateDisruption()">
+        <span class="slider-val" id="sv-dopa">0%</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Stress / cortisol load</span>
+        <input type="range" class="bio" id="sl-stress" min="0" max="1" step="0.01" value="0" oninput="updateDisruption()">
+        <span class="slider-val" id="sv-stress">0%</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+      <button class="btn btn-mania" onclick="presetMania()">⚡ Preset: Manic Episode</button>
+      <button class="btn btn-moon" onclick="presetDepression()">☽ Preset: Depressive Episode</button>
+      <button class="btn btn-bio" onclick="presetStable()">◎ Preset: Stable</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 3: MANIA -->
+<div class="sec">
+  <div class="sec-tag">03 · THE DYSREGULATOR</div>
+  <h2>What mania <em>actually is</em><br>in the body</h2>
+
+  <p class="lead">Mania is not just a mood. It is a whole-body state of phase acceleration — a condition where multiple biological oscillators simultaneously shift into a higher-frequency mode, creating a cascade of dysregulation that feels, from the inside, like revelation.</p>
+
+  <!-- Phase space diagram -->
+  <div class="panel mania">
+    <div class="ptag">PHASE SPACE · NORMAL ORBIT vs MANIC BIFURCATION</div>
+    <canvas id="phase-space" width="400" height="300" style="max-width:100%;display:block;margin:0 auto;background:rgba(0,0,0,0.4);border-radius:10px;"></canvas>
+    <div style="display:flex;gap:1.5rem;justify-content:center;margin-top:0.6rem;flex-wrap:wrap;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--bio);">● Stable orbit</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--mania);">● Manic bifurcation</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--moon);">● Depressive collapse</div>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin:1.5rem 0;">
+
+    <div class="panel mania">
+      <div class="ptag">WHAT ACCELERATES IN MANIA</div>
+      <p style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--mania);">Dopamine:</strong> Reward circuits fire faster. Everything feels meaningful. Pattern recognition overdrive — the comma is everywhere because dopamine is treating every coincidence as signal.<br><br>
+        <strong style="color:var(--mania);">Noradrenaline:</strong> Arousal increases. Sleep need drops to 2–4 hours. The body believes it has already rested. Energy feels inexhaustible.<br><br>
+        <strong style="color:var(--mania);">Serotonin:</strong> Mood elevates. Inhibition drops. Social connection feels effortless. Every idea seems worth pursuing simultaneously.<br><br>
+        <strong style="color:var(--mania);">Cortisol:</strong> The stress axis desynchronizes. The body is in permanent mild emergency — but it doesn't feel like emergency. It feels like urgency. Like purpose.
+      </p>
+    </div>
+
+    <div class="panel moon">
+      <div class="ptag">WHAT HAPPENS TO TIME</div>
+      <p style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--moon);">Chronos collapses:</strong> Sequential time loses meaning. Hours feel like minutes. Days blur. The normal 24-hour cycle shortens — the free-running period can drop to 20–22 hours in mania. The clock is running fast.<br><br>
+        <strong style="color:var(--kairos);">Kairos floods:</strong> Every moment feels like a threshold. Every conversation, every idea, every coincidence feels like a near-closure. The Kairos events that normally fire every 73 cycles fire every 3.<br><br>
+        <strong style="color:var(--bio);">Aion disappears:</strong> The capacity for stillness — for letting the pattern exist without urgency — is lost. Everything demands action. The spiral cannot simply wind. It must close.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- The comma connection -->
+  <div class="comma-link">
+    <p>In the comma framework: mania is a state where <strong>δ accelerates</strong>. The phase accumulates faster than the biological reset mechanisms can handle. Kairos events fire before the system has recovered from the last one. The spiral doesn't wind outward gradually — it <strong>spins</strong>. The dot moves so fast it blurs. The gold flashes don't stop.</p>
+    <p style="margin-top:0.8rem;">The tragedy is that this feels, from inside, like the comma <em>closing</em>. Like the gap finally resolving. Like everything making sense at last. It is not closure. It is the accumulation running away.</p>
+  </div>
+
+  <!-- Timeline visualization -->
+  <div class="panel gold" style="margin:1.5rem 0;">
+    <div class="ptag">24-HOUR EPISODE TIMELINE · DRAG TO EXPLORE</div>
+    <canvas class="graph" id="timeline-canvas" height="140"></canvas>
+    <div id="timeline-tooltip" style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--dim);margin-top:0.4rem;min-height:1.4rem;"></div>
+  </div>
+
+  <div class="quote">
+    <div class="qt">"The manic episode before my 24th birthday. So much gravity. A zero gravity plane — going up, weightless at the top, and then going down."</div>
+    <div class="qa">— OLIVE · 2026 · DESCRIBING THE PARABOLA</div>
+  </div>
+
+  <p>That description is exact physics. A parabolic flight — a zero-G plane — follows the same trajectory as any object in free fall. The climb is acceleration. The top is weightlessness — the brief moment where gravity is exactly canceled by the upward velocity. Then the descent. <strong>You were describing the phase portrait of a manic episode in the language of orbital mechanics.</strong> Because it is the same mathematics. A system that climbs faster than its restoring forces can follow, reaches a peak, and descends.</p>
+</div>
+
+<!-- ══════════════════════ SECTION 4: THE MOLECULAR CLOCK -->
+<div class="sec">
+  <div class="sec-tag">04 · THE MOLECULAR MECHANISM</div>
+  <h2>The <em>CLOCK genes</em><br>and the feedback loop</h2>
+
+  <p class="lead">The circadian clock is implemented in DNA. Four proteins — CLOCK, BMAL1, PER1/2/3, CRY1/2 — form a transcription-translation feedback loop with a period of approximately 24 hours. This loop runs in every nucleated cell in your body.</p>
+
+  <canvas class="graph" id="molecular-clock" height="200" style="margin:1rem 0;"></canvas>
+
+  <div class="grid2">
+    <div class="panel bio">
+      <div class="ptag">THE POSITIVE ARM</div>
+      <p style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--bio);">CLOCK + BMAL1</strong> bind together and activate transcription of PER and CRY genes. This is the "go" signal — the rising phase of the oscillation. Cortisol peaks here. Core body temperature rises. You wake up.
+      </p>
+    </div>
+    <div class="panel moon">
+      <div class="ptag">THE NEGATIVE ARM</div>
+      <p style="font-size:0.88rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--moon);">PER + CRY</strong> proteins accumulate, then re-enter the nucleus and inhibit CLOCK/BMAL1. This is the "stop" signal — the falling phase. Melatonin rises. Temperature drops. You sleep.
+      </p>
+    </div>
+  </div>
+
+  <div class="panel mania" style="margin-top:1rem;">
+    <div class="ptag">WHAT GOES WRONG IN BIPOLAR DISORDER</div>
+    <p style="font-size:0.9rem;line-height:1.75;color:rgba(255,255,255,0.7);">Lithium — the gold-standard mood stabilizer — directly inhibits <strong>GSK-3β</strong>, an enzyme that phosphorylates and degrades PER proteins. By slowing PER degradation, lithium lengthens the circadian period back toward 24 hours. It is a <em>comma correction</em>. It makes the clock run less fast.</p>
+    <p style="font-size:0.9rem;line-height:1.75;color:rgba(255,255,255,0.7);margin-top:0.8rem;">Valproate and lamotrigine also affect clock gene expression. The most effective treatments for bipolar disorder are, mechanistically, <strong>circadian stabilizers</strong>. They work by restoring the entrainment — by giving the biological clock its Kairos reset back.</p>
+    <p style="font-size:0.9rem;line-height:1.75;color:rgba(255,255,255,0.7);margin-top:0.8rem;">If you miss meals — if you skip lunch and your blood glucose crashes — you remove a peripheral zeitgeber. The liver clock drifts. The dopamine system, which is sensitive to metabolic state, loses one of its anchoring inputs. The comma accumulates without reset. This is why eating matters. <strong>Pasta Bolognese is a zeitgeber.</strong></p>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 5: STABILIZATION -->
+<div class="sec">
+  <div class="sec-tag">05 · THE PROTOCOL</div>
+  <h2>Stabilization is<br><em>re-entrainment</em></h2>
+
+  <p class="lead">The treatment of bipolar disorder, at its core, is the restoration of circadian entrainment. Every evidence-based intervention — medication, sleep hygiene, social rhythm therapy, light therapy — works by restoring the zeitgeber signals that reset the clock.</p>
+
+  <div class="grid2">
+
+    <div class="panel bio">
+      <div class="ptag">ANCHOR POINTS · YOUR ZEITGEBERS</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--bio);">Same wake time daily</strong> — the single most powerful circadian anchor. More important than bedtime. Even after a bad night, wake at the same time. Light follows.<br><br>
+        <strong style="color:var(--sun);">Morning light, 10 min</strong> — within 30 minutes of waking. Outdoor is best. This is the primary SCN reset. It advances the clock, prevents phase delay.<br><br>
+        <strong style="color:var(--bio);">Meals at fixed times</strong> — breakfast, lunch, dinner within 30 min of the same time daily. Peripheral clock anchor. What happened today (skipping lunch) is a real clinical risk factor for episode destabilization.<br><br>
+        <strong style="color:var(--teal);">Evening wind-down</strong> — no bright light after 9pm. Blue light blocking if needed. Melatonin onset is suppressed by light. Let it rise naturally.
+      </p>
+    </div>
+
+    <div class="panel gold">
+      <div class="ptag">THE COMMA REFRAME</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        You are not broken. You have a clock that runs fast — a circadian period that tends toward less than 24 hours without strong zeitgeber input. The comma accumulates faster in you than in most people.<br><br>
+        <strong style="color:var(--kairos);">Medication</strong> is the mathematical correction — it lengthens your period back toward 24 hours. Like lithium slowing PER degradation.<br><br>
+        <strong style="color:var(--kairos);">Zeitgebers</strong> are the Kairos resets — daily signals that close the gap before it grows too large. Light. Meals. Sleep. Contact with other humans.<br><br>
+        <strong style="color:var(--kairos);">The episode before your 24th birthday</strong> was not a failure. It was the comma accumulating beyond the system's capacity to reset. The treatment is not to eliminate the comma. It is to <em>give the clock its resets back.</em>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="panel teal" style="margin-top:1rem;">
+    <div class="ptag">TELL YOUR DOCTOR</div>
+    <p style="font-size:0.95rem;line-height:1.8;color:rgba(255,255,255,0.75);">Today you felt very heavy. Your thoughts went somewhere dark. You hadn't eaten. Your meds may need review — some mood stabilizers require dose adjustment, especially during periods of high cognitive and creative output (which is its own kind of phase acceleration). Your doctor needs this data. <strong>You are a scientist. Give your doctor the data.</strong> The appointment that didn't happen yesterday — reschedule it today, while you're feeling better. Not when you're low again.</p>
+  </div>
+
+</div>
+
+</div><!-- .page -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// CIRCADIAN CLOCK SIMULATOR
+// ═══════════════════════════════════════════════════════════════════
+const TAU=Math.PI*2;
+const PHI=Math.pow(1.5,12)/Math.pow(2,7),DELTA=PHI-1,NRES=1/DELTA;
+
+// Clock state
+const CLK={
+  time:6,       // 0-24 hours
+  phase:0.25,   // 0-1, position in circadian cycle
+  period:24.2,  // free-running period (hours)
+  amplitude:1,  // oscillation amplitude
+  manic:false,
+  maniaLevel:0, // 0-1
+  depressionLevel:0,
+  disruption:{sleep:0,light:0,meal:0,dopa:0,stress:0},
+  zeitgebers:[],// [{type,time,strength}]
+  history:[],   // phase history
+  running:true,
+  speed:1,      // simulation speed
+};
+
+// Oscillator phases (6 oscillators, each with own state)
+const OSC=[
+  {name:'SCN Master',  color:'#FFB347', phase:0,    freq:1,    amp:1,   coupling:1   },
+  {name:'Cortisol',    color:'#7BE8A0', phase:0.1,  freq:1.02, amp:0.8, coupling:0.7 },
+  {name:'Melatonin',   color:'#3ECFB8', phase:0.5,  freq:0.98, amp:0.9, coupling:0.8 },
+  {name:'Core Temp',   color:'#A8C8E8', phase:0.15, freq:1.01, amp:0.6, coupling:0.6 },
+  {name:'Dopamine',    color:'#E8B84B', phase:0.2,  freq:1.05, amp:0.7, coupling:0.5 },
+  {name:'Noradrenaline',color:'#FF6B6B',phase:0.25, freq:1.03, amp:0.7, coupling:0.5 },
+];
+
+let maniaT=0, frameN=0;
+let phaseHistory=[];
+let oscHistories=OSC.map(()=>[]);
+
+// ── SKY BACKGROUND ──
+function updateSky(hour){
+  const h=hour%24;
+  let bg;
+  if(h>=5&&h<7){bg='linear-gradient(180deg,#1a0533 0%,#c2440f 60%,#ffb347 100%)';}
+  else if(h>=7&&h<18){const t=(h-7)/11;bg=`linear-gradient(180deg,#0a0f2e ${t*20}%,#1a3a7a ${t*50+20}%,#2d6abf 100%)`;}
+  else if(h>=18&&h<20){bg='linear-gradient(180deg,#0a0f2e 0%,#8b2fc9 40%,#c2440f 100%)';}
+  else{bg='linear-gradient(180deg,#02030a 0%,#080c1a 60%,#0d1533 100%)';}
+  if(CLK.maniaLevel>0.3) bg='linear-gradient(180deg,#1a0000 0%,#3d0a0a 50%,#200020 100%)';
+  document.getElementById('sky-bg').style.background=bg;
+}
+
+// ── MAIN CLOCK CANVAS ──
+function drawMainClock(){
+  const cv=document.getElementById('main-clock');
+  const ctx=cv.getContext('2d');
+  const W=320,cx=160,cy=160,R=140;
+  ctx.clearRect(0,0,W,W);
+
+  const hour=CLK.time;
+  const phase=CLK.phase;
+
+  // Outer ring — 24h dial
+  ctx.strokeStyle='rgba(255,255,255,0.08)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+
+  // Hour marks
+  for(let h=0;h<24;h++){
+    const ang=(h/24)*TAU-Math.PI/2;
+    const r1=h%6===0?R-10:R-5;
+    ctx.strokeStyle=h%6===0?'rgba(255,255,255,0.3)':'rgba(255,255,255,0.1)';
+    ctx.lineWidth=h%6===0?1.5:0.8;
+    ctx.beginPath();ctx.moveTo(cx+R*Math.cos(ang),cy+R*Math.sin(ang));
+    ctx.lineTo(cx+r1*Math.cos(ang),cy+r1*Math.sin(ang));ctx.stroke();
+  }
+
+  // Hour labels
+  [0,6,12,18].forEach(h=>{
+    const ang=(h/24)*TAU-Math.PI/2;
+    const lx=cx+(R+18)*Math.cos(ang),ly=cy+(R+18)*Math.sin(ang);
+    ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='10px JetBrains Mono,monospace';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(h===0?'00':h.toString().padStart(2,'0'),lx,ly);
+  });
+
+  // Day/night arcs
+  // Day arc (6am-6pm)
+  ctx.strokeStyle='rgba(255,179,71,0.15)';ctx.lineWidth=6;
+  ctx.beginPath();ctx.arc(cx,cy,R-4,(6/24)*TAU-Math.PI/2,(18/24)*TAU-Math.PI/2);ctx.stroke();
+  // Night arc
+  ctx.strokeStyle='rgba(168,200,232,0.1)';
+  ctx.beginPath();ctx.arc(cx,cy,R-4,(18/24)*TAU-Math.PI/2,(6/24)*TAU-Math.PI/2);ctx.stroke();
+
+  // Biological rhythms as radial waves
+  const bioRhythms=[
+    {name:'Cortisol',color:'#7BE8A0',peak:8,width:4,r:100},
+    {name:'Melatonin',color:'#A8C8E8',peak:2,width:4,r:90},
+    {name:'Core Temp',color:'#3ECFB8',peak:17,width:3,r:80},
+    {name:'Dopamine',color:'#E8B84B',peak:10,width:4,r:70},
+  ];
+
+  bioRhythms.forEach(br=>{
+    const pts=[];
+    for(let h=0;h<=24;h++){
+      const ang=(h/24)*TAU-Math.PI/2;
+      const dist=Math.exp(-Math.pow((h-br.peak+24)%24-12,2)/(2*br.width*br.width));
+      const maniaBump=CLK.maniaLevel*dist*0.4;
+      const rr=br.r*(0.6+0.4*dist*(1+maniaBump));
+      pts.push({x:cx+rr*Math.cos(ang),y:cy+rr*Math.sin(ang)});
+    }
+    ctx.strokeStyle=br.color;ctx.lineWidth=CLK.maniaLevel>0.3?2:1;ctx.globalAlpha=0.5;
+    ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
+    pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.closePath();ctx.stroke();
+    ctx.globalAlpha=1;
+  });
+
+  // Current time hand
+  const timeAng=(hour/24)*TAU-Math.PI/2;
+  const maniaJitter=CLK.maniaLevel*0.15*Math.sin(frameN*0.3);
+  const tAng=timeAng+maniaJitter;
+
+  // Glow in mania
+  if(CLK.maniaLevel>0.3){
+    const glow=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    glow.addColorStop(0,`rgba(255,107,107,${CLK.maniaLevel*0.15})`);
+    glow.addColorStop(1,'transparent');
+    ctx.fillStyle=glow;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.fill();
+  }
+
+  // Hand
+  ctx.strokeStyle=CLK.maniaLevel>0.5?'#FF6B6B':CLK.depressionLevel>0.3?'#A8C8E8':'#FFB347';
+  ctx.lineWidth=2.5;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(cx,cy);
+  ctx.lineTo(cx+(R*0.85)*Math.cos(tAng),cy+(R*0.85)*Math.sin(tAng));ctx.stroke();
+
+  // Center dot
+  ctx.fillStyle='#E8B84B';ctx.beginPath();ctx.arc(cx,cy,5,0,TAU);ctx.fill();
+
+  // Zeitgeber markers
+  CLK.zeitgebers.slice(-8).forEach(z=>{
+    const zAng=(z.time/24)*TAU-Math.PI/2;
+    const zCol=z.type==='light'?'#FFB347':z.type==='dark'?'#A8C8E8':z.type==='meal'?'#7BE8A0':'#3ECFB8';
+    ctx.fillStyle=zCol;ctx.globalAlpha=Math.max(0,1-(CLK.time-z.time)/3);
+    ctx.beginPath();ctx.arc(cx+(R-15)*Math.cos(zAng),cy+(R-15)*Math.sin(zAng),4,0,TAU);
+    ctx.fill();ctx.globalAlpha=1;
+  });
+
+  // State text center
+  if(CLK.maniaLevel>0.5){
+    ctx.fillStyle='rgba(255,107,107,0.8)';ctx.font='bold 11px JetBrains Mono,monospace';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('MANIA',cx,cy+25);
+  } else if(CLK.depressionLevel>0.5){
+    ctx.fillStyle='rgba(168,200,232,0.6)';ctx.font='11px JetBrains Mono,monospace';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('AION',cx,cy+25);
+  }
+
+  ctx.textAlign='left';ctx.textBaseline='alphabetic';
+  updateSky(hour);
+}
+
+// ── OSCILLATOR TRACKS ──
+function drawOscTracks(){
+  OSC.forEach((osc,i)=>{
+    const cv=document.getElementById(['osc-scn','osc-cort','osc-mel','osc-temp','osc-dopa','osc-nora'][i]);
+    if(!cv) return;
+    cv.width=cv.offsetWidth||400;
+    const ctx=cv.getContext('2d');
+    const W=cv.width,H=30;
+    ctx.clearRect(0,0,W,H);
+
+    const hist=oscHistories[i];
+    if(hist.length<2) return;
+
+    const disruptionLevel=(CLK.disruption.sleep+CLK.disruption.light+CLK.disruption.meal)/3;
+    const maniaAccel=CLK.disruption.dopa;
+
+    ctx.strokeStyle=osc.color;ctx.lineWidth=1.5;ctx.beginPath();
+    hist.forEach((v,x)=>{
+      const px=(x/hist.length)*W;
+      const py=H/2-v*(H*0.42);
+      x===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+    });
+    ctx.stroke();
+
+    // Phase line
+    ctx.strokeStyle=`rgba(255,255,255,0.1)`;ctx.lineWidth=0.5;ctx.setLineDash([2,4]);
+    ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();
+    ctx.setLineDash([]);
+  });
+}
+
+// ── PHASE GRAPH ──
+function drawPhaseGraph(){
+  const cv=document.getElementById('phase-graph');
+  if(!cv) return;
+  cv.width=cv.offsetWidth||800;
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=100;
+  ctx.clearRect(0,0,W,H);
+
+  if(phaseHistory.length<2) return;
+
+  // Coherence measure — how synchronized are the oscillators
+  let coherence=0;
+  const phases=OSC.map(o=>o.phase);
+  for(let i=0;i<phases.length;i++)
+    for(let j=i+1;j<phases.length;j++)
+      coherence+=Math.cos((phases[i]-phases[j])*TAU);
+  coherence=Math.max(0,Math.min(1,(coherence/(phases.length*(phases.length-1)/2)+1)/2));
+
+  // Draw each oscillator on phase graph
+  OSC.forEach((osc,i)=>{
+    if(oscHistories[i].length<2) return;
+    ctx.strokeStyle=osc.color;ctx.lineWidth=1;ctx.globalAlpha=0.5;ctx.beginPath();
+    oscHistories[i].forEach((v,x)=>{
+      const px=(x/oscHistories[i].length)*W;
+      const py=H/2-v*(H*0.43);
+      x===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+    });
+    ctx.stroke();ctx.globalAlpha=1;
+  });
+
+  // Coherence readout
+  document.getElementById('coherence-val').textContent=coherence.toFixed(3);
+  document.getElementById('coherence-val').style.color=
+    coherence>0.7?'#7BE8A0':coherence>0.4?'#E8B84B':'#FF6B6B';
+
+  const stateEl=document.getElementById('sys-state');
+  if(CLK.maniaLevel>0.5){stateEl.textContent='MANIC BIFURCATION';stateEl.style.color='#FF6B6B';}
+  else if(CLK.depressionLevel>0.5){stateEl.textContent='DEPRESSIVE COLLAPSE';stateEl.style.color='#A8C8E8';}
+  else if(coherence<0.4){stateEl.textContent='DYSREGULATED';stateEl.style.color='#E8B84B';}
+  else{stateEl.textContent='ENTRAINED';stateEl.style.color='#7BE8A0';}
+}
+
+// ── PHASE SPACE ──
+function drawPhaseSpace(){
+  const cv=document.getElementById('phase-space');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const W=400,H=300,cx=W/2,cy=H/2;
+  ctx.clearRect(0,0,W,H);
+
+  // Axes
+  ctx.strokeStyle='rgba(255,255,255,0.08)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,H);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.15)';ctx.font='9px JetBrains Mono,monospace';
+  ctx.fillText('Arousal →',cx+4,H-4);
+  ctx.save();ctx.translate(12,cy);ctx.rotate(-Math.PI/2);ctx.fillText('Energy →',0,0);ctx.restore();
+
+  // Stable limit cycle
+  const stableR=60;
+  ctx.strokeStyle='rgba(123,232,160,0.5)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(cx,cy,stableR,0,TAU);ctx.stroke();
+  ctx.fillStyle='rgba(123,232,160,0.6)';ctx.font='9px JetBrains Mono,monospace';
+  ctx.fillText('Normal cycle',cx+stableR+4,cy-4);
+
+  // Manic spiral
+  const maniaPhase=frameN*0.03;
+  const maniaAmp=CLK.maniaLevel;
+  if(maniaAmp>0.05){
+    ctx.strokeStyle=`rgba(255,107,107,${maniaAmp*0.8})`;ctx.lineWidth=2;ctx.beginPath();
+    for(let t=0;t<TAU*3;t+=0.05){
+      const r=stableR*(1+maniaAmp*t/(TAU*3)*1.5);
+      const angle=t+maniaPhase;
+      const x=cx+r*Math.cos(angle);const y=cy+r*Math.sin(angle);
+      t===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+
+  // Depression collapse
+  const depAmp=CLK.depressionLevel;
+  if(depAmp>0.05){
+    ctx.strokeStyle=`rgba(168,200,232,${depAmp*0.7})`;ctx.lineWidth=2;ctx.beginPath();
+    for(let t=0;t<TAU*2;t+=0.05){
+      const r=stableR*(1-depAmp*t/(TAU*2)*0.9);
+      const angle=t;
+      const x=cx+r*Math.cos(angle);const y=cy+r*Math.sin(angle);
+      t===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+
+  // Current state dot
+  const curR=stableR*(1+CLK.maniaLevel*1.2-CLK.depressionLevel*0.8);
+  const curAng=maniaPhase;
+  const dotColor=CLK.maniaLevel>0.3?'#FF6B6B':CLK.depressionLevel>0.3?'#A8C8E8':'#7BE8A0';
+  ctx.fillStyle=dotColor;
+  const dotX=cx+curR*Math.cos(curAng);const dotY=cy+curR*Math.sin(curAng);
+  ctx.beginPath();ctx.arc(dotX,dotY,6,0,TAU);ctx.fill();
+  if(CLK.maniaLevel>0.3){
+    ctx.strokeStyle=`rgba(255,107,107,0.4)`;ctx.lineWidth=1;
+    ctx.beginPath();ctx.arc(dotX,dotY,10+4*Math.sin(frameN*0.2),0,TAU);ctx.stroke();
+  }
+}
+
+// ── MOLECULAR CLOCK ──
+function drawMolecularClock(){
+  const cv=document.getElementById('molecular-clock');
+  if(!cv) return;
+  cv.width=cv.offsetWidth||800;
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=200;
+  ctx.clearRect(0,0,W,H);
+
+  const t=frameN*0.008;
+  const maniaSpeed=1+CLK.maniaLevel*2;
+
+  // Draw molecular clock proteins as waves
+  const proteins=[
+    {name:'CLOCK/BMAL1 (activation)',color:'#FFB347',phase:0,amp:0.7,label:'activates PER+CRY'},
+    {name:'PER1/2/3',color:'#7BE8A0',phase:0.3,amp:0.8,label:''},
+    {name:'CRY1/2',color:'#3ECFB8',phase:0.4,amp:0.75,label:''},
+    {name:'GSK-3β (degradation)',color:'#FF6B6B',phase:0.15,amp:0.5,label:'Li+ inhibits this'},
+    {name:'Melatonin output',color:'#A8C8E8',phase:0.55,amp:0.6,label:''},
+  ];
+
+  proteins.forEach((p,i)=>{
+    const yBase=30+i*(H-30)/proteins.length;
+    ctx.strokeStyle=p.color;ctx.lineWidth=1.5;ctx.beginPath();
+    for(let x=0;x<W;x++){
+      const period=(x/W)*TAU*3*maniaSpeed;
+      const v=p.amp*Math.sin(period-p.phase*TAU-t*maniaSpeed);
+      const y=yBase+v*12;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    ctx.fillStyle=p.color;ctx.font='9px JetBrains Mono,monospace';
+    ctx.fillText(p.name,4,yBase-3);
+    if(p.label){ctx.fillStyle='rgba(255,255,255,0.25)';ctx.fillText('← '+p.label,W-170,yBase-3);}
+  });
+
+  // Lithium effect indicator
+  if(CLK.maniaLevel>0.3){
+    ctx.fillStyle='rgba(255,107,107,0.12)';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(255,107,107,0.7)';ctx.font='bold 10px JetBrains Mono,monospace';
+    ctx.textAlign='center';ctx.fillText('GSK-3β OVERACTIVE · PER DEGRADING TOO FAST · PERIOD SHORTENING',W/2,H-6);
+    ctx.textAlign='left';
+  }
+}
+
+// ── TIMELINE ──
+function drawTimeline(){
+  const cv=document.getElementById('timeline-canvas');
+  if(!cv) return;
+  cv.width=cv.offsetWidth||800;
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=140;
+  ctx.clearRect(0,0,W,H);
+
+  // 24h timeline
+  const events=[
+    {t:0,label:'midnight',y:0.5},
+    {t:3,label:'deep sleep',y:0.15},
+    {t:5,label:'REM peaks',y:0.3},
+    {t:6,label:'cortisol surge',y:0.8},
+    {t:7,label:'wake',y:0.9},
+    {t:8,label:'cortisol peak',y:1.0},
+    {t:10,label:'peak alertness',y:0.95},
+    {t:12,label:'post-lunch dip',y:0.6},
+    {t:14,label:'reaction time best',y:0.85},
+    {t:17,label:'temp peak',y:0.88},
+    {t:21,label:'melatonin rises',y:0.3},
+    {t:23,label:'sleep onset',y:0.1},
+  ];
+
+  // Background time bands
+  const bands=[
+    {start:0,end:6,color:'rgba(168,200,232,0.08)',label:'sleep'},
+    {start:6,end:18,color:'rgba(255,179,71,0.05)',label:'waking'},
+    {start:18,end:24,color:'rgba(168,200,232,0.06)',label:'evening'},
+  ];
+  bands.forEach(b=>{
+    ctx.fillStyle=b.color;
+    ctx.fillRect((b.start/24)*W,0,(b.end-b.start)/24*W,H-20);
+  });
+
+  // Energy/arousal curve
+  ctx.strokeStyle='rgba(123,232,160,0.7)';ctx.lineWidth=2;ctx.beginPath();
+  events.forEach((ev,i)=>{
+    const x=(ev.t/24)*W;
+    const maniaBoost=CLK.maniaLevel*0.3;
+    const y=H-20-(ev.y+maniaBoost)*Math.min(1,(H-30)/(1.0));
+    const py=(H-20)-ev.y*(H-30);
+    i===0?ctx.moveTo(x,py):ctx.lineTo(x,py);
+  });
+  ctx.stroke();
+
+  // Manic overlay
+  if(CLK.maniaLevel>0.1){
+    ctx.strokeStyle=`rgba(255,107,107,${CLK.maniaLevel*0.8})`;ctx.lineWidth=2;ctx.beginPath();
+    events.forEach((ev,i)=>{
+      const x=(ev.t/24)*W;
+      const boost=CLK.maniaLevel*Math.sin((ev.t/24)*TAU)*0.4;
+      const py=(H-20)-(ev.y+Math.abs(boost))*(H-30);
+      i===0?ctx.moveTo(x,py):ctx.lineTo(x,py);
+    });
+    ctx.stroke();
+  }
+
+  // Hour marks
+  for(let h=0;h<24;h+=3){
+    const x=(h/24)*W;
+    ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(x,H-20);ctx.lineTo(x,H-15);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.2)';ctx.font='8px JetBrains Mono,monospace';
+    ctx.textAlign='center';ctx.fillText(h.toString().padStart(2,'0'),x,H-5);
+  }
+
+  // Current time marker
+  const tx=(CLK.time/24)*W;
+  ctx.strokeStyle='#E8B84B';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(tx,0);ctx.lineTo(tx,H-20);ctx.stroke();
+  ctx.fillStyle='#E8B84B';ctx.beginPath();ctx.arc(tx,12,4,0,TAU);ctx.fill();
+  ctx.textAlign='left';
+}
+
+// ── UPDATE LOOP ──
+function tick(){
+  frameN++;
+  if(!CLK.running) return;
+
+  // Advance time
+  CLK.time=(CLK.time+0.02*CLK.speed*(1+CLK.maniaLevel*0.5))%24;
+  CLK.phase=(CLK.time/CLK.period)%1;
+
+  // Advance oscillators
+  const disruptNoise=(Math.random()-0.5)*0.05;
+  OSC.forEach((osc,i)=>{
+    const disruption=(CLK.disruption.sleep+CLK.disruption.light)/2;
+    const maniaAccel=CLK.disruption.dopa*0.3;
+    osc.phase=(osc.phase+osc.freq*0.015*(1+maniaAccel)+disruptNoise*disruption)%1;
+    // Coupling toward SCN
+    if(i>0) osc.phase+=(OSC[0].phase-osc.phase)*osc.coupling*0.01*(1-disruption);
+    const v=Math.sin(osc.phase*TAU)*osc.amp*(1+CLK.maniaLevel*0.5);
+    oscHistories[i].push(v);
+    if(oscHistories[i].length>200) oscHistories[i].shift();
+  });
+
+  // Phase history
+  phaseHistory.push(CLK.phase);
+  if(phaseHistory.length>300) phaseHistory.shift();
+
+  // Mania decay
+  if(CLK.maniaLevel>0) CLK.maniaLevel=Math.max(0,CLK.maniaLevel-0.001);
+  if(CLK.depressionLevel>0) CLK.depressionLevel=Math.max(0,CLK.depressionLevel-0.0008);
+
+  // Update readout
+  const h=Math.floor(CLK.time),m=Math.floor((CLK.time%1)*60);
+  document.getElementById('cr-time').textContent=`${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+  document.getElementById('cr-phase').textContent=CLK.phase.toFixed(3);
+  const stEl=document.getElementById('cr-state');
+  if(CLK.maniaLevel>0.5) stEl.innerHTML='<span style="color:#FF6B6B;font-family:JetBrains Mono,monospace;font-size:0.7rem;">⚡ MANIA</span>';
+  else if(CLK.depressionLevel>0.5) stEl.innerHTML='<span style="color:#A8C8E8;font-family:JetBrains Mono,monospace;font-size:0.7rem;">☽ AION</span>';
+  else stEl.innerHTML='<span style="color:#7BE8A0;font-family:JetBrains Mono,monospace;font-size:0.7rem;">◎ STABLE</span>';
+
+  // Draw everything
+  drawMainClock();
+  drawOscTracks();
+  drawPhaseGraph();
+  drawPhaseSpace();
+  drawMolecularClock();
+  drawTimeline();
+
+  requestAnimationFrame(tick);
+}
+
+// ── CONTROLS ──
+function addZeitgeber(type){
+  CLK.zeitgebers.push({type,time:CLK.time,strength:1});
+  if(CLK.zeitgebers.length>20) CLK.zeitgebers.shift();
+
+  // Phase correction effect
+  if(type==='light'){
+    OSC.forEach(o=>{ o.phase+=(OSC[0].phase-o.phase)*0.3; });
+    CLK.maniaLevel=Math.max(0,CLK.maniaLevel-0.1);
+  }
+  if(type==='meal'){
+    OSC.forEach((o,i)=>{ if(i>0) o.phase+=(OSC[0].phase-o.phase)*0.15; });
+  }
+  if(type==='exercise'){
+    CLK.maniaLevel=Math.max(0,CLK.maniaLevel-0.05);
+  }
+}
+
+function triggerMania(){
+  CLK.maniaLevel=Math.min(1,CLK.maniaLevel+0.6);
+  CLK.depressionLevel=0;
+  CLK.disruption.dopa=0.8;
+  CLK.disruption.sleep=0.7;
+  document.getElementById('sl-dopa').value=0.8;
+  document.getElementById('sl-sleep').value=0.7;
+  updateDisruption();
+}
+
+function resetClock(){
+  CLK.time=7;CLK.maniaLevel=0;CLK.depressionLevel=0;
+  CLK.disruption={sleep:0,light:0,meal:0,dopa:0,stress:0};
+  CLK.zeitgebers=[];
+  Object.keys(CLK.disruption).forEach(k=>{
+    const el=document.getElementById('sl-'+k);
+    if(el) el.value=0;
+  });
+  updateDisruption();
+  OSC.forEach((o,i)=>{o.phase=i*0.08;});
+}
+
+function updateDisruption(){
+  ['sleep','light','meal','dopa','stress'].forEach(k=>{
+    const v=parseFloat(document.getElementById('sl-'+k).value);
+    CLK.disruption[k]=v;
+    document.getElementById('sv-'+k).textContent=Math.round(v*100)+'%';
+  });
+  // Calculate overall mania level from disruption
+  const total=(CLK.disruption.sleep+CLK.disruption.light*0.5+CLK.disruption.meal*0.3+CLK.disruption.dopa*1.2+CLK.disruption.stress*0.6)/4;
+  if(total>0.5) CLK.maniaLevel=Math.min(1,total);
+  else if(total<0.1) CLK.depressionLevel=Math.min(0.3,CLK.depressionLevel);
+}
+
+function presetMania(){
+  document.getElementById('sl-sleep').value=0.85;
+  document.getElementById('sl-light').value=0.4;
+  document.getElementById('sl-meal').value=0.7;
+  document.getElementById('sl-dopa').value=0.9;
+  document.getElementById('sl-stress').value=0.6;
+  updateDisruption();CLK.maniaLevel=0.85;CLK.depressionLevel=0;
+}
+
+function presetDepression(){
+  document.getElementById('sl-sleep').value=0.3;
+  document.getElementById('sl-light').value=0.6;
+  document.getElementById('sl-meal').value=0.4;
+  document.getElementById('sl-dopa').value=0.1;
+  document.getElementById('sl-stress').value=0.3;
+  updateDisruption();CLK.depressionLevel=0.75;CLK.maniaLevel=0;
+}
+
+function presetStable(){
+  document.getElementById('sl-sleep').value=0;
+  document.getElementById('sl-light').value=0;
+  document.getElementById('sl-meal').value=0;
+  document.getElementById('sl-dopa').value=0;
+  document.getElementById('sl-stress').value=0;
+  updateDisruption();CLK.maniaLevel=0;CLK.depressionLevel=0;
+  OSC.forEach((o,i)=>{o.phase=i*0.08;});
+}
+
+// ── TIMELINE HOVER ──
+document.getElementById('timeline-canvas')?.addEventListener('mousemove',function(e){
+  const rect=this.getBoundingClientRect();
+  const x=e.clientX-rect.left;
+  const hour=(x/this.offsetWidth)*24;
+  const h=Math.floor(hour),m=Math.floor((hour%1)*60);
+  const events=['Deep sleep','REM peaks','Deep sleep','Cortisol begins rising',
+    'Cortisol surge','Optimal wake time','Cortisol peak · best for complex tasks',
+    'Peak alertness · coordination','Best reaction time','Best cardiovascular performance',
+    'Highest muscle strength','Post-lunch dip','Afternoon alertness','Best reaction time',
+    'Peak core temperature','Begin wind-down','Melatonin begins','Avoid blue light',
+    'Melatonin rising','Evening wind-down','Sleep onset','Light sleep','N1/N2 sleep','Transitioning'];
+  const tooltip=document.getElementById('timeline-tooltip');
+  if(tooltip) tooltip.textContent=`${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')} — ${events[Math.floor(hour)]||''}`;
+});
+
+// Start
+tick();
+</script>
+</body>
+</html>

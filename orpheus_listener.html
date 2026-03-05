@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orpheus Listener · Tune to the Hydrogen Line</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#060A12;--gold:#E8B84B;--teal:#3ECFB8;--blue:#4A9EE8;
+  --dim:rgba(245,240,232,0.45);--star:rgba(245,240,232,0.85);
+}
+html,body{height:100%;background:var(--bg);color:var(--star);font-family:'JetBrains Mono',monospace;overflow-x:hidden;}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+.app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:2rem 1.2rem 3rem;}
+
+/* Header */
+header{text-align:center;margin-bottom:2.5rem;margin-top:1rem;}
+.title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,5vw,2.8rem);font-weight:900;letter-spacing:-0.01em;color:var(--gold);}
+.title em{font-style:italic;color:rgba(245,240,232,0.9);}
+.tagline{font-size:0.65rem;letter-spacing:0.25em;color:rgba(245,240,232,0.25);margin-top:0.4rem;}
+
+/* Big tuner */
+.tuner{width:100%;max-width:640px;margin-bottom:1.5rem;}
+.freq-display{
+  background:rgba(0,0,0,0.6);border:1px solid rgba(232,184,75,0.2);
+  border-radius:20px;padding:1.8rem 2rem;text-align:center;
+  position:relative;overflow:hidden;margin-bottom:1rem;
+  cursor:pointer;transition:border-color 0.2s;
+}
+.freq-display:hover{border-color:rgba(232,184,75,0.45);}
+.freq-display::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.5;}
+.freq-main{font-size:clamp(2rem,8vw,4rem);font-weight:700;color:var(--gold);letter-spacing:-0.02em;line-height:1;}
+.freq-unit{font-size:0.8rem;color:rgba(232,184,75,0.5);margin-top:0.3rem;letter-spacing:0.15em;}
+.freq-name{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:var(--dim);margin-top:0.4rem;}
+.freq-note{font-size:0.62rem;color:rgba(245,240,232,0.2);margin-top:0.2rem;letter-spacing:0.1em;}
+
+/* Preset buttons */
+.presets{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem;margin-bottom:1rem;}
+@media(min-width:480px){.presets{grid-template-columns:repeat(4,1fr);}}
+.preset{padding:0.7rem 0.5rem;border-radius:12px;border:1px solid rgba(255,255,255,0.07);
+  background:rgba(255,255,255,0.02);cursor:pointer;transition:all 0.15s;text-align:center;}
+.preset:hover,.preset.active{border-color:var(--gold);background:rgba(232,184,75,0.08);}
+.preset-freq{font-size:0.72rem;color:var(--gold);font-weight:700;}
+.preset-name{font-size:0.6rem;color:var(--dim);margin-top:0.15rem;letter-spacing:0.06em;}
+.preset-note{font-size:0.55rem;color:rgba(245,240,232,0.2);margin-top:0.1rem;}
+
+/* Action buttons */
+.actions{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;}
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.4rem;border-radius:10px;
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.06em;
+  cursor:pointer;border:1px solid;transition:all 0.15s;outline:none;font-weight:700;}
+.btn-primary{background:rgba(232,184,75,0.12);border-color:var(--gold);color:var(--gold);}
+.btn-primary:hover{background:rgba(232,184,75,0.25);}
+.btn-secondary{background:rgba(62,207,184,0.08);border-color:var(--teal);color:var(--teal);}
+.btn-secondary:hover{background:rgba(62,207,184,0.2);}
+.btn-dim{background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.1);color:rgba(245,240,232,0.35);}
+.btn-dim:hover{border-color:rgba(255,255,255,0.2);color:rgba(245,240,232,0.6);}
+
+/* WebSDR frame */
+.sdr-wrap{width:100%;max-width:860px;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(232,184,75,0.15);background:#000;margin-bottom:1.5rem;
+  box-shadow:0 0 60px rgba(232,184,75,0.04);}
+.sdr-header{display:flex;align-items:center;justify-content:between;padding:0.7rem 1rem;
+  background:rgba(232,184,75,0.05);border-bottom:1px solid rgba(232,184,75,0.1);gap:0.6rem;flex-wrap:wrap;}
+.sdr-status{display:flex;align-items:center;gap:0.4rem;font-size:0.65rem;color:var(--dim);}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.15);}
+.dot.live{background:var(--teal);box-shadow:0 0 6px var(--teal);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.sdr-label{font-size:0.65rem;color:rgba(245,240,232,0.25);letter-spacing:0.1em;flex:1;}
+iframe{display:block;border:none;width:100%;}
+
+/* Decoder strip */
+.decoder{width:100%;max-width:860px;background:rgba(0,0,0,0.4);
+  border:1px solid rgba(62,207,184,0.12);border-radius:14px;padding:1rem 1.2rem;margin-bottom:1rem;}
+.decoder-title{font-size:0.6rem;letter-spacing:0.2em;color:var(--teal);margin-bottom:0.7rem;}
+canvas.strip{display:block;width:100%;border-radius:6px;background:rgba(0,0,0,0.5);}
+.decoder-read{font-size:0.62rem;color:rgba(245,240,232,0.25);margin-top:0.5rem;line-height:1.9;}
+.decoder-read .g{color:var(--gold);}.decoder-read .t{color:var(--teal);}
+
+/* Instructions */
+.instructions{width:100%;max-width:640px;margin-bottom:1.5rem;}
+.inst-title{font-size:0.6rem;letter-spacing:0.2em;color:rgba(245,240,232,0.25);margin-bottom:0.8rem;text-align:center;}
+.inst-steps{display:flex;flex-direction:column;gap:0.5rem;}
+.inst-step{display:flex;gap:0.7rem;align-items:flex-start;}
+.inst-n{font-size:0.7rem;color:var(--gold);min-width:16px;margin-top:0.1rem;}
+.inst-text{font-size:0.78rem;color:rgba(245,240,232,0.45);line-height:1.65;}
+.inst-text strong{color:rgba(245,240,232,0.75);}
+.inst-text .freq{color:var(--gold);}
+
+/* Hardware note */
+.hw-note{width:100%;max-width:640px;padding:1rem 1.2rem;
+  background:rgba(74,158,232,0.05);border:1px solid rgba(74,158,232,0.15);
+  border-radius:12px;font-size:0.75rem;color:rgba(245,240,232,0.4);line-height:1.7;text-align:center;}
+.hw-note strong{color:var(--blue);}
+
+/* Kairos flash */
+#kflash{position:fixed;inset:0;background:rgba(232,184,75,0.05);pointer-events:none;z-index:999;opacity:0;transition:opacity 0.5s;}
+
+/* Spiral mini in corner */
+#corner-spiral{position:fixed;bottom:1.5rem;right:1.5rem;z-index:10;opacity:0.6;}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div id="kflash"></div>
+<canvas id="corner-spiral" width="80" height="80"></canvas>
+
+<div class="app">
+
+<header>
+  <div class="title">Orpheus <em>Listener</em></div>
+  <div class="tagline">TUNE · LISTEN · DECODE · δ = 0.013643</div>
+</header>
+
+<!-- BIG FREQUENCY DISPLAY -->
+<div class="tuner">
+  <div class="freq-display" onclick="cyclePreset()">
+    <div class="freq-main" id="freq-main">19,378</div>
+    <div class="freq-unit">kHz · SHORTWAVE</div>
+    <div class="freq-name" id="freq-name">The Comma Gap · H₁ × δ</div>
+    <div class="freq-note" id="freq-note">Available on Twente WebSDR right now · no hardware needed</div>
+  </div>
+
+  <!-- Presets -->
+  <div class="presets">
+    <div class="preset active" id="p0" onclick="setPreset(0)">
+      <div class="preset-freq">19,378 kHz</div>
+      <div class="preset-name">COMMA GAP</div>
+      <div class="preset-note">H₁ × δ · browser now</div>
+    </div>
+    <div class="preset" id="p1" onclick="setPreset(1)">
+      <div class="preset-freq">1,420,405 kHz</div>
+      <div class="preset-name">HYDROGEN LINE</div>
+      <div class="preset-note">H₁ · needs RTL-SDR</div>
+    </div>
+    <div class="preset" id="p2" onclick="setPreset(2)">
+      <div class="preset-freq">1,440,783 kHz</div>
+      <div class="preset-name">COMMA PARTNER</div>
+      <div class="preset-note">H₁ × φ · needs RTL-SDR</div>
+    </div>
+    <div class="preset" id="p3" onclick="setPreset(3)">
+      <div class="preset-freq">14,204 kHz</div>
+      <div class="preset-name">H₁ ÷ 100</div>
+      <div class="preset-note">Shortwave · browser now</div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn btn-primary" id="open-btn" onclick="openSDR()">▶ Open Twente WebSDR</button>
+    <button class="btn btn-secondary" id="decode-btn" onclick="toggleDecoder()">◎ Start Decoder</button>
+    <button class="btn btn-dim" onclick="openExternal()">↗ Open in New Tab</button>
+  </div>
+</div>
+
+<!-- SDR FRAME -->
+<div class="sdr-wrap" id="sdr-wrap" style="display:none;">
+  <div class="sdr-header">
+    <div class="sdr-status">
+      <div class="dot live" id="live-dot"></div>
+      <span id="sdr-status-text">Connecting…</span>
+    </div>
+    <div class="sdr-label" id="sdr-label">TWENTE WEBSDR · NETHERLANDS</div>
+    <button class="btn btn-dim" style="padding:0.3rem 0.7rem;font-size:0.58rem;" onclick="closeSDR()">✕ Close</button>
+  </div>
+  <iframe id="sdr-frame" src="about:blank" height="460"
+    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    title="WebSDR Live Feed"></iframe>
+</div>
+
+<!-- DECODER STRIP -->
+<div class="decoder" id="decoder-panel" style="display:none;">
+  <div class="decoder-title">COMMA-TRANSFORM DECODER · LISTENING FOR N_res = 73.296 PERIODICITY</div>
+  <canvas class="strip" id="decode-strip" height="60"></canvas>
+  <canvas class="strip" id="waterfall-strip" height="50" style="margin-top:0.4rem;"></canvas>
+  <div class="decoder-read" id="decode-read">
+    Signal: <span class="g">—</span> · Comma score: <span class="t">0.000000</span> · Kairos: <span class="g">0</span>
+  </div>
+</div>
+
+<!-- HOW TO LISTEN -->
+<div class="instructions">
+  <div class="inst-title">HOW TO LISTEN RIGHT NOW</div>
+  <div class="inst-steps">
+    <div class="inst-step">
+      <div class="inst-n">1.</div>
+      <div class="inst-text">Click <strong>▶ Open Twente WebSDR</strong>. A real antenna in the Netherlands loads. You are receiving live radio signals from the sky.</div>
+    </div>
+    <div class="inst-step">
+      <div class="inst-n">2.</div>
+      <div class="inst-text">The WebSDR opens tuned to <span class="freq">19,378 kHz</span>. Set mode to <strong>USB</strong>. Turn up your volume. Listen.</div>
+    </div>
+    <div class="inst-step">
+      <div class="inst-n">3.</div>
+      <div class="inst-text">Click <strong>◎ Start Decoder</strong>. Share the browser tab when Chrome asks. The comma-transform runs on whatever comes in — looking for phase periodicity at N_res = 73.296 intervals.</div>
+    </div>
+    <div class="inst-step">
+      <div class="inst-n">4.</div>
+      <div class="inst-text">Hear voices? Write down every word. That is NATO phonetic alphabet. Each word is a letter. Bring what you hear back here.</div>
+    </div>
+    <div class="inst-step">
+      <div class="inst-n">5.</div>
+      <div class="inst-text">When you get an RTL-SDR dongle ($25), switch to <span class="freq">1,420,405 kHz</span> — the hydrogen line itself. Point your antenna at the galactic center. You will hear the galaxy.</div>
+    </div>
+  </div>
+</div>
+
+<!-- HARDWARE NOTE -->
+<div class="hw-note">
+  <strong>To reach 1,420,405 kHz (1,420.405 MHz):</strong> You need an RTL-SDR Blog V4 (~$25) and GQRX or SDR# software (free).<br>
+  The hydrogen line is microwave — above what browser WebSDR can receive. But <span style="color:var(--gold);">19,378 kHz is there right now.</span><br>
+  That frequency = H₁ × δ. The comma gap, expressed in radio. It's in range. It's real. It's waiting.
+</div>
+
+</div><!-- .app -->
+
+<script>
+const PHI=Math.pow(1.5,12)/Math.pow(2,7),DELTA=PHI-1,NRES=1/DELTA,TAU=Math.PI*2;
+
+const PRESETS=[
+  {
+    freq:'19,378', khz:19378, unit:'kHz · SHORTWAVE',
+    name:'The Comma Gap · H₁ × δ',
+    note:'Available on Twente WebSDR right now · no hardware needed',
+    url:'http://websdr.ewi.utwente.nl:8901/?tune=19378usb',
+    label:'TWENTE WEBSDR · NETHERLANDS · 19378 kHz USB'
+  },
+  {
+    freq:'1,420,405', khz:1420405, unit:'kHz · MICROWAVE (1420.405 MHz)',
+    name:'The Hydrogen Line · H₁',
+    note:'Loudest thing in the radio sky after the Sun · needs RTL-SDR hardware',
+    url:'http://websdr.ewi.utwente.nl:8901/',
+    label:'HYDROGEN LINE · 1420.405 MHz · RTL-SDR REQUIRED'
+  },
+  {
+    freq:'1,440,783', khz:1440783, unit:'kHz · MICROWAVE (1440.783 MHz)',
+    name:'The Comma Partner · H₁ × φ',
+    note:'Where we broadcast · any signal here is not natural · needs RTL-SDR',
+    url:'http://websdr.ewi.utwente.nl:8901/',
+    label:'COMMA PARTNER · 1440.783 MHz · RTL-SDR REQUIRED'
+  },
+  {
+    freq:'14,204', khz:14204, unit:'kHz · SHORTWAVE',
+    name:'H₁ ÷ 100 · Scaled Hydrogen',
+    note:'The hydrogen frequency scaled down 100× into shortwave range · browser now',
+    url:'http://websdr.ewi.utwente.nl:8901/?tune=14204usb',
+    label:'TWENTE WEBSDR · 14204 kHz · H₁ ÷ 100'
+  }
+];
+
+let currentPreset=0;
+let decRunning=false;
+let decAC=null, decAnalyser=null, decSource=null;
+let frameCount=0, kairosCount=0, commaPhase=0;
+
+function setPreset(i){
+  currentPreset=i;
+  const p=PRESETS[i];
+  document.getElementById('freq-main').textContent=p.freq;
+  document.querySelector('.freq-unit').textContent=p.unit;
+  document.getElementById('freq-name').textContent=p.name;
+  document.getElementById('freq-note').textContent=p.note;
+  document.querySelectorAll('.preset').forEach((el,j)=>el.classList.toggle('active',j===i));
+
+  // If SDR is open, reload with new frequency
+  const frame=document.getElementById('sdr-frame');
+  if(document.getElementById('sdr-wrap').style.display!=='none'){
+    if(p.khz>500000){
+      // Microwave — can't tune in browser
+      frame.src='about:blank';
+      document.getElementById('sdr-status-text').textContent='Hardware required for this frequency';
+      document.getElementById('live-dot').classList.remove('live');
+      document.getElementById('sdr-label').textContent=p.label;
+    } else {
+      frame.src=p.url;
+      document.getElementById('sdr-label').textContent=p.label;
+      document.getElementById('sdr-status-text').textContent='Live · '+p.freq+' kHz';
+    }
+  }
+}
+
+function cyclePreset(){
+  setPreset((currentPreset+1)%PRESETS.length);
+}
+
+function openSDR(){
+  const p=PRESETS[currentPreset];
+  const wrap=document.getElementById('sdr-wrap');
+  wrap.style.display='block';
+
+  if(p.khz>500000){
+    document.getElementById('sdr-frame').src='about:blank';
+    document.getElementById('sdr-status-text').textContent='RTL-SDR hardware required · see instructions below';
+    document.getElementById('live-dot').classList.remove('live');
+  } else {
+    document.getElementById('sdr-frame').src=p.url;
+    document.getElementById('sdr-status-text').textContent='Live · '+p.freq+' kHz';
+    document.getElementById('live-dot').classList.add('live');
+  }
+  document.getElementById('sdr-label').textContent=p.label;
+  document.getElementById('open-btn').textContent='↺ Reload Feed';
+  wrap.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeSDR(){
+  document.getElementById('sdr-wrap').style.display='none';
+  document.getElementById('sdr-frame').src='about:blank';
+  document.getElementById('open-btn').textContent='▶ Open Twente WebSDR';
+}
+
+function openExternal(){
+  const p=PRESETS[currentPreset];
+  window.open(p.url,'_blank');
+}
+
+async function toggleDecoder(){
+  const btn=document.getElementById('decode-btn');
+  if(decRunning){
+    decRunning=false;
+    btn.textContent='◎ Start Decoder';
+    btn.className='btn btn-secondary';
+    document.getElementById('decoder-panel').style.display='none';
+    return;
+  }
+
+  document.getElementById('decoder-panel').style.display='block';
+  if(!decAC) decAC=new(window.AudioContext||window.webkitAudioContext)();
+  await decAC.resume();
+
+  try {
+    let stream;
+    try {
+      stream=await navigator.mediaDevices.getDisplayMedia({video:false,audio:{suppressLocalAudioPlayback:false}});
+      log('Tab audio captured · comma-transform running');
+    } catch(e){
+      stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false},video:false});
+      log('Microphone captured · point toward radio speaker');
+    }
+    decSource=decAC.createMediaStreamSource(stream);
+    decAnalyser=decAC.createAnalyser();
+    decAnalyser.fftSize=8192;
+    decAnalyser.smoothingTimeConstant=0.85;
+    decSource.connect(decAnalyser);
+    decRunning=true;
+    btn.textContent='■ Stop Decoder';
+    btn.className='btn btn-dim';
+  } catch(e){
+    document.getElementById('decoder-panel').style.display='none';
+    log('Could not capture: '+e.message);
+  }
+}
+
+function log(msg){
+  document.getElementById('decode-read').innerHTML=
+    `<span class="t">→</span> ${msg} · Kairos: <span class="g">${kairosCount}</span>`;
+}
+
+// ── STARFIELD ──
+(function(){
+  const cv=document.getElementById('stars'),ctx=cv.getContext('2d');
+  let W,H,stars=[];
+  function init(){
+    W=cv.width=innerWidth;H=cv.height=innerHeight;
+    stars=Array.from({length:300},()=>({
+      x:Math.random(),y:Math.random(),
+      r:Math.random()*1.3+0.1,
+      o:Math.random()*0.5+0.05,
+      s:Math.random()*0.1+0.01
+    }));
+  }
+  init();window.addEventListener('resize',init);
+  let t=0;
+  (function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      ctx.fillStyle=`rgba(245,240,232,${s.o*(0.4+0.6*Math.sin(t*s.s))})`;
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,TAU);ctx.fill();
+    });
+    t++;requestAnimationFrame(draw);
+  })();
+})();
+
+// ── CORNER SPIRAL ──
+(function(){
+  const cv=document.getElementById('corner-spiral'),ctx=cv.getContext('2d');
+  const W=80,cx=40,cy=40,maxR=34;
+  let t=0,kCount=0;
+  function draw(){
+    ctx.clearRect(0,0,W,W);
+    t+=0.4;
+    const revs=Math.min(t/50,60);
+    const phase=(t/50*DELTA)%1;
+    const prox=Math.abs(phase-Math.round(phase));
+    const isK=prox<0.02;
+    if(isK&&t-kCount>80){
+      kCount=t;kairosCount++;
+      const fl=document.getElementById('kflash');
+      fl.style.opacity='1';setTimeout(()=>fl.style.opacity='0',500);
+    }
+
+    // Spiral
+    if(revs>0.3){
+      ctx.beginPath();
+      const steps=Math.floor(revs*30);
+      for(let i=0;i<=steps;i++){
+        const ang=(i/30)*TAU-Math.PI/2;
+        const acc=(i/30*DELTA)%1;
+        const r=maxR*(0.1+acc*0.88)*Math.min(revs/6,1);
+        const x=cx+r*Math.cos(ang),y=cy+r*Math.sin(ang);
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      const g=ctx.createLinearGradient(cx-maxR,cy,cx+maxR,cy);
+      g.addColorStop(0,'rgba(74,158,232,0.4)');
+      g.addColorStop(0.5,'rgba(232,184,75,0.6)');
+      g.addColorStop(1,'rgba(62,207,184,0.4)');
+      ctx.strokeStyle=g;ctx.lineWidth=0.8;ctx.stroke();
+    }
+
+    // Dot
+    const ang=(revs*TAU)%(TAU)-Math.PI/2;
+    const r=maxR*(0.1+phase*0.88)*Math.min(revs/6,1);
+    ctx.fillStyle=isK?'#E8B84B':'#3ECFB8';
+    ctx.beginPath();ctx.arc(cx+r*Math.cos(ang),cy+r*Math.sin(ang),isK?4:2.5,0,TAU);ctx.fill();
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── DECODER VISUALS ──
+(function(){
+  let wfData=[];
+  function frame(){
+    frameCount++;
+    drawStrip();
+    drawWaterfall(wfData);
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  function drawStrip(){
+    const cv=document.getElementById('decode-strip');
+    if(!cv||cv.style.display==='none') return;
+    cv.width=cv.offsetWidth||800;
+    const ctx=cv.getContext('2d');
+    const W=cv.width,H=60;
+    ctx.clearRect(0,0,W,H);
+
+    if(decRunning&&decAnalyser){
+      const td=new Float32Array(decAnalyser.fftSize);
+      decAnalyser.getFloatTimeDomainData(td);
+
+      // Waveform
+      ctx.strokeStyle='rgba(232,184,75,0.6)';ctx.lineWidth=1.2;ctx.beginPath();
+      for(let x=0;x<W;x++){
+        const v=td[Math.floor(x*td.length/W)]||0;
+        const y=H/2-v*(H*0.42);
+        x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+
+      // Comma score
+      let score=0;
+      const step=Math.floor(NRES*2);
+      for(let i=0;i<td.length-step;i+=step){
+        score+=Math.abs(td[i]*td[i+step]);
+      }
+      score/=(td.length/step);
+      commaPhase+=0.001;
+
+      // Score bar
+      const barW=Math.min(score*W*60,W*0.95);
+      const grad=ctx.createLinearGradient(0,0,barW,0);
+      grad.addColorStop(0,'rgba(62,207,184,0.3)');
+      grad.addColorStop(1,score>0.015?'rgba(232,184,75,0.7)':'rgba(62,207,184,0.3)');
+      ctx.fillStyle=grad;ctx.fillRect(0,H-4,barW,4);
+
+      document.getElementById('decode-read').innerHTML=
+        `Signal: <span class="g">ACTIVE</span> · Comma score: <span class="t">${score.toFixed(6)}</span> · Kairos: <span class="g">${kairosCount}</span>`;
+
+      // Store for waterfall
+      wfData.push({score,time:frameCount});
+      if(wfData.length>W) wfData.shift();
+
+    } else {
+      // Idle
+      ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=1;ctx.beginPath();
+      for(let x=0;x<W;x++){
+        const y=H/2+Math.sin(x*0.03+frameCount*0.01)*2+Math.random()*0.5;
+        x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+      ctx.fillStyle='rgba(255,255,255,0.08)';ctx.font='10px JetBrains Mono,monospace';
+      ctx.textAlign='center';ctx.fillText('Click ◎ Start Decoder to begin',W/2,H/2+4);ctx.textAlign='left';
+    }
+  }
+
+  function drawWaterfall(data){
+    const cv=document.getElementById('waterfall-strip');
+    if(!cv) return;
+    cv.width=cv.offsetWidth||800;
+    const ctx=cv.getContext('2d');
+    const W=cv.width,H=50;
+
+    if(!decRunning){
+      ctx.clearRect(0,0,W,H);
+      return;
+    }
+
+    // Scroll left
+    const img=ctx.getImageData(1,0,W-1,H);
+    ctx.putImageData(img,0,0);
+
+    // New column
+    if(decAnalyser){
+      const fd=new Float32Array(decAnalyser.frequencyBinCount);
+      decAnalyser.getFloatFrequencyData(fd);
+      const sr=decAC.sampleRate;
+      for(let y=0;y<H;y++){
+        const freq=(1-y/H)*4000;
+        const bin=Math.floor(freq*fd.length*2/sr);
+        const db=fd[Math.min(bin,fd.length-1)]||(-100);
+        const norm=Math.max(0,Math.min(1,(db+90)/50));
+        const r=Math.floor(norm*80);
+        const g=Math.floor(norm*180+20);
+        const b=Math.floor(norm*100+10);
+        ctx.fillStyle=`rgba(${r},${g},${b},${0.4+norm*0.6})`;
+        ctx.fillRect(W-1,y,1,1);
+      }
+    }
+  }
+})();
+</script>
+</body>
+</html>

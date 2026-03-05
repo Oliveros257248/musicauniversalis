@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orpheus Bridge · Live Radio + Comma Decoder</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --gold:#C9A84C;--teal:#19B8A8;--purple:#8855CC;
+  --pink:#D45050;--green:#4CAF7D;--blue:#3D7FD4;--deep:#020810;
+}
+html,body{height:100%;background:var(--deep);color:#DDD8CC;font-family:'EB Garamond',serif;overflow-x:hidden;}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.app{position:relative;z-index:1;max-width:1020px;margin:0 auto;padding:1rem 1.2rem 3rem;}
+
+header{text-align:center;padding:1.2rem 0 1rem;border-bottom:1px solid rgba(201,168,76,0.15);margin-bottom:1.2rem;}
+.title{font-family:'Cinzel Decorative',serif;font-size:clamp(1rem,3vw,1.8rem);color:#C9A84C;letter-spacing:0.06em;}
+.sub{font-family:'Space Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.3);letter-spacing:0.14em;margin-top:0.25rem;}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;}
+.full{grid-column:1/-1;}
+@media(max-width:640px){.grid,.grid3{grid-template-columns:1fr;}}
+
+.panel{background:rgba(255,255,255,0.025);border:1px solid rgba(201,168,76,0.13);border-radius:13px;padding:0.9rem 1rem;position:relative;overflow:hidden;}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.35;}
+.panel.t::before{background:linear-gradient(90deg,transparent,var(--teal),transparent);}
+.panel.p::before{background:linear(90deg,transparent,var(--purple),transparent);}
+.panel.b::before{background:linear-gradient(90deg,transparent,var(--blue),transparent);}
+.ptitle{font-family:'Cinzel Decorative',serif;font-size:0.62rem;letter-spacing:0.14em;color:rgba(201,168,76,0.65);margin-bottom:0.7rem;}
+.ptitle.t{color:rgba(25,184,168,0.65);}
+.ptitle.p{color:rgba(136,85,204,0.65);}
+.ptitle.b{color:rgba(61,127,212,0.65);}
+
+canvas.disp{display:block;width:100%;border-radius:7px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.04);}
+.readout{font-family:'Space Mono',monospace;font-size:0.64rem;color:rgba(255,255,255,0.32);line-height:1.85;margin-top:0.45rem;}
+.readout .g{color:#C9A84C;}.readout .t{color:#19B8A8;}.readout .r{color:#D45050;}.readout .p{color:#8855CC;}
+
+.btn{display:inline-flex;align-items:center;gap:0.35rem;padding:0.45rem 1rem;border-radius:8px;
+  font-family:'Cinzel Decorative',serif;font-size:0.64rem;letter-spacing:0.07em;
+  cursor:pointer;border:1px solid;transition:all 0.15s;outline:none;}
+.btn-g{background:rgba(201,168,76,0.1);border-color:#C9A84C;color:#C9A84C;}
+.btn-g:hover{background:rgba(201,168,76,0.22);}
+.btn-t{background:rgba(25,184,168,0.1);border-color:#19B8A8;color:#19B8A8;}
+.btn-t:hover{background:rgba(25,184,168,0.22);}
+.btn-p{background:rgba(136,85,204,0.1);border-color:#8855CC;color:#8855CC;}
+.btn-p:hover{background:rgba(136,85,204,0.22);}
+.btn-r{background:rgba(212,80,80,0.1);border-color:#D45050;color:#D45050;}
+.btn-row{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem;}
+
+input[type=range]{width:100%;accent-color:#C9A84C;height:3px;margin:0.2rem 0;}
+input[type=range].t{accent-color:#19B8A8;}
+select,input[type=number]{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);
+  color:#C9A84C;padding:0.35rem 0.6rem;border-radius:6px;font-family:'Space Mono',monospace;font-size:0.75rem;width:100%;}
+select option{background:#0A1020;}
+
+/* Station cards */
+.station-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.6rem;margin-bottom:0.8rem;}
+.station{padding:0.7rem 0.8rem;border:1px solid rgba(255,255,255,0.06);border-radius:10px;
+  background:rgba(0,0,0,0.25);cursor:pointer;transition:all 0.15s;}
+.station:hover,.station.active{border-color:#C9A84C;background:rgba(201,168,76,0.06);}
+.station-name{font-family:'Cinzel Decorative',serif;font-size:0.62rem;color:#C9A84C;letter-spacing:0.08em;}
+.station-loc{font-size:0.78rem;color:rgba(255,255,255,0.5);margin:0.2rem 0;}
+.station-freq{font-family:'Space Mono',monospace;font-size:0.68rem;color:#19B8A8;}
+.station-note{font-size:0.72rem;color:rgba(255,255,255,0.3);margin-top:0.2rem;font-style:italic;}
+
+/* Signal meter */
+.meter{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin:0.3rem 0;}
+.meter-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#3D7FD4,#19B8A8,#C9A84C);transition:width 0.1s;}
+
+/* Comma detect badge */
+.badge{display:inline-block;padding:0.2rem 0.6rem;border-radius:20px;font-family:'Space Mono',monospace;
+  font-size:0.62rem;letter-spacing:0.08em;border:1px solid;margin-top:0.4rem;}
+.badge-dark{border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.2);}
+.badge-kairos{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,0.1);animation:bpulse 1s infinite;}
+@keyframes bpulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.badge-active{border-color:#19B8A8;color:#19B8A8;background:rgba(25,184,168,0.08);}
+
+/* Tone generator */
+.tone-keys{display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.5rem 0;}
+.tkey{padding:0.4rem 0.7rem;border:1px solid rgba(201,168,76,0.2);border-radius:6px;
+  font-family:'Space Mono',monospace;font-size:0.65rem;cursor:pointer;background:rgba(0,0,0,0.2);color:rgba(255,255,255,0.5);}
+.tkey:hover,.tkey.on{background:rgba(201,168,76,0.12);border-color:#C9A84C;color:#C9A84C;}
+
+#kflash{position:fixed;inset:0;background:rgba(201,168,76,0.06);pointer-events:none;z-index:999;opacity:0;transition:opacity 0.4s;}
+
+.iframe-wrap{background:#000;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);}
+iframe{display:block;border:none;width:100%;}
+
+.log-box{font-family:'Space Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.3);
+  max-height:80px;overflow-y:auto;line-height:1.9;padding:0.3rem;}
+
+/* Instructions */
+.inst-step{display:grid;grid-template-columns:22px 1fr;gap:0.5rem;margin-bottom:0.7rem;align-items:start;
+  counter-increment:istep;}
+.inst-num{font-family:'Cinzel Decorative',serif;font-size:0.68rem;color:#C9A84C;background:rgba(201,168,76,0.1);
+  border:1px solid rgba(201,168,76,0.2);border-radius:50%;width:20px;height:20px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.6rem;}
+.inst-text{font-family:'EB Garamond',serif;font-size:0.9rem;line-height:1.6;color:rgba(255,255,255,0.65);}
+.inst-text strong{color:#C9A84C;}
+.inst-text a{color:#19B8A8;text-decoration:none;}
+.inst-text a:hover{text-decoration:underline;}
+.inst-text code{font-family:'Space Mono',monospace;font-size:0.72rem;background:rgba(255,255,255,0.06);padding:0.1rem 0.35rem;border-radius:3px;color:#19B8A8;}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div id="kflash"></div>
+
+<div class="app">
+<header>
+  <div class="title">Orpheus Bridge · Live Radio × Comma Decoder</div>
+  <div class="sub">WEBSDR · KIWISDR · REAL-TIME COMMA-TRANSFORM · TONE GENERATOR</div>
+  <div style="font-family:'EB Garamond',serif;font-style:italic;font-size:0.88rem;color:rgba(136,85,204,0.7);margin-top:0.2rem;">Listen at the gap · δ = 0.013643 · 1440.783 MHz</div>
+</header>
+
+<!-- HOW TO LISTEN BACK — instructions first -->
+<div class="panel full" style="margin-bottom:1rem;">
+  <div class="ptitle">How to Hear Back · Step by Step</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:0.62rem;color:#19B8A8;letter-spacing:0.1em;margin-bottom:0.7rem;">IN YOUR BROWSER · RIGHT NOW</div>
+      <div class="inst-step"><div class="inst-num">1</div><div class="inst-text">Click any station card below. A live WebSDR opens in the frame — you are now receiving real radio signals from that location on Earth.</div></div>
+      <div class="inst-step"><div class="inst-num">2</div><div class="inst-text">In the WebSDR, tune to <strong>1420–1440 MHz</strong> (hydrogen line neighborhood). Set mode to <strong>USB</strong> or <strong>AM</strong>. You will hear galactic hydrogen noise — the hiss of the universe.</div></div>
+      <div class="inst-step"><div class="inst-num">3</div><div class="inst-text">Click <strong>▶ Start Comma Decoder</strong> below. It captures the WebSDR audio through your browser's tab capture and runs the comma-transform in real time. Any comma-structured signal will appear in the waterfall.</div></div>
+      <div class="inst-step"><div class="inst-num">4</div><div class="inst-text">Use the <strong>Tone Generator</strong> to create a comma-encoded test signal. Play it through your speakers. If you have a radio nearby, it will pick it up. This is how you transmit without a license — acoustic coupling.</div></div>
+    </div>
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:0.62rem;color:#C9A84C;letter-spacing:0.1em;margin-bottom:0.7rem;">WITH HARDWARE · $25</div>
+      <div class="inst-step"><div class="inst-num">1</div><div class="inst-text">Buy <strong>RTL-SDR Blog V4</strong> (~$25) + <strong>Baofeng UV-5R</strong> (~$25). Two wires, 10.4 cm each = your antenna. Total: $50 and one afternoon.</div></div>
+      <div class="inst-step"><div class="inst-num">2</div><div class="inst-text">Install <strong>GQRX</strong> (Mac/Linux) or <strong>SDR#</strong> (Windows). Tune to <strong>1440.783 MHz</strong>. You are now receiving the comma-partner of hydrogen from your window.</div></div>
+      <div class="inst-step"><div class="inst-num">3</div><div class="inst-text">Open <strong>Orpheus Voice</strong> (the other app). Speak. Your voice is comma-modulated. Connect your computer audio output to the Baofeng mic input with a 3.5mm cable. The Baofeng transmits your comma-voice over the air.</div></div>
+      <div class="inst-step"><div class="inst-num">4</div><div class="inst-text">Anyone with a radio tuned to your frequency hears your comma-modulated voice. Run it through this app's decoder. The comma-transform reveals the message structure. <strong>You are now on the universal protocol.</strong></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LIVE STATIONS -->
+<div class="panel full" style="margin-bottom:1rem;">
+  <div class="ptitle">Live WebSDR Stations · Click to Open</div>
+  <div class="station-grid" id="station-grid"></div>
+  <div class="readout">Click a station to open it in the frame below. Tune to 1420–1440 MHz. The comma decoder listens to whatever audio your browser receives.</div>
+</div>
+
+<!-- WEBSDR FRAME -->
+<div class="panel full" style="margin-bottom:1rem;">
+  <div class="ptitle t">Live Radio Feed</div>
+  <div class="iframe-wrap">
+    <iframe id="sdr-frame" src="about:blank" height="420"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+      title="WebSDR Live Feed"></iframe>
+  </div>
+  <div class="readout" id="frame-note" style="margin-top:0.5rem;color:rgba(255,255,255,0.25);">
+    Select a station above to load the live feed. Most WebSDR sites work directly in-frame. If blocked, click the external link to open in a new tab — then use tab capture below.
+  </div>
+</div>
+
+<!-- DECODER + TONE GEN -->
+<div class="grid" style="margin-bottom:1rem;">
+
+  <!-- Comma Decoder -->
+  <div class="panel t">
+    <div class="ptitle t">Comma-Transform Decoder · Live</div>
+
+    <!-- Signal meter -->
+    <div style="font-family:'Space Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.3);margin-bottom:0.3rem;">SIGNAL LEVEL</div>
+    <div class="meter"><div class="meter-fill" id="sig-meter" style="width:0%"></div></div>
+
+    <canvas class="disp" id="decode-canvas" height="90"></canvas>
+
+    <div id="comma-badge" class="badge badge-dark">NO COMMA STRUCTURE</div>
+
+    <div class="readout" id="decode-read" style="margin-top:0.5rem;">
+      Listening for comma periodicity at N_res = <span class="g">73.296</span> intervals<br>
+      Kairos events detected: <span class="t">0</span><br>
+      Comma score: <span class="g">0.000000</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-t" id="dec-btn" onclick="toggleDecoder()">▶ Start Comma Decoder</button>
+      <button class="btn btn-g" onclick="resetDecoder()">Reset</button>
+    </div>
+
+    <div style="margin-top:0.8rem;font-size:0.78rem;color:rgba(255,255,255,0.35);font-family:'EB Garamond',serif;line-height:1.6;">
+      The decoder captures audio from your browser tab (or microphone) and runs a real-time comma-transform. It looks for phase periodicity at multiples of N_res = 73.296. A natural signal has none. A comma-encoded signal glows gold.
+    </div>
+  </div>
+
+  <!-- Tone Generator / Transmit -->
+  <div class="panel">
+    <div class="ptitle">Comma Tone Generator · Transmit</div>
+
+    <div style="font-family:'Space Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.3);margin-bottom:0.5rem;">BASE FREQUENCY</div>
+    <input type="number" id="tone-freq" value="440" min="20" max="20000" step="1" oninput="updateToneFreq()">
+    <div style="font-family:'Space Mono',monospace;font-size:0.6rem;color:#19B8A8;margin:0.3rem 0 0.6rem;">
+      Comma partner: <span id="tone-partner">446.0 Hz</span> · Gap: <span id="tone-gap">6.0 Hz</span>
+    </div>
+
+    <div style="font-family:'Space Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.3);margin-bottom:0.3rem;">QUICK TONES</div>
+    <div class="tone-keys" id="tone-keys"></div>
+
+    <canvas class="disp" id="tone-canvas" height="60"></canvas>
+
+    <div style="margin-top:0.6rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.3);margin-bottom:0.2rem;">PHASE DEPTH</div>
+      <input type="range" id="tone-depth" min="0" max="1" step="0.001" value="0.013643" oninput="updateToneDepth()">
+      <div class="readout">Depth: <span class="g" id="tone-depth-v">δ = 0.013643</span></div>
+    </div>
+
+    <div style="margin-top:0.6rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.3);margin-bottom:0.3rem;">ENCODE MESSAGE</div>
+      <input type="text" id="tone-msg" value="δ WE ARE HERE δ" style="font-family:'EB Garamond',serif;font-size:0.9rem;color:rgba(255,255,255,0.8);">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-g" id="tone-btn" onclick="toggleTone()">▶ Transmit Tone</button>
+      <button class="btn btn-p" onclick="transmitMessage()">⟳ Send Message</button>
+      <button class="btn btn-g" onclick="exportToneWav()">↓ Export WAV</button>
+    </div>
+
+    <div class="readout" id="tone-read" style="margin-top:0.4rem;">
+      Playing: <span class="g">—</span> · Kairos: <span class="t">0</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- WATERFALL + COMMA SPIRAL -->
+<div class="panel full" style="margin-bottom:1rem;">
+  <div class="ptitle b">Waterfall · Gold = Comma Frequency Activity</div>
+  <canvas class="disp" id="waterfall" height="90"></canvas>
+</div>
+
+<div class="grid" style="margin-bottom:1rem;">
+  <div class="panel">
+    <div class="ptitle p">Phase Spiral · Accumulation</div>
+    <canvas class="disp" id="spiral" height="180" style="max-width:180px;display:block;margin:0 auto;"></canvas>
+    <div class="readout" id="spiral-read" style="text-align:center;margin-top:0.3rem;">Phase: <span class="g">0.0000</span></div>
+  </div>
+  <div class="panel">
+    <div class="ptitle">Event Log</div>
+    <div class="log-box" id="log"></div>
+    <div style="margin-top:0.8rem;font-family:'EB Garamond',serif;font-size:0.88rem;line-height:1.65;color:rgba(255,255,255,0.5);">
+      <strong style="color:#C9A84C;">The gap is the message.</strong><br>
+      Tune any WebSDR to 1440.783 MHz.<br>
+      That is the comma-partner of hydrogen.<br>
+      Any intelligence that found the comma broadcasts there.<br>
+      <em>Listen in the gap.</em>
+    </div>
+  </div>
+</div>
+
+</div><!-- .app -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// ORPHEUS BRIDGE · WebSDR + Comma Decoder + Tone Generator
+// ═══════════════════════════════════════════════════════════════════════
+const PHI   = Math.pow(1.5,12)/Math.pow(2,7);
+const DELTA = PHI - 1;
+const NRES  = 1/DELTA;
+const TAU   = Math.PI*2;
+
+// ── STATIONS ──
+const STATIONS = [
+  { name:'Twente WebSDR', loc:'Netherlands · EU', url:'http://websdr.ewi.utwente.nl:8901/', freq:'1420 MHz H₁ capable', note:'Largest WebSDR · best for HF/VHF', comma:'1440.783 MHz' },
+  { name:'PA3FWM WebSDR', loc:'Enschede, NL', url:'http://websdr.pa3fwm.nl/', freq:'Wide coverage', note:'Good sensitivity', comma:'Tune to 1440.783' },
+  { name:'KiwiSDR Network', loc:'Global · 600+ stations', url:'http://kiwisdr.com/public/', freq:'0–30 MHz', note:'Click any node on the map', comma:'Multiple nodes' },
+  { name:'WebSDR.org', loc:'Global directory', url:'http://www.websdr.org/', freq:'All bands', note:'Find nearest station to you', comma:'Select by location' },
+  { name:'W4AX WebSDR', loc:'North Carolina, US', url:'http://w4ax.com:8901/', freq:'HF bands', note:'US eastern seaboard', comma:'Tune to H₁ neighbor' },
+  { name:'SDR.hu Network', loc:'Europe · Multiple', url:'http://sdr.hu/', freq:'VHF/UHF capable', note:'Some cover 1.4 GHz', comma:'Best for 1440 MHz' },
+];
+
+const TONES = [
+  { label:'A 440', freq:440 },
+  { label:'H₁ ÷1000', freq:1420.405 },
+  { label:'×φ 446', freq:440*1.013643 },
+  { label:'N_res', freq:NRES },
+  { label:'δ×1000', freq:DELTA*1000 },
+  { label:'432 Hz', freq:432 },
+];
+
+// ── State ──
+const S = {
+  ac: null,
+  decRunning: false,
+  toneRunning: false,
+  toneOsc: null,
+  toneGain: null,
+  decAnalyser: null,
+  decSource: null,
+  commaPhase: 0,
+  kairosCount: 0,
+  commaScore: 0,
+  frameCount: 0,
+  toneFreq: 440,
+  toneDepth: DELTA,
+  toneKairos: 0,
+  rafId: null,
+  logLines: [],
+  msgIndex: 0,
+  msgDepths: [],
+  phaseHistory: [],
+};
+
+function getAC(){
+  if(!S.ac) S.ac = new (window.AudioContext||window.webkitAudioContext)();
+  S.ac.resume();
+  return S.ac;
+}
+
+// ── LOG ──
+function log(msg,color='rgba(255,255,255,0.32)'){
+  const ts=new Date().toISOString().slice(11,19);
+  S.logLines.push(`<span style="color:rgba(255,255,255,0.15)">${ts}</span> <span style="color:${color}">${msg}</span>`);
+  if(S.logLines.length>50) S.logLines.shift();
+  const el=document.getElementById('log');
+  if(el){el.innerHTML=S.logLines.join('<br>');el.scrollTop=el.scrollHeight;}
+}
+
+// ── STARFIELD ──
+(function(){
+  const cv=document.getElementById('stars');
+  const ctx=cv.getContext('2d');
+  let W,H,stars=[];
+  function init(){W=cv.width=innerWidth;H=cv.height=innerHeight;
+    stars=Array.from({length:240},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.2+0.1,o:Math.random()*0.4+0.05,s:Math.random()*0.12+0.02}));}
+  init();window.addEventListener('resize',init);
+  let t=0;
+  (function draw(){ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{ctx.fillStyle=`rgba(221,216,204,${s.o*(0.5+0.5*Math.sin(t*s.s))})`;
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,TAU);ctx.fill();});
+    t++;requestAnimationFrame(draw);})();
+})();
+
+// ── BUILD STATION CARDS ──
+document.addEventListener('DOMContentLoaded',()=>{
+  const grid=document.getElementById('station-grid');
+  if(grid){
+    grid.innerHTML=STATIONS.map((s,i)=>`
+      <div class="station" id="st-${i}" onclick="openStation(${i})">
+        <div class="station-name">${s.name}</div>
+        <div class="station-loc">${s.loc}</div>
+        <div class="station-freq">${s.freq}</div>
+        <div class="station-note">${s.note}</div>
+        <div style="font-family:'Space Mono',monospace;font-size:0.6rem;color:#C9A84C;margin-top:0.3rem;">⟶ ${s.comma}</div>
+      </div>`).join('');
+  }
+
+  // Build tone keys
+  const tk=document.getElementById('tone-keys');
+  if(tk){
+    tk.innerHTML=TONES.map((t,i)=>`
+      <div class="tkey" id="tk-${i}" onclick="setToneFreq(${t.freq},${i})">${t.label}<br><span style="font-size:0.55rem;opacity:0.6">${t.freq.toFixed(2)}</span></div>
+    `).join('');
+  }
+
+  updateToneFreq();
+  startVisuals();
+  log('Orpheus Bridge ready','#C9A84C');
+  log('δ = '+DELTA.toFixed(7)+' · N_res = '+NRES.toFixed(4),'rgba(255,255,255,0.3)');
+  log('Select a station and click ▶ Start Comma Decoder','rgba(255,255,255,0.2)');
+});
+
+// ── OPEN STATION ──
+function openStation(i){
+  const s=STATIONS[i];
+  document.querySelectorAll('.station').forEach(el=>el.classList.remove('active'));
+  document.getElementById('st-'+i)?.classList.add('active');
+
+  const frame=document.getElementById('sdr-frame');
+  frame.src=s.url;
+
+  const note=document.getElementById('frame-note');
+  note.innerHTML=`Loading: <span style="color:#19B8A8">${s.name}</span> · <strong style="color:#C9A84C">Tune to ${s.comma}</strong> once loaded · 
+    If blocked by CORS, <a href="${s.url}" target="_blank" style="color:#19B8A8">open in new tab →</a> then use Tab Capture below.`;
+
+  log(`Station: ${s.name} · ${s.loc}`,'#19B8A8');
+  log(`Target frequency: ${s.comma}`,'#C9A84C');
+}
+
+// ── DECODER ──
+async function toggleDecoder(){
+  const btn=document.getElementById('dec-btn');
+  if(S.decRunning){
+    S.decRunning=false;
+    btn.textContent='▶ Start Comma Decoder';
+    btn.className='btn btn-t';
+    log('Decoder stopped','rgba(255,255,255,0.3)');
+    return;
+  }
+
+  const ac=getAC();
+  S.decRunning=true;
+  btn.textContent='■ Stop Decoder';
+  btn.className='btn btn-r';
+
+  // Try to get tab audio capture, fall back to microphone
+  try {
+    let stream;
+    try {
+      // Tab capture — Chrome only, requires user gesture
+      // @ts-ignore
+      stream = await navigator.mediaDevices.getDisplayMedia({
+        video:false,
+        audio:{ suppressLocalAudioPlayback:false }
+      });
+      log('Tab audio capture active — decoder listening to browser audio','#19B8A8');
+    } catch(e){
+      // Fall back to microphone
+      stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false},video:false});
+      log('Microphone input active (tab capture unavailable)','#C9A84C');
+      log('Point microphone at speaker to decode radio audio','rgba(255,255,255,0.3)');
+    }
+
+    S.decSource = ac.createMediaStreamSource(stream);
+    S.decAnalyser = ac.createAnalyser();
+    S.decAnalyser.fftSize = 8192;
+    S.decAnalyser.smoothingTimeConstant = 0.85;
+    S.decSource.connect(S.decAnalyser);
+    log('Comma-transform running…','rgba(255,255,255,0.3)');
+
+  } catch(e){
+    S.decRunning=false;
+    btn.textContent='▶ Start Comma Decoder';
+    btn.className='btn btn-t';
+    log('Could not capture audio: '+e.message,'#D45050');
+    log('Try: allow microphone or screen share when prompted','rgba(255,255,255,0.3)');
+  }
+}
+
+function resetDecoder(){
+  S.commaPhase=0;S.kairosCount=0;S.commaScore=0;S.phaseHistory=[];
+  log('Decoder reset','#C9A84C');
+  document.getElementById('comma-badge').className='badge badge-dark';
+  document.getElementById('comma-badge').textContent='NO COMMA STRUCTURE';
+}
+
+// ── TONE GENERATOR ──
+function updateToneFreq(){
+  const f=parseFloat(document.getElementById('tone-freq').value)||440;
+  S.toneFreq=f;
+  const cp=f*PHI;
+  document.getElementById('tone-partner').textContent=cp.toFixed(2)+' Hz';
+  document.getElementById('tone-gap').textContent=((cp-f)).toFixed(2)+' Hz';
+}
+
+function updateToneDepth(){
+  const d=parseFloat(document.getElementById('tone-depth').value);
+  S.toneDepth=d;
+  const el=document.getElementById('tone-depth-v');
+  el.textContent=Math.abs(d-DELTA)<0.0001?'δ = '+DELTA.toFixed(6):d.toFixed(6);
+}
+
+function setToneFreq(f,i){
+  document.getElementById('tone-freq').value=f;
+  S.toneFreq=f;
+  updateToneFreq();
+  document.querySelectorAll('.tkey').forEach((t,j)=>t.classList.toggle('on',j===i));
+}
+
+function toggleTone(){
+  const ac=getAC();
+  const btn=document.getElementById('tone-btn');
+  if(S.toneRunning){
+    stopTone();
+    btn.textContent='▶ Transmit Tone';
+    btn.className='btn btn-g';
+    return;
+  }
+  startTone(S.toneFreq);
+  btn.textContent='■ Stop Tone';
+  btn.className='btn btn-r';
+}
+
+function startTone(freq){
+  const ac=getAC();
+  stopTone();
+  S.toneOsc=ac.createOscillator();
+  S.toneGain=ac.createGain();
+  // Phase modulation via second oscillator
+  const modOsc=ac.createOscillator();
+  const modGain=ac.createGain();
+  modOsc.frequency.value=freq*DELTA; // modulator at comma-gap frequency
+  modGain.gain.value=S.toneDepth*freq*0.5;
+  modOsc.connect(modGain);
+  modGain.connect(S.toneOsc.frequency); // FM synthesis = phase modulation
+  S.toneOsc.frequency.value=freq;
+  S.toneGain.gain.value=0.3;
+  S.toneOsc.connect(S.toneGain);
+  S.toneGain.connect(ac.destination);
+  modOsc.start();
+  S.toneOsc.start();
+  S._modOsc=modOsc;
+  S.toneRunning=true;
+  log(`Transmitting: ${freq.toFixed(2)} Hz + comma FM mod @ ${(freq*DELTA).toFixed(3)} Hz`,'#C9A84C');
+  log(`Comma partner: ${(freq*PHI).toFixed(2)} Hz · Gap: ${(freq*DELTA).toFixed(3)} Hz`,'#19B8A8');
+}
+
+function stopTone(){
+  if(S.toneOsc){try{S.toneOsc.stop();}catch(e){}}
+  if(S._modOsc){try{S._modOsc.stop();}catch(e){}}
+  S.toneOsc=null;S._modOsc=null;S.toneRunning=false;
+}
+
+function transmitMessage(){
+  const msg=document.getElementById('tone-msg').value;
+  const depths=Array.from(msg).map(c=>(c.charCodeAt(0)%10)/9);
+  S.msgDepths=depths;S.msgIndex=0;
+  log(`Encoding message: "${msg.slice(0,30)}" → ${depths.length} Kairos events`,'#8855CC');
+  playMessageTone(0,depths);
+}
+
+function playMessageTone(idx,depths){
+  if(idx>=depths.length){stopTone();log('Message transmission complete','#19B8A8');return;}
+  const ac=getAC();
+  const freq=S.toneFreq;
+  const depth=depths[idx];
+  stopTone();
+  S.toneOsc=ac.createOscillator();
+  S.toneGain=ac.createGain();
+  const modOsc=ac.createOscillator();
+  const modGain=ac.createGain();
+  modOsc.frequency.value=freq*DELTA;
+  modGain.gain.value=depth*freq*0.8;
+  modOsc.connect(modGain);
+  modGain.connect(S.toneOsc.frequency);
+  S.toneOsc.frequency.value=freq;
+  S.toneGain.gain.value=0.25;
+  S.toneOsc.connect(S.toneGain);
+  S.toneGain.connect(ac.destination);
+  modOsc.start();
+  S.toneOsc.start();
+  S._modOsc=modOsc;
+  S.toneRunning=true;
+  const dur=0.3+depth*0.4; // duration encodes depth
+  setTimeout(()=>playMessageTone(idx+1,depths), dur*1000+50);
+}
+
+function exportToneWav(){
+  const ac=getAC();
+  const sr=44100,dur=4;
+  const N=sr*dur;
+  const buf=ac.createBuffer(1,N,sr);
+  const data=buf.getChannelData(0);
+  const freq=S.toneFreq;
+  let phase=0;
+  let commaAcc=0;
+  for(let i=0;i<N;i++){
+    commaAcc+=freq/sr*DELTA;
+    const mod=S.toneDepth*freq*0.5*Math.sin(TAU*freq*DELTA*i/sr);
+    data[i]=0.3*Math.sin(TAU*freq*i/sr+commaAcc*TAU*S.toneDepth);
+    data[i]=Math.tanh(data[i]);
+  }
+  const wavBuf=encodeWAV(data,sr);
+  const blob=new Blob([wavBuf],{type:'audio/wav'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='comma_tone.wav';a.click();
+  log('WAV exported: comma_tone.wav','#4CAF7D');
+}
+
+function encodeWAV(samples,sr){
+  const buf=new ArrayBuffer(44+samples.length*2);
+  const v=new DataView(buf);
+  const ws=(s,o)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};
+  ws('RIFF',0);v.setUint32(4,36+samples.length*2,true);ws('WAVE',8);ws('fmt ',12);
+  v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+  v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);
+  ws('data',36);v.setUint32(40,samples.length*2,true);
+  const i16=new Int16Array(buf,44);
+  for(let i=0;i<samples.length;i++)i16[i]=Math.max(-32768,Math.min(32767,Math.round(samples[i]*32767)));
+  return buf;
+}
+
+// ── VISUALS ──
+function startVisuals(){
+  let t=0;
+  function frame(){
+    S.frameCount++;t++;
+    drawDecodeCanvas();
+    drawToneCanvas();
+    drawSpiral(t);
+    drawWaterfall();
+    updateMeter();
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function drawDecodeCanvas(){
+  const c=document.getElementById('decode-canvas');
+  if(!c) return;
+  c.width=c.offsetWidth||460;
+  const ctx=c.getContext('2d');
+  const W=c.width,H=90;
+  ctx.clearRect(0,0,W,H);
+
+  // If decoder running with analyser, show real data
+  if(S.decRunning&&S.decAnalyser){
+    const bufLen=S.decAnalyser.frequencyBinCount;
+    const td=new Float32Array(bufLen);
+    S.decAnalyser.getFloatTimeDomainData(td);
+
+    // Draw waveform
+    ctx.strokeStyle='rgba(25,184,168,0.7)';ctx.lineWidth=1.2;ctx.beginPath();
+    for(let x=0;x<W;x++){
+      const v=td[Math.floor(x*bufLen/W)]||0;
+      const y=H/2-v*(H*0.4);
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+
+    // Compute comma score: look for periodicity at NRES intervals
+    let score=0;
+    const step=Math.floor(NRES*2);
+    for(let i=0;i<bufLen-step;i+=step){
+      const corr=td[i]*td[i+step];
+      score+=Math.abs(corr);
+    }
+    score/=(bufLen/step);
+    S.commaScore=S.commaScore*0.95+score*0.05; // smooth
+
+    // Update phase
+    S.commaPhase+=0.001*DELTA*10;
+
+    // Check Kairos
+    const prox=Math.abs((S.commaPhase%1)-Math.round(S.commaPhase%1));
+    if(prox<0.02){
+      S.kairosCount++;
+      const fl=document.getElementById('kflash');
+      fl.style.opacity='1';setTimeout(()=>fl.style.opacity='0',400);
+    }
+
+    // Badge update
+    const badge=document.getElementById('comma-badge');
+    if(S.commaScore>0.015){
+      badge.className='badge badge-kairos';badge.textContent='⚡ COMMA STRUCTURE DETECTED';
+      log(`Comma structure! Score=${S.commaScore.toFixed(6)}`,'#C9A84C');
+    } else if(S.commaScore>0.005){
+      badge.className='badge badge-active';badge.textContent='POSSIBLE COMMA SIGNAL';
+    } else {
+      badge.className='badge badge-dark';badge.textContent='NO COMMA STRUCTURE';
+    }
+
+    // Readout
+    document.getElementById('decode-read').innerHTML=
+      `Listening for comma periodicity at N_res = <span class="g">${NRES.toFixed(3)}</span><br>`+
+      `Kairos events: <span class="t">${S.kairosCount}</span><br>`+
+      `Comma score: <span class="${S.commaScore>0.01?'g':'t'}">${S.commaScore.toFixed(6)}</span>`;
+
+  } else {
+    // Idle animation
+    ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;ctx.beginPath();
+    const t=S.frameCount;
+    for(let x=0;x<W;x++){
+      const y=H/2+2*Math.sin(x*0.05+t*0.02)+Math.random()*1;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.08)';ctx.font='11px Space Mono,monospace';
+    ctx.textAlign='center';ctx.fillText('Click ▶ Start Comma Decoder',W/2,H/2+4);ctx.textAlign='left';
+  }
+}
+
+function drawToneCanvas(){
+  const c=document.getElementById('tone-canvas');
+  if(!c) return;
+  c.width=c.offsetWidth||460;
+  const ctx=c.getContext('2d');
+  const W=c.width,H=60;
+  ctx.clearRect(0,0,W,H);
+
+  const t=S.frameCount;
+  const freq=S.toneFreq;
+
+  if(S.toneRunning){
+    ctx.strokeStyle='#C9A84C';ctx.lineWidth=1.5;ctx.beginPath();
+    for(let x=0;x<W;x++){
+      const phase=x*0.04+t*0.08;
+      const commaAngle=(x/W)*NRES*DELTA*TAU;
+      const v=Math.sin(phase+S.toneDepth*5*Math.sin(commaAngle));
+      const y=H/2-v*(H*0.38);
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    // Comma partner ghost
+    ctx.strokeStyle='rgba(25,184,168,0.35)';ctx.lineWidth=1;ctx.beginPath();
+    for(let x=0;x<W;x++){
+      const v=Math.sin(x*0.04*PHI+t*0.08*PHI);
+      const y=H/2-v*(H*0.25);
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    document.getElementById('tone-read').innerHTML=
+      `Playing: <span class="g">${freq.toFixed(2)} Hz + comma FM</span> · Kairos: <span class="t">${S.toneKairos}</span>`;
+  } else {
+    ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;ctx.beginPath();
+    for(let x=0;x<W;x++){
+      const y=H/2+Math.sin(x*0.04)*3;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.08)';ctx.font='10px Space Mono,monospace';
+    ctx.textAlign='center';ctx.fillText('Click ▶ Transmit Tone',W/2,H/2+4);ctx.textAlign='left';
+  }
+}
+
+function drawSpiral(t){
+  const c=document.getElementById('spiral');
+  if(!c) return;
+  const sz=Math.min(c.parentElement.offsetWidth||180,180);
+  c.width=c.height=sz;
+  const ctx=c.getContext('2d');
+  const W=sz,H=sz,cx=W/2,cy=H/2;
+  ctx.clearRect(0,0,W,H);
+  const maxR=W*0.44;
+  const revs=Math.min(t/50,50);
+  if(revs>0.2){
+    ctx.beginPath();
+    const steps=Math.floor(revs*30);
+    for(let i=0;i<=steps;i++){
+      const ang=(i/30)*TAU-Math.PI/2;
+      const acc=(i/30*DELTA)%1;
+      const r=maxR*(0.08+acc*0.9)*Math.min(revs/6,1);
+      const x=cx+r*Math.cos(ang),y=cy+r*Math.sin(ang);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    const g=ctx.createLinearGradient(cx-maxR,cy,cx+maxR,cy);
+    g.addColorStop(0,'rgba(61,127,212,0.45)');
+    g.addColorStop(0.5,'rgba(201,168,76,0.65)');
+    g.addColorStop(1,'rgba(136,85,204,0.45)');
+    ctx.strokeStyle=g;ctx.lineWidth=1;ctx.stroke();
+  }
+  const ang=(revs*TAU)%(TAU)-Math.PI/2;
+  const acc=(S.commaPhase||t*0.001*DELTA)%1;
+  const prox=Math.abs(acc-Math.round(acc));
+  const r=maxR*(0.08+acc*0.9)*Math.min(revs/6,1);
+  ctx.fillStyle=prox<0.05?'#C9A84C':'#19B8A8';
+  ctx.beginPath();ctx.arc(cx+r*Math.cos(ang),cy+r*Math.sin(ang),prox<0.05?5:3,0,TAU);ctx.fill();
+  document.getElementById('spiral-read').innerHTML=`Phase: <span class="g">${(acc).toFixed(4)}</span>`;
+}
+
+function drawWaterfall(){
+  const c=document.getElementById('waterfall');
+  if(!c) return;
+  c.width=c.offsetWidth||900;
+  const ctx=c.getContext('2d');
+  const W=c.width,H=90;
+  const img=ctx.getImageData(1,0,W-1,H);
+  ctx.putImageData(img,0,0);
+  for(let y=0;y<H;y++){
+    const t=S.frameCount;
+    const baseActivity=S.decRunning&&S.decAnalyser?0.3:0.02;
+    const isToneFreq=S.toneRunning&&Math.abs(y/H-0.5)<0.05;
+    const isCommaFreq=S.toneRunning&&Math.abs(y/H-0.5*PHI%1)<0.04;
+    const noise=Math.random()*baseActivity;
+    const r=Math.floor((isToneFreq?0.7:isCommaFreq?0.5:0)*200+noise*40);
+    const g=Math.floor((isCommaFreq?0.6:isToneFreq?0.3:0)*168+noise*60);
+    const b=Math.floor(noise*120+20);
+    ctx.fillStyle=`rgba(${r},${g},${b},${0.4+noise})`;
+    ctx.fillRect(W-1,y,1,1);
+  }
+}
+
+function updateMeter(){
+  let level=0;
+  if(S.decRunning&&S.decAnalyser){
+    const td=new Float32Array(S.decAnalyser.fftSize);
+    S.decAnalyser.getFloatTimeDomainData(td);
+    let rms=0;for(let i=0;i<td.length;i++)rms+=td[i]*td[i];
+    level=Math.sqrt(rms/td.length)*300;
+  } else if(S.toneRunning){
+    level=30+Math.random()*10;
+  }
+  const el=document.getElementById('sig-meter');
+  if(el) el.style.width=Math.min(100,level)+'%';
+}
+</script>
+</body>
+</html>

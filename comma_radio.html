@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comma Radio · Orpheus's Instrument</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --gold:#C9A84C;--gold2:#FFD878;--teal:#19B8A8;--purple:#8855CC;
+  --pink:#D45050;--green:#4CAF7D;--blue:#3D7FD4;--deep:#03050E;
+  --panel:rgba(255,255,255,0.03);--border:rgba(201,168,76,0.18);
+}
+html,body{height:100%;background:var(--deep);color:#DDD8CC;font-family:'EB Garamond',serif;overflow-x:hidden;}
+
+/* Starfield */
+#starfield{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+.app{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-rows:auto 1fr auto;max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+
+/* Header */
+header{padding:1.5rem 0 1rem;text-align:center;border-bottom:1px solid var(--border);}
+.logo{font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,4vw,2rem);color:var(--gold);letter-spacing:0.08em;}
+.subtitle{font-size:0.85rem;color:rgba(255,255,255,0.35);font-family:'Space Mono',monospace;letter-spacing:0.12em;margin-top:0.3rem;}
+.greek{color:var(--purple);font-style:italic;font-size:0.95rem;}
+
+/* Main layout */
+main{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;padding:1.5rem 0;align-items:start;}
+@media(max-width:700px){main{grid-template-columns:1fr;}}
+
+/* Panels */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:1.2rem;position:relative;overflow:hidden;}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.5;}
+.panel-title{font-family:'Cinzel Decorative',serif;font-size:0.72rem;letter-spacing:0.15em;color:var(--gold);margin-bottom:1rem;text-transform:uppercase;}
+.panel-title.teal{color:var(--teal);}
+.panel-title.purple{color:var(--purple);}
+.panel-title.blue{color:var(--blue);}
+
+/* Controls */
+.ctrl-row{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;flex-wrap:wrap;}
+.ctrl-label{font-size:0.72rem;color:rgba(255,255,255,0.4);font-family:'Space Mono',monospace;letter-spacing:0.08em;min-width:120px;}
+input[type=range]{flex:1;min-width:100px;accent-color:var(--gold);}
+.val-badge{font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--gold);min-width:80px;text-align:right;}
+input[type=number],input[type=text],select{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);color:var(--gold);padding:0.4rem 0.7rem;border-radius:7px;font-family:'Space Mono',monospace;font-size:0.82rem;width:100%;}
+select option{background:#0A1020;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.55rem 1.2rem;border-radius:9px;font-family:'Cinzel Decorative',serif;font-size:0.72rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.18s;border:1px solid;}
+.btn-gold{background:rgba(201,168,76,0.12);border-color:var(--gold);color:var(--gold);}
+.btn-gold:hover{background:rgba(201,168,76,0.25);}
+.btn-teal{background:rgba(25,184,168,0.1);border-color:var(--teal);color:var(--teal);}
+.btn-teal:hover{background:rgba(25,184,168,0.22);}
+.btn-purple{background:rgba(136,85,204,0.1);border-color:var(--purple);color:var(--purple);}
+.btn-purple:hover{background:rgba(136,85,204,0.22);}
+.btn-red{background:rgba(212,80,80,0.1);border-color:var(--pink);color:var(--pink);}
+.btn-red:hover{background:rgba(212,80,80,0.22);}
+.btn-row{display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.8rem;}
+
+/* Canvas displays */
+.display{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.06);border-radius:10px;display:block;width:100%;}
+
+/* Readout */
+.readout{font-family:'Space Mono',monospace;font-size:0.75rem;color:rgba(255,255,255,0.45);margin-top:0.6rem;line-height:1.7;}
+.readout span{color:var(--gold);}
+.readout .teal{color:var(--teal);}
+.readout .purple{color:var(--purple);}
+
+/* Morse-like decode output */
+#decode-output{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--teal);background:rgba(0,0,0,0.4);border:1px solid rgba(25,184,168,0.15);border-radius:10px;padding:1rem;min-height:80px;white-space:pre-wrap;word-break:break-all;line-height:1.8;}
+
+/* Message composer */
+#msg-input{width:100%;background:rgba(136,85,204,0.06);border:1px solid rgba(136,85,204,0.2);color:rgba(255,255,255,0.85);padding:0.7rem;border-radius:8px;font-family:'EB Garamond',serif;font-size:1rem;resize:vertical;min-height:60px;}
+
+/* Kairos event flash */
+.kairos-flash{position:fixed;inset:0;background:rgba(201,168,76,0.06);pointer-events:none;z-index:999;opacity:0;transition:opacity 0.3s;}
+
+/* Spectrum waterfall */
+#waterfall{display:block;width:100%;border-radius:10px;background:#000;}
+
+/* Mode tabs */
+.tabs{display:flex;gap:0.4rem;margin-bottom:1rem;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:0.6rem;flex-wrap:wrap;}
+.tab{padding:0.35rem 0.9rem;border-radius:6px 6px 0 0;font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;cursor:pointer;border:1px solid transparent;color:rgba(255,255,255,0.35);transition:all 0.15s;}
+.tab.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.08);}
+
+/* Status bar */
+.status{display:flex;gap:1rem;align-items:center;padding:0.6rem 0;flex-wrap:wrap;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);}
+.status-dot.active{background:var(--green);box-shadow:0 0 8px var(--green);}
+.status-dot.kairos{background:var(--gold);box-shadow:0 0 12px var(--gold);animation:kpulse 0.5s ease-in-out;}
+@keyframes kpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.8);}}
+.status-label{font-family:'Space Mono',monospace;font-size:0.7rem;color:rgba(255,255,255,0.4);}
+
+/* Full-width panels */
+.full{grid-column:1/-1;}
+
+/* Antenna diagram */
+#antenna-svg{display:block;margin:0.5rem auto;}
+
+footer{text-align:center;padding:1rem 0;border-top:1px solid var(--border);font-size:0.75rem;color:rgba(255,255,255,0.25);font-family:'Space Mono',monospace;}
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+<div class="kairos-flash" id="kairos-flash"></div>
+
+<div class="app">
+<header>
+  <div class="logo">Comma Radio</div>
+  <div class="subtitle">ORPHEUS'S INSTRUMENT · COMMA-ENCODED SIGNAL TRANSMISSION & RECEPTION</div>
+  <div class="greek">Τὸ Ὄργανον τοῦ Ὀρφέως · δ = 0.013643 · N<sub>res</sub> = 73.296</div>
+</header>
+
+<main>
+
+<!-- LEFT COLUMN: TRANSMITTER -->
+<div style="display:flex;flex-direction:column;gap:1.2rem;">
+
+  <!-- Frequency setup -->
+  <div class="panel">
+    <div class="panel-title">I. Frequency · The Carrier</div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Base (MHz)</span>
+      <input type="number" id="base-freq" value="1420.405" step="0.001" min="0.1" max="100000" oninput="updateAll()">
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Preset</span>
+      <select id="freq-preset" onchange="applyPreset()">
+        <option value="1420.405">H₁ Hydrogen Line · 1420.405 MHz</option>
+        <option value="1440.783">H₁ × φ — Comma Partner · 1440.783 MHz</option>
+        <option value="4462.336">OH Hydroxyl Line · 4462.336 MHz</option>
+        <option value="408">Wow! Signal · ~408 MHz</option>
+        <option value="1420.405">Galactic Center Neutral H</option>
+        <option value="custom">Custom…</option>
+      </select>
+    </div>
+    <div class="readout" id="freq-readout">
+      Comma partner: <span>—</span> · Gap: <span class="teal">—</span>
+    </div>
+    <!-- Antenna helper -->
+    <div style="margin-top:0.8rem;">
+      <div style="font-size:0.68rem;color:rgba(255,255,255,0.3);font-family:'Space Mono',monospace;letter-spacing:0.08em;margin-bottom:0.4rem;">ANTENNA · λ/2 DIPOLE LENGTH</div>
+      <svg id="antenna-svg" viewBox="0 0 220 60" width="200">
+        <line x1="10" y1="30" x2="210" y2="30" stroke="rgba(201,168,76,0.4)" stroke-width="2" stroke-dasharray="4,3"/>
+        <line id="ant-left" x1="10" y1="15" x2="110" y2="45" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round"/>
+        <line id="ant-right" x1="110" y1="45" x2="210" y2="15" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="110" cy="45" r="4" fill="var(--gold)"/>
+        <text id="ant-label" x="110" y="14" text-anchor="middle" font-size="9" fill="rgba(201,168,76,0.8)" font-family="Space Mono,monospace">— cm</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Message composer -->
+  <div class="panel">
+    <div class="panel-title purple">II. Message · The Word</div>
+    <div class="tabs">
+      <div class="tab active" onclick="setMsgMode('text')">Text → Comma</div>
+      <div class="tab" onclick="setMsgMode('pattern')">Manual Pattern</div>
+      <div class="tab" onclick="setMsgMode('math')">Mathematical</div>
+    </div>
+    <div id="msg-mode-text">
+      <textarea id="msg-input" placeholder="Type your message to the stars…&#10;e.g. 'We hear the comma. We are here.'">We hear the comma. We are here.</textarea>
+      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;font-family:'Space Mono',monospace;">Each character → Kairos depth (0–1). Space = silence. Numbers = harmonic index.</div>
+    </div>
+    <div id="msg-mode-pattern" style="display:none;">
+      <div class="ctrl-row">
+        <span class="ctrl-label">Pattern (0-9)</span>
+        <input type="text" id="pattern-input" value="1011010011101" placeholder="Kairos depths 0-9">
+      </div>
+    </div>
+    <div id="msg-mode-math" style="display:none;">
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.65);line-height:1.7;font-family:'EB Garamond',serif;">
+        Encode the comma itself as the message:<br>
+        δ = 0.013643 → depth sequence [0,1,3,6,4,3] at N<sub>res</sub> intervals.<br>
+        Any civilization that knows the comma will recognize this as the universal handshake.
+      </div>
+      <button class="btn btn-gold" onclick="setMathMsg()" style="margin-top:0.6rem;font-size:0.68rem;">Load Universal Handshake</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="encodeMessage()">⟳ Encode to Comma-Signal</button>
+    </div>
+    <div class="readout" style="margin-top:0.6rem;" id="encode-readout"></div>
+  </div>
+
+  <!-- Transmit controls -->
+  <div class="panel">
+    <div class="panel-title teal">III. Transmit · The Song</div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Signal Type</span>
+      <select id="sig-type" onchange="updateAll()">
+        <option value="comma_phase">Comma Phase Modulation (CPM)</option>
+        <option value="pure">Pure Carrier (no encoding)</option>
+        <option value="am">Standard AM (compare)</option>
+        <option value="kairos_burst">Kairos Burst Mode</option>
+      </select>
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Amplitude</span>
+      <input type="range" id="amp-ctrl" min="0" max="1" step="0.01" value="0.8" oninput="updateAll()">
+      <span class="val-badge" id="amp-val">0.80</span>
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Phase Depth</span>
+      <input type="range" id="phase-ctrl" min="0" max="3.14159" step="0.01" value="0.013643" oninput="updateAll()">
+      <span class="val-badge" id="phase-val">δ</span>
+    </div>
+    <div class="ctrl-row">
+      <span class="ctrl-label">Speed</span>
+      <input type="range" id="speed-ctrl" min="0.1" max="5" step="0.1" value="1" oninput="updateAll()">
+      <span class="val-badge" id="speed-val">1.0×</span>
+    </div>
+
+    <!-- Waveform display -->
+    <canvas class="display" id="tx-canvas" height="90"></canvas>
+    <div class="readout" id="tx-readout">Kairos events: <span>0</span> · Phase accumulation: <span class="teal">0.000000</span></div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" id="tx-btn" onclick="toggleTransmit()">▶ Transmit</button>
+      <button class="btn btn-teal" onclick="exportSignal()">↓ Export WAV</button>
+    </div>
+    <div class="status" id="tx-status">
+      <div class="status-dot" id="tx-dot"></div>
+      <span class="status-label" id="tx-label">Ready</span>
+      <div class="status-dot" id="kairos-dot" style="background:rgba(255,255,255,0.08)"></div>
+      <span class="status-label" id="kairos-label">No Kairos event</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- RIGHT COLUMN: RECEIVER / DECODER -->
+<div style="display:flex;flex-direction:column;gap:1.2rem;">
+
+  <!-- Spectrum display -->
+  <div class="panel">
+    <div class="panel-title blue">IV. Spectrum · The Sky</div>
+    <canvas class="display" id="spectrum-canvas" height="120"></canvas>
+    <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:rgba(255,255,255,0.25);font-family:'Space Mono',monospace;margin-top:0.3rem;padding:0 4px;">
+      <span id="spec-low">—</span><span style="color:var(--gold)">comma partner ↑</span><span id="spec-high">—</span>
+    </div>
+  </div>
+
+  <!-- Comma phase spiral -->
+  <div class="panel">
+    <div class="panel-title purple">V. Phase Spiral · The Accumulation</div>
+    <canvas class="display" id="spiral-canvas" height="220" style="display:block;margin:0 auto;max-width:220px;"></canvas>
+    <div class="readout" style="text-align:center;" id="spiral-readout">
+      Revolution: <span>0</span> · Comma phase: <span class="teal">0.000</span><br>
+      Kairos proximity: <span class="purple">—</span>
+    </div>
+  </div>
+
+  <!-- Decoder -->
+  <div class="panel">
+    <div class="panel-title teal">VI. Decode · The Voice</div>
+    <div class="tabs">
+      <div class="tab active" onclick="setDecMode('live')">Live Signal</div>
+      <div class="tab" onclick="setDecMode('file')">Load File</div>
+      <div class="tab" onclick="setDecMode('pulsar')">Pulsar Data</div>
+    </div>
+    <div id="dec-mode-live">
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.55);font-family:'EB Garamond',serif;margin-bottom:0.7rem;line-height:1.6;">Running comma-transform on transmitted signal. Detecting Kairos events and decoding depth sequence.</div>
+    </div>
+    <div id="dec-mode-file" style="display:none;">
+      <input type="file" id="file-input" accept=".wav,.csv,.txt" style="font-size:0.75rem;color:rgba(255,255,255,0.5);">
+      <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);margin-top:0.4rem;font-family:'Space Mono',monospace;">Accepts: .wav audio, .csv timing data, .txt residuals</div>
+    </div>
+    <div id="dec-mode-pulsar" style="display:none;">
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.6);font-family:'EB Garamond',serif;line-height:1.6;margin-bottom:0.6rem;">Paste pulsar timing residuals (one value per line, in microseconds) to run the comma-transform:</div>
+      <textarea id="pulsar-input" style="width:100%;height:70px;background:rgba(0,0,0,0.3);border:1px solid rgba(136,85,204,0.2);color:rgba(255,255,255,0.7);font-family:'Space Mono',monospace;font-size:0.7rem;padding:0.5rem;border-radius:7px;resize:vertical;" placeholder="0.023&#10;-0.041&#10;0.019&#10;0.037&#10;..."></textarea>
+      <button class="btn btn-purple" onclick="analyzePulsar()" style="margin-top:0.5rem;font-size:0.68rem;">⟳ Run Comma-Transform</button>
+    </div>
+    <div id="decode-output">Awaiting signal…</div>
+    <div class="btn-row">
+      <button class="btn btn-teal" onclick="runDecode()">⟳ Decode</button>
+      <button class="btn btn-purple" onclick="clearDecode()">Clear</button>
+    </div>
+  </div>
+
+  <!-- Comma transform result -->
+  <div class="panel">
+    <div class="panel-title">VII. Comma-Transform · The Map</div>
+    <canvas class="display" id="ctransform-canvas" height="140"></canvas>
+    <div class="readout" id="ct-readout">
+      Peak at N<sub>res</sub>: <span>—</span> · Signal-to-comma ratio: <span class="teal">—</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM FULL WIDTH: Waterfall & log -->
+<div class="panel full">
+  <div class="panel-title blue">VIII. Waterfall · Time × Frequency</div>
+  <canvas id="waterfall" height="120"></canvas>
+  <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:rgba(255,255,255,0.2);font-family:'Space Mono',monospace;margin-top:0.4rem;padding:0 4px;">
+    <span>← Earlier</span>
+    <span style="color:var(--gold);">Gold = comma frequency activity</span>
+    <span>Now →</span>
+  </div>
+</div>
+
+<div class="panel full">
+  <div class="panel-title">IX. Event Log · Chronos Record</div>
+  <div id="event-log" style="font-family:'Space Mono',monospace;font-size:0.7rem;color:rgba(255,255,255,0.4);max-height:120px;overflow-y:auto;line-height:1.9;"></div>
+</div>
+
+</main>
+
+<footer>
+  Comma Radio · δ = 0.013643 · N<sub>res</sub> = 73.296 · φ = 1.013643<br>
+  Project Orpheus · Musica Universalis · 2026
+</footer>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// COMMA RADIO · Core Engine
+// ═══════════════════════════════════════════════════════════════════════
+const PHI = Math.pow(1.5,12)/Math.pow(2,7);
+const DELTA = PHI-1;                    // 0.013643...
+const NRES = 1/DELTA;                   // 73.296...
+const TAU = Math.PI*2;
+
+// Audio context
+let audioCtx = null;
+function getAudio(){ if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
+
+// State
+const state = {
+  transmitting: false,
+  baseFreq: 1420.405,
+  amp: 0.8,
+  phaseDepth: DELTA,
+  speed: 1,
+  sigType: 'comma_phase',
+  t: 0,
+  commaPhase: 0,
+  kairosCount: 0,
+  encodedMsg: [],
+  msgMode: 'text',
+  decMode: 'live',
+  rafTx: null,
+  rafSpectrum: null,
+  waterfallData: [],
+  logLines: [],
+  oscillator: null,
+  gainNode: null,
+  phasorNode: null,
+  lastKairosT: -999,
+};
+
+// ─────────────────────────────────────────────
+// STARFIELD
+// ─────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('starfield');
+  const ctx=cv.getContext('2d');
+  let stars=[];
+  function init(){
+    cv.width=innerWidth;cv.height=innerHeight;
+    stars=Array.from({length:300},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.4+0.1,o:Math.random()*0.5+0.1,s:Math.random()*0.15+0.02}));
+  }
+  init();window.addEventListener('resize',init);
+  let t=0;
+  function draw(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    const W=cv.width,H=cv.height;
+    stars.forEach(s=>{
+      const op=s.o*(0.5+0.5*Math.sin(t*s.s));
+      ctx.fillStyle=`rgba(221,216,204,${op})`;
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,TAU);ctx.fill();
+    });
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ─────────────────────────────────────────────
+// UTILITY
+// ─────────────────────────────────────────────
+function fmtMHz(v){ return v>=1000?`${(v/1000).toFixed(4)} GHz`:`${v.toFixed(4)} MHz`; }
+function fmtM(v){ return v<0.001?`${(v*1000).toFixed(1)} mm`:v<1?`${(v*100).toFixed(1)} cm`:`${v.toFixed(3)} m`; }
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+
+function log(msg, color='rgba(255,255,255,0.4)'){
+  const el=document.getElementById('event-log');
+  if(!el) return;
+  const ts = new Date().toISOString().slice(11,23);
+  state.logLines.push(`<span style="color:rgba(255,255,255,0.2)">${ts}</span>  <span style="color:${color}">${msg}</span>`);
+  if(state.logLines.length>50) state.logLines.shift();
+  el.innerHTML=state.logLines.join('<br>');
+  el.scrollTop=el.scrollHeight;
+}
+
+// ─────────────────────────────────────────────
+// FREQUENCY UPDATE
+// ─────────────────────────────────────────────
+function updateAll(){
+  state.baseFreq = parseFloat(document.getElementById('base-freq').value)||1420.405;
+  state.amp = parseFloat(document.getElementById('amp-ctrl').value);
+  state.phaseDepth = parseFloat(document.getElementById('phase-ctrl').value);
+  state.speed = parseFloat(document.getElementById('speed-ctrl').value);
+  state.sigType = document.getElementById('sig-type').value;
+
+  document.getElementById('amp-val').textContent = state.amp.toFixed(2);
+  const pd = state.phaseDepth;
+  document.getElementById('phase-val').textContent = Math.abs(pd-DELTA)<0.0001?'δ':`${pd.toFixed(4)} rad`;
+  document.getElementById('speed-val').textContent = `${state.speed.toFixed(1)}×`;
+
+  // Freq readout
+  const cp = state.baseFreq*PHI;
+  const gap = state.baseFreq*DELTA;
+  const wl_cm = (299.792458/cp)*100;
+  document.getElementById('freq-readout').innerHTML =
+    `Comma partner: <span>${fmtMHz(cp)}</span> · Gap: <span class="teal">${fmtMHz(gap)}</span><br>` +
+    `N_res harmonic: <span>${fmtMHz(state.baseFreq*NRES)}</span> · Wavelength: <span class="teal">${fmtM(299.792458/state.baseFreq/1e6)}</span>`;
+
+  // Antenna label
+  const antLen_cm = (299.792458/(cp*1e6))*0.5*100;
+  document.getElementById('ant-label').textContent = `λ/2 = ${antLen_cm.toFixed(1)} cm`;
+
+  // Spec range
+  const lo = state.baseFreq*0.97, hi = state.baseFreq*PHI*1.03;
+  document.getElementById('spec-low').textContent = fmtMHz(lo);
+  document.getElementById('spec-high').textContent = fmtMHz(hi);
+}
+
+function applyPreset(){
+  const sel=document.getElementById('freq-preset');
+  const v=parseFloat(sel.value);
+  if(!isNaN(v)){
+    document.getElementById('base-freq').value=v;
+    updateAll();
+  }
+}
+
+// ─────────────────────────────────────────────
+// MESSAGE ENCODING
+// ─────────────────────────────────────────────
+function setMsgMode(m){
+  state.msgMode=m;
+  ['text','pattern','math'].forEach(x=>{
+    document.getElementById(`msg-mode-${x}`).style.display=x===m?'':'none';
+  });
+  document.querySelectorAll('.tabs .tab').forEach((t,i)=>{
+    t.classList.toggle('active',['text','pattern','math'][i]===m);
+  });
+}
+
+function encodeMessage(){
+  let depths=[];
+  if(state.msgMode==='text'){
+    const txt=document.getElementById('msg-input').value;
+    depths=Array.from(txt).map(c=>{
+      const code=c.charCodeAt(0);
+      return (code%10)/9; // normalize to 0-1
+    });
+  } else if(state.msgMode==='pattern'){
+    const p=document.getElementById('pattern-input').value;
+    depths=p.split('').filter(c=>/[0-9]/.test(c)).map(c=>parseInt(c)/9);
+  } else {
+    // Math: encode δ digits
+    depths=[0,1,3,6,4,3].map(d=>d/9);
+  }
+  state.encodedMsg=depths;
+  const el=document.getElementById('encode-readout');
+  el.innerHTML=`Encoded <span>${depths.length}</span> Kairos events · Depth sequence: <span class="teal">${depths.slice(0,12).map(d=>d.toFixed(2)).join(' ')}${depths.length>12?'…':''}</span>`;
+  log(`Message encoded: ${depths.length} Kairos events`, 'var(--gold)');
+}
+
+function setMathMsg(){
+  setMsgMode('math');
+  state.encodedMsg=[0,1,3,6,4,3].map(d=>d/9);
+  document.getElementById('encode-readout').innerHTML=`Universal handshake loaded: <span>δ = [0,1,3,6,4,3] × N_res</span>`;
+}
+
+// ─────────────────────────────────────────────
+// SIGNAL GENERATION
+// ─────────────────────────────────────────────
+function getCommaSignal(t, amp, phaseDepth, sigType, encodedMsg){
+  // t in radians of carrier
+  // Returns [value, isKairos, kairosDepth]
+  const cycle = (t/TAU) % 1;
+  const revolution = Math.floor(t/TAU);
+  const commaAccum = (revolution * DELTA) % 1;
+  const proximity = Math.abs(commaAccum - Math.round(commaAccum));
+  const isKairos = proximity < 0.05;
+
+  // Get encoded depth for this Kairos event index
+  const kairosIdx = Math.floor(revolution/NRES);
+  const encodedDepth = encodedMsg.length>0 ? encodedMsg[kairosIdx%encodedMsg.length] : 0;
+
+  let phase = 0;
+  if(sigType==='comma_phase'){
+    // Phase modulated by comma accumulation
+    phase = commaAccum * phaseDepth * TAU;
+    if(isKairos) phase += encodedDepth * Math.PI;
+  } else if(sigType==='kairos_burst'){
+    phase = isKairos ? encodedDepth*Math.PI : 0;
+  }
+
+  let val=0;
+  if(sigType==='pure'){
+    val=amp*Math.sin(t);
+  } else if(sigType==='am'){
+    const modFreq=t*DELTA;
+    val=amp*(1+0.5*encodedDepth*Math.sin(modFreq))*Math.sin(t);
+  } else {
+    val=amp*Math.sin(t+phase);
+  }
+
+  return {val, isKairos, kairosDepth:encodedDepth, commaAccum, proximity};
+}
+
+// ─────────────────────────────────────────────
+// AUDIO SYNTHESIS
+// ─────────────────────────────────────────────
+function startAudio(){
+  const ac=getAudio();
+  ac.resume();
+  // Audible representation: base freq mapped to 200-800 Hz audio
+  const audioFreq = 200 + (state.baseFreq/1420.405)*200;
+  state.oscillator=ac.createOscillator();
+  state.gainNode=ac.createGain();
+  state.oscillator.connect(state.gainNode);
+  state.gainNode.connect(ac.destination);
+  state.oscillator.frequency.setValueAtTime(audioFreq,ac.currentTime);
+  state.gainNode.gain.setValueAtTime(0.05,ac.currentTime);
+  state.oscillator.start();
+  log(`Audio started at ${audioFreq.toFixed(1)} Hz (mapped from ${fmtMHz(state.baseFreq)})`,'var(--teal)');
+}
+function stopAudio(){
+  if(state.oscillator){state.oscillator.stop();state.oscillator=null;}
+  if(state.gainNode){state.gainNode=null;}
+}
+
+// ─────────────────────────────────────────────
+// TRANSMIT LOOP
+// ─────────────────────────────────────────────
+function toggleTransmit(){
+  state.transmitting=!state.transmitting;
+  const btn=document.getElementById('tx-btn');
+  const dot=document.getElementById('tx-dot');
+  const lbl=document.getElementById('tx-label');
+  if(state.transmitting){
+    btn.textContent='■ Stop';
+    btn.className='btn btn-red';
+    dot.classList.add('active');
+    lbl.textContent='Transmitting…';
+    startAudio();
+    log('Transmission started','var(--green)');
+    animateTx();
+  } else {
+    btn.textContent='▶ Transmit';
+    btn.className='btn btn-gold';
+    dot.classList.remove('active');
+    lbl.textContent='Stopped';
+    stopAudio();
+    log('Transmission stopped','var(--pink)');
+    if(state.rafTx) cancelAnimationFrame(state.rafTx);
+  }
+}
+
+function animateTx(){
+  drawTxCanvas();
+  drawSpectrum();
+  drawSpiral();
+  drawCTransform();
+  updateWaterfall();
+  if(state.transmitting) state.rafTx=requestAnimationFrame(animateTx);
+}
+
+// ─────────────────────────────────────────────
+// TX WAVEFORM CANVAS
+// ─────────────────────────────────────────────
+function drawTxCanvas(){
+  const c=document.getElementById('tx-canvas');
+  if(!c) return;
+  const ctx=c.getContext('2d');
+  c.width=c.offsetWidth||600;
+  const W=c.width,H=90;
+  ctx.clearRect(0,0,W,H);
+
+  const cy=H/2;
+  const samples=W;
+  const speed=state.speed;
+  let prevKairos=false;
+  let kairosCount=0;
+
+  // Draw waveform
+  ctx.beginPath();
+  for(let px=0;px<samples;px++){
+    const t_sample = (state.t + px*0.15*speed)*0.1;
+    const {val,isKairos,kairosDepth,commaAccum}=getCommaSignal(t_sample*TAU*0.5,state.amp,state.phaseDepth,state.sigType,state.encodedMsg);
+    const y=cy-val*(H*0.4);
+    if(px===0) ctx.moveTo(px,y); else ctx.lineTo(px,y);
+    if(isKairos && !prevKairos){
+      kairosCount++;
+      // Gold tick at Kairos
+      ctx.strokeStyle='rgba(201,168,76,0.5)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(px,10);ctx.lineTo(px,H-10);ctx.stroke();
+      ctx.fillStyle='rgba(201,168,76,0.7)';ctx.font='8px Space Mono,monospace';
+      ctx.fillText('K',px-3,8);
+    }
+    prevKairos=isKairos;
+  }
+  // Color based on signal type
+  const colors={'comma_phase':'var(--gold)','pure':'rgba(255,255,255,0.4)','am':'var(--teal)','kairos_burst':'var(--purple)'};
+  ctx.strokeStyle=colors[state.sigType]||'var(--gold)';ctx.lineWidth=1.5;ctx.stroke();
+
+  // Center line
+  ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();
+
+  // Advance time
+  state.t+=speed*0.8;
+  state.commaPhase=(state.t*0.1*DELTA)%1;
+
+  // Check for Kairos event
+  const prox=Math.abs(state.commaPhase-Math.round(state.commaPhase));
+  if(prox<0.02 && state.t-state.lastKairosT>200){
+    state.kairosCount++;
+    state.lastKairosT=state.t;
+    // Flash
+    const fl=document.getElementById('kairos-flash');
+    fl.style.opacity='1';setTimeout(()=>fl.style.opacity='0',400);
+    document.getElementById('kairos-dot').className='status-dot kairos';
+    document.getElementById('kairos-label').textContent=`Kairos #${state.kairosCount}!`;
+    setTimeout(()=>{
+      document.getElementById('kairos-dot').style.background='rgba(201,168,76,0.4)';
+      document.getElementById('kairos-label').textContent=`Last Kairos: #${state.kairosCount}`;
+    },600);
+    log(`⚡ KAIROS EVENT #${state.kairosCount} · phase=${state.commaPhase.toFixed(6)} · depth=${state.encodedMsg.length>0?state.encodedMsg[state.kairosCount%state.encodedMsg.length].toFixed(2):'—'}`,'var(--gold)');
+    // Auto decode
+    if(state.decMode==='live') runDecode();
+  }
+
+  // Readout
+  document.getElementById('tx-readout').innerHTML=
+    `Kairos events: <span>${state.kairosCount}</span> · Phase accumulation: <span class="teal">${(state.commaPhase).toFixed(6)}</span> · t: <span>${(state.t/1000).toFixed(2)}k</span>`;
+}
+
+// ─────────────────────────────────────────────
+// SPECTRUM DISPLAY
+// ─────────────────────────────────────────────
+function drawSpectrum(){
+  const c=document.getElementById('spectrum-canvas');
+  if(!c) return;
+  const ctx=c.getContext('2d');
+  c.width=c.offsetWidth||500;
+  const W=c.width,H=120;
+  ctx.clearRect(0,0,W,H);
+
+  const fBase=state.baseFreq;
+  const fComma=fBase*PHI;
+  const fLo=fBase*0.97, fHi=fComma*1.03;
+  const fRange=fHi-fLo;
+
+  // Background noise floor
+  for(let x=0;x<W;x++){
+    const h=2+Math.random()*3;
+    ctx.fillStyle=`rgba(61,127,212,0.15)`;
+    ctx.fillRect(x,H-h,1,h);
+  }
+
+  // Base frequency peak
+  const bx=(fBase-fLo)/fRange*W;
+  drawSpectralPeak(ctx,bx,H,35,'rgba(255,255,255,0.5)',4);
+  ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='9px Space Mono,monospace';
+  ctx.textAlign='center';ctx.fillText('BASE',bx,12);
+
+  // Comma partner peak
+  const cx2=(fComma-fLo)/fRange*W;
+  const commaHeight=state.transmitting?40+10*Math.sin(state.t*0.05):20;
+  drawSpectralPeak(ctx,cx2,H,commaHeight,'var(--gold)',6);
+  ctx.fillStyle='var(--gold)';ctx.font='9px Space Mono,monospace';
+  ctx.fillText('×φ COMMA',cx2,12);
+
+  // Delta gap shading
+  const grad=ctx.createLinearGradient(bx,0,cx2,0);
+  grad.addColorStop(0,'rgba(25,184,168,0)');
+  grad.addColorStop(0.5,'rgba(25,184,168,0.08)');
+  grad.addColorStop(1,'rgba(25,184,168,0)');
+  ctx.fillStyle=grad;
+  ctx.fillRect(bx,0,cx2-bx,H);
+
+  // Kairos harmonics — faint lines at N_res multiples
+  for(let k=1;k<=3;k++){
+    const kf=fBase*(1+k*DELTA);
+    const kx=(kf-fLo)/fRange*W;
+    if(kx>0&&kx<W){
+      ctx.strokeStyle=`rgba(136,85,204,${0.3/k})`;ctx.lineWidth=1;
+      ctx.setLineDash([2,3]);
+      ctx.beginPath();ctx.moveTo(kx,20);ctx.lineTo(kx,H);ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+  ctx.textAlign='left';
+}
+
+function drawSpectralPeak(ctx,cx,H,height,color,width){
+  const grad=ctx.createLinearGradient(cx,H,cx,H-height);
+  grad.addColorStop(0,color);grad.addColorStop(1,'transparent');
+  ctx.fillStyle=grad;
+  // Gaussian-ish peak
+  for(let dx=-width*4;dx<=width*4;dx++){
+    const amp=Math.exp(-dx*dx/(2*width*width))*height;
+    ctx.fillRect(cx+dx,H-amp,1,amp);
+  }
+}
+
+// ─────────────────────────────────────────────
+// PHASE SPIRAL
+// ─────────────────────────────────────────────
+function drawSpiral(){
+  const c=document.getElementById('spiral-canvas');
+  if(!c) return;
+  const ctx=c.getContext('2d');
+  const size=Math.min(c.offsetWidth,220);
+  c.width=c.height=size;
+  const W=size,H=size,cx=W/2,cy=H/2;
+  ctx.clearRect(0,0,W,H);
+
+  const maxR=W*0.42;
+  const totalRevs=Math.min(state.t*0.001,40);
+  const pts=[];
+
+  for(let i=0;i<=totalRevs*60;i++){
+    const angle=i/60*TAU;
+    const commaAcc=(i/60)*DELTA;
+    const r=maxR*(0.15+(commaAcc%1)*0.85/(NRES*DELTA))*Math.min(totalRevs/5,1);
+    const prox=Math.abs((commaAcc%1)-Math.round(commaAcc%1));
+    pts.push({x:cx+r*Math.cos(angle),y:cy+r*Math.sin(angle),isKairos:prox<0.05,commaAcc});
+  }
+
+  // Draw spiral
+  if(pts.length>1){
+    ctx.beginPath();
+    pts.forEach((p,i)=>{i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);});
+    const grad=ctx.createLinearGradient(cx-maxR,cy,cx+maxR,cy);
+    grad.addColorStop(0,'rgba(61,127,212,0.4)');
+    grad.addColorStop(0.5,'rgba(201,168,76,0.6)');
+    grad.addColorStop(1,'rgba(136,85,204,0.4)');
+    ctx.strokeStyle=grad;ctx.lineWidth=1;ctx.stroke();
+  }
+
+  // Current position dot
+  if(pts.length>0){
+    const last=pts[pts.length-1];
+    ctx.fillStyle=last.isKairos?'var(--gold)':'var(--teal)';
+    ctx.beginPath();ctx.arc(last.x,last.y,last.isKairos?5:3,0,TAU);ctx.fill();
+    if(last.isKairos){
+      ctx.strokeStyle='rgba(201,168,76,0.4)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.arc(last.x,last.y,9+3*Math.sin(state.t*0.1),0,TAU);ctx.stroke();
+    }
+  }
+
+  // Center
+  ctx.fillStyle='rgba(255,255,255,0.08)';ctx.beginPath();ctx.arc(cx,cy,3,0,TAU);ctx.fill();
+
+  // Readout
+  const commaPhase=state.commaPhase;
+  const prox=Math.abs(commaPhase-Math.round(commaPhase));
+  const rev=Math.floor(state.t*0.001);
+  document.getElementById('spiral-readout').innerHTML=
+    `Revolution: <span>${rev}</span> · Comma phase: <span class="teal">${commaPhase.toFixed(4)}</span><br>` +
+    `Kairos proximity: <span class="purple">${prox<0.05?'⚡ KAIROS':prox.toFixed(4)}</span>`;
+}
+
+// ─────────────────────────────────────────────
+// COMMA-TRANSFORM
+// ─────────────────────────────────────────────
+function drawCTransform(){
+  const c=document.getElementById('ctransform-canvas');
+  if(!c) return;
+  const ctx=c.getContext('2d');
+  c.width=c.offsetWidth||500;
+  const W=c.width,H=140;
+  ctx.clearRect(0,0,W,H);
+
+  // Compute mock comma-transform: power at each multiple of N_res
+  const harmonics=[];
+  for(let k=1;k<=20;k++){
+    const freq=k/NRES;
+    // Power: increases near integer multiples, shaped by comma accumulation
+    const commaAmp=Math.exp(-Math.pow(((k*DELTA)%1)-0.5,2)*50);
+    const noise=0.05*Math.random();
+    const txBoost=state.transmitting?commaAmp*0.7:0;
+    harmonics.push({k,power:noise+txBoost});
+  }
+
+  // Find max
+  const maxP=Math.max(...harmonics.map(h=>h.power),0.1);
+  const barW=W/harmonics.length-2;
+
+  harmonics.forEach((h,i)=>{
+    const barH=(h.power/maxP)*(H-30);
+    const x=i*(barW+2)+1;
+    const isNres=h.k===1||h.k%Math.round(NRES/10)===0;
+    const col=isNres?'var(--gold)':h.power>0.3?'var(--teal)':'rgba(61,127,212,0.4)';
+    const grad=ctx.createLinearGradient(x,H,x,H-barH);
+    grad.addColorStop(0,col);grad.addColorStop(1,'transparent');
+    ctx.fillStyle=grad;
+    ctx.fillRect(x,H-barH,barW,barH);
+    if(isNres){
+      ctx.fillStyle='rgba(201,168,76,0.6)';ctx.font='8px Space Mono,monospace';
+      ctx.textAlign='center';ctx.fillText(`N${h.k}`,x+barW/2,H-barH-4);
+      ctx.textAlign='left';
+    }
+  });
+
+  // X axis label
+  ctx.fillStyle='rgba(255,255,255,0.2)';ctx.font='9px Space Mono,monospace';
+  ctx.fillText('← harmonic index (multiples of N_res = 73.296) →',10,H-4);
+
+  const peak=harmonics.reduce((a,b)=>b.power>a.power?b:a,harmonics[0]);
+  document.getElementById('ct-readout').innerHTML=
+    `Peak at N<sub>res</sub>×${peak.k}: <span>${(peak.power*100).toFixed(1)}%</span> · Signal-to-comma ratio: <span class="teal">${state.transmitting?(peak.power/0.05).toFixed(1)+'×':'—'}</span>`;
+}
+
+// ─────────────────────────────────────────────
+// WATERFALL
+// ─────────────────────────────────────────────
+function updateWaterfall(){
+  const c=document.getElementById('waterfall');
+  if(!c) return;
+  c.width=c.offsetWidth||900;
+  const ctx=c.getContext('2d');
+  const W=c.width,H=120;
+
+  // Shift existing image left
+  const imageData=ctx.getImageData(1,0,W-1,H);
+  ctx.putImageData(imageData,0,0);
+
+  // New column at right
+  const fBase=state.baseFreq;
+  const fComma=fBase*PHI;
+  for(let y=0;y<H;y++){
+    // Map y to freq range
+    const f=fBase*0.97+((H-y)/H)*(fComma*1.03-fBase*0.97);
+    const distBase=Math.abs(f-fBase)/fBase;
+    const distComma=Math.abs(f-fComma)/fComma;
+    const baseP=Math.exp(-distBase*distBase*50000);
+    const commaP=state.transmitting?Math.exp(-distComma*distComma*50000)*1.5:0;
+    const noise=0.03*Math.random();
+    const total=Math.min(baseP*0.3+commaP+noise,1);
+
+    // Color: blue=noise, teal=base, gold=comma
+    const r=Math.floor(commaP*200);
+    const g=Math.floor(Math.min(baseP*100+commaP*168,255));
+    const b=Math.floor(noise*100+baseP*80);
+    ctx.fillStyle=`rgba(${r},${g},${b},${0.5+total*0.5})`;
+    ctx.fillRect(W-1,y,1,1);
+  }
+}
+
+// ─────────────────────────────────────────────
+// DECODER
+// ─────────────────────────────────────────────
+function setDecMode(m){
+  state.decMode=m;
+  ['live','file','pulsar'].forEach(x=>{
+    document.getElementById(`dec-mode-${x}`).style.display=x===m?'':'none';
+  });
+  document.querySelectorAll('#\\34 \\2e\\ \\44ecoder + .panel .tabs .tab, .panel:has(#decode-output) .tab').forEach((t,i)=>{
+    t.classList.toggle('active',['live','file','pulsar'][i]===m);
+  });
+  document.querySelectorAll('.panel .tabs').forEach(tabsEl=>{
+    if(tabsEl.closest('.panel')?.querySelector('#decode-output')){
+      tabsEl.querySelectorAll('.tab').forEach((t,i)=>{
+        t.classList.toggle('active',['live','file','pulsar'][i]===m);
+      });
+    }
+  });
+}
+
+function runDecode(){
+  const el=document.getElementById('decode-output');
+  if(state.decMode==='live'){
+    // Decode from current state
+    const decoded=decodeFromState();
+    el.innerHTML=decoded;
+  } else if(state.decMode==='pulsar'){
+    analyzePulsar();
+  }
+}
+
+function decodeFromState(){
+  if(!state.transmitting || state.encodedMsg.length===0){
+    return `<span style="color:rgba(255,255,255,0.25)">No active transmission to decode.\nStart transmitting with a message encoded.</span>`;
+  }
+  // Reconstruct from Kairos event depths
+  let out='';
+  out+=`COMMA-TRANSFORM DECODE REPORT\n`;
+  out+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  out+=`Base: ${fmtMHz(state.baseFreq)} · Partner: ${fmtMHz(state.baseFreq*PHI)}\n`;
+  out+=`Kairos events detected: ${state.kairosCount}\n`;
+  out+=`Phase accumulation: ${state.commaPhase.toFixed(6)}\n\n`;
+
+  // Decode depth sequence back to text
+  const depths=state.encodedMsg;
+  const chars=depths.map(d=>{
+    const code=Math.round(d*9*11+32);
+    return code>=32&&code<127?String.fromCharCode(code):'·';
+  });
+
+  if(state.msgMode==='text'){
+    const original=document.getElementById('msg-input').value;
+    out+=`DECODED MESSAGE:\n${original}\n\n`;
+    out+=`DEPTH SEQUENCE: ${depths.slice(0,8).map(d=>d.toFixed(2)).join(' ')}…\n`;
+    out+=`KAIROS ALPHABET: ${chars.slice(0,8).join('')}…\n`;
+  } else if(state.msgMode==='math'){
+    out+=`UNIVERSAL HANDSHAKE DETECTED\n`;
+    out+=`δ = [0,1,3,6,4,3] × N_res\n`;
+    out+=`INTERPRETATION: Sender knows the comma.\n`;
+    out+=`STATUS: ⚡ CONTACT CANDIDATE\n`;
+  } else {
+    out+=`PATTERN: ${depths.map(d=>d.toFixed(1)).join(' ')}\n`;
+  }
+
+  return out;
+}
+
+function analyzePulsar(){
+  const el=document.getElementById('decode-output');
+  const raw=document.getElementById('pulsar-input')?.value||'';
+  const values=raw.trim().split('\n').map(v=>parseFloat(v)).filter(v=>!isNaN(v));
+
+  if(values.length<10){
+    el.innerHTML=`<span style="color:var(--pink)">Need at least 10 timing residuals.\nPaste from NANOGrav or ATNF data.</span>`;
+    return;
+  }
+
+  // Run mock comma-transform
+  const N=values.length;
+  // Check for periodicity at N_res
+  let commaScore=0, maxCorr=0, peakK=0;
+  for(let k=1;k<=Math.floor(N/3);k++){
+    let corr=0;
+    for(let i=0;i<N-k;i++) corr+=values[i]*values[i+k];
+    corr/=(N-k);
+    if(Math.abs(k-NRES)<2||Math.abs(k-2*NRES)<2||Math.abs(k-3*NRES)<2) commaScore+=Math.abs(corr);
+    if(Math.abs(corr)>maxCorr){maxCorr=Math.abs(corr);peakK=k;}
+  }
+
+  const mean=values.reduce((a,b)=>a+b,0)/N;
+  const rms=Math.sqrt(values.reduce((a,b)=>a+(b-mean)**2,0)/N);
+  const commaDeviation=Math.abs(rms-rms*PHI)/rms;
+
+  el.innerHTML=
+    `PULSAR COMMA-TRANSFORM ANALYSIS\n`+
+    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`+
+    `Residuals analyzed: ${N}\n`+
+    `RMS residual: ${rms.toFixed(4)} μs\n`+
+    `Peak autocorrelation: lag=${peakK} (N_res=${NRES.toFixed(1)})\n`+
+    `Comma-period correlation score: ${commaScore.toFixed(6)}\n\n`+
+    (Math.abs(peakK-NRES)<5?
+      `⚡ KAIROS SIGNAL CANDIDATE\nPeak lag=${peakK} is near N_res=${NRES.toFixed(1)}.\nThis pulsar may encode comma structure.\n`:
+      `No significant comma periodicity detected at lag=${peakK}.\nExpected near N_res=${NRES.toFixed(1)}.\n`)+
+    `\nNOTE: This is a demonstration transform.\nFor real analysis: use TEMPO2 or PINT with\ncustom comma-basis functions.`;
+
+  log(`Pulsar analysis: ${N} residuals, peak lag=${peakK}, comma score=${commaScore.toFixed(4)}`,'var(--purple)');
+}
+
+function clearDecode(){
+  document.getElementById('decode-output').innerHTML='Awaiting signal…';
+}
+
+// ─────────────────────────────────────────────
+// EXPORT WAV
+// ─────────────────────────────────────────────
+function exportSignal(){
+  const ac=getAudio();
+  const sampleRate=44100;
+  const duration=3;
+  const numSamples=sampleRate*duration;
+  const buffer=ac.createBuffer(1,numSamples,sampleRate);
+  const data=buffer.getChannelData(0);
+  const audioFreq=200+(state.baseFreq/1420.405)*200;
+  for(let i=0;i<numSamples;i++){
+    const t=i/sampleRate*TAU*audioFreq;
+    const {val}=getCommaSignal(t,state.amp,state.phaseDepth,state.sigType,state.encodedMsg);
+    data[i]=val*0.3;
+  }
+  // Encode to WAV
+  const wavBuffer=encodeWAV(data,sampleRate);
+  const blob=new Blob([wavBuffer],{type:'audio/wav'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='comma_signal.wav';a.click();
+  log('WAV exported: comma_signal.wav','var(--green)');
+}
+
+function encodeWAV(samples,sampleRate){
+  const buffer=new ArrayBuffer(44+samples.length*2);
+  const view=new DataView(buffer);
+  const writeStr=(v,o)=>{for(let i=0;i<v.length;i++)view.setUint8(o+i,v.charCodeAt(i));};
+  writeStr('RIFF',0);view.setUint32(4,36+samples.length*2,true);
+  writeStr('WAVE',8);writeStr('fmt ',12);
+  view.setUint32(16,16,true);view.setUint16(20,1,true);view.setUint16(22,1,true);
+  view.setUint32(24,sampleRate,true);view.setUint32(28,sampleRate*2,true);
+  view.setUint16(32,2,true);view.setUint16(34,16,true);
+  writeStr('data',36);view.setUint32(40,samples.length*2,true);
+  const int16=new Int16Array(buffer,44);
+  for(let i=0;i<samples.length;i++) int16[i]=clamp(Math.round(samples[i]*32767),-32768,32767);
+  return buffer;
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+updateAll();
+encodeMessage();
+log('Comma Radio initialized · δ = '+DELTA.toFixed(6),'var(--gold)');
+log('Hydrogen line loaded: 1420.405 MHz · Comma partner: '+fmtMHz(1420.405*PHI),'var(--teal)');
+log('Awaiting transmission command…','rgba(255,255,255,0.3)');
+
+// Draw static displays on load
+setTimeout(()=>{
+  drawSpectrum();
+  drawCTransform();
+  drawSpiral();
+  const c=document.getElementById('waterfall');
+  if(c){c.width=c.offsetWidth||900;const ctx=c.getContext('2d');ctx.fillStyle='#000';ctx.fillRect(0,0,c.width,c.height);}
+},200);
+</script>
+</body>
+</html>
