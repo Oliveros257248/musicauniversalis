@@ -1,0 +1,13 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Private files — never commit
+*.key
+*.pem
+*.env
+private/
+
+# Editor
+.vscode/
+*.swp
