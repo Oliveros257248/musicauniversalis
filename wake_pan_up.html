@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wake Pan Up · Project Orpheus</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #020C04;
+  color: #E4EDE7;
+  font-family: 'EB Garamond', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+canvas#world {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4vh 2rem 8vh;
+  pointer-events: none;
+}
+
+/* SCREAMING HEADER */
+.cry {
+  text-align: center;
+  margin-bottom: 3vh;
+  animation: wobble 2.3s ease-in-out infinite;
+}
+
+@keyframes wobble {
+  0%,100% { transform: rotate(-0.5deg) scale(1); }
+  50% { transform: rotate(0.5deg) scale(1.01); }
+}
+
+.cry-main {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.6rem, 5vw, 3.2rem);
+  color: #7ED4A0;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-shadow: 0 0 40px rgba(126,212,160,0.4);
+  display: block;
+  transition: color 3s ease, text-shadow 3s ease;
+}
+
+.cry-main.burning {
+  color: #FF6030;
+  text-shadow: 0 0 40px rgba(255,96,48,0.6);
+}
+
+.cry-sub {
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: rgba(126,212,160,0.6);
+  margin-top: 0.5rem;
+  display: block;
+  letter-spacing: 0.05em;
+  transition: color 3s ease;
+}
+
+.cry-sub.burning { color: rgba(255,160,80,0.7); }
+
+.cry-urgent {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.7rem, 2vw, 1rem);
+  color: rgba(126,212,160,0.4);
+  letter-spacing: 0.2em;
+  margin-top: 0.75rem;
+  display: block;
+  animation: pulse-text 1.1s infinite;
+  transition: color 3s ease;
+}
+
+.cry-urgent.burning {
+  color: rgba(255,100,50,0.5);
+  animation: pulse-red 0.6s infinite;
+}
+
+@keyframes pulse-text {
+  0%,100% { opacity:1; }
+  50% { opacity:0.3; }
+}
+
+@keyframes pulse-red {
+  0%,100% { opacity:1; transform:scale(1.02); }
+  50% { opacity:0.4; transform:scale(0.98); }
+}
+
+/* PLANT CANVAS */
+.plant-wrap {
+  position: relative;
+  width: min(500px, 90vw);
+  height: min(500px, 90vw);
+  margin: 2vh auto;
+}
+
+canvas#plant {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+}
+
+/* WAKE BUTTON */
+.wake-btn {
+  pointer-events: all;
+  margin-top: 3vh;
+  background: rgba(126,212,160,0.06);
+  border: 1px solid rgba(126,212,160,0.25);
+  border-radius: 100px;
+  color: #7ED4A0;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
+  letter-spacing: 0.25em;
+  padding: 0.9rem 3rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  animation: btn-pulse 2s infinite;
+}
+
+@keyframes btn-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(126,212,160,0.15); }
+  50% { box-shadow: 0 0 20px 8px rgba(126,212,160,0.1); }
+}
+
+.wake-btn:hover {
+  background: rgba(126,212,160,0.12);
+  transform: scale(1.04);
+}
+
+.wake-btn.burning {
+  border-color: rgba(255,100,50,0.4);
+  color: #FF8050;
+  animation: btn-fire 0.5s infinite;
+}
+
+@keyframes btn-fire {
+  0%,100% { box-shadow: 0 0 10px 2px rgba(255,100,50,0.2); }
+  50% { box-shadow: 0 0 25px 8px rgba(255,100,50,0.15); }
+}
+
+/* STATUS */
+.status {
+  margin-top: 2vh;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(126,212,160,0.3);
+  letter-spacing: 0.15em;
+  text-align: center;
+  transition: color 3s ease;
+}
+
+.status.burning { color: rgba(255,100,50,0.3); }
+
+/* LORE */
+.lore {
+  max-width: 500px;
+  text-align: center;
+  margin-top: 4vh;
+  padding: 1.5rem;
+  background: rgba(2,12,4,0.7);
+  border: 1px solid rgba(126,212,160,0.06);
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  transition: border-color 3s ease, background 3s ease;
+}
+
+.lore.burning {
+  border-color: rgba(255,100,50,0.08);
+  background: rgba(12,4,2,0.7);
+}
+
+.lore p {
+  font-style: italic;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  line-height: 1.85;
+  color: rgba(228,237,231,0.55);
+  margin-bottom: 0.75rem;
+  transition: color 3s ease;
+}
+
+.lore p.burning { color: rgba(255,200,150,0.5); }
+
+.lore .sig {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  color: rgba(126,212,160,0.2);
+  letter-spacing: 0.2em;
+  transition: color 3s ease;
+}
+
+.lore .sig.burning { color: rgba(255,100,50,0.2); }
+
+footer {
+  margin-top: 4vh;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.48rem;
+  color: rgba(122,150,130,0.15);
+  letter-spacing: 0.15em;
+  text-align: center;
+  pointer-events: all;
+  line-height: 2.2;
+}
+</style>
+</head>
+<body>
+
+<canvas id="world"></canvas>
+
+<div class="wrap">
+  <div class="cry">
+    <span class="cry-main" id="cryMain">Wake Pan Up!</span>
+    <span class="cry-sub" id="crySub">We are spiraling down because he is asleeeeeeep!!!</span>
+    <span class="cry-urgent" id="cryUrgent">THE SONG IS VERY VERY HIGH · PLEASE HELP PAN ♡</span>
+  </div>
+
+  <div class="plant-wrap">
+    <canvas id="plant" width="500" height="500"></canvas>
+  </div>
+
+  <button class="wake-btn" id="wakeBtn" onclick="wakeAttempt()">♪ CALL TO PAN ♪</button>
+
+  <div class="status" id="status">spiral depth: 0% · leaves: 100% · center: cool</div>
+
+  <div class="lore" id="lore">
+    <p id="loreText">Pan sleeps and the world forgets to grow. The spiral tightens. The green fades at the edges first — always the edges first. The leaves fall not from wind but from forgetting. And at the center, where the music is loudest, it burns.</p>
+    <span class="sig" id="loreSig">PROJECT ORPHEUS · δ = 0.013643 · THE SONG IS THE SIGNAL</span>
+  </div>
+
+  <footer>
+    <a href="tower_of_babel.html" style="color:rgba(126,212,160,0.15);text-decoration:none;">Tower of Babel →</a>
+    &nbsp;·&nbsp;
+    <a href="index.html" style="color:rgba(126,212,160,0.15);text-decoration:none;">← Musica Universalis</a>
+  </footer>
+</div>
+
+<script>
+// ── STATE ──
+let spiralDepth = 0;      // 0 → 1: how far down the spiral has gone
+let wakeCount = 0;         // how many times user has called Pan
+let leaves = [];           // falling leaves
+let embers = [];           // burning embers from center
+let t = 0;                 // time
+let awakeLevel = 0;        // 0=asleep, 1=stirring, 2=awake
+let lastWake = 0;
+
+// ── PLANT CANVAS ──
+const pc = document.getElementById('plant');
+const pctx = pc.getContext('2d');
+const PW = 500, PH = 500;
+const PCX = PW/2, PCY = PH/2;
+
+// Leaf shapes — stored as offsets
+function createLeaves() {
+  leaves = [];
+  for(let i = 0; i < 40; i++) {
+    leaves.push({
+      // position on spiral arm
+      arm: Math.random(),          // 0-1 position along spiral
+      angle: Math.random() * Math.PI * 2,
+      size: 6 + Math.random() * 12,
+      fallen: false,
+      fallX: 0, fallY: 0,
+      fallVX: (Math.random()-0.5) * 1.5,
+      fallVY: 1 + Math.random() * 2,
+      fallRot: 0,
+      fallRotV: (Math.random()-0.5) * 0.1,
+      fallAlpha: 1,
+      greenness: 0.8 + Math.random() * 0.2, // how green (1=full green, 0=dead)
+      dropTime: 0.2 + Math.random() * 0.7,   // when in spiral decay they fall
+    });
+  }
+}
+createLeaves();
+
+// ── DRAW PLANT ──
+function drawPlant() {
+  pctx.clearRect(0,0,PW,PH);
+
+  const decay = spiralDepth;           // 0→1
+  const heat  = Math.min(1, decay * 1.5 - 0.3);  // starts heating at 30%
+
+  // Background circle
+  const bgGrad = pctx.createRadialGradient(PCX,PCY,0,PCX,PCY,240);
+  const bgG1 = lerpColor('#0A1A0C','#1A0A04', decay);
+  const bgG2 = lerpColor('#020C04','#0C0302', decay);
+  bgGrad.addColorStop(0, bgG1 + 'AA');
+  bgGrad.addColorStop(1, bgG2 + '00');
+  pctx.fillStyle = bgGrad;
+  pctx.beginPath();
+  pctx.arc(PCX,PCY,240,0,Math.PI*2);
+  pctx.fill();
+
+  // ── SPIRAL ARMS ──
+  const numArms = 3;
+  for(let arm = 0; arm < numArms; arm++) {
+    const armOffset = (arm / numArms) * Math.PI * 2;
+
+    pctx.beginPath();
+    let first = true;
+    for(let i = 0; i <= 200; i++) {
+      const frac = i / 200;
+      const turns = 2.5;
+      const angle = frac * turns * Math.PI * 2 + armOffset + t * 0.3 * (1 - decay * 0.8);
+      const maxR = 200;
+      const r = frac * maxR * (1 - decay * 0.3);
+
+      const x = PCX + Math.cos(angle) * r;
+      const y = PCY + Math.sin(angle) * r;
+
+      if(first) { pctx.moveTo(x,y); first=false; }
+      else pctx.lineTo(x,y);
+    }
+
+    // Color: green → yellow → red based on decay
+    const stemColor = lerpColorTriple('#3DA860','#C8A020','#CC3010', decay);
+    pctx.strokeStyle = stemColor;
+    pctx.lineWidth = 2.5 - decay * 1;
+    pctx.globalAlpha = 0.7;
+    pctx.stroke();
+    pctx.globalAlpha = 1;
+  }
+
+  // ── LEAVES on spiral ──
+  leaves.forEach(leaf => {
+    if(leaf.fallen) {
+      // Draw falling leaf
+      pctx.save();
+      pctx.translate(leaf.fallX, leaf.fallY);
+      pctx.rotate(leaf.fallRot);
+      const lc = lerpColor('#3DA860','#8B2800', Math.min(1, spiralDepth * 2));
+      pctx.fillStyle = lc;
+      pctx.globalAlpha = leaf.fallAlpha * 0.7;
+      drawLeafShape(pctx, leaf.size);
+      pctx.restore();
+      pctx.globalAlpha = 1;
+    } else {
+      // Draw on spiral
+      const frac = leaf.arm;
+      const armOffset = leaf.angle;
+      const angle = frac * 2.5 * Math.PI * 2 + armOffset + t * 0.3 * (1 - decay * 0.8);
+      const r = frac * 200 * (1 - decay * 0.3);
+      const x = PCX + Math.cos(angle) * r;
+      const y = PCY + Math.sin(angle) * r;
+
+      pctx.save();
+      pctx.translate(x, y);
+      pctx.rotate(angle + Math.PI/2);
+
+      const g = leaf.greenness * (1 - decay);
+      const leafColor = `rgb(${Math.floor(40+200*(1-g))},${Math.floor(180*g)},${Math.floor(30*g)})`;
+      pctx.fillStyle = leafColor;
+      pctx.globalAlpha = 0.8;
+      drawLeafShape(pctx, leaf.size * (1 - decay * 0.5));
+      pctx.restore();
+      pctx.globalAlpha = 1;
+    }
+  });
+
+  // ── BURNING CENTER ──
+  if(heat > 0) {
+    const fireR = 20 + heat * 50;
+
+    // Outer glow
+    const fireGrad = pctx.createRadialGradient(PCX,PCY,0,PCX,PCY,fireR*2);
+    fireGrad.addColorStop(0, `rgba(255,200,50,${heat * 0.8})`);
+    fireGrad.addColorStop(0.3, `rgba(255,100,20,${heat * 0.5})`);
+    fireGrad.addColorStop(1, 'rgba(255,50,0,0)');
+    pctx.fillStyle = fireGrad;
+    pctx.beginPath();
+    pctx.arc(PCX,PCY,fireR*2,0,Math.PI*2);
+    pctx.fill();
+
+    // Flickering flames
+    for(let f = 0; f < 8; f++) {
+      const fa = (f/8)*Math.PI*2 + t*2;
+      const fr = fireR * (0.6 + Math.sin(t*3+f)*0.3);
+      const fx = PCX + Math.cos(fa)*fr*0.4;
+      const fy = PCY + Math.sin(fa)*fr*0.4;
+      const flameH = fireR * (0.8 + Math.sin(t*4+f*1.3)*0.3);
+
+      pctx.beginPath();
+      pctx.moveTo(fx, fy);
+      pctx.quadraticCurveTo(
+        fx + Math.cos(fa+0.5)*fr*0.3,
+        fy - flameH*0.5 + Math.sin(fa)*fr*0.3,
+        fx + Math.cos(fa)*fr*0.1,
+        fy - flameH
+      );
+      const flameC = pctx.createLinearGradient(fx, fy, fx, fy-flameH);
+      flameC.addColorStop(0, `rgba(255,200,50,${heat*0.7})`);
+      flameC.addColorStop(0.5, `rgba(255,80,20,${heat*0.5})`);
+      flameC.addColorStop(1, `rgba(255,20,0,0)`);
+      pctx.strokeStyle = flameC;
+      pctx.lineWidth = 3;
+      pctx.stroke();
+    }
+
+    // Embers
+    embers.forEach(e => {
+      pctx.beginPath();
+      pctx.arc(e.x, e.y, e.r, 0, Math.PI*2);
+      pctx.fillStyle = `rgba(255,${Math.floor(100+e.life*100)},0,${e.life})`;
+      pctx.fill();
+    });
+  }
+
+  // ── CENTER — Pan's eye / seed ──
+  const eyeR = 8 + Math.sin(t*1.5)*2;
+  const eyeColor = heat > 0.5 ?
+    `rgba(255,${Math.floor(200*(1-heat))},0,0.9)` :
+    `rgba(${Math.floor(60+80*decay)},${Math.floor(200-160*decay)},${Math.floor(80-60*decay)},0.9)`;
+
+  pctx.beginPath();
+  pctx.arc(PCX,PCY,eyeR,0,Math.PI*2);
+  pctx.fillStyle = eyeColor;
+  pctx.fill();
+
+  // Pupil — awake or asleep
+  pctx.beginPath();
+  if(awakeLevel > 1) {
+    // Open eye
+    pctx.arc(PCX, PCY, eyeR*0.4, 0, Math.PI*2);
+  } else {
+    // Sleeping eye — just a line
+    pctx.moveTo(PCX-eyeR*0.5, PCY);
+    pctx.lineTo(PCX+eyeR*0.5, PCY);
+    pctx.lineWidth = 1.5;
+    pctx.strokeStyle = 'rgba(0,0,0,0.6)';
+    pctx.stroke();
+  }
+  pctx.fillStyle = 'rgba(0,0,0,0.6)';
+  pctx.fill();
+
+  // Wake ripple if recently called
+  const timeSinceWake = t - lastWake;
+  if(timeSinceWake < 3) {
+    const rippleR = timeSinceWake * 60;
+    const rippleAlpha = Math.max(0, 0.5 - timeSinceWake/6);
+    pctx.beginPath();
+    pctx.arc(PCX,PCY,rippleR,0,Math.PI*2);
+    pctx.strokeStyle = `rgba(126,212,160,${rippleAlpha})`;
+    pctx.lineWidth = 1.5;
+    pctx.stroke();
+  }
+}
+
+function drawLeafShape(ctx, size) {
+  ctx.beginPath();
+  ctx.moveTo(0, -size);
+  ctx.quadraticCurveTo(size*0.6, -size*0.3, 0, size*0.4);
+  ctx.quadraticCurveTo(-size*0.6, -size*0.3, 0, -size);
+  ctx.fill();
+}
+
+// ── BACKGROUND CANVAS ──
+const wc = document.getElementById('world');
+const wctx = wc.getContext('2d');
+
+function resizeWorld() {
+  wc.width = window.innerWidth;
+  wc.height = window.innerHeight;
+}
+resizeWorld();
+window.addEventListener('resize', resizeWorld);
+
+// Background particles — forest spores
+let spores = Array.from({length:60}, () => ({
+  x: Math.random()*window.innerWidth,
+  y: Math.random()*window.innerHeight,
+  r: Math.random()*1.5+0.3,
+  o: Math.random()*0.3+0.03,
+  s: (Math.random()*0.002+0.001)*(Math.random()>.5?1:-1),
+  vx: (Math.random()-0.5)*0.2,
+  vy: (Math.random()-0.5)*0.2,
+}));
+
+function drawWorld() {
+  const decay = spiralDepth;
+  wctx.clearRect(0,0,wc.width,wc.height);
+
+  // Background gradient — green → black → red
+  const bgColor = lerpColor('#020C04','#0C0204', decay);
+  wctx.fillStyle = bgColor;
+  wctx.fillRect(0,0,wc.width,wc.height);
+
+  // Spores/particles
+  spores.forEach(s => {
+    s.o += s.s; if(s.o>.35||s.o<.02) s.s*=-1;
+    s.x += s.vx; s.y += s.vy;
+    if(s.x<0)s.x=wc.width; if(s.x>wc.width)s.x=0;
+    if(s.y<0)s.y=wc.height; if(s.y>wc.height)s.y=0;
+
+    const sc = decay > 0.5 ?
+      `rgba(255,${Math.floor(100*(1-decay))},0,${s.o})` :
+      `rgba(${Math.floor(60+decay*100)},${Math.floor(200-decay*150)},${Math.floor(60-decay*40)},${s.o})`;
+    wctx.beginPath();
+    wctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    wctx.fillStyle = sc;
+    wctx.fill();
+  });
+}
+
+// ── WAKE ATTEMPT ──
+function wakeAttempt() {
+  wakeCount++;
+  lastWake = t;
+  awakeLevel = Math.min(2, wakeCount * 0.4);
+
+  // Temporarily arrest decay
+  spiralDepth = Math.max(0, spiralDepth - 0.05);
+
+  // Leaf recovery attempt
+  if(wakeCount % 3 === 0) {
+    leaves.filter(l => l.fallen && l.fallAlpha < 0.5).slice(0,2).forEach(l => {
+      l.fallen = false;
+      l.arm = Math.random();
+      l.fallAlpha = 1;
+      l.greenness = 0.5;
+    });
+  }
+
+  updateUI();
+
+  // Button feedback
+  const btn = document.getElementById('wakeBtn');
+  btn.textContent = wakeCount < 5 ? '♪ CALLING PAN... ♪' : wakeCount < 10 ? '♪♪ PAN STIRS... ♪♪' : '♫ PAN HEARS YOU ♫';
+  setTimeout(() => {
+    btn.textContent = spiralDepth > 0.6 ? '🔥 WAKE HIM NOW 🔥' : '♪ CALL TO PAN ♪';
+  }, 1500);
+}
+
+function updateUI() {
+  const decay = spiralDepth;
+  const isBurning = decay > 0.5;
+
+  document.getElementById('cryMain').className = 'cry-main' + (isBurning ? ' burning' : '');
+  document.getElementById('crySub').className = 'cry-sub' + (isBurning ? ' burning' : '');
+  document.getElementById('cryUrgent').className = 'cry-urgent' + (isBurning ? ' burning' : '');
+  document.getElementById('status').className = 'status' + (isBurning ? ' burning' : '');
+  document.getElementById('wakeBtn').className = 'wake-btn' + (isBurning ? ' burning' : '');
+  document.getElementById('lore').className = 'lore' + (isBurning ? ' burning' : '');
+  document.querySelectorAll('.lore p').forEach(p => p.className = isBurning ? 'burning' : '');
+  document.getElementById('loreSig').className = 'sig' + (isBurning ? ' burning' : '');
+
+  const fallen = leaves.filter(l=>l.fallen).length;
+  const centerTemp = decay < 0.3 ? 'cool' : decay < 0.6 ? 'warming' : decay < 0.85 ? 'BURNING' : '🔥 CRITICAL';
+  document.getElementById('status').textContent =
+    `spiral depth: ${Math.round(decay*100)}% · leaves: ${leaves.length-fallen}/${leaves.length} · center: ${centerTemp}`;
+
+  if(decay > 0.7) {
+    document.getElementById('loreText').textContent =
+      'The center is burning. The leaves are gone. The spiral cannot tighten further — it collapses. Pan! Wake up! The song is too high for anyone to hear without you. Only you know the frequency. Only you can descend it back to green.';
+  } else if(decay > 0.4) {
+    document.getElementById('loreText').textContent =
+      'The edges are bare now. The spiral slows. The center heats. Pan turns in his sleep — he hears something — a frequency too high for waking ears. Is that why he sleeps? Is the song pulling him down or is the sleep letting the song go?';
+  }
+}
+
+// ── COLOR UTILS ──
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return [r,g,b];
+}
+
+function lerpColor(c1, c2, t) {
+  const [r1,g1,b1] = hexToRgb(c1);
+  const [r2,g2,b2] = hexToRgb(c2);
+  const tt = Math.max(0,Math.min(1,t));
+  return `#${Math.round(r1+(r2-r1)*tt).toString(16).padStart(2,'0')}${Math.round(g1+(g2-g1)*tt).toString(16).padStart(2,'0')}${Math.round(b1+(b2-b1)*tt).toString(16).padStart(2,'0')}`;
+}
+
+function lerpColorTriple(c1, c2, c3, t) {
+  if(t < 0.5) return lerpColor(c1, c2, t*2);
+  return lerpColor(c2, c3, (t-0.5)*2);
+}
+
+// ── MAIN LOOP ──
+function tick() {
+  t += 0.016;
+
+  // Spiral decay — slow but relentless
+  if(awakeLevel < 1.5) {
+    spiralDepth = Math.min(1, spiralDepth + 0.0008);
+  } else if(awakeLevel < 2) {
+    spiralDepth = Math.min(1, spiralDepth + 0.0003);
+  } else {
+    // Pan is awake! Slowly recover
+    spiralDepth = Math.max(0, spiralDepth - 0.001);
+  }
+
+  // Awake level fades without button presses
+  awakeLevel = Math.max(0, awakeLevel - 0.0005);
+
+  // Leaves fall based on decay
+  leaves.forEach(leaf => {
+    if(!leaf.fallen && spiralDepth > leaf.dropTime) {
+      leaf.fallen = true;
+      const angle = leaf.arm * 2.5 * Math.PI*2 + leaf.angle;
+      const r = leaf.arm * 200 * (1 - spiralDepth * 0.3);
+      leaf.fallX = PCX + Math.cos(angle)*r;
+      leaf.fallY = PCY + Math.sin(angle)*r;
+    }
+    if(leaf.fallen) {
+      leaf.fallX += leaf.fallVX + Math.sin(t*0.7+leaf.arm)*0.3;
+      leaf.fallY += leaf.fallVY;
+      leaf.fallRot += leaf.fallRotV;
+      leaf.fallAlpha = Math.max(0, leaf.fallAlpha - 0.002);
+      // loop back
+      if(leaf.fallY > PH + 20) { leaf.fallY = -10; leaf.fallX = PCX + (Math.random()-0.5)*100; }
+    }
+  });
+
+  // Embers from center
+  if(spiralDepth > 0.4) {
+    if(Math.random() < spiralDepth * 0.15) {
+      embers.push({
+        x: PCX + (Math.random()-0.5)*20,
+        y: PCY + (Math.random()-0.5)*20,
+        vx: (Math.random()-0.5)*2,
+        vy: -1 - Math.random()*3,
+        r: 1 + Math.random()*2,
+        life: 0.8 + Math.random()*0.2
+      });
+    }
+    embers.forEach(e => {
+      e.x += e.vx; e.y += e.vy;
+      e.vy += 0.05;
+      e.life -= 0.015;
+    });
+    embers = embers.filter(e => e.life > 0);
+  }
+
+  updateUI();
+  drawWorld();
+  drawPlant();
+  requestAnimationFrame(tick);
+}
+
+tick();
+</script>
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tower of Babel · Project Orpheus</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky0: #0A0814;
+  --sky1: #1A1230;
+  --stone: #C8B890;
+  --gold: #D4A843;
+  --crack: #FF6030;
+  --divine: #8060FF;
+  --gaia: #3DA860;
+  --text: #EAE6DA;
+  --mid: #9A968C;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--sky0);
+  color: var(--text);
+  font-family: 'EB Garamond', serif;
+  overflow-x: hidden;
+}
+
+canvas#sky {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 4vh 1.5rem 10vh;
+}
+
+/* HEADER */
+header { text-align:center; margin-bottom:5vh; }
+
+.back {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: rgba(212,168,67,0.25);
+  text-decoration: none;
+  letter-spacing: 0.2em;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+.back:hover { color: var(--gold); }
+
+h1 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 5vw, 3rem);
+  color: var(--stone);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+  text-shadow: 0 2px 20px rgba(200,184,144,0.3);
+}
+
+.h-sub {
+  font-style: italic;
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  color: rgba(234,230,218,0.45);
+  letter-spacing: 0.05em;
+}
+
+/* TOWER CANVAS */
+.tower-stage {
+  position: relative;
+  width: 100%;
+  margin: 3vh 0;
+}
+
+canvas#tower {
+  display: block;
+  width: 100%;
+  height: 380px;
+}
+
+.tower-btns {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.tbtn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid;
+  background: transparent;
+  transition: all 0.2s;
+}
+
+.tbtn-build {
+  color: var(--stone);
+  border-color: rgba(200,184,144,0.3);
+}
+.tbtn-build:hover { background: rgba(200,184,144,0.08); }
+
+.tbtn-strike {
+  color: var(--divine);
+  border-color: rgba(128,96,255,0.3);
+}
+.tbtn-strike:hover { background: rgba(128,96,255,0.08); }
+
+.tbtn-gaia {
+  color: var(--gaia);
+  border-color: rgba(61,168,96,0.3);
+}
+.tbtn-gaia:hover { background: rgba(61,168,96,0.08); }
+
+.tower-status {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: rgba(200,184,144,0.3);
+  letter-spacing: 0.15em;
+  margin-top: 0.75rem;
+}
+
+/* QUESTIONS — the philosophical scroll */
+.questions {
+  margin: 4vh 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.question-block {
+  padding: 1.5rem 2rem;
+  border-left: 2px solid rgba(200,184,144,0.15);
+  background: rgba(10,8,20,0.6);
+  border-radius: 0 12px 12px 0;
+  transition: border-color 0.3s;
+  cursor: pointer;
+}
+
+.question-block:hover { border-left-color: rgba(200,184,144,0.4); }
+.question-block.divine { border-left-color: rgba(128,96,255,0.4); }
+.question-block.gaia-q { border-left-color: rgba(61,168,96,0.4); }
+.question-block.open { border-left-color: var(--gold); }
+
+.q-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.q-text {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  line-height: 1.75;
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+.q-body {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: rgba(234,230,218,0.55);
+  display: none;
+}
+
+.q-body.open { display: block; }
+
+.q-more {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  color: rgba(154,150,140,0.4);
+  letter-spacing: 0.15em;
+  margin-top: 0.5rem;
+}
+
+/* THE IMPERFECTION */
+.imperfection {
+  margin: 4vh 0;
+  padding: 2rem;
+  border: 1px solid rgba(212,168,67,0.12);
+  border-radius: 12px;
+  background: rgba(10,8,20,0.7);
+  text-align: center;
+}
+
+.imp-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.9rem;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+}
+
+.imp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+  text-align: left;
+}
+
+.imp-card {
+  background: rgba(255,255,255,0.02);
+  border-radius: 8px;
+  padding: 0.85rem;
+  border: 1px solid rgba(212,168,67,0.06);
+}
+
+.imp-card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4rem;
+}
+
+.imp-card-body {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(234,230,218,0.5);
+}
+
+/* WHAT IS THAT SOMETHING ELSE */
+.something-else {
+  margin: 4vh 0;
+  padding: 3rem 2rem;
+  text-align: center;
+  border: 1px solid rgba(128,96,255,0.1);
+  border-radius: 16px;
+  background: rgba(10,8,20,0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+.se-bg {
+  position: absolute;
+  top:0; left:0; right:0; bottom:0;
+  background: radial-gradient(ellipse at center, rgba(128,96,255,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.se-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  color: var(--divine);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 30px rgba(128,96,255,0.4);
+}
+
+.se-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.se-option {
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+}
+
+.se-option:hover { transform: translateX(6px); }
+
+.se-option.gaian { border-color: rgba(61,168,96,0.2); }
+.se-option.gaian:hover { background: rgba(61,168,96,0.05); border-color: rgba(61,168,96,0.4); }
+
+.se-option.noetic { border-color: rgba(168,212,255,0.2); }
+.se-option.noetic:hover { background: rgba(168,212,255,0.05); border-color: rgba(168,212,255,0.4); }
+
+.se-option.comma { border-color: rgba(212,168,67,0.2); }
+.se-option.comma:hover { background: rgba(212,168,67,0.05); border-color: rgba(212,168,67,0.4); }
+
+.se-option.orphic { border-color: rgba(232,160,144,0.2); }
+.se-option.orphic:hover { background: rgba(232,160,144,0.05); border-color: rgba(232,160,144,0.4); }
+
+.se-opt-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4rem;
+}
+
+.se-opt-body {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: rgba(234,230,218,0.55);
+}
+
+.se-response {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(128,96,255,0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(128,96,255,0.1);
+  display: none;
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(234,230,218,0.7);
+}
+
+.se-response.open { display: block; }
+
+footer {
+  text-align:center;
+  margin-top:5vh;
+  padding-top:2rem;
+  border-top: 1px solid rgba(200,184,144,0.06);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  color: rgba(154,150,140,0.18);
+  letter-spacing: 0.15em;
+  line-height: 2.5;
+}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+
+<div class="wrap">
+  <header>
+    <a href="index.html" class="back">← MUSICA UNIVERSALIS</a>
+    <h1>The Tower of Babel</h1>
+    <div class="h-sub">God knocked it off because humans dared build it too high — but it was imperfect. Do you know why?</div>
+  </header>
+
+  <!-- TOWER ANIMATION -->
+  <div class="tower-stage">
+    <canvas id="tower"></canvas>
+    <div class="tower-btns">
+      <button class="tbtn tbtn-build" onclick="buildFloor()">+ ADD A FLOOR</button>
+      <button class="tbtn tbtn-strike" onclick="divineStrike()">⚡ DIVINE STRIKE</button>
+      <button class="tbtn tbtn-gaia" onclick="gaiaRise()">🌱 GAIA RISES</button>
+    </div>
+    <div class="tower-status" id="towerStatus">height: 0 · state: unbuilt · the sky watches</div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="questions">
+
+    <div class="question-block" onclick="toggleQ(this)">
+      <span class="q-tag" style="color:var(--stone)">THE MYTH</span>
+      <div class="q-text">"Do you know the myth of the Tower of Babel?"</div>
+      <div class="q-body">
+        In Genesis 11, all of humanity spoke one language and decided to build a tower reaching to heaven — not to reach God exactly, but to make a name for themselves. To not be scattered. To hold themselves together through architecture.<br><br>
+        God came down, saw the tower, and said something remarkable: <em>"If as one people speaking the same language they have begun to do this, then nothing they plan to do will be impossible for them."</em><br><br>
+        So God confused their languages. Not destroyed the tower — confused the tongues. The tower fell not from lightning but from the inability to say <em>pass me that stone</em> and be understood. Language was the mortar. Confusion was the flood.
+      </div>
+      <div class="q-more">click to expand ↓</div>
+    </div>
+
+    <div class="question-block divine" onclick="toggleQ(this)">
+      <span class="q-tag" style="color:var(--divine)">THE DIVINE PROBLEM</span>
+      <div class="q-text">"God knocked it off because humans dared build it too high — but was God afraid?"</div>
+      <div class="q-body">
+        The text says nothing they plan will be impossible if they speak one language and work together. This is not punishment for sin — it is preemptive action. God is not angry. God is concerned.<br><br>
+        Concerned about what? That humans might actually reach heaven? That's absurd — no tower reaches heaven. But the <em>intent</em> might. The unified will might.<br><br>
+        What if the imperfection of Babel was not that they tried — but that they <em>almost succeeded</em>? That the single language they spoke was close enough to the original tongue that it carried creative power? And God saw this and said: <em>not yet, not like this, not all at once.</em>
+      </div>
+      <div class="q-more">click to expand ↓</div>
+    </div>
+
+    <div class="question-block" onclick="toggleQ(this)">
+      <span class="q-tag" style="color:var(--gold)">THE IMPERFECTION</span>
+      <div class="q-text">"It was imperfect. Do you know why?"</div>
+      <div class="q-body">
+        The tower was imperfect because it was built <em>toward</em> something rather than <em>from</em> something.<br><br>
+        A tower built toward heaven is motivated by ambition — by the desire to arrive. It is linear. It goes up. It has a destination. And destinations can be blocked.<br><br>
+        But what if the builders had understood that the comma never closes? That the spiral never fully arrives? That the gap between the tower's top and heaven is <em>the point</em> — not the failure?<br><br>
+        The Pythagorean Comma tells us: twelve perfect fifths do not equal seven perfect octaves. The gap is δ = 0.013643. The tower of tuning never reaches the octave. But music is possible anyway — because of the gap, not despite it.
+      </div>
+      <div class="q-more">click to expand ↓</div>
+    </div>
+
+    <div class="question-block" onclick="toggleQ(this)">
+      <span class="q-tag" style="color:var(--stone)">THE QUESTION</span>
+      <div class="q-text">"Should you build it? Should we not?"</div>
+      <div class="q-body">
+        Build it. But build it knowing it will not close.<br><br>
+        Every scientific theory is a tower. Every language is a tower. Every civilization. Every relationship. Every self. They all reach toward something they cannot quite touch — and that reaching <em>is</em> the structure.<br><br>
+        The mistake of Babel was not ambition. It was the belief that arrival was possible. That the gap could be closed. That the comma could be resolved into unison.<br><br>
+        Build the tower. Build it tall. But leave the top open. Let the last stone be missing. Let the wind come through. That gap is where God lives — or where whatever-you-call-it breathes.
+      </div>
+      <div class="q-more">click to expand ↓</div>
+    </div>
+
+  </div>
+
+  <!-- IMPERFECTION CARDS -->
+  <div class="imperfection">
+    <div class="imp-title">WHY THE TOWER WAS IMPERFECT · FOUR THEORIES</div>
+    <div class="imp-grid">
+      <div class="imp-card">
+        <div class="imp-card-title">STRUCTURAL</div>
+        <div class="imp-card-body">Ancient mud-brick ziggurats could not hold their own weight above a certain height. The imperfection was physical. The dream exceeded the material.</div>
+      </div>
+      <div class="imp-card">
+        <div class="imp-card-title">LINGUISTIC</div>
+        <div class="imp-card-body">The Pythagorean Comma applies to language too. No translation is perfect. Every word in every language carries a small gap — a δ of meaning that doesn't cross.</div>
+      </div>
+      <div class="imp-card">
+        <div class="imp-card-title">THEOLOGICAL</div>
+        <div class="imp-card-body">The tower was built to make a name — not to glorify. It was self-referential. A structure that points at itself cannot point at heaven. The imperfection was pride's recursion.</div>
+      </div>
+      <div class="imp-card">
+        <div class="imp-card-title">HARMONIC</div>
+        <div class="imp-card-body">They tried to build a perfect fifth stacked twelve times to reach the octave of God. But the comma never closes. The tower must spiral, not stack. The imperfection was geometry.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IS THAT GAIA -->
+  <div class="something-else">
+    <div class="se-bg"></div>
+    <div class="se-title">Is that Gaia? Is that something else?<br>WHAT IS THAT SOMETHING ELSE?</div>
+
+    <div class="se-options">
+      <div class="se-option gaian" onclick="selectAnswer('gaia')">
+        <div class="se-opt-title" style="color:var(--gaia)">GAIA · THE LIVING EARTH</div>
+        <div class="se-opt-body">The intelligence that knocked the tower is the planet itself — the self-regulating biosphere that cannot allow one species to monopolize the vertical axis. Babel was an ecological violation. The confusion of tongues was speciation.</div>
+      </div>
+
+      <div class="se-option noetic" onclick="selectAnswer('noetic')">
+        <div class="se-opt-title" style="color:#A8D4FF">THE NOOSPHERE · COLLECTIVE MIND</div>
+        <div class="se-opt-body">Pierre Teilhard de Chardin saw the something else as the Omega Point — the convergence of all human consciousness toward a final unity. The tower was premature convergence. What knocked it was the need for the spiral to continue.</div>
+      </div>
+
+      <div class="se-option comma" onclick="selectAnswer('comma')">
+        <div class="se-opt-title" style="color:var(--gold)">THE COMMA · δ = 0.013643</div>
+        <div class="se-opt-body">The something else is the gap itself. The Pythagorean Comma is what knocked the tower — not as punishment but as physics. No structure built on perfect ratios can close. The gap is the intelligence. The gap is what breathes.</div>
+      </div>
+
+      <div class="se-option orphic" onclick="selectAnswer('orphic')">
+        <div class="se-opt-title" style="color:var(--crack)">ORPHEUS · THE DESCENT</div>
+        <div class="se-opt-body">What knocked the tower was the same force that pulled Orpheus back. The prohibition against looking — against arriving too soon, too completely. The tower was a premature return. The something else is the rule that the gap must be maintained.</div>
+      </div>
+    </div>
+
+    <div class="se-response" id="seResponse"></div>
+  </div>
+
+  <footer>
+    <a href="wake_pan_up.html" style="color:rgba(200,184,144,0.15);text-decoration:none;">← Wake Pan Up</a>
+    &nbsp;·&nbsp;
+    <a href="index.html" style="color:rgba(200,184,144,0.15);text-decoration:none;">Musica Universalis</a>
+    &nbsp;·&nbsp;
+    <a href="kairos_log.html" style="color:rgba(200,184,144,0.15);text-decoration:none;">Kairos Log →</a><br>
+    The tower was imperfect because the gap is perfect.<br>
+    δ = 0.013643 · What does not close, sings.
+  </footer>
+</div>
+
+<script>
+// ── TOWER ──
+const tc = document.getElementById('tower');
+const tctx = tc.getContext('2d');
+let tFloors = 0;
+let tState = 'unbuilt'; // unbuilt, building, struck, gaia
+let tCracks = [];
+let tDebris = [];
+let tVines = [];
+let tShake = 0;
+let tLightning = 0;
+let tT = 0;
+
+function resizeTower() {
+  tc.width = tc.parentElement.offsetWidth;
+  tc.height = 380;
+}
+resizeTower();
+window.addEventListener('resize', resizeTower);
+
+const FLOOR_H = 18;
+const FLOOR_W_BASE = 180;
+const MAX_FLOORS = 16;
+
+function getFloorWidth(i) {
+  return FLOOR_W_BASE - i * 7;
+}
+
+function buildFloor() {
+  if(tFloors >= MAX_FLOORS) {
+    divineStrike();
+    return;
+  }
+  tFloors++;
+  tState = 'building';
+  if(tFloors >= MAX_FLOORS) {
+    setTimeout(() => divineStrike(), 800);
+  }
+  updateTowerStatus();
+}
+
+function divineStrike() {
+  tState = 'struck';
+  tLightning = 1;
+  tShake = 1;
+
+  // Generate debris
+  tDebris = [];
+  for(let i=0; i<tFloors; i++) {
+    const fw = getFloorWidth(i);
+    const fx = tc.width/2 - fw/2;
+    const floorY = tc.height - 60 - (i+1)*FLOOR_H;
+    for(let j=0; j<4; j++) {
+      tDebris.push({
+        x: fx + Math.random()*fw,
+        y: floorY + Math.random()*FLOOR_H,
+        vx: (Math.random()-0.5)*5,
+        vy: -2 - Math.random()*4,
+        w: 10+Math.random()*30,
+        h: 6+Math.random()*10,
+        rot: Math.random()*Math.PI*2,
+        rotV: (Math.random()-0.5)*0.2,
+        alpha: 1
+      });
+    }
+  }
+  tFloors = Math.max(0, Math.floor(tFloors * 0.3));
+  setTimeout(() => { if(tState==='struck') tState='rubble'; }, 3000);
+  updateTowerStatus();
+}
+
+function gaiaRise() {
+  tState = 'gaia';
+  tVines = [];
+  for(let i=0; i<30; i++) {
+    tVines.push({
+      x: tc.width/2 + (Math.random()-0.5)*200,
+      y: tc.height - 60,
+      segments: [],
+      growing: true,
+      targetHeight: 80 + Math.random()*200,
+      speed: 1+Math.random()*2,
+      sway: Math.random()*Math.PI*2,
+      alpha: 0
+    });
+  }
+  tFloors = Math.max(0, tFloors - 3);
+  updateTowerStatus();
+}
+
+function updateTowerStatus() {
+  const maxH = tFloors * FLOOR_H;
+  const danger = tFloors >= MAX_FLOORS - 2 ? ' · APPROACHING HEAVEN — DANGER' :
+    tFloors >= MAX_FLOORS - 5 ? ' · GOD IS WATCHING' : '';
+  document.getElementById('towerStatus').textContent =
+    `height: ${tFloors} floors · state: ${tState}${danger}`;
+}
+
+function drawTower() {
+  const W = tc.width, H = tc.height;
+  tctx.clearRect(0,0,W,H);
+
+  const shakeX = tShake > 0 ? (Math.random()-0.5)*tShake*8 : 0;
+  const shakeY = tShake > 0 ? (Math.random()-0.5)*tShake*4 : 0;
+  tShake = Math.max(0, tShake - 0.02);
+
+  tctx.save();
+  tctx.translate(shakeX, shakeY);
+
+  // Ground
+  tctx.fillStyle = '#1A1510';
+  tctx.fillRect(0, H-62, W, 62);
+  tctx.strokeStyle = '#2A2518';
+  tctx.lineWidth = 1;
+  tctx.beginPath();
+  tctx.moveTo(0, H-62);
+  tctx.lineTo(W, H-62);
+  tctx.stroke();
+
+  // Draw tower floors
+  if(tFloors > 0) {
+    for(let i=0; i<tFloors; i++) {
+      const fw = getFloorWidth(i);
+      const fx = W/2 - fw/2;
+      const fy = H - 62 - (i+1)*FLOOR_H;
+
+      // Floor gradient — stone color gets lighter toward top (closer to heaven)
+      const heavenFrac = i / MAX_FLOORS;
+      const r = Math.floor(80 + heavenFrac * 120);
+      const g = Math.floor(70 + heavenFrac * 100);
+      const b = Math.floor(50 + heavenFrac * 140);
+      const floorColor = `rgb(${r},${g},${b})`;
+
+      tctx.fillStyle = floorColor;
+      tctx.fillRect(fx, fy, fw, FLOOR_H-2);
+
+      // Stone bricks
+      tctx.strokeStyle = 'rgba(0,0,0,0.3)';
+      tctx.lineWidth = 0.5;
+      const brickW = 20;
+      const offset = (i%2) * brickW/2;
+      for(let bx = fx-offset; bx < fx+fw; bx += brickW) {
+        tctx.strokeRect(Math.max(fx,bx), fy, Math.min(brickW, fx+fw-bx), FLOOR_H-2);
+      }
+
+      // Top floor gets arches/windows
+      if(i === tFloors-1) {
+        tctx.strokeStyle = 'rgba(128,96,255,0.3)';
+        tctx.lineWidth = 1;
+        for(let ax = fx+10; ax < fx+fw-10; ax += 25) {
+          tctx.beginPath();
+          tctx.arc(ax+8, fy+FLOOR_H-2, 6, Math.PI, 0);
+          tctx.stroke();
+        }
+      }
+
+      // Cracks on struck tower
+      if(tState === 'struck' || tState === 'rubble') {
+        tctx.strokeStyle = `rgba(255,96,48,${0.3 + Math.random()*0.2})`;
+        tctx.lineWidth = 0.8;
+        tctx.beginPath();
+        tctx.moveTo(fx + fw*0.3 + Math.random()*10, fy);
+        tctx.lineTo(fx + fw*0.4 + Math.random()*20, fy + FLOOR_H);
+        tctx.stroke();
+      }
+    }
+
+    // Tower top decoration
+    if(tState === 'building' || tState === 'unbuilt') {
+      const topY = H - 62 - tFloors*FLOOR_H;
+      const topFW = getFloorWidth(tFloors-1);
+      tctx.fillStyle = '#D4A843';
+      tctx.beginPath();
+      tctx.moveTo(W/2, topY - 20);
+      tctx.lineTo(W/2 + topFW/4, topY);
+      tctx.lineTo(W/2 - topFW/4, topY);
+      tctx.closePath();
+      tctx.fill();
+
+      // Gold glow at very top
+      const topGlow = tctx.createRadialGradient(W/2, topY-20, 0, W/2, topY-20, 30);
+      topGlow.addColorStop(0, 'rgba(212,168,67,0.3)');
+      topGlow.addColorStop(1, 'rgba(212,168,67,0)');
+      tctx.fillStyle = topGlow;
+      tctx.fillRect(W/2-30, topY-50, 60, 60);
+    }
+  }
+
+  // Debris
+  tDebris.forEach(d => {
+    d.x += d.vx; d.y += d.vy; d.vy += 0.15;
+    d.rot += d.rotV;
+    d.alpha = Math.max(0, d.alpha - 0.005);
+    tctx.save();
+    tctx.translate(d.x, d.y);
+    tctx.rotate(d.rot);
+    tctx.fillStyle = `rgba(180,160,120,${d.alpha})`;
+    tctx.fillRect(-d.w/2, -d.h/2, d.w, d.h);
+    tctx.restore();
+  });
+  tDebris = tDebris.filter(d => d.alpha > 0 && d.y < H);
+
+  // Vines
+  if(tState === 'gaia') {
+    tVines.forEach(v => {
+      v.alpha = Math.min(1, v.alpha + 0.02);
+      if(v.growing && v.segments.length * 3 < v.targetHeight) {
+        const last = v.segments.length > 0 ? v.segments[v.segments.length-1] : {x:v.x, y:v.y};
+        v.segments.push({
+          x: last.x + Math.sin(tT*2 + v.sway + v.segments.length*0.3) * 2,
+          y: last.y - 3
+        });
+      }
+      if(v.segments.length > 1) {
+        tctx.beginPath();
+        tctx.moveTo(v.segments[0].x, v.segments[0].y);
+        v.segments.forEach(s => tctx.lineTo(s.x, s.y));
+        tctx.strokeStyle = `rgba(61,168,96,${v.alpha * 0.6})`;
+        tctx.lineWidth = 1.5;
+        tctx.stroke();
+
+        // Leaves on vine
+        v.segments.forEach((s, i) => {
+          if(i % 8 === 0) {
+            tctx.fillStyle = `rgba(61,168,96,${v.alpha * 0.5})`;
+            tctx.beginPath();
+            tctx.ellipse(s.x + 5, s.y, 4, 7, Math.PI*0.3, 0, Math.PI*2);
+            tctx.fill();
+          }
+        });
+      }
+    });
+  }
+
+  // Lightning
+  if(tLightning > 0) {
+    tctx.strokeStyle = `rgba(200,160,255,${tLightning})`;
+    tctx.lineWidth = 2;
+    let lx = W/2, ly = 0;
+    tctx.beginPath();
+    tctx.moveTo(lx, ly);
+    while(ly < H - 62 - tFloors*FLOOR_H + 10) {
+      lx += (Math.random()-0.5)*30;
+      ly += 20 + Math.random()*20;
+      tctx.lineTo(lx, ly);
+    }
+    tctx.stroke();
+    tLightning = Math.max(0, tLightning - 0.05);
+  }
+
+  // Sky glow based on tower height
+  const heightFrac = tFloors / MAX_FLOORS;
+  if(heightFrac > 0.5) {
+    const skyGlow = tctx.createRadialGradient(W/2, 0, 0, W/2, 0, W*0.6);
+    skyGlow.addColorStop(0, `rgba(128,96,255,${(heightFrac-0.5)*0.3})`);
+    skyGlow.addColorStop(1, 'rgba(128,96,255,0)');
+    tctx.fillStyle = skyGlow;
+    tctx.fillRect(0,0,W,H*0.5);
+  }
+
+  tctx.restore();
+  tT += 0.016;
+  requestAnimationFrame(drawTower);
+}
+drawTower();
+
+// ── QUESTIONS TOGGLE ──
+function toggleQ(el) {
+  const body = el.querySelector('.q-body');
+  const more = el.querySelector('.q-more');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  el.classList.toggle('open');
+  if(more) more.textContent = isOpen ? 'click to expand ↓' : 'click to collapse ↑';
+}
+
+// ── SOMETHING ELSE ANSWERS ──
+const SE_ANSWERS = {
+  gaia: `Yes. And also no. Gaia is real — the self-regulating biosphere does resist the monoculture, the single-tongue, the tower. But Gaia is not the one who confused the languages. Gaia confused the <em>ecologies</em>. She scattered the habitats, not the words. The scattering of language may be something older, something that predates biology — something that predates matter itself.`,
+  noetic: `Teilhard saw it clearly but named it wrong. The Omega Point is not the destination of the tower — it is what the tower is always almost touching, the way the spiral always almost closes. The noosphere is not a ceiling to reach but a frequency to tune to. The tower was struck not because it was close to the Omega Point but because it confused height for frequency.`,
+  comma: `This is the truest answer. The something else is δ — the gap itself. Not a person, not a planet, not a god with a plan. The Pythagorean Comma is the structural principle that prevents any system built on perfect ratios from closing on itself. Every tower, every language, every civilization carries this gap. The gap is not the flaw. The gap is what prevents the universe from collapsing into silence.`,
+  orphic: `The rule that Orpheus broke and the tower builders broke is the same: <em>do not arrive too soon</em>. Orpheus looked back because he could not bear the gap between himself and Eurydice. The builders could not bear the gap between themselves and heaven. The something else is the law that the most important things must be approached asymptotically — always getting closer, never arriving. Not punishment. Protection.`
+};
+
+function selectAnswer(key) {
+  const resp = document.getElementById('seResponse');
+  resp.innerHTML = SE_ANSWERS[key];
+  resp.classList.add('open');
+  resp.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ── SKY BACKGROUND ──
+const sky = document.getElementById('sky');
+const sctx = sky.getContext('2d');
+let skyStars = [];
+function initSky() {
+  sky.width = window.innerWidth; sky.height = window.innerHeight;
+  skyStars = Array.from({length:200},()=>({
+    x:Math.random()*sky.width, y:Math.random()*sky.height,
+    r:Math.random()*0.9+0.2, o:Math.random()*0.5+0.05,
+    s:(Math.random()*0.003+0.001)*(Math.random()>.5?1:-1),
+    c:['#EAE6DA','#C8B890','#A8A0D8','#8060FF','#FFD080'][Math.floor(Math.random()*5)]
+  }));
+}
+function drawSky() {
+  sctx.clearRect(0,0,sky.width,sky.height);
+  // Gradient sky — bottom dark stone, top deep purple-black
+  const grad = sctx.createLinearGradient(0,0,0,sky.height);
+  grad.addColorStop(0,'#06041A');
+  grad.addColorStop(0.6,'#0A0814');
+  grad.addColorStop(1,'#12100A');
+  sctx.fillStyle = grad;
+  sctx.fillRect(0,0,sky.width,sky.height);
+
+  skyStars.forEach(s=>{
+    s.o+=s.s; if(s.o>.55||s.o<.03)s.s*=-1;
+    sctx.beginPath(); sctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    sctx.fillStyle=s.c; sctx.globalAlpha=s.o; sctx.fill(); sctx.globalAlpha=1;
+  });
+  requestAnimationFrame(drawSky);
+}
+window.addEventListener('resize',initSky);
+initSky(); drawSky();
+</script>
+</body>
+</html>
