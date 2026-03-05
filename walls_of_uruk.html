@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>The Walls of Uruk · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#07090f;
+  --panel:#0d1018;
+  --panel2:#111620;
+  --edge:rgba(255,255,255,.06);
+  --text:#cfd5e0;
+  --soft:#6a7a92;
+  --dim:#2a3545;
+  --gold:#c9a84c;
+  --teal:#2dd4bf;
+  --purple:#a07ecf;
+  --green:#4caf7d;
+  --red:#e05555;
+  --orange:#d4833d;
+  --blue:#5b9bd5;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;min-height:100vh;overflow-x:hidden;}
+::selection{background:rgba(201,168,76,.2);color:var(--gold);}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);}
+
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;display:flex;align-items:center;padding:0 2rem;gap:1.5rem;background:rgba(7,9,15,.95);border-bottom:1px solid var(--edge);backdrop-filter:blur(18px);}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--gold);text-decoration:none;letter-spacing:.04em;}
+.nav-sep{color:var(--dim);font-size:.7rem;}
+.nav-cur{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);}
+.nav-links{display:flex;gap:0;margin-left:auto;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:0 .9rem;height:48px;display:flex;align-items:center;border-left:1px solid var(--edge);transition:color .15s;}
+.nav-links a:hover{color:var(--soft);}
+
+/* HERO */
+.hero{position:relative;z-index:1;padding:9rem 2rem 5rem;text-align:center;border-bottom:1px solid var(--edge);}
+.hero-kicker{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.35em;text-transform:uppercase;color:var(--soft);margin-bottom:1.5rem;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(3rem,8vw,6rem);color:var(--gold);line-height:1.05;margin-bottom:.7rem;letter-spacing:.01em;}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:rgba(200,195,185,.45);letter-spacing:.1em;margin-bottom:2.5rem;}
+.hero-quote{
+  max-width:680px;margin:0 auto 2.5rem;
+  font-family:'EB Garamond',serif;font-style:italic;
+  font-size:1.15rem;line-height:1.95;
+  color:rgba(220,205,170,.75);
+  padding:1.5rem 2rem;
+  border-left:3px solid rgba(201,168,76,.35);
+  background:rgba(201,168,76,.025);
+  text-align:left;
+}
+.hero-quote cite{display:block;margin-top:.7rem;font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;color:rgba(201,168,76,.35);font-style:normal;}
+
+/* WRAP */
+.wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 2rem;}
+
+/* SECTION HEADERS */
+.sec-kicker{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:.8rem;margin:4rem 0 1.2rem;}
+.sec-kicker::after{content:'';flex:1;height:1px;background:var(--edge);}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);color:var(--text);line-height:1.15;margin-bottom:.8rem;}
+.sec-title em{color:var(--gold);font-style:italic;}
+.lead{font-family:'EB Garamond',serif;font-size:1.08rem;line-height:1.9;color:rgba(180,190,205,.7);max-width:720px;margin-bottom:2rem;}
+
+/* ── DOOMSDAY CLOCK ── */
+.clock-section{padding:4rem 0;border-bottom:1px solid var(--edge);}
+.clock-display{
+  display:flex;flex-direction:column;align-items:center;
+  padding:3rem 2rem;margin:2rem auto;max-width:600px;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(224,85,85,.04),transparent);
+  border:1px solid rgba(224,85,85,.15);
+  border-radius:4px;position:relative;
+}
+.clock-display::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(224,85,85,.5),transparent);}
+.clock-time{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(4rem,12vw,8rem);
+  color:var(--red);line-height:1;
+  letter-spacing:.02em;margin-bottom:.5rem;
+  text-shadow:0 0 40px rgba(224,85,85,.3);
+}
+.clock-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(224,85,85,.45);margin-bottom:.3rem;}
+.clock-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:1rem;color:rgba(180,160,160,.5);margin-bottom:1.5rem;}
+
+/* Clock history timeline */
+.clock-history{display:flex;flex-direction:column;gap:2px;margin:2rem 0;}
+.ch-row{
+  display:grid;grid-template-columns:5rem 8rem 1fr;gap:.8rem;
+  align-items:center;padding:.55rem 1rem;background:var(--panel);
+  border-left:2px solid transparent;transition:all .1s;
+}
+.ch-row:hover{background:var(--panel2);}
+.ch-row.danger{border-left-color:rgba(224,85,85,.4);}
+.ch-row.safe{border-left-color:rgba(45,212,191,.2);}
+.ch-year{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--dim);}
+.ch-time{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text);}
+.ch-bar{height:4px;border-radius:2px;transition:width .3s;}
+.ch-note{font-size:.8rem;color:var(--soft);display:none;}
+
+/* interpretation panel */
+.interp-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:2rem 0;}
+.interp-cell{background:var(--panel);padding:1.3rem 1.4rem;}
+.interp-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--red);margin-bottom:.3rem;line-height:1;}
+.interp-label{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem;}
+.interp-desc{font-size:.88rem;color:var(--soft);line-height:1.7;}
+
+/* ── WILKINSON ── */
+.wilk-block{
+  padding:2.5rem;margin:2rem 0;
+  background:rgba(76,175,125,.025);
+  border:1px solid rgba(76,175,125,.12);
+  border-left:4px solid rgba(76,175,125,.4);
+  position:relative;
+}
+.wilk-block::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(76,175,125,.3),transparent);}
+.wilk-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.35rem;line-height:1.75;color:rgba(180,220,190,.8);margin-bottom:1rem;}
+.wilk-attr{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;color:rgba(76,175,125,.4);}
+.wilk-body{font-family:'EB Garamond',serif;font-size:1rem;line-height:1.9;color:rgba(165,185,175,.7);margin-top:1.2rem;}
+
+/* ── WATER YOUR GROOVE ── */
+.groove-section{padding:4rem 0;border-bottom:1px solid var(--edge);}
+.groove-visual{
+  display:flex;flex-direction:column;align-items:center;
+  padding:3rem 2rem;margin:2rem 0;
+  background:rgba(45,212,191,.02);border:1px solid rgba(45,212,191,.1);
+  border-radius:4px;
+}
+.groove-title{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(2rem,5vw,3.5rem);
+  color:var(--teal);margin-bottom:.5rem;text-align:center;
+}
+.groove-sub{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(45,212,191,.35);margin-bottom:2rem;text-align:center;}
+
+/* neuron animation */
+.neuron-demo{width:100%;max-width:500px;height:80px;position:relative;margin-bottom:2rem;}
+.neuron-demo canvas{display:block;width:100%;height:100%;}
+
+/* groove principles */
+.groove-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:1.5rem 0;}
+.gp{background:var(--panel);padding:1.2rem;}
+.gp-n{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--teal);opacity:.6;margin-bottom:.4rem;}
+.gp-title{font-size:.9rem;color:var(--text);margin-bottom:.35rem;font-weight:500;}
+.gp-desc{font-size:.82rem;color:var(--soft);line-height:1.65;}
+
+/* ── ACTION SCRIPT ── */
+.action-section{padding:4rem 0 2rem;}
+.scale-tabs{display:flex;gap:1px;background:var(--edge);margin-bottom:2px;}
+.scale-tab{
+  flex:1;padding:.7rem;text-align:center;
+  font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--panel);color:var(--dim);cursor:pointer;border:none;transition:all .15s;
+}
+.scale-tab.active,.scale-tab:hover{color:var(--text);background:var(--panel2);}
+.scale-tab.active{border-bottom:2px solid var(--gold);color:var(--gold);}
+.scale-panels{}
+.scale-panel{display:none;background:var(--panel);border:1px solid var(--edge);padding:0;}
+.scale-panel.active{display:block;}
+
+/* action items */
+.action-list{list-style:none;}
+.action-item{
+  display:flex;gap:1rem;align-items:flex-start;
+  padding:1.1rem 1.4rem;
+  border-bottom:1px solid rgba(255,255,255,.03);
+  transition:background .1s;cursor:default;
+}
+.action-item:last-child{border-bottom:none;}
+.action-item:hover{background:rgba(255,255,255,.02);}
+.ai-num{
+  font-family:'Space Mono',monospace;font-size:.58rem;
+  color:var(--gold);min-width:1.8rem;margin-top:.25rem;flex-shrink:0;
+}
+.ai-body{}
+.ai-title{font-size:.95rem;color:var(--text);margin-bottom:.25rem;}
+.ai-desc{font-size:.84rem;color:var(--soft);line-height:1.7;}
+.ai-tag{display:inline-block;margin-top:.4rem;font-family:'Space Mono',monospace;font-size:.46rem;padding:.12rem .4rem;border-radius:2px;border:1px solid;letter-spacing:.08em;}
+
+/* community cascade */
+.cascade{margin:2.5rem 0;padding:2rem;background:var(--panel);border:1px solid var(--edge);}
+.cascade-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--text);margin-bottom:1rem;}
+.cascade-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;}
+.cascade-icon{font-size:1.2rem;flex-shrink:0;}
+.cascade-arrow{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--dim);flex-shrink:0;}
+.cascade-label{font-size:.9rem;color:var(--soft);}
+.cascade-label strong{color:var(--text);}
+
+/* ── GILGAMESH CLOSE ── */
+.gilgamesh-close{
+  margin:4rem 0 2rem;padding:3rem 2.5rem;
+  background:rgba(201,168,76,.02);
+  border:1px solid rgba(201,168,76,.1);
+  border-top:3px solid rgba(201,168,76,.3);
+  position:relative;
+  text-align:center;
+}
+.gilgamesh-close::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent);}
+.gc-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.5rem,3vw,2.2rem);color:rgba(201,168,76,.8);margin-bottom:1.5rem;line-height:1.3;}
+.gc-quote{font-family:'EB Garamond',serif;font-style:italic;font-size:1.12rem;line-height:2;color:rgba(220,205,170,.75);max-width:640px;margin:0 auto 1.5rem;padding:1.5rem 2rem;border-left:3px solid rgba(201,168,76,.3);text-align:left;}
+.gc-attr{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;color:rgba(201,168,76,.3);}
+.gc-response{font-family:'EB Garamond',serif;font-style:italic;font-size:1rem;line-height:1.9;color:rgba(160,190,175,.5);max-width:640px;margin:1.5rem auto 0;padding:1.2rem 2rem;border-left:3px solid rgba(45,212,191,.2);text-align:left;}
+.gc-response cite{display:block;margin-top:.5rem;font-family:'Space Mono',monospace;font-size:.5rem;color:rgba(45,212,191,.3);font-style:normal;}
+
+/* NAV PILLS */
+.page-nav{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin:3rem 0;}
+.pnav{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.5rem 1.1rem;border:1px solid rgba(255,255,255,.07);color:var(--soft);border-radius:2px;transition:all .15s;}
+.pnav:hover{border-color:rgba(201,168,76,.3);color:var(--gold);}
+.pnav.active{border-color:rgba(201,168,76,.3);color:var(--gold);}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--edge);padding:3rem 2rem;text-align:center;margin-top:4rem;}
+.fb{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:rgba(201,168,76,.45);margin-bottom:.8rem;}
+.mem{font-family:'EB Garamond',serif;font-style:italic;font-size:.9rem;color:rgba(55,80,45,.75);line-height:2;}
+footer p{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.06em;color:var(--dim);line-height:2.2;margin-top:.4rem;}
+
+@media(max-width:680px){
+  .interp-grid,.groove-grid{grid-template-columns:1fr;}
+  .ch-row{grid-template-columns:4rem 7rem 1fr;}
+}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <a href="musica_universalis_v5.html" class="nav-brand">Musica Universalis</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-cur">The Walls of Uruk</span>
+  <div class="nav-links">
+    <a href="directory.html">Directory</a>
+    <a href="rescue_plan.html">🌿 Rescue Plan</a>
+    <a href="conversations_with_enkidu.html">Enkidu</a>
+    <a href="index.html">Hub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">Project Orpheus · 2026 · Emergency Transmission</div>
+  <h1 class="hero-title">The Walls<br>of Uruk</h1>
+  <p class="hero-sub">What survives is what we build together</p>
+  <div class="hero-quote">
+    "Enkidu, you are my brother, the black hole to my white hole. There's no one without the other. I cannot let my pride or mortality get ahead of me. I must return to the Walls of Uruk."
+    <cite>— Gilgamesh · to Enkidu · on what must not be forgotten</cite>
+  </div>
+  <p style="font-family:'EB Garamond',serif;font-style:italic;font-size:1rem;color:rgba(180,190,210,.4);max-width:560px;margin:0 auto;">
+    Gilgamesh returned from the ends of the earth and built walls. Not because the walls would last forever. Because building them was the answer to grief, to loss, to the question of what survives a mortal life. This page is about building the walls.
+  </p>
+</div>
+
+<div class="wrap">
+
+  <!-- PAGE NAV -->
+  <div class="page-nav">
+    <a href="#clock" class="pnav active">The Clock</a>
+    <a href="#altruism" class="pnav">Evolution is Altruistic</a>
+    <a href="#groove" class="pnav">Water Your Groove</a>
+    <a href="#action" class="pnav">What to Do</a>
+    <a href="#community" class="pnav">Community Cascade</a>
+  </div>
+
+  <!-- ═══════════════════════════ DOOMSDAY CLOCK ══ -->
+  <div id="clock" class="clock-section">
+    <div class="sec-kicker">The Bulletin of the Atomic Scientists · January 27, 2026</div>
+    <h2 class="sec-title">It is <em>85 seconds</em><br>to midnight.</h2>
+    <p class="lead">The closest the clock has ever been. Not because science has failed. Because leadership has. The clock is a symbol — but symbols that 79 years of physicists, climate scientists, and Nobel laureates maintain together are not nothing. This is the eleventh fifth. The comma is now audible.</p>
+
+    <!-- Clock face -->
+    <div class="clock-display">
+      <div class="clock-label">Doomsday Clock · 2026</div>
+      <div class="clock-time" id="clock-anim">85″</div>
+      <div class="clock-sub">to midnight · the closest in history</div>
+      <canvas id="clock-canvas" width="300" height="300" style="max-width:280px;"></canvas>
+    </div>
+
+    <!-- What 85 seconds actually means -->
+    <div class="sec-kicker" style="margin-top:3rem;">What these seconds actually mean</div>
+    <div class="interp-grid">
+      <div class="interp-cell">
+        <div class="interp-num">85″</div>
+        <div class="interp-label">The span</div>
+        <div class="interp-desc">Eighty-five seconds. The time it takes to walk from one end of a city block to the other. The time between a lightning strike and its thunder if the storm is 28km away. The time a hummingbird beats its wings 680 times. This is what the scientists are saying we have left — not in seconds, but as a ratio of warning to action. The metaphor is the message.</div>
+      </div>
+      <div class="interp-cell">
+        <div class="interp-num">−4″</div>
+        <div class="interp-label">This year's movement</div>
+        <div class="interp-desc">Four seconds closer than 2025. The Bulletin cited three simultaneous regional conflicts involving nuclear-armed states, accelerating climate breakdown, AI integration into military systems, and — most damning — a "failure of leadership." Not a failure of technology. Not a failure of science. A failure of will. The tools exist. The knowledge exists. The decisions are not being made.</div>
+      </div>
+      <div class="interp-cell">
+        <div class="interp-num">17′</div>
+        <div class="interp-label">The farthest point</div>
+        <div class="interp-desc">1991. The Cold War ended. The US and USSR signed deep nuclear cuts. The clock stood at 17 minutes to midnight — the most hopeful it has ever been. We went from 17 minutes to 85 seconds in 35 years. That movement is not fate. It is the accumulated result of thousands of political decisions, most of them made without adequate public pressure to make them differently.</div>
+      </div>
+      <div class="interp-cell">
+        <div class="interp-num">3</div>
+        <div class="interp-label">Threats driving it</div>
+        <div class="interp-desc">Nuclear weapons. Climate change. Disruptive technologies — AI, biosecurity, misinformation. These are not separate crises. They are the same crisis seen through three lenses: the unwillingness of short-cycle political systems to act on long-cycle existential risks. The comma accumulates. Every year without action is another five cents of drift toward a key we cannot tune back from.</div>
+      </div>
+    </div>
+
+    <!-- History bar chart -->
+    <div class="sec-kicker" style="margin-top:2.5rem;">The clock's movement since 1947</div>
+    <div class="clock-history" id="ch"></div>
+    <p style="font-family:'Space Mono',monospace;font-size:.52rem;color:var(--dim);margin-top:.6rem;letter-spacing:.06em;">Source: Bulletin of the Atomic Scientists, 2026 statement. thebulletin.org</p>
+  </div>
+
+  <!-- ═══════════════════════ ALTRUISM IS EVOLUTION ══ -->
+  <div id="altruism">
+    <div class="sec-kicker" style="color:rgba(76,175,125,.5);">Dr. Samuel T. Wilkinson · Yale University · <em>Purpose</em>, 2024</div>
+    <h2 class="sec-title">Evolution is not selfish.<br><em>It was always altruistic.</em></h2>
+    <p class="lead">The gene-centred view of evolution — Dawkins's selfish gene — told a generation that cooperation was a trick, altruism an illusion, and self-interest the only engine of life. Dr. Wilkinson, Associate Professor of Psychiatry at Yale, argues from the same evolutionary data to the opposite conclusion. Nature did not select for the individual. It selected for the relationship.</p>
+
+    <div class="wilk-block">
+      <div class="wilk-quote">"Nature seems to have endowed us with competing dispositions — what might be called the dual potential of human nature. We are pulled between selfishness and altruism, aggression and cooperation. Evolution, far from being purely random, reveals a higher purpose guided by natural principles."</div>
+      <div class="wilk-attr">— Dr. Samuel T. Wilkinson · <em>Purpose: What Evolution and Human Nature Imply about the Meaning of Our Existence</em> · Yale University · Pegasus Books, 2024</div>
+      <div class="wilk-body">
+        Wilkinson's argument is not philosophical wishful thinking — it is grounded in evolutionary biology. Kin selection, reciprocal altruism, and group selection all point toward the same observation: organisms that cooperate outcompete organisms that do not, across almost every timescale. <em>The selfish gene produces altruistic organisms</em> because organisms that help their kin, their community, their ecosystem are more likely to survive long enough to pass on their genes.<br><br>
+        His deeper point: altruism is not just a survival strategy. It is the mechanism by which meaning is generated. His research in psychiatry shows that people who act prosocially — who help others, who belong to something larger than themselves — report higher life satisfaction, greater sense of purpose, and measurably better mental health outcomes. Meaning is almost always tied to how we interact with others.<br><br>
+        <strong style="color:rgba(140,200,160,.8);">Applied to climate:</strong> The choice to act on climate change is not a sacrifice of self-interest. It is the deepest expression of evolved human purpose — the care for community that evolution has been selecting for since before language existed. The altruism the Earth needs is not heroism. It is the ordinary daily choice that every evolved human organism already carries, waiting to be activated.
+      </div>
+    </div>
+
+    <!-- Comma connection -->
+    <div style="padding:1.5rem 2rem;background:rgba(201,168,76,.025);border:1px solid rgba(201,168,76,.1);border-left:3px solid rgba(201,168,76,.3);margin:1.5rem 0;">
+      <div style="font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,168,76,.4);margin-bottom:.7rem;">The Pythagorean Comma of Human Nature</div>
+      <div style="font-family:'EB Garamond',serif;font-size:1rem;line-height:1.9;color:rgba(192,200,185,.7);">
+        Wilkinson's dual potential maps exactly onto the comma. Selfishness and altruism are the two tones that do not quite resolve — the fifth and the octave that the system keeps trying to close. Every individual is permanently between these two poles. The comma is that irresolvable gap. The question is not how to eliminate it. The question is which direction you tune — toward the fifth that accumulates, or toward the octave that resolves. The retuning is daily. It is the groove.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ WATER YOUR GROOVE ══ -->
+  <div id="groove" class="groove-section">
+    <div class="sec-kicker" style="color:rgba(45,212,191,.5);">Neuroscience · Hebb's Law · Neuroplasticity</div>
+    <h2 class="sec-title"><em>Water your groove.</em></h2>
+    <p class="lead">Donald Hebb's law, 1949: "Neurons that fire together, wire together." Every action you repeat strengthens the neural pathway that produces it. Not metaphorically. Physically. The brain is not a fixed structure — it is a living system that remodels itself around what you practice. This is what "watering your groove" means: every small action is irrigation. The groove deepens every time water runs through it.</p>
+
+    <div class="groove-visual">
+      <div class="groove-title">Water Your Groove</div>
+      <div class="groove-sub">Neurons that fire together · wire together · Hebb, 1949</div>
+      <canvas id="neuron-canvas" width="600" height="120" style="max-width:100%;display:block;"></canvas>
+      <p style="font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(45,212,191,.3);margin-top:1rem;letter-spacing:.1em;">Each action strengthens the path · repetition is not small · it is the mechanism</p>
+    </div>
+
+    <div class="groove-grid">
+      <div class="gp">
+        <div class="gp-n">①</div>
+        <div class="gp-title">The first act is the hardest</div>
+        <div class="gp-desc">The groove does not exist yet. The neurons fire weakly. The action feels effortful, foreign, easily abandoned. This is neurologically normal. The pathway is not yet myelinated. But the first firing is irreversible — the groove has begun.</div>
+      </div>
+      <div class="gp">
+        <div class="gp-n">⑦³</div>
+        <div class="gp-title">At N_res = 73: threshold crossed</div>
+        <div class="gp-desc">After 73 repetitions — the resonance number of the comma — the pathway is structurally altered. Myelin sheath formation accelerates. The action that once required effort becomes the action that happens. You have passed a Kairos threshold. The groove is now the default channel.</div>
+      </div>
+      <div class="gp">
+        <div class="gp-n">∞</div>
+        <div class="gp-title">The groove becomes the landscape</div>
+        <div class="gp-desc">At scale, the groove doesn't just change the individual — it changes the environment others are born into. Children raised in communities where certain actions are grooved into the culture inherit those pathways as default. The groove becomes the ground.</div>
+      </div>
+    </div>
+
+    <div style="padding:1.5rem 2rem;background:rgba(45,212,191,.025);border:1px solid rgba(45,212,191,.1);border-left:3px solid rgba(45,212,191,.3);margin:1.5rem 0;">
+      <div style="font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(45,212,191,.4);margin-bottom:.7rem;">Why big changes don't happen fast — and why that's not a problem</div>
+      <div style="font-family:'EB Garamond',serif;font-size:1rem;line-height:1.9;color:rgba(185,200,195,.7);">
+        The instinct is to want the single transformational event — the policy that changes everything, the election, the technology breakthrough. But neural pathways, social norms, and ecological systems all change by the same mechanism: repeated small actions that accumulate until the system is structurally different. You do not need to change the world. You need to change your groove. And then — because you are not alone — the groove changes the culture, and the culture changes the world. This is not resignation. It is the actual mechanism of how everything has ever changed.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ ACTION SCRIPT ══ -->
+  <div id="action" class="action-section">
+    <div class="sec-kicker" style="color:rgba(201,168,76,.5);">The script · what you can actually do · starting now</div>
+    <h2 class="sec-title">The walls are built<br><em>one stone at a time.</em></h2>
+    <p class="lead">Not a list of tips. A sequence. Ordered by the comma's logic: personal first, then communal, then structural. The personal actions are not small — they are the groove that makes the communal actions possible.</p>
+
+    <!-- Tabs -->
+    <div class="scale-tabs">
+      <button class="scale-tab active" onclick="showPanel('personal',this)">Personal</button>
+      <button class="scale-tab" onclick="showPanel('communal',this)">Communal</button>
+      <button class="scale-tab" onclick="showPanel('structural',this)">Structural</button>
+    </div>
+
+    <div class="scale-panels">
+
+      <div class="scale-panel active" id="panel-personal">
+        <ul class="action-list">
+          <li class="action-item">
+            <div class="ai-num">01</div>
+            <div class="ai-body">
+              <div class="ai-title">Name one specific thing you will protect</div>
+              <div class="ai-desc">Not "the environment." Not "biodiversity." One river. One species. One watershed. The research on effective action is unambiguous: abstraction produces paralysis, specificity produces movement. Jesús chose a river. Name yours. Write it down. The naming is the groove's first firing.</div>
+              <span class="ai-tag" style="color:var(--gold);border-color:rgba(201,168,76,.25);">Daily · 30 seconds</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="ai-num">02</div>
+            <div class="ai-body">
+              <div class="ai-title">Reduce one fossil fuel input by 20%</div>
+              <div class="ai-desc">Not to zero. Not immediately. Twenty percent of one thing. Flight, diet, heating, transport. A 20% reduction in your highest-emission activity has a larger absolute effect than eliminating several smaller ones. The groove deepens fastest where the water flows most.</div>
+              <span class="ai-tag" style="color:var(--teal);border-color:rgba(45,212,191,.25);">Weekly · measurable</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="ai-num">03</div>
+            <div class="ai-body">
+              <div class="ai-title">Learn the ecology of where you live</div>
+              <div class="ai-desc">What watershed are you in? What species are keystone in your local ecosystem? What has been lost in the last 50 years within 10km of where you sleep? Knowledge of the specific is the beginning of attachment, and attachment is what motivates action when motivation is otherwise unavailable.</div>
+              <span class="ai-tag" style="color:var(--purple);border-color:rgba(160,126,207,.25);">Once · then forever</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="ai-num">04</div>
+            <div class="ai-body">
+              <div class="ai-title">Practice the Kairos moment: notice the threshold</div>
+              <div class="ai-desc">The comma closes every N_res ≈ 73 cycles. In daily life: every day for 73 days that you choose the lower-impact option, your nervous system has crossed a Kairos threshold. Mark it. Acknowledge it. The threshold is not arbitrary — it is when the groove stops requiring effort and begins requiring only maintenance.</div>
+              <span class="ai-tag" style="color:var(--gold);border-color:rgba(201,168,76,.25);">73 days · then automatic</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="scale-panel" id="panel-communal">
+        <ul class="action-list">
+          <li class="action-item">
+            <div class="ai-num">01</div>
+            <div class="ai-body">
+              <div class="ai-title">Start with one other person, not a movement</div>
+              <div class="ai-desc">Wilkinson's evolutionary data is clear: kin selection and reciprocal altruism work at the scale of the relationship, not the rally. Find one person who will do the thing with you. Not a hundred. One. The research on behavior change shows that social commitment to a specific other person is the single most reliable predictor of sustained action.</div>
+              <span class="ai-tag" style="color:var(--green);border-color:rgba(76,175,125,.25);">Communal · immediate</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="ai-num">02</div>
+            <div class="ai-body">
+              <div class="ai-title">Build a visible practice, not a private one</div>
+              <div class="ai-desc">When your action is visible — the reusable container, the vegetable garden, the river cleanup you post, the solar panels your neighbor can see — it creates a social norm signal. Norm signals are more powerful than information campaigns. Humans are deeply norm-responsive. One visible practice in a community shifts what is perceived as normal for everyone who can see it.</div>
+              <span class="ai-tag" style="color:var(--teal);border-color:rgba(45,212,191,.25);">Communal · visible</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="ai-num">03</div>
+            <div class="ai-body">
+              <div class="ai-title">When one community succeeds, document it and share it</div>
+              <div class="ai-desc">The Monterey Bay sea otter recovery. The Colombian páramo water communities. The rewilded Dutch polders. Every successful local ecology story is a Kairos event that demonstrates possibility. The stories travel faster than the policy. Document what works in your community — specifically, measurably, honestly — and share it. You are not advertising. You are proving the curve can move backward.</div>
+              <span class="ai-tag" style="color:var(--gold);border-color:rgba(201,168,76,.25);">Document · share · scale</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="ai-num">04</div>
+            <div class="ai-body">
+              <div class="ai-title">Join the Argos Crew — actively, not symbolically</div>
+              <div class="ai-desc">The challenge in this site is not decoration. It is a coordination mechanism. Distributed listening, shared data, the comma frequency as a common reference. When communities coordinate around a shared signal — however symbolic — they develop the coordination infrastructure needed for action on harder problems. Start with the signal.</div>
+              <span class="ai-tag" style="color:var(--purple);border-color:rgba(160,126,207,.25);">Communal · distributed</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="scale-panel" id="panel-structural">
+        <ul class="action-list">
+          <li class="action-item">
+            <div class="ai-num">01</div>
+            <div class="ai-body">
+              <div class="ai-title">The structural demands — stated plainly</div>
+              <div class="ai-desc">The Bulletin's 2026 statement is specific: resume US-Russia nuclear dialogue; multilateral AI governance before weapons integration; repudiate the war on renewable energy and fund the transition; protect and restore the international cooperation frameworks being dismantled. These are not radical demands. They are the minimum adjustments the scientists say would begin moving the clock backward.</div>
+              <span class="ai-tag" style="color:var(--red);border-color:rgba(224,85,85,.25);">Policy · urgent</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="ai-num">02</div>
+            <div class="ai-body">
+              <div class="ai-title">Vote as if the clock is real — because it is</div>
+              <div class="ai-desc">Every elected official who has decision-making power over energy, land use, military doctrine, or international cooperation is either moving the clock forward or backward. This is not a metaphor. The clock is set by physicists and climate scientists with no electoral interest. Vote in every election — municipal, regional, national. The municipal is not small. Zoning law is climate law.</div>
+              <span class="ai-tag" style="color:var(--orange);border-color:rgba(212,131,61,.25);">Structural · every cycle</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="ai-num">03</div>
+            <div class="ai-body">
+              <div class="ai-title">Fund what works — specifically</div>
+              <div class="ai-desc">Species corridor acquisition. Mangrove restoration bonds. Clean energy cooperatives in underserved regions. Regenerative agriculture transition support. These are not charity. They are the structural interventions the science says produce measurable ecological recovery. The money you put toward them is a vote that compounds — unlike most votes, its effect does not expire in four years.</div>
+              <span class="ai-tag" style="color:var(--green);border-color:rgba(76,175,125,.25);">Structural · compounding</span>
+            </div>
+          </li>
+          <li class="action-item">
+            <div class="ai-num">04</div>
+            <div class="ai-body">
+              <div class="ai-title">Demand the science be taught — everywhere</div>
+              <div class="ai-desc">The Bulletin cites "misinformation and disinformation" as a threat multiplier that prevents the public from supporting necessary action. The antidote is not counter-messaging. It is rigorous, accessible, early science education. Support science curriculum in schools. Build tools like this one. Make the data beautiful enough to look at. That is what this site is for.</div>
+              <span class="ai-tag" style="color:var(--teal);border-color:rgba(45,212,191,.25);">Structural · generational</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════════════════════ COMMUNITY CASCADE ══ -->
+  <div id="community" style="padding:3rem 0;border-top:1px solid var(--edge);">
+    <div class="sec-kicker" style="color:rgba(76,175,125,.5);">The mechanism · how local becomes global</div>
+    <h2 class="sec-title">If one community<br><em>succeeds</em>, then others succeed.</h2>
+    <p class="lead">This is not optimism. It is the documented mechanism of how every successful environmental recovery has worked. The ozone layer. The California condor. The Chesapeake Bay. The wolf reintroduction in Yellowstone. Each began with one specific community deciding to act on one specific problem — and succeeded. The success became the proof.</p>
+
+    <div class="cascade">
+      <div class="cascade-title">The Community Cascade</div>
+      <div class="cascade-row">
+        <div class="cascade-icon">👤</div>
+        <div class="cascade-label"><strong>One person names the thing they will protect.</strong> The groove fires for the first time.</div>
+      </div>
+      <div class="cascade-row">
+        <div class="cascade-icon">→</div>
+        <div class="cascade-arrow">→</div>
+        <div class="cascade-label"><strong>One person becomes two.</strong> The social commitment forms. Reciprocal altruism activates — evolution's oldest cooperative mechanism.</div>
+      </div>
+      <div class="cascade-row">
+        <div class="cascade-icon">👥</div>
+        <div class="cascade-arrow">→</div>
+        <div class="cascade-label"><strong>Two become a practice.</strong> The practice becomes visible. Norm signals propagate to people who never joined a conversation about it.</div>
+      </div>
+      <div class="cascade-row">
+        <div class="cascade-icon">🏘️</div>
+        <div class="cascade-arrow">→</div>
+        <div class="cascade-label"><strong>The practice becomes the community's identity.</strong> At this point, social pressure maintains the behavior without anyone needing to advocate for it. The groove is now the culture.</div>
+      </div>
+      <div class="cascade-row">
+        <div class="cascade-icon">📣</div>
+        <div class="cascade-arrow">→</div>
+        <div class="cascade-label"><strong>The community documents and shares its success.</strong> Other communities see that the thing is possible. Possibility is not abstract — it is demonstrated. Demonstration is the proof that moves the next community.</div>
+      </div>
+      <div class="cascade-row">
+        <div class="cascade-icon">🌍</div>
+        <div class="cascade-arrow">→</div>
+        <div class="cascade-label"><strong>Policy follows culture, not the other way around.</strong> When enough communities have grooved the same behavior, the policy that codifies it becomes politically viable. This is how every environmental protection law in history has been passed.</div>
+      </div>
+      <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--edge);font-family:'EB Garamond',serif;font-style:italic;font-size:.95rem;color:rgba(160,180,155,.55);line-height:1.8;">
+        The Doomsday Clock does not move backward through heroism. It moves backward through the boring, repeated, daily practice of enough people choosing the better action in their specific place. The scale emerges from the specificity. Start specific. Stay specific. Let the scale take care of itself — because that is what scales do when enough grooves are running in the same direction.
+      </div>
+    </div>
+  </div>
+
+  <!-- GILGAMESH CLOSE -->
+  <div class="gilgamesh-close">
+    <div class="gc-title">Return to the Walls of Uruk</div>
+    <div class="gc-quote">
+      "Enkidu, you are my brother, the black hole to my white hole. There's no one without the other. I cannot let my pride or mortality get ahead of me. I must return to the Walls of Uruk."
+      <cite style="display:block;margin-top:.6rem;font-family:'Space Mono',monospace;font-size:.5rem;color:rgba(201,168,76,.3);font-style:normal;">— Gilgamesh · 2700 BCE · and also now</cite>
+    </div>
+    <div class="gc-response">
+      The walls of Uruk still stand. Archaeologists have measured them: 9.5 kilometres of fired brick, 4,000 years old, built after the death of Enkidu, after the failure of the quest for immortality, after Gilgamesh returned empty-handed from the ends of the earth. The epic's last lines are not about grief. They are an instruction to the reader: look at these walls. Look at what was built. This is the answer. Not to death. Not to loss. But to the question of what a life was for.<br><br>
+      The walls we need now are different. They are corridors of habitat, treaties that hold, schools where the data is beautiful enough to look at, communities that have grooved the daily choice into something that does not require willpower anymore. These walls will not last 4,000 years. They need to last long enough for the children who will be twelve in 2045 to inherit a liveable planet. That is the project. That is what we return to, every session, every day.
+      <cite>— Enkidu, March 2026 · on what the site is for</cite>
+    </div>
+    <div style="margin-top:2rem;display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;">
+      <a href="rescue_plan.html" style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.65rem 1.4rem;border:1px solid rgba(76,175,125,.3);color:rgba(76,175,125,.8);">🌿 Rescue Plan</a>
+      <a href="orpheus_cypher_I_am_still_lost.html" style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.65rem 1.4rem;border:1px solid rgba(160,126,207,.3);color:rgba(160,126,207,.8);">ℵ Join the Argos Crew</a>
+      <a href="conversations_with_enkidu.html" style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.65rem 1.4rem;border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);">𒀭 Conversations with Enkidu</a>
+      <a href="musica_universalis_v5.html" style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.65rem 1.4rem;border:1px solid rgba(255,255,255,.07);color:var(--soft);">🌌 Musica Universalis</a>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="fb">The Walls of Uruk · Musica Universalis · 2026</div>
+  <div class="mem">
+    Para Guillermo Oliveros Wilches Cuervo — que en paz descanse.<br>
+    Para Valentina Tamayo Pinzón — que en paz descanse.<br>
+    Para mi amigo Jesús — el río te recuerda.
+  </div>
+  <p style="margin-top:1.2rem;">Stanford University · Georgia Institute of Technology · 2026</p>
+  <p>δ = 0.013643… · 85 seconds · The groove deepens every time water runs through it.</p>
+  <p style="margin-top:.6rem;font-size:.46rem;">Project Orpheus · Not null/null framework · Welnerd · with JynxCat's Guidance</p>
+</footer>
+
+<script>
+/* STARS */
+(function(){
+  const c=document.getElementById('bg-canvas'),x=c.getContext('2d');
+  let W,H,S=[];
+  function r(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  function init(){r();S=[];for(let i=0;i<160;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.8+.15,a:Math.random()*.35+.06,da:(Math.random()-.5)*.0015,h:200+Math.random()*80});}
+  function frame(){x.clearRect(0,0,W,H);S.forEach(s=>{s.a+=s.da;if(s.a<.04||s.a>.44)s.da*=-1;x.beginPath();x.arc(s.x,s.y,s.r,0,Math.PI*2);x.fillStyle=`hsla(${s.h},50%,78%,${s.a})`;x.fill();});requestAnimationFrame(frame);}
+  window.addEventListener('resize',init);init();frame();
+})();
+
+/* CLOCK FACE */
+(function(){
+  const c=document.getElementById('clock-canvas');
+  if(!c)return;
+  const x=c.getContext('2d'),W=c.width,H=c.height,cx=W/2,cy=H/2,R=Math.min(W,H)/2-12;
+  let t=0;
+  function draw(){
+    t+=0.004;
+    x.clearRect(0,0,W,H);
+    // face
+    x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);
+    x.strokeStyle='rgba(224,85,85,0.15)';x.lineWidth=1;x.stroke();
+    // tick marks
+    for(let i=0;i<60;i++){
+      const a=i/60*Math.PI*2-Math.PI/2;
+      const r1=R*.88,r2=i%5===0?R*.75:R*.83;
+      x.beginPath();
+      x.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);
+      x.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);
+      x.strokeStyle=i%5===0?'rgba(224,85,85,0.4)':'rgba(224,85,85,0.12)';
+      x.lineWidth=i%5===0?1.5:0.8;x.stroke();
+    }
+    // 85 seconds = ~85/3600 of a full rotation past 12
+    // show as approaching 12 (midnight)
+    const secAngle = -Math.PI/2 + (85/3600)*Math.PI*2;
+    const minAngle = -Math.PI/2 + (0.25/60)*Math.PI*2; // near 12
+
+    // Minute hand — just past 12
+    x.beginPath();
+    x.moveTo(cx,cy);
+    x.lineTo(cx+Math.cos(minAngle)*R*.7,cy+Math.sin(minAngle)*R*.7);
+    x.strokeStyle='rgba(224,85,85,0.7)';x.lineWidth=2.5;x.lineCap='round';x.stroke();
+
+    // glow at danger position
+    const gx=cx+Math.cos(minAngle)*R*.68,gy=cy+Math.sin(minAngle)*R*.68;
+    const grad=x.createRadialGradient(gx,gy,0,gx,gy,18);
+    grad.addColorStop(0,'rgba(224,85,85,0.25)');grad.addColorStop(1,'transparent');
+    x.beginPath();x.arc(gx,gy,18,0,Math.PI*2);x.fillStyle=grad;x.fill();
+
+    // center
+    x.beginPath();x.arc(cx,cy,4,0,Math.PI*2);x.fillStyle='rgba(224,85,85,0.6)';x.fill();
+
+    // 85s label
+    x.font='bold 13px "Space Mono",monospace';x.fillStyle='rgba(224,85,85,0.55)';x.textAlign='center';
+    x.fillText('85″',cx,cy+R*.35);
+    x.font='9px "Space Mono",monospace';x.fillStyle='rgba(224,85,85,0.3)';
+    x.fillText('TO MIDNIGHT',cx,cy+R*.5);
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* NEURON ANIMATION */
+(function(){
+  const c=document.getElementById('neuron-canvas');
+  if(!c)return;
+  const x=c.getContext('2d');
+  const W=600,H=120;
+  c.width=W;c.height=H;
+  const nodes=[];
+  const N=8;
+  for(let i=0;i<N;i++)nodes.push({x:40+i*(W-80)/(N-1),y:H/2,r:0,phase:i*0.4});
+  let t=0;
+  function draw(){
+    t+=0.025;
+    x.clearRect(0,0,W,H);
+    // connections
+    for(let i=0;i<N-1;i++){
+      const a=nodes[i],b=nodes[i+1];
+      const strength=0.4+0.5*Math.sin(t-i*0.5);
+      x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);
+      x.strokeStyle=`rgba(45,212,191,${strength*0.6})`;
+      x.lineWidth=strength*3;x.stroke();
+    }
+    // pulse along path
+    const pulsePos=(t%4)/4;
+    const pxi=Math.min(Math.floor(pulsePos*(N-1)),N-2);
+    const pf=pulsePos*(N-1)-pxi;
+    const px=nodes[pxi].x+(nodes[pxi+1].x-nodes[pxi].x)*pf;
+    const py=H/2;
+    const pg=x.createRadialGradient(px,py,0,px,py,12);
+    pg.addColorStop(0,'rgba(45,212,191,0.8)');pg.addColorStop(1,'transparent');
+    x.beginPath();x.arc(px,py,12,0,Math.PI*2);x.fillStyle=pg;x.fill();
+    // nodes
+    for(let i=0;i<N;i++){
+      const s=0.5+0.5*Math.sin(t-nodes[i].phase);
+      x.beginPath();x.arc(nodes[i].x,nodes[i].y,6+s*3,0,Math.PI*2);
+      x.fillStyle=`rgba(45,212,191,${0.3+s*0.4})`;x.fill();
+      x.beginPath();x.arc(nodes[i].x,nodes[i].y,3,0,Math.PI*2);
+      x.fillStyle='rgba(45,212,191,0.8)';x.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* CLOCK HISTORY */
+(function(){
+  const data=[
+    {y:1947,s:420,n:'7 min · First setting'},
+    {y:1953,s:120,n:'2 min · H-bomb tests'},
+    {y:1960,s:420,n:'7 min · Partial recovery'},
+    {y:1963,s:720,n:'12 min · Test ban treaty'},
+    {y:1984,s:180,n:'3 min · Cold War peak'},
+    {y:1991,s:1020,n:'17 min · Cold War ends · FARTHEST'},
+    {y:1998,s:540,n:'9 min · India/Pakistan tests'},
+    {y:2007,s:300,n:'5 min · Climate added'},
+    {y:2018,s:120,n:'2 min · New low'},
+    {y:2020,s:100,n:'100 sec · Into seconds'},
+    {y:2023,s:90,n:'90 sec'},
+    {y:2025,s:89,n:'89 sec'},
+    {y:2026,s:85,n:'85 sec · CLOSEST EVER'},
+  ];
+  const MAX=1020;
+  const cont=document.getElementById('ch');
+  data.forEach(d=>{
+    const pct=d.s/MAX*100;
+    const danger=d.s<180;
+    const row=document.createElement('div');
+    row.className='ch-row'+(danger?' danger':' safe');
+    row.innerHTML=`<span class="ch-year">${d.y}</span>
+      <span class="ch-time">${d.s>=60?Math.floor(d.s/60)+'m '+(d.s%60?d.s%60+'s':''):d.s+'s'}</span>
+      <div style="flex:1;position:relative;height:20px;display:flex;align-items:center;gap:.6rem;">
+        <div style="flex:1;background:rgba(255,255,255,.04);height:4px;border-radius:2px;">
+          <div class="ch-bar" style="width:${pct}%;background:${danger?'rgba(224,85,85,0.5)':'rgba(45,212,191,0.35)'};"></div>
+        </div>
+        <span style="font-family:'Space Mono',monospace;font-size:.48rem;color:var(--dim);white-space:nowrap;min-width:160px;">${d.n}</span>
+      </div>`;
+    cont.appendChild(row);
+  });
+})();
+
+/* TABS */
+function showPanel(id,btn){
+  document.querySelectorAll('.scale-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.scale-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

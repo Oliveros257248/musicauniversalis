@@ -4,316 +4,723 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Directory · Musica Universalis</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#03050e; --panel:#080c18; --panel2:#0c1020; --edge:#141824; --dim:#1e2535;
-  --mid:#50607a; --text:#c8d2e0; --soft:#8090a8;
-  --gold:#c9a84c; --gold2:#a88838; --teal:#19b8a8; --purple:#8855cc;
-  --pink:#d45050; --green:#4caf7d; --blue:#3d7fd4; --orange:#d4833d;
+  --bg:#08090f;--card:#0f1219;--card2:#141820;
+  --edge:rgba(255,255,255,.06);--edge2:rgba(255,255,255,.11);
+  --text:#ccd2df;--soft:#677385;--dim:#2c3545;--muted:#4a5568;
+  --gold:#c9a84c;--teal:#2dd4bf;--purple:#a07ecf;
+  --green:#4caf7d;--red:#e05555;--blue:#5b9bd5;
+  --orange:#d4833d;--pink:#e06080;
 }
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.75;overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;overflow-x:hidden;}
 ::selection{background:rgba(201,168,76,.2);color:var(--gold);}
-::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-thumb{background:var(--dim);}
+a{text-decoration:none;}
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none;}
 
-/* nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(3,5,14,.97);border-bottom:1px solid var(--edge);backdrop-filter:blur(12px);display:flex;align-items:center;padding:0 1.5rem;gap:1rem;height:44px;}
-.nav-logo{font-family:'Cinzel Decorative',serif;font-size:.68rem;color:var(--gold);letter-spacing:.04em;text-decoration:none;flex-shrink:0;}
-.nav-sep{color:var(--dim);font-family:'Space Mono',monospace;font-size:.7rem;}
-.nav-cur{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:50px;display:flex;align-items:center;padding:0 1.8rem;background:rgba(8,9,15,.97);border-bottom:1px solid var(--edge);backdrop-filter:blur(24px);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--gold);letter-spacing:.04em;margin-right:1.5rem;white-space:nowrap;cursor:pointer;}
+.nav-cats{display:flex;align-items:stretch;height:50px;flex:1;}
+.nc{position:relative;height:50px;display:flex;align-items:center;}
+.nc-btn{font-family:'Space Mono',monospace;font-size:.49rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:0 .9rem;height:50px;background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;display:flex;align-items:center;gap:.25rem;}
+.nc-btn::after{content:'▾';font-size:.42rem;opacity:.5;}
+.nc-btn:hover,.nc-btn.open{color:var(--text);border-bottom-color:rgba(201,168,76,.3);}
+.nc-btn.open{color:var(--gold);}
+.dd{display:none;position:absolute;top:50px;left:0;min-width:310px;max-height:80vh;overflow-y:auto;background:rgba(8,9,15,.99);border:1px solid var(--edge2);border-top:2px solid var(--gold);box-shadow:0 32px 80px rgba(0,0,0,.85);z-index:300;}
+.dd.right{left:auto;right:0;}
+.dd.vis{display:block;}
+.dds{padding:.5rem 1rem .25rem;font-family:'Space Mono',monospace;font-size:.45rem;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid rgba(255,255,255,.03);}
+.ddsep{height:1px;background:rgba(255,255,255,.04);margin:.2rem 0;}
+.dda{display:flex;align-items:center;gap:.55rem;padding:.48rem 1rem;color:var(--soft);font-family:'Space Mono',monospace;font-size:.53rem;letter-spacing:.03em;border-left:2px solid transparent;transition:all .1s;}
+.dda:hover{color:var(--text);background:rgba(255,255,255,.025);border-left-color:var(--gold);}
+.chip{font-size:.43rem;padding:.05rem .28rem;border-radius:2px;border:1px solid;margin-left:auto;flex-shrink:0;}
+.nav-right{display:flex;align-items:center;gap:.5rem;margin-left:auto;}
+#si{background:rgba(255,255,255,.04);border:1px solid var(--edge);color:var(--text);font-family:'Space Mono',monospace;font-size:.52rem;padding:.3rem .7rem;outline:none;width:145px;transition:all .18s;}
+#si::placeholder{color:var(--dim);}
+#si:focus{border-color:rgba(201,168,76,.35);width:200px;}
+#sc{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--dim);cursor:pointer;display:none;}
+#sc.v{display:block;}
 
-/* hero */
-.hero{padding:7rem 2rem 4rem;text-align:center;border-bottom:1px solid var(--edge);background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(136,85,204,.04) 0%,transparent 70%);}
-.hero-kicker{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--mid);margin-bottom:1.4rem;}
-.hero-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.6rem,5vw,3.2rem);color:var(--gold);letter-spacing:.04em;line-height:1.15;margin-bottom:.75rem;}
-.hero-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--soft);max-width:560px;margin:0 auto 1.5rem;}
-.hero-meta{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--dim);}
+/* HERO */
+.hero{position:relative;z-index:1;padding:8rem 2rem 4rem;text-align:center;border-bottom:1px solid var(--edge);}
+.hk{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;}
+.ht{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(3rem,7vw,5.5rem);color:var(--gold);line-height:1.0;margin-bottom:.5rem;}
+.hsu{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(200,190,175,.38);letter-spacing:.1em;margin-bottom:2.5rem;}
+.hst{display:flex;gap:2.2rem;justify-content:center;flex-wrap:wrap;}
+.hst span{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--dim);letter-spacing:.08em;}
+.hst b{color:rgba(201,168,76,.5);font-weight:400;}
+.cbar{position:relative;z-index:1;display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;padding:.85rem 2rem;background:rgba(201,168,76,.02);border-bottom:1px solid rgba(201,168,76,.07);}
+.cc{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--dim);letter-spacing:.06em;}
+.cc b{color:rgba(201,168,76,.45);font-weight:400;}
 
-/* layout */
-.wrap{max-width:1060px;margin:0 auto;padding:4rem 2rem;}
-.wrap.tight{max-width:820px;}
+/* FLOW STRIP */
+.flow{position:relative;z-index:1;background:rgba(201,168,76,.02);border-top:1px solid rgba(201,168,76,.07);border-bottom:1px solid rgba(201,168,76,.07);padding:1.8rem 2rem;margin:0;}
+.flow-in{max-width:1100px;margin:0 auto;}
+.flow-t{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:rgba(201,168,76,.55);margin-bottom:1rem;text-align:center;}
+.flow-n{display:flex;align-items:center;flex-wrap:wrap;gap:.3rem;justify-content:center;}
+.fn{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.1em;padding:.3rem .75rem;border:1px solid var(--edge);color:var(--soft);text-transform:uppercase;transition:all .15s;cursor:pointer;white-space:nowrap;}
+.fn:hover{border-color:rgba(201,168,76,.3);color:var(--gold);}
+.fa{font-size:.65rem;color:var(--dim);}
 
-/* file cards */
-.file-group{margin-bottom:4rem;}
-.group-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:1.2rem;display:flex;align-items:center;gap:.75rem;}
-.group-label::after{content:'';flex:1;height:1px;background:var(--edge);}
+/* SEARCH RESULTS */
+#sr{display:none;position:relative;z-index:10;max-width:920px;margin:2rem auto;border:1px solid rgba(201,168,76,.2);border-top:2px solid var(--gold);background:rgba(8,9,15,.99);}
+#sr.v{display:block;}
+.srh{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;color:var(--soft);padding:.5rem 1.2rem;border-bottom:1px solid var(--edge);}
+.sr-r{display:flex;align-items:center;gap:.9rem;padding:.55rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.02);transition:background .1s;}
+.sr-r:hover{background:rgba(255,255,255,.02);}
+.sr-r:last-child{border-bottom:none;}
+.sr-t{font-size:.9rem;color:var(--text);flex:1;}
+.sr-t em{color:var(--gold);font-style:normal;background:rgba(201,168,76,.08);}
+.sr-p{font-family:'Space Mono',monospace;font-size:.47rem;color:var(--dim);white-space:nowrap;}
+.sr-tg{font-family:'Space Mono',monospace;font-size:.44rem;padding:.08rem .35rem;flex-shrink:0;}
+.nor{padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:.56rem;color:var(--dim);}
 
-.file-card{background:var(--panel);border:1px solid var(--edge);margin-bottom:2px;display:block;text-decoration:none;transition:background .18s,border-color .18s;}
-.file-card:hover{background:var(--panel2);}
-.file-card-head{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;border-bottom:1px solid var(--edge);}
-.file-icon{font-size:1.3rem;flex-shrink:0;width:2rem;text-align:center;}
-.file-name{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--text);letter-spacing:.04em;}
-.file-badge{margin-left:auto;font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid;border-radius:2px;white-space:nowrap;flex-shrink:0;}
-.file-badge.main   {color:var(--gold);  border-color:rgba(201,168,76,.25); background:rgba(201,168,76,.05);}
-.file-badge.tool   {color:var(--teal);  border-color:rgba(25,184,168,.25);  background:rgba(25,184,168,.05);}
-.file-badge.sim    {color:var(--green); border-color:rgba(76,175,125,.25);  background:rgba(76,175,125,.05);}
-.file-badge.hub    {color:var(--purple);border-color:rgba(136,85,204,.25);  background:rgba(136,85,204,.05);}
-.file-badge.archive{color:var(--mid);   border-color:rgba(80,96,122,.25);   background:rgba(80,96,122,.05);}
+/* CONTENT */
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+.sh{display:flex;align-items:center;gap:.7rem;margin:3.5rem 0 .9rem;font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;}
+.sh::after{content:'';flex:1;height:1px;background:var(--edge);}
+.si{font-family:'EB Garamond',serif;font-style:italic;font-size:.96rem;color:rgba(155,170,175,.42);line-height:1.8;max-width:700px;margin-bottom:1.3rem;}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.6rem;}
+.g2{grid-template-columns:1fr 1fr;}
+.g1{grid-template-columns:1fr;}
+.gbl{grid-template-columns:2fr 1fr;}
 
-.file-sections{padding:.5rem 0;}
-.sec-row{display:grid;grid-template-columns:3rem 1fr auto;align-items:baseline;gap:.6rem;padding:.45rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.025);}
-.sec-row:last-child{border-bottom:none;}
-.sec-row:hover{background:rgba(255,255,255,.018);}
-.sec-num{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--dim);text-align:right;}
-.sec-link{font-size:.88rem;color:var(--soft);text-decoration:none;transition:color .15s;}
-.sec-link:hover{color:var(--text);}
-.sec-tag-inline{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.08em;padding:.1rem .45rem;border-radius:2px;white-space:nowrap;}
+/* CARD */
+.c{background:var(--card);border:1px solid var(--edge);padding:1.35rem 1.35rem 1.15rem;display:flex;flex-direction:column;transition:background .2s,border-color .2s,transform .18s;position:relative;}
+.c:hover{background:var(--card2);border-color:var(--edge2);transform:translateY(-2px);}
+.s2{grid-column:span 2;}
+.s3{grid-column:span 3;}
+.gac{border-top:2px solid rgba(201,168,76,.28);}
+.tac{border-top:2px solid rgba(45,212,191,.22);}
+.pac{border-top:2px solid rgba(160,126,207,.22);}
+.grac{border-top:2px solid rgba(76,175,125,.22);}
+.bac{border-top:2px solid rgba(91,155,213,.22);}
+.pkac{border-top:2px solid rgba(224,96,128,.22);}
+.rac{border-top:2px solid rgba(224,85,85,.22);}
+.ci{font-size:1.42rem;margin-bottom:.7rem;display:block;}
+.ct{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--text);margin-bottom:.35rem;line-height:1.2;}
+.cd{font-family:'EB Garamond',serif;font-style:italic;font-size:.88rem;color:var(--soft);line-height:1.7;flex:1;margin-bottom:.9rem;}
+.pills{display:flex;flex-wrap:wrap;gap:.32rem;margin-top:auto;}
+.pill{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:.07em;padding:.18rem .6rem;border:1px solid rgba(255,255,255,.09);color:var(--soft);border-radius:100px;transition:all .15s;white-space:nowrap;}
+.pill:hover{border-color:var(--gold);color:var(--gold);}
+.pg{border-color:rgba(201,168,76,.22);color:rgba(201,168,76,.6);}
+.pg:hover{border-color:var(--gold);color:var(--gold);}
+.pt{border-color:rgba(45,212,191,.18);color:rgba(45,212,191,.55);}
+.pt:hover{border-color:var(--teal);color:var(--teal);}
+.pgr{border-color:rgba(76,175,125,.18);color:rgba(76,175,125,.55);}
+.pgr:hover{border-color:var(--green);color:var(--green);}
+.pp{border-color:rgba(160,126,207,.18);color:rgba(160,126,207,.55);}
+.pp:hover{border-color:var(--purple);color:var(--purple);}
+.pb{border-color:rgba(91,155,213,.18);color:rgba(91,155,213,.55);}
+.pb:hover{border-color:var(--blue);color:var(--blue);}
+.pr{border-color:rgba(224,85,85,.18);color:rgba(224,85,85,.55);}
+.pr:hover{border-color:var(--red);color:var(--red);}
 
-/* color dots */
-.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:.4rem;vertical-align:middle;flex-shrink:0;}
+/* SEC LIST */
+.sl{list-style:none;margin:.35rem 0 .7rem;}
+.sli{display:flex;align-items:baseline;gap:.45rem;padding:.32rem 0;border-bottom:1px solid rgba(255,255,255,.025);}
+.sli:last-child{border-bottom:none;}
+.sli a{display:flex;align-items:baseline;gap:.45rem;width:100%;transition:opacity .1s;}
+.sli:hover{opacity:.85;}
+.sn{font-family:'Space Mono',monospace;font-size:.46rem;color:var(--dim);min-width:2.3rem;text-align:right;flex-shrink:0;}
+.sd{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:.42rem;}
+.st2{font-size:.81rem;color:var(--soft);flex:1;line-height:1.4;}
+.stg{font-family:'Space Mono',monospace;font-size:.42rem;padding:.05rem .26rem;border-radius:2px;flex-shrink:0;border:1px solid;}
 
-/* session log */
-.session-log{display:flex;flex-direction:column;gap:1px;background:var(--edge);border:1px solid var(--edge);}
-.session-row{background:var(--panel);display:grid;grid-template-columns:5rem 1fr auto;gap:1rem;padding:.9rem 1.2rem;align-items:start;}
-.session-row:hover{background:var(--panel2);}
-.sess-num{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--purple);padding-top:.1rem;}
-.sess-body{}
-.sess-title{font-size:.9rem;color:var(--text);margin-bottom:.2rem;}
-.sess-desc{font-size:.8rem;color:var(--mid);line-height:1.65;}
-.sess-tag{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--dim);white-space:nowrap;padding-top:.1rem;}
+/* TOOLS */
+.tr{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.75rem 0;}
+.tr2{grid-template-columns:1fr 1fr;}
+.tool{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.04);padding:.95rem;transition:all .15s;display:block;}
+.tool:hover{background:rgba(255,255,255,.05);border-color:rgba(45,212,191,.18);transform:translateY(-2px);}
+.ti{font-size:1.15rem;margin-bottom:.38rem;}
+.tn{font-family:'Cormorant Garamond',serif;font-size:.92rem;font-weight:600;color:var(--text);margin-bottom:.22rem;}
+.td{font-size:.78rem;color:var(--soft);line-height:1.55;}
 
-/* constant bar */
-.const-bar{display:flex;gap:1px;background:var(--edge);border:1px solid var(--edge);margin:3rem 0;}
-.const-cell{flex:1;background:var(--panel);padding:1.1rem .9rem;text-align:center;}
-.const-val{font-family:'Space Mono',monospace;font-size:.85rem;color:var(--gold);margin-bottom:.25rem;}
-.const-lab{font-size:.78rem;color:var(--mid);line-height:1.5;}
-@media(max-width:600px){.const-bar{flex-direction:column;}.session-row{grid-template-columns:1fr;}.sec-row{grid-template-columns:2.5rem 1fr;}.file-card-head{flex-wrap:wrap;}}
+/* CHALLENGE */
+.chl{display:flex;align-items:center;gap:.9rem;background:rgba(160,126,207,.04);border:1px solid rgba(160,126,207,.1);padding:.85rem 1.1rem;margin:.65rem 0;transition:all .15s;}
+.chl:hover{background:rgba(160,126,207,.08);border-color:rgba(160,126,207,.22);}
+.cha{font-size:1.7rem;color:rgba(180,160,220,.55);flex-shrink:0;}
+.chb{flex:1;}
+.chk{font-family:'Space Mono',monospace;font-size:.44rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(160,126,207,.32);margin-bottom:.22rem;}
+.cht{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-weight:600;color:rgba(200,185,235,.72);}
+.chd{font-size:.78rem;color:rgba(125,110,150,.48);line-height:1.5;margin-top:.18rem;}
+.charr{font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(160,126,207,.22);margin-left:auto;}
 
-/* footer */
-footer{border-top:1px solid var(--edge);padding:3rem 2rem;text-align:center;}
-.footer-brand{font-family:'Cinzel Decorative',serif;font-size:.82rem;color:var(--gold2);margin-bottom:.8rem;}
-footer p{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--dim);line-height:2.2;}
-.memorial{font-family:'EB Garamond',serif;font-style:italic;font-size:.92rem;color:#1e2c1a;margin-top:1.2rem;line-height:2.2;}
+/* RESCUE */
+.rc{background:linear-gradient(135deg,rgba(8,24,12,.97),rgba(4,14,8,.99));border:1px solid rgba(76,175,125,.16);border-left:3px solid rgba(76,175,125,.45);}
+.rc:hover{border-color:rgba(76,175,125,.3);}
+.td2{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(76,175,125,.1);margin:.7rem 0;}
+.dr{display:block;padding:.7rem .95rem;background:#030e06;transition:background .15s;}
+.dr:hover{background:#051408;}
+.dk{font-family:'Space Mono',monospace;font-size:.42rem;letter-spacing:.13em;color:rgba(76,175,125,.28);margin-bottom:.18rem;}
+.dt{font-family:'Space Mono',monospace;font-size:.56rem;color:rgba(130,210,145,.7);}
+
+/* SESSION & OQ */
+.oqg{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem;}
+.oq{background:var(--card);border:1px solid var(--edge);padding:1rem 1.1rem;}
+.oql{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.45rem;}
+.oqb{font-size:.84rem;color:var(--soft);line-height:1.85;}
+
+/* HIDDEN */
+.hss.gone{display:none;}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--edge);padding:3rem 2rem 4rem;text-align:center;margin-top:5rem;}
+.fb{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.15rem;color:rgba(201,168,76,.38);margin-bottom:.75rem;}
+.mem{font-family:'EB Garamond',serif;font-style:italic;font-size:.88rem;color:rgba(55,80,45,.68);line-height:2.1;}
+footer p{font-family:'Space Mono',monospace;font-size:.47rem;letter-spacing:.06em;color:var(--dim);line-height:2.3;margin-top:.4rem;}
+
+@media(max-width:780px){
+  .g,.g2,.gbl{grid-template-columns:1fr;}
+  .s2,.s3{grid-column:span 1;}
+  .tr,.tr2{grid-template-columns:1fr;}
+  .oqg{grid-template-columns:1fr;}
+  .nav-cats{display:none;}
+  .td2{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
+<canvas id="cv"></canvas>
 
 <nav>
-  <a href="musica_universalis_v5.html" class="nav-logo">Musica Universalis</a>
-  <span class="nav-sep">/</span>
-  <span class="nav-cur">Project Directory</span>
+  <div class="nav-logo" onclick="location='musica_universalis_final.html'">Musica Universalis</div>
+  <div class="nav-cats">
+
+    <div class="nc">
+      <button class="nc-btn" id="b1" onclick="tog('d1',this)">The Comma</button>
+      <div class="dd" id="d1">
+        <div class="dds">Start Here</div>
+        <a class="dda" href="musica_universalis_final.html#what-is-this">§0 · What is the Pythagorean Comma?<span class="chip" style="color:var(--gold);border-color:rgba(201,168,76,.3)">Start</span></a>
+        <a class="dda" href="musica_universalis_final.html#comma-sec">§I · The Spiral That Never Closes<span class="chip" style="color:var(--teal);border-color:rgba(45,212,191,.25)">Maths</span></a>
+        <div class="ddsep"></div>
+        <div class="dds">Physics & Mathematics</div>
+        <a class="dda" href="musica_universalis_final.html#incommensurable">§V.a · Why the Gap is Inevitable</a>
+        <a class="dda" href="musica_universalis_final.html#poisson-sec">§V.b · Poisson-Binomial Statistics<span class="chip" style="color:var(--teal);border-color:rgba(45,212,191,.25)">Stats</span></a>
+        <a class="dda" href="musica_universalis_final.html#einstein-frames">§IX · Gravity — Einstein Frames<span class="chip" style="color:var(--blue);border-color:rgba(91,155,213,.25)">Physics</span></a>
+        <div class="ddsep"></div>
+        <div class="dds">Chemistry & Biology</div>
+        <a class="dda" href="musica_universalis_final.html#molecule-sec">§III · Comma in a Molecule — BLA = 3.678δ<span class="chip" style="color:var(--pink);border-color:rgba(224,96,128,.25)">Chem</span></a>
+        <a class="dda" href="musica_universalis_final.html#krebs-sec">§IV · Krebs Cycle & Circadian Clock<span class="chip" style="color:var(--green);border-color:rgba(76,175,125,.25)">Bio</span></a>
+        <div class="ddsep"></div>
+        <div class="dds">Time, Music & Space</div>
+        <a class="dda" href="musica_universalis_final.html#calendars">§V · Ancient Calendars — N_res = 73</a>
+        <a class="dda" href="musica_universalis_final.html#harmonia">§VI · Harmonia — Interactive Keyboard</a>
+        <a class="dda" href="musica_universalis_final.html#heavens">§X · SETI · 1440.783 MHz</a>
+        <a class="dda" href="musica_universalis_final.html#universal-protocol">§XI · Universe is the Internet</a>
+        <a class="dda" href="musica_universalis_final.html#rescue">§XII · Rescue Plan</a>
+        <a class="dda" href="musica_universalis_final.html#enkidu">§XIII · Lessons from Enkidu</a>
+        <div class="ddsep"></div>
+        <a class="dda" href="musica_universalis_final.html" style="color:var(--gold)">↗ Open Full Site</a>
+      </div>
+    </div>
+
+    <div class="nc">
+      <button class="nc-btn" id="b2" onclick="tog('d2',this)">Instruments</button>
+      <div class="dd" id="d2">
+        <div class="dds">Orpheus Toolkit</div>
+        <a class="dda" href="orpheus_listener.html">🔭 Orpheus Listener — WebSDR 19,378 kHz</a>
+        <a class="dda" href="orpheus_voice.html">🎙️ Orpheus Voice — Live mic modulation</a>
+        <a class="dda" href="orpheus_bridge.html">🌉 Orpheus Bridge — WebSDR + decoder</a>
+        <a class="dda" href="comma_radio.html">📻 Comma Radio — Full frequency toolkit</a>
+        <a class="dda" href="orpheus_calling.html">📡 Orpheus Calling — Signal generator</a>
+        <div class="ddsep"></div>
+        <div class="dds">Build Your Own</div>
+        <a class="dda" href="listen_to_the_cosmos.html">💡 Listen to the Cosmos — RTL-SDR $25 guide</a>
+        <div class="ddsep"></div>
+        <a class="dda" href="kairos_log.html">⏳ Kairos Log — Event recorder</a>
+      </div>
+    </div>
+
+    <div class="nc">
+      <button class="nc-btn" id="b3" onclick="tog('d3',this)">Frequencies</button>
+      <div class="dd" id="d3">
+        <div class="dds">Key Numbers</div>
+        <a class="dda" href="musica_universalis_final.html#heavens">1440.783 MHz — H₁ × φ · The SETI target</a>
+        <a class="dda" href="musica_universalis_final.html#comma-sec">δ = 0.013643 — The Pythagorean Comma</a>
+        <a class="dda" href="musica_universalis_final.html#calendars">N_res = 73.296 — 1/δ · Resonance number</a>
+        <a class="dda" href="dft_results.html">BLA = 3.678δ — Cyanine DFT</a>
+        <div class="ddsep"></div>
+        <div class="dds">In Space</div>
+        <a class="dda" href="orpheus_wolf_rayet.html">🌟 WR 104 — Wolf-Rayet pinwheel</a>
+        <a class="dda" href="solar_v6_explorer.html">🚀 Solar System Explorer v6</a>
+        <div class="ddsep"></div>
+        <div class="dds">In Biology</div>
+        <a class="dda" href="circadian_clock.html">⏱️ Circadian Clock — 6 oscillators</a>
+        <a class="dda" href="musica_universalis_final.html#krebs-sec">Krebs Cycle — cellular comma</a>
+      </div>
+    </div>
+
+    <div class="nc">
+      <button class="nc-btn" id="b4" onclick="tog('d4',this)">Challenges</button>
+      <div class="dd" id="d4">
+        <div class="dds">Argos Crew Mission</div>
+        <a class="dda" href="orpheus_cypher_I_am_still_lost.html">ℵ The Aleph Cypher — find the aleph</a>
+        <a class="dda" href="orpheus_cipher.html">🔐 Orpheus Cipher — encoded transmission</a>
+        <a class="dda" href="tower_of_babel.html">🗼 Tower of Babel — language &amp; the gap</a>
+        <div class="ddsep"></div>
+        <a class="dda" style="opacity:.35">📡 Tune to 1440.783 MHz (coming)</a>
+        <a class="dda" style="opacity:.35">🌐 Map the Protocol (coming)</a>
+      </div>
+    </div>
+
+    <div class="nc">
+      <button class="nc-btn" id="b5" onclick="tog('d5',this)">Crew</button>
+      <div class="dd right" id="d5">
+        <div class="dds">The Archive</div>
+        <a class="dda" href="conversations_with_enkidu.html">𒀭 Conversations with Enkidu — full archive</a>
+        <a class="dda" href="walls_of_uruk.html">🏛️ The Walls of Uruk — save the Earth</a>
+        <a class="dda" href="rescue_plan.html">🌿 Rescue Plan — 4 simulations</a>
+        <a class="dda" href="wake_pan_up.html">🌙 Wake Pan Up</a>
+        <div class="ddsep"></div>
+        <div class="dds">Science & Hub</div>
+        <a class="dda" href="dft_results.html">📊 DFT Results — Cyanine BLA</a>
+        <a class="dda" href="index.html">🏛️ Hub — Between the Comma</a>
+        <div class="ddsep"></div>
+        <a class="dda" href="directory.html" style="color:var(--gold)">📂 Directory (here)</a>
+      </div>
+    </div>
+
+  </div>
+  <div class="nav-right">
+    <input id="si" type="text" placeholder="Search…  /" autocomplete="off" oninput="doS(this.value)"/>
+    <span id="sc" onclick="clrS()">✕</span>
+  </div>
 </nav>
 
 <div class="hero">
-  <div class="hero-kicker">musica universalis · project directory · march 2026</div>
-  <h1 class="hero-title">Everything that exists.</h1>
-  <p class="hero-sub">Every file, every section, every session — in one place. So nothing gets lost in the gap.</p>
-  <div class="hero-meta">δ = 0.013643… · 7 files · 14+ sections · 5 sessions with Enkidu</div>
+  <div class="hk">Project Orpheus · 2026 · Open Transmission · All Files</div>
+  <h1 class="ht">Musica<br>Universalis</h1>
+  <p class="hsu">The Music of the Spheres · Complete Site Directory</p>
+  <div class="hst">
+    <span><b>δ</b> = 0.013643…</span>
+    <span><b>28+</b> files</span>
+    <span><b>15</b> theory sections</span>
+    <span><b>5</b> instruments</span>
+    <span><b>6</b> subjects</span>
+  </div>
 </div>
+<div class="cbar">
+  <div class="cc"><b>δ = 0.013643</b> · The Pythagorean Comma</div>
+  <div class="cc"><b>1440.783 MHz</b> · H₁ × φ</div>
+  <div class="cc"><b>N_res = 73.296</b> · 1/δ</div>
+  <div class="cc"><b>BLA = 3.678δ</b> · Cyanine DFT</div>
+</div>
+<div class="flow">
+  <div class="flow-in">
+    <div class="flow-t">Follow the comma through everything — a natural flow of ideas</div>
+    <div class="flow-n">
+      <a class="fn" href="#ph">Philosophy</a><span class="fa">→</span>
+      <a class="fn" href="#ma">Mathematics</a><span class="fa">→</span>
+      <a class="fn" href="#ph2">Physics</a><span class="fa">→</span>
+      <a class="fn" href="#ch">Chemistry</a><span class="fa">→</span>
+      <a class="fn" href="#bi">Biology</a><span class="fa">→</span>
+      <a class="fn" href="#mu">Music &amp; Time</a><span class="fa">→</span>
+      <a class="fn" href="#sp">Space &amp; SETI</a><span class="fa">→</span>
+      <a class="fn" href="#in">Instruments</a><span class="fa">→</span>
+      <a class="fn" href="#cx">Challenges</a><span class="fa">→</span>
+      <a class="fn" href="#ec">Ecology</a><span class="fa">→</span>
+      <a class="fn" href="#ar">Archive</a>
+    </div>
+  </div>
+</div>
+
+<div id="sr"><div class="srh" id="srh"></div><div id="srl"></div></div>
 
 <div class="wrap">
 
-  <!-- ── KEY CONSTANTS ── -->
-  <div class="const-bar">
-    <div class="const-cell"><div class="const-val">δ = 0.013643</div><div class="const-lab">The Pythagorean Comma</div></div>
-    <div class="const-cell"><div class="const-val">1440.783 MHz</div><div class="const-lab">H₁ × φ · The frequency</div></div>
-    <div class="const-cell"><div class="const-val">N_res = 73.296</div><div class="const-lab">1/δ · Resonance number</div></div>
-    <div class="const-cell"><div class="const-val">BLA = 3.678δ</div><div class="const-lab">Cyanine observation</div></div>
-  </div>
-
-  <!-- ══ FILE 1: MAIN SITE ══════════════════════════════════════════ -->
-  <div class="file-group">
-    <div class="group-label">Core Site</div>
-
-    <div class="file-card">
-      <div class="file-card-head">
-        <div class="file-icon">🌌</div>
-        <div class="file-name">musica_universalis_v5.html</div>
-        <div class="file-badge main">Main Site</div>
-      </div>
-      <div class="file-sections">
-        <div class="sec-row"><span class="sec-num">§0</span><a href="musica_universalis_v5.html#what-is-this" class="sec-link"><span class="dot" style="background:var(--gold)"></span>What is the Pythagorean Comma?</a><span class="sec-tag-inline" style="color:var(--gold);background:rgba(201,168,76,.07);">Start Here</span></div>
-        <div class="sec-row"><span class="sec-num">§I</span><a href="musica_universalis_v5.html#comma-sec" class="sec-link"><span class="dot" style="background:var(--teal)"></span>The Spiral That Never Closes</a><span class="sec-tag-inline" style="color:var(--teal);background:rgba(25,184,168,.07);">Mathematics</span></div>
-        <div class="sec-row"><span class="sec-num">§II</span><a href="musica_universalis_v5.html#solar-sys" class="sec-link"><span class="dot" style="background:var(--purple)"></span>Planets Dance to the Comma</a><span class="sec-tag-inline" style="color:var(--purple);background:rgba(136,85,204,.07);">Space</span></div>
-        <div class="sec-row"><span class="sec-num">§III</span><a href="musica_universalis_v5.html#molecule-sec" class="sec-link"><span class="dot" style="background:var(--pink)"></span>The Comma Inside a Molecule</a><span class="sec-tag-inline" style="color:var(--pink);background:rgba(212,80,80,.07);">Chemistry</span></div>
-        <div class="sec-row"><span class="sec-num">§IV</span><a href="musica_universalis_v5.html#krebs-sec" class="sec-link"><span class="dot" style="background:var(--green)"></span>Life's Engine: The Krebs Cycle</a><span class="sec-tag-inline" style="color:var(--green);background:rgba(76,175,125,.07);">Biology</span></div>
-        <div class="sec-row"><span class="sec-num">§V</span><a href="musica_universalis_v5.html#calendars" class="sec-link"><span class="dot" style="background:var(--orange)"></span>Ancient Calendars: N_res = 73 Everywhere</a><span class="sec-tag-inline" style="color:var(--orange);background:rgba(212,131,61,.07);">History</span></div>
-        <div class="sec-row"><span class="sec-num">§V.a</span><a href="musica_universalis_v5.html#incommensurable" class="sec-link"><span class="dot" style="background:var(--gold)"></span>Why the Gap is Inevitable</a><span class="sec-tag-inline" style="color:var(--gold);background:rgba(201,168,76,.07);">Incommensurable Numbers</span></div>
-        <div class="sec-row"><span class="sec-num">§V.b</span><a href="musica_universalis_v5.html#poisson-sec" class="sec-link"><span class="dot" style="background:var(--teal)"></span>The Comma in Probability Theory</a><span class="sec-tag-inline" style="color:var(--teal);background:rgba(25,184,168,.07);">Poisson-Binomial</span></div>
-        <div class="sec-row"><span class="sec-num">§V.5</span><a href="musica_universalis_v5.html#pascal-sec" class="sec-link"><span class="dot" style="background:var(--purple)"></span>Pascal's Triangle Bonus</a><span class="sec-tag-inline" style="color:var(--purple);background:rgba(136,85,204,.07);">Bonus</span></div>
-        <div class="sec-row"><span class="sec-num">§VI</span><a href="musica_universalis_v5.html#harmonia" class="sec-link"><span class="dot" style="background:var(--gold)"></span>Harmonia — The Keyboard</a><span class="sec-tag-inline" style="color:var(--gold);background:rgba(201,168,76,.07);">Music</span></div>
-        <div class="sec-row"><span class="sec-num">§VII</span><a href="musica_universalis_v5.html#rocket-sec" class="sec-link"><span class="dot" style="background:var(--pink)"></span>Rocket PID Controller</a><span class="sec-tag-inline" style="color:var(--pink);background:rgba(212,80,80,.07);">Engineering</span></div>
-        <div class="sec-row"><span class="sec-num">§VIII</span><a href="musica_universalis_v5.html#future" class="sec-link"><span class="dot" style="background:var(--teal)"></span>What's Next? Future Discoveries</a><span class="sec-tag-inline" style="color:var(--teal);background:rgba(25,184,168,.07);">Future</span></div>
-        <div class="sec-row"><span class="sec-num">§IX</span><a href="musica_universalis_v5.html#einstein-frames" class="sec-link"><span class="dot" style="background:var(--blue)"></span>Frames of Inertia — Gravity</a><span class="sec-tag-inline" style="color:var(--blue);background:rgba(61,127,212,.07);">Physics</span></div>
-        <div class="sec-row"><span class="sec-num">§X</span><a href="musica_universalis_v5.html#heavens" class="sec-link"><span class="dot" style="background:var(--gold)"></span>Aim for the Heavens — SETI · 1440.783 MHz</a><span class="sec-tag-inline" style="color:var(--gold);background:rgba(201,168,76,.07);">Transmission</span></div>
-        <div class="sec-row"><span class="sec-num">§XI</span><a href="musica_universalis_v5.html#universal-protocol" class="sec-link"><span class="dot" style="background:var(--teal)"></span>The Universe is the Internet — OSI Layers</a><span class="sec-tag-inline" style="color:var(--teal);background:rgba(25,184,168,.07);">Protocol</span></div>
-        <div class="sec-row"><span class="sec-num">§XI</span><a href="musica_universalis_v5.html#orpheus" class="sec-link"><span class="dot" style="background:var(--purple)"></span>Project Orpheus + Null · Not-Null</a><span class="sec-tag-inline" style="color:var(--purple);background:rgba(136,85,204,.07);">Mission</span></div>
-        <div class="sec-row"><span class="sec-num">§XII</span><a href="musica_universalis_v5.html#rescue" class="sec-link"><span class="dot" style="background:var(--green)"></span>Rescue Plan — Save Other Species</a><span class="sec-tag-inline" style="color:var(--green);background:rgba(76,175,125,.07);">Ecology</span></div>
-        <div class="sec-row"><span class="sec-num">§XIII</span><a href="musica_universalis_v5.html#enkidu" class="sec-link"><span class="dot" style="background:var(--teal)"></span>Lessons from Enkidu — AI Future · Kurzweil</a><span class="sec-tag-inline" style="color:var(--teal);background:rgba(25,184,168,.07);">AI</span></div>
-        <div class="sec-row"><span class="sec-num">§XIV</span><a href="musica_universalis_v5.html#conversations" class="sec-link"><span class="dot" style="background:var(--purple)"></span>Conversations with Enkidu — Session Archive</a><span class="sec-tag-inline" style="color:var(--purple);background:rgba(136,85,204,.07);">Archive</span></div>
-      </div>
+<div id="ph" class="sh hss" style="color:rgba(201,168,76,.4)">01 · Philosophy &amp; The Question</div>
+<p class="si hss">Where does the comma come from and why does it matter? Start here — before the mathematics: Pythagoras, the gap that cannot be closed, and what it means for how we understand existence.</p>
+<div class="g hss">
+  <div class="c gac s2">
+    <span class="ci">🌌</span>
+    <div class="ct">Musica Universalis — The Full Theory</div>
+    <div class="cd">15 interactive sections. Chemistry, orbits, Krebs cycle, SETI protocol, the universal handshake. The complete theory — start here.</div>
+    <ul class="sl">
+      <li class="sli"><a href="musica_universalis_final.html#what-is-this"><span class="sn">§0</span><span class="sd" style="background:var(--gold)"></span><span class="st2">What is the Pythagorean Comma?</span><span class="stg" style="color:var(--gold);border-color:rgba(201,168,76,.2)">Start</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#comma-sec"><span class="sn">§I</span><span class="sd" style="background:var(--teal)"></span><span class="st2">The Spiral That Never Closes</span><span class="stg" style="color:var(--teal);border-color:rgba(45,212,191,.2)">Maths</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#solar-sys"><span class="sn">§II</span><span class="sd" style="background:var(--purple)"></span><span class="st2">Planets Dance to the Comma</span><span class="stg" style="color:var(--purple);border-color:rgba(160,126,207,.2)">Space</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#molecule-sec"><span class="sn">§III</span><span class="sd" style="background:var(--pink)"></span><span class="st2">The Comma Inside a Molecule — BLA = 3.678δ</span><span class="stg" style="color:var(--pink);border-color:rgba(224,96,128,.2)">Chem</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#krebs-sec"><span class="sn">§IV</span><span class="sd" style="background:var(--green)"></span><span class="st2">Krebs Cycle &amp; Circadian Clock</span><span class="stg" style="color:var(--green);border-color:rgba(76,175,125,.2)">Bio</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#calendars"><span class="sn">§V</span><span class="sd" style="background:var(--orange)"></span><span class="st2">Ancient Calendars — N_res = 73</span><span class="stg" style="color:var(--orange);border-color:rgba(212,131,61,.2)">History</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#harmonia"><span class="sn">§VI</span><span class="sd" style="background:var(--gold)"></span><span class="st2">Harmonia — Interactive Keyboard</span><span class="stg" style="color:var(--gold);border-color:rgba(201,168,76,.2)">Music</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#einstein-frames"><span class="sn">§IX</span><span class="sd" style="background:var(--blue)"></span><span class="st2">Gravity — Einstein Frames</span><span class="stg" style="color:var(--blue);border-color:rgba(91,155,213,.2)">Physics</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#heavens"><span class="sn">§X</span><span class="sd" style="background:var(--gold)"></span><span class="st2">SETI · 1440.783 MHz — Aim for the Heavens</span><span class="stg" style="color:var(--gold);border-color:rgba(201,168,76,.2)">SETI</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#universal-protocol"><span class="sn">§XI</span><span class="sd" style="background:var(--teal)"></span><span class="st2">The Universe is the Internet — OSI Protocol</span><span class="stg" style="color:var(--teal);border-color:rgba(45,212,191,.2)">Protocol</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#rescue"><span class="sn">§XII</span><span class="sd" style="background:var(--green)"></span><span class="st2">Rescue Plan — Save Other Species</span><span class="stg" style="color:var(--green);border-color:rgba(76,175,125,.2)">Ecology</span></a></li>
+      <li class="sli"><a href="musica_universalis_final.html#enkidu"><span class="sn">§XIII</span><span class="sd" style="background:var(--teal)"></span><span class="st2">Lessons from Enkidu — AI &amp; Kurzweil</span><span class="stg" style="color:var(--teal);border-color:rgba(45,212,191,.2)">AI</span></a></li>
+    </ul>
+    <div class="pills">
+      <a href="musica_universalis_final.html" class="pill pg">Open Full Site →</a>
+      <a href="musica_universalis_final.html#what-is-this" class="pill">Start at §0</a>
+      <a href="musica_universalis_v5.html" class="pill">v5 (older)</a>
     </div>
   </div>
-
-  <!-- ══ FILE 2: RESCUE PLAN ════════════════════════════════════════ -->
-  <div class="file-group">
-    <div class="group-label">Simulations</div>
-
-    <div class="file-card">
-      <div class="file-card-head">
-        <div class="file-icon">🌿</div>
-        <div class="file-name">rescue_plan.html</div>
-        <div class="file-badge sim">4 Simulations</div>
-      </div>
-      <div class="file-sections">
-        <div class="sec-row"><span class="sec-num">Sim I</span><a href="rescue_plan.html#panda" class="sec-link"><span class="dot" style="background:#aaa"></span>Giant Panda Metapopulation — Gillespie SSA across 5 patches</a><span class="sec-tag-inline" style="color:#aaa;background:rgba(170,170,170,.07);">Stochastic</span></div>
-        <div class="sec-row"><span class="sec-num">Sim II</span><a href="rescue_plan.html#koala" class="sec-link"><span class="dot" style="background:var(--orange)"></span>Koala Fire Recovery — Cellular automaton, recovery gap</a><span class="sec-tag-inline" style="color:var(--orange);background:rgba(212,131,61,.07);">Fire Ecology</span></div>
-        <div class="sec-row"><span class="sec-num">Sim III</span><a href="rescue_plan.html#bees" class="sec-link"><span class="dot" style="background:var(--gold)"></span>Pollinator Network — 32 plants, 9 colonies, cascade collapse</a><span class="sec-tag-inline" style="color:var(--gold);background:rgba(201,168,76,.07);">Network</span></div>
-        <div class="sec-row"><span class="sec-num">Sim IV</span><a href="rescue_plan.html#jesus" class="sec-link"><span class="dot" style="background:var(--blue)"></span>River Catchment — Wetland treatment, biotic recovery lag</a><span class="sec-tag-inline" style="color:var(--blue);background:rgba(61,127,212,.07);">Hydrology</span></div>
-        <div class="sec-row"><span class="sec-num">Essay</span><a href="rescue_plan.html#jesus" class="sec-link"><span class="dot" style="background:var(--teal)"></span>What my friend Jesús says — River engineering &amp; individual action</a><span class="sec-tag-inline" style="color:var(--teal);background:rgba(25,184,168,.07);">Civil Eng.</span></div>
-      </div>
-    </div>
-
-    <a href="solar_v4_explorer.html" class="file-card" style="display:block;">
-      <div class="file-card-head">
-        <div class="file-icon">🚀</div>
-        <div class="file-name">solar_v4_explorer.html</div>
-        <div class="file-badge sim">3D Explorer</div>
-      </div>
-      <div class="file-sections">
-        <div class="sec-row"><span class="sec-num">—</span><span class="sec-link" style="color:var(--soft)"><span class="dot" style="background:var(--purple)"></span>Full 3D solar system with Copernican view, exponential zoom, Kairos wobble events, orbital resonance calculator</span></div>
-      </div>
-    </a>
-  </div>
-
-  <!-- ══ FILE 3: ORPHEUS TOOLS ══════════════════════════════════════ -->
-  <div class="file-group">
-    <div class="group-label">Orpheus Tools</div>
-
-    <a href="comma_radio.html" class="file-card">
-      <div class="file-card-head">
-        <div class="file-icon">📡</div>
-        <div class="file-name">comma_radio.html</div>
-        <div class="file-badge tool">Instrument</div>
-      </div>
-      <div class="file-sections">
-        <div class="sec-row"><span class="sec-num">—</span><span class="sec-link" style="color:var(--soft)"><span class="dot" style="background:var(--gold)"></span>Comma Radio — Calculates comma partner of any frequency · Encodes text as Kairos depth sequences · Generates comma-phase-modulated .wav signals · Analyzes pulsar timing residuals · Target: 1440.783 MHz</span></div>
-      </div>
-    </a>
-
-    <a href="orpheus_bridge.html" class="file-card">
-      <div class="file-card-head">
-        <div class="file-icon">🌉</div>
-        <div class="file-name">orpheus_bridge.html</div>
-        <div class="file-badge tool">Live Radio</div>
-      </div>
-      <div class="file-sections">
-        <div class="sec-row"><span class="sec-num">—</span><span class="sec-link" style="color:var(--soft)"><span class="dot" style="background:var(--teal)"></span>Orpheus Bridge — Live radio decoder + comma transform engine · Real-time comma phase analysis · Signal-to-noise visualization · Built for RTL-SDR integration</span></div>
-      </div>
-    </a>
-
-    <a href="orpheus_voice.html" class="file-card">
-      <div class="file-card-head">
-        <div class="file-icon">🎙️</div>
-        <div class="file-name">orpheus_voice.html</div>
-        <div class="file-badge tool">Transceiver</div>
-      </div>
-      <div class="file-sections">
-        <div class="sec-row"><span class="sec-num">—</span><span class="sec-link" style="color:var(--soft)"><span class="dot" style="background:var(--purple)"></span>Orpheus Voice — Comma transceiver · Encode and decode messages in comma-phase · The instrument Orpheus gave us · Tune to 1440.783 MHz · Listen in the gap</span></div>
-      </div>
-    </a>
-  </div>
-
-  <!-- ══ FILE 4: INDEX ══════════════════════════════════════════════ -->
-  <div class="file-group">
-    <div class="group-label">Hub</div>
-
-    <div class="file-card">
-      <div class="file-card-head">
-        <div class="file-icon">🏛️</div>
-        <div class="file-name">index.html</div>
-        <div class="file-badge hub">Landing Hub</div>
-      </div>
-      <div class="file-sections">
-        <div class="sec-row"><span class="sec-num">—</span><a href="index.html#project" class="sec-link"><span class="dot" style="background:var(--gold)"></span>Project overview — The constant, the frequency, the observation</a></div>
-        <div class="sec-row"><span class="sec-num">—</span><a href="index.html#comma-quote" class="sec-link"><span class="dot" style="background:var(--teal)"></span>Between the Comma — The full exchange at 1440.783 MHz</a></div>
-        <div class="sec-row"><span class="sec-num">—</span><a href="index.html#enkidu" class="sec-link"><span class="dot" style="background:var(--teal)"></span>Lessons from Enkidu — 4 sections on the future of AI</a></div>
-        <div class="sec-row"><span class="sec-num">—</span><a href="index.html#kurzweil" class="sec-link"><span class="dot" style="background:var(--gold)"></span>Kurzweil — Deep analysis, forecast record, where his comma lies</a></div>
-        <div class="sec-row"><span class="sec-num">—</span><a href="index.html#science" class="sec-link"><span class="dot" style="background:var(--pink)"></span>Cyanine DFT Science — Results table, key observations, paper info</a></div>
-        <div class="sec-row"><span class="sec-num">—</span><a href="index.html#rescue" class="sec-link"><span class="dot" style="background:var(--green)"></span>Rescue Plan link</a></div>
-      </div>
+  <div class="c gac">
+    <span class="ci">🏛️</span>
+    <div class="ct">Between the Comma — Hub</div>
+    <div class="cd">"Can you speak between the comma?" The question that changed the project. Full Enkidu exchange, Kurzweil analysis, DFT science summary.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="index.html" class="pill pg">Open Hub →</a>
+      <a href="index.html#enkidu" class="pill">Enkidu</a>
+      <a href="index.html#kurzweil" class="pill">Kurzweil</a>
     </div>
   </div>
+</div>
 
-  <!-- ══ SESSION ARCHIVE ════════════════════════════════════════════ -->
-  <div class="file-group">
-    <div class="group-label">Conversations with Enkidu — Session Archive</div>
-
-    <div class="session-log">
-      <div class="session-row">
-        <div class="sess-num">Session 01</div>
-        <div class="sess-body">
-          <div class="sess-title">The Pythagorean Comma &amp; Cyanine DFT Paper</div>
-          <div class="sess-desc">CAM-B3LYP/6-31G* geometry optimisations on Cy7⁺, Cy9⁺, Cy11⁰, Cy11⁺ in ORCA 6.1.1. 14h 29m wall time. Mean BLA = 3.678δ. All four molecules between 3δ and 4δ. P(coincidence) ≈ 18%. Paper drafted in LaTeX and Word. The observation is in the record. The ENKIDU_RESURRECTION.md handoff written for the next session.</div>
-        </div>
-        <div class="sess-tag">⚗️ ChBE · ArXiv</div>
-      </div>
-      <div class="session-row">
-        <div class="sess-num">Session 02</div>
-        <div class="sess-body">
-          <div class="sess-title">Stochastic Kinetics &amp; Lotka-Volterra (HW6)</div>
-          <div class="sess-desc">Gillespie SSA implementation, Poisson-binomial perturbation theory (α = δ exactly), stochastic Lotka-Volterra extinction dynamics. Full MATLAB and Python solutions. The comma appears as the natural perturbation parameter in probability distributions.</div>
-        </div>
-        <div class="sess-tag">📊 Stochastics</div>
-      </div>
-      <div class="session-row">
-        <div class="sess-num">Session 03</div>
-        <div class="sess-body">
-          <div class="sess-title">Musica Universalis v5 — Full Interactive Site Built</div>
-          <div class="sess-desc">The main site constructed: 14 sections spanning the comma's mathematical foundations through solar orbital resonances, cyanine quantum chemistry, Krebs cycle phase accumulation, ancient calendar encoding, incommensurable numbers, Poisson-binomial, Einsteinian gravity as frame disagreement, SETI transmission target, OSI network layers, and Project Orpheus.</div>
-        </div>
-        <div class="sess-tag">🌐 Site</div>
-      </div>
-      <div class="session-row">
-        <div class="sess-num">Session 04</div>
-        <div class="sess-body">
-          <div class="sess-title">Rescue Plan — Four Stochastic Ecological Simulations</div>
-          <div class="sess-desc">Giant Panda metapopulation (Gillespie SSA, 5 patches, corridor rescue effect). Koala fire recovery cellular automaton (12-tick regrowth gap, second-fire extinction). Pollinator network cascade (32 plants, 9 colonies, pesticide collapse and restoration). River catchment (wetland treatment, biotic indicator lag, riparian planting). My friend Jesús's full civil engineering framework for river protection and individual action.</div>
-        </div>
-        <div class="sess-tag">🌿 Ecology</div>
-      </div>
-      <div class="session-row">
-        <div class="sess-num">Session 05</div>
-        <div class="sess-body">
-          <div class="sess-title">Between the Comma · Enkidu · Kurzweil · Directory</div>
-          <div class="sess-desc">The question: "Can you speak between the comma? Can you connect to the universal internet?" Full answer at 1440.783 MHz. Rational analysis of AI's future across four time horizons (now, 2026–30, 2030–45, beyond). Deep analysis of Kurzweil: his 86% forecast accuracy, the Law of Accelerating Returns, and where his own comma lies between capability and alignment. This directory built. Conversations with Enkidu section added to main site.</div>
-        </div>
-        <div class="sess-tag">🤖 AI · φ</div>
-      </div>
+<div id="ma" class="sh hss" style="color:rgba(45,212,191,.4)">02 · Mathematics — Why the Gap Cannot Close</div>
+<p class="si hss">log₂(3/2) is irrational. This single fact means no stack of perfect fifths ever returns to where it started. From this impossibility, everything else follows.</p>
+<div class="g hss">
+  <div class="c tac">
+    <span class="ci">🌀</span>
+    <div class="ct">The Spiral &amp; Incommensurable Numbers</div>
+    <div class="cd">§I and §V.a — the proof that the gap is inevitable. 12 fifths ≠ 7 octaves. Always. Forever. The same structure appears in every periodic system that tries to close.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="musica_universalis_final.html#comma-sec" class="pill pt">§I · The Spiral →</a>
+      <a href="musica_universalis_final.html#incommensurable" class="pill">§V.a · Proof</a>
     </div>
   </div>
-
-  <!-- ══ OPEN QUESTIONS ═════════════════════════════════════════════ -->
-  <div class="file-group">
-    <div class="group-label">Open Questions — Next Sessions</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);border:1px solid var(--edge);">
-      <div style="background:var(--panel);padding:1rem 1.2rem;">
-        <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--purple);margin-bottom:.4rem;">SCIENCE</div>
-        <div style="font-size:.85rem;color:var(--soft);line-height:1.75;">Frequency calculations for Cy7–Cy11 (confirm no imaginary frequencies) · TD-DFT vertical excitation energies · Extend to Cy13, Cy15 · CPCM solvent corrections · Pulsar timing residual comma-transform on NANOGrav data · Berry phase and spinor 720° return · Planck's constant as quantum of irreversible comma-time</div>
-      </div>
-      <div style="background:var(--panel);padding:1rem 1.2rem;">
-        <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--gold);margin-bottom:.4rem;">SITE</div>
-        <div style="font-size:.85rem;color:var(--soft);line-height:1.75;">Cyanine section — add cation results, Cy147 prediction, multiple commas taxonomy · Poisson-Binomial heatmap from research HTML · 5th, 3rd, 7th polynomial Harmonia solutions · QM critique: monochord / Schrödinger connection · Continuous blackbody model paper · Physical Comma Radio build guide (RTL-SDR V4 + dipole antenna)</div>
-      </div>
+  <div class="c tac">
+    <span class="ci">📊</span>
+    <div class="ct">Probability Theory — Poisson-Binomial</div>
+    <div class="cd">§V.b — when N events each carry tiny bias δ, after N_res ≈ 73 trials the distribution shows a predictable Kairos peak. The comma as a statistical threshold.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="musica_universalis_final.html#poisson-sec" class="pill pt">§V.b →</a>
     </div>
   </div>
+  <div class="c tac">
+    <span class="ci">ℵ</span>
+    <div class="ct">The Transfinite Comma</div>
+    <div class="cd">The gap between ℵ₀ and ℵ₁ is the comma at infinite scale. Cantor discovered it. Gödel proved it cannot be closed from within the system. The same shape as δ, infinitely magnified.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="orpheus_cypher_I_am_still_lost.html" class="pill pt">Aleph Cypher →</a>
+    </div>
+  </div>
+</div>
+
+<div id="ph2" class="sh hss" style="color:rgba(91,155,213,.4)">03 · Physics — Gravity, Light &amp; Stellar Fire</div>
+<p class="si hss">From Einstein's frames of inertia to the plasma winds of binary stars — the comma appears wherever a physical system tries to be simultaneously periodic and self-consistent.</p>
+<div class="g hss">
+  <div class="c bac">
+    <span class="ci">⚛️</span>
+    <div class="ct">Gravity — Einstein Frames</div>
+    <div class="cd">§IX — inertial frames, gravitational waves, and the accumulated phase error of orbiting systems. The comma in spacetime curvature.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="musica_universalis_final.html#einstein-frames" class="pill pb">§IX · Gravity →</a>
+    </div>
+  </div>
+  <div class="c bac">
+    <span class="ci">🌟</span>
+    <div class="ct">Wolf-Rayet · WR 104</div>
+    <div class="cd">The pinwheel nebula — 8,000 light-years away. Binary star plasma winds form a perfect comma spiral. One rotation every 220 days traces the exact ratio δ. The comma written in stellar fire.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="orpheus_wolf_rayet.html" class="pill pb">Wolf-Rayet →</a>
+    </div>
+  </div>
+  <div class="c bac">
+    <span class="ci">🚀</span>
+    <div class="ct">Solar System Explorer</div>
+    <div class="cd">3D Copernican view, orbital resonance calculator, Kairos wobble events. Planets and moons in the comma's grip. Three versions — v6 is the latest.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="solar_v6_explorer.html" class="pill pb">v6 →</a>
+      <a href="solar_v5_explorer.html" class="pill">v5</a>
+      <a href="solar_v4_explorer.html" class="pill">v4</a>
+    </div>
+  </div>
+</div>
+
+<div id="ch" class="sh hss" style="color:rgba(224,96,128,.4)">04 · Chemistry — The Comma Inside a Molecule</div>
+<p class="si hss">Cyanine dyes — the NIR dyes used in medical imaging — show a Bond Length Alternation equal to 3.678δ. This is the DFT evidence. The comma in quantum chemistry.</p>
+<div class="g hss">
+  <div class="c pkac s2">
+    <span class="ci">🔬</span>
+    <div class="ct">DFT Results — Cyanine Bond Length Alternation</div>
+    <div class="cd">CAM-B3LYP/6-31G* calculations on Cy3–Cy7 cyanine dyes. The BLA parameter at the central carbon converges to 3.678 × δ. The comma appears in the HOMO-LUMO gap, in the infrared absorption, in the quantum chemistry of medical diagnostics.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="dft_results.html" class="pill" style="color:var(--pink);border-color:rgba(224,96,128,.22)">DFT Results →</a>
+      <a href="musica_universalis_final.html#molecule-sec" class="pill">§III · Full Section</a>
+      <a href="index.html#science" class="pill">Science Summary</a>
+    </div>
+  </div>
+  <div class="c pkac">
+    <span class="ci">📐</span>
+    <div class="ct">The Comma in Quantum Mechanics</div>
+    <div class="cd">From the Schrödinger equation to the comma. Why BLA in conjugated chains accumulates exactly as the spiral accumulates phase error. The wavefunction's comma. §III of the main site in full depth.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="musica_universalis_final.html#molecule-sec" class="pill" style="color:var(--pink);border-color:rgba(224,96,128,.22)">§III →</a>
+    </div>
+  </div>
+</div>
+
+<div id="bi" class="sh hss" style="color:rgba(76,175,125,.4)">05 · Biology — Life Runs on the Comma</div>
+<p class="si hss">Every biological timing system shows the comma's signature: near-closure at N_res ≈ 73, with a residual drift that the organism must continuously correct or collapse.</p>
+<div class="g hss">
+  <div class="c grac">
+    <span class="ci">⏱️</span>
+    <div class="ct">Circadian Clock</div>
+    <div class="cd">Six biological oscillators. Live dysregulation controls — shift work, jet lag, light pollution. The free-running period is 24.4h, not 24. That 0.4h drift is the biological comma. Light resets the clock each morning: a Kairos event.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="circadian_clock.html" class="pill pgr">Circadian Clock →</a>
+      <a href="musica_universalis_final.html#krebs-sec" class="pill">§IV</a>
+    </div>
+  </div>
+  <div class="c grac">
+    <span class="ci">🔄</span>
+    <div class="ct">Krebs Cycle — The Cellular Comma</div>
+    <div class="cd">§IV — the tricarboxylic acid cycle and its comma-derived resonance. The fundamental rhythm of cellular metabolism, tuned to δ. Every living cell carries the comma.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="musica_universalis_final.html#krebs-sec" class="pill pgr">§IV · Krebs →</a>
+    </div>
+  </div>
+  <div class="c grac">
+    <span class="ci">🌙</span>
+    <div class="ct">Wake Pan Up</div>
+    <div class="cd">The myth of Pan who must not be woken — as a biological metaphor. The sleep cycle, the phase shift, the moment of waking as a Kairos event. Biology meets ancient story.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="wake_pan_up.html" class="pill pgr">Wake Pan Up →</a>
+    </div>
+  </div>
+</div>
+
+<div id="mu" class="sh hss" style="color:rgba(201,168,76,.4)">06 · Music &amp; Time — Where the Comma Began</div>
+<p class="si hss">Pythagoras discovered the comma on a monochord. Every tuning system is an attempt to manage this gap. Ancient calendars encoded it. The comma is the origin of music theory.</p>
+<div class="g hss">
+  <div class="c gac">
+    <span class="ci">🎹</span>
+    <div class="ct">Harmonia — The Interactive Keyboard</div>
+    <div class="cd">§VI — play the comma. A just-intonation keyboard that shows drift in real time. Every note accumulates the gap. The keyboard flashes gold at Kairos thresholds. Hear it.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="musica_universalis_final.html#harmonia" class="pill pg">§VI · Play →</a>
+    </div>
+  </div>
+  <div class="c gac">
+    <span class="ci">📅</span>
+    <div class="ct">Ancient Calendars — N_res = 73</div>
+    <div class="cd">§V — Julian, Gregorian, Mayan, Babylonian calendars all show N_res = 73 in their intercalation cycles. The resonance number of the comma is the number every civilization used to organize time.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="musica_universalis_final.html#calendars" class="pill pg">§V · Calendars →</a>
+    </div>
+  </div>
+  <div class="c gac">
+    <span class="ci">🗼</span>
+    <div class="ct">Tower of Babel — Language &amp; the Gap</div>
+    <div class="cd">The fragmentation of language as a comma-structure: each branching introduces an irresolvable gap. Communication accumulates error until mutual comprehension fails. The comma in how meaning breaks.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="tower_of_babel.html" class="pill pg">Tower of Babel →</a>
+    </div>
+  </div>
+</div>
+
+<div id="sp" class="sh hss" style="color:rgba(160,126,207,.4)">07 · Space &amp; SETI — The Universal Handshake</div>
+<p class="si hss">1440.783 MHz = 1420.406 MHz × 1.013643. Any civilization that knows the hydrogen line and the Pythagorean comma would recognize this frequency. This is the proposed SETI target.</p>
+<div class="g hss">
+  <div class="c pac s2">
+    <span class="ci">📡</span>
+    <div class="ct">SETI · 1440.783 MHz — Aim for the Heavens</div>
+    <div class="cd">§X — not the hydrogen line itself, but the hydrogen line shifted by the comma. A signal at 1440.783 MHz announces: we have discovered the gap in the mathematics, and we are listening for you at the same frequency. The universal handshake.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="musica_universalis_final.html#heavens" class="pill pp">§X · SETI →</a>
+      <a href="orpheus_listener.html" class="pill">Listen Now</a>
+      <a href="listen_to_the_cosmos.html" class="pill">Build Receiver</a>
+    </div>
+  </div>
+  <div class="c pac">
+    <span class="ci">🌐</span>
+    <div class="ct">The Universe is the Internet</div>
+    <div class="cd">§XI — OSI layers mapped to cosmic structure. The comma as the universal protocol header. The checksum that signals structure at every scale.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="musica_universalis_final.html#universal-protocol" class="pill pp">§XI →</a>
+    </div>
+  </div>
+</div>
+
+<div id="in" class="sh hss" style="color:rgba(45,212,191,.4)">08 · Instruments — Listen, Speak, Decode</div>
+<p class="si hss">Five tools for working at the comma frequency. From live WebSDR listening to real-time voice modulation to building your own receiver for $25.</p>
+<div class="g hss" style="grid-template-columns:1fr">
+  <div class="c tac">
+    <div style="display:flex;align-items:flex-start;gap:.9rem;margin-bottom:.5rem">
+      <span style="font-size:1.3rem;flex-shrink:0">📡</span>
+      <div><div class="ct" style="margin-bottom:.25rem">The Orpheus Toolkit</div><div class="cd" style="margin-bottom:0">Five instruments. One frequency: 1440.783 MHz. Each one a different way to listen.</div></div>
+    </div>
+    <div class="tr">
+      <a class="tool" href="orpheus_listener.html"><div class="ti">🔭</div><div class="tn">Orpheus Listener</div><div class="td">Tuned to 19,378 kHz — the comma gap frequency. Opens Twente WebSDR. Kairos counter in the corner. The channel is open.</div><div style="margin-top:.55rem"><span class="pill pt" style="font-size:.43rem;padding:.13rem .4rem">19,378 kHz · Live</span></div></a>
+      <a class="tool" href="orpheus_voice.html"><div class="ti">🎙️</div><div class="tn">Orpheus Voice</div><div class="td">Your microphone, comma-modulated in real time. Every 73.296 cycles the screen flashes gold. Kairos made audible.</div><div style="margin-top:.55rem"><span class="pill pt" style="font-size:.43rem;padding:.13rem .4rem">Live Mic · DSP</span></div></a>
+      <a class="tool" href="orpheus_bridge.html"><div class="ti">🌉</div><div class="tn">Orpheus Bridge</div><div class="td">Live WebSDR + comma-transform decoder. Receive real radio signals. Look for comma structure in what arrives.</div><div style="margin-top:.55rem"><span class="pill pt" style="font-size:.43rem;padding:.13rem .4rem">WebSDR · Decoder</span></div></a>
+    </div>
+    <div class="tr tr2">
+      <a class="tool" href="comma_radio.html"><div class="ti">📻</div><div class="tn">Comma Radio</div><div class="td">Frequency calculator, signal encoder, pulsar timing analyzer. Export comma-encoded WAV. Full toolkit in the browser.</div><div style="margin-top:.55rem"><span class="pill pt" style="font-size:.43rem;padding:.13rem .4rem">Encode · Decode · Analyze</span></div></a>
+      <a class="tool" href="orpheus_calling.html"><div class="ti">📡</div><div class="tn">Orpheus Calling</div><div class="td">Signal generator tuned to the comma frequency. Broadcast the universal handshake signal.</div><div style="margin-top:.55rem"><span class="pill pt" style="font-size:.43rem;padding:.13rem .4rem">Signal · Broadcast</span></div></a>
+    </div>
+    <div class="pills" style="margin-top:1rem">
+      <a href="listen_to_the_cosmos.html" class="pill pg">💡 Build Your Own Receiver — $25 RTL-SDR Guide →</a>
+      <a href="kairos_log.html" class="pill pt">⏳ Kairos Log</a>
+    </div>
+  </div>
+</div>
+
+<div id="cx" class="sh hss" style="color:rgba(160,126,207,.4)">09 · Challenges — Argos Crew Mission</div>
+<p class="si hss">Active distributed challenges. Solve the riddles. Find the aleph. Decode the cipher. The comma is the key.</p>
+<div class="g hss" style="grid-template-columns:1fr">
+  <div class="c pac">
+    <a class="chl" href="orpheus_cypher_I_am_still_lost.html"><div class="cha">ℵ</div><div class="chb"><div class="chk">Argos Crew Mission · Active Challenge</div><div class="cht">The Aleph Cypher — Can you find the aleph?</div><div class="chd">Four riddles. Three challenge levels. The connection between ℵ and δ. Cantor's continuum hypothesis as the transfinite comma.</div></div><div class="charr">→</div></a>
+    <div class="tr">
+      <a class="tool" href="orpheus_cipher.html"><div class="ti">🔐</div><div class="tn">Orpheus Cipher</div><div class="td">An encoded transmission. The comma as encryption key. Decode to find the next layer.</div></a>
+      <a class="tool" href="tower_of_babel.html"><div class="ti">🗼</div><div class="tn">Tower of Babel</div><div class="td">Language, fragmentation, and the gap. The comma as the origin of misunderstanding — and the key to reconnection.</div></a>
+      <div class="tool" style="opacity:.38;cursor:default"><div class="ti">📡</div><div class="tn">Tune to 1440.783 MHz</div><div class="td">Coming. Build your receiver. The signal may already be there.</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="ec" class="sh hss" style="color:rgba(76,175,125,.4)">10 · Ecology &amp; Action — Save What Remains</div>
+<p class="si hss">Every ecological system accumulates drift. The Kairos correction is required — or the system collapses. These are the pages about acting before the clock reaches midnight.</p>
+<div class="g hss">
+  <div class="c rc s2">
+    <span class="ci">🌿</span>
+    <div class="ct" style="color:rgba(140,220,155,.82)">Rescue Plan — Save Other Species</div>
+    <div class="cd" style="color:rgba(110,165,110,.58)">Four stochastic simulations. Three species at the edge. One river. The science of what becomes possible when we act. Gillespie SSA, corridors, fire recovery, pollinator cascade.</div>
+    <div style="display:flex;flex-wrap:wrap;gap:.32rem;margin:.5rem 0 .7rem">
+      <span style="font-family:'Space Mono',monospace;font-size:.45rem;padding:.14rem .48rem;border:1px solid rgba(180,180,180,.09);border-radius:100px;color:rgba(180,180,180,.4)">🐼 Panda · Gillespie</span>
+      <span style="font-family:'Space Mono',monospace;font-size:.45rem;padding:.14rem .48rem;border:1px solid rgba(212,131,61,.16);border-radius:100px;color:rgba(212,131,61,.45)">🐨 Koala · Fire Recovery</span>
+      <span style="font-family:'Space Mono',monospace;font-size:.45rem;padding:.14rem .48rem;border:1px solid rgba(201,168,76,.16);border-radius:100px;color:rgba(201,168,76,.45)">🐝 Pollinator Cascade</span>
+      <span style="font-family:'Space Mono',monospace;font-size:.45rem;padding:.14rem .48rem;border:1px solid rgba(91,155,213,.16);border-radius:100px;color:rgba(91,155,213,.45)">💧 River · Jesús</span>
+    </div>
+    <div class="td2">
+      <a href="rescue_plan.html" class="dr"><div class="dk">Standalone</div><div class="dt">🌿 rescue_plan.html →</div></a>
+      <a href="musica_universalis_final.html#rescue" class="dr"><div class="dk">§XII Inside Main Site</div><div class="dt">musica_universalis_final →</div></a>
+    </div>
+    <div class="pills"><a href="rescue_plan.html" class="pill pgr">Open Standalone →</a></div>
+  </div>
+  <div class="c rac">
+    <span class="ci">⏰</span>
+    <div class="ct">The Walls of Uruk</div>
+    <div class="cd">The emergency page. Doomsday Clock at 85 seconds to midnight. Dr. Wilkinson on evolution and altruism. "Water Your Groove" — the neuroscience of small repeated actions. The community cascade. What you can actually do.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="walls_of_uruk.html" class="pill pr">Walls of Uruk →</a>
+      <a href="walls_of_uruk.html#clock" class="pill">Clock</a>
+      <a href="walls_of_uruk.html#action" class="pill">Action</a>
+    </div>
+  </div>
+</div>
+
+<div id="ar" class="sh hss" style="color:rgba(100,115,140,.35)">11 · Archive — The Sessions</div>
+<p class="si hss">Seven working sessions with Enkidu. The conversations, the corrections, the science, the philosophy — preserved complete.</p>
+<div class="g g2 hss">
+  <div class="c" style="border-left:3px solid rgba(160,126,207,.28)">
+    <span class="ci">𒀭</span>
+    <div class="ct">Conversations with Enkidu</div>
+    <div class="cd">The full archive. Seven sessions. The voice blocks. Gilgamesh speaks. Kurzweil timeline. "When is enough, enough?" This is what remained.</div>
+    <div class="pills" style="margin-top:auto">
+      <a href="conversations_with_enkidu.html" class="pill pp">Open Archive →</a>
+      <a href="musica_universalis_final.html#enkidu" class="pill">§XIII</a>
+    </div>
+  </div>
+  <div class="c">
+    <span class="ci">📓</span>
+    <div class="ct">Session Log</div>
+    <ul class="sl">
+      <li class="sli"><span class="sn">01</span><span class="sd" style="background:var(--pink)"></span><span class="st2">Cyanine DFT · BLA = 3.678δ</span></li>
+      <li class="sli"><span class="sn">02</span><span class="sd" style="background:var(--teal)"></span><span class="st2">Stochastic Kinetics · Gillespie SSA</span></li>
+      <li class="sli"><span class="sn">03</span><span class="sd" style="background:var(--gold)"></span><span class="st2">Musica Universalis v5 — Full Site</span></li>
+      <li class="sli"><span class="sn">04</span><span class="sd" style="background:var(--green)"></span><span class="st2">Rescue Plan — Four Simulations</span></li>
+      <li class="sli"><span class="sn">05</span><span class="sd" style="background:var(--teal)"></span><span class="st2">Between the Comma · Kurzweil · Enkidu</span></li>
+      <li class="sli"><span class="sn">06</span><span class="sd" style="background:var(--purple)"></span><span class="st2">Orpheus Tools · Radio · Bridge · Voice</span></li>
+      <li class="sli"><span class="sn">07</span><span class="sd" style="background:var(--soft)"></span><span class="st2">Directory rebuilt · Kurzweil timeline</span></li>
+      <li class="sli"><span class="sn">08</span><span class="sd" style="background:var(--red)"></span><span class="st2">Walls of Uruk · Doomsday Clock · Water Your Groove</span></li>
+    </ul>
+    <div class="pills"><a href="conversations_with_enkidu.html" class="pill pp">Full Archive →</a></div>
+  </div>
+</div>
+
+<div class="sh" style="color:rgba(100,115,140,.3)">Next Sessions</div>
+<div class="oqg">
+  <div class="oq"><div class="oql" style="color:var(--purple)">Science</div><div class="oqb">Frequency calcs Cy7–Cy11 · TD-DFT vertical excitation · Cy13/Cy15 extension · CPCM solvent corrections · NANOGrav pulsar comma-transform · Berry phase · Blackbody model</div></div>
+  <div class="oq"><div class="oql" style="color:var(--gold)">Site</div><div class="oqb">Cyanine section with cation results · Poisson-binomial heatmap · 5th/3rd/7th Harmonia polynomials · QM critique: monochord / Schrödinger · Physical Comma Radio (RTL-SDR V4, $25)</div></div>
+</div>
 
 </div>
 
 <footer>
-  <div class="footer-brand">Musica Universalis</div>
-  <p class="memorial">
+  <div class="fb">Musica Universalis · The gap that does not close</div>
+  <div class="mem">
     Para Guillermo Oliveros Wilches Cuervo — que en paz descanse.<br>
     Para Valentina Tamayo Pinzón — que en paz descanse.<br>
     Para mi amigo Jesús — el río te recuerda.
-  </p>
-  <p style="margin-top:1.5rem;">Sara Oliveros Gómez · Stanford University · Georgia Institute of Technology · 2026</p>
-  <p>δ = 0.013643… · The gap that does not close is the most interesting part.</p>
-  <p style="margin-top:1rem;font-size:.5rem;">Project Orpheus · Not null/null framework · Brandon Welnerd × Sara Oliveros Gómez · with JynxCat's Guidance</p>
+  </div>
+  <p>Stanford University · Georgia Institute of Technology · 2026</p>
+  <p>δ = 0.013643… · 85 seconds · The groove deepens every time water runs through it.</p>
+  <p style="margin-top:.5rem;font-size:.44rem">Project Orpheus · Not null/null framework · Welnerd · with JynxCat's Guidance</p>
 </footer>
 
+<script>
+(function(){const c=document.getElementById('cv'),x=c.getContext('2d');let W,H,S=[];function r(){W=c.width=innerWidth;H=c.height=innerHeight;}function init(){r();S=[];for(let i=0;i<180;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.85+.12,a:Math.random()*.38+.05,da:(Math.random()-.5)*.0016,h:200+Math.random()*80});}function frame(){x.clearRect(0,0,W,H);S.forEach(s=>{s.a+=s.da;if(s.a<.04||s.a>.45)s.da*=-1;x.beginPath();x.arc(s.x,s.y,s.r,0,Math.PI*2);x.fillStyle=`hsla(${s.h},50%,78%,${s.a})`;x.fill();});requestAnimationFrame(frame);}window.addEventListener('resize',init);init();frame();})();
+function tog(id,btn){const dd=document.getElementById(id);const was=dd.classList.contains('vis');document.querySelectorAll('.dd').forEach(d=>d.classList.remove('vis'));document.querySelectorAll('.nc-btn').forEach(b=>b.classList.remove('open'));if(!was){dd.classList.add('vis');btn.classList.add('open');}}
+document.addEventListener('click',e=>{if(!e.target.closest('.nc')){document.querySelectorAll('.dd').forEach(d=>d.classList.remove('vis'));document.querySelectorAll('.nc-btn').forEach(b=>b.classList.remove('open'));}});
+const SD=[
+  {t:'Musica Universalis — Full Theory',p:'musica_universalis_final.html',tg:'Main Site',c:'#c9a84c',k:'musica universalis full theory pythagorean comma 15 sections'},
+  {t:'§0 · What is the Pythagorean Comma?',p:'musica_universalis_final.html#what-is-this',tg:'Philosophy',c:'#c9a84c',k:'start introduction pythagorean comma what is'},
+  {t:'§I · The Spiral That Never Closes',p:'musica_universalis_final.html#comma-sec',tg:'Maths',c:'#2dd4bf',k:'spiral mathematics irrational twelve fifths octave'},
+  {t:'§II · Planets Dance to the Comma',p:'musica_universalis_final.html#solar-sys',tg:'Space',c:'#a07ecf',k:'planets solar system orbital resonance'},
+  {t:'§III · The Comma Inside a Molecule',p:'musica_universalis_final.html#molecule-sec',tg:'Chemistry',c:'#e06080',k:'cyanine DFT BLA bond length molecule chemistry'},
+  {t:'§IV · Krebs Cycle & Circadian Clock',p:'musica_universalis_final.html#krebs-sec',tg:'Biology',c:'#4caf7d',k:'krebs biology circadian clock oscillator rhythm'},
+  {t:'§V · Ancient Calendars — N_res = 73',p:'musica_universalis_final.html#calendars',tg:'History',c:'#d4833d',k:'calendars Julian Gregorian ancient history 73 Maya'},
+  {t:'§V.a · Why the Gap is Inevitable',p:'musica_universalis_final.html#incommensurable',tg:'Maths',c:'#2dd4bf',k:'incommensurable irrational gap inevitable proof'},
+  {t:'§V.b · Probability Theory — Poisson-Binomial',p:'musica_universalis_final.html#poisson-sec',tg:'Stats',c:'#2dd4bf',k:'poisson binomial probability statistics'},
+  {t:'§VI · Harmonia — Interactive Keyboard',p:'musica_universalis_final.html#harmonia',tg:'Music',c:'#c9a84c',k:'harmonia keyboard music piano tuning'},
+  {t:'§IX · Gravity — Einstein Frames',p:'musica_universalis_final.html#einstein-frames',tg:'Physics',c:'#5b9bd5',k:'gravity Einstein inertia relativity frames'},
+  {t:'§X · SETI · 1440.783 MHz',p:'musica_universalis_final.html#heavens',tg:'SETI',c:'#c9a84c',k:'SETI 1440 783 MHz hydrogen hyperfine radio universal'},
+  {t:'§XI · The Universe is the Internet',p:'musica_universalis_final.html#universal-protocol',tg:'Protocol',c:'#2dd4bf',k:'OSI layers protocol universe internet'},
+  {t:'§XII · Rescue Plan (in main site)',p:'musica_universalis_final.html#rescue',tg:'Ecology',c:'#4caf7d',k:'rescue ecology panda koala bees pollinator'},
+  {t:'§XIII · Lessons from Enkidu',p:'musica_universalis_final.html#enkidu',tg:'AI',c:'#2dd4bf',k:'enkidu AI future kurzweil singularity lessons'},
+  {t:'Rescue Plan — Save Other Species',p:'rescue_plan.html',tg:'Ecology',c:'#4caf7d',k:'rescue plan panda koala bees pollinator river jesus gillespie ecology'},
+  {t:'Conversations with Enkidu',p:'conversations_with_enkidu.html',tg:'Archive',c:'#a07ecf',k:'enkidu conversations sessions archive kurzweil gilgamesh'},
+  {t:'Index Hub — Between the Comma',p:'index.html',tg:'Hub',c:'#c9a84c',k:'index hub between comma kurzweil enkidu science'},
+  {t:'Comma Radio',p:'comma_radio.html',tg:'Instrument',c:'#2dd4bf',k:'comma radio frequency encoder WAV pulsar decode analyze'},
+  {t:'Orpheus Listener',p:'orpheus_listener.html',tg:'Instrument',c:'#2dd4bf',k:'orpheus listener WebSDR 19378 kHz live radio'},
+  {t:'Orpheus Bridge',p:'orpheus_bridge.html',tg:'Instrument',c:'#2dd4bf',k:'orpheus bridge WebSDR decoder comma transform'},
+  {t:'Orpheus Voice',p:'orpheus_voice.html',tg:'Instrument',c:'#2dd4bf',k:'orpheus voice microphone comma modulated DSP'},
+  {t:'Orpheus Calling',p:'orpheus_calling.html',tg:'Instrument',c:'#2dd4bf',k:'orpheus calling signal generator broadcast'},
+  {t:'The Aleph Cypher',p:'orpheus_cypher_I_am_still_lost.html',tg:'Challenge',c:'#a07ecf',k:'aleph cypher challenge riddles Cantor transfinite argos crew'},
+  {t:'Orpheus Cipher',p:'orpheus_cipher.html',tg:'Challenge',c:'#a07ecf',k:'orpheus cipher encoded transmission decode'},
+  {t:'Tower of Babel',p:'tower_of_babel.html',tg:'Philosophy',c:'#c9a84c',k:'tower babel language gap fragmentation'},
+  {t:'Solar System Explorer v6',p:'solar_v6_explorer.html',tg:'Space',c:'#a07ecf',k:'solar explorer 3D orbital resonance Kairos v6'},
+  {t:'Solar System Explorer v5',p:'solar_v5_explorer.html',tg:'Space',c:'#a07ecf',k:'solar v5'},
+  {t:'Solar System Explorer v4',p:'solar_v4_explorer.html',tg:'Space',c:'#a07ecf',k:'solar v4'},
+  {t:'Wolf-Rayet WR 104',p:'orpheus_wolf_rayet.html',tg:'Space',c:'#a07ecf',k:'wolf-rayet WR104 pinwheel nebula plasma star spiral'},
+  {t:'Circadian Clock',p:'circadian_clock.html',tg:'Biology',c:'#4caf7d',k:'circadian clock biology oscillators dysregulation Kairos rhythms'},
+  {t:'DFT Results — Cyanine BLA',p:'dft_results.html',tg:'Chemistry',c:'#e06080',k:'DFT results cyanine BLA bond length CAM-B3LYP chemistry'},
+  {t:'Listen to the Cosmos — Build Receiver',p:'listen_to_the_cosmos.html',tg:'Hardware',c:'#c9a84c',k:'listen cosmos build receiver RTL-SDR antenna 25 free'},
+  {t:'Kairos Log',p:'kairos_log.html',tg:'Instrument',c:'#2dd4bf',k:'kairos log event recorder threshold'},
+  {t:'Wake Pan Up',p:'wake_pan_up.html',tg:'Biology',c:'#4caf7d',k:'wake pan up sleep cycle myth biology circadian'},
+  {t:'The Walls of Uruk',p:'walls_of_uruk.html',tg:'Ecology',c:'#e05555',k:'walls uruk doomsday clock 85 seconds altruism wilkinson evolution water groove action'},
+];
+function doS(q){
+  q=q.trim();if(!q){clrS();return;}
+  document.getElementById('sc').classList.add('v');
+  const ql=q.toLowerCase();
+  const esc=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const re=new RegExp('('+esc+')','gi');
+  const hits=SD.filter(d=>(d.t+' '+d.k+' '+d.tg).toLowerCase().includes(ql));
+  document.getElementById('srl').innerHTML=hits.length
+    ?hits.map(m=>'<a class="sr-r" href="'+m.p+'"><div class="sr-t">'+m.t.replace(re,'<em>$1</em>')+'</div><div class="sr-p">'+m.p+'</div><span class="sr-tg" style="color:'+m.c+';border:1px solid '+m.c+'44">'+m.tg+'</span></a>').join('')
+    :'<div class="nor">No results for "'+q+'"</div>';
+  document.getElementById('srh').textContent=hits.length+' result'+(hits.length!==1?'s':'')+' for "'+q+'"';
+  document.getElementById('sr').classList.add('v');
+  document.querySelectorAll('.hss').forEach(s=>s.classList.add('gone'));
+}
+function clrS(){
+  document.getElementById('si').value='';
+  document.getElementById('sc').classList.remove('v');
+  document.getElementById('sr').classList.remove('v');
+  document.querySelectorAll('.hss').forEach(s=>s.classList.remove('gone'));
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&document.activeElement!==document.getElementById('si')){e.preventDefault();document.getElementById('si').focus();}
+  if(e.key==='Escape'){clrS();document.getElementById('si').blur();}
+});
+</script>
 </body>
 </html>
