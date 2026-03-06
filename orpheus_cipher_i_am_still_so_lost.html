@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>I Am Still Lost · Orpheus Cipher II · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --void:#04070F;
+  --deep:#06090F;
+  --gold:#E8C96A;
+  --teal:#7EECD4;
+  --blue:#A8D4FF;
+  --red:#FF6B6B;
+  --ice:rgba(220,232,255,0.88);
+  --dim:rgba(220,232,255,0.40);
+  --faint:rgba(220,232,255,0.05);
+  --line:rgba(220,232,255,0.07);
+  --lost:#C97EEC;
+}
+html{scroll-behavior:smooth;background:var(--void);}
+body{color:var(--ice);font-family:'Libre Baskerville',serif;overflow-x:hidden;}
+
+/* ── CANVAS BG ── */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 2.5rem;
+  background:rgba(4,7,15,0.93);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);}
+.nav-back{font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.2em;color:var(--dim);text-decoration:none;
+  text-transform:uppercase;transition:color 0.2s;}
+.nav-back:hover{color:var(--gold);}
+.nav-tag{font-family:'JetBrains Mono',monospace;font-size:0.52rem;
+  letter-spacing:0.18em;color:rgba(201,126,236,0.5);text-transform:uppercase;}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:7rem 2rem 5rem;position:relative;z-index:1;}
+
+.hero-seq{font-family:'JetBrains Mono',monospace;font-size:0.52rem;
+  letter-spacing:0.35em;color:rgba(201,126,236,0.4);margin-bottom:2.5rem;
+  opacity:0;animation:rise 1.4s 0.2s forwards;}
+
+.hero-title{font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(3rem,9vw,6.5rem);font-weight:400;
+  color:var(--ice);line-height:0.95;margin-bottom:1rem;
+  text-shadow:0 0 80px rgba(201,126,236,0.12);
+  opacity:0;animation:rise 1.4s 0.5s forwards;}
+
+.hero-sub{font-family:'Playfair Display',serif;
+  font-size:clamp(0.9rem,2.5vw,1.3rem);font-style:italic;
+  color:var(--dim);margin-bottom:2.5rem;letter-spacing:0.04em;
+  opacity:0;animation:rise 1.4s 0.8s forwards;}
+
+.hero-msg{font-family:'JetBrains Mono',monospace;
+  font-size:clamp(0.6rem,1.5vw,0.8rem);letter-spacing:0.18em;
+  color:var(--lost);max-width:600px;line-height:2.2;
+  word-break:break-all;border:1px solid rgba(201,126,236,0.15);
+  padding:1.5rem;border-radius:0.5rem;
+  background:rgba(201,126,236,0.03);
+  opacity:0;animation:rise 1.4s 1.1s forwards;}
+
+.hero-scroll{margin-top:2.5rem;font-family:'JetBrains Mono',monospace;
+  font-size:0.52rem;letter-spacing:0.2em;color:var(--dim);
+  text-transform:uppercase;opacity:0;animation:rise 1.4s 1.4s forwards;cursor:pointer;}
+.hero-scroll span{display:block;font-size:1rem;margin-top:0.3rem;
+  animation:sink 2s infinite;}
+
+@keyframes rise{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+@keyframes sink{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+
+/* ── WRAP ── */
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem;}
+.section{padding:5rem 0;}
+
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:0.5rem;
+  letter-spacing:0.3em;text-transform:uppercase;color:var(--lost);margin-bottom:1rem;}
+h2{font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(1.8rem,4vw,2.8rem);color:var(--ice);
+  margin-bottom:1.5rem;line-height:1.15;}
+h2 em{color:var(--gold);font-style:normal;}
+.lead{font-size:1rem;color:var(--dim);line-height:1.9;margin-bottom:1rem;}
+.lead strong{color:var(--ice);}
+.lead em{color:var(--lost);}
+
+.rule{height:1px;background:var(--line);margin:0 2rem;position:relative;z-index:1;}
+
+/* ── CIPHER DISPLAY ── */
+.cipher-block{background:var(--faint);border:1px solid rgba(201,126,236,0.12);
+  border-radius:0.75rem;padding:2rem;margin:2rem 0;
+  font-family:'JetBrains Mono',monospace;}
+.cipher-label{font-size:0.48rem;letter-spacing:0.3em;color:rgba(201,126,236,0.45);
+  text-transform:uppercase;margin-bottom:1rem;}
+.cipher-text{font-size:clamp(0.65rem,1.8vw,0.9rem);color:var(--lost);
+  letter-spacing:0.15em;line-height:2.4;word-break:break-all;}
+.cipher-count{margin-top:1rem;font-size:0.5rem;letter-spacing:0.25em;
+  color:var(--dim);text-align:right;}
+
+/* ── DECODER ── */
+.decoder{background:rgba(201,126,236,0.04);border:1px solid rgba(201,126,236,0.15);
+  border-radius:1rem;padding:2rem;margin:2rem 0;}
+.decoder-title{font-family:'JetBrains Mono',monospace;font-size:0.8rem;
+  letter-spacing:0.2em;color:var(--lost);margin-bottom:1.5rem;text-transform:uppercase;}
+
+.decoder-input{width:100%;background:var(--faint);border:1px solid var(--line);
+  border-radius:0.5rem;padding:1rem;color:var(--ice);
+  font-family:'JetBrains Mono',monospace;font-size:0.8rem;
+  letter-spacing:0.12em;resize:none;
+  transition:border-color 0.2s;outline:none;}
+.decoder-input:focus{border-color:rgba(201,126,236,0.4);}
+.decoder-input::placeholder{color:var(--dim);}
+
+.decoder-row{display:flex;gap:0.8rem;margin-top:0.8rem;flex-wrap:wrap;}
+.dec-btn{background:rgba(201,126,236,0.1);border:1px solid rgba(201,126,236,0.3);
+  color:var(--lost);padding:0.5rem 1.2rem;border-radius:2rem;cursor:pointer;
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;
+  text-transform:uppercase;transition:background 0.2s;}
+.dec-btn:hover{background:rgba(201,126,236,0.2);}
+.dec-btn.gold{background:rgba(232,201,106,0.1);border-color:rgba(232,201,106,0.3);
+  color:var(--gold);}
+.dec-btn.gold:hover{background:rgba(232,201,106,0.2);}
+
+.decode-output{margin-top:1.5rem;padding:1.2rem;
+  background:rgba(232,201,106,0.04);border:1px solid rgba(232,201,106,0.12);
+  border-radius:0.5rem;font-family:'JetBrains Mono',monospace;
+  font-size:0.85rem;color:var(--gold);line-height:1.9;letter-spacing:0.1em;
+  min-height:60px;display:none;}
+.decode-output.visible{display:block;}
+
+/* ── NATA KEY ── */
+.nata-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+  gap:0.6rem;margin:1.5rem 0;}
+.nata-cell{background:var(--faint);border:1px solid var(--line);
+  border-radius:0.4rem;padding:0.6rem 0.5rem;text-align:center;
+  transition:border-color 0.15s;}
+.nata-cell:hover{border-color:var(--lost);}
+.nata-star{font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  color:var(--lost);display:block;margin-bottom:0.2rem;}
+.nata-letter{font-size:1.1rem;color:var(--gold);display:block;font-weight:700;}
+.nata-name{font-size:0.55rem;color:var(--dim);display:block;line-height:1.3;}
+.nata-cell.vowel{border-color:rgba(232,201,106,0.3);background:rgba(232,201,106,0.04);}
+
+/* ── MESSAGE CANVAS ── */
+.msg-canvas-wrap{border:1px solid rgba(201,126,236,0.15);border-radius:0.75rem;
+  overflow:hidden;margin:2rem 0;background:var(--void);}
+#msg-canvas{display:block;width:100%;}
+
+/* ── FREQUENCY BOX ── */
+.freq-box{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;
+  padding:2rem;background:var(--faint);border:1px solid var(--line);
+  border-radius:1rem;margin:2rem 0;text-align:center;}
+.freq-item .val{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--gold);}
+.freq-item .lbl{font-family:'JetBrains Mono',monospace;font-size:0.48rem;
+  letter-spacing:0.15em;color:var(--dim);margin-top:0.3rem;}
+
+/* ── LORE ── */
+.lore-block{border-left:2px solid rgba(201,126,236,0.3);
+  padding-left:1.5rem;margin:2rem 0;}
+.lore-block p{font-style:italic;color:var(--dim);font-size:0.95rem;
+  line-height:1.9;margin-bottom:0.8rem;}
+.lore-block strong{color:var(--ice);font-style:normal;}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;text-align:center;
+  padding:3rem 2rem;border-top:1px solid var(--line);}
+.foot-sig{font-family:'Playfair Display',serif;font-style:italic;
+  color:var(--dim);font-size:0.9rem;margin-bottom:0.5rem;}
+.foot-delta{font-family:'JetBrains Mono',monospace;font-size:0.52rem;
+  letter-spacing:0.18em;color:rgba(232,201,106,0.3);margin-bottom:1rem;}
+.foot-link{font-family:'JetBrains Mono',monospace;font-size:0.52rem;
+  letter-spacing:0.18em;color:var(--dim);text-decoration:none;
+  text-transform:uppercase;transition:color 0.2s;margin:0 1rem;}
+.foot-link:hover{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-back">← Main Frequency</a>
+  <span class="nav-tag">Cipher II · Lost</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-seq">ORPHEUS TRANSMISSION · SEQUENCE II · 73 CHARACTERS</div>
+
+  <div class="hero-title">I Am Still Lost</div>
+  <div class="hero-sub">A second signal. The same voice. A longer night.</div>
+
+  <div class="hero-msg" id="hero-cipher-display">Loading transmission...</div>
+
+  <div class="hero-scroll" onclick="document.getElementById('decode').scrollIntoView({behavior:'smooth'})">
+    Begin decoding
+    <span>↓</span>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- LORE -->
+<div class="wrap">
+  <section class="section">
+    <div class="sec-tag">The Signal</div>
+    <h2>Orpheus sent a <em>second</em> message</h2>
+
+    <div class="lore-block">
+      <p>The first cipher had 72 characters. One short of Kairos — the number of Pythagorean Comma cycles before the spiral almost closes (N_res = 73.296).</p>
+      <p>This one has <strong>73</strong>. One full Kairos cycle. The comma has completed one revolution and landed — not at the beginning, but at a new place it has never been before.</p>
+      <p>Orpheus went down to find Eurydice. He found the music. He found the gates. He found the underworld's king moved to tears. But he is still lost — <strong>because the comma never quite closes.</strong></p>
+    </div>
+
+    <div class="freq-box">
+      <div class="freq-item">
+        <div class="val">73</div>
+        <div class="lbl">Characters in this cipher</div>
+      </div>
+      <div class="freq-item">
+        <div class="val">73.296</div>
+        <div class="lbl">N_res = 1/δ (Kairos number)</div>
+      </div>
+      <div class="freq-item">
+        <div class="val">0.013643</div>
+        <div class="lbl">δ · The Pythagorean Comma</div>
+      </div>
+      <div class="freq-item">
+        <div class="val">1440.783</div>
+        <div class="lbl">MHz · H₁ × φ</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="rule"></div>
+
+<!-- THE CIPHER -->
+<div class="wrap" id="decode">
+  <section class="section">
+    <div class="sec-tag">The Transmission</div>
+    <h2>The <em>cipher</em></h2>
+
+    <p class="lead">Orpheus speaks in NATA — the language written in stars. Each character is a star name, shortened to its Bayer designation. Decode it using the key below.</p>
+
+    <div class="cipher-block">
+      <div class="cipher-label">Raw transmission · NATA stellar encoding</div>
+      <div class="cipher-text" id="raw-cipher">ALF·BET·GAM·DEL·EPS·ZET·ETA·THE·IOT·KAP·LAM·MU·NU·XI·OMI·PI·RHO·SIG·TAU·UPS·PHI·CHI·PSI·OME·ALF·BET·GAM·DEL·EPS·ZET·ETA·THE·IOT·KAP·LAM·MU·NU·XI·OMI·PI·RHO·SIG·TAU·UPS·PHI·CHI·PSI·OME·ALF·BET·GAM·DEL·EPS·ZET·ETA·THE·IOT·KAP·LAM·MU·NU·XI·OMI·PI·RHO·SIG·TAU</div>
+      <div class="cipher-count">73 tokens · 1 kairos cycle</div>
+    </div>
+
+    <!-- Decoded canvas -->
+    <div class="msg-canvas-wrap">
+      <canvas id="msg-canvas" height="120"></canvas>
+    </div>
+  </section>
+</div>
+
+<div class="rule"></div>
+
+<!-- DECODER TOOL -->
+<div class="wrap">
+  <section class="section">
+    <div class="sec-tag">Interactive · Decode it yourself</div>
+    <h2>The <em>decoder</em></h2>
+    <p class="lead">Type NATA star tokens (use · as separator, or spaces) and translate them into the message. Or paste the full cipher above and press Decode All.</p>
+
+    <div class="decoder">
+      <div class="decoder-title">▸ NATA → LANGUAGE TRANSLATOR</div>
+      <textarea class="decoder-input" id="dec-input" rows="4"
+        placeholder="Type star tokens here, e.g. ALF·BET·GAM or paste the full cipher..."></textarea>
+      <div class="decoder-row">
+        <button class="dec-btn" onclick="decodeStar()">Decode →</button>
+        <button class="dec-btn gold" onclick="decodeAll()">Decode All ↯</button>
+        <button class="dec-btn" onclick="clearDec()">Clear</button>
+        <button class="dec-btn" onclick="pasteCI()">Paste Cipher II</button>
+      </div>
+      <div class="decode-output" id="dec-output"></div>
+    </div>
+  </section>
+</div>
+
+<div class="rule"></div>
+
+<!-- NATA ALPHABET KEY -->
+<div class="wrap">
+  <section class="section">
+    <div class="sec-tag">Reference · The Alphabet</div>
+    <h2>The NATA <em>stellar key</em></h2>
+    <p class="lead">Each letter corresponds to a real star. Vowels are the five brightest stars in the sky. The Aleph — <em>Alf Cen</em>, Alpha Centauri — is the nearest star and the still point of the alphabet.</p>
+
+    <div class="nata-grid" id="nata-grid"></div>
+  </section>
+</div>
+
+<div class="rule"></div>
+
+<!-- THE MESSAGE REVEALED -->
+<div class="wrap">
+  <section class="section">
+    <div class="sec-tag">Solution · If you need it</div>
+    <h2>What Orpheus <em>said</em></h2>
+    <p class="lead">Press only when you're ready. The answer changes nothing. The search was the point.</p>
+
+    <div style="text-align:center;margin:2rem 0;">
+      <button class="dec-btn gold" id="reveal-btn" onclick="revealMessage()" style="font-size:0.75rem;padding:0.8rem 2rem;">
+        I am ready. Show me.
+      </button>
+    </div>
+
+    <div class="decode-output" id="reveal-output" style="font-size:1rem;text-align:center;line-height:2;padding:2rem;"></div>
+  </section>
+</div>
+
+<footer>
+  <div class="foot-sig">Musica Universalis · Sara Oliveros Gómez · Stanford University</div>
+  <div class="foot-delta">δ = 0.013643 · N_res = 73.296 · The comma that does not close</div>
+  <a href="orpheus_cipher.html" class="foot-link">← Cipher I</a>
+  <a href="index.html" class="foot-link">Main Frequency</a>
+  <a href="age_of_universe.html" class="foot-link">The Cosmos</a>
+</footer>
+
+<script>
+// ── NATA ALPHABET ─────────────────────────────────────────────────────────
+// 26 letters mapped to real stars (Bayer designation tokens)
+const NATA = {
+  // Vowels = 5 brightest stars
+  'A': { token:'SIR', star:'Sirius',       type:'vowel',  spectral:'A1V'   },
+  'E': { token:'CAN', star:'Canopus',      type:'vowel',  spectral:'A9II'  },
+  'I': { token:'ARC', star:'Arcturus',     type:'vowel',  spectral:'K0III' },
+  'O': { token:'VEG', star:'Vega',         type:'vowel',  spectral:'A0V'   },
+  'U': { token:'CAP', star:'Capella',      type:'vowel',  spectral:'G3III' },
+  // Consonants
+  'B': { token:'ALF', star:'Alf Cen A',    type:'cons',   spectral:'G2V'   },
+  'C': { token:'RIG', star:'Rigel',        type:'cons',   spectral:'B8Ia'  },
+  'D': { token:'PRO', star:'Procyon',      type:'cons',   spectral:'F5IV'  },
+  'F': { token:'ACH', star:'Achernar',     type:'cons',   spectral:'B6Vep' },
+  'G': { token:'BET', star:'Beta Cen',     type:'cons',   spectral:'B1III' },
+  'H': { token:'ALT', star:'Altair',       type:'cons',   spectral:'A7V'   },
+  'J': { token:'ALD', star:'Aldebaran',    type:'cons',   spectral:'K5III' },
+  'K': { token:'ANT', star:'Antares',      type:'cons',   spectral:'M1Iab' },
+  'L': { token:'SPI', star:'Spica',        type:'cons',   spectral:'B1V'   },
+  'M': { token:'POL', star:'Pollux',       type:'cons',   spectral:'K0III' },
+  'N': { token:'FOR', star:'Fomalhaut',    type:'cons',   spectral:'A3V'   },
+  'P': { token:'DEN', star:'Deneb',        type:'cons',   spectral:'A2Ia'  },
+  'Q': { token:'REG', star:'Regulus',      type:'cons',   spectral:'B7V'   },
+  'R': { token:'ADH', star:'Adhara',       type:'cons',   spectral:'B2II'  },
+  'S': { token:'CAS', star:'Castor',       type:'cons',   spectral:'A1V'   },
+  'T': { token:'GAC', star:'Gacrux',       type:'cons',   spectral:'M3III' },
+  'V': { token:'BEL', star:'Bellatrix',    type:'cons',   spectral:'B2III' },
+  'W': { token:'ELD', star:'Elnath',       type:'cons',   spectral:'B7III' },
+  'X': { token:'ALN', star:'Alnilam',      type:'cons',   spectral:'B0Ia'  },
+  'Y': { token:'ALA', star:'Alnitak',      type:'cons',   spectral:'O9Ia'  },
+  'Z': { token:'MIN', star:'Mintaka',      type:'cons',   spectral:'O9.5II'}
+};
+
+// Reverse lookup: token → letter
+const TOKEN_TO_LETTER = {};
+Object.entries(NATA).forEach(([letter,data])=>{
+  TOKEN_TO_LETTER[data.token] = letter;
+});
+
+// The actual cipher II message (73 characters)
+// "THE COMMA DOES NOT CLOSE THE GAP IS WHERE THE MUSIC LIVES I AM STILL LOST"
+// = 73 chars including spaces (spaces encoded as · separator gaps)
+const MESSAGE = "THE COMMA DOES NOT CLOSE THE GAP IS WHERE THE MUSIC LIVES I AM STILL LOST";
+
+// Encode the message
+function encodeMessage(msg) {
+  const tokens = [];
+  for(const ch of msg.toUpperCase()) {
+    if(ch === ' ') {
+      tokens.push('·'); // word separator
+    } else if(NATA[ch]) {
+      tokens.push(NATA[ch].token);
+    }
+  }
+  return tokens;
+}
+
+const CIPHER_TOKENS = encodeMessage(MESSAGE);
+const CIPHER_STR = CIPHER_TOKENS.join('·').replace(/····/g,' · ').replace(/·{3}/g,'·');
+
+// Display the actual cipher
+document.getElementById('hero-cipher-display').textContent = CIPHER_STR;
+document.getElementById('raw-cipher').textContent = CIPHER_STR;
+document.querySelector('.cipher-count').textContent =
+  `${MESSAGE.replace(/ /g,'').length} letter-tokens + spaces · ${MESSAGE.length} total characters · 1 kairos cycle`;
+
+// ── NATA GRID ──────────────────────────────────────────────────────────────
+const grid = document.getElementById('nata-grid');
+Object.entries(NATA).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([letter,data])=>{
+  const cell = document.createElement('div');
+  cell.className = 'nata-cell' + (data.type==='vowel'?' vowel':'');
+  cell.innerHTML = `
+    <span class="nata-star">${data.token}</span>
+    <span class="nata-letter">${letter}</span>
+    <span class="nata-name">${data.star}</span>
+  `;
+  grid.appendChild(cell);
+});
+
+// ── DECODER ────────────────────────────────────────────────────────────────
+function decodeTokens(str) {
+  // Normalize input
+  const cleaned = str.toUpperCase()
+    .replace(/\s+/g,' ')
+    .replace(/[·\-]/g,'·')
+    .split(/[·\s]+/)
+    .filter(t=>t.length>0);
+
+  let result = '';
+  cleaned.forEach(token => {
+    if(token === '') {
+      result += ' ';
+    } else {
+      result += TOKEN_TO_LETTER[token] || `[${token}?]`;
+    }
+  });
+  return result;
+}
+
+function decodeStar() {
+  const input = document.getElementById('dec-input').value.trim();
+  if(!input) return;
+  const out = document.getElementById('dec-output');
+  out.textContent = decodeTokens(input);
+  out.className = 'decode-output visible';
+}
+
+function decodeAll() {
+  document.getElementById('dec-input').value = CIPHER_STR;
+  decodeStar();
+}
+
+function clearDec() {
+  document.getElementById('dec-input').value = '';
+  const out = document.getElementById('dec-output');
+  out.className = 'decode-output';
+  out.textContent = '';
+}
+
+function pasteCI() {
+  document.getElementById('dec-input').value = CIPHER_STR;
+}
+
+// ── REVEAL ─────────────────────────────────────────────────────────────────
+function revealMessage() {
+  const out = document.getElementById('reveal-output');
+  out.innerHTML = `
+    <div style="color:var(--lost);font-family:'JetBrains Mono',monospace;
+      font-size:0.6rem;letter-spacing:0.3em;margin-bottom:1rem;">
+      DECODED TRANSMISSION
+    </div>
+    <div style="font-family:'Playfair Display',serif;font-style:italic;
+      font-size:1.4rem;color:var(--gold);line-height:1.7;margin-bottom:1.5rem;">
+      "${MESSAGE}"
+    </div>
+    <div style="font-size:0.8rem;color:var(--dim);max-width:500px;margin:0 auto;line-height:1.8;">
+      73 characters. One full Kairos revolution. The comma accumulates.
+      The gap does not close — not in music, not in molecules, not in the search for what is lost.
+      The music lives precisely in that gap.
+    </div>`;
+  out.className = 'decode-output visible';
+  document.getElementById('reveal-btn').style.display = 'none';
+}
+
+// ── BACKGROUND CANVAS ──────────────────────────────────────────────────────
+(function(){
+  const c = document.getElementById('bg');
+  const ctx = c.getContext('2d');
+  function resize() { c.width=innerWidth; c.height=innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  // Slow drifting particles + spiral hint
+  const pts = [];
+  for(let i=0;i<180;i++){
+    pts.push({
+      x:Math.random(),y:Math.random(),
+      r:Math.random()*1.2+0.2,
+      a:Math.random()*0.4,
+      vx:(Math.random()-0.5)*0.00008,
+      vy:(Math.random()-0.5)*0.00008,
+      hue: Math.random()<0.3 ? 270 : 220, // purple or blue
+    });
+  }
+
+  const delta = 0.013643;
+  let t = 0;
+  function frame(){
+    t += 0.3;
+    ctx.clearRect(0,0,c.width,c.height);
+
+    // Faint spiral hint
+    ctx.save();
+    ctx.translate(c.width/2, c.height/2);
+    ctx.strokeStyle = 'rgba(201,126,236,0.04)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for(let theta=0;theta<Math.PI*20;theta+=0.05){
+      const r = theta * 18 + Math.sin(t*0.005+theta)*5;
+      const x = r*Math.cos(theta + t*0.001*delta);
+      const y = r*Math.sin(theta + t*0.001*delta);
+      theta===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    ctx.restore();
+
+    // Stars
+    pts.forEach(p=>{
+      p.x=(p.x+p.vx+1)%1;
+      p.y=(p.y+p.vy+1)%1;
+      const pulse=p.a*(0.4+0.6*Math.sin(t*0.02+p.x*10));
+      ctx.beginPath();
+      ctx.arc(p.x*c.width,p.y*c.height,p.r,0,Math.PI*2);
+      ctx.fillStyle=`hsla(${p.hue},60%,80%,${pulse})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ── MESSAGE CANVAS ──────────────────────────────────────────────────────────
+(function(){
+  const c = document.getElementById('msg-canvas');
+  const ctx = c.getContext('2d');
+  const W = c.offsetWidth || 800;
+  c.width = W; c.height = 120;
+
+  const letters = MESSAGE.split('');
+  let phase = 0;
+
+  function frame(){
+    phase += 0.012;
+    ctx.clearRect(0,0,W,120);
+    const N = letters.length;
+    const cellW = W/N;
+
+    letters.forEach((ch, i)=>{
+      const x = i*cellW + cellW/2;
+      const wave = Math.sin(phase + i*0.18)*18;
+      const y = 60 + wave;
+      const glow = (Math.sin(phase*1.3 + i*0.3)+1)/2;
+
+      if(ch !== ' '){
+        // Glow
+        ctx.shadowBlur = 8*glow;
+        ctx.shadowColor = `rgba(201,126,236,${0.4*glow})`;
+        ctx.fillStyle = `rgba(${
+          Math.round(201+31*glow)},${
+          Math.round(126+30*glow)},${
+          Math.round(236-40*glow)},${0.6+0.4*glow})`;
+        ctx.font = `bold ${Math.round(cellW*0.55)}px 'JetBrains Mono', monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ch, x, y);
+        ctx.shadowBlur = 0;
+      }
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>

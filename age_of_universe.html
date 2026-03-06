@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How Old is the Universe? · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Fredoka+One&family=JetBrains+Mono:wght@300;400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --void:#04070F;
+  --deep:#080D1A;
+  --gold:#E8C96A;
+  --teal:#7EECD4;
+  --blue:#A8D4FF;
+  --pink:#FF9ED2;
+  --coral:#FF7F6B;
+  --ice:rgba(220,232,255,0.88);
+  --dim:rgba(220,232,255,0.45);
+  --faint:rgba(220,232,255,0.06);
+  --line:rgba(220,232,255,0.08);
+  --cmb:#FF6B6B;
+  --cmb2:#FFB347;
+}
+html{scroll-behavior:smooth;background:var(--void);}
+body{color:var(--ice);font-family:'Nunito',sans-serif;overflow-x:hidden;line-height:1.6;}
+
+/* ── STARS BG ── */
+#starfield{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 2rem;
+  background:rgba(4,7,15,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);}
+.nav-home{font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.2em;color:var(--dim);text-decoration:none;
+  text-transform:uppercase;transition:color 0.2s;}
+.nav-home:hover{color:var(--gold);}
+.nav-title{font-family:'Playfair Display',serif;font-style:italic;
+  font-size:0.9rem;color:rgba(232,201,106,0.5);}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:7rem 2rem 4rem;position:relative;z-index:1;}
+
+.age-badge{display:inline-block;background:rgba(232,201,106,0.08);
+  border:1px solid rgba(232,201,106,0.25);border-radius:2rem;
+  padding:0.4rem 1.2rem;margin-bottom:2rem;
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;
+  opacity:0;animation:float-in 1s 0.2s forwards;}
+
+.hero-age{font-family:'Fredoka One',cursive;
+  font-size:clamp(2.5rem,8vw,6rem);
+  color:var(--gold);line-height:1;margin-bottom:0.5rem;
+  text-shadow:0 0 80px rgba(232,201,106,0.3);
+  opacity:0;animation:float-in 1s 0.5s forwards;}
+
+.hero-unit{font-family:'Nunito',sans-serif;font-size:clamp(1rem,3vw,1.8rem);
+  color:var(--dim);font-weight:600;margin-bottom:2rem;
+  opacity:0;animation:float-in 1s 0.7s forwards;}
+
+.hero-question{font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(1.2rem,3vw,2rem);color:var(--ice);
+  max-width:600px;line-height:1.5;margin-bottom:3rem;
+  opacity:0;animation:float-in 1s 0.9s forwards;}
+
+.hero-scroll{font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;
+  opacity:0;animation:float-in 1s 1.2s forwards;cursor:pointer;}
+.hero-scroll span{display:block;font-size:1.2rem;margin-top:0.3rem;
+  animation:bounce 2s infinite;}
+
+@keyframes float-in{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+
+/* ── SECTIONS ── */
+.section{position:relative;z-index:1;padding:5rem 2rem;max-width:900px;margin:0 auto;}
+.section-wide{position:relative;z-index:1;padding:5rem 2rem;max-width:1100px;margin:0 auto;}
+
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:0.52rem;
+  letter-spacing:0.3em;color:var(--teal);text-transform:uppercase;margin-bottom:1rem;}
+.sec-title{font-family:'Fredoka One',cursive;font-size:clamp(1.8rem,5vw,3rem);
+  color:var(--ice);margin-bottom:1.5rem;line-height:1.1;}
+.sec-title em{color:var(--gold);font-style:normal;}
+.body-text{font-size:1.05rem;color:var(--dim);line-height:1.85;margin-bottom:1.2rem;}
+.body-text strong{color:var(--ice);font-weight:700;}
+.body-text em{color:var(--gold);}
+
+.rule{height:1px;background:var(--line);margin:0 2rem;position:relative;z-index:1;}
+
+/* ── CMB EXPLORER ── */
+.cmb-section{position:relative;z-index:1;padding:5rem 2rem;
+  background:linear-gradient(180deg,transparent,rgba(8,13,26,0.6),transparent);}
+.cmb-wrap{max-width:960px;margin:0 auto;}
+
+.cmb-canvas-wrap{position:relative;border-radius:1rem;overflow:hidden;
+  border:1px solid rgba(126,236,212,0.15);margin:2rem 0;
+  background:radial-gradient(ellipse at center,#1a0808 0%,#08040a 50%,#020408 100%);}
+#cmb-canvas{display:block;width:100%;max-height:340px;}
+
+.cmb-temp{text-align:center;margin:1rem 0;}
+.cmb-temp-val{font-family:'Fredoka One',cursive;font-size:3rem;color:var(--cmb);
+  display:block;line-height:1;}
+.cmb-temp-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.2em;color:var(--dim);}
+
+/* ── MATH STEPS ── */
+.math-steps{display:grid;gap:1.5rem;margin:2rem 0;}
+.math-step{background:var(--faint);border:1px solid var(--line);
+  border-radius:0.75rem;padding:1.5rem;position:relative;
+  border-left:3px solid var(--gold);transition:border-color 0.2s;}
+.math-step:hover{border-left-color:var(--teal);}
+.step-num{position:absolute;top:-12px;left:1rem;
+  font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--gold);
+  background:var(--void);padding:0 0.4rem;line-height:1;}
+.step-title{font-family:'Fredoka One',cursive;font-size:1.1rem;
+  color:var(--ice);margin-bottom:0.5rem;padding-top:0.5rem;}
+.step-body{font-size:0.9rem;color:var(--dim);line-height:1.7;}
+.step-body strong{color:var(--ice);}
+.step-body em{color:var(--teal);}
+.step-eq{font-family:'JetBrains Mono',monospace;font-size:0.85rem;
+  color:var(--gold);background:rgba(232,201,106,0.05);
+  border:1px solid rgba(232,201,106,0.15);border-radius:0.4rem;
+  padding:0.6rem 1rem;margin:0.7rem 0;display:block;text-align:center;}
+
+/* ── HUBBLE CALCULATOR ── */
+.calculator{background:rgba(126,236,212,0.04);border:1px solid rgba(126,236,212,0.15);
+  border-radius:1rem;padding:2rem;margin:2rem 0;}
+.calc-title{font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--teal);
+  margin-bottom:1.2rem;display:flex;align-items:center;gap:0.5rem;}
+.calc-row{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;}
+.calc-label{font-family:'Nunito',sans-serif;font-size:0.9rem;
+  color:var(--dim);min-width:200px;}
+.calc-slider{flex:1;min-width:140px;-webkit-appearance:none;appearance:none;
+  height:4px;border-radius:2px;background:rgba(126,236,212,0.2);outline:none;}
+.calc-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:18px;height:18px;border-radius:50%;background:var(--teal);cursor:pointer;}
+.calc-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;
+  background:var(--teal);cursor:pointer;border:none;}
+.calc-val{font-family:'JetBrains Mono',monospace;font-size:0.85rem;
+  color:var(--teal);min-width:80px;text-align:right;}
+.calc-result{background:rgba(232,201,106,0.06);border:1px solid rgba(232,201,106,0.2);
+  border-radius:0.5rem;padding:1.2rem;text-align:center;margin-top:1rem;}
+.calc-result-num{font-family:'Fredoka One',cursive;font-size:2.5rem;color:var(--gold);}
+.calc-result-label{font-family:'JetBrains Mono',monospace;font-size:0.52rem;
+  letter-spacing:0.15em;color:var(--dim);}
+
+/* ── TIMELINE ── */
+.timeline{margin:2rem 0;position:relative;}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;
+  width:1px;background:var(--line);transform:translateX(-50%);}
+@media(max-width:640px){.timeline::before{left:20px;}}
+
+.tl-item{display:flex;gap:2rem;margin-bottom:2.5rem;position:relative;}
+.tl-item:nth-child(odd){flex-direction:row-reverse;}
+@media(max-width:640px){.tl-item,.tl-item:nth-child(odd){flex-direction:row;}}
+
+.tl-dot{position:absolute;left:50%;top:0.4rem;width:12px;height:12px;
+  border-radius:50%;transform:translateX(-50%);z-index:2;flex-shrink:0;}
+@media(max-width:640px){.tl-dot{left:14px;}}
+.tl-card{flex:1;background:var(--faint);border:1px solid var(--line);
+  border-radius:0.75rem;padding:1.2rem;max-width:42%;}
+.tl-card:empty{background:transparent;border:none;}
+@media(max-width:640px){.tl-card{max-width:calc(100% - 60px);margin-left:60px !important;}
+  .tl-item:nth-child(odd) .tl-card:last-child{display:none;}
+  .tl-card:first-child{display:none;}
+}
+.tl-time{font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.15em;margin-bottom:0.3rem;}
+.tl-event{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:0.3rem;}
+.tl-desc{font-size:0.8rem;color:var(--dim);line-height:1.5;}
+
+/* ── COMMA CONNECTION ── */
+.comma-box{background:linear-gradient(135deg,rgba(232,201,106,0.05),rgba(126,236,212,0.05));
+  border:1px solid rgba(232,201,106,0.2);border-radius:1rem;
+  padding:2.5rem;margin:2rem 0;text-align:center;}
+.comma-box h3{font-family:'Fredoka One',cursive;font-size:1.8rem;
+  color:var(--gold);margin-bottom:1rem;}
+.comma-box p{color:var(--dim);font-size:1rem;line-height:1.8;max-width:600px;margin:0 auto 1rem;}
+.comma-big{font-family:'JetBrains Mono',monospace;font-size:2rem;
+  color:var(--teal);display:block;margin:1rem 0;}
+
+/* ── FUN FACTS ── */
+.facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.2rem;margin:2rem 0;}
+.fact-card{background:var(--faint);border:1px solid var(--line);
+  border-radius:0.75rem;padding:1.5rem;text-align:center;
+  transition:border-color 0.2s,transform 0.2s;}
+.fact-card:hover{border-color:var(--gold);transform:translateY(-3px);}
+.fact-emoji{font-size:2.5rem;display:block;margin-bottom:0.7rem;}
+.fact-num{font-family:'Fredoka One',cursive;font-size:1.4rem;
+  color:var(--gold);display:block;margin-bottom:0.3rem;}
+.fact-desc{font-size:0.82rem;color:var(--dim);line-height:1.5;}
+
+/* ── QUIZ ── */
+.quiz{background:rgba(168,212,255,0.04);border:1px solid rgba(168,212,255,0.15);
+  border-radius:1rem;padding:2rem;margin:2rem 0;}
+.quiz-q{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--ice);
+  margin-bottom:1.2rem;}
+.quiz-opts{display:grid;gap:0.7rem;}
+.quiz-opt{background:var(--faint);border:1px solid var(--line);
+  border-radius:0.5rem;padding:0.8rem 1.2rem;cursor:pointer;
+  font-size:0.95rem;color:var(--dim);text-align:left;
+  transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.quiz-opt:hover{border-color:var(--blue);color:var(--ice);}
+.quiz-opt.correct{border-color:#7EECD4;color:#7EECD4;background:rgba(126,236,212,0.08);}
+.quiz-opt.wrong{border-color:var(--coral);color:var(--coral);background:rgba(255,127,107,0.08);}
+.quiz-result{margin-top:1rem;font-size:0.9rem;color:var(--teal);
+  font-style:italic;display:none;line-height:1.6;}
+.quiz-next{margin-top:1rem;background:rgba(232,201,106,0.1);
+  border:1px solid rgba(232,201,106,0.3);color:var(--gold);
+  padding:0.6rem 1.5rem;border-radius:2rem;cursor:pointer;
+  font-family:'Fredoka One',cursive;font-size:1rem;display:none;
+  transition:background 0.2s;}
+.quiz-next:hover{background:rgba(232,201,106,0.2);}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;text-align:center;padding:3rem 2rem;
+  border-top:1px solid var(--line);}
+.foot-sig{font-family:'Playfair Display',serif;font-style:italic;
+  color:var(--dim);font-size:0.9rem;margin-bottom:0.5rem;}
+.foot-link{font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.2em;color:var(--dim);text-decoration:none;
+  text-transform:uppercase;transition:color 0.2s;}
+.foot-link:hover{color:var(--gold);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .facts-grid{grid-template-columns:1fr 1fr;}
+  .calc-row{flex-direction:column;align-items:flex-start;}
+  .calc-val{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<!-- STARFIELD -->
+<canvas id="starfield"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-home">← Musica Universalis</a>
+  <span class="nav-title">Age of the Universe</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="age-badge">Cosmic Scale · Kids Edition</div>
+  <div class="hero-age">13,787,000,000</div>
+  <div class="hero-unit">years old</div>
+  <div class="hero-question">How do we know how old the universe is?<br>We listen to its oldest light.</div>
+  <div class="hero-scroll" onclick="document.getElementById('start').scrollIntoView({behavior:'smooth'})">
+    Scroll to find out
+    <span>↓</span>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- WHAT IS CMB -->
+<section class="section" id="start">
+  <div class="sec-label">Step 1 · The Oldest Light</div>
+  <div class="sec-title">The universe sent us a <em>baby photo</em></div>
+  <div class="body-text">
+    About <strong>380,000 years</strong> after the Big Bang — when the universe was still very young and very hot — something amazing happened. The universe cooled down just enough for atoms to form for the first time.
+  </div>
+  <div class="body-text">
+    When that happened, light was suddenly free to travel. And it has been traveling ever since — <em>for 13.8 billion years</em> — in every direction, filling all of space. Today, we can detect that light. We call it the <strong>Cosmic Microwave Background (CMB)</strong>.
+  </div>
+  <div class="body-text">
+    It is everywhere. It is in every direction you could possibly look. Right now, as you read this, ancient light from the beginning of everything is passing through you.
+  </div>
+</section>
+
+<!-- CMB VISUALIZER -->
+<section class="cmb-section">
+  <div class="cmb-wrap">
+    <div class="sec-label">Interactive · Touch the ancient light</div>
+    <div class="sec-title">The <em>CMB Sky</em> — simulated</div>
+    <p class="body-text">The real CMB looks like this: tiny temperature differences across the whole sky. Blue spots are slightly cooler. Red spots are slightly warmer. These tiny ripples became the galaxies and stars we see today — including our own Sun.</p>
+
+    <div class="cmb-canvas-wrap">
+      <canvas id="cmb-canvas" height="340"></canvas>
+    </div>
+
+    <div class="cmb-temp">
+      <span class="cmb-temp-val" id="cmb-t">2.7255</span>
+      <span class="cmb-temp-label">KELVIN · AVERAGE CMB TEMPERATURE · −270.424 °C</span>
+    </div>
+
+    <p class="body-text" style="text-align:center;font-style:italic;color:var(--dim);font-size:0.9rem;">
+      Move your mouse over the map to feel the temperature fluctuations. They are real — only ±0.0001 K. The universe is incredibly smooth.
+    </p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- HOW DO WE CALCULATE -->
+<section class="section">
+  <div class="sec-label">Step 2 · The Math</div>
+  <div class="sec-title">How scientists <em>calculate</em> the age</div>
+  <p class="body-text">Scientists use the CMB in two ways to find the age of the universe. Let's walk through both.</p>
+
+  <div class="math-steps">
+    <div class="math-step">
+      <div class="step-num">1</div>
+      <div class="step-title">🌡️ Measure the temperature</div>
+      <div class="step-body">
+        The CMB temperature today is <em>T₀ = 2.7255 K</em> (just barely above absolute zero — the coldest possible temperature).
+        We know the universe started incredibly hot. As it expanded, it cooled. The relationship between temperature and expansion gives us a clock.
+        <span class="step-eq">T(time) = T₀ × (1 + z)  →  z = redshift of the CMB = 1089</span>
+        The CMB comes from when the universe was <strong>1090 times smaller</strong> than it is today.
+      </div>
+    </div>
+
+    <div class="math-step">
+      <div class="step-num">2</div>
+      <div class="step-title">📡 Measure the Hubble constant</div>
+      <div class="step-body">
+        The Hubble constant (H₀) tells us how fast the universe is expanding today.
+        The CMB pattern gives us: <em>H₀ = 67.4 km/s per megaparsec</em> (from Planck satellite, 2018).
+        This means for every megaparsec of distance (~3.26 million light-years), space is stretching at 67.4 km every second.
+        <span class="step-eq">H₀ = 67.4 km/s/Mpc  →  in SI: H₀ = 2.184 × 10⁻¹⁸ s⁻¹</span>
+      </div>
+    </div>
+
+    <div class="math-step">
+      <div class="step-num">3</div>
+      <div class="step-title">⚖️ Add what the universe is made of</div>
+      <div class="step-body">
+        The CMB also tells us exactly how much of each ingredient is in the universe. These ingredients change how fast it expands over time:
+        <span class="step-eq">Ω_matter = 0.315  (normal + dark matter)
+Ω_Λ = 0.685  (dark energy — the expansion accelerant)
+Ω_radiation ≈ 0.0001  (photons + neutrinos)</span>
+        These must add up to 1.0 — the universe is perfectly flat, like a sheet of paper with no edges.
+      </div>
+    </div>
+
+    <div class="math-step">
+      <div class="step-num">4</div>
+      <div class="step-title">🧮 Solve the Friedmann equation</div>
+      <div class="step-body">
+        The Friedmann equation describes how the universe expands over time. To find the age, we integrate it from the Big Bang to today:
+        <span class="step-eq">t₀ = (1/H₀) × ∫₀¹ da / √(Ω_r/a² + Ω_m/a + Ω_Λ × a²)</span>
+        When we compute this integral with the CMB numbers:
+        <span class="step-eq">t₀ = 13.787 ± 0.020 billion years</span>
+        The universe is <strong>13 billion, 787 million years old</strong>. Give or take 20 million.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE HUBBLE CALCULATOR -->
+<section class="section">
+  <div class="sec-label">Interactive · Try it yourself</div>
+  <div class="sec-title">The <em>age calculator</em></div>
+  <p class="body-text">Change the ingredients and see how the age of the universe changes. This is real cosmology.</p>
+
+  <div class="calculator">
+    <div class="calc-title">🔭 Hubble-Friedmann Calculator</div>
+
+    <div class="calc-row">
+      <span class="calc-label">Hubble constant H₀ (km/s/Mpc)</span>
+      <input type="range" class="calc-slider" id="sl-H" min="60" max="80" step="0.5" value="67.4">
+      <span class="calc-val" id="v-H">67.4</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Dark energy Ω_Λ</span>
+      <input type="range" class="calc-slider" id="sl-L" min="0.50" max="0.85" step="0.01" value="0.685">
+      <span class="calc-val" id="v-L">0.685</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-label">Matter density Ω_m</span>
+      <input type="range" class="calc-slider" id="sl-M" min="0.15" max="0.50" step="0.01" value="0.315">
+      <span class="calc-val" id="v-M">0.315</span>
+    </div>
+
+    <div class="calc-result">
+      <div class="calc-result-num" id="calc-age">13.79</div>
+      <div class="calc-result-label">BILLION YEARS · HUBBLE-FRIEDMANN ESTIMATE</div>
+      <div style="margin-top:0.5rem;font-size:0.8rem;color:var(--dim);" id="calc-note">← Real Planck 2018 values</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- TIMELINE -->
+<section class="section-wide">
+  <div class="sec-label">Step 3 · The Full Story</div>
+  <div class="sec-title" style="text-align:center;">From nothing to <em>you</em></div>
+  <p class="body-text" style="text-align:center;max-width:600px;margin:0 auto 2rem;">Everything that happened in 13.787 billion years. You are the most recent thing.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time" style="color:var(--cmb);">t = 0</div>
+        <div class="tl-event">🔥 The Big Bang</div>
+        <div class="tl-desc">Everything — all space, all time, all energy — appears from a point smaller than an atom. Temperature: 10³² K. Physics as we know it barely applies.</div>
+      </div>
+      <div class="tl-dot" style="background:var(--cmb);"></div>
+      <div class="tl-card"></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card"></div>
+      <div class="tl-dot" style="background:var(--coral);"></div>
+      <div class="tl-card">
+        <div class="tl-time" style="color:var(--coral);">t = 3 minutes</div>
+        <div class="tl-event">⚛️ First atoms (nuclei)</div>
+        <div class="tl-desc">Protons and neutrons fuse into the first nuclei — mostly hydrogen and helium. The recipe for all stars is written here.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time" style="color:var(--cmb2);">t = 380,000 years</div>
+        <div class="tl-event">💡 The CMB is released!</div>
+        <div class="tl-desc">The universe cools to ~3000 K. Electrons attach to nuclei. Light can finally travel freely. This is the flash we still see today as the CMB — the baby photo of the universe.</div>
+      </div>
+      <div class="tl-dot" style="background:var(--cmb2);box-shadow:0 0 12px var(--cmb2);"></div>
+      <div class="tl-card"></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card"></div>
+      <div class="tl-dot" style="background:var(--dim);"></div>
+      <div class="tl-card">
+        <div class="tl-time" style="color:var(--dim);">t = 200 million years</div>
+        <div class="tl-event">⭐ First stars</div>
+        <div class="tl-desc">The cosmic dark ages end. The first massive stars ignite — no planets, no galaxies yet, just pure fire in the void. They die quickly and seed the universe with carbon, oxygen, iron.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time" style="color:var(--blue);">t = 1 billion years</div>
+        <div class="tl-event">🌌 First galaxies form</div>
+        <div class="tl-desc">Gravity gathers stars into galaxies. The Milky Way is beginning to take shape — a slow spiral of hundreds of billions of suns.</div>
+      </div>
+      <div class="tl-dot" style="background:var(--blue);"></div>
+      <div class="tl-card"></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card"></div>
+      <div class="tl-dot" style="background:var(--gold);"></div>
+      <div class="tl-card">
+        <div class="tl-time" style="color:var(--gold);">t = 9.2 billion years</div>
+        <div class="tl-event">☀️ Our Sun is born</div>
+        <div class="tl-desc">A cloud of gas — recycled from dead stars — collapses. Our Sun ignites. The planets form from the leftover disk. Earth appears 100 million years later.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time" style="color:var(--teal);">t = 13.4 billion years</div>
+        <div class="tl-event">🧬 First life on Earth</div>
+        <div class="tl-desc">Molecules organize into self-replicating structures in Earth's oceans. The atoms in those first cells were forged in ancient stars. We are made of stardust — literally.</div>
+      </div>
+      <div class="tl-dot" style="background:var(--teal);"></div>
+      <div class="tl-card"></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card"></div>
+      <div class="tl-dot" style="background:var(--pink);box-shadow:0 0 12px var(--pink);"></div>
+      <div class="tl-card">
+        <div class="tl-time" style="color:var(--pink);">t = 13.787 billion years</div>
+        <div class="tl-event">🫵 Right now — you</div>
+        <div class="tl-desc">You exist. You are reading this. The universe took 13.787 billion years to arrange itself into something that could wonder about its own age. That is extraordinary.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- THE COMMA CONNECTION -->
+<section class="section">
+  <div class="sec-label">Musica Universalis · The Connection</div>
+  <div class="sec-title">The <em>Pythagorean Comma</em> of time</div>
+
+  <div class="comma-box">
+    <h3>Every measurement has a gap</h3>
+    <p>The Hubble tension is one of the biggest puzzles in cosmology right now. When you measure H₀ from the CMB you get <strong>67.4 km/s/Mpc</strong>. When you measure it from nearby stars (the cosmic distance ladder) you get <strong>73 km/s/Mpc</strong>. These don't agree.</p>
+    <span class="comma-big">ΔH₀ ≈ 5.6 km/s/Mpc</span>
+    <p>This mismatch gives age estimates of <strong>13.8 billion years</strong> (CMB method) versus <strong>12.9 billion years</strong> (distance ladder method). The universe's age has a comma — an irreducible gap — just like the musical system has a Pythagorean Comma.</p>
+    <p>The gap is <em>information</em>. It tells us there is something we don't yet understand about how the universe expanded. Maybe new physics. Maybe dark energy changed over time. Maybe the universe is more musical than we thought.</p>
+    <span class="comma-big">δ = 0.013643 · The comma that doesn't close</span>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- FUN FACTS -->
+<section class="section-wide">
+  <div class="sec-label">Just for fun · Scale</div>
+  <div class="sec-title" style="text-align:center;">How to <em>feel</em> 13.787 billion years</div>
+
+  <div class="facts-grid">
+    <div class="fact-card">
+      <span class="fact-emoji">📅</span>
+      <span class="fact-num">1 second = 437 years</span>
+      <span class="fact-desc">If the entire history of the universe were compressed into one year, each second would equal 437 years of real time.</span>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">🧑‍🤝‍🧑</span>
+      <span class="fact-num">~600,000 human lifetimes</span>
+      <span class="fact-desc">If humans lived 80 years and formed a perfect chain back to the Big Bang, you'd need 172 million people. That's more than Colombia's population times 3.</span>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">💓</span>
+      <span class="fact-num">435 quadrillion heartbeats</span>
+      <span class="fact-desc">Your heart beats ~40 million times per year. The universe is 13.787 billion years old. That's 4.35 × 10¹⁷ heartbeats since the Big Bang.</span>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">🌍</span>
+      <span class="fact-num">Earth is ⅓ the age</span>
+      <span class="fact-desc">Earth formed 4.54 billion years ago — about one-third of the universe's age. The universe was already 9 billion years old when our planet appeared.</span>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">⭐</span>
+      <span class="fact-num">You are 13.8 billion</span>
+      <span class="fact-desc">The atoms in your body were made in stars that lived and died before our Sun existed. Your hydrogen atoms are from the Big Bang itself. You are that old.</span>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">🔭</span>
+      <span class="fact-num">We see 13.4 billion years</span>
+      <span class="fact-desc">The most distant galaxy ever detected (JADES-GS-z14-0) is seen as it was 290 million years after the Big Bang. We are looking almost all the way back.</span>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- QUIZ -->
+<section class="section">
+  <div class="sec-label">Test yourself · Are you a cosmologist?</div>
+  <div class="sec-title">Quick <em>quiz</em></div>
+
+  <div class="quiz" id="quiz">
+    <div class="quiz-q" id="quiz-q">Loading...</div>
+    <div class="quiz-opts" id="quiz-opts"></div>
+    <div class="quiz-result" id="quiz-result"></div>
+    <button class="quiz-next" id="quiz-next" onclick="nextQ()">Next question →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-sig">Musica Universalis · Sara Oliveros Gómez · Stanford University 2026</div>
+  <div style="margin:0.5rem 0;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(232,201,106,0.4);">δ = 0.013643 · The comma that does not close</div>
+  <a href="index.html" class="foot-link">← Return to the main frequency</a>
+</footer>
+
+<script>
+// ── STARFIELD ──────────────────────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('starfield');
+  const ctx=c.getContext('2d');
+  function resize(){c.width=innerWidth;c.height=innerHeight;}
+  resize(); window.addEventListener('resize',resize);
+  const stars=[];
+  for(let i=0;i<320;i++){
+    stars.push({
+      x:Math.random(),y:Math.random(),
+      r:Math.random()*1.5+0.2,
+      a:Math.random(),
+      speed:Math.random()*0.0004+0.0001,
+      phase:Math.random()*Math.PI*2
+    });
+  }
+  let t=0;
+  function frame(){
+    t+=0.5;
+    ctx.clearRect(0,0,c.width,c.height);
+    stars.forEach(s=>{
+      const pulse=s.a*(0.5+0.5*Math.sin(t*s.speed*100+s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x*c.width,s.y*c.height,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(220,232,255,${pulse})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ── CMB MAP ────────────────────────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('cmb-canvas');
+  const ctx=c.getContext('2d');
+  const W=c.offsetWidth||800, H=340;
+  c.width=W; c.height=H;
+
+  // Procedural CMB-like noise using sum of sine waves
+  function noise(x,y){
+    let v=0;
+    const freqs=[[1.7,2.1],[3.1,1.9],[5.3,4.7],[8.2,6.1],[13.7,11.3],[21.4,17.9]];
+    const amps=[1,0.6,0.35,0.2,0.12,0.07];
+    const phases=[[0.3,1.1],[2.1,0.7],[1.5,3.2],[0.9,2.4],[3.7,1.3],[2.2,4.1]];
+    for(let i=0;i<freqs.length;i++){
+      v+=amps[i]*Math.sin(x*freqs[i][0]+phases[i][0])*Math.cos(y*freqs[i][1]+phases[i][1]);
+    }
+    return v/2.2;
+  }
+
+  let mouseX=W/2,mouseY=H/2;
+  const tempDisplay=document.getElementById('cmb-t');
+
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    mouseX=e.clientX-r.left;
+    mouseY=e.clientY-r.top;
+    const nx=(mouseX/W)*8-4;
+    const ny=(mouseY/H)*4-2;
+    const v=noise(nx,ny);
+    const t=(2.7255+v*0.0002).toFixed(6);
+    tempDisplay.textContent=t;
+  });
+
+  const imgData=ctx.createImageData(W,H);
+  for(let py=0;py<H;py++){
+    for(let px=0;px<W;px++){
+      const nx=(px/W)*8-4;
+      const ny=(py/H)*4-2;
+      const v=noise(nx,ny);
+      const norm=(v+1)/2; // 0 to 1
+      // Color map: cool blue → black → warm red
+      let r,g,b;
+      if(norm<0.5){
+        const t=norm*2;
+        r=Math.round(20+t*40);
+        g=Math.round(30+t*20);
+        b=Math.round(80+t*80);
+      } else {
+        const t=(norm-0.5)*2;
+        r=Math.round(60+t*180);
+        g=Math.round(50+t*30);
+        b=Math.round(160-t*130);
+      }
+      const idx=(py*W+px)*4;
+      imgData.data[idx]=r;
+      imgData.data[idx+1]=g;
+      imgData.data[idx+2]=b;
+      imgData.data[idx+3]=255;
+    }
+  }
+  ctx.putImageData(imgData,0,0);
+
+  // Pulse overlay
+  function pulseFrame(){
+    ctx.putImageData(imgData,0,0);
+    // Mouse highlight
+    const grd=ctx.createRadialGradient(mouseX,mouseY,5,mouseX,mouseY,60);
+    grd.addColorStop(0,'rgba(255,255,255,0.12)');
+    grd.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=grd;
+    ctx.fillRect(0,0,W,H);
+    requestAnimationFrame(pulseFrame);
+  }
+  pulseFrame();
+})();
+
+// ── HUBBLE CALCULATOR ──────────────────────────────────────────────────────
+(function(){
+  const slH=document.getElementById('sl-H');
+  const slL=document.getElementById('sl-L');
+  const slM=document.getElementById('sl-M');
+  const vH=document.getElementById('v-H');
+  const vL=document.getElementById('v-L');
+  const vM=document.getElementById('v-M');
+  const ageEl=document.getElementById('calc-age');
+  const noteEl=document.getElementById('calc-note');
+
+  // Numerical integration of Friedmann equation
+  function calcAge(H0,OmL,OmM){
+    const H0_si=H0*1000/(3.0857e22); // convert km/s/Mpc to s^-1
+    const OmR=9.0e-5;
+    const N=10000;
+    let sum=0;
+    for(let i=1;i<=N;i++){
+      const a=i/N;
+      const a2=a*a;
+      const E2=OmR/(a2*a2)+OmM/(a2*a)+OmL*a2;
+      if(E2>0) sum+=(1/N)/(a*Math.sqrt(E2));
+    }
+    const t_si=sum/H0_si;
+    return t_si/(3.1557e16); // convert seconds to billions of years
+  }
+
+  function update(){
+    const H0=parseFloat(slH.value);
+    const OmL=parseFloat(slL.value);
+    const OmM=parseFloat(slM.value);
+    vH.textContent=H0.toFixed(1);
+    vL.textContent=OmL.toFixed(3);
+    vM.textContent=OmM.toFixed(3);
+    const age=calcAge(H0,OmL,OmM);
+    ageEl.textContent=age.toFixed(2);
+
+    // Compare to Planck values
+    const planck=calcAge(67.4,0.685,0.315);
+    const diff=Math.abs(age-planck);
+    if(diff<0.1){
+      noteEl.textContent='← Close to Planck 2018 values (13.79 Gy)';
+      noteEl.style.color='var(--teal)';
+    } else if(age<planck){
+      noteEl.textContent=`↓ ${diff.toFixed(2)} Gy younger than Planck — higher H₀ = faster expansion = younger universe`;
+      noteEl.style.color='var(--coral)';
+    } else {
+      noteEl.textContent=`↑ ${diff.toFixed(2)} Gy older than Planck — lower H₀ = slower expansion = older universe`;
+      noteEl.style.color='var(--blue)';
+    }
+  }
+
+  [slH,slL,slM].forEach(s=>s.addEventListener('input',update));
+  update();
+})();
+
+// ── QUIZ ───────────────────────────────────────────────────────────────────
+const questions=[
+  {
+    q:"What is the Cosmic Microwave Background (CMB)?",
+    opts:["The light from the Big Bang, still traveling through space today",
+          "The glow of the Milky Way galaxy",
+          "Radiation from the Sun",
+          "Signals from other galaxies"],
+    correct:0,
+    explain:"The CMB is the oldest light in the universe — photons released 380,000 years after the Big Bang when the universe first became transparent. It has been traveling ever since and fills all of space at a temperature of 2.7255 K."
+  },
+  {
+    q:"What is the current best estimate for the age of the universe?",
+    opts:["4.5 billion years","6,000 years","13.787 billion years","100 billion years"],
+    correct:2,
+    explain:"13.787 ± 0.020 billion years, from the Planck satellite's measurement of the CMB combined with the Friedmann equation. This is our most precise measurement of the universe's age."
+  },
+  {
+    q:"Why does the CMB have tiny temperature differences (hot and cold spots)?",
+    opts:["Different stars heated different parts of space",
+          "Quantum fluctuations in the early universe, stretched by expansion",
+          "The Earth's atmosphere distorts the signal",
+          "It's actually completely uniform"],
+    correct:1,
+    explain:"Tiny quantum fluctuations (uncertainty at the smallest scales) were frozen into the structure of the universe and then stretched as space expanded. These became the seeds of all galaxies, clusters, and cosmic structure. The hot and cold spots became the universe we live in today."
+  },
+  {
+    q:"What is the Hubble constant?",
+    opts:["How old the universe is",
+          "How fast the universe is expanding per unit of distance",
+          "The temperature of the CMB",
+          "The number of galaxies in the universe"],
+    correct:1,
+    explain:"H₀ = 67.4 km/s/Mpc (from the CMB). This means for every megaparsec (~3.26 million light-years) of distance, space is stretching by 67.4 km per second. A larger H₀ means faster expansion and therefore a younger universe."
+  },
+  {
+    q:"What is the 'Hubble tension' — and why does it connect to the Pythagorean Comma?",
+    opts:["Astronomers get tired of measuring the same thing",
+          "The CMB gives H₀ = 67.4 but distance ladders give ~73 — a gap that doesn't close",
+          "The universe is too big to measure accurately",
+          "Different telescopes point in different directions"],
+    correct:1,
+    explain:"The Hubble tension: CMB-based measurement gives H₀ ≈ 67.4, but measurements from Cepheid variables and Type Ia supernovae give H₀ ≈ 73. They disagree by ~5σ. Like the Pythagorean Comma — the gap between twelve fifths and seven octaves — this is an irreducible mismatch that may point to new physics."
+  },
+];
+
+let qIdx=0;
+let answered=false;
+
+function loadQ(){
+  answered=false;
+  const q=questions[qIdx];
+  document.getElementById('quiz-q').textContent=q.q;
+  const opts=document.getElementById('quiz-opts');
+  opts.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='quiz-opt';
+    b.textContent=opt;
+    b.onclick=()=>answer(i);
+    opts.appendChild(b);
+  });
+  document.getElementById('quiz-result').style.display='none';
+  document.getElementById('quiz-next').style.display='none';
+}
+
+function answer(i){
+  if(answered) return;
+  answered=true;
+  const q=questions[qIdx];
+  const opts=document.querySelectorAll('.quiz-opt');
+  opts.forEach((o,j)=>{
+    if(j===q.correct) o.classList.add('correct');
+    else if(j===i && i!==q.correct) o.classList.add('wrong');
+    o.style.pointerEvents='none';
+  });
+  const resultEl=document.getElementById('quiz-result');
+  resultEl.textContent=q.explain;
+  resultEl.style.display='block';
+  const nextEl=document.getElementById('quiz-next');
+  if(qIdx<questions.length-1){
+    nextEl.style.display='inline-block';
+  } else {
+    nextEl.textContent='🎉 You finished! You are a cosmologist.';
+    nextEl.style.display='inline-block';
+    nextEl.onclick=()=>{qIdx=0;loadQ();nextEl.textContent='Next question →';nextEl.onclick=nextQ;};
+  }
+}
+
+function nextQ(){
+  qIdx++;
+  loadQ();
+}
+
+loadQ();
+</script>
+</body>
+</html>

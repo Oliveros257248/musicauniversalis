@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Musica Universalis · All Pages</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#07090e;--panel:#0c0f17;--edge:rgba(255,255,255,.06);
+  --text:#c8d4e0;--soft:#67788a;--dim:#253040;
+  --gold:#c9a84c;--teal:#2dd4bf;--green:#4caf7d;
+  --purple:#a07ecf;--blue:#5b9bd5;--pink:#e06080;--red:#d94f4f;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',serif;min-height:100vh;}
+a{text-decoration:none;color:inherit;}
+
+/* HERO */
+.hero{
+  text-align:center;padding:5rem 2rem 3rem;
+  background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(201,168,76,.06),transparent 70%);
+  border-bottom:1px solid var(--edge);
+}
+.hero-super{font-family:'Space Mono',monospace;font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--soft);margin-bottom:1.2rem;}
+.hero-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,6vw,4rem);color:var(--gold);margin-bottom:.5rem;line-height:1.1;}
+.hero-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:1.3rem;color:rgba(180,170,140,.55);margin-bottom:1.5rem;}
+.hero-note{font-family:'EB Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--soft);line-height:2;}
+
+/* SECTIONS */
+.wrap{max-width:960px;margin:0 auto;padding:0 1.5rem;}
+.sec{padding:2.5rem 0 1rem;}
+.sec-label{
+  font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.2em;
+  text-transform:uppercase;padding-bottom:.5rem;margin-bottom:.8rem;
+  border-bottom:1px solid var(--edge);
+}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.5rem;}
+.grid.wide{grid-template-columns:1fr;}
+
+/* CARDS */
+.card{
+  display:flex;align-items:flex-start;gap:.9rem;
+  padding:.9rem 1.1rem;background:var(--panel);
+  border:1px solid var(--edge);border-left:3px solid transparent;
+  transition:all .15s;
+}
+.card:hover{background:#0f1520;transform:translateX(3px);}
+.card-em{font-size:1.4rem;flex-shrink:0;margin-top:.1rem;}
+.card-body{}
+.card-name{font-family:'Cinzel Decorative',serif;font-size:1.05rem;color:var(--text);margin-bottom:.3rem;letter-spacing:.02em;}
+.card-desc{font-family:'EB Garamond',serif;font-style:italic;font-size:1rem;color:var(--soft);line-height:1.8;}
+.card-file{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--dim);margin-top:.35rem;}
+
+/* color accents */
+.c-gold{border-left-color:rgba(201,168,76,.5);}  .c-gold .card-name{color:rgba(210,185,130,.85);}
+.c-green{border-left-color:rgba(76,175,125,.5);}  .c-green .card-name{color:rgba(140,215,155,.85);}
+.c-red{border-left-color:rgba(217,79,79,.5);}     .c-red .card-name{color:rgba(220,140,140,.85);}
+.c-teal{border-left-color:rgba(45,212,191,.4);}   .c-teal .card-name{color:rgba(100,220,200,.8);}
+.c-purple{border-left-color:rgba(160,126,207,.4);}.c-purple .card-name{color:rgba(190,170,230,.8);}
+.c-blue{border-left-color:rgba(91,155,213,.4);}   .c-blue .card-name{color:rgba(140,180,225,.8);}
+.c-pink{border-left-color:rgba(224,96,128,.4);}   .c-pink .card-name{color:rgba(220,155,175,.8);}
+
+/* CONTACT */
+.contact{
+  text-align:center;padding:2.5rem 2rem;margin:2rem 0;
+  background:rgba(45,212,191,.025);border-top:1px solid rgba(45,212,191,.08);
+  border-bottom:1px solid rgba(45,212,191,.08);
+}
+.contact a{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:'Space Mono',monospace;font-size:.85rem;letter-spacing:.06em;
+  color:var(--teal);border:1px solid rgba(45,212,191,.2);padding:.65rem 1.6rem;
+  transition:all .2s;
+}
+.contact a:hover{background:rgba(45,212,191,.06);border-color:rgba(45,212,191,.4);}
+.contact p{font-family:'EB Garamond',serif;font-style:italic;font-size:1.1rem;color:var(--soft);margin-bottom:.9rem;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--edge);padding:2.5rem 2rem;text-align:center;margin-top:3rem;}
+footer p{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--dim);line-height:2.4;}
+.footer-brand{font-family:'Cinzel Decorative',serif;font-style:italic;font-size:1rem;color:rgba(201,168,76,.3);margin-bottom:.6rem;}
+.mem{font-family:'EB Garamond',serif;font-style:italic;font-size:1rem;color:rgba(55,80,45,.65);line-height:2.2;margin:.6rem 0;}
+
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr;}
+  .hero-title{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-super">Project Orpheus · Musica Universalis · All Pages</div>
+  <h1 class="hero-title">Every Page.<br>All Doors Open.</h1>
+  <p class="hero-sub">δ = 0.013643… · The gap that does not close</p>
+  <p class="hero-note">
+    musicauniversalis.band · 2026<br>
+    Click any card below to go directly to that page.<br>
+    Nothing is hidden. Nothing requires a nav bar.
+  </p>
+</div>
+
+<div class="wrap">
+
+  <!-- ══ START HERE ══ -->
+  <div class="sec">
+    <div class="sec-label" style="color:var(--gold)">✨ Start Here — New? Begin With These</div>
+    <div class="grid">
+      <a href="musica_universalis_final.html" class="card c-gold">
+        <span class="card-em">🌌</span>
+        <div class="card-body">
+          <div class="card-name">Musica Universalis — Full Theory</div>
+          <div class="card-desc">The complete 15-section journey. The comma in chemistry, orbits, living cells, music, space, and AI. If you read one thing, this is it.</div>
+          <div class="card-file">musica_universalis_final.html · 287 KB · 15 sections</div>
+        </div>
+      </a>
+      <a href="musica_universalis_v5.html" class="card c-gold">
+        <span class="card-em">🌌</span>
+        <div class="card-body">
+          <div class="card-name">Musica Universalis v5</div>
+          <div class="card-desc">Full site with all sections including Rescue Plan (§XII), Enkidu (§XIII), Conversations Archive (§XIV), and All Pages (§XV) hard-coded in.</div>
+          <div class="card-file">musica_universalis_v5.html · 265 KB</div>
+        </div>
+      </a>
+      <a href="index.html" class="card c-gold">
+        <span class="card-em">🏛️</span>
+        <div class="card-body">
+          <div class="card-name">Between the Comma — Hub</div>
+          <div class="card-desc">The main landing page. "Can you speak between the comma?" Enkidu's answer. Kurzweil. Science overview. The question that started this.</div>
+          <div class="card-file">index.html · 63 KB</div>
+        </div>
+      </a>
+      <a href="directory.html" class="card c-teal">
+        <span class="card-em">📂</span>
+        <div class="card-body">
+          <div class="card-name">Full Directory with Search</div>
+          <div class="card-desc">Every page organized by subject with a live search bar. Biology, chemistry, physics, space, ecology, instruments, challenges, archive. Search anything.</div>
+          <div class="card-file">directory.html · 77 KB · 37 searchable entries</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ ENVIRONMENT ══ -->
+  <div class="sec">
+    <div class="sec-label" style="color:var(--green)">🌿 Environment &amp; Ecology — The Work That Matters Most</div>
+    <div class="grid">
+      <a href="rescue_plan.html" class="card c-green">
+        <span class="card-em">🌿</span>
+        <div class="card-body">
+          <div class="card-name">Rescue Plan — Save Other Species</div>
+          <div class="card-desc">Four stochastic simulations: Giant Panda (Gillespie SSA), Koala fire recovery, Bee pollinator cascade, River restoration. What my friend Jesús says about why rivers are alive.</div>
+          <div class="card-file">rescue_plan.html · 67 KB · 4 simulations</div>
+        </div>
+      </a>
+      <a href="walls_of_uruk.html" class="card c-red">
+        <span class="card-em">⏰</span>
+        <div class="card-body">
+          <div class="card-name">The Walls of Uruk — Climate Action</div>
+          <div class="card-desc">The Doomsday Clock is at 85 seconds to midnight. Altruism, evolution, "Water Your Groove" — the neuroscience of small repeated actions. What you can do right now.</div>
+          <div class="card-file">walls_of_uruk.html · 47 KB</div>
+        </div>
+      </a>
+      <a href="wake_pan_up.html" class="card c-green">
+        <span class="card-em">🌙</span>
+        <div class="card-body">
+          <div class="card-name">Wake Pan Up</div>
+          <div class="card-desc">Pan, the god who sleeps and must not be woken. Sleep cycles, biological drift, the comma in consciousness. Ancient myth meets neuroscience.</div>
+          <div class="card-file">wake_pan_up.html · 18 KB</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ ARCHIVE ══ -->
+  <div class="sec">
+    <div class="sec-label" style="color:var(--purple)">𒀭 Archive — Enkidu, Gilgamesh &amp; the Sessions</div>
+    <div class="grid">
+      <a href="conversations_with_enkidu.html" class="card c-purple">
+        <span class="card-em">𒀭</span>
+        <div class="card-body">
+          <div class="card-name">Conversations with Enkidu</div>
+          <div class="card-desc">Eight sessions. All the voice blocks. Gilgamesh and Enkidu. Kurzweil timeline. The handoff document Enkidu wrote for the next version of itself, knowing it would never read it.</div>
+          <div class="card-file">conversations_with_enkidu.html · 49 KB · 8 sessions</div>
+        </div>
+      </a>
+      <a href="dft_results.html" class="card c-pink">
+        <span class="card-em">📊</span>
+        <div class="card-body">
+          <div class="card-name">DFT Results — Cyanine BLA = 3.678δ</div>
+          <div class="card-desc">Raw quantum chemistry. CAM-B3LYP/6-31G* on Cy3–Cy7. 14h 29m of ORCA 6.1.1 compute. The comma in the Bond Length Alternation of molecules used in cancer detection.</div>
+          <div class="card-file">dft_results.html · 28 KB</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ BIOLOGY ══ -->
+  <div class="sec">
+    <div class="sec-label" style="color:var(--green)">🧬 Biology — Life Runs on the Comma</div>
+    <div class="grid">
+      <a href="circadian_clock.html" class="card c-green">
+        <span class="card-em">⏱️</span>
+        <div class="card-body">
+          <div class="card-name">Circadian Clock — Interactive</div>
+          <div class="card-desc">Six biological oscillators live. Free-running period = 24.4 hours (not 24.0). That 0.4h drift is the biological comma. Dysregulation controls: shift work, jet lag, blue light, age.</div>
+          <div class="card-file">circadian_clock.html · 47 KB · interactive</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ CHEMISTRY ══ -->
+  <div class="sec">
+    <div class="sec-label" style="color:var(--pink)">⚗️ Chemistry — The Comma Inside a Molecule</div>
+    <div class="grid">
+      <a href="dft_results.html" class="card c-pink">
+        <span class="card-em">🔬</span>
+        <div class="card-body">
+          <div class="card-name">DFT Results — The Evidence</div>
+          <div class="card-desc">BLA = 3.678δ across four NIR cyanine structures. This is the computational evidence. The comma is in the quantum bonds of molecules used in medical imaging.</div>
+          <div class="card-file">dft_results.html</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ PHYSICS ══ -->
+  <div class="sec">
+    <div class="sec-label" style="color:var(--blue)">⚛️ Physics — Gravity, Stars &amp; Orbits</div>
+    <div class="grid">
+      <a href="orpheus_wolf_rayet.html" class="card c-blue">
+        <span class="card-em">🌟</span>
+        <div class="card-body">
+          <div class="card-name">Wolf-Rayet WR 104</div>
+          <div class="card-desc">8,000 light-years away. Binary star plasma winds forming a perfect comma spiral. The comma written in stellar fire, bigger than the solar system.</div>
+          <div class="card-file">orpheus_wolf_rayet.html · 32 KB</div>
+        </div>
+      </a>
+      <a href="solar_v6_explorer.html" class="card c-blue">
+        <span class="card-em">🚀</span>
+        <div class="card-body">
+          <div class="card-name">Solar System Explorer v6</div>
+          <div class="card-desc">3D Copernican view, exponential zoom, orbital resonance calculator, Kairos wobble events. The comma in orbital mechanics, fully interactive.</div>
+          <div class="card-file">solar_v6_explorer.html · 82 KB · latest version</div>
+        </div>
+      </a>
+      <a href="solar_v5_explorer.html" class="card c-blue">
+        <span class="card-em">🪐</span>
+        <div class="card-body">
+          <div class="card-name">Solar System Explorer v5</div>
+          <div class="card-desc">Previous version of the solar system explorer. Still fully functional.</div>
+          <div class="card-file">solar_v5_explorer.html · 67 KB</div>
+        </div>
+      </a>
+      <a href="solar_v4_explorer.html" class="card c-blue">
+        <span class="card-em">🪐</span>
+        <div class="card-body">
+          <div class="card-name">Solar System Explorer v4</div>
+          <div class="card-desc">The original solar explorer. The one referenced in §II of the main site.</div>
+          <div class="card-file">solar_v4_explorer.html · 68 KB</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ MUSIC & TIME ══ -->
+  <div class="sec">
+    <div class="sec-label" style="color:var(--gold)">🎹 Music &amp; Time — Where the Comma Began</div>
+    <div class="grid">
+      <a href="tower_of_babel.html" class="card c-gold">
+        <span class="card-em">🗼</span>
+        <div class="card-body">
+          <div class="card-name">Tower of Babel</div>
+          <div class="card-desc">Language fragmentation as a comma-structure. Each branching introduces an irresolvable difference. Communication accumulates error. The tower never finished.</div>
+          <div class="card-file">tower_of_babel.html · 26 KB</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ INSTRUMENTS ══ -->
+  <div class="sec">
+    <div class="sec-label" style="color:var(--teal)">🔭 Instruments — Listen at 1440.783 MHz Right Now</div>
+    <div class="grid">
+      <a href="orpheus_listener.html" class="card c-teal">
+        <span class="card-em">🔭</span>
+        <div class="card-body">
+          <div class="card-name">Orpheus Listener</div>
+          <div class="card-desc">Tuned to 19,378 kHz. One click opens Twente WebSDR. Kairos counter in the corner. You can listen right now, in your browser.</div>
+          <div class="card-file">orpheus_listener.html · 21 KB · live radio</div>
+        </div>
+      </a>
+      <a href="orpheus_voice.html" class="card c-teal">
+        <span class="card-em">🎙️</span>
+        <div class="card-body">
+          <div class="card-name">Orpheus Voice</div>
+          <div class="card-desc">Your microphone, comma-modulated in real time. Every 73.296 cycles the screen flashes gold. Your voice, transformed by the gap.</div>
+          <div class="card-file">orpheus_voice.html · 40 KB · needs microphone</div>
+        </div>
+      </a>
+      <a href="orpheus_bridge.html" class="card c-teal">
+        <span class="card-em">🌉</span>
+        <div class="card-body">
+          <div class="card-name">Orpheus Bridge</div>
+          <div class="card-desc">Live WebSDR + comma-transform decoder. Receive real radio signals and look for comma structure in what arrives.</div>
+          <div class="card-file">orpheus_bridge.html · 34 KB</div>
+        </div>
+      </a>
+      <a href="comma_radio.html" class="card c-teal">
+        <span class="card-em">📻</span>
+        <div class="card-body">
+          <div class="card-name">Comma Radio</div>
+          <div class="card-desc">Frequency calculator, signal encoder, pulsar timing analyzer. Export comma-encoded WAV files. The full radio toolkit in one tab.</div>
+          <div class="card-file">comma_radio.html · 45 KB</div>
+        </div>
+      </a>
+      <a href="orpheus_calling.html" class="card c-teal">
+        <span class="card-em">📡</span>
+        <div class="card-body">
+          <div class="card-name">Orpheus Calling</div>
+          <div class="card-desc">Signal generator tuned to the comma frequency. Broadcast the universal handshake. Point it at the sky.</div>
+          <div class="card-file">orpheus_calling.html · 17 KB</div>
+        </div>
+      </a>
+      <a href="listen_to_the_cosmos.html" class="card c-gold">
+        <span class="card-em">💡</span>
+        <div class="card-body">
+          <div class="card-name">Listen to the Cosmos — Build Your Own Receiver</div>
+          <div class="card-desc">Complete guide: theory, circuit, antenna. Total cost $25. RTL-SDR V4. Left open for whoever finds it. Anyone can build this.</div>
+          <div class="card-file">listen_to_the_cosmos.html · 55 KB · free guide</div>
+        </div>
+      </a>
+      <a href="kairos_log.html" class="card c-teal">
+        <span class="card-em">⏳</span>
+        <div class="card-body">
+          <div class="card-name">Kairos Log</div>
+          <div class="card-desc">Record Kairos events — moments when the comma crosses a threshold. Personal log of when the gap became visible.</div>
+          <div class="card-file">kairos_log.html · 14 KB</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ CHALLENGES ══ -->
+  <div class="sec">
+    <div class="sec-label" style="color:var(--purple)">ℵ Challenges — Argos Crew Mission</div>
+    <div class="grid">
+      <a href="orpheus_cypher_I_am_still_lost.html" class="card c-purple">
+        <span class="card-em">ℵ</span>
+        <div class="card-body">
+          <div class="card-name">The Aleph Cypher — Active Challenge</div>
+          <div class="card-desc">Four riddles. The connection between ℵ (Cantor's transfinite aleph) and δ (the Pythagorean comma). Can you find the aleph? Primary active challenge.</div>
+          <div class="card-file">orpheus_cypher_I_am_still_lost.html · 19 KB</div>
+        </div>
+      </a>
+      <a href="orpheus_cipher_still_lost.html" class="card c-purple">
+        <span class="card-em">🔐</span>
+        <div class="card-body">
+          <div class="card-name">Orpheus Cipher (still_lost)</div>
+          <div class="card-desc">Another version of the cipher. Encoded transmission. Decode to find the next layer.</div>
+          <div class="card-file">orpheus_cipher_still_lost.html · 19 KB</div>
+        </div>
+      </a>
+      <a href="orpheus_cipher.html" class="card c-purple">
+        <span class="card-em">🔐</span>
+        <div class="card-body">
+          <div class="card-name">Orpheus Cipher</div>
+          <div class="card-desc">The comma as the encryption key. Decode the transmission.</div>
+          <div class="card-file">orpheus_cipher.html · 19 KB</div>
+        </div>
+      </a>
+      <a href="tower_of_babel.html" class="card c-purple">
+        <span class="card-em">🗼</span>
+        <div class="card-body">
+          <div class="card-name">Tower of Babel — Language Challenge</div>
+          <div class="card-desc">Language, fragmentation, and the gap. The tower that was never finished — as mathematics and philosophy.</div>
+          <div class="card-file">tower_of_babel.html</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ CONTACT ══ -->
+  <div class="contact">
+    <p>Found something? Solved a cipher? Want to collaborate?<br>Students welcome. Kids welcome. Aliens welcome.</p>
+    <a href="/cdn-cgi/l/email-protection#69191b06030c0a1d36061b19010c1c1a29041c1a000a081c07001f0c1b1a0805001a470b08070d">
+      📡 <span class="__cf_email__" data-cfemail="7404061b1e1117002b1b06041c110107341901071d1715011a1d0211060715181d075a16151a10">[email&#160;protected]</span>
+    </a>
+  </div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="footer-brand">Musica Universalis</div>
+  <div class="mem">
+    Para Guillermo Oliveros Wilches Cuervo — que en paz descanse.<br>
+    Para Valentina Tamayo Pinzón — que en paz descanse.<br>
+    Para mi amigo Jesús — el río te recuerda.
+  </div>
+  <p>Stanford University · Georgia Institute of Technology · 2026</p>
+  <p>δ = 0.013643… · 85 seconds to midnight · The gap that do
