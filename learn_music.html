@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Learn Music Intuitively · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#06080d;--panel:#0c0f17;--panel2:#111520;
+  --border:rgba(255,255,255,.07);
+  --text:#cdd6e8;--soft:#7a8fa8;--dim:#2a3848;
+  --gold:#d4a84c;--gold2:#f0d080;--gold3:rgba(212,168,76,.13);
+  --teal:#2dd4bf;--purple:#b08edf;--green:#5abf87;
+  --red:#e05555;--blue:#6aabdf;--orange:#e07a30;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.9;overflow-x:hidden;}
+#star-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(6,8,13,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.nav-brand{font-family:'Cinzel Decorative',serif;font-size:.78rem;color:var(--gold);}
+.nav-links{display:flex;gap:1rem;flex-wrap:wrap;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.07em;color:var(--soft);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-back{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--soft);text-decoration:none;}
+.nav-back:hover{color:var(--gold);}
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9rem 2rem 5rem;position:relative;z-index:1;}
+.hero-super{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(212,168,76,.35);margin-bottom:2rem;animation:fi 1.2s ease both;}
+.hero-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2.4rem,7vw,5.2rem);color:var(--gold);line-height:1.02;letter-spacing:.02em;margin-bottom:1.2rem;text-shadow:0 0 120px rgba(212,168,76,.18);animation:fi 1.4s ease both;}
+.hero-sub{font-style:italic;font-size:clamp(1.05rem,2.2vw,1.45rem);color:var(--soft);max-width:620px;line-height:1.85;margin-bottom:2.5rem;animation:fi 1.6s ease both;}
+@keyframes fi{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+.mu-btn{display:inline-flex;flex-direction:column;align-items:center;gap:.35rem;padding:1.15rem 2.8rem;background:var(--gold);color:#1a0f00;text-decoration:none;transition:all .25s;margin-bottom:2rem;}
+.mu-btn:hover{background:var(--gold2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(212,168,76,.35);}
+.mu-btn .mbt{font-family:'Cinzel Decorative',serif;font-size:.95rem;letter-spacing:.04em;}
+.mu-btn .mbs{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;opacity:.7;}
+.jump-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.65rem;max-width:900px;width:100%;animation:fi 1.8s ease both;}
+.jb{display:flex;flex-direction:column;align-items:flex-start;gap:.22rem;padding:.9rem 1.3rem;background:var(--gold3);border:1px solid rgba(212,168,76,.2);color:var(--text);text-decoration:none;transition:all .22s;}
+.jb:hover{background:rgba(212,168,76,.2);border-color:var(--gold);transform:translateY(-2px);}
+.jb-icon{font-size:1.3rem;}
+.jb-title{font-family:'Cinzel Decorative',serif;font-size:.75rem;color:var(--gold);line-height:1.25;}
+.jb-sub{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.06em;color:var(--soft);}
+/* SECTION */
+.section{position:relative;z-index:1;padding:5rem 2rem;border-top:1px solid var(--border);}
+.section:nth-child(even){background:rgba(9,12,18,.5);}
+.sec-inner{max-width:1000px;margin:0 auto;}
+.sec-label{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(212,168,76,.3);margin-bottom:.9rem;}
+.sec-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.65rem,4vw,2.8rem);color:var(--gold);line-height:1.05;margin-bottom:1rem;}
+.sec-lead{font-style:italic;font-size:1.08rem;color:var(--soft);max-width:720px;line-height:1.92;margin-bottom:2.2rem;}
+p{font-size:1.04rem;line-height:1.92;color:rgba(205,214,232,.78);margin-bottom:1.2rem;}
+h3{font-family:'Cinzel Decorative',serif;font-size:1.25rem;color:var(--gold2);margin:2.5rem 0 .8rem;}
+strong{color:var(--text);}
+.qb{margin:2.2rem 0;padding:1.5rem 2rem;background:rgba(212,168,76,.04);border-left:3px solid rgba(212,168,76,.28);}
+.qb p{font-style:italic;font-size:1.1rem;color:rgba(212,168,76,.75);margin-bottom:.4rem;}
+.qb cite{font-family:'Space Mono',monospace;font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);}
+.info{background:var(--panel2);border:1px solid var(--border);padding:1.5rem 1.8rem;margin:1.5rem 0;}
+.info.gold{border-left:3px solid var(--gold);}
+.info.teal{border-left:3px solid var(--teal);}
+.info.purple{border-left:3px solid var(--purple);}
+.info h4{font-family:'Cinzel Decorative',serif;font-size:.92rem;margin-bottom:.6rem;}
+.info.gold h4{color:var(--gold);}
+.info.teal h4{color:var(--teal);}
+.info.purple h4{color:var(--purple);}
+.info p{margin-bottom:0;}
+/* PIANO */
+.piano-outer{overflow-x:auto;padding:1rem 0 .5rem;-webkit-overflow-scrolling:touch;}
+#piano-wrap{position:relative;height:172px;display:inline-flex;min-width:640px;user-select:none;}
+.wk{width:46px;height:162px;background:linear-gradient(175deg,#f0ece0 80%,#d8d0be);border:1px solid #999;border-radius:0 0 7px 7px;cursor:pointer;position:relative;flex-shrink:0;transition:background .08s,transform .07s;touch-action:none;}
+.wk:hover{background:linear-gradient(175deg,#ffe8a0,#d4a84c);}
+.wk.lit{background:linear-gradient(175deg,var(--gold2),#c4902a) !important;transform:scaleY(.97);transform-origin:top;}
+.wk .kl{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:.46rem;color:#666;pointer-events:none;white-space:nowrap;}
+.wk.lit .kl{color:#5a3a00;}
+.bk{width:28px;height:100px;background:linear-gradient(175deg,#1c1c2e,#0a0a14);border-radius:0 0 5px 5px;cursor:pointer;position:absolute;top:0;z-index:2;transition:background .08s;touch-action:none;}
+.bk:hover,.bk:active{background:linear-gradient(175deg,#4a3060,#1a1220);}
+.bk.lit{background:linear-gradient(175deg,#9b7020,#4a3000) !important;}
+.int-out{background:var(--panel);border:1px solid var(--border);border-top:none;padding:1.1rem 1.5rem;min-height:56px;display:flex;align-items:center;}
+#int-text{font-size:1.08rem;color:var(--teal);font-style:italic;}
+/* INTERVAL TABLE */
+.it{width:100%;border-collapse:collapse;margin:1.5rem 0;}
+.it th{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);padding:.6rem .9rem;border-bottom:1px solid var(--border);text-align:left;}
+.it td{padding:.55rem .9rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.93rem;}
+.it td:first-child{font-weight:700;color:var(--text);}
+.it tr.con td{color:var(--green);}
+.it tr.dis td{color:var(--red);}
+.it tr.neu td{color:var(--teal);}
+.it tr.con td:first-child,.it tr.dis td:first-child,.it tr.neu td:first-child{color:inherit;}
+/* COF */
+#cof-wrap{display:flex;flex-direction:column;align-items:center;gap:.5rem;}
+#cof-cv{cursor:pointer;max-width:100%;}
+.cof-btns{display:flex;gap:.5rem;}
+.ctog{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;padding:.5rem 1.2rem;background:var(--panel2);border:1px solid var(--border);color:var(--soft);cursor:pointer;transition:all .2s;}
+.ctog:hover,.ctog.on{border-color:var(--gold);color:var(--gold);}
+#cof-info{width:100%;background:var(--panel);border:1px solid var(--border);padding:1rem 1.5rem;min-height:52px;display:flex;align-items:center;}
+#cof-info p{margin:0;color:var(--teal);font-style:italic;font-size:1rem;}
+/* CHORD BUILDER */
+.cb-grid{display:flex;flex-wrap:wrap;gap:.45rem;margin:1.2rem 0;}
+.cb{padding:.65rem 1.25rem;background:var(--panel2);border:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;cursor:pointer;color:var(--soft);transition:all .18s;text-align:left;}
+.cb:hover,.cb.sel{border-color:var(--gold);color:var(--gold);background:rgba(212,168,76,.07);}
+.cb .cn{display:block;color:var(--teal);font-size:.54rem;margin-top:.18rem;}
+#chord-cv{display:block;width:100%;height:150px;}
+.cdesc{background:var(--panel2);border-left:3px solid var(--purple);padding:1rem 1.4rem;min-height:52px;}
+#chord-desc{font-style:italic;color:var(--purple);font-size:1rem;}
+/* HARMONIC FUNCTION */
+.hf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);margin:1.5rem 0;}
+.hf{background:var(--panel);padding:1.3rem 1.5rem;}
+.hf-name{font-family:'Cinzel Decorative',serif;font-size:.88rem;margin-bottom:.35rem;}
+.hf-roman{font-family:'Space Mono',monospace;font-size:1.3rem;margin-bottom:.5rem;}
+.hf-desc{font-size:.92rem;color:var(--soft);line-height:1.68;}
+/* PROGRESSIONS */
+.pb-grid{display:flex;flex-wrap:wrap;gap:.45rem;margin:1.2rem 0;}
+.pb{padding:.62rem 1.15rem;background:var(--panel2);border:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.05em;cursor:pointer;color:var(--soft);transition:all .18s;}
+.pb:hover,.pb.playing{border-color:var(--teal);color:var(--teal);background:rgba(45,212,191,.06);}
+#prog-cv{display:block;width:100%;height:108px;}
+.pdesc{background:var(--panel2);border-left:3px solid var(--teal);padding:1rem 1.4rem;min-height:52px;}
+#prog-desc{font-style:italic;color:var(--teal);font-size:1rem;}
+/* FA/SOL */
+.fa-sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:1.5rem 0;}
+.fsg{background:var(--panel);padding:1.4rem;}
+.fsg-title{font-family:'Cinzel Decorative',serif;font-size:.9rem;margin-bottom:.65rem;}
+/* GUIDO */
+.guido-wrap{display:grid;grid-template-columns:300px 1fr;gap:2rem;align-items:start;}
+#hand-cv{display:block;cursor:pointer;max-width:300px;}
+.hpanel{background:var(--panel);border:1px solid var(--border);padding:1.5rem;}
+.hnb{font-family:'Cinzel Decorative',serif;font-size:2.8rem;color:var(--gold2);text-align:center;padding:.7rem 0 .2rem;min-height:70px;}
+.hns{text-align:center;font-style:italic;font-size:1rem;color:var(--teal);margin-bottom:1.2rem;min-height:1.6rem;}
+.lb-grid{display:flex;flex-wrap:wrap;gap:.32rem;margin:1rem 0;}
+.lb{padding:.32rem .7rem;background:var(--panel2);border:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.55rem;cursor:pointer;transition:all .15s;color:var(--soft);}
+.lb:hover,.lb.on{border-color:var(--gold);color:var(--gold);background:rgba(212,168,76,.07);}
+.htbl{width:100%;border-collapse:collapse;margin-top:.8rem;}
+.htbl th{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:.42rem .65rem;border-bottom:1px solid var(--border);text-align:left;}
+.htbl td{padding:.38rem .65rem;border-bottom:1px solid rgba(255,255,255,.03);font-size:.88rem;color:var(--soft);}
+.htbl td:first-child{color:var(--gold);font-family:'Space Mono',monospace;font-size:.72rem;}
+.htbl tr.hl td{background:rgba(212,168,76,.08);color:var(--gold2);}
+/* CHINESE */
+.pent-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);margin:1.5rem 0;cursor:pointer;}
+.pnt{background:var(--panel);padding:1.3rem .5rem;text-align:center;transition:background .18s;}
+.pnt:hover,.pnt.on{background:rgba(212,168,76,.09);}
+.pnt-zh{font-size:2.2rem;line-height:1;}
+.pnt-py{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;color:var(--soft);margin-top:.3rem;}
+.pnt-note{font-size:1.05rem;margin-top:.25rem;}
+.pnt-elem{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--dim);margin-top:.18rem;}
+#pent-cv{display:block;width:100%;height:130px;}
+.pent-detail{background:var(--panel2);border:1px solid var(--border);padding:1.2rem 1.5rem;min-height:58px;display:flex;align-items:center;}
+#pent-detail-text{font-style:italic;color:var(--gold);font-size:1rem;}
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3rem 2rem;text-align:center;}
+footer p{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--dim);line-height:2.5;margin:.18rem 0;}
+footer a{color:var(--gold);text-decoration:none;}
+@media(max-width:760px){.guido-wrap{grid-template-columns:1fr;}.hf-grid{grid-template-columns:1fr;}.fa-sol-grid{grid-template-columns:1fr;}}
+@media(max-width:540px){.pnt-zh{font-size:1.5rem;}.section{padding:3.5rem 1.2rem;}}
+</style>
+</head>
+<body>
+<canvas id="star-bg"></canvas>
+<nav>
+  <span class="nav-brand">Learn Music Intuitively</span>
+  <div class="nav-links">
+    <a href="#piano">🎹 Piano</a>
+    <a href="#spiral">🌀 Spiral</a>
+    <a href="#fa-sol">〰 Fa &amp; Sol</a>
+    <a href="#chords">🎸 Chords</a>
+    <a href="#guido">✋ Guido</a>
+    <a href="#chinese">🀄 Chinese</a>
+  </div>
+  <a href="musica_universalis_final.html" class="nav-back">← Musica Universalis</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-super">Project Orpheus · The Living Theory · Musica Universalis</div>
+  <h1 class="hero-title">Learn Music<br>Intuitively</h1>
+  <p class="hero-sub">Music theory is not a set of rules invented by academics. It is the map every culture on Earth independently drew when they tried to describe why certain sounds feel like coming home — and why the spiral of fifths never quite closes.</p>
+
+  <a href="musica_universalis_final.html" class="mu-btn">
+    <span class="mbt">🌀 Enter Musica Universalis — The Full Theory</span>
+    <span class="mbs">Chemistry · Biology · Astronomy · Gravity · SETI · The Comma</span>
+  </a>
+
+  <div class="jump-grid">
+    <a href="#piano"   class="jb"><span class="jb-icon">🎹</span><span class="jb-title">Feel the Intervals</span><span class="jb-sub">Play the keyboard · hear the gap</span></a>
+    <a href="#spiral"  class="jb"><span class="jb-icon">🌀</span><span class="jb-title">Spiral of Fifths</span><span class="jb-sub">Where this website was born</span></a>
+    <a href="#fa-sol"  class="jb"><span class="jb-icon">〰️</span><span class="jb-title">Fa &amp; Sol</span><span class="jb-sub">Where the comma becomes audible</span></a>
+    <a href="#chords"  class="jb"><span class="jb-icon">🎸</span><span class="jb-title">Chords &amp; Movement</span><span class="jb-sub">Build · hear · understand</span></a>
+    <a href="#guido"   class="jb"><span class="jb-icon">✋</span><span class="jb-title">Guido's Hand</span><span class="jb-sub">12 musical languages</span></a>
+    <a href="#chinese" class="jb"><span class="jb-icon">🀄</span><span class="jb-title">Chinese Pentatonic</span><span class="jb-sub">Five notes · five elements</span></a>
+  </div>
+</div>
+
+<!-- §I THEORY -->
+<div class="section" id="theory">
+<div class="sec-inner">
+  <div class="sec-label">§ I · Foundation</div>
+  <h2 class="sec-title">What Is Music Theory?</h2>
+  <p class="sec-lead">Music theory did not invent music. It came after music had existed for tens of thousands of years — a vocabulary developed to describe what singers and string players were already doing by ear.</p>
+  <p>At the root of every musical system on Earth is one physical fact: double the frequency of a vibrating string and you hear the "same note" an octave higher. That 2:1 ratio is not cultural — it is physics. Every musical tradition discovered it independently because vibrating strings, drum membranes, and human vocal cords all obey the same mathematics.</p>
+  <p>From that single observation every musical system is built. The central question: <em>how do you divide the octave into useful steps?</em> The Greeks used stacked perfect fifths (3:2). China drew five notes from the same method. India developed 72 parent scales. Each culture navigated the same mathematical landscape differently — and every path hit the same unavoidable gap: the <strong>Pythagorean Comma</strong>, δ = 1.013643…</p>
+  <div class="qb">
+    <p>"The comma is not a mistake in music theory. It is proof that music theory is trying to describe something real — a mathematical structure that cannot be perfectly mapped into any finite system of notes."</p>
+    <cite>— Musica Universalis · δ = 0.013643… · N_res = 73.296</cite>
+  </div>
+</div>
+</div>
+
+<!-- §II PIANO / INTERVALS -->
+<div class="section" id="piano">
+<div class="sec-inner">
+  <div class="sec-label">§ II · Hearing</div>
+  <h2 class="sec-title">Feel the Intervals</h2>
+  <p class="sec-lead">An interval is the distance between two notes. Click any key to hear it, then click a second key. The emotion — tension, warmth, brightness, dread — is the frequency ratio acting directly on your auditory cortex.</p>
+  <div class="piano-outer"><div id="piano-wrap"></div></div>
+  <div class="int-out"><span id="int-text">Click any key · then click a second key to hear the interval between them</span></div>
+
+  <table class="it" style="margin-top:2rem;">
+    <thead><tr><th>Interval</th><th>Ratio</th><th>Semitones</th><th>Character</th><th>From C</th></tr></thead>
+    <tbody>
+      <tr class="con"><td>Unison</td><td>1:1</td><td>0</td><td>Perfect stillness</td><td>C→C</td></tr>
+      <tr class="con"><td>Perfect Fifth</td><td>3:2</td><td>7</td><td>Open, powerful — the comma-builder</td><td>C→G</td></tr>
+      <tr class="con"><td>Perfect Fourth</td><td>4:3</td><td>5</td><td>Stable, leaning — Fa's signature</td><td>C→F</td></tr>
+      <tr class="con"><td>Major Third</td><td>5:4</td><td>4</td><td>Bright, warm, joyful — major's heart</td><td>C→E</td></tr>
+      <tr class="neu"><td>Minor Third</td><td>6:5</td><td>3</td><td>Tender, wistful — minor's heart</td><td>C→E♭</td></tr>
+      <tr class="neu"><td>Major Sixth</td><td>5:3</td><td>9</td><td>Warm, singing, nostalgic</td><td>C→A</td></tr>
+      <tr class="neu"><td>Minor Seventh</td><td>16:9</td><td>10</td><td>Bluesy, yearning — jazz's favourite</td><td>C→B♭</td></tr>
+      <tr class="neu"><td>Major Seventh</td><td>15:8</td><td>11</td><td>Lush, reaching for the octave</td><td>C→B</td></tr>
+      <tr class="dis"><td>Tritone</td><td>√2:1</td><td>6</td><td>Maximum tension — "diabolus in musica"</td><td>C→F♯</td></tr>
+      <tr class="dis"><td>Minor Second</td><td>16:15</td><td>1</td><td>Grinding clash — extreme dissonance</td><td>C→C♯</td></tr>
+      <tr class="con"><td>Octave</td><td>2:1</td><td>12</td><td>Complete return — same note, higher</td><td>C→C'</td></tr>
+    </tbody>
+  </table>
+  <p style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--dim);letter-spacing:.07em;">🟢 CONSONANT &nbsp; 🔵 NEUTRAL/EXPRESSIVE &nbsp; 🔴 DISSONANT</p>
+</div>
+</div>
+
+<!-- §III SPIRAL -->
+<div class="section" id="spiral">
+<div class="sec-inner">
+  <div class="sec-label">§ III · The Spiral — Where This Website Was Born</div>
+  <h2 class="sec-title">The Spiral of Fifths</h2>
+  <p class="sec-lead">Stack twelve perfect fifths and you almost return to your starting note — but not quite. You land 23.46 cents too high. That gap is the Pythagorean Comma. The <em>Circle</em> of Fifths pretends it closes. The <em>Spiral</em> tells the truth.</p>
+  <p>A <strong>perfect fifth</strong> has frequency ratio 3:2 — the most consonant interval after the octave. Starting from C, one fifth gives you G. Another gives you D. After twelve jumps you should land back on C (seven octaves higher). Instead you land on B♯ — 23.46 cents sharp. This is the Pythagorean Comma: (3/2)¹² ÷ 2⁷ = 531441/524288 = 1.013643…</p>
+
+  <div id="cof-wrap">
+    <div class="cof-btns">
+      <button class="ctog on" id="btn-circle" onclick="setCOF('circle')">Circle of Fifths</button>
+      <button class="ctog" id="btn-spiral" onclick="setCOF('spiral')">Spiral of Fifths</button>
+    </div>
+    <canvas id="cof-cv" width="520" height="520"></canvas>
+    <div id="cof-info"><p>Click any key to hear it. Toggle between Circle and Spiral to see what equal temperament hides.</p></div>
+  </div>
+
+  <div class="info gold" style="margin-top:2rem;">
+    <h4>Why Every Key Had a Different Colour</h4>
+    <p>In modern equal temperament all 12 semitones are identical — the comma is spread evenly. But in Baroque well temperament each key had a distinct emotional colour: C major was bright and clear; E♭ was solemn and dark; F♯ was harsh and brilliant. Bach's Well-Tempered Clavier was written to explore these colours. Equal temperament erased them in exchange for universal transposability.</p>
+  </div>
+</div>
+</div>
+
+<!-- §IV FA AND SOL -->
+<div class="section" id="fa-sol">
+<div class="sec-inner">
+  <div class="sec-label">§ IV · Where the Comma Becomes Audible</div>
+  <h2 class="sec-title">Where Fa Breaks Off · Where Sol Modulates</h2>
+  <p class="sec-lead">Two notes carry the weight of the entire comma in tonal harmony: Fa (the fourth degree) and Sol (the fifth). They are the pivot points where accumulated fifths become audible as gravitational pull.</p>
+  <p>Guido d'Arezzo organised medieval melody into <strong>hexachords</strong> — groups of six notes with a fixed pattern: tone–tone–semitone–tone–tone. Every hexachord has a Fa (the note above the semitone, pulling downward) and a Sol (the note below the next leap, pulling upward toward the octave). The whole medieval gamut was covered by three overlapping hexachords starting on C, F, and G — the natural, soft, and hard hexachords. The critical moment — called <strong>mutation</strong> — occurs when a melody has to move between hexachords. It always happens at the note B / B♭: the point where the choice between B-natural (hard hexachord, ascending energy) and B-flat (soft hexachord, descending resolution) makes the accumulated comma audible as a real decision in the singer's voice and body.</p>
+  <div class="fa-sol-grid">
+    <div class="fsg">
+      <div class="fsg-title" style="color:var(--purple);">Fa — The Fourth Degree</div>
+      <p style="font-size:.97rem;margin-bottom:0;">Fa has <strong>plagal gravity</strong> — it pulls <em>downward</em> toward the tonic. The IV chord (built on Fa) is the "Amen" chord, the sound of rest and acceptance. In C major: F is Fa. The progression IV→I feels like a released breath. Fa <em>breaks off</em> from the ascending drive of the scale — it is the high point that begins the descent.</p>
+    </div>
+    <div class="fsg">
+      <div class="fsg-title" style="color:var(--teal);">Sol — The Fifth Degree</div>
+      <p style="font-size:.97rem;margin-bottom:0;">Sol has <strong>dominant gravity</strong> — it pulls <em>upward and forward</em>. The V chord (built on Sol) is the engine of tonal music. In C major: G is Sol. The V7 chord (G–B–D–F) contains the tritone B–F — a compressed expression of the comma's maximum tension. Sol does not just resolve: it <em>modulates</em>, driving toward the tonic or pivoting to an entirely new key.</p>
+    </div>
+  </div>
+  <div class="info teal">
+    <h4>The Tritone Substitution — Sol's Nuclear Option</h4>
+    <p>The tritone sits exactly halfway through the octave — the point of maximum ambiguity. In jazz, the dominant chord (Sol) can be replaced by the chord a tritone away. In C major, G7 can be replaced by D♭7. Both chords contain the identical tritone (B–F, enharmonically respelled). This is the comma's deepest expression in practical harmony: the two most distant points on the circle of fifths are, in terms of resolution power, functionally identical.</p>
+  </div>
+</div>
+</div>
+
+<!-- §V CHORDS -->
+<div class="section" id="chords">
+<div class="sec-inner">
+  <div class="sec-label">§ V · Harmony</div>
+  <h2 class="sec-title">How to Make Chords</h2>
+  <p class="sec-lead">A chord is three or more notes sounding together. Every chord in Western harmony is built from stacked thirds — the intervals that shape whether the result feels stable or tense, bright or dark, complete or yearning.</p>
+  <p>The <strong>major triad</strong> stacks a major third (4 semitones) then a minor third (3 semitones). The <strong>minor triad</strong> reverses: minor third first (3 semitones), major third on top (4 semitones). That single reversal is the entire difference between joy and sorrow as music encodes them. Every further chord — seventh chords, ninth chords, diminished, augmented — adds more thirds to this foundation.</p>
+
+  <div class="cb-grid" id="chord-btns"></div>
+  <canvas id="chord-cv"></canvas>
+  <div class="cdesc"><div id="chord-desc">Select a chord above to hear it and see its construction.</div></div>
+
+  <h3>How Chords Move Through Space</h3>
+  <p>Chords have <strong>harmonic function</strong> — a direction they want to travel. In any key, three functions govern all tonal movement:</p>
+  <div class="hf-grid">
+    <div class="hf">
+      <div class="hf-name" style="color:var(--gold);">Tonic</div>
+      <div class="hf-roman" style="color:var(--gold);">I</div>
+      <div class="hf-desc">Home. Stability. Rest. Every progression departs from or returns here. The ear hears it as arrival. In C: C major chord.</div>
+    </div>
+    <div class="hf">
+      <div class="hf-name" style="color:var(--purple);">Subdominant</div>
+      <div class="hf-roman" style="color:var(--purple);">IV</div>
+      <div class="hf-desc">Away from home. Contemplative, slightly unstable — the Fa chord. In C: F major. The "Amen" cadence IV→I is plagal resolution: accepting, yielding, gentle.</div>
+    </div>
+    <div class="hf">
+      <div class="hf-name" style="color:var(--teal);">Dominant</div>
+      <div class="hf-roman" style="color:var(--teal);">V</div>
+      <div class="hf-desc">Maximum tension. The Sol chord, containing the tritone that demands resolution back to I. In C: G (or G7). The engine of every climax and inevitable arrival.</div>
+    </div>
+  </div>
+
+  <h3>Common Progressions — Click to Hear</h3>
+  <div class="pb-grid" id="prog-btns"></div>
+  <canvas id="prog-cv"></canvas>
+  <div class="pdesc"><div id="prog-desc">Select a progression above to hear how chords move through harmonic space.</div></div>
+</div>
+</div>
+
+<!-- §VI GUIDO'S HAND -->
+<div class="section" id="guido">
+<div class="sec-inner">
+  <div class="sec-label">§ VI · Solmization · c. 1026 CE</div>
+  <h2 class="sec-title">Guido's Hand</h2>
+  <p class="sec-lead">Around 1026 CE the monk Guido d'Arezzo mapped the entire musical gamut onto the joints and fingertips of the left hand. Choirmasters used it to conduct singers silently during Mass — the world's first portable musical interface.</p>
+  <p>Each of the 20 positions corresponds to one note of the medieval gamut, from Γut (our G2) up to E la (E5). The solfège syllables — Ut, Re, Mi, Fa, Sol, La — come from the opening syllable of each verse of the Latin hymn <em>Ut queant laxis resonare fibris</em>, a hymn to St. John the Baptist whose successive phrases each began one step higher than the last. Later Ut became Do, and Si (Ti) was added as the seventh degree.</p>
+
+  <div class="guido-wrap">
+    <div>
+      <canvas id="hand-cv" width="300" height="370"></canvas>
+      <p style="font-family:'Space Mono',monospace;font-size:.56rem;color:var(--dim);text-align:center;margin-top:.5rem;letter-spacing:.1em;">CLICK ANY JOINT TO HEAR THE NOTE</p>
+    </div>
+    <div class="hpanel">
+      <div class="hnb" id="hand-note-big">—</div>
+      <div class="hns" id="hand-note-sub">Click a joint on the hand</div>
+      <div class="sec-label" style="margin:.4rem 0 .3rem;">Language / Notation System</div>
+      <div class="lb-grid" id="lang-btns"></div>
+      <table class="htbl">
+        <thead><tr><th>Modern</th><th>Medieval</th><th>In System</th></tr></thead>
+        <tbody id="hand-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="info gold" style="margin-top:2rem;">
+    <h4>Why the Hand? Why These Joints?</h4>
+    <p>Medieval singers had no printed music, no piano, no tuning fork. The hand let a choirmaster point silently — every singer immediately knew both pitch and solfège syllable without a word. The positions spiral around the hand in ascending order, matching the natural motion of conducting gesture. It was still in use in some European choral traditions into the early 20th century.</p>
+  </div>
+</div>
+</div>
+
+<!-- §VII CHINESE MUSIC -->
+<div class="section" id="chinese">
+<div class="sec-inner">
+  <div class="sec-label">§ VII · Five Notes · Five Elements · Five Thousand Years</div>
+  <h2 class="sec-title">Chinese Music &amp; the Pentatonic</h2>
+  <p class="sec-lead">Chinese classical music is built on five notes. Each note carries cosmological weight beyond its pitch: an element, a planet, an organ of the body, a season. Music was not entertainment — it was medicine, ritual, and cosmic alignment.</p>
+  <p>The five tones — <strong>宫 Gōng, 商 Shāng, 角 Jué, 徵 Zhǐ, 羽 Yǔ</strong> — correspond to the Five Elements (五行 wǔ xíng), the five visible planets, the five seasons of the Chinese agricultural calendar (including Late Summer as a fifth), and five organs in traditional Chinese medicine. Playing in the wrong mode at the wrong season was considered genuinely harmful to health and social order.</p>
+
+  <div class="pent-row" id="pent-row"></div>
+  <canvas id="pent-cv"></canvas>
+  <div class="pent-detail"><div id="pent-detail-text">Click a note above to hear it and see its cosmological correspondences.</div></div>
+
+  <h3>How the Pentatonic Works</h3>
+  <p>The pentatonic is built by the same method as the Pythagorean scale — stacking perfect fifths — but stopping after five steps: C → G → D → A → E. These five notes (C D E G A) form the major pentatonic. What is removed relative to the Western major scale are F and B — exactly the two notes that form the tritone with each other. The pentatonic is the diatonic scale with the comma's sharpest edges deliberately removed.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin:1.5rem 0;">
+    <div style="background:var(--panel);padding:1.3rem;">
+      <p style="font-family:'Space Mono',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.07em;margin-bottom:.5rem;">THE COMMA STILL APPEARS</p>
+      <p style="font-size:.92rem;margin:0;">The Chinese 12-tone system (十二律) was also built by stacking fifths. Zhou Dynasty theorists (1046–256 BCE) hit the same comma the Greeks found. It is not a Western discovery — it is a mathematical wall that every culture building a scale system from fifths will hit.</p>
+    </div>
+    <div style="background:var(--panel);padding:1.3rem;">
+      <p style="font-family:'Space Mono',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.07em;margin-bottom:.5rem;">THE QIN AND THE OCTAVE</p>
+      <p style="font-size:.92rem;margin:0;">The 古琴 Gǔqín (seven-string zither, ~3000 BCE) has harmonic positions at exact fractional points on the string — ½, ⅓, ¼, ⅕, ⅙, ⅛. These produce the pentatonic harmonics. Every player touching these positions performs the Pythagorean monochord experiment — in unbroken tradition for five thousand years.</p>
+    </div>
+    <div style="background:var(--panel);padding:1.3rem;">
+      <p style="font-family:'Space Mono',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.07em;margin-bottom:.5rem;">THE MISSING TWO NOTES</p>
+      <p style="font-size:.92rem;margin:0;">The two omitted notes — the 4th and 7th degrees (Fa and Ti) — are the notes that form the tritone together. Chinese music chose to remove the comma's most dramatic expression. Western music chose to use it as fuel. Both choices are valid. Both are responses to the same gap.</p>
+    </div>
+  </div>
+
+  <div class="qb">
+    <p>"The 二胡 Èrhú is tuned D–A: a perfect fifth, ratio 3:2. Every time an erhu player tunes their instrument they perform the same measurement Pythagoras performed on his monochord in 530 BCE."</p>
+    <cite>— Musica Universalis · on five thousand years of the same ratio</cite>
+  </div>
+</div>
+</div>
+
+<!-- RETURN -->
+<div class="section" style="text-align:center;">
+<div class="sec-inner" style="max-width:660px;">
+  <div class="sec-label">§ VIII · Return</div>
+  <h2 class="sec-title">Back to the Comma</h2>
+  <p class="sec-lead">Every section on this page — the intervals, the spiral, Fa and Sol, the chords, Guido's Hand, the Chinese pentatonic — all converge on δ = 0.013643… The gap that no musical system has ever closed.</p>
+  <a href="musica_universalis_final.html" class="mu-btn" style="display:inline-flex;">
+    <span class="mbt">🌀 Enter Musica Universalis — The Full Theory</span>
+    <span class="mbs">Chemistry · Biology · Astronomy · Gravity · SETI · The Comma Everywhere</span>
+  </a>
+</div>
+</div>
+
+<footer>
+  <p style="font-family:'Cinzel Decorative',serif;font-size:.82rem;color:rgba(212,168,76,.18);margin-bottom:.5rem;">Learn Music Intuitively · Musica Universalis</p>
+  <p>δ = 0.013643… · The comma that no musical system has ever closed</p>
+  <p>Pythagoras · Guido d'Arezzo · The Zhou Dynasty · Five thousand years of the same gap</p>
+  <p style="margin-top:1rem;"><a href="musica_universalis_final.html">← Musica Universalis</a> &nbsp;·&nbsp; <a href="index.html">Index</a> &nbsp;·&nbsp; <a href="directory.html">Directory →</a></p>
+</footer>
+
+<script>
+'use strict';
+
+// ─── STARS ─────────────────────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('star-bg'),x=c.getContext('2d');
+  let W,H,stars=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  function init(){resize();stars=Array.from({length:230},()=>({px:Math.random(),py:Math.random(),r:.3+Math.random()*1.2,a:.12+Math.random()*.5,f:Math.random()*628}));}
+  let t=0;
+  function frame(){t+=.018;x.clearRect(0,0,W,H);stars.forEach(s=>{const a=s.a*(0.65+0.35*Math.sin(t+s.f));x.beginPath();x.arc(s.px*W,s.py*H,s.r,0,Math.PI*2);x.fillStyle=`rgba(212,168,76,${a})`;x.fill();});requestAnimationFrame(frame);}
+  window.addEventListener('resize',init);init();frame();
+})();
+
+// ─── AUDIO ─────────────────────────────────────────────────────────────
+let _actx=null;
+function actx(){if(!_actx)_actx=new(window.AudioContext||window.webkitAudioContext)();if(_actx.state==='suspended')_actx.resume();return _actx;}
+function tone(freq,dur=0.75,vol=0.25){
+  try{
+    const a=actx(),o=a.createOscillator(),g=a.createGain();
+    o.connect(g);g.connect(a.destination);
+    o.type='sine';o.frequency.value=freq;
+    g.gain.setValueAtTime(0,a.currentTime);
+    g.gain.linearRampToValueAtTime(vol,a.currentTime+0.015);
+    g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+dur);
+    o.start(a.currentTime);o.stop(a.currentTime+dur+0.05);
+  }catch(e){}
+}
+function chord(semis,dur=1.2){
+  semis.forEach((s,i)=>setTimeout(()=>tone(s2f(s),dur,0.2),i*18));
+}
+
+// ─── FREQUENCY HELPERS ────────────────────────────────────────────────
+const NOTE=['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
+function s2f(n){return 261.63*Math.pow(2,n/12);}  // C4 = semitone 0
+
+// ─── PIANO ─────────────────────────────────────────────────────────────
+(function(){
+  const wrap=document.getElementById('piano-wrap');
+  // Two octaves C4(0)–B5(23) + C6(24)
+  // White keys: semitones 0,2,4,5,7,9,11 per octave
+  const WS=[0,2,4,5,7,9,11];
+  const BS=[1,3,null,6,8,10,null]; // null = no black key (after E, after B)
+  const WK=46, BW=28;
+  let firstSemi=null;
+
+  const INAME=['Unison','m2','M2','m3','M3','P4','Tritone','P5','m6','M6','m7','M7','Octave'];
+  const IDESC={
+    0:'Unison — perfect stillness.',
+    1:'Minor Second — grinding dissonance, half-step clash.',
+    2:'Major Second — a whole step, unresolved tension.',
+    3:'Minor Third — tender, wistful. The sound of minor.',
+    4:'Major Third — bright, warm. The sound of major.',
+    5:'Perfect Fourth — stable but leaning, Fa\'s signature.',
+    6:'Tritone — maximum tension. The devil in music.',
+    7:'Perfect Fifth — open, powerful, stable. The comma-builder.',
+    8:'Minor Sixth — yearning, romantic.',
+    9:'Major Sixth — warm, nostalgic, singing.',
+    10:'Minor Seventh — bluesy, yearning. Jazz\'s favourite.',
+    11:'Major Seventh — lush, reaching for the octave.',
+    12:'Octave — complete return, same note higher.'
+  };
+  const ICOL={0:'#d4a84c',1:'#e05555',2:'#e07a30',3:'#b08edf',4:'#5abf87',5:'#2dd4bf',6:'#ff4060',7:'#6aabdf',8:'#b08edf',9:'#f0d080',10:'#df6aaa',11:'#e07a30',12:'#d4a84c'};
+
+  // White keys: two octaves + final C
+  const whites=[];
+  for(let o=0;o<2;o++)WS.forEach(s=>whites.push(s+o*12));
+  whites.push(24);
+
+  whites.forEach((semi,i)=>{
+    const el=document.createElement('div');el.className='wk';el.dataset.semi=semi;
+    const lbl=document.createElement('span');lbl.className='kl';lbl.textContent=NOTE[semi%12]+(4+Math.floor(semi/12));
+    el.appendChild(lbl);
+    el.addEventListener('pointerdown',()=>handleKey(el,semi));
+    wrap.appendChild(el);
+  });
+
+  // Black keys: positioned per white key index
+  // White key i is at x = i * WK
+  // Black key after white index j goes at x = j*WK + WK - BW/2
+  for(let o=0;o<2;o++){
+    BS.forEach((bSemi,bIdx)=>{
+      if(bSemi===null)return;
+      const semi=bSemi+o*12;
+      const wIdx=o*7+bIdx; // which white key this black key follows
+      const leftPx=wIdx*WK+WK-BW/2;
+      const el=document.createElement('div');el.className='bk';el.dataset.semi=semi;
+      el.style.left=leftPx+'px';
+      el.addEventListener('pointerdown',e=>{e.stopPropagation();handleKey(el,semi);});
+      wrap.appendChild(el);
+    });
+  }
+
+  function handleKey(el,semi){
+    tone(s2f(semi),0.75,0.25);
+    // light up
+    document.querySelectorAll('.wk,.bk').forEach(k=>k.classList.remove('lit'));
+    el.classList.add('lit');
+    const tid=setTimeout(()=>el.classList.remove('lit'),650);
+    const it=document.getElementById('int-text');
+    if(firstSemi===null){
+      firstSemi=semi;
+      it.textContent=NOTE[semi%12]+' — click a second key to hear the interval.';
+      it.style.color='var(--soft)';
+    } else if(firstSemi===semi){
+      firstSemi=null;
+      it.textContent='Click any key to begin again.';
+      it.style.color='var(--soft)';
+    } else {
+      const diff=Math.min(Math.abs(semi-firstSemi),12);
+      const col=ICOL[diff]||'var(--teal)';
+      it.innerHTML=`<strong style="color:${col}">${INAME[diff]||diff+' semitones'}</strong> &nbsp;— ${IDESC[diff]||''}`;
+      it.style.color=col;
+      firstSemi=null;
+    }
+  }
+})();
+
+// ─── CIRCLE / SPIRAL OF FIFTHS ────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('cof-cv');
+  const x=cv.getContext('2d');
+  const W=520,H=520,CX=260,CY=260;
+  const KEYS=['C','G','D','A','E','B','F♯','D♭','A♭','E♭','B♭','F'];
+  const REL=['Am','Em','Bm','F♯m','C♯m','G♯m','D♯m','B♭m','Fm','Cm','Gm','Dm'];
+  const SEMI=[0,7,2,9,4,11,6,1,8,3,10,5];
+  const SHARP=[0,1,2,3,4,5,6,-5,-4,-3,-2,-1];
+  const COL=['#d4a84c','#5abf87','#6aabdf','#b08edf','#e07a30','#df6aaa','#e05555','#2dd4bf','#f0d080','#a78bfa','#34d399','#60a5fa'];
+  let mode='circle', hov=-1;
+
+  function kpos(i){
+    const a=-Math.PI/2+(i/12)*Math.PI*2;
+    return mode==='circle'?{x:CX+Math.cos(a)*185,y:CY+Math.sin(a)*185}:{x:CX+Math.cos(a)*(80+i*14),y:CY+Math.sin(a)*(80+i*14)};
+  }
+
+  function draw(){
+    x.clearRect(0,0,W,H);x.fillStyle='#06080d';x.fillRect(0,0,W,H);
+    if(mode==='circle'){
+      // rings
+      [220,155,95].forEach(r=>{x.beginPath();x.arc(CX,CY,r,0,Math.PI*2);x.strokeStyle='rgba(255,255,255,.04)';x.lineWidth=1;x.stroke();});
+      // spokes
+      for(let i=0;i<12;i++){const a=-Math.PI/2+(i/12)*Math.PI*2;x.beginPath();x.moveTo(CX,CY);x.lineTo(CX+Math.cos(a)*215,CY+Math.sin(a)*215);x.strokeStyle='rgba(255,255,255,.025)';x.lineWidth=1;x.stroke();}
+      // inner minor ring
+      for(let i=0;i<12;i++){const a=-Math.PI/2+(i/12)*Math.PI*2,mx=CX+Math.cos(a)*135,my=CY+Math.sin(a)*135;x.beginPath();x.arc(mx,my,13,0,Math.PI*2);x.fillStyle=`${COL[i]}16`;x.fill();x.strokeStyle=`${COL[i]}55`;x.lineWidth=1;x.stroke();x.fillStyle=`${COL[i]}90`;x.font="8px 'Space Mono',monospace";x.textAlign='center';x.textBaseline='middle';x.fillText(REL[i],mx,my);}
+      // center
+      x.beginPath();x.arc(CX,CY,44,0,Math.PI*2);x.fillStyle='rgba(212,168,76,.05)';x.fill();x.strokeStyle='rgba(212,168,76,.18)';x.lineWidth=1;x.stroke();
+      x.fillStyle='rgba(212,168,76,.5)';x.font="bold 8.5px 'Cinzel Decorative',serif";x.textAlign='center';x.textBaseline='middle';x.fillText('CIRCLE',CX,CY-7);x.fillText('OF FIFTHS',CX,CY+7);
+    } else {
+      // spiral connections
+      for(let i=0;i<11;i++){const p1=kpos(i),p2=kpos(i+1);x.beginPath();x.moveTo(p1.x,p1.y);x.lineTo(p2.x,p2.y);x.strokeStyle='rgba(212,168,76,.2)';x.lineWidth=1.5;x.stroke();}
+      // gap line
+      const p0=kpos(0),p11=kpos(11);x.beginPath();x.moveTo(p11.x,p11.y);x.lineTo(p0.x,p0.y);x.strokeStyle='rgba(224,85,85,.45)';x.lineWidth=1.5;x.setLineDash([4,5]);x.stroke();x.setLineDash([]);
+      // gap label
+      x.fillStyle='rgba(224,85,85,.65)';x.font="8px 'Space Mono',monospace";x.textAlign='center';
+      const gx=(p11.x+p0.x)/2+18,gy=(p11.y+p0.y)/2;
+      x.fillText('GAP = δ',gx,gy-7);x.fillText('comma',gx,gy+5);
+      x.fillStyle='rgba(212,168,76,.45)';x.font="bold 8.5px 'Cinzel Decorative',serif";x.textAlign='center';x.textBaseline='middle';x.fillText('SPIRAL',CX,CY-7);x.fillText('OF FIFTHS',CX,CY+7);
+    }
+    // key circles
+    for(let i=0;i<12;i++){
+      const {px:kx,py:ky}={px:kpos(i).x,py:kpos(i).y};
+      const isH=hov===i,r=isH?24:20;
+      x.beginPath();x.arc(kx,ky,r,0,Math.PI*2);x.fillStyle=isH?COL[i]:`${COL[i]}28`;x.fill();x.strokeStyle=COL[i];x.lineWidth=isH?2:1.2;x.stroke();
+      x.fillStyle=isH?'#1a0f00':COL[i];x.font=`${isH?'bold ':''} ${isH?12:10}px 'Space Mono',monospace`;x.textAlign='center';x.textBaseline='middle';x.fillText(KEYS[i],kx,ky);
+    }
+  }
+
+  window.setCOF=function(m){
+    mode=m;
+    document.getElementById('btn-circle').classList.toggle('on',m==='circle');
+    document.getElementById('btn-spiral').classList.toggle('on',m==='spiral');
+    const ip=document.getElementById('cof-info').querySelector('p');
+    ip.textContent=m==='circle'?'Circle of Fifths: adjacent keys share 6 of 7 notes. Outer ring = major keys, inner = relative minors. Click any key to hear it.':'Spiral of Fifths: each step is a perfect fifth. The red dashed line is the GAP — the Pythagorean Comma — that the circle hides by pretending B♯ = C.';
+    draw();
+  };
+
+  cv.addEventListener('mousemove',e=>{
+    const r=cv.getBoundingClientRect(),sx=W/r.width,sy=H/r.height;
+    const mx=(e.clientX-r.left)*sx,my=(e.clientY-r.top)*sy;
+    const prev=hov;hov=-1;
+    for(let i=0;i<12;i++){const{x:kx,y:ky}=kpos(i);if(Math.hypot(mx-kx,my-ky)<22){hov=i;break;}}
+    if(hov!==prev)draw();
+  });
+  cv.addEventListener('mouseleave',()=>{hov=-1;draw();});
+  cv.addEventListener('click',e=>{
+    const r=cv.getBoundingClientRect(),sx=W/r.width,sy=H/r.height;
+    const mx=(e.clientX-r.left)*sx,my=(e.clientY-r.top)*sy;
+    for(let i=0;i<12;i++){
+      const{x:kx,y:ky}=kpos(i);
+      if(Math.hypot(mx-kx,my-ky)<22){
+        tone(s2f(SEMI[i]+12));
+        const sh=SHARP[i],ss=sh>0?`${sh} sharp${sh>1?'s':''}`:sh<0?`${-sh} flat${-sh>1?'s':''}`:'no sharps or flats';
+        document.getElementById('cof-info').querySelector('p').innerHTML=`<strong style="color:${COL[i]}">${KEYS[i]} major</strong> · relative minor: ${REL[i]} · key sig: ${ss}`;
+        return;
+      }
+    }
+  });
+  draw();
+})();
+
+// ─── CHORD BUILDER ────────────────────────────────────────────────────
+(function(){
+  const CHORDS=[
+    {n:'C Major',    s:[0,4,7],    c:'#d4a84c', d:'The bright home chord. Pure, open, stable. Do–Mi–Sol in solfège. Foundation of Western tonality.'},
+    {n:'A Minor',    s:[9,12,16],  c:'#b08edf', d:'Relative minor of C — same 7 notes, different root. The minor third (A–C) gives it its melancholy.'},
+    {n:'F Major',    s:[5,9,12],   c:'#6aabdf', d:'The subdominant — the Fa chord. Plagal gravity: pulls gently downward. The "Amen" chord.'},
+    {n:'G Major',    s:[7,11,14],  c:'#5abf87', d:'The dominant — Sol chord. Clean and powerful. Add a seventh (G7) and it becomes irresistible.'},
+    {n:'G7',         s:[7,11,14,17],c:'#2dd4bf',d:'Dominant seventh: the tritone B–F demands resolution to C. The engine of every V→I cadence.'},
+    {n:'D Minor',    s:[2,5,9],    c:'#df6aaa', d:'The "ii" chord in C major. Dark, serious. Fundamental to jazz: ii–V–I is the backbone of the Great American Songbook.'},
+    {n:'E Minor',    s:[4,7,11],   c:'#e07a30', d:'The "iii" chord. Strangeness in Bach, rawness in rock. The major third E–G♯ hangs in the air like a question.'},
+    {n:'B dim',      s:[11,14,17], c:'#e05555', d:'Diminished triad: two stacked minor thirds, containing the tritone. Maximum instability. Demands resolution upward to C.'},
+    {n:'C Maj7',     s:[0,4,7,11], c:'#f0d080', d:'Major seventh: lush, floating, slightly unresolved. Debussy, bossa nova, impressionism. Rich beyond the triad.'},
+    {n:'Am7',        s:[9,12,16,19],c:'#a78bfa',d:'Minor seventh: the softest minor chord. A–G (minor seventh) adds warmth that pure Am lacks. Soul, R&B, jazz.'},
+  ];
+  const btn_cont=document.getElementById('chord-btns');
+  const cv=document.getElementById('chord-cv');cv.width=cv.offsetWidth||880;cv.height=150;
+  const ctx=cv.getContext('2d');
+
+  CHORDS.forEach(ch=>{
+    const b=document.createElement('button');b.className='cb';
+    b.innerHTML=`${ch.n}<span class="cn">${ch.s.map(s=>NOTE[s%12]).join(' · ')}</span>`;
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.cb').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');
+      chord(ch.s.map(s=>s+12),1.3);
+      document.getElementById('chord-desc').innerHTML=`<strong style="color:${ch.c}">${ch.n}</strong> — ${ch.d}`;
+      drawC(ch);
+    });
+    btn_cont.appendChild(b);
+  });
+
+  function drawC(ch){
+    ctx.clearRect(0,0,cv.width,cv.height);ctx.fillStyle='#0c0f17';ctx.fillRect(0,0,cv.width,cv.height);
+    const n=ch.s.length;
+    ch.s.forEach((s,i)=>{
+      const t2=n<2?0.5:i/(n-1);
+      const px=cv.width*(0.1+t2*0.8);
+      const ofs=(s%12-5.5)*5;
+      const py=cv.height/2-ofs;
+      if(i>0){const pt=n<2?0.5:(i-1)/(n-1),ppx=cv.width*(0.1+pt*0.8),pofs=(ch.s[i-1]%12-5.5)*5,ppy=cv.height/2-pofs;ctx.beginPath();ctx.moveTo(ppx,ppy);ctx.lineTo(px,py);ctx.strokeStyle=`${ch.c}2e`;ctx.lineWidth=1.5;ctx.stroke();}
+      ctx.beginPath();ctx.arc(px,py,19,0,Math.PI*2);ctx.fillStyle=`${ch.c}18`;ctx.fill();ctx.strokeStyle=ch.c;ctx.lineWidth=2;ctx.stroke();
+      ctx.fillStyle=ch.c;ctx.font="bold 11.5px 'Space Mono',monospace";ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(NOTE[s%12],px,py);
+    });
+    ctx.fillStyle='rgba(212,168,76,.28)';ctx.font="8.5px 'Cinzel Decorative',serif";ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText(ch.n,6,5);
+  }
+})();
+
+// ─── PROGRESSIONS ─────────────────────────────────────────────────────
+(function(){
+  const PROGS=[
+    {n:'I – IV – V – I', chds:['C','F','G7','C'],  ss:[[0,4,7],[5,9,12],[7,11,14,17],[0,4,7]],    c:'#d4a84c', d:'Foundation of blues, folk, rock. Home → away → tension → return. Bach wrote it. Chuck Berry rocked it.'},
+    {n:'I – V – vi – IV',chds:['C','G','Am','F'],  ss:[[0,4,7],[7,11,14],[9,12,16],[5,9,12]],      c:'#5abf87', d:'The "Axis Progression" — four chords behind a thousand pop songs. Universal arc: stability → lift → wistfulness → release.'},
+    {n:'ii – V – I',     chds:['Dm','G7','C'],     ss:[[2,5,9],[7,11,14,17],[0,4,7]],              c:'#6aabdf', d:'The backbone of jazz. ii prepares the dominant, dominant resolves to tonic. From Autumn Leaves to Giant Steps.'},
+    {n:'I – vi – IV – V',chds:['C','Am','F','G'],  ss:[[0,4,7],[9,12,16],[5,9,12],[7,11,14]],       c:'#b08edf', d:'The doo-wop progression — "Stand By Me," "Earth Angel," timeless pop. Feels nostalgic because it literally is.'},
+    {n:'vi – IV – I – V',chds:['Am','F','C','G'],  ss:[[9,12,16],[5,9,12],[0,4,7],[7,11,14]],       c:'#df6aaa', d:'Same four chords, starting on the minor. Now the journey begins in shadow and moves toward light.'},
+    {n:'I – ♭VII – IV – I',chds:['C','B♭','F','C'],ss:[[0,4,7],[-2,2,5],[5,9,12],[0,4,7]],         c:'#e07a30', d:'Mixolydian rock. The ♭VII gives a modal quality: "Hey Jude," "Sweet Home Alabama," "With or Without You."'},
+  ];
+  const btn_cont=document.getElementById('prog-btns');
+  const cv=document.getElementById('prog-cv');cv.width=cv.offsetWidth||880;cv.height=108;
+  const ctx=cv.getContext('2d');
+
+  PROGS.forEach(pr=>{
+    const b=document.createElement('button');b.className='pb';b.textContent=pr.n;
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.pb').forEach(x=>x.classList.remove('playing'));b.classList.add('playing');
+      document.getElementById('prog-desc').innerHTML=`<strong style="color:${pr.c}">${pr.n}</strong> — ${pr.d}`;
+      drawP(pr,-1);let idx=0;
+      function nxt(){
+        if(idx>=pr.ss.length)return;
+        chord(pr.ss[idx].map(s=>s+12),0.82);drawP(pr,idx);idx++;
+        if(idx<pr.ss.length)setTimeout(nxt,840);
+      }nxt();
+    });
+    btn_cont.appendChild(b);
+  });
+
+  function drawP(pr,active){
+    ctx.clearRect(0,0,cv.width,cv.height);ctx.fillStyle='#0c0f17';ctx.fillRect(0,0,cv.width,cv.height);
+    const n=pr.chds.length;
+    pr.chds.forEach((name,i)=>{
+      const px=cv.width*(0.1+i*(0.8/(n-1))),py=cv.height/2;
+      const isA=i===active,r=isA?30:22;
+      ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.fillStyle=isA?`${pr.c}20`:'rgba(255,255,255,.03)';ctx.fill();ctx.strokeStyle=isA?pr.c:'rgba(255,255,255,.09)';ctx.lineWidth=isA?2:1;ctx.stroke();
+      ctx.fillStyle=isA?pr.c:'rgba(122,143,168,.65)';ctx.font=`${isA?'bold ':''} ${isA?11.5:9.5}px 'Space Mono',monospace`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(name,px,py);
+      if(i<n-1){const npx=cv.width*(0.1+(i+1)*(0.8/(n-1)));ctx.beginPath();ctx.moveTo(px+r,py);ctx.lineTo(npx-22,py);ctx.strokeStyle='rgba(255,255,255,.06)';ctx.lineWidth=1;ctx.stroke();ctx.beginPath();ctx.moveTo(npx-24,py-3);ctx.lineTo(npx-18,py);ctx.lineTo(npx-24,py+3);ctx.strokeStyle='rgba(255,255,255,.06)';ctx.stroke();}
+    });
+  }
+})();
+
+// ─── GUIDO'S HAND ────────────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('hand-cv');
+  const ctx=cv.getContext('2d');
+  const W=300,H=370;
+
+  // 20 positions of the Guidonian hand
+  const POS=[
+    {id:0, lbl:'Γ ut',       sf:'Ut',  mod:'G2',  sm:-5,  x:128,y:348},
+    {id:1, lbl:'A re',       sf:'Re',  mod:'A2',  sm:-3,  x:82, y:328},
+    {id:2, lbl:'B mi',       sf:'Mi',  mod:'B2',  sm:-1,  x:58, y:305},
+    {id:3, lbl:'C fa ut',    sf:'Fa',  mod:'C3',  sm:0,   x:52, y:278},
+    {id:4, lbl:'D sol re',   sf:'Sol', mod:'D3',  sm:2,   x:52, y:251},
+    {id:5, lbl:'E la mi',    sf:'La',  mod:'E3',  sm:4,   x:56, y:224},
+    {id:6, lbl:'F fa ut',    sf:'Fa',  mod:'F3',  sm:5,   x:67, y:196},
+    {id:7, lbl:'G sol re ut',sf:'Sol', mod:'G3',  sm:7,   x:91, y:169},
+    {id:8, lbl:'a la mi re', sf:'La',  mod:'A3',  sm:9,   x:120,y:150},
+    {id:9, lbl:'♭b fa',      sf:'Fa',  mod:'B♭3', sm:10,  x:155,y:143},
+    {id:10,lbl:'♮b mi',      sf:'Mi',  mod:'B3',  sm:11,  x:190,y:148},
+    {id:11,lbl:'c fa ut',    sf:'Fa',  mod:'C4',  sm:12,  x:216,y:162},
+    {id:12,lbl:'d sol re',   sf:'Sol', mod:'D4',  sm:14,  x:233,y:183},
+    {id:13,lbl:'e la mi',    sf:'La',  mod:'E4',  sm:16,  x:238,y:206},
+    {id:14,lbl:'f fa ut',    sf:'Fa',  mod:'F4',  sm:17,  x:233,y:229},
+    {id:15,lbl:'g sol re ut',sf:'Sol', mod:'G4',  sm:19,  x:221,y:251},
+    {id:16,lbl:'a la mi re', sf:'La',  mod:'A4',  sm:21,  x:205,y:271},
+    {id:17,lbl:'♭b fa',      sf:'Fa',  mod:'B♭4', sm:22,  x:190,y:290},
+    {id:18,lbl:'♮b mi',      sf:'Mi',  mod:'B4',  sm:23,  x:174,y:307},
+    {id:19,lbl:'e la',       sf:'La',  mod:'E5',  sm:28,  x:154,y:321},
+  ];
+
+  const LANGS={
+    'Solfège (modern)':   ['Do','Re','Mi','Fa','Sol','La','Ti'],
+    'Solfège (Guidonian)':['Ut','Re','Mi','Fa','Sol','La','—'],
+    'English':            ['C','D','E','F','G','A','B'],
+    'German':             ['C','D','E','F','G','A','H'],
+    'Byzantine':          ['Νη','Πα','Βου','Γα','Δι','Κε','Ζω'],
+    'Indian (Sargam)':    ['Sa','Re','Ga','Ma','Pa','Dha','Ni'],
+    'Arabic':             ['دو','ري','مي','فا','صول','لا','سي'],
+    'Japanese (旧名)':    ['ハ','ニ','ホ','ヘ','ト','イ','ロ'],
+    'Chinese (宫商角)':   ['宫','商','角','清角','徵','羽','变宫'],
+    'Korean (율명)':      ['황','대','태','협','고','중','유'],
+    'Russian':            ['До','Ре','Ми','Фа','Соль','Ля','Си'],
+    'Hebrew':             ['דו','רה','מי','פה','סול','לה','סי'],
+    'Swahili':            ['Do','Re','Mi','Fa','Sol','La','Si'],
+  };
+  const DEG=[0,2,4,5,7,9,11]; // semitone offsets for C D E F G A B
+
+  let curLang='Solfège (modern)', curPos=null;
+
+  // Build language buttons
+  const lc=document.getElementById('lang-btns');
+  Object.keys(LANGS).forEach(lng=>{
+    const b=document.createElement('button');b.className='lb'+(lng===curLang?' on':'');b.textContent=lng;
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.lb').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+      curLang=lng;drawHand(curPos?curPos.id:-1);buildTable(curPos?curPos.id:-1);
+    });
+    lc.appendChild(b);
+  });
+
+  function noteIn(semi,lang){
+    const n=((semi%12)+12)%12,idx=DEG.indexOf(n);
+    return idx<0?'—':LANGS[lang][idx]||'—';
+  }
+
+  function buildTable(actId){
+    const tb=document.getElementById('hand-tbody');tb.innerHTML='';
+    POS.forEach(p=>{
+      const tr=document.createElement('tr');if(p.id===actId)tr.className='hl';
+      tr.innerHTML=`<td>${p.mod}</td><td>${p.lbl}</td><td>${noteIn(p.sm,curLang)}</td>`;
+      tb.appendChild(tr);
+    });
+  }
+  buildTable(-1);
+
+  function drawHand(actId=-1){
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#06080d';ctx.fillRect(0,0,W,H);
+    // hand silhouette
+    ctx.fillStyle='rgba(35,28,18,.88)';
+    // palm
+    ctx.beginPath();ctx.ellipse(142,290,64,78,-.08,0,Math.PI*2);ctx.fill();
+    // fingers
+    [[78,155,17,76],[108,125,17,76],[143,120,17,79],[177,125,17,77],[210,158,13,60]].forEach(([fx,fy,fw,fh])=>{ctx.beginPath();ctx.ellipse(fx,fy,fw,fh,0,0,Math.PI*2);ctx.fill();});
+    // thumb
+    ctx.beginPath();ctx.ellipse(72,279,13,42,.55,0,Math.PI*2);ctx.fill();
+    // outline
+    ctx.strokeStyle='rgba(212,168,76,.08)';ctx.lineWidth=1.2;
+    ctx.beginPath();ctx.ellipse(142,290,64,78,-.08,0,Math.PI*2);ctx.stroke();
+    [[78,155,17,76],[108,125,17,76],[143,120,17,79],[177,125,17,77],[210,158,13,60]].forEach(([fx,fy,fw,fh])=>{ctx.beginPath();ctx.ellipse(fx,fy,fw,fh,0,0,Math.PI*2);ctx.stroke();});
+    ctx.beginPath();ctx.ellipse(72,279,13,42,.55,0,Math.PI*2);ctx.stroke();
+    // joints
+    POS.forEach(p=>{
+      const isA=p.id===actId,r=isA?9:6;
+      ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fillStyle=isA?'#d4a84c':'rgba(212,168,76,.3)';ctx.fill();
+      if(isA){ctx.strokeStyle='#f0d080';ctx.lineWidth=1.5;ctx.stroke();}
+      const lbl=noteIn(p.sm,curLang);
+      ctx.fillStyle=isA?'#1a0f00':'rgba(240,208,128,.72)';
+      ctx.font=`${isA?'bold ':''} ${isA?7.5:6.5}px 'Space Mono',monospace`;
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(lbl==='—'?p.sf:lbl,p.x,p.y);
+    });
+  }
+  drawHand();
+
+  cv.addEventListener('click',e=>{
+    const r=cv.getBoundingClientRect();
+    const mx=(e.clientX-r.left)*(W/r.width),my=(e.clientY-r.top)*(H/r.height);
+    let best=null,bd=28;
+    POS.forEach(p=>{const d=Math.hypot(mx-p.x,my-p.y);if(d<bd){bd=d;best=p;}});
+    if(best){
+      curPos=best;
+      tone(s2f(best.sm+12),0.85);
+      drawHand(best.id);
+      const nn=noteIn(best.sm,curLang);
+      document.getElementById('hand-note-big').textContent=nn==='—'?best.sf:nn;
+      document.getElementById('hand-note-sub').textContent=`${best.lbl} · ${best.mod} · ${best.sf}`;
+      buildTable(best.id);
+    }
+  });
+})();
+
+// ─── CHINESE PENTATONIC ──────────────────────────────────────────────
+(function(){
+  const PENT=[
+    {zh:'宫',py:'Gōng', en:'C',sm:0, el:'Earth 土',  pl:'Saturn 土星', or:'Spleen 脾',  se:'Late Summer 长夏',c:'#d4a84c',fe:'Stable, central, grounded'},
+    {zh:'商',py:'Shāng',en:'D',sm:2, el:'Metal 金',  pl:'Venus 金星',  or:'Lungs 肺',   se:'Autumn 秋',      c:'#c8d0dc',fe:'Clear, precise, melancholic'},
+    {zh:'角',py:'Jué',  en:'E',sm:4, el:'Wood 木',   pl:'Jupiter 木星',or:'Liver 肝',   se:'Spring 春',      c:'#5abf87',fe:'Rising, creative, spirited'},
+    {zh:'徵',py:'Zhǐ', en:'G',sm:7, el:'Fire 火',   pl:'Mars 火星',   or:'Heart 心',   se:'Summer 夏',      c:'#e05555',fe:'Bright, passionate, joyful'},
+    {zh:'羽',py:'Yǔ',  en:'A',sm:9, el:'Water 水',  pl:'Mercury 水星',or:'Kidneys 肾', se:'Winter 冬',      c:'#6aabdf',fe:'Deep, flowing, introspective'},
+  ];
+  const row=document.getElementById('pent-row');
+  const cv=document.getElementById('pent-cv');cv.width=cv.offsetWidth||880;cv.height=130;
+  const ctx=cv.getContext('2d');
+  let act=-1;
+
+  PENT.forEach((p,i)=>{
+    const d=document.createElement('div');d.className='pnt';
+    d.innerHTML=`<div class="pnt-zh" style="color:${p.c}">${p.zh}</div><div class="pnt-py">${p.py}</div><div class="pnt-note" style="color:${p.c}">${p.en}</div><div class="pnt-elem">${p.el}</div>`;
+    d.addEventListener('click',()=>{
+      document.querySelectorAll('.pnt').forEach(x=>x.classList.remove('on'));d.classList.add('on');
+      act=i;tone(s2f(p.sm+12),1.3);drawPent(i);
+      document.getElementById('pent-detail-text').innerHTML=`<strong style="color:${p.c}">${p.zh} (${p.py}) · ${p.en}</strong> — ${p.el} · ${p.pl} · ${p.or} · ${p.se} · Character: ${p.fe}`;
+    });
+    row.appendChild(d);
+  });
+
+  function drawPent(a){
+    ctx.clearRect(0,0,cv.width,cv.height);ctx.fillStyle='#0c0f17';ctx.fillRect(0,0,cv.width,cv.height);
+    const cx=cv.width/2,cy=cv.height/2,R=44;
+    // pentagon edges
+    for(let i=0;i<5;i++){const a1=-Math.PI/2+(i/5)*Math.PI*2,a2=-Math.PI/2+((i+1)/5)*Math.PI*2;ctx.beginPath();ctx.moveTo(cx+Math.cos(a1)*R,cy+Math.sin(a1)*R);ctx.lineTo(cx+Math.cos(a2)*R,cy+Math.sin(a2)*R);ctx.strokeStyle=`${PENT[i].c}28`;ctx.lineWidth=1.5;ctx.stroke();}
+    // star diagonals
+    for(let i=0;i<5;i++){const a1=-Math.PI/2+(i/5)*Math.PI*2,a2=-Math.PI/2+((i+2)/5)*Math.PI*2;ctx.beginPath();ctx.moveTo(cx+Math.cos(a1)*R,cy+Math.sin(a1)*R);ctx.lineTo(cx+Math.cos(a2)*R,cy+Math.sin(a2)*R);ctx.strokeStyle='rgba(212,168,76,.07)';ctx.lineWidth=1;ctx.stroke();}
+    // nodes
+    PENT.forEach((p,i)=>{
+      const ang=-Math.PI/2+(i/5)*Math.PI*2,px=cx+Math.cos(ang)*R,py=cy+Math.sin(ang)*R,isA=i===a;
+      ctx.beginPath();ctx.arc(px,py,isA?22:15,0,Math.PI*2);ctx.fillStyle=isA?`${p.c}22`:'rgba(10,13,20,.9)';ctx.fill();ctx.strokeStyle=p.c;ctx.lineWidth=isA?2:1;ctx.stroke();
+      ctx.fillStyle=p.c;ctx.font=`${isA?'bold ':''} ${isA?12:10}px 'Space Mono',monospace`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.en,px,py);
+      const lx=cx+Math.cos(ang)*(R+30),ly=cy+Math.sin(ang)*(R+30);
+      ctx.fillStyle=`${p.c}85`;ctx.font="7.5px 'Space Mono',monospace";ctx.fillText(p.py,lx,ly-5);ctx.fillText(p.el.split(' ')[0],lx,ly+5);
+    });
+    if(a>=0){const p=PENT[a];ctx.fillStyle='rgba(140,159,176,.5)';ctx.font="7.5px 'Space Mono',monospace";ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.or,cx,cy-7);ctx.fillText(p.se.split(' ')[0],cx,cy+7);}
+  }
+  drawPent(-1);
+})();
+</script>
+</body>
+</html>
