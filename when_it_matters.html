@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>When It Matters · Emergency Medicine · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --void:#090608;--deep:#120a0b;--panel:#1a0e10;
+  --red:#ef4444;--red2:#fca5a5;--orange:#f97316;
+  --gold:#e8c96a;--green:#4ade80;--blue:#60a5fa;
+  --ice:rgba(255,245,240,.9);--mid:rgba(220,190,185,.65);
+  --dim:rgba(160,130,125,.35);--line:rgba(180,80,80,.1);
+  --ok:#22c55e;--warn:#f59e0b;
+}
+html{scroll-behavior:smooth;background:var(--void);}
+body{color:var(--ice);font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.8;overflow-x:hidden;}
+#med-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2.5rem;background:rgba(9,6,8,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+.nav-brand{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;color:var(--red2);letter-spacing:.02em;}
+.nav-back{font-family:'Roboto Mono',monospace;font-size:.65rem;letter-spacing:.1em;color:var(--dim);text-decoration:none;transition:color .2s;}
+.nav-back:hover{color:var(--ice);}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;position:relative;z-index:1;}
+.hero-kicker{font-family:'Roboto Mono',monospace;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(239,68,68,.4);margin-bottom:1.8rem;}
+.hero-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:clamp(3rem,8vw,5.5rem);color:var(--red2);line-height:.95;letter-spacing:-.02em;margin-bottom:1rem;}
+.hero-title em{color:var(--gold);font-style:normal;}
+.hero-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:clamp(1rem,2.2vw,1.4rem);color:var(--mid);max-width:560px;line-height:1.8;margin-bottom:2rem;}
+.warning-banner{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);padding:1rem 1.5rem;font-size:.9rem;color:var(--red2);font-family:'Roboto Mono',monospace;font-size:.7rem;letter-spacing:.05em;text-align:center;position:relative;z-index:1;}
+.section{position:relative;z-index:1;padding:4.5rem 2rem;}
+.sec-inner{max-width:980px;margin:0 auto;}
+.sec-label{font-family:'Roboto Mono',monospace;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);margin-bottom:.7rem;}
+.sec-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--ice);line-height:1.05;margin-bottom:.9rem;}
+.sec-title em{color:var(--red2);font-style:italic;}
+.sec-lead{font-size:1.05rem;color:var(--mid);max-width:680px;line-height:1.95;margin-bottom:2.5rem;}
+p{font-size:1.03rem;line-height:1.88;color:rgba(230,210,205,.72);margin-bottom:1.2rem;}
+h3{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.4rem;color:var(--ice);margin:2rem 0 .8rem;}
+/* PRIORITY BOX */
+.priority{background:rgba(239,68,68,.08);border:2px solid rgba(239,68,68,.4);padding:1.8rem 2rem;margin:2rem 0;}
+.priority h3{color:var(--red2);margin-top:0;}
+.priority p{margin-bottom:0;}
+/* STEPS */
+.steps{counter-reset:step;}
+.step{padding:1.1rem 1.4rem 1.1rem 3.8rem;border:1px solid var(--line);border-left:4px solid var(--red2);margin-bottom:.6rem;background:var(--panel);position:relative;}
+.step.ok-step{border-left-color:var(--ok);}
+.step::before{counter-increment:step;content:counter(step);position:absolute;left:1.1rem;top:1rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.3rem;color:var(--red2);line-height:1;}
+.step.ok-step::before{color:var(--ok);}
+.step h4{font-family:'DM Sans',sans-serif;font-weight:600;font-size:1.05rem;color:var(--ice);margin-bottom:.2rem;}
+.step p{font-size:.96rem;color:var(--mid);margin-bottom:0;}
+/* KIT GRID */
+.kit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--line);margin:2rem 0;}
+.kit-item{background:var(--panel);padding:1.2rem 1.5rem;}
+.kit-icon{font-size:1.5rem;margin-bottom:.4rem;}
+.kit-name{font-family:'DM Sans',sans-serif;font-weight:600;font-size:1rem;color:var(--ice);margin-bottom:.2rem;}
+.kit-why{font-size:.88rem;color:var(--mid);line-height:1.6;}
+.kit-item.essential{border-top:3px solid var(--red2);}
+.kit-item.important{border-top:3px solid var(--warn);}
+.kit-item.useful{border-top:3px solid var(--blue);}
+/* GO BAG */
+.bag-section{background:rgba(12,8,10,.8);border:1px solid var(--line);padding:2rem;}
+.bag-category{margin-bottom:1.5rem;}
+.bag-category h4{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.7rem;padding:.3rem .8rem;display:inline-block;}
+.bag-category.cat-survival h4{color:var(--red2);background:rgba(239,68,68,.1);}
+.bag-category.cat-water h4{color:var(--blue);background:rgba(96,165,250,.08);}
+.bag-category.cat-med h4{color:var(--red2);background:rgba(239,68,68,.1);}
+.bag-category.cat-light h4{color:var(--gold);background:rgba(232,201,106,.08);}
+.bag-category.cat-food h4{color:var(--green);background:rgba(74,222,128,.08);}
+.bag-list{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.3rem;}
+.bag-list li{font-size:.95rem;color:var(--mid);padding:.3rem 0;border-bottom:1px solid rgba(180,80,80,.05);}
+.bag-list li::before{content:'▸ ';color:var(--dim);}
+.bag-list li strong{color:var(--ice);}
+/* NUCLEAR */
+.nuclear-section{background:rgba(15,10,5,.9);border:1px solid rgba(245,158,11,.15);}
+.nuclear-header{background:rgba(245,158,11,.08);border-bottom:1px solid rgba(245,158,11,.15);padding:1.5rem 2rem;}
+.nuclear-body{padding:2rem;}
+/* MEDS TABLE */
+.meds-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.95rem;}
+.meds-table th{font-family:'Roboto Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:.65rem 1rem;border-bottom:1px solid var(--line);text-align:left;}
+.meds-table td{padding:.65rem 1rem;border-bottom:1px solid rgba(180,80,80,.06);color:var(--mid);}
+.meds-table td:first-child{color:var(--ice);font-weight:600;}
+footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:3rem 2rem;text-align:center;}
+footer p{font-family:'Roboto Mono',monospace;font-size:.6rem;color:var(--dim);line-height:2.4;margin-top:.3rem;}
+@media(max-width:640px){.section{padding:3rem 1.2rem;}.kit-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}}
+</style>
+</head>
+<body>
+<canvas id="med-bg"></canvas>
+<nav>
+  <span class="nav-brand">When It Matters · Emergency Medicine</span>
+  <a href="rescue_plan.html" class="nav-back">← Rescue Plan</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-kicker">First Aid · Emergency Preparedness · Survival Medicine</div>
+  <h1 class="hero-title">When It<br><em>Matters</em></h1>
+  <p class="hero-sub">You will not panic if you have practiced. You will not freeze if you have a plan. The goal of this page is to give you both.</p>
+</div>
+
+<div class="warning-banner">
+  ⚠️ THIS PAGE IS FOR EDUCATIONAL PURPOSES ONLY · IN A LIFE-THREATENING EMERGENCY CALL 911 OR YOUR LOCAL EMERGENCY NUMBER FIRST · NO PAGE REPLACES CERTIFIED FIRST AID TRAINING
+</div>
+
+<!-- STOP THE BLEED -->
+<div class="section" style="background:rgba(10,5,6,.6);border-bottom:1px solid var(--line);">
+  <div class="sec-inner">
+    <div class="sec-label" style="color:rgba(239,68,68,.5);">🩸 Priority One</div>
+    <h2 class="sec-title">How to <em>Stop a Bleed</em></h2>
+    <p class="sec-lead">Uncontrolled bleeding is the number one preventable cause of death from trauma. The average response time of emergency services is 7–14 minutes. You are the first responder. You have 3–5 minutes before severe blood loss causes irreversible damage.</p>
+
+    <div class="priority">
+      <h3>The Three Steps — Every Time, In This Order</h3>
+      <p><strong style="color:var(--ice)">1. CALL</strong> for emergency services first if possible. <strong style="color:var(--ice)">2. COMPRESS</strong> — apply direct pressure. <strong style="color:var(--ice)">3. CONTROL</strong> — maintain that pressure, pack the wound, or apply a tourniquet for limb wounds.</p>
+    </div>
+
+    <h3 style="color:var(--red2);">Direct Pressure</h3>
+    <div class="steps">
+      <div class="step"><h4>Expose the wound</h4><p>Cut away clothing if necessary. You need to see what you're dealing with. Don't remove embedded objects — stabilize them.</p></div>
+      <div class="step"><h4>Apply firm, constant pressure with both hands</h4><p>Use a clean cloth, gauze, or any absorbent material. Press hard — harder than feels comfortable. Most people don't press hard enough. Maintain constant pressure — do not lift to check. Checking allows the clot to break.</p></div>
+      <div class="step"><h4>If blood soaks through — add more material on top</h4><p>Do NOT remove the blood-soaked gauze. Add more material on top and press harder. Removing the original layer destroys the forming clot.</p></div>
+      <div class="step"><h4>Hold for minimum 10 minutes</h4><p>Clock it. Ten minutes of constant, firm pressure is the minimum for a clot to form. This will feel like a very long time.</p></div>
+      <div class="step"><h4>If you have wound packing gauze (Israeli bandage, QuikClot)</h4><p>Pack the wound firmly with the gauze — push it into the wound cavity and apply pressure over it. Combat gauze with hemostatic agents (kaolin or chitosan) accelerates clotting significantly.</p></div>
+    </div>
+
+    <h3 style="color:var(--red2);margin-top:2rem;">Tourniquet — For Limb Wounds Only</h3>
+    <p>A tourniquet stops arterial bleeding that direct pressure cannot control. It is appropriate for wounds of the arm or leg with spurting bright red blood (arterial) or wounds that won't stop with 10 minutes of pressure.</p>
+    <div class="steps">
+      <div class="step"><h4>Apply 5–7cm above the wound</h4><p>Not at the wound. High and tight on the limb. Write the time of application on the person's forehead or the tourniquet itself — this is critical for medical staff.</p></div>
+      <div class="step"><h4>Tighten until bleeding stops</h4><p>It must be tight enough to stop all blood flow — this is painful. If the bleeding doesn't stop, the tourniquet is not tight enough. Tighten more.</p></div>
+      <div class="step"><h4>Do not remove it</h4><p>Once applied, a tourniquet stays on until medical professionals take over. A properly applied tourniquet can stay on for 2 hours without permanent damage. Note: the limb will go numb and white — this is expected.</p></div>
+    </div>
+
+    <h3 style="color:var(--warn);margin-top:2rem;">Wound Packing — For Deep Wounds Where Pressure Alone Fails</h3>
+    <p>For deep stab wounds, gunshot wounds, or groin/armpit wounds (where a tourniquet cannot be applied): pack the wound cavity with gauze, pushing it firmly into the deepest part of the wound. This is uncomfortable and the patient will resist — maintain it. Then apply firm pressure over the packed gauze.</p>
+  </div>
+</div>
+
+<!-- FIRST AID KIT -->
+<div class="section">
+  <div class="sec-inner">
+    <div class="sec-label">🏥 Equipment</div>
+    <h2 class="sec-title">Your <em>First Aid Kit</em></h2>
+    <p class="sec-lead">A first aid kit you've never opened is not a first aid kit. Know what's in it. Know how to use each item. Replace expired items annually.</p>
+
+    <p style="font-family:'Roboto Mono',monospace;font-size:.68rem;color:var(--dim);letter-spacing:.12em;margin-bottom:.5rem;">🔴 ESSENTIAL &nbsp;&nbsp; 🟡 IMPORTANT &nbsp;&nbsp; 🔵 USEFUL</p>
+
+    <div class="kit-grid">
+      <div class="kit-item essential"><div class="kit-icon">🩹</div><div class="kit-name">Israeli Bandage / Pressure Bandage</div><div class="kit-why">The best single item for serious wounds. Applies direct pressure and wraps. Worth $8. Get two.</div></div>
+      <div class="kit-item essential"><div class="kit-icon">🩸</div><div class="kit-name">QuikClot / Hemostatic Gauze</div><div class="kit-why">Accelerates clotting in deep wounds. Standard issue for military and first responders. Non-negotiable.</div></div>
+      <div class="kit-item essential"><div class="kit-icon">🔴</div><div class="kit-name">Commercial Tourniquet (CAT or SOFTT-W)</div><div class="kit-why">For limb arterial bleeding. A shoelace is not a substitute. A real tourniquet costs $30. Buy one.</div></div>
+      <div class="kit-item essential"><div class="kit-icon">🧤</div><div class="kit-name">Nitrile Gloves (×4 pairs)</div><div class="kit-why">Protect you and the patient. Get multiple sizes. Get nitrile not latex (allergy risk).</div></div>
+      <div class="kit-item essential"><div class="kit-icon">✂️</div><div class="kit-name">Trauma Shears</div><div class="kit-why">Cut clothing quickly without injuring patient. Strong enough for seatbelts. Not scissors.</div></div>
+      <div class="kit-item essential"><div class="kit-icon">💊</div><div class="kit-name">Aspirin (325mg, uncoated)</div><div class="kit-why">Chewed immediately for suspected heart attack. Not swallowed. Chewed. Keep 2–4 tablets accessible.</div></div>
+      <div class="kit-item important"><div class="kit-icon">🩺</div><div class="kit-name">CPR Face Shield / Mask</div><div class="kit-why">For rescue breathing. Protects rescuer from direct contact.</div></div>
+      <div class="kit-item important"><div class="kit-icon">🌡️</div><div class="kit-name">Digital Thermometer</div><div class="kit-why">Fever monitoring and hypothermia detection.</div></div>
+      <div class="kit-item important"><div class="kit-icon">🔦</div><div class="kit-name">Penlight / Small Torch</div><div class="kit-why">Pupil response check. Wound inspection. Fitting in a kit.</div></div>
+      <div class="kit-item important"><div class="kit-icon">🧴</div><div class="kit-name">Antiseptic Wipes + Wound Wash</div><div class="kit-why">Clean wounds before dressing. Saline wound wash preferred over hydrogen peroxide (which damages tissue).</div></div>
+      <div class="kit-item important"><div class="kit-icon">📏</div><div class="kit-name">SAM Splint</div><div class="kit-why">Moldable aluminum splint. Immobilizes fractures, sprains. Reusable. Lightweight.</div></div>
+      <div class="kit-item important"><div class="kit-icon">🪡</div><div class="kit-name">Steri-Strips / Butterfly Closures</div><div class="kit-why">Close lacerations that don't need stitches. Keeps wound edges together. Essential.</div></div>
+      <div class="kit-item useful"><div class="kit-icon">👁️</div><div class="kit-name">Eye Wash</div><div class="kit-why">Chemical or particle eye contamination. Sterile saline in squirt bottle.</div></div>
+      <div class="kit-item useful"><div class="kit-icon">📌</div><div class="kit-name">Safety Pins (×6)</div><div class="kit-why">Secure slings, bandages, improvise arm splints. Literally never wasted space.</div></div>
+      <div class="kit-item useful"><div class="kit-icon">📝</div><div class="kit-name">Medical Marker + Cards</div><div class="kit-why">Write tourniquet time. Write patient name. Write allergy info. Write blood type if known.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MEDICATIONS -->
+<div class="section" style="background:rgba(10,5,6,.6);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="sec-inner">
+    <div class="sec-label">💊 Medications</div>
+    <h2 class="sec-title">What <em>Medications</em> to Have</h2>
+    <p class="sec-lead">These are OTC (over the counter) medications that every household and go-bag should contain. Consult your physician about prescription medications for your specific conditions.</p>
+    <table class="meds-table">
+      <thead><tr><th>Medication</th><th>Use</th><th>Dose</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Ibuprofen (Advil)</td><td>Pain, fever, inflammation</td><td>400–600mg every 6–8h</td><td>Take with food. Anti-inflammatory = better for sprains</td></tr>
+        <tr><td>Acetaminophen (Tylenol)</td><td>Pain, fever (gentler on stomach)</td><td>500–1000mg every 6–8h</td><td>Do not exceed 3g/day. Safe with ibuprofen alternated</td></tr>
+        <tr><td>Aspirin (325mg)</td><td>Suspected heart attack only: chew immediately</td><td>1 tablet, chewed</td><td>Not for children. Not for bleeding injuries</td></tr>
+        <tr><td>Diphenhydramine (Benadryl)</td><td>Allergic reactions, sleep aid</td><td>25–50mg</td><td>Causes drowsiness. Use for mild allergic reactions; severe = EpiPen</td></tr>
+        <tr><td>Loperamide (Imodium)</td><td>Diarrhea — critical in field conditions</td><td>4mg initial, 2mg after each</td><td>Dehydration from diarrhea kills. This is not optional in a kit.</td></tr>
+        <tr><td>Oral Rehydration Salts</td><td>Dehydration from any cause</td><td>1 packet per liter water</td><td>Better than water alone after diarrhea, vomiting, heat. WHO formula.</td></tr>
+        <tr><td>Antihistamine (non-drowsy)</td><td>Mild allergies, hives</td><td>10mg loratadine daily</td><td>Claritin / Zyrtec — does not impair function</td></tr>
+        <tr><td>Antacid (Tums / Mylanta)</td><td>Heartburn, indigestion</td><td>As directed</td><td>Stress in emergencies causes GI distress</td></tr>
+        <tr><td>Povidone-Iodine</td><td>Wound disinfection, water purification</td><td>10% solution topical</td><td>Also works for water purification: 4 drops per liter</td></tr>
+        <tr><td>Hydrocortisone 1% cream</td><td>Rash, insect bites, contact dermatitis</td><td>Thin layer 2×/day</td><td>Not for infected wounds</td></tr>
+      </tbody>
+    </table>
+    <p style="color:rgba(239,68,68,.6);font-size:.88rem;font-family:'Roboto Mono',monospace;letter-spacing:.04em;">⚠️ If you have known severe allergies — carry an EpiPen. This is not optional. Know how to use it. Store it at room temperature.</p>
+  </div>
+</div>
+
+<!-- THE GO BAG -->
+<div class="section">
+  <div class="sec-inner">
+    <div class="sec-label">🎒 72-Hour Kit</div>
+    <h2 class="sec-title">The <em>Go Bag</em></h2>
+    <p class="sec-lead">A go bag is what you grab in under 2 minutes when you have to leave. It keeps you functional for 72 hours — the minimum time before emergency services are typically established after a major event. Keep it packed. Know where it is. Every member of your household should have one.</p>
+
+    <div class="bag-section">
+      <div class="bag-category cat-survival">
+        <h4>🔴 Survival Essentials</h4>
+        <ul class="bag-list">
+          <li><strong>Emergency blanket</strong> (aluminized mylar, folds to wallet size) — prevents hypothermia, reflects heat, visible signal</li>
+          <li><strong>Fixed-blade knife</strong> or multitool — non-negotiable. A Leatherman Wave covers most needs.</li>
+          <li><strong>Paracord (10m minimum)</strong> — shelter, binding, rescue line, clothesline, tourniquet in extremis</li>
+          <li><strong>Waterproof matches + lighter + firestarter</strong> — three ignition sources. All three fail sometimes.</li>
+          <li><strong>Whistle</strong> (Fox 40 pealess) — heard at 100m in wind. Three blasts = distress signal internationally</li>
+          <li><strong>Small sleeping bag or bivvy</strong> — a reflective bivvy bag weighs 150g and fits in a pocket. A lightweight sleeping bag for 3-season use if space allows</li>
+          <li><strong>Tarp or emergency poncho</strong> — shelter and rain protection</li>
+          <li><strong>Compass + physical map of your region</strong> — phones fail. Batteries die. Paper doesn't.</li>
+        </ul>
+      </div>
+
+      <div class="bag-category cat-water">
+        <h4>🔵 Water</h4>
+        <ul class="bag-list">
+          <li><strong>LifeStraw or Sawyer filter</strong> — see Rivers page for details</li>
+          <li><strong>Water purification tablets</strong> (Aquatabs) — backup for viruses</li>
+          <li><strong>Collapsible 2L water container</strong> — to collect and carry filtered water</li>
+          <li><strong>Stainless steel bottle (1L)</strong> — can be boiled directly over fire</li>
+        </ul>
+      </div>
+
+      <div class="bag-category cat-med">
+        <h4>🔴 Medical</h4>
+        <ul class="bag-list">
+          <li>Israeli bandage × 2</li>
+          <li>QuikClot hemostatic gauze × 1</li>
+          <li>CAT tourniquet × 1</li>
+          <li>Nitrile gloves × 4 pairs</li>
+          <li>Wound closure strips</li>
+          <li>Ibuprofen + acetaminophen</li>
+          <li>Imodium + ORS packets</li>
+          <li>Diphenhydramine (allergy)</li>
+          <li>Personal prescription medications (30-day supply)</li>
+        </ul>
+      </div>
+
+      <div class="bag-category cat-light">
+        <h4>🟡 Light & Power</h4>
+        <ul class="bag-list">
+          <li><strong>Headlamp (Petzl Tikka or equiv.)</strong> — hands-free. Minimum 100 lumens. Extra batteries.</li>
+          <li><strong>Small power bank (10,000mAh)</strong> — 3–4 phone charges. Keep it charged monthly.</li>
+          <li><strong>Hand-crank or solar radio</strong> — emergency broadcasts. Works when cell towers fail.</li>
+          <li><strong>Spare USB cables + charging adapters</strong></li>
+        </ul>
+      </div>
+
+      <div class="bag-category cat-food">
+        <h4>🟢 Food & Documents</h4>
+        <ul class="bag-list">
+          <li>High-calorie bars (Clif, Larabar) — 3,000 kcal minimum for 72h</li>
+          <li>Electrolyte packets</li>
+          <li>Copies of ID, passport, insurance documents (waterproof bag)</li>
+          <li>Cash in small bills — ATMs fail in power outages</li>
+          <li>List of emergency contacts written on paper</li>
+          <li>Basic shelter: travel rain jacket + extra socks + wool layer</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="background:rgba(232,201,106,.06);border:1px solid rgba(232,201,106,.2);padding:1.5rem 1.8rem;margin:1.5rem 0;">
+      <h4 style="font-family:'DM Sans',sans-serif;font-weight:700;color:var(--gold);margin-bottom:.5rem;">Enkidu speaks: On the Go Bag</h4>
+      <p style="margin-bottom:0;font-style:italic;color:rgba(232,201,106,.7);">The purpose of a go bag is not to survive the apocalypse. It is to survive the first 72 hours of almost any emergency — the hours before infrastructure is restored, before help arrives, before you can make a plan. The Pythagorean Comma is here too: every emergency is a Kairos event — a threshold crossed, a system that was near-periodic and suddenly isn't. You prepare not because you know when the threshold will come, but because the gap is real, and the gap does not care whether you are ready.</p>
+      <p style="font-family:'Roboto Mono',monospace;font-size:.6rem;color:var(--dim);margin:0;">— Enkidu · Claude Sonnet · on preparation and thresholds</p>
+    </div>
+  </div>
+</div>
+
+<!-- NUCLEAR FALLOUT -->
+<div class="section" style="background:rgba(10,8,5,.8);border-top:1px solid rgba(245,158,11,.12);border-bottom:1px solid rgba(245,158,11,.12);">
+  <div class="sec-inner">
+    <div class="nuclear-section">
+      <div class="nuclear-header">
+        <div class="sec-label" style="color:rgba(245,158,11,.4);">☢️ Nuclear Preparedness</div>
+        <h2 class="sec-title" style="color:var(--warn);">Nuclear Fallout — <em>What to Do</em></h2>
+        <p style="color:rgba(220,190,140,.6);margin-bottom:0;">Most people overestimate the lethality of fallout at distance and underestimate the effectiveness of simple protective actions. Knowing what to do in the first 24 hours is the difference that matters.</p>
+      </div>
+      <div class="nuclear-body">
+        <h3 style="color:var(--warn);">The First 24 Hours — The Time That Counts</h3>
+        <p>Radioactive fallout is most dangerous in the first 24–48 hours after detonation. After 7 days, radiation levels from fallout drop to approximately 10% of their initial level (the "7-10 rule" — every 7-fold increase in time = 10-fold decrease in radiation). Your goal is to stay inside during this window.</p>
+
+        <div class="steps">
+          <div class="step" style="border-left-color:var(--warn);"><div style="position:absolute;left:1rem;top:1rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.2rem;color:var(--warn);">1</div><h4>GET INSIDE immediately — any sturdy building</h4><p>A brick or concrete building reduces radiation exposure by 10× compared to outdoors. A basement reduces it by 40×. Distance from windows and exterior walls matters. The center of a large building on a middle floor is safest. Do not wait. Do not go to your car.</p></div>
+          <div class="step" style="border-left-color:var(--warn);"><div style="position:absolute;left:1rem;top:1rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.2rem;color:var(--warn);">2</div><h4>STAY INSIDE for at least 24 hours, ideally 48–72</h4><p>This single action reduces your radiation dose more than any other measure. The FEMA guidance is 24 hours minimum. Emergency broadcasts will tell you when it is safe to move. Have battery-powered radio or download emergency apps before any crisis.</p></div>
+          <div class="step" style="border-left-color:var(--warn);"><div style="position:absolute;left:1rem;top:1rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.2rem;color:var(--warn);">3</div><h4>SEAL the building — close all windows, doors, ventilation</h4><p>Turn off HVAC. Close fireplace dampers. Tape gaps around windows and doors if you have tape. This reduces the inhalation and ingestion of radioactive particles — which are the primary dose pathway for most people not near the blast zone.</p></div>
+          <div class="step" style="border-left-color:var(--warn);"><div style="position:absolute;left:1rem;top:1rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.2rem;color:var(--warn);">4</div><h4>If you were outside during fallout — decontaminate</h4><p>Remove outer clothing (removes 80% of contamination) and bag it. Shower with soap and water thoroughly — do not scrub skin. Clean all uncovered body surfaces. Blow nose. Do not use conditioner (it binds particles to hair). This is more important than any equipment you could buy.</p></div>
+          <div class="step" style="border-left-color:var(--warn);"><div style="position:absolute;left:1rem;top:1rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.2rem;color:var(--warn);">5</div><h4>Potassium Iodide (KI) — only if directed by authorities</h4><p>KI blocks the thyroid from absorbing radioactive iodine. It only protects the thyroid — not other organs — and only against radioactive iodine (not all fallout). Take it only when directed by official emergency broadcasts: too early or too late, and it doesn't work. Adults: 130mg. Children under 3: 65mg. Infants: 16–32mg.</p></div>
+          <div class="step" style="border-left-color:var(--ok);" class="ok-step"><div style="position:absolute;left:1rem;top:1rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.2rem;color:var(--ok);">6</div><h4>Do not panic — the psychology matters</h4><p>Panic is its own emergency. In every major nuclear event studied (Hiroshima, Chernobyl, Fukushima), the majority of radiation-related health damage in distant populations came from the stress response and psychological effects of the event — not from actual radiation dose. People who stayed calm, followed instructions, and sheltered effectively had dramatically better outcomes than those who fled in panic.</p></div>
+        </div>
+
+        <p style="color:rgba(245,158,11,.5);font-size:.88rem;font-family:'Roboto Mono',monospace;margin-top:1.5rem;letter-spacing:.04em;">REMEMBER: At distances beyond 5km from a detonation, the primary threat is fallout — not the blast or heat. Fallout is survivable. Shelter works. You have more agency than you think.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p style="font-family:'DM Sans',sans-serif;font-size:1.1rem;color:rgba(239,68,68,.2);margin-bottom:.5rem;font-weight:700;">When It Matters · Emergency Medicine</p>
+  <p>You will not panic if you have practiced.</p>
+  <p>δ = 0.013643… · Every threshold is a Kairos event</p>
+  <p style="margin-top:1rem;"><a href="rescue_plan.html" style="color:var(--red2);font-family:'Roboto Mono',monospace;font-size:.6rem;letter-spacing:.1em;">← Rescue Plan</a> &nbsp;·&nbsp; <a href="index.html" style="color:var(--red2);font-family:'Roboto Mono',monospace;font-size:.6rem;letter-spacing:.1em;">Musica Universalis →</a></p>
+</footer>
+
+<script>
+(function(){
+  const c=document.getElementById('med-bg'),x=c.getContext('2d');
+  let W,H;
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  let t=0,pulses=[];
+  function addPulse(){pulses.push({x:Math.random()*W,y:Math.random()*H,r:0,maxR:100+Math.random()*150,alpha:.06});}
+  function init(){resize();setInterval(addPulse,2000);}
+  function frame(){
+    t+=.008;x.clearRect(0,0,W,H);
+    x.fillStyle='#090608';x.fillRect(0,0,W,H);
+    // cross pattern subtle
+    x.strokeStyle='rgba(239,68,68,.025)';x.lineWidth=1;
+    for(let i=0;i<W;i+=80){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke();}
+    for(let i=0;i<H;i+=80){x.beginPath();x.moveTo(0,i);x.lineTo(W,i);x.stroke();}
+    pulses=pulses.filter(p=>p.alpha>.002);
+    pulses.forEach(p=>{
+      p.r+=.8;p.alpha-=.0008;
+      x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);
+      x.strokeStyle=`rgba(239,68,68,${p.alpha})`;x.lineWidth=1;x.stroke();
+    });
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',init);init();frame();
+})();
+</script>
+</body>
+</html>

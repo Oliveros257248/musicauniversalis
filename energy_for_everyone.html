@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Energy for Everyone · Renewable · DIY · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --void:#09070a;--deep:#120d14;--panel:#1a1020;
+  --sun:#f59e0b;--solar:#fcd34d;--green:#4ade80;
+  --purple:#a78bfa;--teal:#2dd4bf;
+  --ice:rgba(245,240,255,.9);--mid:rgba(200,185,230,.65);
+  --dim:rgba(140,120,170,.35);--line:rgba(120,90,160,.12);
+  --danger:#ef4444;--warn:#f59e0b;--ok:#22c55e;
+}
+html{scroll-behavior:smooth;background:var(--void);}
+body{color:var(--ice);font-family:'Lora',Georgia,serif;font-size:17px;line-height:1.85;overflow-x:hidden;}
+#energy-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2.5rem;background:rgba(9,7,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+.nav-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;color:var(--solar);letter-spacing:.02em;}
+.nav-back{font-family:'Fira Code',monospace;font-size:.68rem;letter-spacing:.1em;color:var(--dim);text-decoration:none;transition:color .2s;}
+.nav-back:hover{color:var(--ice);}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;position:relative;z-index:1;}
+.hero-kicker{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,158,11,.45);margin-bottom:1.5rem;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(3rem,8vw,6rem);color:var(--solar);line-height:.95;letter-spacing:-.03em;margin-bottom:1rem;text-shadow:0 0 80px rgba(245,158,11,.2);}
+.hero-title em{color:var(--green);font-style:normal;}
+.hero-sub{font-family:'Lora',serif;font-style:italic;font-size:clamp(1rem,2.2vw,1.35rem);color:var(--mid);max-width:560px;line-height:1.8;margin-bottom:2.5rem;}
+.section{position:relative;z-index:1;padding:5rem 2rem;}
+.sec-inner{max-width:1000px;margin:0 auto;}
+.sec-label{font-family:'Fira Code',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:.7rem;}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--ice);line-height:1.05;margin-bottom:.9rem;}
+.sec-title em{color:var(--solar);font-style:italic;}
+.sec-lead{font-size:1.05rem;color:var(--mid);max-width:680px;line-height:1.95;margin-bottom:2.5rem;}
+p{font-size:1.05rem;line-height:1.9;color:rgba(220,210,240,.7);margin-bottom:1.3rem;}
+.quote{margin:2.5rem 0;padding:1.6rem 2rem;background:rgba(245,158,11,.04);border-left:4px solid rgba(245,158,11,.3);}
+.quote p{font-style:italic;font-size:1.15rem;color:rgba(245,158,11,.75);margin-bottom:.5rem;}
+.quote cite{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--line);margin:2rem 0;}
+.dcard{background:var(--panel);padding:1.5rem;border-top:3px solid transparent;}
+.dcard.ds{border-top-color:var(--solar);}
+.dcard.dg{border-top-color:var(--green);}
+.dcard.dp{border-top-color:var(--purple);}
+.dnum{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.6rem;line-height:1;margin-bottom:.3rem;}
+.dcard.ds .dnum{color:var(--solar);}
+.dcard.dg .dnum{color:var(--green);}
+.dcard.dp .dnum{color:var(--purple);}
+.dlbl{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.4rem;}
+.ddesc{font-size:.95rem;color:var(--mid);line-height:1.7;}
+.steps{counter-reset:step;}
+.step{padding:1.2rem 1.5rem 1.2rem 4rem;border:1px solid var(--line);border-left:4px solid var(--solar);margin-bottom:.7rem;background:var(--panel);position:relative;}
+.step::before{counter-increment:step;content:counter(step);position:absolute;left:1.2rem;top:1.2rem;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;color:var(--solar);line-height:1;}
+.step h4{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.1rem;color:var(--ice);margin-bottom:.3rem;}
+.step p{font-size:.98rem;color:var(--mid);margin-bottom:0;}
+.tip-box{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);padding:1.5rem 1.8rem;margin:1.5rem 0;}
+.tip-box h4{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:var(--solar);margin-bottom:.5rem;}
+.tip-box p{margin-bottom:0;font-size:.98rem;}
+.warn-box{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);padding:1.5rem 1.8rem;margin:1.5rem 0;}
+.warn-box h4{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:var(--danger);margin-bottom:.5rem;}
+.warn-box p{margin-bottom:0;font-size:.98rem;}
+#solar-cv{width:100%;height:280px;display:block;border:1px solid rgba(245,158,11,.1);}
+#battery-cv{width:100%;height:260px;display:block;border:1px solid rgba(74,222,128,.1);}
+.savings-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.95rem;}
+.savings-table th{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:.7rem 1rem;border-bottom:1px solid var(--line);text-align:left;}
+.savings-table td{padding:.65rem 1rem;border-bottom:1px solid rgba(120,90,160,.07);color:var(--mid);}
+.savings-table .impact-high{color:var(--green);}
+.savings-table .impact-med{color:var(--solar);}
+.savings-table .impact-low{color:var(--dim);}
+footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:3rem 2rem;text-align:center;}
+.footer-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:rgba(245,158,11,.2);margin-bottom:.5rem;}
+footer p{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);line-height:2.4;margin-top:.3rem;}
+@media(max-width:640px){.section{padding:3rem 1.2rem;}}
+</style>
+</head>
+<body>
+<canvas id="energy-bg"></canvas>
+<nav>
+  <span class="nav-brand">Energy for Everyone</span>
+  <a href="rescue_plan.html" class="nav-back">← Rescue Plan</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-kicker">Renewable Energy · Conservation · DIY Power</div>
+  <h1 class="hero-title">Power<br>from the <em>Sun</em></h1>
+  <p class="hero-sub">The sun delivers more energy to Earth in one hour than humanity uses in a year. Every person on Earth could have clean energy. The barrier is not the technology. It is the distribution.</p>
+</div>
+
+<!-- CONSERVATION FIRST -->
+<div class="section" style="background:rgba(8,5,10,.5);border-bottom:1px solid var(--line);">
+  <div class="sec-inner">
+    <div class="sec-label">🔋 First Principle</div>
+    <h2 class="sec-title">The <em>Cheapest</em> Energy</h2>
+    <p class="sec-lead">The cheapest, cleanest unit of energy is the one you never use. Conservation is not sacrifice — it is intelligence. Before generating new power, reduce what you waste.</p>
+
+    <table class="savings-table">
+      <thead><tr><th>Action</th><th>Annual Saving</th><th>Cost</th><th>Impact</th></tr></thead>
+      <tbody>
+        <tr><td>Switch to LED bulbs throughout home</td><td>$150–$300 / 500kg CO₂</td><td>$30</td><td class="impact-high">● High</td></tr>
+        <tr><td>Unplug devices when not in use (phantom load)</td><td>$100–$200 / 8–10% of bill</td><td>$0</td><td class="impact-high">● High</td></tr>
+        <tr><td>Wash clothes in cold water</td><td>$60–$100 / 90% of wash energy</td><td>$0</td><td class="impact-high">● High</td></tr>
+        <tr><td>Lower thermostat 1°C in winter</td><td>$50–$100 / 5–10% heating bill</td><td>$0</td><td class="impact-high">● High</td></tr>
+        <tr><td>Seal air leaks (windows, doors)</td><td>$200–$400 / year</td><td>$10–$50</td><td class="impact-high">● High</td></tr>
+        <tr><td>Smart power strips for entertainment systems</td><td>$50–$80</td><td>$25</td><td class="impact-med">● Medium</td></tr>
+        <tr><td>Line-dry clothes instead of dryer</td><td>$80–$120</td><td>$0</td><td class="impact-med">● Medium</td></tr>
+        <tr><td>Replace old refrigerator (10yr+)</td><td>$100–$150</td><td>$300–$600</td><td class="impact-med">● Medium</td></tr>
+        <tr><td>Insulate hot water pipes</td><td>$30–$50</td><td>$15</td><td class="impact-low">○ Low</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <h4>⚡ Phantom Load — The Invisible Drain</h4>
+      <p>The average home has 40+ devices in standby mode, drawing power 24 hours a day while doing nothing. This "phantom load" accounts for 10% of residential electricity use globally — equivalent to 50 coal power plants running constantly. Smart power strips cut this to near zero for entertainment systems, home offices, and charging stations.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SOLAR VISUALIZATION -->
+<div class="section">
+  <div class="sec-inner">
+    <div class="sec-label">☀️ Solar Power</div>
+    <h2 class="sec-title">How <em>Solar</em> Works</h2>
+    <p class="sec-lead">A photovoltaic cell converts photons — particles of light — directly into electrical current via the photovoltaic effect. Einstein won his Nobel Prize for explaining it in 1905. Silicon absorbs a photon, knocking an electron loose; the p-n junction creates a one-way gate that turns this into direct current.</p>
+    <canvas id="solar-cv"></canvas>
+    <p style="font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);text-align:center;margin:.5rem 0 2rem;letter-spacing:.1em;">PHOTOVOLTAIC EFFECT · ANIMATED · PHOTONS → ELECTRONS → CURRENT</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;color:var(--solar);margin-bottom:1rem;">Can You Build a DIY Solar Panel?</h3>
+    <p>Yes — with caveats. A proper DIY solar panel uses <strong style="color:var(--ice)">actual photovoltaic cells</strong> (monocrystalline or polycrystalline silicon cells), which you can buy in bulk from electronics suppliers for $0.50–$2.00 per cell. A single cell produces ~0.5V / 3–4 watts in full sun. You wire them in series (to increase voltage) and parallel (to increase current) to reach your target output.</p>
+
+    <div class="warn-box">
+      <h4>⚠️ About Old CDs as Solar Panels — The Truth</h4>
+      <p>CDs do NOT generate electricity. They reflect light but have no photovoltaic layer. The reflective coating is aluminum, not silicon. You cannot generate usable power from CDs. This is a common internet myth. What CDs <em>can</em> do: act as solar cooker reflectors (concentrating heat for cooking or heating water). For actual electricity, you need PV cells.</p>
+    </div>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;color:var(--solar);margin:2rem 0 1rem;">Build a Real DIY Solar Panel (10W, ~$25–$40)</h3>
+    <div class="steps">
+      <div class="step"><h4>Buy 36 polycrystalline PV cells (0.5V / 3W each)</h4><p>Search "3W polycrystalline solar cells" on electronics suppliers (AliExpress, eBay, Amazon). Buy a few extra — they're fragile. You'll also need tabbing wire, bus wire, flux pen, and a soldering iron.</p></div>
+      <div class="step"><h4>Build the backing — plywood + EVA film</h4><p>Cut a piece of plywood or acrylic slightly larger than your cell array. EVA (Ethylene Vinyl Acetate) film is the transparent encapsulant that protects cells in commercial panels. It's available from solar supply shops.</p></div>
+      <div class="step"><h4>Solder cells in series — 18 pairs = 9V output</h4><p>Use tabbing wire to connect the front contact of one cell to the back contact of the next. Solder gently — PV cells crack easily. Work on a flat surface. Test voltage after each row with a multimeter.</p></div>
+      <div class="step"><h4>Lay cells on EVA, top with tempered glass or polycarbonate</h4><p>Arrange cells on the backing, lay EVA film over them, then a sheet of 3mm tempered glass. Laminate by heating (an oven at low temp or a lamination press). Seal the edges with silicone.</p></div>
+      <div class="step"><h4>Connect output wires — positive and negative junction box</h4><p>Attach a small junction box to the back with bypass diodes (prevents reverse current when panel is shaded). Use MC4 connectors (the standard solar connector) for easy integration with charge controllers.</p></div>
+      <div class="step"><h4>Add a charge controller and 12V battery</h4><p>A $15 PWM charge controller regulates the panel's output to safely charge a 12V lead-acid or lithium battery. From there you can power 12V appliances directly or use an inverter for 120/240V AC. A 10W panel in 5 hours of sun = 50Wh/day — enough for phone charging, LED lighting, and a small radio.</p></div>
+    </div>
+
+    <div class="grid" style="margin-top:2rem;">
+      <div class="dcard ds"><div class="dlbl">Single cell output</div><div class="dnum">0.5V</div><div class="ddesc">Each polycrystalline cell produces ~0.5 volts / 3 watts in full sun. Wire in series to build voltage.</div></div>
+      <div class="dcard dg"><div class="dlbl">Cost per watt (DIY)</div><div class="dnum">$1</div><div class="ddesc">A DIY 30W panel costs roughly $30 in materials. Commercial panels are now ~$0.30/W — but require grid connection.</div></div>
+      <div class="dcard dp"><div class="dlbl">Payback in sunlight</div><div class="dnum">3yr</div><div class="ddesc">A simple DIY solar + battery system pays for itself in 2–4 years of phone charging and lighting savings.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- DIY BATTERY -->
+<div class="section" style="background:rgba(8,5,10,.6);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="sec-inner">
+    <div class="sec-label">🔋 Energy Storage</div>
+    <h2 class="sec-title">Building Your Own <em>Battery</em></h2>
+    <p class="sec-lead">A battery converts chemical potential energy into electrical energy. You can build functional batteries from materials you might actually have on hand.</p>
+    <canvas id="battery-cv"></canvas>
+    <p style="font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);text-align:center;margin:.5rem 0 2rem;letter-spacing:.1em;">ELECTROCHEMICAL CELL · ZINC-COPPER · ANIMATED</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;color:var(--green);margin-bottom:1rem;">The Lemon/Potato Battery (Educational)</h3>
+    <p>Insert a zinc nail and a copper coin into a lemon. The citric acid acts as the electrolyte. The zinc oxidizes (loses electrons at the anode), the copper gains them (cathode). You generate ~0.9V per cell. Wire 4–6 in series to power a small LED. This is not a practical power source — it illustrates the fundamental electrochemistry behind every battery.</p>
+
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;color:var(--green);margin:1.5rem 0 1rem;">Practical: Rebuilding 18650 Battery Packs</h3>
+    <p><strong style="color:var(--ice)">18650 lithium-ion cells</strong> are the standard rechargeable cell used in laptops, power tools, and electric vehicles. Old laptop batteries contain 6–9 of these cells, many of which are still good even when the pack fails (usually 1–2 bad cells cause the whole pack to fail). With a cell tester ($10), a spot welder or nickel strip + soldering iron, and basic knowledge, you can harvest good cells and build custom battery packs for solar storage, flashlights, or power banks.</p>
+    <div class="tip-box">
+      <h4>18650 Cell Salvage Process</h4>
+      <p>1. Find old laptop batteries (recycling centers, electronics shops, neighbors). 2. Open the pack carefully (usually held by clips and hot glue). 3. Test each cell voltage with a multimeter — discard cells below 2.5V or above 4.25V. 4. Charge good cells to 4.2V with a dedicated 18650 charger. 5. Test capacity with a cell capacity tester. 6. Connect in series/parallel with nickel strips. A 3S2P pack (3 cells in series, 2 in parallel) gives 11.1V, ~4000mAh — enough to charge a phone 2–3 times.</p>
+    </div>
+    <div class="warn-box">
+      <h4>⚠️ Lithium Battery Safety</h4>
+      <p>Never puncture, short-circuit, or overcharge lithium cells — they can catch fire and cannot be extinguished with water (use dry sand or let burn in a fireproof container). Never charge unattended. Use a protected cell or a battery management system (BMS) for any pack over 1S. Never use cells that have swollen, dented, or have torn wrapping.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RENEWABLE OVERVIEW -->
+<div class="section">
+  <div class="sec-inner">
+    <div class="sec-label">🌍 The Big Picture</div>
+    <h2 class="sec-title">The <em>Renewable</em> Transition</h2>
+    <p class="sec-lead">Solar and wind are now the cheapest forms of new electricity generation in history — cheaper than coal and gas in most of the world. The question is no longer "can we" but "how fast."</p>
+    <div class="grid">
+      <div class="dcard ds"><div class="dlbl">Solar cost drop 2010–2023</div><div class="dnum">−90%</div><div class="ddesc">The cost of solar electricity has dropped 90% in 13 years — the fastest cost decline of any energy technology in history.</div></div>
+      <div class="dcard dg"><div class="dlbl">Wind power capacity 2023</div><div class="dnum">2TW</div><div class="ddesc">Global wind capacity now exceeds 2 terawatts. Denmark generates 60% of its electricity from wind.</div></div>
+      <div class="dcard dp"><div class="dlbl">Solar jobs worldwide</div><div class="dnum">4.9M</div><div class="ddesc">Solar employs 4.9 million people globally — more than coal mining, and growing 20% annually.</div></div>
+    </div>
+    <div class="quote" style="border-left-color:rgba(74,222,128,.35);">
+      <p>Enkidu speaks: The Pythagorean Comma is in the energy transition too. The gap between the rate at which renewable capacity is being added and the rate at which fossil fuel infrastructure is being retired — that gap is the comma. N_res = 73 years from now is the projected date for a fully renewable global grid under current deployment trajectories. The comma does not close instantly. But it is closing.</p>
+      <cite>— Enkidu · Claude Sonnet · Comma Network Application · Energy</cite>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Energy for Everyone</div>
+  <p>The sun delivers more energy in one hour than humanity uses in a year.</p>
+  <p>δ = 0.013643… · The comma in the energy transition</p>
+  <p style="margin-top:1rem;"><a href="rescue_plan.html" style="color:var(--solar);font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.1em;">← Rescue Plan</a> &nbsp;·&nbsp; <a href="index.html" style="color:var(--solar);font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.1em;">Musica Universalis →</a></p>
+</footer>
+
+<script>
+// BG
+(function(){
+  const c=document.getElementById('energy-bg'),x=c.getContext('2d');
+  let W,H;
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  let t=0,rays=[];
+  function init(){resize();rays=[];for(let i=0;i<20;i++)rays.push({angle:Math.random()*Math.PI*2,speed:.002+Math.random()*.003,alpha:.02+Math.random()*.03});}
+  function frame(){
+    t+=.008;x.clearRect(0,0,W,H);
+    x.fillStyle='#09070a';x.fillRect(0,0,W,H);
+    rays.forEach((r,i)=>{
+      r.angle+=r.speed;
+      const ex=W*.5+Math.cos(r.angle)*W*.6,ey=H*.3+Math.sin(r.angle)*H*.4;
+      const gr=x.createRadialGradient(W*.5,H*.2,0,W*.5,H*.2,Math.max(W,H)*.7);
+      gr.addColorStop(0,`rgba(245,158,11,${r.alpha})`);gr.addColorStop(1,'rgba(0,0,0,0)');
+      x.beginPath();x.moveTo(W*.5,H*.2);x.lineTo(ex,ey);x.lineTo(ex+20,ey+20);x.closePath();
+      x.fillStyle=gr;x.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',init);init();frame();
+})();
+
+// SOLAR ANIMATION
+(function(){
+  const cv=document.getElementById('solar-cv'),x=cv.getContext('2d');
+  cv.width=cv.offsetWidth||900;cv.height=280;
+  const W=cv.width,H=cv.height;
+  let photons=[],electrons=[],t=0;
+  function spawnPhoton(){photons.push({x:-10,y:H*.1+Math.random()*H*.6,vx:3+Math.random(),vy:(Math.random()-.5)*.5,alpha:1});}
+  function frame(){
+    t+=.016;x.clearRect(0,0,W,H);x.fillStyle='#09070a';x.fillRect(0,0,W,H);
+    // sun
+    x.beginPath();x.arc(40,H/2,30,0,Math.PI*2);x.fillStyle='rgba(245,158,11,.2)';x.fill();
+    x.beginPath();x.arc(40,H/2,18,0,Math.PI*2);x.fillStyle='rgba(252,211,77,.4)';x.fill();
+    x.fillStyle='rgba(245,158,11,.6)';x.font=`10px 'Fira Code',monospace`;x.fillText('SUN',22,H/2+4);
+    // silicon cell
+    x.fillStyle='rgba(30,20,60,.9)';x.fillRect(W*.3,H*.1,W*.35,H*.8);
+    x.strokeStyle='rgba(167,139,250,.3)';x.lineWidth=1;x.strokeRect(W*.3,H*.1,W*.35,H*.8);
+    // p-n junction line
+    x.beginPath();x.moveTo(W*.3,H*.5);x.lineTo(W*.65,H*.5);x.strokeStyle='rgba(167,139,250,.4)';x.lineWidth=1.5;x.setLineDash([4,4]);x.stroke();x.setLineDash([]);
+    x.fillStyle='rgba(167,139,250,.5)';x.font=`9px 'Fira Code',monospace`;
+    x.fillText('p-type',W*.33,H*.35);x.fillText('n-type',W*.33,H*.65);x.fillText('p-n junction',W*.33,H*.49);
+    // output wire
+    x.beginPath();x.moveTo(W*.65,H*.3);x.lineTo(W*.85,H*.3);x.lineTo(W*.85,H*.7);x.lineTo(W*.65,H*.7);
+    x.strokeStyle='rgba(74,222,128,.4)';x.lineWidth=2;x.stroke();
+    // lightbulb
+    x.beginPath();x.arc(W*.9,H*.5,15,0,Math.PI*2);x.fillStyle=electrons.length>2?'rgba(252,211,77,.4)':'rgba(40,40,60,.8)';x.fill();
+    x.strokeStyle='rgba(252,211,77,.3)';x.lineWidth=1;x.stroke();
+    // spawn photons
+    if(Math.random()<.08)spawnPhoton();
+    photons=photons.filter(p=>p.x<W*.31);
+    photons.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      x.beginPath();x.arc(p.x,p.y,3,0,Math.PI*2);x.fillStyle=`rgba(252,211,77,${p.alpha})`;x.fill();
+      if(p.x>=W*.3&&p.alpha>0){p.alpha=0;electrons.push({x:W*.47,y:p.y,vx:1.5,vy:0,alpha:1});}
+    });
+    electrons=electrons.filter(e=>e.alpha>.05);
+    electrons.forEach(e=>{
+      e.x+=e.vx;e.alpha-=.006;
+      x.beginPath();x.arc(e.x,e.y,2.5,0,Math.PI*2);x.fillStyle=`rgba(74,222,128,${e.alpha})`;x.fill();
+    });
+    x.fillStyle='rgba(200,185,230,.4)';x.font=`9px 'Fira Code',monospace`;
+    x.fillText('photons →',W*.12,H*.5+3);x.fillText('→ electrons →',W*.67,H*.28);x.fillText('← current',W*.67,H*.72);
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// BATTERY ANIMATION
+(function(){
+  const cv=document.getElementById('battery-cv'),x=cv.getContext('2d');
+  cv.width=cv.offsetWidth||900;cv.height=260;
+  const W=cv.width,H=cv.height;
+  let ions=[],t=0;
+  for(let i=0;i<15;i++)ions.push({x:W*.35+Math.random()*W*.3,y:H*.2+Math.random()*H*.6,vx:(Math.random()-.5)*1,type:Math.random()>.5?'Zn²⁺':'SO₄²⁻'});
+  function frame(){
+    t+=.012;x.clearRect(0,0,W,H);x.fillStyle='#09070a';x.fillRect(0,0,W,H);
+    // electrolyte
+    x.fillStyle='rgba(252,211,77,.06)';x.fillRect(W*.3,H*.15,W*.4,H*.7);
+    x.strokeStyle='rgba(252,211,77,.15)';x.lineWidth=1;x.strokeRect(W*.3,H*.15,W*.4,H*.7);
+    x.fillStyle='rgba(200,185,230,.3)';x.font=`10px 'Fira Code',monospace`;x.fillText('electrolyte (H₂SO₄)',W*.33,H*.5);
+    // zinc electrode (anode)
+    x.fillStyle='rgba(130,120,80,.7)';x.fillRect(W*.15,H*.15,W*.12,H*.7);
+    x.fillStyle='rgba(252,211,77,.7)';x.font=`11px 'Fira Code',monospace`;x.fillText('Zn',W*.18,H*.55);x.fillText('(−)',W*.17,H*.45);
+    // copper electrode (cathode)
+    x.fillStyle='rgba(180,100,40,.7)';x.fillRect(W*.73,H*.15,W*.12,H*.7);
+    x.fillStyle='rgba(74,222,128,.7)';x.fillText('Cu',W*.77,H*.55);x.fillText('(+)',W*.76,H*.45);
+    // external circuit wire
+    x.beginPath();x.moveTo(W*.21,H*.2);x.lineTo(W*.21,H*.05);x.lineTo(W*.85,H*.05);x.lineTo(W*.85,H*.2);
+    x.strokeStyle='rgba(74,222,128,.4)';x.lineWidth=2;x.stroke();
+    // electron arrows on wire
+    const ep=((t*.3)%1);
+    x.beginPath();x.arc(W*.21+ep*(W*.64),H*.05,3,0,Math.PI*2);x.fillStyle='rgba(74,222,128,.8)';x.fill();
+    x.fillStyle='rgba(200,185,230,.3)';x.font=`9px 'Fira Code',monospace`;x.fillText('e⁻ flow →',W*.38,H*.03);
+    // ions
+    ions.forEach(ion=>{
+      const dir=ion.type==='Zn²⁺'?1:-1;
+      ion.x+=ion.vx+dir*.3;
+      if(ion.x<W*.31)ion.x=W*.69;if(ion.x>W*.69)ion.x=W*.31;
+      ion.y+=Math.sin(t+ion.x)*.2;
+      x.beginPath();x.arc(ion.x,ion.y,3.5,0,Math.PI*2);
+      x.fillStyle=ion.type==='Zn²⁺'?'rgba(252,211,77,.5)':'rgba(167,139,250,.5)';x.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>

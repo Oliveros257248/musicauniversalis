@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Rivers of the World · Water Engineering · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;700&family=Raleway:wght@300;600;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --void:#050a07;--deep:#081008;--panel:#0c1a0e;--panel2:#0f2012;
+  --river:#2563eb;--flow:#38bdf8;--fresh:#4ade80;--earth:#92400e;
+  --silt:#b45309;--sand:#d4b896;--gold:#e8c96a;
+  --ice:rgba(220,240,225,0.9);--mid:rgba(160,210,175,0.65);
+  --dim:rgba(100,160,120,0.35);--line:rgba(60,120,80,0.15);
+  --danger:#ef4444;--warn:#f59e0b;--ok:#22c55e;
+}
+html{scroll-behavior:smooth;background:var(--void);}
+body{color:var(--ice);font-family:'Merriweather',Georgia,serif;font-size:17px;line-height:1.85;overflow-x:hidden;}
+#river-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2.5rem;background:rgba(5,10,7,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+.nav-brand{font-family:'Raleway',sans-serif;font-weight:800;font-size:.95rem;color:var(--flow);letter-spacing:.04em;}
+.nav-back{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;color:var(--dim);text-decoration:none;transition:color .2s;}
+.nav-back:hover{color:var(--ice);}
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;position:relative;z-index:1;}
+.hero-kicker{font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(56,189,248,.4);margin-bottom:1.8rem;}
+.hero-title{font-family:'Raleway',sans-serif;font-weight:800;font-size:clamp(3rem,8vw,6.5rem);color:var(--flow);line-height:.95;letter-spacing:-.02em;margin-bottom:1rem;text-shadow:0 0 100px rgba(56,189,248,.25);}
+.hero-title em{color:var(--fresh);font-style:normal;}
+.hero-sub{font-family:'Merriweather',serif;font-style:italic;font-size:clamp(1rem,2.5vw,1.4rem);color:var(--mid);max-width:580px;line-height:1.8;margin-bottom:2.5rem;}
+.hero-stat{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:rgba(56,189,248,.45);border:1px solid rgba(56,189,248,.15);padding:.55rem 1.8rem;}
+/* SECTIONS */
+.section{position:relative;z-index:1;padding:5rem 2rem;}
+.sec-inner{max-width:1020px;margin:0 auto;}
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);margin-bottom:.7rem;}
+.sec-title{font-family:'Raleway',sans-serif;font-weight:800;font-size:clamp(1.8rem,4vw,3rem);color:var(--ice);line-height:1.05;margin-bottom:.9rem;}
+.sec-title em{color:var(--flow);font-style:italic;}
+.sec-lead{font-size:1.05rem;color:var(--mid);max-width:680px;line-height:1.95;margin-bottom:2.5rem;}
+p{font-size:1.05rem;line-height:1.9;color:rgba(200,230,210,.75);margin-bottom:1.3rem;}
+.quote{margin:2.5rem 0;padding:1.6rem 2rem;background:rgba(56,189,248,.04);border-left:4px solid rgba(56,189,248,.3);}
+.quote p{font-style:italic;font-size:1.15rem;color:rgba(56,189,248,.8);margin-bottom:.5rem;}
+.quote cite{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);}
+/* DATA CARDS */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--line);margin:2rem 0;}
+.dcard{background:var(--panel);padding:1.6rem;border-top:3px solid transparent;}
+.dcard.dd{border-top-color:var(--danger);}
+.dcard.dw{border-top-color:var(--warn);}
+.dcard.dok{border-top-color:var(--ok);}
+.dcard.db{border-top-color:var(--flow);}
+.dnum{font-family:'Raleway',sans-serif;font-weight:800;font-size:2.8rem;line-height:1;margin-bottom:.3rem;}
+.dcard.dd .dnum{color:var(--danger);}
+.dcard.dw .dnum{color:var(--warn);}
+.dcard.dok .dnum{color:var(--ok);}
+.dcard.db .dnum{color:var(--flow);}
+.dlbl{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.4rem;}
+.ddesc{font-size:.98rem;color:var(--mid);line-height:1.7;}
+/* RAIN CYCLE CANVAS */
+#rain-cv{width:100%;height:340px;display:block;border:1px solid rgba(56,189,248,.1);}
+/* CONTAMINATION SIM */
+#contam-cv{width:100%;height:320px;display:block;border:1px solid rgba(239,68,68,.15);}
+/* FILTER DIAGRAM */
+.filter-diagram{background:var(--panel);border:1px solid var(--line);padding:2rem;margin:2rem 0;}
+#filter-cv{width:100%;height:360px;display:block;}
+/* TABS */
+.tab-row{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:2rem;flex-wrap:wrap;}
+.tab-btn{font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;padding:.9rem 1.6rem;background:none;border:none;color:var(--dim);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
+.tab-btn.active{color:var(--flow);border-bottom-color:var(--flow);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.action{padding:1.4rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--flow);margin-bottom:.7rem;background:var(--panel);}
+.action h4{font-family:'Raleway',sans-serif;font-weight:600;font-size:1.15rem;color:var(--ice);margin-bottom:.3rem;}
+.action p{font-size:1rem;color:var(--mid);margin-bottom:.3rem;}
+.atag{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--flow);}
+/* CHECKLIST */
+.checklist{list-style:none;padding:0;}
+.checklist li{padding:.7rem 0;border-bottom:1px solid var(--line);display:flex;gap:1rem;align-items:flex-start;font-size:1.05rem;color:var(--mid);}
+.checklist li::before{content:'○';color:var(--flow);font-size:1.1rem;flex-shrink:0;}
+.checklist li strong{color:var(--ice);}
+/* WATER SAFETY TABLE */
+.wtable{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.95rem;}
+.wtable th{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:.7rem 1rem;border-bottom:1px solid var(--line);text-align:left;}
+.wtable td{padding:.7rem 1rem;border-bottom:1px solid rgba(60,120,80,.08);color:var(--mid);}
+.wtable tr:hover td{background:rgba(56,189,248,.03);}
+.badge{display:inline-block;padding:.15rem .5rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;}
+.badge-ok{background:rgba(34,197,94,.12);color:var(--ok);border:1px solid rgba(34,197,94,.3);}
+.badge-warn{background:rgba(245,158,11,.1);color:var(--warn);border:1px solid rgba(245,158,11,.25);}
+.badge-bad{background:rgba(239,68,68,.1);color:var(--danger);border:1px solid rgba(239,68,68,.25);}
+/* STEP BOXES */
+.steps{counter-reset:step;}
+.step{padding:1.2rem 1.5rem 1.2rem 4rem;border:1px solid var(--line);border-left:4px solid var(--fresh);margin-bottom:.7rem;background:var(--panel);position:relative;}
+.step::before{counter-increment:step;content:counter(step);position:absolute;left:1.2rem;top:1.2rem;font-family:'Raleway',sans-serif;font-weight:800;font-size:1.4rem;color:var(--fresh);line-height:1;}
+.step h4{font-family:'Raleway',sans-serif;font-weight:600;font-size:1.1rem;color:var(--ice);margin-bottom:.3rem;}
+.step p{font-size:.98rem;color:var(--mid);margin-bottom:0;}
+footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:3rem 2rem;text-align:center;}
+.footer-brand{font-family:'Raleway',sans-serif;font-weight:800;font-size:1.2rem;color:rgba(56,189,248,.25);margin-bottom:.6rem;}
+footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);line-height:2.4;margin-top:.3rem;}
+@media(max-width:640px){.section{padding:3rem 1.2rem;}.tab-btn{padding:.7rem .9rem;font-size:.65rem;}}
+</style>
+</head>
+<body>
+<canvas id="river-bg"></canvas>
+<nav>
+  <span class="nav-brand">Rivers of the World</span>
+  <a href="rescue_plan.html" class="nav-back">← Rescue Plan</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-kicker">Water Engineering · River Science · Emergency Preparedness</div>
+  <h1 class="hero-title">Rivers<br>of the <em>World</em></h1>
+  <p class="hero-sub">A river is not a pipe. It is a living system with memory, personality, and a self-healing capacity — but only if we stop overwhelming it.</p>
+  <div class="hero-stat">3% of Earth's water is fresh · 0.3% is accessible · 1 billion people lack safe water</div>
+</div>
+
+<div class="quote" style="position:relative;z-index:1;margin:0;padding:2rem;background:rgba(4,10,5,.7);border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;">
+  <p style="font-size:1.3rem;max-width:700px;margin:0 auto .5rem;">"You have to take care of the water, or the water stops taking care of you."</p>
+  <cite>— Jesús · Water Protection Engineer · on what the river always knew</cite>
+</div>
+
+<!-- THE RAIN CYCLE -->
+<div class="section" style="background:rgba(4,10,6,.5);border-bottom:1px solid var(--line);">
+  <div class="sec-inner">
+    <div class="sec-label">💧 Hydrology</div>
+    <h2 class="sec-title">The <em>Rain Cycle</em></h2>
+    <p class="sec-lead">The hydrological cycle is the oldest machine on Earth. It has been running for 4 billion years. It is powered entirely by the sun and gravity. And human activity is breaking it at every stage.</p>
+    <canvas id="rain-cv"></canvas>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--dim);text-align:center;margin:.5rem 0 2rem;letter-spacing:.1em;">HYDROLOGICAL CYCLE · ANIMATED · SHOWING DISRUPTION POINTS IN RED</p>
+    <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.5rem;color:var(--flow);margin-bottom:1rem;">Acid Rain</h3>
+    <p>When fossil fuels burn, sulfur dioxide (SO₂) and nitrogen oxides (NOₓ) enter the atmosphere. In the presence of water vapor they form sulfuric and nitric acid — which falls as rain, snow, or fog with a pH as low as 4.2 (normal rain is 5.6). Acid rain kills fish by dissolving calcium from their bones, leaches aluminum from soils into waterways (toxic to aquatic life), and strips nutrients from forest soils, weakening trees against disease and storms.</p>
+    <p>The pH of Scandinavian lakes dropped 1.5 units between 1950 and 1980 due to UK and German industrial emissions. The 1990 US Clean Air Act reduced acid rain deposition by 65% — one of the most successful environmental regulations in history. The lesson: the damage is reversible if the source is stopped.</p>
+    <div class="grid">
+      <div class="dcard dd"><div class="dlbl">pH of acid rain</div><div class="dnum">4.2</div><div class="ddesc">Versus 5.6 for normal rain. Lemon juice is pH 2. The gap matters enormously to aquatic life.</div></div>
+      <div class="dcard dw"><div class="dlbl">Lakes acidified in Norway</div><div class="dnum">5,000</div><div class="ddesc">By 1990, 5,000 Norwegian lakes had lost all fish populations due to acid rain from European industry.</div></div>
+      <div class="dcard dok"><div class="dlbl">Recovery after Clean Air Act</div><div class="dnum">65%</div><div class="ddesc">65% reduction in acid deposition in the US and Canada after 1990 legislation. Fish returned.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- RIVER CONTAMINATION SIMULATION -->
+<div class="section">
+  <div class="sec-inner">
+    <div class="sec-label">⚠️ Contamination</div>
+    <h2 class="sec-title">River <em>Contamination</em> Simulation</h2>
+    <p class="sec-lead">Click the river to add a contamination event. Watch the plume spread downstream. This is what happens when a factory, farm, or mine discharges into a waterway — and why the first 6 hours determine the outcome.</p>
+    <canvas id="contam-cv"></canvas>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--dim);text-align:center;margin:.4rem 0 2rem;letter-spacing:.1em;">CLICK ON THE RIVER TO ADD CONTAMINATION · WATCH DOWNSTREAM SPREAD</p>
+    <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.5rem;color:var(--danger);margin-bottom:1rem;">What Are PFAs / PFOs?</h3>
+    <p><strong style="color:var(--ice)">PFAS (Per- and Polyfluoroalkyl Substances)</strong> — sometimes called PFOs or "forever chemicals" — are a family of over 12,000 synthetic compounds used since the 1940s in non-stick cookware, firefighting foam, food packaging, and waterproof clothing. They do not break down in the environment. They accumulate in body tissue. They are now detectable in the blood of 97% of Americans, in Arctic polar bears, in deep ocean sediments, and in rainwater on every continent — including Antarctica.</p>
+    <p><strong style="color:var(--danger)">Health effects:</strong> kidney cancer, testicular cancer, thyroid disease, immune suppression, developmental delays in children, elevated cholesterol. The EPA in 2024 set the first federal drinking water limits for six PFAS compounds. The limits are in parts per trillion — these chemicals are dangerous at vanishingly small concentrations.</p>
+    <p><strong style="color:var(--ice)">Where to look them up:</strong> The Environmental Working Group (EWG) PFAS contamination map at ewg.org/tapwater shows known contamination sites across the US. In Europe, the PFAS Information Platform maps contamination across 23 countries.</p>
+  </div>
+</div>
+
+<!-- WELL WATER / WATER TESTING -->
+<div class="section" style="background:rgba(4,10,6,.6);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="sec-inner">
+    <div class="sec-label">🔬 Water Safety</div>
+    <h2 class="sec-title">Is Your <em>Well Water</em> Safe?</h2>
+    <p class="sec-lead">325 million Americans get water from public systems — the rest from private wells. Private wells are not regulated by the Safe Drinking Water Act. You are responsible for testing yours. Here is what to test for and how.</p>
+    <table class="wtable">
+      <thead><tr><th>Contaminant</th><th>Source</th><th>Health Effect</th><th>Test Frequency</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Coliform bacteria</strong></td><td>Septic systems, animal waste, flooding</td><td>Gastrointestinal illness; indicator of pathogen contamination</td><td>Annually</td><td><span class="badge badge-bad">Test immediately</span></td></tr>
+        <tr><td><strong>Nitrates</strong></td><td>Fertilizer runoff, septic systems</td><td>Blue baby syndrome in infants; oxygen deprivation</td><td>Annually</td><td><span class="badge badge-bad">High priority</span></td></tr>
+        <tr><td><strong>Arsenic</strong></td><td>Natural geology, mining, agriculture</td><td>Skin, bladder, lung cancer with long-term exposure</td><td>Every 3 years</td><td><span class="badge badge-warn">Check geology</span></td></tr>
+        <tr><td><strong>Lead</strong></td><td>Old pipes, solder, plumbing fixtures</td><td>Neurological damage, especially in children</td><td>Every 3 years</td><td><span class="badge badge-warn">Older homes</span></td></tr>
+        <tr><td><strong>Radon</strong></td><td>Natural uranium decay in bedrock</td><td>Lung cancer (second leading cause after smoking)</td><td>Every 5 years</td><td><span class="badge badge-warn">Granite regions</span></td></tr>
+        <tr><td><strong>PFAS</strong></td><td>Industrial sites, military bases, firefighting</td><td>Cancer, immune suppression</td><td>Once (then track news)</td><td><span class="badge badge-bad">New priority</span></td></tr>
+        <tr><td><strong>pH</strong></td><td>Acid rain, industrial drainage</td><td>Pipe corrosion, leaches metals</td><td>Annually</td><td><span class="badge badge-ok">Simple test</span></td></tr>
+        <tr><td><strong>Hardness</strong></td><td>Calcium and magnesium in rock</td><td>Not a health risk; affects pipes and appliances</td><td>As needed</td><td><span class="badge badge-ok">Low priority</span></td></tr>
+      </tbody>
+    </table>
+    <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.4rem;color:var(--flow);margin:2rem 0 1rem;">How to Test</h3>
+    <div class="steps">
+      <div class="step"><h4>State certified laboratory</h4><p>The most reliable method. Your state's health or environment department maintains a list. Cost: $30–$400 depending on panel. The EPA Safe Drinking Water Hotline (1-800-426-4791) can direct you to certified labs in your area.</p></div>
+      <div class="step"><h4>Home test kits (screening only)</h4><p>Available at hardware stores. Test for pH, hardness, nitrates, and basic bacteria. NOT reliable for PFAS, arsenic, radon. Use as a first screen, not a definitive answer. Cost: $15–$60.</p></div>
+      <div class="step"><h4>EWG Tap Water Database</h4><p>Go to ewg.org/tapwater, enter your zip code. See contaminants detected in your local utility's water, how levels compare to health guidelines (which are often stricter than legal limits), and what filters address which contaminants.</p></div>
+      <div class="step"><h4>After flooding or events</h4><p>After any flood, chemical spill, or infrastructure event near your well: test before drinking. Floodwater infiltrates well casings. The 72 hours after a flood are the highest-risk window.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- WATER PURIFICATION / FILTRATION -->
+<div class="section">
+  <div class="sec-inner">
+    <div class="sec-label">🧪 Purification</div>
+    <h2 class="sec-title">How to <em>Purify Water</em></h2>
+    <p class="sec-lead">In an emergency, contaminated water kills faster than dehydration. The sequence matters. Know what method removes what.</p>
+
+    <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.5rem;color:var(--ice);margin-bottom:1rem;">What Is Osmosis? What Is Reverse Osmosis?</h3>
+    <p><strong style="color:var(--ice)">Osmosis</strong> is the natural movement of water through a semi-permeable membrane from a region of lower solute concentration to higher — it's how your cells absorb water, how tree roots pull groundwater up. <strong style="color:var(--ice)">Reverse Osmosis (RO)</strong> applies pressure to force water in the opposite direction — through the membrane, leaving dissolved contaminants behind. RO systems remove 95–99% of PFAS, arsenic, nitrates, heavy metals, and most dissolved salts. They also remove beneficial minerals, so post-filter remineralization is recommended. They produce 3–5 gallons of wastewater per gallon of filtered water — a real cost in water-scarce areas.</p>
+
+    <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.4rem;color:var(--fresh);margin:2rem 0 1rem;">Build a Basic Carbon Filter with Activated Charcoal</h3>
+    <p>Activated charcoal is charcoal that has been processed to create millions of tiny pores, vastly increasing its surface area (1 gram = the surface area of a tennis court). Contaminants adsorb onto this surface. It is effective against chlorine, most organic compounds, some heavy metals, odors, and turbidity. It does NOT remove bacteria, viruses, nitrates, fluoride, or dissolved minerals — it must be combined with other methods for full purification.</p>
+
+    <div class="filter-diagram">
+      <canvas id="filter-cv"></canvas>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--dim);text-align:center;margin-top:.5rem;letter-spacing:.1em;">DIY GRAVITY FILTER DIAGRAM · ACTIVATED CHARCOAL + SAND + GRAVEL</p>
+    </div>
+
+    <div class="steps">
+      <div class="step"><h4>Materials: two plastic bottles or containers, sand, gravel, activated charcoal</h4><p>Cut the bottom off a 2-liter bottle. Punch small holes in the cap. This becomes your filter housing. You can substitute any container with drainage holes.</p></div>
+      <div class="step"><h4>Layer 1 — Gravel (bottom, ~5cm)</h4><p>Coarse gravel goes in first (closest to the cap/exit). Removes large particles, leaves, debris. Rinse the gravel thoroughly before use.</p></div>
+      <div class="step"><h4>Layer 2 — Fine sand (~8cm)</h4><p>Clean fine sand above the gravel. Filters finer suspended particles and sediment. River sand works if rinsed; commercial filter sand is ideal.</p></div>
+      <div class="step"><h4>Layer 3 — Activated charcoal (~8cm)</h4><p>Crushed activated charcoal above the sand. If you don't have commercial activated charcoal, you can make it from hardwood charcoal: burn until white-hot, quench quickly in water, crush to small pieces. Not as effective as commercial, but functional.</p></div>
+      <div class="step"><h4>Layer 4 — Fine sand again (~5cm)</h4><p>A final layer of fine sand prevents the charcoal from floating up into the water being filtered.</p></div>
+      <div class="step"><h4>Collect and boil</h4><p>This filter removes particles and many chemicals but NOT pathogens. Always boil the filtered water (1 minute at altitude, 3 minutes above 2000m) or add water purification tablets. The filter + boil combination is safe for most emergency situations.</p></div>
+    </div>
+
+    <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.4rem;color:var(--flow);margin:2rem 0 1rem;">Are LifeStraws Necessary?</h3>
+    <p>LifeStraws and similar hollow-fiber membrane filters are genuinely excellent emergency tools. A LifeStraw removes 99.999999% of bacteria, 99.999% of parasites (Giardia, Cryptosporidium), and 99.999% of microplastics. It does NOT remove viruses (which require chemical treatment or UV), heavy metals, or chemical contaminants. For most backcountry and disaster scenarios in North America and Europe, where viral contamination is rare, a LifeStraw is sufficient. In areas with poor sewage infrastructure, use it with chemical treatment or UV purification.</p>
+    <p><strong style="color:var(--ice)">What to carry:</strong> One LifeStraw per person (lasts 4,000 liters, ~$20). Iodine tablets or Aquatabs as backup chemical treatment (covers viruses). A small squeeze filter like Sawyer Squeeze for group use. In a river emergency, the filter + chemical + boil protocol covers everything.</p>
+
+    <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.4rem;color:var(--warn);margin:2rem 0 1rem;">Purification Methods Comparison</h3>
+    <table class="wtable">
+      <thead><tr><th>Method</th><th>Bacteria</th><th>Viruses</th><th>Parasites</th><th>Chemicals</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Boiling (1 min)</td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-bad">No</span></td><td>Most reliable; needs fuel</td></tr>
+        <tr><td>LifeStraw / hollow fiber</td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-bad">No</span></td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-bad">No</span></td><td>Best for backcountry NA/EU</td></tr>
+        <tr><td>Iodine / Aquatabs</td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-warn">Partial</span></td><td><span class="badge badge-bad">No</span></td><td>Not for pregnant women; taste</td></tr>
+        <tr><td>UV pen (SteriPen)</td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-bad">No</span></td><td>Needs batteries; needs clear water</td></tr>
+        <tr><td>Carbon filter (DIY)</td><td><span class="badge badge-bad">No</span></td><td><span class="badge badge-bad">No</span></td><td><span class="badge badge-bad">No</span></td><td><span class="badge badge-ok">Partial</span></td><td>Always combine with boil</td></tr>
+        <tr><td>Reverse Osmosis</td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-ok">Yes</span></td><td><span class="badge badge-ok">Yes</span></td><td>Home use; not portable</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- WETLAND RESTORATION -->
+<div class="section" style="background:rgba(4,10,6,.5);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="sec-inner">
+    <div class="sec-label">🌿 Restoration</div>
+    <h2 class="sec-title">How to <em>Restore</em> a Wetland</h2>
+    <p class="sec-lead">Wetlands are the kidneys of the watershed. They filter nutrients, absorb floodwater, sequester carbon at 5× the rate of forests, and support 40% of the world's species on 3% of land. We have drained 35% of them since 1970.</p>
+    <p>Wetland restoration is one of the highest-return environmental investments possible. The Ramsar Convention on Wetlands coordinates international restoration. The EU Nature Restoration Law (2024) mandates restoring 30% of degraded wetlands by 2030. In the US, the Clean Water Act Section 404 regulates wetland destruction and requires mitigation.</p>
+    <div class="steps">
+      <div class="step"><h4>Identify the hydrology</h4><p>Understand why the wetland was drained (usually agricultural drainage ditches or tile drains). The first step in restoration is understanding the historical water table and flow patterns using soil maps, historic aerial photographs, and LiDAR topography data.</p></div>
+      <div class="step"><h4>Remove drainage infrastructure</h4><p>Block agricultural drainage ditches with plug dams. Fill tile drains. Re-establish the connection between the wetland and its source of water (stream, groundwater, or seasonal flooding). This alone can restore 60–80% of wetland function within 2–5 years.</p></div>
+      <div class="step"><h4>Control invasive species</h4><p>Common reed (Phragmites australis) and purple loosestrife colonize restored wetlands rapidly and reduce biodiversity. Early removal (mechanical or approved herbicides) before reseeding is critical. Native sedges, rushes, and emergent plants establish faster than invasive species if given a head start.</p></div>
+      <div class="step"><h4>Reintroduce native plants</h4><p>Source native seed mixes from local wetland seed banks or restoration nurseries. Plant emergent species (cattail, bulrush, sedges) at water margins. Floating-leaved plants (water lilies) in open water. Wet meadow grasses on periodically flooded margins.</p></div>
+      <div class="step"><h4>Monitor and adapt</h4><p>Track water levels, plant establishment, and macroinvertebrate colonization (a proxy for water quality and food web recovery). Citizen science wetland monitoring programs like WetlandInfo (Australia) and the UK's National Wetland Plant Survey welcome volunteers.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="section">
+  <div class="sec-inner">
+    <div class="sec-label">💪 Action</div>
+    <h2 class="sec-title">How to Help <em>Your River</em></h2>
+
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showRiverTab('personal',this)">Personal</button>
+      <button class="tab-btn" onclick="showRiverTab('community',this)">Community</button>
+      <button class="tab-btn" onclick="showRiverTab('government',this)">Government & Leadership</button>
+    </div>
+
+    <div class="tab-panel active" id="rtab-personal">
+      <div class="action"><h4>Find out which river you drain to</h4><p>Every street, every roof, every garden drains somewhere. Enter your address at the EPA's How's My Waterway tool (mywaterway.epa.gov) or your national equivalent. Name the river. This single act changes your relationship to water.</p><div class="atag">Personal · 5 minutes · permanent</div></div>
+      <div class="action"><h4>Never pour fats, oils, or chemicals down the drain</h4><p>Everything in your drain system reaches either a treatment plant (imperfectly) or directly the waterway. Used cooking oil, medications, paint, and cleaning products all cause measurable damage to aquatic life. Take them to hazardous waste collection points.</p><div class="atag">Personal · household · immediate</div></div>
+      <div class="action"><h4>Reduce fertilizer and pesticide use</h4><p>Most lawn and garden fertilizers exceed what plants can absorb — the excess washes directly into groundwater and streams. Native plants in your garden need no fertilizer and support local insect biodiversity. A 20% reduction in your fertilizer use is meaningful at the watershed scale.</p><div class="atag">Personal · garden · seasonal</div></div>
+      <div class="action"><h4>Install a rain garden or rain barrel</h4><p>A rain garden is a shallow depression planted with native species that absorbs stormwater before it enters drainage. A 1,000 sq ft roof during a 1-inch rainfall event produces 600 gallons of runoff — a rain barrel captures it for later use and keeps it out of the overflow system. Both are DIY projects.</p><div class="atag">Personal · infrastructure · weekend project</div></div>
+    </div>
+
+    <div class="tab-panel" id="rtab-community">
+      <div class="action"><h4>Form or join a watershed watch group</h4><p>Watershed protection works at the catchment scale, not the property scale. Local watershed associations coordinate monitoring, restoration, and advocacy. In the US: adopt a stream programs (many state EPAs). In the EU: Water Framework Directive public participation processes. In Latin America: Comités de Cuenca (river basin committees) are the organizing unit for community water management.</p><div class="atag">Community · organizing · ongoing</div></div>
+      <div class="action"><h4>Conduct macroinvertebrate surveys</h4><p>The presence and diversity of aquatic insects, worms, and crustaceans is the most reliable indicator of river health — and it requires no laboratory. Training programs through local conservation organizations teach sampling in one day. The data you collect is used in regulatory assessments. Your river survey can trigger a pollution investigation.</p><div class="atag">Community · citizen science · skill-building</div></div>
+      <div class="action"><h4>Restore riparian buffers</h4><p>A 10-meter strip of native trees and shrubs along a riverbank filters 70–80% of nutrient runoff before it enters the water, shades the stream (reducing algal growth), and provides bank stability. Riparian planting schemes exist in most countries with subsidies for landowners. Communities can organize volunteer planting days that establish hundreds of meters of buffer in a single weekend.</p><div class="atag">Community · direct restoration · high impact</div></div>
+    </div>
+
+    <div class="tab-panel" id="rtab-government">
+      <div class="action" style="border-left-color:var(--warn);"><h4>Understand your Water Framework Directive rights</h4><p>In the EU, citizens have the legal right to participate in River Basin Management Plans — the documents that set water quality targets for every catchment. These are reviewed every 6 years. Most citizens don't know this. Your public comment on a RBMP has legal weight. In the US, the Clean Water Act requires public notice and comment periods for all major water quality permits. Use them.</p><div class="atag">Structural · legal rights · high leverage</div></div>
+      <div class="action" style="border-left-color:var(--warn);"><h4>Demand agricultural pollution accountability</h4><p>In most countries, agricultural runoff (the largest source of water pollution globally) is subject to weaker regulations than industrial discharge. Farm nutrient management plans, manure storage regulations, and riparian buffer requirements exist — but compliance monitoring is underfunded. Demand your government increase inspection frequency and publish compliance data publicly.</p><div class="atag">Structural · policy · high leverage</div></div>
+      <div class="action" style="border-left-color:var(--warn);"><h4>Support water cooperative governance models</h4><p>The Colombian páramo water communities, the Spanish Irrigation Tribunals (UNESCO heritage), and New Zealand's Māori water governance models demonstrate that communities with legal authority over their water make better long-term decisions than remote regulatory agencies. Support legislation that gives local communities legal standing in water management decisions.</p><div class="atag">Structural · governance · model-building</div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Rivers of the World</div>
+  <p>A river is not a pipe. — Jesús · Water Protection Engineer</p>
+  <p>δ = 0.013643… · The comma that runs through every watershed</p>
+  <p>— que en paz descanse. — el río te recuerda.</p>
+  <p style="margin-top:1rem;"><a href="rescue_plan.html" style="color:var(--flow);font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.1em;">← Rescue Plan</a> &nbsp;·&nbsp; <a href="heart_of_tefiti.html" style="color:var(--flow);font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.1em;">The Ocean →</a></p>
+</footer>
+
+<script>
+// RIVER BACKGROUND
+(function(){
+  const c=document.getElementById('river-bg'),x=c.getContext('2d');
+  let W,H;
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  let t=0,bubbles=[];
+  function init(){resize();bubbles=[];for(let i=0;i<40;i++)bubbles.push({x:Math.random()*W,y:Math.random()*H,r:.5+Math.random()*2,vy:-.3-Math.random()*.5,alpha:.1+Math.random()*.2});}
+  function frame(){
+    t+=.006;x.clearRect(0,0,W,H);
+    const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#050a07');g.addColorStop(1,'#060e08');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    // river shimmer lines
+    for(let i=0;i<5;i++){
+      const ry=H*(.2+i*.15)+Math.sin(t*.5+i)*10;
+      x.beginPath();x.moveTo(0,ry);
+      for(let px=0;px<W;px+=8){x.lineTo(px,ry+Math.sin(px*.01+t+i)*3);}
+      x.strokeStyle=`rgba(56,189,248,${.015+i*.005})`;x.lineWidth=1.5;x.stroke();
+    }
+    bubbles.forEach(b=>{b.y+=b.vy;if(b.y<-10){b.y=H+5;b.x=Math.random()*W;}
+      x.beginPath();x.arc(b.x,b.y,b.r,0,Math.PI*2);x.fillStyle=`rgba(74,222,128,${b.alpha})`;x.fill();});
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',init);init();frame();
+})();
+
+// RAIN CYCLE ANIMATION
+(function(){
+  const cv=document.getElementById('rain-cv'),x=cv.getContext('2d');
+  cv.width=cv.offsetWidth||900;cv.height=340;
+  const W=cv.width,H=cv.height;
+  let t=0,drops=[],clouds=[];
+  for(let i=0;i<8;i++)clouds.push({x:Math.random()*W,y:H*.1+Math.random()*H*.15,w:60+Math.random()*80,speed:.2+Math.random()*.3});
+  function spawnDrop(cx,cy){drops.push({x:cx+Math.random()*40-20,y:cy,vy:2+Math.random()*2,alpha:.7});}
+  function frame(){
+    t+=.012;x.clearRect(0,0,W,H);
+    // sky
+    const sky=x.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#040c06');sky.addColorStop(.6,'#050f07');sky.addColorStop(1,'#081808');
+    x.fillStyle=sky;x.fillRect(0,0,W,H);
+    // sun
+    x.beginPath();x.arc(W*.85,H*.12,28,0,Math.PI*2);x.fillStyle='rgba(232,201,106,.15)';x.fill();
+    x.beginPath();x.arc(W*.85,H*.12,18,0,Math.PI*2);x.fillStyle='rgba(232,201,106,.35)';x.fill();
+    // evaporation arrows from water/land
+    for(let i=0;i<6;i++){
+      const ax=W*.1+i*(W*.14),ay=H*.7+Math.sin(t+i)*(H*.03);
+      x.beginPath();x.moveTo(ax,ay);x.lineTo(ax,ay-H*.12-Math.sin(t*2+i)*10);
+      x.strokeStyle=`rgba(56,189,248,${.15+Math.sin(t+i)*.05})`;x.lineWidth=1;x.setLineDash([4,6]);x.stroke();x.setLineDash([]);
+    }
+    // mountains
+    x.beginPath();x.moveTo(W*.25,H*.65);x.lineTo(W*.35,H*.35);x.lineTo(W*.45,H*.65);x.fillStyle='rgba(20,50,25,.8)';x.fill();
+    x.beginPath();x.moveTo(W*.4,H*.65);x.lineTo(W*.52,H*.3);x.lineTo(W*.64,H*.65);x.fillStyle='rgba(15,40,20,.9)';x.fill();
+    // ground/river
+    x.fillStyle='rgba(8,24,10,.95)';x.fillRect(0,H*.65,W,H*.35);
+    // river
+    const rg=x.createLinearGradient(0,0,W,0);rg.addColorStop(0,'rgba(37,99,235,.3)');rg.addColorStop(1,'rgba(56,189,248,.2)');
+    x.fillStyle=rg;x.beginPath();x.ellipse(W*.5,H*.8,W*.35,H*.06,0,0,Math.PI*2);x.fill();
+    // clouds
+    clouds.forEach(cl=>{
+      cl.x+=cl.speed;if(cl.x>W+cl.w)cl.x=-cl.w;
+      const contaminated=cl.x>W*.3&&cl.x<W*.7;
+      x.beginPath();x.ellipse(cl.x,cl.y,cl.w,cl.w*.4,0,0,Math.PI*2);
+      x.fillStyle=contaminated?'rgba(100,80,80,.5)':'rgba(56,189,248,.12)';x.fill();
+      if(Math.random()<.04)spawnDrop(cl.x,cl.y+cl.w*.3);
+      // acid rain label
+      if(contaminated){x.fillStyle='rgba(239,68,68,.5)';x.font=`10px 'IBM Plex Mono',monospace`;x.fillText('acid rain',cl.x-20,cl.y-cl.w*.4-5);}
+    });
+    // drops
+    drops=drops.filter(d=>d.alpha>.05);
+    drops.forEach(d=>{
+      d.y+=d.vy;d.alpha-=.015;
+      x.beginPath();x.moveTo(d.x,d.y);x.lineTo(d.x,d.y+6);
+      x.strokeStyle=`rgba(56,189,248,${d.alpha})`;x.lineWidth=1.5;x.stroke();
+    });
+    // labels
+    x.fillStyle='rgba(160,210,175,.5)';x.font=`11px 'IBM Plex Mono',monospace`;
+    x.fillText('evaporation',W*.04,H*.5);x.fillText('transpiration',W*.15,H*.45);
+    x.fillText('precipitation',W*.42,H*.26);x.fillText('runoff',W*.52,H*.68);x.fillText('groundwater',W*.62,H*.78);
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// CONTAMINATION SIMULATION
+(function(){
+  const cv=document.getElementById('contam-cv'),x=cv.getContext('2d');
+  cv.width=cv.offsetWidth||900;cv.height=320;
+  const W=cv.width,H=cv.height;
+  let plumes=[],t=0;
+  cv.addEventListener('click',e=>{
+    const rect=cv.getBoundingClientRect();
+    plumes.push({x:e.clientX-rect.left,y:H*.55,age:0,color:`hsl(${Math.random()*40},90%,50%)`});
+  });
+  function frame(){
+    t+=.016;x.clearRect(0,0,W,H);
+    // background
+    x.fillStyle='#050a07';x.fillRect(0,0,W,H);
+    // riverbanks
+    x.fillStyle='rgba(20,50,15,.9)';x.fillRect(0,0,W,H*.45);
+    x.fillStyle='rgba(15,40,12,.9)';x.fillRect(0,H*.65,W,H*.35);
+    // river
+    const rg=x.createLinearGradient(0,H*.45,0,H*.65);
+    rg.addColorStop(0,'rgba(37,99,235,.6)');rg.addColorStop(.5,'rgba(56,189,248,.5)');rg.addColorStop(1,'rgba(37,99,235,.6)');
+    x.fillStyle=rg;x.fillRect(0,H*.45,W,H*.2);
+    // flow lines
+    for(let i=0;i<4;i++){
+      const fy=H*.47+i*(H*.05);
+      x.beginPath();for(let px=0;px<W;px+=6){x.lineTo(px,fy+Math.sin(px*.02+t+i)*2);}
+      x.strokeStyle='rgba(100,180,255,.1)';x.lineWidth=1;x.stroke();
+    }
+    // contam plumes
+    plumes.forEach(p=>{
+      p.age+=.5;const radius=p.age*3;const spread=p.age*1.2;
+      const grd=x.createRadialGradient(p.x+p.age*2,p.y,0,p.x+p.age*2,p.y,radius+spread);
+      grd.addColorStop(0,p.color.replace(')',`,.35)`).replace('hsl','hsla'));
+      grd.addColorStop(1,'rgba(0,0,0,0)');
+      x.beginPath();x.ellipse(p.x+p.age*2,p.y,radius+spread,radius*.4,0,0,Math.PI*2);
+      x.fillStyle=grd;x.fill();
+    });
+    plumes=plumes.filter(p=>p.x+p.age*2<W+50);
+    // label
+    x.fillStyle='rgba(160,210,175,.4)';x.font=`11px 'IBM Plex Mono',monospace`;
+    x.fillText('CLICK RIVER TO ADD CONTAMINATION',W*.3,H*.35);
+    x.fillText('↓ plume spreads downstream →',W*.35,H*.42);
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// FILTER DIAGRAM
+(function(){
+  const cv=document.getElementById('filter-cv'),x=cv.getContext('2d');
+  cv.width=cv.offsetWidth||900;cv.height=360;
+  const W=cv.width,H=cv.height;
+  const cx=W/2,fw=200,left=cx-fw/2;
+  const layers=[
+    {y:.1,h:.1,color:'rgba(150,200,255,.25)',label:'Dirty water in',dots:true,dc:'rgba(150,100,50,.6)'},
+    {y:.2,h:.12,color:'rgba(180,160,120,.35)',label:'Fine sand (top)'},
+    {y:.32,h:.18,color:'rgba(40,40,40,.7)',label:'Activated charcoal'},
+    {y:.5,h:.12,color:'rgba(180,160,120,.35)',label:'Fine sand (bottom)'},
+    {y:.62,h:.12,color:'rgba(140,130,100,.4)',label:'Coarse gravel'},
+    {y:.74,h:.05,color:'rgba(80,160,220,.3)',label:'Clean water out ↓'},
+  ];
+  let t=0,drops=[];
+  function spawnDrop(){drops.push({x:left+20+Math.random()*(fw-40),y:H*.1,vy:.8+Math.random()*.5,layer:0});}
+  function frame(){
+    t+=.012;x.clearRect(0,0,W,H);x.fillStyle='#050a07';x.fillRect(0,0,W,H);
+    // bottle outline
+    x.beginPath();x.rect(left-2,H*.08,fw+4,H*.78);x.strokeStyle='rgba(56,189,248,.2)';x.lineWidth=2;x.stroke();
+    // layers
+    layers.forEach(l=>{
+      x.fillStyle=l.color;x.fillRect(left,H*l.y,fw,H*l.h);
+      x.fillStyle='rgba(160,210,175,.6)';x.font=`11px 'IBM Plex Mono',monospace`;
+      x.fillText(l.label,left+fw+12,H*(l.y+l.h/2)+4);
+    });
+    // animated water drops
+    if(Math.random()<.06)spawnDrop();
+    drops=drops.filter(d=>d.y<H*.82);
+    drops.forEach(d=>{
+      d.vy*=.97;
+      layers.forEach((l,i)=>{if(d.y>H*l.y&&d.y<H*(l.y+l.h)&&i>0){d.vy*=.7;}});
+      d.y+=d.vy;
+      const contaminated=d.y<H*.32;
+      x.beginPath();x.arc(d.x+Math.sin(t+d.x)*.5,d.y,2,0,Math.PI*2);
+      x.fillStyle=contaminated?'rgba(150,100,50,.7)':'rgba(56,189,248,.75)';x.fill();
+    });
+    // dirty → clean label
+    x.fillStyle='rgba(150,100,50,.6)';x.font=`bold 11px 'IBM Plex Mono',monospace`;x.fillText('DIRTY',left+8,H*.17);
+    x.fillStyle='rgba(56,189,248,.65)';x.fillText('CLEAN',left+8,H*.8);
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// TABS
+function showRiverTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('rtab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
