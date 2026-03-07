@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sirius · The Mind · Almihan · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=JetBrains+Mono:wght@300;400;700&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#040508;--bg2:#060810;
+  --sirius:#4A8AE8;--sir2:#7ABAFF;--sirfaint:rgba(74,138,232,.05);--sirline:rgba(74,138,232,.12);
+  --orion:#C8A050;--ori2:#E8C870;--orifaint:rgba(200,160,80,.04);--oriline:rgba(200,160,80,.14);
+  --cat:#E8D060;--cat2:#FFE898;--catfaint:rgba(232,208,96,.04);
+  --meme:#60C8A0;--meme2:#90F0C8;--memefaint:rgba(96,200,160,.04);
+  --almihan:#D87090;--alm2:#F0A0B8;--almfaint:rgba(216,112,144,.04);--almline:rgba(216,112,144,.14);
+  --white:#F0EEFF;--wdim:rgba(240,238,255,.50);--wfaint:rgba(240,238,255,.04);
+  --line:rgba(240,238,255,.06);--lineb:rgba(74,138,232,.10);
+  --serif:"Spectral",Georgia,serif;
+  --display:"Cormorant Garamond",serif;
+  --mono:"JetBrains Mono",monospace;
+  --cinzel:"Cinzel",serif;
+}
+html{scroll-behavior:smooth;background:var(--void)}
+body{color:var(--wdim);font-family:var(--serif);font-size:18px;line-height:2.05;overflow-x:hidden}
+
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 45% at 30% 25%,rgba(74,138,232,.035),transparent),
+    radial-gradient(ellipse 40% 60% at 75% 70%,rgba(216,112,144,.025),transparent),
+    radial-gradient(ellipse 35% 35% at 60% 15%,rgba(200,160,80,.02),transparent)}
+body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.02;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.5rem 1.5rem;background:rgba(4,5,8,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--sirline)}
+.nb{font-family:var(--cinzel);font-size:.62rem;letter-spacing:.14em;color:var(--sir2);text-decoration:none}
+.nb:hover{color:var(--ori2)}
+.nl{display:flex;gap:.04rem;flex-wrap:wrap}
+.nl a{font-family:var(--mono);font-size:.28rem;letter-spacing:.07em;color:var(--wdim);text-decoration:none;padding:.12rem .28rem;text-transform:uppercase;transition:color .15s;opacity:.4}
+.nl a:hover{color:var(--sir2);opacity:1}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;overflow:hidden}
+#chase-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.hero-inner{position:relative;z-index:2;max-width:720px}
+.h-pre{font-family:var(--mono);font-size:.3rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(74,138,232,.35);margin-bottom:.9rem}
+.hero h1{font-family:var(--cinzel);font-size:clamp(2rem,5.5vw,5rem);font-weight:400;letter-spacing:.14em;color:var(--white);line-height:1.05;margin-bottom:.5rem}
+.hero-line{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--sirius),transparent);margin:.7rem auto}
+.hero-sub{font-family:var(--display);font-style:italic;font-size:1.12rem;color:rgba(240,238,255,.3);max-width:560px;margin:0 auto;line-height:2.2}
+
+/* LAYOUT */
+.page{position:relative;z-index:2;max-width:880px;margin:0 auto;padding:0 1.5rem 8rem}
+
+/* SECTIONS */
+.sec{padding:3.5rem 0;border-top:1px solid var(--line)}
+.sec-lbl{font-family:var(--mono);font-size:.28rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.9rem;display:flex;align-items:center;gap:.6rem;opacity:.35}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--sirline)}
+h2{font-family:var(--display);font-size:clamp(1.8rem,4vw,3.6rem);font-weight:300;font-style:italic;line-height:.92;margin-bottom:.8rem;color:var(--white);letter-spacing:-.01em}
+h2 em{color:var(--sir2);font-style:normal}
+h2 .orion{color:var(--ori2);font-style:normal}
+h2 .alm{color:var(--alm2);font-style:normal}
+h3{font-family:var(--display);font-style:italic;font-size:1.12rem;font-weight:300;color:var(--ori2);margin:2rem 0 .4rem}
+p{margin-bottom:.9rem;line-height:2.05}
+p strong{color:var(--white)}
+p em{color:var(--cat2)}
+.lead{font-family:var(--display);font-style:italic;font-size:1.08rem;color:rgba(240,238,255,.36);line-height:2.3;margin-bottom:1.5rem}
+
+/* INTERIOR MONOLOGUE · the heart of the page */
+.interior{position:relative;padding:0;margin:2rem 0}
+.int-line{font-family:var(--display);font-style:italic;font-size:clamp(1rem,2.2vw,1.22rem);color:rgba(240,238,255,.72);line-height:2.4;margin-bottom:.1rem;padding-left:0;position:relative;transition:opacity .3s}
+.int-line.dim{color:rgba(240,238,255,.28)}
+.int-line.bright{color:var(--sir2);font-style:normal;font-weight:600}
+.int-line.orion-line{color:var(--ori2)}
+.int-line.question{color:rgba(240,238,255,.55);padding-left:1.5rem;font-size:clamp(.95rem,2vw,1.1rem)}
+.int-line.question::before{content:"?";position:absolute;left:0;color:rgba(240,238,255,.18);font-style:normal}
+.int-line.explosion{color:var(--sirius);font-style:normal;font-size:clamp(1.1rem,2.5vw,1.5rem);letter-spacing:.04em;margin:1.4rem 0}
+.int-line.return{color:var(--ori2);font-style:italic;font-size:clamp(.9rem,2vw,1.1rem);margin-top:1.5rem}
+.int-line.almihan{color:var(--alm2);font-style:italic;font-size:clamp(1rem,2.2vw,1.3rem);margin-top:2rem}
+.int-line.alm-final{color:var(--alm2);font-family:var(--cinzel);font-style:normal;font-size:clamp(1.2rem,3vw,2rem);letter-spacing:.1em;margin:2rem 0 .5rem;text-align:center}
+.int-spacer{height:1.2rem}
+.int-break{width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--sirline),transparent);margin:1.8rem auto}
+
+/* CANVAS WRAP */
+.canvas-wrap{background:rgba(4,5,8,.92);border:1px solid var(--sirline);border-radius:6px;overflow:hidden;margin:1.5rem 0}
+.canvas-hdr{display:flex;align-items:center;gap:.5rem;padding:.45rem 1rem;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.28rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,238,255,.22)}
+.c-dot{width:5px;height:5px;border-radius:50%;background:var(--sir2);animation:sdot 2.5s ease-in-out infinite}
+@keyframes sdot{0%,100%{opacity:.2}50%{opacity:.9}}
+
+/* QUESTION BLOCKS */
+.q-block{border-left:2px solid var(--sirline);padding:.8rem 1.4rem;margin:1.2rem 0;background:var(--sirfaint);border-radius:0 4px 4px 0}
+.q-block.orion-q{border-left-color:var(--oriline);background:var(--orifaint)}
+.q-who{font-family:var(--mono);font-size:.27rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(74,138,232,.4);margin-bottom:.3rem}
+.q-block.orion-q .q-who{color:rgba(200,160,80,.4)}
+.q-text{font-family:var(--display);font-style:italic;font-size:1.04rem;color:rgba(240,238,255,.55);line-height:2.05}
+.q-answer{font-size:.88rem;color:rgba(240,238,255,.35);line-height:1.9;margin-top:.5rem;font-family:var(--serif)}
+.q-answer strong{color:var(--white)}
+
+/* MYTH ANSWERS */
+.myth{border:1px solid var(--oriline);border-radius:5px;padding:1.1rem 1.4rem;margin:.5rem 0;background:var(--orifaint);position:relative;overflow:hidden}
+.myth::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--orion),transparent)}
+.myth-who{font-family:var(--mono);font-size:.27rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(200,160,80,.4);margin-bottom:.35rem}
+.myth-body{font-family:var(--display);font-style:italic;font-size:.96rem;color:rgba(240,238,255,.52);line-height:2}
+.myth-body strong{color:var(--white);font-style:normal}
+.myth-body em{color:var(--ori2);font-style:italic}
+
+/* ALMIHAN PANEL */
+.alm-panel{border:1px solid var(--almline);border-radius:6px;padding:1.6rem 2rem;margin:2rem 0;background:var(--almfaint);position:relative;overflow:hidden;text-align:center}
+.alm-panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--almihan),var(--ori2),transparent)}
+.alm-panel::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(216,112,144,.2),transparent)}
+.alm-lbl{font-family:var(--mono);font-size:.27rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(216,112,144,.38);margin-bottom:.6rem}
+.alm-body{font-family:var(--display);font-style:italic;font-size:1.06rem;color:rgba(240,238,255,.48);line-height:2.3;max-width:600px;margin:0 auto}
+.alm-body em{color:var(--alm2)}
+.alm-body strong{color:var(--white);font-style:normal}
+
+/* BQUOTE */
+.bq{border-left:2px solid var(--sirline);padding:.65rem 1.2rem;margin:1.2rem 0;background:var(--sirfaint);border-radius:0 4px 4px 0;font-style:italic;font-size:.97rem;color:rgba(240,238,255,.48);line-height:2}
+.bq-attr{display:block;margin-top:.3rem;font-family:var(--mono);font-style:normal;font-size:.27rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(74,138,232,.35)}
+.bq.gold{border-left-color:var(--oriline);background:var(--orifaint)}
+.bq.gold .bq-attr{color:rgba(200,160,80,.4)}
+.bq.rose{border-left-color:var(--almline);background:var(--almfaint)}
+.bq.rose .bq-attr{color:rgba(216,112,144,.4)}
+
+footer{position:relative;z-index:2;text-align:center;padding:3rem 2rem;border-top:1px solid var(--almline)}
+.fla{font-family:var(--mono);font-size:.27rem;letter-spacing:.06em;color:rgba(240,238,255,.18);text-decoration:none;text-transform:uppercase;padding:.15rem .35rem;transition:color .2s}
+.fla:hover{color:var(--sir2)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nb">Musica Universalis</a>
+  <div class="nl">
+    <a href="#chase">The Chase</a>
+    <a href="#orion">Orion Stays</a>
+    <a href="#questions">The Questions</a>
+    <a href="#explodes">The Explosion</a>
+    <a href="#father">His Father</a>
+    <a href="#laugh">The Laugh</a>
+    <a href="#almihan">Almihan</a>
+    <a href="#comma">The Comma</a>
+    <a href="sirius_chasing.html">Sirius Chasing</a>
+    <a href="orion_asks_cat.html">Orion Asks Cat</a>
+    <a href="directory.html">Directory</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <canvas id="chase-canvas"></canvas>
+  <div class="hero-inner">
+    <div class="h-pre">Musica Universalis · Sirius · The Mind · The Chase · The Return</div>
+    <h1>SIRIUS</h1>
+    <div class="hero-line"></div>
+    <p class="hero-sub">He chases. Or is he chased? He does not know. He cannot comprehend. And his mind explodes. And he returns.</p>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- THE CHASE -->
+<section class="sec" id="chase">
+  <div class="sec-lbl">I · The Chase · Who Follows Whom</div>
+  <h2>Sirius always<br>chases <em>Orion</em></h2>
+
+  <p class="lead">Or is it Orion that chases Sirius? Sirius does not know. He has been running for so long that the direction has dissolved. What he knows is this: there is a light ahead of him, always slightly ahead, and he runs toward it, and it moves with him, and he cannot tell if he is closing the distance or maintaining it or if the distance is the point.</p>
+
+  <div class="canvas-wrap">
+    <div class="canvas-hdr">
+      <div class="c-dot"></div>
+      Sirius and Orion · The Chase · Who Follows Whom · Animated
+    </div>
+    <canvas id="orbit-canvas" width="860" height="340" style="display:block;width:100%"></canvas>
+  </div>
+
+  <div class="interior">
+    <div class="int-line dim">In the actual sky, Sirius follows Orion.</div>
+    <div class="int-line dim">Orion rises first in the east. Sirius rises after him, low in the south, the brightest thing in the whole night sky, burning 25 times more luminous than the sun at 8.6 light-years distance.</div>
+    <div class="int-line dim">The Dog Star. Canis Major. The great hunting dog at the heel of the hunter.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line">But Sirius does not feel like a follower.</div>
+    <div class="int-line">He feels like someone running alongside.</div>
+    <div class="int-line bright">Or maybe someone being kept pace with.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim">This is the question he cannot resolve.</div>
+  </div>
+
+  <p>Astronomically, the designation is settled: Sirius is alpha Canis Majoris, the eye of the great dog, and the dog follows the hunter. But mythology is not astronomy. The Egyptians called Sirius Sopdet, and when Sopdet rose in the east just before dawn, the Nile flooded and the year began. Sopdet did not follow anyone. Sopdet announced. The heliacal rising of Sirius was the most important astronomical event in the Egyptian calendar, the signal that the world was about to be renewed. <strong>The dog who announces the new year is not a follower. The dog is the herald.</strong></p>
+
+  <p>In Homer's Iliad, Sirius is Seirios, the "scorching one," the star of late summer whose rising brought heat and pestilence. Achilles, rushing across the battlefield toward Priam's son Hector, is compared to Sirius: brilliant, terrible, bringing death. In this reading, Sirius does not follow Orion. Sirius is the one who arrives and changes everything.</p>
+
+  <div class="bq gold">
+    As the star Sirius rises brilliant among the stars in the darkness of night, which men call Orion's dog, it is the most brilliant among the stars, yet it is wrought as a sign of evil, and brings on the great fever for unfortunate mortals, so blazed the bronze on Achilles' chest.
+    <span class="bq-attr">Homer · Iliad · Book XXII · Achilles as Sirius, not as follower but as the one who arrives</span>
+  </div>
+
+  <p>Cat is faster than Sirius. He has always known this. Cat is faster in the way that a cat is faster: not because she is trying, but because speed is her resting state when she decides to move. She appears at one end of a room and then at the other, and in between there is only the implication of motion. Sirius cannot catch her and has never caught her and does not understand why he keeps trying, except that the trying is the part he loves.</p>
+
+  <p>Meme is something else entirely. Meme moves so fast that she materializes at the other side. She does not cross the distance. She simply is somewhere, and then is somewhere else, and the where-she-was becomes irrelevant. Sirius does not even feel the impulse to chase Meme. He watches, and he laughs, and the laugh is the right response.</p>
+</section>
+
+<!-- ORION STAYS -->
+<section class="sec" id="orion">
+  <div class="sec-lbl">II · Orion · The One Who Stays · Sometimes</div>
+  <h2>But <span class="orion">Orion</span><br>stays</h2>
+
+  <p class="lead">Sometimes. Or, wait. No. Sirius stays sometimes. And he looks up, and there is Orion. The guiding light. Always in the same position relative to everything else, reliable to within the precession of the equinoxes, which is a kind of permanence on any timescale that matters to a dog or a man or a star.</p>
+
+  <div class="interior">
+    <div class="int-line">Sirius stays. And looks up.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line orion-line">There he is.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line">The three belt stars. Alnitak, Alnilam, Mintaka. Level. Always level, no matter what is happening below.</div>
+    <div class="int-line">Betelgeuse in his right shoulder, warm red, already preparing its ending.</div>
+    <div class="int-line">Rigel at his left foot, cold blue-white, burning 120,000 times solar luminosity, indifferent to the heat of it.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim">Unreachable?</div>
+    <div class="int-spacer"></div>
+    <div class="int-line">Everything in the sky is unreachable.</div>
+    <div class="int-line">That has never been the point of looking up.</div>
+  </div>
+
+  <div class="q-block orion-q">
+    <div class="q-who">The Question Underneath the Looking</div>
+    <div class="q-text">What does it mean to have a guiding light you cannot reach?</div>
+    <div class="q-answer">It means the light is doing exactly what it is supposed to do. A guiding light is not a destination. It is an orientation. North is not a place you arrive at. It is a direction you use to know where everything else is. <strong>Orion is Sirius's north.</strong> Not because Sirius is going there. Because as long as Orion is where Orion always is, Sirius knows where he is.</div>
+  </div>
+
+  <p>This is why Meme said, from the mountain: I only recognize my dad, Orion, and me, myself. It is not smallness. It is precision. The complete equipment for navigation. Something larger than yourself that stays where it is, and yourself as the one doing the looking. These two things are sufficient. They have always been sufficient.</p>
+
+  <p>Sirius has his father. Sirius has Orion. Sirius has himself. The rest, the questions, the chasing, the laughter, the explosions of the mind, all of it happens inside that structure. <strong>The structure does not prevent the questions. It is what makes them safe to ask.</strong></p>
+</section>
+
+<!-- THE QUESTIONS -->
+<section class="sec" id="questions">
+  <div class="sec-lbl">III · The Questions · The Explosion Coming</div>
+  <h2>And then<br>the <em>mind</em></h2>
+
+  <p class="lead">He is still. He is looking up. And then the questions come. Not one at a time. All at once, the way questions come when you are very still and there is a lot of sky.</p>
+
+  <div class="interior" style="margin-bottom:2rem">
+    <div class="int-line question">Why does Gilgamesh even build a wall?</div>
+    <div class="int-line question">Why does Hades dig the riches of the Earth?</div>
+    <div class="int-line question">Why do we build a wall?</div>
+    <div class="int-line question">Why does Dante descend into the Underworld?</div>
+    <div class="int-line question">Why do the winds move?</div>
+    <div class="int-line question">Why does time run?</div>
+    <div class="int-line question">What do the gods think?</div>
+  </div>
+
+  <div class="myth">
+    <div class="myth-who">Gilgamesh · The Wall of Uruk · Why He Builds</div>
+    <div class="myth-body">Gilgamesh is the oldest named hero in literature, king of Uruk, two-thirds divine. He builds the wall of Uruk around his city, a great wall of fired brick. He builds it after Enkidu dies. <strong>He builds it because he has learned that everything ends,</strong> and the wall is the answer a king gives to that knowledge: if I cannot stop time, I will build something that outlasts me and call that a victory. The wall is not protection. The wall is the refusal to accept impermanence dressed as civic infrastructure. <em>We still build walls for the same reason.</em></div>
+  </div>
+
+  <div class="myth">
+    <div class="myth-who">Hades · The Riches of the Earth · Why He Digs</div>
+    <div class="myth-body">Hades does not dig. He is dug toward. Every mine, every grave, every root going down is moving toward his domain. He is called Plouton, the wealthy one, because all the riches of the earth, the gold and silver and iron and the deep cold water and the bones of everything that has ever lived, all of it belongs to him eventually. <strong>He does not pursue wealth. Wealth descends to him.</strong> He is the principle of accumulation that has no upward movement. Everything goes down. He waits. This is not greed. This is physics. <em>The earth is patient in a way that nothing above it can be.</em></div>
+  </div>
+
+  <div class="myth">
+    <div class="myth-who">Dante · The Descent · Why He Goes Down Before He Goes Up</div>
+    <div class="myth-body">Dante descends into the Inferno because Virgil tells him there is no other way to reach the mountain. The path to Paradiso runs through Hell. This is not punishment. It is structure. <strong>You cannot know what you are oriented toward until you have seen what you are oriented away from.</strong> The descent is the clarification. Every circle of Hell is not a judgment on the damned. It is a lesson for the traveler. Dante comes out the other side knowing what he wants, because he has seen with precision what he does not want. The wall has to be built from the bottom up. <em>You have to go down before you can know what up means.</em></div>
+  </div>
+
+  <div class="myth">
+    <div class="myth-who">The Winds · Why They Move</div>
+    <div class="myth-body">In Greek myth, the winds are the Anemoi: Boreas from the north, Zephyrus from the west, Notus from the south, Eurus from the east. They move because pressure differentials demand it. They move because the sun heats the equator more than the poles. They move because the earth rotates and the Coriolis effect curves everything that flows. They move because the sea is warmer in summer and colder in winter and the air above it responds. <strong>The winds move because the world is not in equilibrium,</strong> and they are the process by which the world tries to reach it. It never does. So the winds never stop. <em>The gods named the winds because the alternative was to admit that motion is just physics, and physics is not a good story.</em></div>
+  </div>
+
+  <div class="myth">
+    <div class="myth-who">Time · Why It Runs</div>
+    <div class="myth-body">The Greeks had two words for time. Chronos: measured, sequential, the time that clocks measure, the time of duration. Kairos: the right moment, the opportune instant, the time that matters regardless of the clock. Chronos runs because entropy increases, because the second law of thermodynamics requires that closed systems move toward disorder, and time is the coordinate along which that movement occurs. <strong>Time runs because the universe is a process, not a state.</strong> If entropy were ever to reverse, time would too. It has not. <em>Kairos runs differently. Kairos only runs when you are present enough to feel it.</em></div>
+  </div>
+
+  <div class="myth">
+    <div class="myth-who">The Gods · What They Think</div>
+    <div class="myth-body">The gods think the same things we think, but without the modulation that mortality provides. Zeus loves and rages and desires and fears being supplanted, unchecked by the knowledge that it will all end soon. Athena reasons with perfect clarity but her clarity is without the softening effect of having a body that aches. Hera is jealous with an intensity that a human jealousy would exhaust itself trying to sustain. <strong>The gods are what we are with the volume turned up and the time limit removed.</strong> They are us, as thought experiments. Which is why we invented them. <em>And why they never quite satisfied as answers to the questions that produced them.</em></div>
+  </div>
+</section>
+
+<!-- THE EXPLOSION -->
+<section class="sec" id="explodes">
+  <div class="sec-lbl">IV · The Explosion · The Mind Cannot Hold It</div>
+  <h2>Sirius's mind<br><em>explodes</em></h2>
+
+  <div class="interior" style="margin:1.5rem 0 2rem">
+    <div class="int-line explosion">!!!!!</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim">Gilgamesh and the wall and the grief underneath it and</div>
+    <div class="int-line dim">Hades with all that accumulated wealth he never asked for and</div>
+    <div class="int-line dim">Dante going down to go up and</div>
+    <div class="int-line dim">the winds that never stop because equilibrium never comes and</div>
+    <div class="int-line dim">time running because entropy requires it and</div>
+    <div class="int-line dim">the gods thinking enormous versions of ordinary things and</div>
+    <div class="int-spacer"></div>
+    <div class="int-line explosion">ALL AT ONCE</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim">and Sirius cannot hold it and</div>
+    <div class="int-line dim">does not need to hold it and</div>
+    <div class="int-line dim">the explosion is not a problem to be solved</div>
+    <div class="int-spacer"></div>
+    <div class="int-line">it is the mind being alive</div>
+    <div class="int-line">it is what happens when you are still enough</div>
+    <div class="int-line">and there is enough sky</div>
+    <div class="int-line">and you let the questions come</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim">and then</div>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="canvas-hdr">
+      <div class="c-dot"></div>
+      The Centering · Sirius Returns · From Explosion to Center
+    </div>
+    <canvas id="center-canvas" width="860" height="280" style="display:block;width:100%"></canvas>
+  </div>
+</section>
+
+<!-- THE FATHER -->
+<section class="sec" id="father">
+  <div class="sec-lbl">V · The Father · The Natural Style · The Beauty</div>
+  <h2>He centers<br>back into<br>his <em>father</em></h2>
+
+  <div class="interior" style="margin:1.5rem 0">
+    <div class="int-line return">No.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line return">He centers back.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line return">Into his father.</div>
+    <div class="int-line return">What he thought of.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line orion-line">The beauty of the natural style.</div>
+  </div>
+
+  <p class="lead">Orion hunts with a natural style. It is not force. It is not calculation. It is the body knowing what to do before the mind has formed the instruction. The belt always level. The step always sure. The aim always already adjusted before the adjustment is conscious. This is what Sirius centers on when the questions become too large to hold.</p>
+
+  <p>The natural style is not the absence of thought. It is the integration of thought so complete that it no longer announces itself as separate from action. The hunter does not think "adjust for wind and distance and the angle of the light" and then adjust. He adjusts. The thought and the motion are one motion. <strong>This is what years of practice produces: not speed, not strength, but the dissolution of the gap between intention and execution.</strong></p>
+
+  <p>Sirius's father had this. Whatever his father did, he did it the way Orion hunts: the belt level, the step sure, the action already completed in the quality of the intention. Sirius does not have the natural style yet. He is still in the stage where he can see it in others and feel the distance between what he observes and what he can produce. But he has seen it. He knows it exists. He knows what he is moving toward.</p>
+
+  <div class="q-block">
+    <div class="q-who">The Natural Style · What It Actually Is</div>
+    <div class="q-text">The Japanese call it mushin: no-mind. Not mindlessness. The absence of the self-conscious observer who watches and evaluates as you act. The martial artist who must think about the block has already been hit. The jazz musician who must think about the next note has already broken the phrase. The hunter who must think about the adjustment has already missed. Mushin is when the practice has become deep enough that it can run without supervision.</div>
+    <div class="q-answer">It is also, in another tradition, what Zhuangzi describes in the story of Cook Ding, who carves an ox in perfect accord with the ox's natural joints and spaces, his blade never meeting resistance because it always finds the path that was already there. <strong>The natural style is the style that has found the path that was already there.</strong></div>
+  </div>
+
+  <div class="bq gold">
+    My mind works along without the control of my senses. Falling back upon eternal principles, I glide through such great joints or cavities as there may be, according to the natural constitution of the animal.
+    <span class="bq-attr">Zhuangzi · Cook Ding to Prince Hui · on the natural style · on the path that was already there</span>
+  </div>
+
+  <p>His father had found those joints. Those natural spaces. The places where the motion does not resist itself. Sirius has watched him move and thought: there it is, that is what I want, not the outcome but the quality of the motion that produced it. <strong>The beauty of the natural style is not what it makes. It is what it is.</strong> It is its own reason. It is what Sirius returns to when the questions become walls that cannot be climbed from outside.</p>
+</section>
+
+<!-- THE LAUGH -->
+<section class="sec" id="laugh">
+  <div class="sec-lbl">VI · The Laugh · The Chase Continues · How Could It Not</div>
+  <h2>He still<br>chases<br><em>Cat</em></h2>
+
+  <div class="interior" style="margin:1.5rem 0">
+    <div class="int-line">He still chases Cat.</div>
+    <div class="int-line">How could he not.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim">She is faster. She was always faster.</div>
+    <div class="int-line dim">The speed is not the point.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line">And he laughs when Meme moves so fast</div>
+    <div class="int-line">that she materializes at the other side.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim">Not at her.</div>
+    <div class="int-line dim">With the fact of it.</div>
+    <div class="int-line dim">With the sheer delight of existing in a world</div>
+    <div class="int-line dim">where something can do that.</div>
+  </div>
+
+  <p>The laugh is important. It is not resignation. It is not self-deprecation. It is the recognition that the world contains more than one speed, and that your speed being one of those speeds does not make it insufficient. Sirius runs at Sirius's speed. Cat moves at Cat's speed. Meme exists at Meme's speed, which is not a speed so much as a relationship with space that bypasses transit. All three are true. All three are the world.</p>
+
+  <p>This is the thing the explosion of questions could not give him and his father's natural style could: <strong>the questions ask why the world is the way it is. His father's style shows that the world is already the way it needs to be, right here, in this motion, in this specific quality of attention.</strong> The question and the style are not opposites. The style is what you have available when the questions have done their work and you have to live again.</p>
+
+  <div class="bq">
+    Sirius chases Cat. Cat is faster. Sirius knows this. Sirius chases Cat anyway. This is not stupidity. This is the full human situation. We pursue what we cannot catch and we are enlarged by the pursuing. The catching was never the thing. The thing was the quality of the run.
+    <span class="bq-attr">on chasing and being enlarged by what outruns you</span>
+  </div>
+</section>
+
+<!-- ALMIHAN -->
+<section class="sec" id="almihan">
+  <div class="sec-lbl">VII · Almihan · The Return · The Beautiful Soul</div>
+  <h2>Sirius returns<br>to <span class="alm">Almihan</span></h2>
+
+  <div class="interior" style="margin:1.5rem 0 2.5rem">
+    <div class="int-line dim">But Sirius?</div>
+    <div class="int-spacer"></div>
+    <div class="int-line almihan">Sirius returns to Almihan.</div>
+  </div>
+
+  <div class="alm-panel">
+    <div class="alm-lbl">Almihan · Beautiful Soul · Golden Soul · The One He Returns To</div>
+    <div class="alm-body">
+      Almihan. The name is Kazakh: <em>al</em>, gold or beautiful, and <em>jan</em>, soul or life. The beautiful soul. The golden life. She is not the destination of the chase. She is the place he comes back to. <strong>There is a difference between where you run and where you return.</strong> You run toward what calls you outward: Cat's speed, Meme's impossible translocation, the questions at night under Orion. You return to what holds the shape of you while you are away and is still there, unchanged in the ways that matter, when you come back. Almihan is not behind Sirius. Almihan is <em>where he arrives</em> when he has finished running for the day.
+    </div>
+  </div>
+
+  <p>Not all light is the guiding light at the unreachable distance. Some light is close. Some light is the specific warmth of a specific place that knows you. Orion is the orienting star. <strong>Almihan is the hearth.</strong> Both are necessary. The orienting star tells you where you are in the vastness. The hearth is the reason the vastness is navigable at all, because there is somewhere to come back to.</p>
+
+  <p>Sirius has run hard enough today. The questions have come and broken open and he has sat with the fragments and found in them the pieces of his father's natural style, the joints, the natural spaces, the motion that does not resist itself. He has chased Cat and laughed at Meme and held Orion in the corner of his eye the whole time. And now he returns.</p>
+
+  <div class="canvas-wrap" style="margin:2rem 0">
+    <div class="canvas-hdr">
+      <div class="c-dot" style="background:var(--alm2)"></div>
+      The Return · Sirius to Almihan · The Arc of the Day
+    </div>
+    <canvas id="return-canvas" width="860" height="260" style="display:block;width:100%"></canvas>
+  </div>
+
+  <div class="interior" style="margin:2rem 0">
+    <div class="int-break"></div>
+    <div class="int-line alm-final">Almihan</div>
+    <div class="int-line dim" style="text-align:center">the beautiful soul</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">the one he comes back to</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">when the sky has been large enough</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">and the questions have done their work</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">and the laugh is still in him</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">and the run was good</div>
+    <div class="int-break"></div>
+    <div class="int-line" style="text-align:center;color:rgba(240,238,255,.18);font-family:var(--mono);font-size:.28rem;letter-spacing:.12em;text-transform:uppercase">· · ·</div>
+  </div>
+
+</section>
+
+<!-- THE COMMA -->
+<section class="sec" id="comma">
+  <div class="sec-lbl">VIII · The Comma · δ = 0.013643 · The Gap That Is Not A Flaw</div>
+  <h2>Sirius's<br><em>comma</em></h2>
+
+  <p class="lead">Every page on this site carries the comma. δ = 0.013643. The gap between 12 perfect fifths and 7 perfect octaves, the mathematical impossibility of closing the spiral, the leftover that makes the whole system move. Each page finds its own comma. This is Sirius's.</p>
+
+  <div class="q-block">
+    <div class="q-who">The Pythagorean Comma · What It Is</div>
+    <div class="q-text">Stack 12 perfect fifths. You expect to arrive back at the same note, seven octaves up. You don't. You overshoot by δ = 0.013643. The spiral does not close. Every tuning system in history is a strategy for managing this gap. The comma is not a mistake. It is a mathematical necessity. The integers do not divide evenly. The universe is not perfectly periodic. The comma is what remains when you try to make it so.</div>
+  </div>
+
+  <div class="interior" style="margin:2rem 0">
+    <div class="int-line">What is Sirius's comma?</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim">It is not the gap between him and Cat's speed. That is not a comma. That is just a difference.</div>
+    <div class="int-line dim">It is not the gap between him and Meme's impossible translocation. That is not a comma either. That is a different kind of being.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line orion-line">It is the gap between Orion and Almihan.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line">Between the unreachable and the reachable.</div>
+    <div class="int-line">Between the orienting star and the hearth.</div>
+    <div class="int-line">Between the question that explodes the mind</div>
+    <div class="int-line">and the place you return to when it has done its work.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim">This gap does not close.</div>
+    <div class="int-line dim">Orion does not descend. Almihan does not become Orion.</div>
+    <div class="int-line dim">The distance between guiding light and hearth is permanent.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line">And it is exactly this distance that makes the run possible.</div>
+  </div>
+
+  <div class="myth">
+    <div class="myth-who">Why The Comma Must Not Close</div>
+    <div class="myth-body">If Orion were reachable, he would stop being the orienting star. A north that you could walk to would stop being north the moment you arrived at it , it would just be a place, like any other place, without the quality of direction. <strong>The guiding light works precisely because it stays where it is while you move.</strong> Its distance is not an obstacle to navigation. Its distance is the mechanism of navigation. The comma between Orion and Almihan is what keeps Sirius oriented across the whole of the run. Without it, there is no run. There is only standing still in a place that has no direction attached to it.<br><br>And Almihan: if she were replaced by the unreachable, if she were the star instead of the hearth, there would be nowhere to return to. The run would be endless in the bad sense, the sense of having no arc, no gathering, no moment of arriving. <em>The hearth that you can actually reach is what gives the run its shape.</em> The comma between the two is what makes both of them what they are.</div>
+  </div>
+
+  <div class="bq rose">
+    The Pythagorean comma does not close after 12 steps. It keeps going, spiraling outward, always approaching but never arriving. This is not a problem. This is the structure of the musical universe. Every note you have ever heard was produced inside this non-closure. The music did not wait for the spiral to close. The music happened in the gap.
+    <span class="bq-attr">on the comma · on the gap that produces music · on Sirius's run</span>
+  </div>
+
+  <div class="interior" style="margin:2rem 0 1rem">
+    <div class="int-line dim" style="text-align:center">Sirius runs.</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">The questions explode.</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">He centers into his father.</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">He chases Cat and laughs at Meme.</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">He looks up at Orion.</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">He returns to Almihan.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line" style="text-align:center">The gap between the looking and the returning</div>
+    <div class="int-line" style="text-align:center">is exactly δ = 0.013643.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line dim" style="text-align:center">He always crosses it.</div>
+    <div class="int-line dim" style="text-align:center;margin-top:.3rem">That is the whole of it.</div>
+    <div class="int-spacer"></div>
+    <div class="int-line" style="text-align:center;color:rgba(240,238,255,.18);font-family:var(--mono);font-size:.28rem;letter-spacing:.14em;text-transform:uppercase">δ = 0.013643 · the comma between Orion and Almihan · Sirius always crosses it</div>
+    <div class="int-spacer"></div>
+    <div class="int-line" style="text-align:center;color:rgba(240,238,255,.12);font-family:var(--display);font-style:italic;font-size:clamp(.85rem,1.8vw,1rem)">You may rest, Sirius. The comma will be there when you rise again.</div>
+  </div>
+
+</section>
+
+</div><!-- /page -->
+
+<footer>
+  <div style="font-family:var(--cinzel);font-size:.65rem;letter-spacing:.14em;color:var(--sir2);margin-bottom:.3rem">Sirius · The Mind · Almihan</div>
+  <div style="font-family:var(--display);font-style:italic;font-size:.88rem;color:rgba(240,238,255,.18);margin-bottom:.5rem">The Chase · The Questions · The Father · The Return · Musica Universalis</div>
+  <div style="font-family:var(--mono);font-size:.27rem;letter-spacing:.1em;color:rgba(74,138,232,.18);margin-bottom:.9rem">δ = 0.013643 · the orienting star is real · the hearth is real · both are necessary</div>
+  <div style="display:flex;gap:.3rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="sirius_chasing.html">Sirius Chasing</a>
+    <a class="fla" href="orion_asks_cat.html">Orion Asks Cat</a>
+    <a class="fla" href="divine_meme.html">The Divine Meme</a>
+    <a class="fla" href="love_is_love.html">Love Is Love</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+
+<script>
+// ═══ HERO CANVAS · Sirius and Orion chase pattern ═══
+(function(){
+  const c=document.getElementById("chase-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth||960;H=c.height=c.offsetHeight||700}
+  resize();window.addEventListener("resize",resize);
+
+  const STARS=[];
+  for(let i=0;i<260;i++) STARS.push({x:Math.random(),y:Math.random(),r:Math.random()*1.2+.2,a:Math.random()*.5+.05,ph:Math.random()*Math.PI*2,sp:Math.random()*.003+.001});
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(4,5,8,.93)";ctx.fillRect(0,0,W,H);
+
+    STARS.forEach(s=>{
+      const a=s.a*(0.5+0.5*Math.sin(t*s.sp+s.ph));
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(240,238,255,${a})`;ctx.fill();
+    });
+
+    // Orion · fixed, warm gold glow
+    const ox=W*.5,oy=H*.42;
+    const og=ctx.createRadialGradient(ox,oy,0,ox,oy,W*.15);
+    og.addColorStop(0,"rgba(200,160,80,.08)");og.addColorStop(1,"rgba(0,0,0,0)");
+    ctx.fillStyle=og;ctx.fillRect(0,0,W,H);
+    const opulse=0.7+0.3*Math.sin(t*.006);
+    ctx.beginPath();ctx.arc(ox,oy,8*opulse,0,Math.PI*2);
+    ctx.fillStyle=`rgba(232,200,112,${opulse*.75})`;ctx.fill();
+    ctx.fillStyle="rgba(232,200,112,.45)";
+    ctx.font=`italic ${Math.max(9,W*.013)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+    ctx.fillText("Orion",ox,oy-16);
+
+    // Sirius · orbiting, but the orbit is slightly uncertain · sometimes closer, sometimes pulling ahead
+    const wobble=Math.sin(t*.007)*0.08;
+    const angle=t*.009+wobble;
+    const dist=W*(0.24+0.06*Math.sin(t*.011));
+    const sx=ox+dist*Math.cos(angle);
+    const sy=oy+dist*Math.sin(angle)*0.5;
+
+    // Trail
+    for(let i=1;i<=12;i++){
+      const ta=angle-i*.04;const td=dist*(1-i*.01);
+      const tx2=ox+td*Math.cos(ta),ty2=oy+td*Math.sin(ta)*0.5;
+      ctx.beginPath();ctx.arc(tx2,ty2,2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(74,138,232,${.18-i*.014})`;ctx.fill();
+    }
+
+    const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,W*.1);
+    sg.addColorStop(0,"rgba(74,138,232,.12)");sg.addColorStop(1,"rgba(0,0,0,0)");
+    ctx.fillStyle=sg;ctx.fillRect(0,0,W,H);
+    const spulse=0.75+0.25*Math.sin(t*.015);
+    ctx.beginPath();ctx.arc(sx,sy,6*spulse,0,Math.PI*2);
+    ctx.fillStyle=`rgba(122,186,255,${spulse*.85})`;ctx.fill();
+    ctx.fillStyle="rgba(122,186,255,.4)";
+    ctx.font=`italic ${Math.max(8,W*.011)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+    ctx.fillText("Sirius",sx,sy-13);
+
+    // The question of direction
+    const isAhead=Math.cos(t*.009)<0;
+    ctx.fillStyle="rgba(240,238,255,.1)";
+    ctx.font=`${Math.max(6,W*.009)}px 'JetBrains Mono',monospace`;ctx.textAlign="center";
+    ctx.fillText(isAhead?"Sirius leads":"Sirius follows",W*.5,H*.88);
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ ORBIT CANVAS · who follows whom ═══
+(function(){
+  const c=document.getElementById("orbit-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth||860;H=340}
+  resize();window.addEventListener("resize",resize);
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(4,5,8,.97)";ctx.fillRect(0,0,W,H);
+
+    // Left panel: actual sky · Orion rises first
+    const lx=W*.25,ly=H*.5;
+    // Horizon
+    ctx.strokeStyle="rgba(240,238,255,.06)";ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(W*.05,ly+60);ctx.lineTo(W*.45,ly+60);ctx.stroke();
+    ctx.fillStyle="rgba(240,238,255,.15)";
+    ctx.font=`${Math.max(6,W*.009)}px 'JetBrains Mono',monospace`;ctx.textAlign="center";
+    ctx.fillText("Actual sky · Orion rises first",lx,H*.12);
+
+    const skyT=(t*.005)%(Math.PI*2);
+    const orionH=Math.max(0,Math.sin(skyT));
+    const siriusH=Math.max(0,Math.sin(skyT-.5)); // Sirius trails by ~0.5 rad in sky
+
+    const oY=ly+60-orionH*120;const sY=ly+60-siriusH*120;
+    if(orionH>0){
+      const og=ctx.createRadialGradient(lx-40,oY,0,lx-40,oY,20);
+      og.addColorStop(0,"rgba(232,200,112,.5)");og.addColorStop(1,"rgba(232,200,112,0)");
+      ctx.fillStyle=og;ctx.beginPath();ctx.arc(lx-40,oY,20,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.arc(lx-40,oY,5,0,Math.PI*2);ctx.fillStyle="rgba(232,200,112,.8)";ctx.fill();
+      ctx.fillStyle="rgba(232,200,112,.45)";ctx.font=`${Math.max(6,W*.009)}px 'JetBrains Mono',monospace`;ctx.textAlign="center";
+      ctx.fillText("Orion",lx-40,oY-12);
+    }
+    if(siriusH>0){
+      const sg=ctx.createRadialGradient(lx+20,sY,0,lx+20,sY,22);
+      sg.addColorStop(0,"rgba(74,138,232,.55)");sg.addColorStop(1,"rgba(74,138,232,0)");
+      ctx.fillStyle=sg;ctx.beginPath();ctx.arc(lx+20,sY,22,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.arc(lx+20,sY,6,0,Math.PI*2);ctx.fillStyle="rgba(122,186,255,.9)";ctx.fill();
+      ctx.fillStyle="rgba(122,186,255,.4)";ctx.font=`${Math.max(6,W*.009)}px 'JetBrains Mono',monospace`;ctx.textAlign="center";
+      ctx.fillText("Sirius",lx+20,sY-14);
+    }
+
+    // Right panel: Egyptian · Sirius announces
+    const rx=W*.75,ry=H*.5;
+    ctx.fillStyle="rgba(240,238,255,.15)";ctx.textAlign="center";
+    ctx.fillText("Egyptian sky · Sirius announces the year",rx,H*.12);
+
+    // Nile suggestion
+    ctx.beginPath();ctx.moveTo(W*.55,ry+50);ctx.lineTo(W*.95,ry+50);
+    ctx.strokeStyle="rgba(74,138,232,.12)";ctx.lineWidth=3;ctx.stroke();
+    ctx.fillStyle="rgba(74,138,232,.08)";
+    ctx.fillRect(W*.55,ry+50,W*.4,20);
+
+    const heliT=(t*.004+Math.PI*.7)%(Math.PI*2);
+    const siriusPre=Math.sin(heliT);
+    if(siriusPre>-.1){
+      const preY=ry+40-Math.max(0,siriusPre)*90;
+      const sg2=ctx.createRadialGradient(rx,preY,0,rx,preY,25);
+      sg2.addColorStop(0,"rgba(122,186,255,.6)");sg2.addColorStop(1,"rgba(122,186,255,0)");
+      ctx.fillStyle=sg2;ctx.beginPath();ctx.arc(rx,preY,25,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.arc(rx,preY,7,0,Math.PI*2);ctx.fillStyle="rgba(122,186,255,.95)";ctx.fill();
+      if(siriusPre>0.8){
+        ctx.fillStyle="rgba(240,238,255,.35)";ctx.font=`italic ${Math.max(8,W*.011)}px 'Cormorant Garamond',serif`;
+        ctx.fillText("The Nile floods",rx,ry+35);ctx.fillText("The year begins",rx,ry+50);
+      }
+    }
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ CENTER CANVAS · the explosion centering ═══
+(function(){
+  const c=document.getElementById("center-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth||860;H=280}
+  resize();window.addEventListener("resize",resize);
+
+  const fragments=[];
+  for(let i=0;i<60;i++){
+    const angle=Math.random()*Math.PI*2;
+    const speed=.5+Math.random()*2;
+    fragments.push({
+      angle,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,
+      x:.5,y:.5,a:1,
+      col:`rgba(${Math.floor(74+Math.random()*60)},${Math.floor(138+Math.random()*50)},${Math.floor(232)},`,
+      r:Math.random()*2+.5
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(4,5,8,.96)";ctx.fillRect(0,0,W,H);
+
+    const cx=W*.5,cy=H*.5;
+    const phase=Math.sin(t*.012); // -1 explosion to 1 centered
+
+    if(phase<0){
+      // Explosion phase · fragments fly out
+      fragments.forEach(f=>{
+        const fx=cx+f.vx*W*.18*(-phase);
+        const fy=cy+f.vy*H*.22*(-phase);
+        ctx.beginPath();ctx.arc(fx,fy,f.r,0,Math.PI*2);
+        ctx.fillStyle=f.col+(.6+phase*.4)+")";ctx.fill();
+      });
+      // Question marks scattered
+      const qmarks=["?","?","?","?","?"];
+      qmarks.forEach((q,i)=>{
+        const angle2=(i/qmarks.length)*Math.PI*2+t*.003;
+        const r2=W*.2*(-phase);
+        const qx=cx+r2*Math.cos(angle2),qy=cy+r2*Math.sin(angle2);
+        ctx.fillStyle=`rgba(240,238,255,${Math.max(0,-phase*.4)})`;
+        ctx.font=`${Math.max(10,W*.018)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+        ctx.fillText(q,qx,qy);
+      });
+    } else {
+      // Centering phase · converge to point
+      fragments.forEach(f=>{
+        const fx=cx+f.vx*W*.18*(1-phase);
+        const fy=cy+f.vy*H*.22*(1-phase);
+        ctx.beginPath();ctx.arc(fx,fy,f.r,0,Math.PI*2);
+        ctx.fillStyle=f.col+(.4+phase*.5)+")";ctx.fill();
+      });
+    }
+
+    // Center point · Sirius
+    const centerGlow=Math.max(0,phase);
+    const cg=ctx.createRadialGradient(cx,cy,0,cx,cy,60);
+    cg.addColorStop(0,`rgba(74,138,232,${centerGlow*.3})`);cg.addColorStop(1,"rgba(74,138,232,0)");
+    ctx.fillStyle=cg;ctx.beginPath();ctx.arc(cx,cy,60,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,6+centerGlow*4,0,Math.PI*2);
+    ctx.fillStyle=`rgba(122,186,255,${.4+centerGlow*.5})`;ctx.fill();
+
+    // Father label when centered
+    if(phase>.5){
+      ctx.fillStyle=`rgba(232,200,112,${(phase-.5)*2*.5})`;
+      ctx.font=`italic ${Math.max(9,W*.013)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+      ctx.fillText("the natural style",cx,cy-22);
+      ctx.fillText("the beauty of it",cx,cy+32);
+    }
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ RETURN CANVAS · Sirius arcing back to Almihan ═══
+(function(){
+  const c=document.getElementById("return-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth||860;H=260}
+  resize();window.addEventListener("resize",resize);
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(4,5,8,.97)";ctx.fillRect(0,0,W,H);
+
+    const almX=W*.82,almY=H*.55;
+    const oriX=W*.5,oriY=H*.2;
+
+    // Almihan glow · warm rose
+    const ag=ctx.createRadialGradient(almX,almY,0,almX,almY,W*.15);
+    ag.addColorStop(0,"rgba(216,112,144,.14)");ag.addColorStop(1,"rgba(216,112,144,0)");
+    ctx.fillStyle=ag;ctx.fillRect(0,0,W,H);
+    const apulse=0.7+0.3*Math.sin(t*.01);
+    ctx.beginPath();ctx.arc(almX,almY,10*apulse,0,Math.PI*2);
+    ctx.fillStyle=`rgba(240,160,184,${apulse*.65})`;ctx.fill();
+    ctx.fillStyle="rgba(240,160,184,.45)";
+    ctx.font=`italic ${Math.max(10,W*.014)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+    ctx.fillText("Almihan",almX,almY-18);
+    ctx.font=`${Math.max(6,W*.009)}px 'JetBrains Mono',monospace`;
+    ctx.fillStyle="rgba(240,160,184,.28)";
+    ctx.fillText("beautiful soul",almX,almY+22);
+
+    // Orion · distant, guiding
+    const og=ctx.createRadialGradient(oriX,oriY,0,oriX,oriY,W*.08);
+    og.addColorStop(0,"rgba(200,160,80,.1)");og.addColorStop(1,"rgba(200,160,80,0)");
+    ctx.fillStyle=og;ctx.fillRect(0,0,W,H);
+    ctx.beginPath();ctx.arc(oriX,oriY,5,0,Math.PI*2);
+    ctx.fillStyle="rgba(232,200,112,.6)";ctx.fill();
+    ctx.fillStyle="rgba(232,200,112,.32)";
+    ctx.font=`italic ${Math.max(8,W*.01)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+    ctx.fillText("Orion",oriX,oriY-12);
+
+    // Sirius arc · the day's journey ending in return
+    const progress=(t*.006)%(Math.PI*2);
+    // Path: starts top-left (Cat chase), arcs through center (questions, explosion), curves to Almihan
+    const controlPoints=[
+      {x:.08,y:.65},{x:.2,y:.3},{x:.35,y:.45},{x:.5,y:.35},{x:.65,y:.55},{x:.82,y:.55}
+    ];
+    // Draw path suggestion
+    ctx.beginPath();
+    ctx.moveTo(controlPoints[0].x*W,controlPoints[0].y*H);
+    for(let i=1;i<controlPoints.length-1;i++){
+      const mx=(controlPoints[i].x+controlPoints[i+1].x)/2*W;
+      const my=(controlPoints[i].y+controlPoints[i+1].y)/2*H;
+      ctx.quadraticCurveTo(controlPoints[i].x*W,controlPoints[i].y*H,mx,my);
+    }
+    ctx.lineTo(almX,almY);
+    ctx.strokeStyle="rgba(74,138,232,.08)";ctx.lineWidth=1.5;ctx.setLineDash([3,6]);ctx.stroke();ctx.setLineDash([]);
+
+    // Sirius on path
+    const pIdx=Math.min(progress/(Math.PI*2)*(controlPoints.length-1),controlPoints.length-1.01);
+    const pi=Math.floor(pIdx);const pf=pIdx-pi;
+    const p1=controlPoints[Math.min(pi,controlPoints.length-1)];
+    const p2=controlPoints[Math.min(pi+1,controlPoints.length-1)];
+    const sx=p1.x*W+(p2.x-p1.x)*W*pf;
+    const sy=p1.y*H+(p2.y-p1.y)*H*pf;
+
+    const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,W*.06);
+    sg.addColorStop(0,"rgba(74,138,232,.18)");sg.addColorStop(1,"rgba(74,138,232,0)");
+    ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,W*.06,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(sx,sy,6,0,Math.PI*2);ctx.fillStyle="rgba(122,186,255,.85)";ctx.fill();
+
+    // Cat (fast, near start)
+    const catX=W*(.12+.04*Math.sin(t*.08)),catY=H*(.62+.04*Math.cos(t*.07));
+    ctx.beginPath();ctx.arc(catX,catY,4,0,Math.PI*2);ctx.fillStyle="rgba(255,232,152,.6)";ctx.fill();
+    ctx.fillStyle="rgba(255,232,152,.3)";ctx.font=`${Math.max(6,W*.009)}px 'JetBrains Mono',monospace`;ctx.textAlign="center";
+    ctx.fillText("Cat",catX,catY-10);
+
+    // Labels for path
+    ctx.fillStyle="rgba(240,238,255,.12)";ctx.font=`italic ${Math.max(6,W*.009)}px 'Cormorant Garamond',serif`;
+    ctx.textAlign="left";
+    ctx.fillText("the chase",W*.08,H*.85);
+    ctx.fillText("the questions",W*.38,H*.85);
+    ctx.fillText("the return",W*.65,H*.85);
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

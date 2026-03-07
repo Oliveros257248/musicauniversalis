@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orion Asks Cat · The Righting Reflex · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#030408;--bg:#050709;
+  --amber:#D4891A;--amb2:#F0A830;--ambfaint:rgba(212,137,26,.05);--ambline:rgba(212,137,26,.14);
+  --silver:#B8C8D8;--sil2:#D8E8F0;--silfaint:rgba(184,200,216,.04);--silline:rgba(184,200,216,.10);
+  --cat:#8BAABB;--cat2:#A8C8DC;
+  --orion:#C8A050;--ori2:#E0C070;
+  --cream:rgba(230,225,215,.88);--dim:rgba(230,225,215,.42);--faint:rgba(230,225,215,.06);--line:rgba(230,225,215,.07);
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --mono:"Space Mono",monospace;
+  --display:"Cinzel",serif;
+}
+html{scroll-behavior:smooth;background:var(--void)}
+body{color:var(--dim);font-family:var(--serif);font-size:18px;line-height:2;overflow-x:hidden}
+
+body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.5rem 1.6rem;background:rgba(3,4,8,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--ambline)}
+.nb{font-family:var(--display);font-size:.62rem;letter-spacing:.12em;color:var(--amb2);text-decoration:none}
+.nb:hover{color:var(--ori2)}
+.nl{display:flex;gap:.04rem;flex-wrap:wrap}
+.nl a{font-family:var(--mono);font-size:.28rem;letter-spacing:.05em;color:var(--dim);text-decoration:none;padding:.1rem .3rem;text-transform:uppercase;transition:color .15s;opacity:.38}
+.nl a:hover{color:var(--amb2);opacity:1}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;overflow:hidden}
+#sky-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.hero-inner{position:relative;z-index:2;max-width:760px}
+.h-pre{font-family:var(--mono);font-size:.28rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,137,26,.38);margin-bottom:.8rem}
+.hero h1{font-family:var(--serif);font-size:clamp(2.4rem,6.5vw,7rem);font-weight:300;font-style:italic;line-height:.9;letter-spacing:-.01em;color:var(--cream);margin-bottom:.5rem}
+.hero h1 .orion{color:var(--ori2);font-style:normal;font-weight:600}
+.hero h1 .cat{color:var(--cat2);font-style:normal;font-weight:600}
+.hero-line{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);margin:.7rem auto}
+.hero-sub{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:rgba(230,225,215,.32);max-width:520px;margin:0 auto;line-height:2.1}
+
+/* LAYOUT */
+.page{position:relative;z-index:2;max-width:980px;margin:0 auto;padding:0 1.6rem 8rem}
+
+/* DIALOGUE */
+.dialogue{margin:2.5rem 0}
+.line{display:flex;gap:1.2rem;margin:.8rem 0;align-items:flex-start}
+.line.orion{flex-direction:row}
+.line.cat{flex-direction:row-reverse}
+.spk{font-family:var(--mono);font-size:.27rem;letter-spacing:.1em;text-transform:uppercase;flex-shrink:0;padding:.15rem 0;margin-top:.22rem;width:56px;text-align:right}
+.line.orion .spk{color:rgba(212,137,26,.55);text-align:right}
+.line.cat .spk{color:rgba(139,170,187,.55);text-align:left}
+.bubble{font-family:var(--serif);font-style:italic;font-size:1.08rem;line-height:2.05;color:var(--cream);max-width:600px;opacity:.85}
+.line.orion .bubble{border-left:2px solid rgba(212,137,26,.2);padding-left:1rem}
+.line.cat .bubble{border-right:2px solid rgba(139,170,187,.2);padding-right:1rem;text-align:right}
+.bubble em{font-style:normal;font-weight:600}
+.line.orion .bubble em{color:var(--ori2)}
+.line.cat .bubble em{color:var(--cat2)}
+
+/* SECTIONS */
+.sec{padding:3.5rem 0;border-top:1px solid var(--line)}
+.sec-lbl{font-family:var(--mono);font-size:.27rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.9rem;display:flex;align-items:center;gap:.6rem;opacity:.32}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--ambline)}
+h2{font-family:var(--serif);font-size:clamp(1.8rem,4vw,3.8rem);font-weight:300;font-style:italic;line-height:.92;margin-bottom:.8rem;color:var(--cream);letter-spacing:-.01em}
+h2 em{color:var(--amb2);font-style:normal;font-weight:600}
+h2 .cat{color:var(--cat2);font-style:normal}
+h3{font-family:var(--serif);font-style:italic;font-size:1.1rem;font-weight:400;color:var(--ori2);margin:1.8rem 0 .4rem}
+p{margin-bottom:.9rem;line-height:2}
+p strong{color:var(--cream)}
+p em{color:var(--amb2)}
+.lead{font-family:var(--serif);font-style:italic;font-size:1.06rem;color:rgba(230,225,215,.38);line-height:2.2;margin-bottom:1.5rem}
+
+/* ANATOMY CANVAS */
+.canvas-wrap{background:rgba(3,4,8,.92);border:1px solid var(--ambline);border-radius:6px;overflow:hidden;margin:1.5rem 0}
+.canvas-hdr{display:flex;align-items:center;gap:.5rem;padding:.45rem 1rem;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.28rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(230,225,215,.25)}
+.c-dot{width:5px;height:5px;border-radius:50%;background:var(--amb2);animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.9}}
+
+/* ACCORDION */
+.acc{background:var(--faint);border:1px solid var(--line);border-radius:4px;margin:.3rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.6rem;padding:.65rem 1rem;cursor:pointer;transition:background .15s;-webkit-user-select:none;user-select:none}
+.acc-h:hover{background:rgba(212,137,26,.025)}
+.acc-badge{font-family:var(--mono);font-size:.26rem;letter-spacing:.05em;text-transform:uppercase;padding:.1rem .3rem;border-radius:2px;flex-shrink:0}
+.acc-badge.am{background:rgba(212,137,26,.1);color:var(--amb2);border:1px solid var(--ambline)}
+.acc-badge.si{background:rgba(184,200,216,.06);color:var(--cat2);border:1px solid var(--silline)}
+.acc-badge.wh{background:rgba(230,225,215,.04);color:var(--dim);border:1px solid var(--line)}
+.acc-title{font-family:var(--serif);font-style:italic;font-size:.94rem;color:var(--cream);flex:1}
+.acc-tog{font-family:var(--mono);font-size:.32rem;color:rgba(230,225,215,.18);flex-shrink:0;transition:transform .25s}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .55s ease}
+.acc-body.open{max-height:9000px;padding:0 1rem 1.1rem}
+.acc-body p{font-size:.88rem;color:rgba(230,225,215,.45);line-height:1.95;margin-bottom:.6rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--cream)}
+.acc-body em{color:var(--amb2)}
+.acc-body h4{font-family:var(--serif);font-style:italic;color:var(--ori2);font-size:.95rem;font-weight:400;margin:.9rem 0 .3rem}
+
+/* COMPARISON TABLE */
+.cmp{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.84rem}
+.cmp th{font-family:var(--mono);font-size:.26rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(230,225,215,.28);font-weight:400;padding:.4rem .7rem;text-align:left;border-bottom:1px solid var(--ambline)}
+.cmp td{padding:.5rem .7rem;border-bottom:1px solid var(--line);color:var(--dim);vertical-align:top;line-height:1.65}
+.cmp td.feat{font-family:var(--serif);font-style:italic;color:var(--cream);font-size:.88rem}
+.cmp td.ori{color:var(--ori2);font-family:var(--mono);font-size:.8rem}
+.cmp td.cat{color:var(--cat2);font-family:var(--mono);font-size:.8rem}
+.cmp tr:hover td{background:rgba(212,137,26,.015)}
+
+/* PANELS */
+.panel{border:1px solid var(--line);border-radius:5px;padding:1.1rem 1.4rem;margin:1rem 0;position:relative;overflow:hidden}
+.panel.am{background:var(--ambfaint);border-color:var(--ambline)}
+.panel.am::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.panel.si{background:var(--silfaint);border-color:var(--silline)}
+.panel.si::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--silver),transparent)}
+.ptag{font-family:var(--mono);font-size:.26rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;opacity:.45}
+.panel.am .ptag{color:var(--amb2)}
+.panel.si .ptag{color:var(--cat2)}
+.panel p{font-size:.86rem;color:rgba(230,225,215,.44);line-height:1.88;margin-bottom:.5rem}
+.panel p:last-child{margin-bottom:0}
+.panel strong{color:var(--cream)}
+.panel em{color:var(--ori2)}
+
+/* BLOCKQUOTE */
+.bq{border-left:2px solid var(--ambline);padding:.6rem 1.2rem;margin:1rem 0;background:var(--ambfaint);border-radius:0 4px 4px 0;font-family:var(--serif);font-style:italic;font-size:.98rem;color:rgba(230,225,215,.48);line-height:2.1}
+.bq-attr{display:block;margin-top:.3rem;font-family:var(--mono);font-style:normal;font-size:.26rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(212,137,26,.35)}
+.bq.si{border-left-color:var(--silline);background:var(--silfaint)}
+.bq.si .bq-attr{color:rgba(184,200,216,.4)}
+
+/* CAT FALL COUNTER */
+.counter{background:var(--faint);border:1px solid var(--ambline);border-radius:5px;padding:1.2rem 1.5rem;margin:1.2rem 0;font-family:var(--mono);text-align:center}
+.counter-n{font-size:2.8rem;color:var(--ori2);letter-spacing:.04em;display:block;line-height:1}
+.counter-sub{font-size:.28rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(230,225,215,.25);margin-top:.3rem}
+
+/* CODA DIALOGUE */
+.coda-dial{border:1px solid var(--ambline);border-radius:6px;padding:2rem 2.2rem;margin:2.5rem 0;background:var(--ambfaint);position:relative;overflow:hidden}
+.coda-dial::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--amber),var(--cat2),transparent)}
+.coda-lbl{font-family:var(--mono);font-size:.26rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(212,137,26,.35);margin-bottom:1.2rem;text-align:center}
+
+footer{position:relative;z-index:2;text-align:center;padding:3rem 2rem;border-top:1px solid var(--ambline)}
+.fla{font-family:var(--mono);font-size:.27rem;letter-spacing:.06em;color:rgba(230,225,215,.18);text-decoration:none;text-transform:uppercase;padding:.15rem .35rem;transition:color .2s}
+.fla:hover{color:var(--amb2)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nb">Musica Universalis</a>
+  <div class="nl">
+    <a href="#question">The Question</a>
+    <a href="#ear">The Ear</a>
+    <a href="#righting">The Reflex</a>
+    <a href="#fall">The Fall</a>
+    <a href="#integration">Integration</a>
+    <a href="#answer">Cat's Answer</a>
+    <a href="#owl">Owl</a>
+    <a href="#scorpion">Scorpion</a>
+    <a href="#athena">Athena</a>
+    <a href="sirius_chasing.html">Sirius</a>
+    <a href="directory.html">Directory</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <canvas id="sky-canvas"></canvas>
+  <div class="hero-inner">
+    <div class="h-pre">Musica Universalis · Balance · Orientation · The Vestibular System</div>
+    <h1><span class="orion">Orion</span><br>asks<br><span class="cat">Cat</span></h1>
+    <div class="hero-line"></div>
+    <p class="hero-sub">Why do you always land on your feet? Do you have a better ear than me?</p>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- THE QUESTION -->
+<section class="sec" id="question">
+  <div class="sec-lbl">I · The Question · Two Creatures · One Sky</div>
+  <h2>The question<br>is <em>older</em> than<br>both of them</h2>
+
+  <div class="dialogue">
+    <div class="line orion">
+      <span class="spk">Orion</span>
+      <div class="bubble">I have been watching you fall. From the table, from the windowsill, from that very high branch you had no business being on. You always land right. Every time. <em>How?</em></div>
+    </div>
+    <div class="line cat">
+      <span class="spk">Cat</span>
+      <div class="bubble">I don't know. <em>You don't know how you walk.</em></div>
+    </div>
+    <div class="line orion">
+      <span class="spk">Orion</span>
+      <div class="bubble">That's not an answer.</div>
+    </div>
+    <div class="line cat">
+      <span class="spk">Cat</span>
+      <div class="bubble">It is exactly the answer. You asked how I do it. The honest answer is that I do not do it. <em>It happens.</em> The question underneath your question is: what is the mechanism? That one I can try to answer.</div>
+    </div>
+    <div class="line orion">
+      <span class="spk">Orion</span>
+      <div class="bubble">Then tell me. And tell me, while you're at it, whether you have a better ear than me. You hear things I can't. You know where you are in ways I don't. Is that all the same thing?</div>
+    </div>
+    <div class="line cat">
+      <span class="spk">Cat</span>
+      <div class="bubble">No. And yes. <em>Sit down.</em> This takes a little while to say correctly.</div>
+    </div>
+  </div>
+
+  <p class="lead">The cat righting reflex is one of the most precisely engineered sequences in vertebrate neurobiology, a multi-stage rotational maneuver that completes in approximately 300 milliseconds, with zero net angular momentum, using only the body as the instrument. Orion navigates by stars. Cat navigates by falling. Neither of them chose their system. Both of them trust it completely.</p>
+
+  <p>Orion's question contains three distinct things that need to be separated. First: the vestibular system, the inner ear, the organ that detects rotation and linear acceleration in all vertebrates. Second: the cat righting reflex, the specific neuromuscular sequence that corrects orientation during freefall. Third: the broader question of how different creatures integrate sensory information to know where they are in space. Cat is right that these are related. She is also right that they are not the same.</p>
+</section>
+
+<!-- THE EAR -->
+<section class="sec" id="ear">
+  <div class="sec-lbl">II · The Ear · The Vestibular System · What Both of Them Have</div>
+  <h2>The ear<br>inside<br>the <em>ear</em></h2>
+
+  <p class="lead">The cochlea, the snail-shaped structure that converts sound waves into neural signals, is the part of the ear most people know. The vestibular system sits right next to it, shares the same fluid-filled bony labyrinth, and does something entirely different. It does not hear. It measures.</p>
+
+  <div class="canvas-wrap">
+    <div class="canvas-hdr">
+      <div class="c-dot"></div>
+      Inner Ear · Vestibular Anatomy · Semicircular Canals · Otolith Organs · Animated
+    </div>
+    <canvas id="ear-canvas" width="860" height="380" style="display:block;width:100%"></canvas>
+  </div>
+
+  <h3>The semicircular canals, three axes, one sensor</h3>
+  <p>The vestibular system has two kinds of sensors. The first: three semicircular canals, arranged roughly orthogonally to each other, one for each rotational axis. Each canal is a loop filled with fluid (endolymph). At the base of each loop sits a structure called the cupula, a gelatinous mass studded with hair cells. When the head rotates, the fluid lags behind (inertia), deflecting the cupula, bending the hair cells, generating a neural signal proportional to the angular velocity of rotation.</p>
+  <p>The three canals detect: rotation around the vertical axis (turning your head left and right), rotation around the front-back axis (tilting ear to shoulder), and rotation around the side-to-side axis (nodding). Together they form a three-axis angular velocity sensor. <strong>This is the part that tells you you are spinning.</strong></p>
+
+  <h3>The otolith organs, gravity and linear motion</h3>
+  <p>The second sensor type: two otolith organs called the utricle and saccule. These contain flat sheets of hair cells whose tips are embedded in a gelatinous membrane studded with tiny calcium carbonate crystals called otoliths (literally "ear stones"). When the head tilts or accelerates linearly, the heavy crystals lag behind, bending the hair cells. The utricle is oriented roughly horizontally and detects horizontal acceleration (including the constant downward pull of gravity when the head is upright). The saccule is oriented roughly vertically and detects vertical acceleration.</p>
+  <p><strong>The otoliths are the part that tells you which way is down.</strong> They are the gravity sensor. When a cat is in freefall, the first thing that happens is the otoliths report the direction of gravitational acceleration. This is the reference signal for everything that follows.</p>
+
+  <div class="panel am">
+    <div class="ptag">Does Cat Have a Better Vestibular System Than Orion?</div>
+    <p>The honest answer: Cat's vestibular system is very similar to Orion's in its basic structure and function. Both have three semicircular canals. Both have utricle and saccule with otoliths. Both send signals via cranial nerve VIII to the vestibular nuclei in the brainstem. The fundamental architecture is conserved across all terrestrial vertebrates because it evolved once and worked.</p>
+    <p>The differences that exist: cat semicircular canals are somewhat larger relative to body size, which gives them greater sensitivity to slow rotations. The orientation of the canals relative to the skull may be slightly better adapted to the head orientations a cat adopts during movement. The vestibulo-ocular reflex (which keeps the eyes stable during head movement) is calibrated differently, tuned to a predator that makes rapid three-dimensional movements through space.</p>
+    <p><strong>But the vestibular system is not what makes the righting reflex possible.</strong> That is something else. That is in the neck, the spine, and the mathematics of angular momentum.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-hair')">
+      <span class="acc-badge am">Anatomy</span>
+      <span class="acc-title">Hair cells, the most precise mechanoreceptors in the body</span>
+      <span class="acc-tog" id="at-acc-hair">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-hair">
+      <p>Hair cells are not actually made of hair. They are named for the stereocilia, finger-like projections on their apical surface, that deflect in response to mechanical force. Each stereocilium is connected to its neighbors by fine protein filaments called tip links. When the bundle deflects toward the tallest stereocilia, the tip links pull open mechanically gated ion channels, potassium and calcium flow in, the cell depolarizes, and a neurotransmitter is released onto the afferent nerve fiber below. Deflect in the other direction and the channels close, the cell hyperpolarizes, and neurotransmitter release decreases.</p>
+      <p>This is the most direct transduction of mechanical force to neural signal in the body. <strong>The entire mechanism, from mechanical deflection to neural signal, operates in under a millisecond.</strong> The hair cell has no equivalent in terms of sensitivity: the threshold for hearing in humans corresponds to a deflection of the basilar membrane of less than the diameter of a hydrogen atom. Vestibular hair cells are less sensitive than auditory ones (they deal with larger forces) but use the same basic mechanism.</p>
+      <p>Hair cells are not replaced after damage in mammals. This is why noise-induced hearing loss and vestibular damage from ototoxic drugs (certain antibiotics, cisplatin) are permanent. Fish and birds regenerate hair cells. Mammals lost this capacity at some point in evolution, for reasons that are not fully established. Restoring hair cell regeneration in mammals is one of the active frontiers of otolaryngology research.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-vomit')">
+      <span class="acc-badge wh">Curiosity</span>
+      <span class="acc-title">Motion sickness, why the brain becomes certain it has been poisoned</span>
+      <span class="acc-tog" id="at-acc-vomit">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-vomit">
+      <p>Motion sickness occurs when vestibular signals and visual signals disagree. On a ship in rough seas, the vestibular system reports pitching and rolling. If you are below deck looking at a stationary interior, the visual system reports no motion. The brain receives conflicting accounts of where it is in space, and it cannot resolve them.</p>
+      <p>The evolutionary hypothesis for why the response is nausea and vomiting: in the ancestral environment, the most likely cause of a severe mismatch between vestibular and visual information was ingestion of a neurotoxin. Toxins can disrupt vestibular processing, creating exactly this kind of sensory conflict. The brain's best guess, given the conflict, was: something you ate has disrupted your nervous system. Evacuate the stomach. <strong>Motion sickness is the immune system of spatial perception, evolutionarily calibrated for an environment that had no cars, ships, or screens.</strong></p>
+      <p>The treatment follows from the mechanism: restore agreement between sensory systems. Look at the horizon, where visual and vestibular information about large-scale motion align. Ginger appears to have some antiemetic effect at the vestibular level. Scopolamine (the patch behind the ear) blocks muscarinic acetylcholine receptors in the vestibular nuclei, reducing the salience of the conflicting signal. The conflict cannot be resolved. Its impact can be reduced.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THE RIGHTING REFLEX -->
+<section class="sec" id="righting">
+  <div class="sec-lbl">III · The Righting Reflex · Zero Angular Momentum · Pure Physics</div>
+  <h2>How Cat<br><em>turns</em> in<br>midair</h2>
+
+  <div class="dialogue" style="margin-bottom:1.5rem">
+    <div class="line orion">
+      <span class="spk">Orion</span>
+      <div class="bubble">But you can't turn in midair. There's nothing to push against. There's no angular momentum to use. How do you rotate?</div>
+    </div>
+    <div class="line cat">
+      <span class="spk">Cat</span>
+      <div class="bubble">I use <em>myself</em>. I push one part of me against another part of me. The total stays zero. <em>The distribution changes.</em></div>
+    </div>
+    <div class="line orion">
+      <span class="spk">Orion</span>
+      <div class="bubble">That's impossible.</div>
+    </div>
+    <div class="line cat">
+      <span class="spk">Cat</span>
+      <div class="bubble">You've seen me do it many times.</div>
+    </div>
+  </div>
+
+  <p class="lead">The cat righting reflex is not a trick. It is a solution to a real physics problem, one that was not formally understood until the late 19th century and generated a genuine scientific controversy. The problem: angular momentum is conserved. You cannot create rotation from nothing. How does a cat, dropped upside down from rest, arrive at the ground right-side up?</p>
+
+  <p>The answer involves a concept that troubled physicists when it was first described: <strong>you can change your orientation without changing your angular momentum, if you change your shape.</strong> A cat does not violate conservation of angular momentum. It exploits the fact that angular momentum depends on both angular velocity and moment of inertia, and that by extending and contracting different parts of its body sequentially, it can rotate those parts in opposite directions such that the total angular momentum of the system remains zero, while the net orientation of the body changes.</p>
+
+  <h3>The four-phase sequence, approximately 300 milliseconds</h3>
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-phase1')">
+      <span class="acc-badge am">Phase 1</span>
+      <span class="acc-title">Otolith reports: down is that way, 0–50ms</span>
+      <span class="acc-tog" id="at-acc-phase1">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-phase1">
+      <p>The fall begins. The vestibular otoliths report the direction of gravitational acceleration. At the moment of release (or the moment a cat misses a branch or slips from a surface), the otolith organs in the utricle and saccule register the gravitational vector. This is the reference signal: down is there. Up is the opposite. The current orientation of the body relative to this vector is wrong. The righting sequence must correct it.</p>
+      <p>This phase requires no computation in the conscious sense. The vestibular nuclei in the brainstem receive the signal and initiate the motor sequence through pathways that bypass the cortex entirely. The cat does not think about this. The signal goes: vestibular hair cells, cranial nerve VIII, vestibular nuclei, reticulospinal and vestibulospinal tracts, spinal motor neurons, muscle. The entire path is subcortical for the initiation phase. The cortex learns about it afterward, if at all.</p>
+    </div>
+  </div>
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-phase2')">
+      <span class="acc-badge am">Phase 2</span>
+      <span class="acc-title">Head rotates first, independently of body, 50–120ms</span>
+      <span class="acc-tog" id="at-acc-phase2">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-phase2">
+      <p>The cat's head rotates first, using the neck muscles, to align with the gravitational vertical (eyes level, nose forward relative to the fall direction). The body has not yet moved. The head can rotate relative to the body because the cervical spine allows this movement. The righting reflex begins at the head because the vestibular and visual sensors are in the head, and orienting them first gives the rest of the sequence a reliable reference.</p>
+      <p>This head-first rotation is not unique to cats. It appears in many vertebrates. The labyrinthine righting reflex (driven by the vestibular system) and the optical righting reflex (driven by visual flow) both initiate from the head. In cats, the vestibular component is primary, as demonstrated by the fact that blinded cats still right themselves perfectly, and cats with vestibular lesions right themselves poorly even with intact vision.</p>
+    </div>
+  </div>
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-phase3')">
+      <span class="acc-badge am">Phase 3</span>
+      <span class="acc-title">The zero-momentum rotation, 120–240ms</span>
+      <span class="acc-tog" id="at-acc-phase3">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-phase3">
+      <p>This is the physically remarkable part. The cat divides itself into a front half and a back half, rotating them in opposite directions simultaneously. The front half (head and forelegs) rotates in one direction. The back half (hindquarters and tail) rotates in the opposite direction. Because angular momentum must be conserved and began at zero, the total remains zero.</p>
+      <p>But the amounts of rotation are not equal, and this is the key. The cat extends the hindlegs (increasing their moment of inertia) while pulling the forelegs in (decreasing their moment of inertia). By the equations of angular mechanics, a larger moment of inertia requires a smaller angular velocity to produce the same angular momentum. So the front half, with smaller moment of inertia, rotates fast. The back half, with larger moment of inertia, rotates slowly. Both contributions to total angular momentum are equal and opposite, so total remains zero. But the net rotation of the front half is much larger than the net counter-rotation of the back half. Then the cat reverses: pulls forelegs in, extends hindlegs, counter-rotates. The back half catches up. Total rotation: approximately 180 degrees. Net angular momentum: zero throughout.</p>
+      <p><strong>This was the subject of a genuine scientific dispute.</strong> In 1894, Étienne-Jules Marey (who developed chronophotography) photographed a falling cat for the first time at high enough speed to see the individual phases. The images showed that the cat rotated without apparent push-off and with no initial angular momentum. Several physicists argued this violated conservation of momentum and demanded the photographs be explained. The correct explanation (involving the differential moment of inertia) was eventually worked out, but not immediately, and the falling cat problem became a minor landmark in the history of classical mechanics.</p>
+    </div>
+  </div>
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-phase4')">
+      <span class="acc-badge am">Phase 4</span>
+      <span class="acc-title">Preparation for impact, 240–300ms</span>
+      <span class="acc-tog" id="at-acc-phase4">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-phase4">
+      <p>The cat is now oriented feet-down. Before impact, it extends the forelegs, slightly arches the back (increasing the time over which impact force is absorbed), and tenses the appropriate muscles. The legs act as springs, distributing the impact over a longer time interval, reducing peak force. Cats also spread their legs slightly in a parachute-like posture during freefall at higher heights, which reduces terminal velocity.</p>
+      <p>This phase involves proprioceptive feedback from the body's own position sensors (muscle spindles, Golgi tendon organs) informing the motor sequence about the current configuration of each limb. The final landing posture is not pre-programmed for a specific height; it is adjusted in real time based on proprioceptive and vestibular information about the body's current state and velocity.</p>
+    </div>
+  </div>
+
+  <div class="canvas-wrap" style="margin-top:1.5rem">
+    <div class="canvas-hdr">
+      <div class="c-dot"></div>
+      Cat Righting Reflex · Phase Sequence · Zero Angular Momentum · Animated
+    </div>
+    <canvas id="cat-canvas" width="860" height="340" style="display:block;width:100%"></canvas>
+  </div>
+</section>
+
+<!-- THE FALL -->
+<section class="sec" id="fall">
+  <div class="sec-lbl">IV · The Fall · Terminal Velocity · Why Higher Can Be Safer</div>
+  <h2>The terminal<br>velocity<br><em>paradox</em></h2>
+
+  <p class="lead">Cats survive falls that should kill them. And they survive falls from greater heights better than falls from intermediate heights. This seems impossible. It is not.</p>
+
+  <div class="counter">
+    <span class="counter-n" id="fall-n">60</span>
+    <span class="counter-sub">meters · above which cats achieve terminal velocity and begin to relax · survival rate remains high</span>
+  </div>
+
+  <p>A study of 132 cats brought to a New York City emergency veterinary clinic after falls from varying heights (Whitney and Mehlhaff, 1987) found that injuries per cat decreased after falls of approximately 7 stories (about 22 meters). Cats falling from higher distances had a lower injury rate than cats falling from intermediate heights. The study had methodological limitations (cats that died before reaching the clinic were not counted), but the underlying biological mechanism for why higher falls might be less lethal is real and well-established.</p>
+
+  <h3>The physics</h3>
+  <p>Terminal velocity is reached when air drag equals gravitational force. For a cat, terminal velocity is approximately 60 km/h (37 mph), significantly lower than for a human (approximately 200 km/h for a spread-eagled human, due to much larger body mass relative to cross-sectional area). A cat reaches terminal velocity after approximately 5 stories of fall.</p>
+  <p>At terminal velocity, something physiologically important happens: the cat's vestibular system stops reporting acceleration. During a fall before terminal velocity, the vestibular system detects the gravitational vector and initiates the righting sequence. But once terminal velocity is reached and acceleration drops to zero (from the cat's inertial reference frame, it is in free fall, weightless), the vestibular system's righting signal changes character. The cat relaxes its muscle tension, spreads its legs in a parachute posture, and its body becomes a more effective shock absorber.</p>
+  <p>From shorter heights (below about 5 stories), the cat has less time to complete the righting sequence and hits the ground before fully relaxing. From greater heights, the sequence completes, the cat relaxes, and the distributed impact posture absorbs more force per unit time. <strong>The cat is not safer from higher falls because it has time to complete the righting reflex. It is safer because it has time to relax after completing it.</strong></p>
+
+  <div class="panel si">
+    <div class="ptag">Orion's Falling Problem</div>
+    <p>Orion does not have a righting reflex. No human does, not in the automatic, subcortical sense that cats do. Humans have vestibulo-spinal reflexes that help maintain balance during walking and protect the head during falls, but we do not have the zero-angular-momentum rotation sequence. This is partly because our body plan (bipedal, with mass distributed very differently from a quadruped's) makes the differential-moment-of-inertia trick harder to execute, and partly because the evolutionary pressure to develop it may have been lower (our primate ancestors lived in trees but were not the kind of hunters that needed to fall and instantly be on their feet).</p>
+    <p>When Orion falls, his protective reflexes are: extending the arms to break the fall, curling to protect the head, twisting the torso. These help. They are not the same as what Cat does. <strong>The question "do you have a better ear than me?" is the wrong question. The ear is very similar. What is different is the motor program that the ear drives.</strong></p>
+  </div>
+</section>
+
+<!-- SENSORY INTEGRATION -->
+<section class="sec" id="integration">
+  <div class="sec-lbl">V · Integration · How Both of Them Know Where They Are</div>
+  <h2>How you know<br>where you<br><em>are</em></h2>
+
+  <p class="lead">Orientation, knowing where you are in space, is not a single sense. It is a continuous integration of multiple signals: vestibular (rotation and linear acceleration), proprioceptive (muscle and joint position), visual (optic flow and landmark recognition), and in some animals, magnetic and acoustic. The brain computes a best estimate of current body state from all of these signals simultaneously, weighting each by its current reliability. This is Bayesian inference running at the brainstem level, continuously, before you are aware of it.</p>
+
+  <table class="cmp">
+    <thead>
+      <tr>
+        <th>Signal</th>
+        <th>Orion</th>
+        <th>Cat</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="feat">Semicircular canals</td>
+        <td class="ori">3 axes, similar sensitivity</td>
+        <td class="cat">3 axes, slightly larger relative to body</td>
+        <td style="font-size:.76rem;color:var(--dim)">Both detect angular velocity. Very similar architecture.</td>
+      </tr>
+      <tr>
+        <td class="feat">Otolith organs</td>
+        <td class="ori">Utricle + saccule, standard mammal</td>
+        <td class="cat">Same, calibrated for predator postures</td>
+        <td style="font-size:.76rem;color:var(--dim)">Both detect gravity. The fundamental sensor is the same.</td>
+      </tr>
+      <tr>
+        <td class="feat">Hearing range</td>
+        <td class="ori">20 Hz to 20 kHz</td>
+        <td class="cat">55 Hz to 79 kHz</td>
+        <td style="font-size:.76rem;color:var(--dim)">Cat hears ultrasound. Prey-detection adaptation. This is the actual hearing advantage.</td>
+      </tr>
+      <tr>
+        <td class="feat">Proprioception</td>
+        <td class="ori">Calibrated for bipedal gait</td>
+        <td class="cat">Calibrated for quadruped, 3D movement</td>
+        <td style="font-size:.76rem;color:var(--dim)">Cat has finer proprioceptive mapping of limb position during aerial movement.</td>
+      </tr>
+      <tr>
+        <td class="feat">Righting reflex motor program</td>
+        <td class="ori">Absent, subcortical level</td>
+        <td class="cat">Present, 300ms, subcortical</td>
+        <td style="font-size:.76rem;color:var(--dim)">This is the real difference. Not the sensor. The program.</td>
+      </tr>
+      <tr>
+        <td class="feat">Vibrissae (whiskers)</td>
+        <td class="ori">Absent</td>
+        <td class="cat">Present, detect air currents and near-surface pressure changes</td>
+        <td style="font-size:.76rem;color:var(--dim)">Cat has an additional spatial sensor Orion entirely lacks.</td>
+      </tr>
+      <tr>
+        <td class="feat">Celestial navigation</td>
+        <td class="ori">Active, navigates by stars, trained</td>
+        <td class="cat">Not known to use stars consciously</td>
+        <td style="font-size:.76rem;color:var(--dim)">Orion has this. Cat does not. The advantage is not only Cat's.</td>
+      </tr>
+      <tr>
+        <td class="feat">Visual acuity</td>
+        <td class="ori">High in daylight, color vision</td>
+        <td class="cat">Lower acuity, superior in low light, wider field</td>
+        <td style="font-size:.76rem;color:var(--dim)">Different calibration. Neither is universally better.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-proprioception')">
+      <span class="acc-badge si">Deep</span>
+      <span class="acc-title">Proprioception, the sense that has no name in most languages</span>
+      <span class="acc-tog" id="at-acc-proprioception">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-proprioception">
+      <p>Proprioception is the sense of the body's own position in space. It comes from muscle spindles (mechanoreceptors embedded in muscles that report the length and rate of change of length of the muscle), Golgi tendon organs (which report tension), and joint mechanoreceptors (which report joint angle). Together these sensors give the nervous system a continuous real-time map of every joint angle and muscle state in the body, without any input from the external world.</p>
+      <p>This is why you can touch your nose with your eyes closed. Why you can type without looking at the keyboard. Why a cat can place its feet on a surface in the dark. The brain has a body model, updated continuously by proprioceptive signals, that it uses to plan and execute movement. The righting reflex depends on proprioception not only for the fine tuning of each phase but for knowing, at the start, exactly where each body part is relative to every other one.</p>
+      <p>Proprioception degrades with age, which is a major contributor to fall risk in older adults. The proprioceptive sensors in joints become less sensitive. The integration of proprioceptive and vestibular signals becomes slower and less accurate. The result is that the balance system works less well, not because any one component has failed completely, but because the ongoing calibration between multiple sensors becomes noisier. <strong>Falls in older adults are largely a proprioceptive and vestibular integration failure, not a simple strength failure.</strong> Exercise regimens that specifically train proprioceptive precision (balance boards, tai chi, yoga) reduce fall risk more than pure strength training alone.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-whiskers')">
+      <span class="acc-badge si">Deep</span>
+      <span class="acc-title">Cat's whiskers, a sensor Orion does not have and cannot fully imagine</span>
+      <span class="acc-tog" id="at-acc-whiskers">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-whiskers">
+      <p>Vibrissae, the whiskers, are highly innervated tactile hairs with follicle sinus complexes containing dense mechanoreceptor populations and supplied with blood sinuses that amplify deflections. They are not just touch sensors. They detect air currents, pressure gradients near surfaces, and vibrations conducted through surfaces the cat is in contact with. The somatosensory cortex devotes a disproportionately large area to whisker representation, reflecting their importance.</p>
+      <p>The width of a cat's whisker span approximately matches the width of its body. This gives the cat a real-time gauge: if the whiskers fit through an opening, the body fits. Moving through dark environments, cats use whisker-detected air currents and pressure gradients to sense objects before physical contact. During a hunt, whiskers folded forward around captured prey detect movements and help position the killing bite.</p>
+      <p>During a fall, whiskers may contribute to the cat's sense of its orientation relative to nearby surfaces, through the pattern of air currents deflecting as the cat falls past walls or furniture. This is not the primary righting mechanism, but it is an additional spatial channel that Orion does not have. <strong>When Orion asked if Cat has a better ear, he was asking the right question in the wrong sensory domain. The whiskers are a spatial sense with no analogue in human biology.</strong></p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-bayesian')">
+      <span class="acc-badge wh">Framework</span>
+      <span class="acc-title">The brain as Bayesian estimator, how the vestibular signals are actually used</span>
+      <span class="acc-tog" id="at-acc-bayesian">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-bayesian">
+      <p>No single vestibular signal is reliable in all conditions. Semicircular canals are reliable for detecting fast rotations but drift during sustained slow rotation (they detect velocity, not position, so prolonged slow rotation eventually stops registering, which is why a dancer who stops spinning feels they are spinning in the opposite direction). Otoliths cannot distinguish between gravitational pull and linear acceleration (this is why you feel pushed back in your seat when a plane accelerates, your otoliths report "you are tilting backward"). Vision is reliable in good light but fails in darkness or visual noise.</p>
+      <p>The brain solves this by combining all available signals in a statistically optimal way. This is formally equivalent to a Kalman filter, an algorithm that maintains an estimate of current state and updates it by weighting incoming signals by their estimated reliability. More reliable signals (lower noise, better calibrated) get higher weight. Less reliable signals get lower weight. The estimate is continuously updated.</p>
+      <p>This is why the righting reflex in cats uses vestibular information as primary and visual information as secondary, not because vision is unreliable in general, but because during a fast fall, vestibular signals about the gravitational vector arrive faster and with less processing delay than visual flow signals. The weighting shifts dynamically based on the current situation. <strong>Orientation is not a perception. It is an inference, running continuously, weighted by reliability, updated at millisecond timescales, mostly invisible to the conscious mind of either Orion or Cat.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- CAT'S ANSWER -->
+<section class="sec" id="answer">
+  <div class="sec-lbl">VI · Cat's Answer · What the Ear Is and Is Not</div>
+  <h2>Cat<br><em>answers</em></h2>
+
+  <div class="coda-dial">
+    <div class="coda-lbl">The Conversation · After the Science</div>
+
+    <div class="dialogue">
+      <div class="line cat">
+        <span class="spk">Cat</span>
+        <div class="bubble">So. You asked if I have a better ear. The ear is almost the same. You have three canals. I have three canals. You have otoliths. I have otoliths. We both know which way is down.</div>
+      </div>
+      <div class="line orion">
+        <span class="spk">Orion</span>
+        <div class="bubble">Then what is different?</div>
+      </div>
+      <div class="line cat">
+        <span class="spk">Cat</span>
+        <div class="bubble"><em>What I do with it before I know I am doing anything.</em> The signal goes from my inner ear to my brainstem to my spine to my body. The cortex is not consulted. There is no decision. There is only the sequence, already written, already running, already done. You cannot have this. Not because you are less. Because you are built differently. <em>You chose the stars instead.</em></div>
+      </div>
+      <div class="line orion">
+        <span class="spk">Orion</span>
+        <div class="bubble">I didn't choose anything. I just learned to read them.</div>
+      </div>
+      <div class="line cat">
+        <span class="spk">Cat</span>
+        <div class="bubble">And I did not choose to right myself. I just do. Neither of us chose our instrument. <em>The question is what you play on it.</em></div>
+      </div>
+      <div class="line orion">
+        <span class="spk">Orion</span>
+        <div class="bubble">What do you play?</div>
+      </div>
+      <div class="line cat">
+        <span class="spk">Cat</span>
+        <div class="bubble">I play the fall. The exact fall. Every time. I have never played the same fall twice, and I have never played it wrong. Not because I am careful. Because <em>I am paying a kind of attention you are not built to pay.</em> It is not better. It is just mine.</div>
+      </div>
+      <div class="line orion">
+        <span class="spk">Orion</span>
+        <div class="bubble">And the stars?</div>
+      </div>
+      <div class="line cat">
+        <span class="spk">Cat</span>
+        <div class="bubble">I notice them. I do not read them. There is a difference. You read the sky the way I read the air coming around the corner before I turn it. We are each oriented. <em>We are not oriented by the same thing.</em></div>
+      </div>
+      <div class="line orion">
+        <span class="spk">Orion</span>
+        <div class="bubble">Is that enough? To be oriented?</div>
+      </div>
+      <div class="line cat">
+        <span class="spk">Cat</span>
+        <div class="bubble">For what?</div>
+      </div>
+      <div class="line orion">
+        <span class="spk">Orion</span>
+        <div class="bubble">For anything. For making it through. For landing right.</div>
+      </div>
+      <div class="line cat">
+        <span class="spk">Cat</span>
+        <div class="bubble">You are asking a question you already know the answer to. You navigate by something you cannot see. I fall toward something I cannot avoid. We are both, at the end of it, <em>right-side up.</em><br><br>That is enough.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bq" style="margin-top:1.5rem">
+    The cat righting reflex is the vestibular system's answer to a physics problem. Orion's celestial navigation is the prefrontal cortex's answer to a geography problem. Both are orientation. The instrument is the same. The problem is different. The answer is different. Neither is more than the other.
+    <span class="bq-attr">,  what the conversation was actually about</span>
+  </div>
+
+  <div class="panel am" style="margin-top:1.5rem">
+    <div class="ptag">The Real Hearing Advantage Cat Has</div>
+    <p>Orion asked about the ear. Cat answered about the righting reflex, which uses the vestibular portion of the inner ear. But Cat did not answer the hearing question completely, because there is a real answer there too.</p>
+    <p>Cat hears from approximately 55 Hz to 79 kHz. Orion hears from approximately 20 Hz to 20 kHz. Cat hears more than an octave of ultrasound that Orion cannot detect at all. This is not incidental. It is the frequency range of rodent vocalizations, the squeaks of mice, which range from 20 to 100 kHz and peak in the ultrasonic range. The cat's auditory cortex has a larger proportion devoted to high-frequency processing than human auditory cortex. <strong>When Cat appears to hear things Orion cannot, she is almost certainly hearing ultrasound, the sound of small creatures in walls and under floors, that is entirely outside Orion's perceptual range.</strong></p>
+    <p>So the answer to "do you have a better ear?": Cat's vestibular ear is very similar. Cat's acoustic ear genuinely covers more frequency range. But the righting reflex is not about either of those things. It is about the motor program. The ear starts the sequence. The body writes it.</p>
+  </div>
+</section>
+
+<!-- OWL SECTION -->
+<section class="sec" id="owl">
+  <div class="sec-lbl">VII · The Owl Asks Orion · Night Vision · The Eye That Was Not Made</div>
+  <h2>The <span class="cat">Owl</span><br>asks<br><em>why</em></h2>
+
+  <div class="dialogue">
+    <div class="line cat">
+      <span class="spk">Owl</span>
+      <div class="bubble">Orion. You hunt at night. You navigate by the very stars above you. And yet you cannot see in all directions. You cannot see through darkness. You cannot hear a mouse beneath the snow. <em>Why were you not made as I was?</em></div>
+    </div>
+    <div class="line orion">
+      <span class="spk">Orion</span>
+      <div class="bubble">My natural eye was not made for that. I know the stars but I cannot see as you see. I have never understood why.</div>
+    </div>
+    <div class="line cat">
+      <span class="spk">Owl</span>
+      <div class="bubble">Then let me show you what I have. And then let us think about what you traded it for.</div>
+    </div>
+  </div>
+
+  <div class="canvas-wrap" style="margin-top:1.5rem">
+    <div class="canvas-hdr">
+      <div class="c-dot"></div>
+      Owl Eye vs Human Eye · Field of View · Rod Density · Head Rotation · Animated
+    </div>
+    <canvas id="owl-canvas" width="860" height="420" style="display:block;width:100%"></canvas>
+  </div>
+
+  <h3>What the owl has that Orion does not</h3>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-owleye')">
+      <span class="acc-badge si">Anatomy</span>
+      <span class="acc-title">Tubular eyes, fixed in the skull, facing forward only</span>
+      <span class="acc-tog" id="at-acc-owleye">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-owleye">
+      <p>Owl eyes are not spherical like human eyes. They are tubular, elongated toward the back of the skull. This shape allows a much larger lens and cornea relative to eye volume, which gathers more light. A large aperture means more photons per unit time reach the retina, which is the fundamental requirement for seeing in dim conditions. The tradeoff: tubular eyes cannot rotate in their sockets. They are fixed. The owl must move its entire head to redirect its gaze.</p>
+      <p>The owl retina is packed almost entirely with rods, the photoreceptor cells specialized for low-light detection. Humans have approximately 120 million rods but also 6 million cones (color and high-acuity receptors), concentrated in the fovea. A great horned owl has a rod density approximately 5 times greater per unit area than a human, and almost no color-sensitive cones. <strong>The owl trades color and fine daytime acuity for extraordinary light sensitivity.</strong> In conditions where Orion can barely see his hand, the owl is reading the landscape in detail.</p>
+      <p>The tapetum lucidum is a reflective layer behind the owl retina that reflects light back through the photoreceptors a second time, effectively doubling each photon's chance of being detected. This is what causes eyeshine in cats, dogs, and owls when a light hits them at night. Humans and most other primates do not have this layer. It was lost during the diurnal primate lineage, when high-resolution daytime vision was selected over low-light sensitivity.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-owlneck')">
+      <span class="acc-badge am">Mechanism</span>
+      <span class="acc-title">270 degrees of head rotation, without cutting off blood to the brain</span>
+      <span class="acc-tog" id="at-acc-owlneck">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-owlneck">
+      <p>Owls have 14 cervical vertebrae. Humans have 7. The additional vertebrae allow the owl to rotate its head approximately 270 degrees in either direction, achieving full panoramic coverage despite eyes that cannot move. But rotation at that extreme should compress the jugular veins and vertebral arteries, cutting off blood supply to the brain. A human who turned their head 270 degrees would have a stroke.</p>
+      <p>Owls have two adaptations that prevent this. First, their vertebral arteries enter the cervical spine higher up than in most birds, with more slack in the vessels during rotation. Second, they have a network of small reservoir blood vessels at the base of the skull that act as a buffer: when the main vessels are compressed, the reservoirs maintain blood flow to the brain during the rotation. <strong>The owl's head rotation is a full engineering solution to a vascular problem, not just a skeletal one.</strong></p>
+      <p>The visual field of an owl: approximately 110 degrees binocular overlap (for depth perception during the final strike on prey), with the remaining field covered by monocular vision on each side, giving a total visual field of about 270 degrees. Orion's binocular field is approximately 120 degrees with a total visual field of about 180 to 200 degrees. The owl sees more of the world at any moment, but Orion sees it in higher resolution and in color.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-owlhear')">
+      <span class="acc-badge si">The Ear Again</span>
+      <span class="acc-title">Asymmetric ears and the sound-shadow map that replaces sight</span>
+      <span class="acc-tog" id="at-acc-owlhear">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-owlhear">
+      <p>The barn owl can locate prey in complete, total darkness. Not dim light. Complete darkness. It does this entirely by sound, using a mechanism more precise than anything Orion can access without instruments. The facial disc of the barn owl, the heart-shaped arrangement of feathers around the face, is a parabolic sound-collecting dish that funnels sound to the ears. The feathers have special microstructure that diffracts and channels high-frequency sounds.</p>
+      <p>The two ear openings in a barn owl are not at the same height on the skull. One is higher than the other. This asymmetry means that a sound coming from below arrives at the lower ear a fraction of a millisecond earlier than at the upper ear, creating an interaural time difference in the vertical dimension. Combined with the horizontal time difference between left and right ears (which all bilaterally symmetric animals use), the barn owl computes a precise three-dimensional sound map of its environment. The auditory system constructs a spatial map in the owl's midbrain (the inferior colliculus) that is topographically organized, each location in space mapped to a specific region of neural tissue.</p>
+      <p><strong>Barn owls hunting in complete darkness intercept moving prey within one degree of accuracy.</strong> They are not guessing. They are running a precision localization algorithm in real time, using only sound, achieving accuracy that no human sensory system can match without technology. The silent flight feathers (comb-like serrations on the leading edge of the primary feathers that break up turbulent airflow) serve a dual purpose: they reduce the owl's own sound output so prey cannot hear the approach, and they reduce the noise arriving at the owl's own ears, improving signal-to-noise for the hunting sonar system.</p>
+    </div>
+  </div>
+
+  <h3>Why was Orion not made this way</h3>
+
+  <div class="panel am">
+    <div class="ptag">The Answer · What Orion Traded the Night For</div>
+    <p>Orion's ancestors were diurnal primates. They lived in trees, ate fruit, and needed two things above everything else: <strong>color vision to distinguish ripe fruit from unripe,</strong> and <strong>high-resolution binocular vision to judge distances when leaping between branches.</strong> These two requirements drove primate eye evolution in a direction opposite from the owl.</p>
+    <p>Color vision requires cones, which need bright light to function. A retina packed with cones cannot also be packed with rods. The fovea, the small central pit of the human retina where cone density is highest and visual acuity is greatest, has almost no rods at all. This is why you cannot see a faint star by looking directly at it, you must look slightly to the side so the light falls on the rod-rich peripheral retina. <em>The center of human vision is blind in the dark.</em></p>
+    <p>The forward-facing eyes that give Orion his depth perception also gave his ancestors the ability to judge a two-meter gap between branches at 10 meters altitude to the precision required not to fall. The same forward-facing stereoscopic system later supported tool use, the ability to guide hands in three-dimensional space with precision, and the reading of faces, which requires resolving fine differences in the alignment of eyes, the curl of a lip, the tension around a brow, features that require high spatial acuity in exactly the direction you are looking.</p>
+    <p><strong>Orion was not made to see in all directions and through the night because he was made to see one thing with extraordinary precision, and that thing was directly in front of him.</strong> The owl hunts with its ears and the darkness. Orion hunts with his hands and the light. They meet at night at the same sky and see entirely different things. Both are fully oriented. Neither is lacking. They are solutions to different problems.</p>
+  </div>
+
+  <div class="bq si">
+    The eye does not see everything. It sees what the organism needed to survive in the environment it evolved in. Every visual system is a theory about what matters. Orion's theory: what is directly in front of me, in detail, in color. The owl's theory: what is moving, in any direction, in any darkness, by sound if necessary. Both theories have been tested by millions of years of predation and survival. Both are correct.
+    <span class="bq-attr">· the conversation between Owl and Orion, after</span>
+  </div>
+</section>
+
+<!-- SCORPION SECTION -->
+<section class="sec" id="scorpion">
+  <div class="sec-lbl">VIII · The Scorpion · Sirius Asks Meme · The Myth · The Sky</div>
+  <h2>A <em>scorpion</em><br>stands before<br>Orion</h2>
+
+  <div class="dialogue" style="margin-bottom:1.5rem">
+    <div class="line orion">
+      <span class="spk">Orion</span>
+      <div class="bubble">...</div>
+    </div>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="canvas-hdr">
+      <div class="c-dot"></div>
+      Orion and Scorpius · Opposite Sides of the Sky · The Myth Made Astronomy · Animated
+    </div>
+    <canvas id="scorpion-canvas" width="860" height="400" style="display:block;width:100%"></canvas>
+  </div>
+
+  <div class="dialogue" style="margin-top:2rem">
+    <div class="line cat">
+      <span class="spk">Sirius</span>
+      <div class="bubble">Meme. What did my father do?</div>
+    </div>
+    <div class="line orion">
+      <span class="spk">Meme</span>
+      <div class="bubble">He died.</div>
+    </div>
+    <div class="line cat">
+      <span class="spk">Sirius</span>
+      <div class="bubble" style="font-style:normal;opacity:.55">...</div>
+    </div>
+  </div>
+
+  <!-- TEAR -->
+  <div style="text-align:center;padding:2rem 0;position:relative">
+    <canvas id="tear-canvas" width="200" height="120" style="display:inline-block;width:200px;height:120px"></canvas>
+    <div style="font-family:var(--serif);font-style:italic;font-size:.88rem;color:rgba(184,200,216,.32);margin-top:.5rem">Sirius sheds a tear</div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-myth-scorpion')">
+      <span class="acc-badge am">The Myth</span>
+      <span class="acc-title">How Scorpius killed Orion, and why they were placed opposite in the sky</span>
+      <span class="acc-tog" id="at-acc-myth-scorpion">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-myth-scorpion">
+      <p>There are several versions of Orion's death in Greek mythology, and they are not fully consistent, which is itself true to how myths work: multiple communities, multiple tellings, accumulated into a body of stories that agree on the emotionally essential facts while disagreeing on the mechanism.</p>
+      <p>In the most widely attested version: Orion boasted that he would kill every animal on earth. Gaia, the earth goddess, the mother of all living things, sent a giant scorpion to stop him. The scorpion and Orion were evenly matched, and Orion was killed by the scorpion's sting. Zeus, who honored both as great hunters, placed them in the sky, but on opposite sides: <strong>as Scorpius rises in the east, Orion sets in the west. They are never in the sky at the same time. They cannot meet again.</strong> The myth is encoded in the astronomy. The two constellations are antipodal in the sky, and the precession of the earth ensures they remain so. Scorpius rises in the summer south, Orion rules the winter north. The scorpion and the hunter, forever separated by the turning of the world.</p>
+      <p>In another version, it is Artemis who kills Orion, tricked by Apollo into shooting her companion and hunting partner by mistake. In yet another, Orion attempts to assault Artemis or one of her attendants, and the scorpion is her instrument of revenge. The emotional core is consistent across variants: Orion is great, Orion falls, and those who loved him grieve him in the sky.</p>
+      <p>Sirius, the Dog Star, alpha Canis Majoris, is Orion's faithful hunting dog. It is the brightest star in the night sky, 8.6 light-years from Earth, a white main-sequence star approximately twice the mass of the sun burning at 9,940 Kelvin. It follows Orion across the sky, as it always has, as a dog follows a hunter. When Orion is gone from the winter sky, Sirius is gone too. When Orion rises again, Sirius is close behind. <strong>The grief is written in the orbital mechanics, in the proper motion of stars, in the positions that do not change on human timescales.</strong></p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-scorpius-stars')">
+      <span class="acc-badge si">Astronomy</span>
+      <span class="acc-title">Scorpius the constellation, Antares, and what the scorpion actually is</span>
+      <span class="acc-tog" id="at-acc-scorpius-stars">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-scorpius-stars">
+      <p>Scorpius is one of the oldest recognized constellations, identified by the Babylonians as early as 1200 BCE and called GIR.TAB, the scorpion. Its shape is genuinely evocative: a long curved tail of stars arcing into the Milky Way, with claws stretching forward and the bright reddish heart of Antares at its center.</p>
+      <p>Antares (alpha Scorpii) is one of the largest and most luminous stars visible to the naked eye. It is a red supergiant with a radius approximately 700 times that of the sun. If placed at the center of our solar system, its surface would extend beyond the orbit of Mars. It burns at around 3,500 Kelvin, cool for a star, which gives it its deep red color. Its name, "anti-Ares" or rival of Mars, comes from its similar red color and its brightness, which rivals the planet Mars when Mars is near it in the sky. Antares is at an estimated distance of 550 light-years and is expected to go supernova within the next 10,000 to 100,000 years. When it does, it will briefly be visible in daylight from Earth.</p>
+      <p>The scorpion's stars: Antares at the heart (α), Graffias or Acrab at the head (β), Dschubba as the forehead (δ), the long tail ending in Shaula (λ) and Lesath (υ), the two stars at the tip of the stinger. These two stinger stars are close together in the sky and are sometimes called "the cat's eyes" in some cultures, though they are unrelated physically, one being approximately 700 light-years distant and the other 580. They only appear adjacent from Earth's particular vantage point in the galaxy.</p>
+    </div>
+  </div>
+
+  <div class="panel si" style="margin-top:1.5rem">
+    <div class="ptag">Scorpius Kills · What Meme Means · He Died</div>
+    <p>Meme's answer is the shortest and most complete answer available. He died. Not "he was killed," not "the scorpion stung him," not "Zeus placed him in the sky." Those are elaborations. The fact is simpler. He died. Sirius, who follows Orion across the sky every year, who rises after him and sets before him, who has been faithful for all of recorded astronomical time, asks: what did my father do? And the answer is: the thing that everything does eventually. <strong>He died.</strong></p>
+    <p>The scorpion did not win because it was more powerful. It won because Orion had boasted he could kill everything, which is a statement about infinity, and nothing mortal can make a true statement about infinity without eventually being corrected by the universe. The scorpion is not a villain. The scorpion is the consequence. Every boast about limitlessness carries within it the specific vulnerability that will be found. The scorpion found Orion's.</p>
+    <p>Sirius still rises. Sirius still follows. The grief does not change the orbit. The tear is real and the sky is unchanged, and both of those things are true at once.</p>
+  </div>
+</section>
+
+<!-- ATHENA SECTION -->
+<section class="sec" id="athena">
+  <div class="sec-lbl">IX · Athena · The Regret · The Grief That Is Not Only Sirius's</div>
+  <h2>Hey. <em>Sirius.</em><br>Athena also<br>regretted</h2>
+
+  <div class="dialogue" style="margin-bottom:1.5rem">
+    <div class="line orion">
+      <span class="spk">Voice</span>
+      <div class="bubble">Hey. Sirius? <em>Athena also regretted your father's death.</em></div>
+    </div>
+    <div class="line cat">
+      <span class="spk">Sirius</span>
+      <div class="bubble">...</div>
+    </div>
+    <div class="line cat">
+      <span class="spk">Sirius</span>
+      <div class="bubble">She did?</div>
+    </div>
+    <div class="line orion">
+      <span class="spk">Voice</span>
+      <div class="bubble">She did. She was not the only one who grieved him. <em>He mattered to more of the sky than you knew.</em></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-athena-myth')">
+      <span class="acc-badge am">The Myth of Athena and Orion</span>
+      <span class="acc-title">Why the goddess of wisdom mourned the hunter</span>
+      <span class="acc-tog" id="at-acc-athena-myth">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-athena-myth">
+      <p>There are fragments of myth in which Athena, the goddess of wisdom, craft, and strategic warfare, had genuine affection for Orion. In some tellings this was companionship, in some admiration, in some something closer. Athena did not grieve softly. She was not a goddess of sentiment. Her grief, when she expressed it, was the grief of someone who recognized quality and saw it erased.</p>
+      <p>In the variant where Artemis kills Orion by mistake, tricked by Apollo who pointed at a distant figure in the sea and challenged Artemis to hit it with an arrow (she did, it was Orion), Artemis herself is the one who mourns most publicly. But Athena's grief in other variants is quieter and perhaps deeper, the grief of one who knew what Orion was capable of and understood exactly what was lost. She did not weep into the sky. She noted the absence, and the notation lasted.</p>
+      <p>The details of Athena's grief are not the point. The point, for Sirius, is that grief is not a private property. When someone dies, they carry with them the shape of their relationships with everyone who knew them. Sirius grieves. Artemis grieves (in many versions). Athena grieves. The sky is full of people who miss Orion. <strong>The fact that you grieve does not mean you grieve alone, and the fact that someone else also grieves does not diminish yours.</strong> It means the person was real enough, mattered enough, to leave multiple absences in the world when they went.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('acc-athena-star')">
+      <span class="acc-badge si">The Sky · Where the Grief Lives</span>
+      <span class="acc-title">Orion's stars, what they are, what they were before the myth made them a story</span>
+      <span class="acc-tog" id="at-acc-athena-star">▼</span>
+    </div>
+    <div class="acc-body" id="ab-acc-athena-star">
+      <p>Orion is not a convenient fiction. The stars that make him are real and extraordinary. Rigel (beta Orionis), his left foot, is a blue-white supergiant 860 light-years away, approximately 120,000 times as luminous as the sun. It is one of the most intrinsically bright stars visible to the naked eye. Betelgeuse (alpha Orionis), his right shoulder, is a red supergiant 700 light-years away that has already begun the slow process of dying, visibly dimming in 2019 to 2020 in what astronomers called "the Great Dimming," which turned out to be a massive convective eruption that ejected a large portion of its surface. It will eventually go supernova, possibly within 100,000 years, becoming briefly as bright as a crescent moon.</p>
+      <p>The three belt stars, Alnitak, Alnilam, and Mintaka, are O-type supergiants, among the hottest and most luminous stars in the galaxy. They lie approximately 800 to 1,300 light-years away. They are not physically related to each other, they only appear aligned from Earth. The Orion Nebula (M42), below the belt, is one of the most active stellar nurseries in the galaxy, where new stars and planetary systems are forming right now. <strong>Orion is not a memory of creation. He contains one.</strong></p>
+      <p>The stars were there before the myth. The myth arrived, looked at those particular stars in that particular arrangement, and said: that is the shape of something that matters. Every culture that has looked at those stars has agreed that they form something. The specific story varies. The sense that there is something there does not. That is not coincidence. The stars are genuinely bright, genuinely distinctive, genuinely prominent in the winter sky. The myth chose them because they were already there, already insisting on being noticed.</p>
+    </div>
+  </div>
+
+  <div class="bq" style="margin-top:1.5rem">
+    Grief shared is not grief halved. It is grief witnessed. Witnessing does not reduce the grief. It changes its character. It tells the grieving person: what you lost was real, real enough that others also feel the shape of its absence. Sirius knew Orion from below, as a following star knows its leader. Athena knew him differently. Both knowledges were real. Both losses were real. <em>The sky is large enough to hold all of them.</em>
+    <span class="bq-attr">· what the voice in the dark was saying</span>
+  </div>
+
+  <div style="border:1px solid var(--ambline);border-radius:6px;padding:2rem 2.2rem;margin:2rem 0;text-align:center;background:var(--ambfaint);position:relative;overflow:hidden">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--amber),var(--cat2),var(--amber),transparent)"></div>
+    <div style="font-family:var(--mono);font-size:.26rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(212,137,26,.3);margin-bottom:.8rem">The Sky · What Remains · After the Myth and After the Science</div>
+    <div style="font-family:var(--serif);font-style:italic;font-size:1.06rem;color:rgba(230,225,215,.45);line-height:2.2;max-width:680px;margin:0 auto">
+      The owl sees in all directions through the dark.<br>
+      Cat lands on her feet without thinking.<br>
+      Orion navigates by the stars he cannot see the way the owl sees.<br>
+      Sirius follows, always, as dogs follow.<br><br>
+      A scorpion stood between Orion and infinity<br>
+      and corrected his boast the only way a scorpion can.<br><br>
+      Athena noted the absence.<br>
+      Artemis noted the absence.<br>
+      Sirius notes it every time the sky turns<br>
+      and Orion rises again<br>
+      and the Dog Star follows.<br><br>
+      The grief is real.<br>
+      The stars are real.<br>
+      The myth is the story we tell<br>
+      about why these particular arrangements of light<br>
+      feel like something.<br><br>
+      They feel like something because <em>they are</em> something.<br>
+      They always were.<br><br>
+      <span style="color:var(--ori2);font-style:normal;font-size:.8rem;font-family:var(--mono);letter-spacing:.06em">δ = 0.013643 · the comma between the star and its name · always there</span>
+    </div>
+  </div>
+
+</section>
+
+</div><!-- /page -->
+
+<footer>
+  <div style="font-family:var(--display);font-size:.65rem;letter-spacing:.12em;color:var(--amb2);margin-bottom:.3rem">Orion Asks Cat</div>
+  <div style="font-family:var(--serif);font-style:italic;font-size:.85rem;color:rgba(230,225,215,.18);margin-bottom:.5rem">The Righting Reflex · The Inner Ear · Orientation · Musica Universalis</div>
+  <div style="font-family:var(--mono);font-size:.27rem;letter-spacing:.1em;color:rgba(212,137,26,.18);margin-bottom:.9rem">δ = 0.013643 · neither of us chose our instrument · the question is what you play on it · always a comma · you may rest</div>
+  <div style="display:flex;gap:.3rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="sirius_chasing.html">Sirius Chasing</a>
+    <a class="fla" href="biology_of_the_mind.html">Biology of the Mind</a>
+    <a class="fla" href="emotions_as_frequency.html">Emotions as Frequency</a>
+    <a class="fla" href="origins_of_life.html">Origins of Life</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+
+<script>
+// ═══ HERO SKY CANVAS ,  Orion's belt + falling cat ═══
+(function(){
+  const c=document.getElementById("sky-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth||960;H=c.height=c.offsetHeight||700}
+  resize();window.addEventListener("resize",resize);
+
+  // Stars
+  const STARS=[];
+  for(let i=0;i<220;i++) STARS.push({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.2,a:Math.random()*.7+.05,ph:Math.random()*Math.PI*2,sp:Math.random()*.004+.001});
+
+  // Orion's belt ,  3 stars
+  const BELT=[{x:.38,y:.38},{x:.5,y:.44},{x:.62,y:.38}];
+
+  // Falling cat
+  let catY=-.1;let catPhase=0; // 0=upside down, 1=righting, 2=right
+
+  function drawCat(x,y,phase,sc){
+    // phase 0: upside down (feet up), 1: mid-rotation, 2: feet down
+    ctx.save();ctx.translate(x,y);
+    const rot=phase*Math.PI; // 0=upside down, pi=right-side up
+    ctx.rotate(rot);ctx.scale(sc,sc);
+    // body
+    ctx.beginPath();ctx.ellipse(0,0,18,10,0,0,Math.PI*2);
+    ctx.fillStyle="rgba(184,200,216,.35)";ctx.fill();
+    // head
+    ctx.beginPath();ctx.ellipse(22,0,10,9,-.1,0,Math.PI*2);
+    ctx.fillStyle="rgba(184,200,216,.35)";ctx.fill();
+    // ears
+    ctx.beginPath();ctx.moveTo(18,-8);ctx.lineTo(22,-16);ctx.lineTo(28,-8);
+    ctx.fillStyle="rgba(184,200,216,.25)";ctx.fill();
+    ctx.beginPath();ctx.moveTo(24,-8);ctx.lineTo(28,-15);ctx.lineTo(33,-7);
+    ctx.fillStyle="rgba(184,200,216,.25)";ctx.fill();
+    // eyes
+    ctx.beginPath();ctx.arc(24,-1,2,0,Math.PI*2);ctx.fillStyle="rgba(212,137,26,.7)";ctx.fill();
+    ctx.beginPath();ctx.arc(20,-1,2,0,Math.PI*2);ctx.fillStyle="rgba(212,137,26,.7)";ctx.fill();
+    // legs
+    const legOff=phase<.5?-1:1;
+    // front legs
+    ctx.beginPath();ctx.moveTo(8,8);ctx.lineTo(4+legOff*8,20);ctx.strokeStyle="rgba(184,200,216,.3)";ctx.lineWidth=3;ctx.stroke();
+    ctx.beginPath();ctx.moveTo(15,8);ctx.lineTo(11+legOff*8,20);ctx.stroke();
+    // back legs
+    ctx.beginPath();ctx.moveTo(-8,8);ctx.lineTo(-4-legOff*8,20);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-15,8);ctx.lineTo(-11-legOff*8,20);ctx.stroke();
+    // tail
+    ctx.beginPath();ctx.moveTo(-18,0);ctx.quadraticCurveTo(-32,-10,-28,-20);
+    ctx.strokeStyle="rgba(184,200,216,.22)";ctx.lineWidth=3;ctx.stroke();
+    ctx.restore();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(3,4,8,.94)";ctx.fillRect(0,0,W,H);
+
+    // Ambient glow
+    const g=ctx.createRadialGradient(W*.5,H*.35,0,W*.5,H*.35,W*.45);
+    g.addColorStop(0,"rgba(212,137,26,.04)");g.addColorStop(1,"rgba(0,0,0,0)");
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+
+    // Stars
+    STARS.forEach(s=>{
+      const a=s.a*(0.5+0.5*Math.sin(t*s.sp+s.ph));
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(230,225,215,${a})`;ctx.fill();
+    });
+
+    // Orion's belt ,  amber, connected
+    ctx.strokeStyle="rgba(212,137,26,.15)";ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(BELT[0].x*W,BELT[0].y*H);
+    BELT.forEach(b=>ctx.lineTo(b.x*W,b.y*H));ctx.stroke();
+    BELT.forEach((b,i)=>{
+      const pulse=0.6+0.4*Math.sin(t*.008+i*.8);
+      ctx.beginPath();ctx.arc(b.x*W,b.y*H,4*pulse,0,Math.PI*2);
+      ctx.fillStyle=`rgba(240,168,48,${pulse*.7})`;ctx.fill();
+      const gg=ctx.createRadialGradient(b.x*W,b.y*H,0,b.x*W,b.y*H,20);
+      gg.addColorStop(0,"rgba(240,168,48,.12)");gg.addColorStop(1,"rgba(0,0,0,0)");
+      ctx.beginPath();ctx.arc(b.x*W,b.y*H,20,0,Math.PI*2);ctx.fillStyle=gg;ctx.fill();
+    });
+
+    // Falling cat ,  cycles every 200 frames
+    catY = ((t%200)/200);
+    const phase = catY<.25?0:(catY<.55?(catY-.25)/.3:1);
+    if(catY>=0&&catY<=1) drawCat(W*.72,catY*H*.85+H*.05,phase,1.1);
+
+    // Labels
+    ctx.fillStyle="rgba(212,137,26,.22)";
+    ctx.font=`italic ${Math.max(8,W*.011)}px 'Cormorant Garamond',serif`;
+    ctx.textAlign="center";
+    ctx.fillText("Orion",BELT[1].x*W,BELT[1].y*H-18);
+    ctx.fillStyle="rgba(184,200,216,.22)";
+    ctx.fillText("Cat",W*.72,Math.max(20,catY*H*.85+H*.05-36));
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ EAR CANAL CANVAS ═══
+(function(){
+  const c=document.getElementById("ear-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth||860;H=380}
+  resize();window.addEventListener("resize",resize);
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(3,4,8,.96)";ctx.fillRect(0,0,W,H);
+
+    const cx=W*.28,cy=H*.5,sc=Math.min(W,H)*.28;
+
+    // Bony labyrinth outline ,  simplified
+    ctx.strokeStyle="rgba(184,200,216,.1)";ctx.lineWidth=2;
+    ctx.beginPath();ctx.ellipse(cx,cy,sc*.8,sc*.65,0,0,Math.PI*2);ctx.stroke();
+
+    // Three semicircular canals ,  each a partial arc in a plane
+    const canals=[
+      {color:"rgba(212,137,26,",rx:sc*.7,ry:sc*.35,rot:0,label:"Horizontal canal"},
+      {color:"rgba(184,200,216,",rx:sc*.35,ry:sc*.7,rot:Math.PI/2,label:"Anterior canal"},
+      {color:"rgba(139,170,187,",rx:sc*.5,ry:sc*.55,rot:Math.PI*.35,label:"Posterior canal"},
+    ];
+    canals.forEach((canal,i)=>{
+      const pulse=0.4+0.3*Math.sin(t*.025+i*1.5);
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(canal.rot);
+      ctx.beginPath();ctx.ellipse(0,0,canal.rx,canal.ry,.1,0,Math.PI*1.6);
+      ctx.strokeStyle=canal.color+(.35+pulse*.15)+")";ctx.lineWidth=3;ctx.stroke();
+      // Cupula marker at end
+      const ex=canal.rx*Math.cos(Math.PI*1.6),ey=canal.ry*Math.sin(Math.PI*1.6);
+      ctx.beginPath();ctx.arc(ex,ey,5+pulse*2,0,Math.PI*2);
+      ctx.fillStyle=canal.color+(.6+pulse*.3)+")";ctx.fill();
+      ctx.restore();
+      // Label
+      const lx=cx+(i===0?sc*.85:(i===1?sc*.1:-sc*.6));
+      const ly=cy+(i===0?-sc*.45:(i===1?sc*.8:sc*.7));
+      ctx.fillStyle=canal.color+".5)";
+      ctx.font=`${Math.max(7,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="left";
+      ctx.fillText(canal.label,lx,ly);
+    });
+
+    // Cochlea spiral
+    ctx.save();ctx.translate(cx+sc*.2,cy+sc*.2);
+    for(let i=0;i<180;i++){
+      const angle=i*(Math.PI/30);const r=4+i*.9;
+      const x=r*Math.cos(angle),y=r*Math.sin(angle)*0.7;
+      ctx.beginPath();ctx.arc(x,y,2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(139,170,187,${.08+i/300})`;ctx.fill();
+    }
+    ctx.restore();
+    ctx.fillStyle="rgba(139,170,187,.35)";
+    ctx.font=`${Math.max(7,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="left";
+    ctx.fillText("Cochlea",cx+sc*.22,cy+sc*.42);
+
+    // Otolith organs ,  utricle and saccule
+    const ut={x:cx+sc*.1,y:cy-sc*.08};
+    const sa={x:cx+sc*.05,y:cy+sc*.18};
+    [ut,sa].forEach((o,i)=>{
+      ctx.beginPath();ctx.ellipse(o.x,o.y,12,8,i===0?.3:.1,0,Math.PI*2);
+      ctx.fillStyle="rgba(240,168,48,.15)";ctx.fill();
+      ctx.strokeStyle="rgba(240,168,48,.35)";ctx.lineWidth=1.5;ctx.stroke();
+      // Otolith crystals
+      for(let k=0;k<6;k++){
+        const ox=o.x+(Math.random()-.5)*14,oy=o.y+(Math.random()-.5)*6;
+        ctx.beginPath();ctx.arc(ox,oy,1.5,0,Math.PI*2);
+        ctx.fillStyle="rgba(240,220,120,.5)";ctx.fill();
+      }
+    });
+    ctx.fillStyle="rgba(240,168,48,.45)";
+    ctx.font=`${Math.max(7,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="right";
+    ctx.fillText("Utricle",ut.x-16,ut.y+3);ctx.fillText("(horizontal gravity)",ut.x-16,ut.y+12);
+    ctx.fillText("Saccule",sa.x-16,sa.y+3);ctx.fillText("(vertical accel.)",sa.x-16,sa.y+12);
+
+    // Right panel: signal path
+    const px=W*.58,py=H*.1;
+    const nodes=[
+      {label:"Hair cell deflects",y:0,col:"rgba(212,137,26,.6)"},
+      {label:"CN VIII fires",y:.14,col:"rgba(212,137,26,.55)"},
+      {label:"Vestibular nuclei",y:.28,col:"rgba(184,200,216,.55)"},
+      {label:"Reticulospinal tract",y:.42,col:"rgba(184,200,216,.5)"},
+      {label:"Spinal motor neurons",y:.56,col:"rgba(139,170,187,.5)"},
+      {label:"Muscle contraction",y:.70,col:"rgba(139,170,187,.55)"},
+      {label:"Cat is right-side up",y:.84,col:"rgba(240,168,48,.6)"},
+    ];
+    nodes.forEach((n,i)=>{
+      const ny=py+n.y*H*.85;
+      const pulse=i===Math.floor((t/18)%nodes.length);
+      ctx.beginPath();ctx.arc(px,ny,pulse?7:5,0,Math.PI*2);
+      ctx.fillStyle=pulse?n.col.replace(",.",",.9"):n.col;ctx.fill();
+      if(i<nodes.length-1){
+        ctx.beginPath();ctx.moveTo(px,ny+6);ctx.lineTo(px,py+nodes[i+1].y*H*.85-6);
+        ctx.strokeStyle="rgba(230,225,215,.08)";ctx.lineWidth=1;ctx.stroke();
+      }
+      ctx.fillStyle=n.col;
+      ctx.font=`${Math.max(7,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="left";
+      ctx.fillText(n.label,px+14,ny+4);
+    });
+    ctx.fillStyle="rgba(230,225,215,.18)";
+    ctx.font=`italic ${Math.max(8,W*.011)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+    ctx.fillText("Signal path: ear to body, no cortex",W*.75,H*.97);
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ CAT RIGHTING REFLEX CANVAS ═══
+(function(){
+  const c=document.getElementById("cat-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth||860;H=340}
+  resize();window.addEventListener("resize",resize);
+
+  const PHASES=[
+    {label:"Otolith fires",sub:"Gravity detected",pct:0},
+    {label:"Head rotates",sub:"Neck first, body follows",pct:.22},
+    {label:"Front/back split",sub:"Zero angular momentum",pct:.46},
+    {label:"Rotation completes",sub:"180° achieved",pct:.68},
+    {label:"Impact prep",sub:"Legs extend, back arches",pct:.85},
+    {label:"Landed",sub:"Right-side up, 300ms",pct:1},
+  ];
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(3,4,8,.96)";ctx.fillRect(0,0,W,H);
+
+    const cycle=240;
+    const p=(t%cycle)/cycle; // 0 to 1
+
+    // Timeline bar
+    const bx=W*.06,by=H*.82,bw=W*.88,bh=6;
+    ctx.fillStyle="rgba(230,225,215,.05)";ctx.fillRect(bx,by,bw,bh);
+    ctx.fillStyle="rgba(212,137,26,.5)";ctx.fillRect(bx,by,bw*p,bh);
+
+    // Phase markers
+    PHASES.forEach((ph,i)=>{
+      const mx=bx+ph.pct*bw;const active=p>=ph.pct&&(i===PHASES.length-1||p<PHASES[i+1].pct);
+      ctx.beginPath();ctx.arc(mx,by+bh/2,active?7:4,0,Math.PI*2);
+      ctx.fillStyle=active?"rgba(212,137,26,.9)":"rgba(212,137,26,.3)";ctx.fill();
+      ctx.fillStyle=active?"rgba(212,137,26,.7)":"rgba(230,225,215,.2)";
+      ctx.font=`${Math.max(6,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="center";
+      ctx.fillText(ph.label,mx,by-14);
+      if(active){ctx.fillStyle="rgba(212,137,26,.45)";ctx.fillText(ph.sub,mx,by-4);}
+    });
+
+    // Draw cat at each phase position
+    const positions=5;
+    for(let pos=0;pos<positions;pos++){
+      const pp=pos/(positions-1);
+      const px=W*(.1+pp*.8);const py=H*.4;
+      const catRot=Math.PI*(1-pp); // starts upside down (pi), ends right-way up (0)
+      const dimA=Math.abs(p-pp)<.12?(.7-(Math.abs(p-pp)/.12)*.5):.08;
+
+      ctx.save();ctx.translate(px,py);ctx.rotate(catRot);ctx.globalAlpha=dimA;
+      // cat body
+      ctx.beginPath();ctx.ellipse(0,0,16,9,0,0,Math.PI*2);
+      ctx.fillStyle="rgba(184,200,216,.5)";ctx.fill();
+      // head
+      ctx.beginPath();ctx.ellipse(19,0,9,8,0,0,Math.PI*2);
+      ctx.fillStyle="rgba(184,200,216,.5)";ctx.fill();
+      // legs direction based on phase
+      const legDir=pp<.5?-1:1;
+      const legSpread=pp>.4&&pp<.6?1.6:1;
+      [[6,8],[13,8],[-6,8],[-13,8]].forEach((l,li)=>{
+        ctx.beginPath();ctx.moveTo(l[0],l[1]);
+        ctx.lineTo(l[0]+(li<2?legDir*6*legSpread:-legDir*6*legSpread),l[1]+14);
+        ctx.strokeStyle="rgba(184,200,216,.5)";ctx.lineWidth=2.5;ctx.stroke();
+      });
+      // ear at top of head relative to current rotation
+      ctx.beginPath();ctx.moveTo(15,-7);ctx.lineTo(20,-14);ctx.lineTo(25,-7);
+      ctx.fillStyle="rgba(184,200,216,.3)";ctx.fill();
+      ctx.restore();
+
+      // phase label below
+      if(pos<PHASES.length){
+        ctx.fillStyle=`rgba(230,225,215,${dimA*.6})`;
+        ctx.font=`${Math.max(6,W*.008)}px 'Space Mono',monospace`;ctx.textAlign="center";
+        ctx.fillText(`${Math.round(pp*300)}ms`,px,H*.72);
+      }
+    }
+
+    // Current phase name
+    const curPhase=PHASES.findLast?PHASES.findLast(ph=>p>=ph.pct):
+      PHASES.filter(ph=>p>=ph.pct).pop();
+    if(curPhase){
+      ctx.fillStyle="rgba(212,137,26,.5)";
+      ctx.font=`italic ${Math.max(10,W*.014)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+      ctx.fillText(curPhase.label+", "+curPhase.sub,W*.5,H*.95);
+    }
+
+    // Angular momentum label
+    ctx.fillStyle="rgba(184,200,216,.18)";
+    ctx.font=`${Math.max(7,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="left";
+    ctx.fillText("L = 0 throughout",W*.04,H*.1);
+    ctx.fillText("(angular momentum conserved)",W*.04,H*.17);
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ OWL EYE CANVAS ═══
+(function(){
+  const c=document.getElementById("owl-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth||860;H=420}
+  resize();window.addEventListener("resize",resize);
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(3,4,8,.96)";ctx.fillRect(0,0,W,H);
+
+    // Left side: OWL EYE
+    const ox=W*.22,oy=H*.42;
+    // Tubular eye — tall oval
+    ctx.beginPath();ctx.ellipse(ox,oy,40,70,.05,0,Math.PI*2);
+    ctx.fillStyle="rgba(50,50,40,.6)";ctx.fill();
+    ctx.strokeStyle="rgba(184,200,216,.35)";ctx.lineWidth=2;ctx.stroke();
+    // Large cornea
+    ctx.beginPath();ctx.ellipse(ox,oy-10,36,36,0,0,Math.PI*2);
+    ctx.fillStyle="rgba(30,30,25,.8)";ctx.fill();
+    ctx.strokeStyle="rgba(184,200,216,.25)";ctx.lineWidth=1.5;ctx.stroke();
+    // Iris — large, pale gold
+    ctx.beginPath();ctx.arc(ox,oy-10,28,0,Math.PI*2);
+    const ig=ctx.createRadialGradient(ox,oy-10,2,ox,oy-10,28);
+    ig.addColorStop(0,"rgba(240,168,48,.9)");ig.addColorStop(.7,"rgba(180,110,20,.7)");ig.addColorStop(1,"rgba(50,30,5,.4)");
+    ctx.fillStyle=ig;ctx.fill();
+    // Pupil — vertical slit (night) or round (dim), animate
+    const pupilW=4+3*Math.sin(t*.02);
+    ctx.beginPath();ctx.ellipse(ox,oy-10,pupilW,20,0,0,Math.PI*2);
+    ctx.fillStyle="rgba(5,5,8,.95)";ctx.fill();
+    // Tapetum glow at back
+    ctx.beginPath();ctx.ellipse(ox,oy+18,25,18,0,0,Math.PI*2);
+    ctx.fillStyle=`rgba(212,137,26,${.08+.04*Math.sin(t*.03)})`;ctx.fill();
+    // Label
+    ctx.fillStyle="rgba(184,200,216,.55)";
+    ctx.font=`italic ${Math.max(9,W*.013)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+    ctx.fillText("Owl Eye",ox,oy+90);
+    ctx.font=`${Math.max(6,W*.008)}px 'Space Mono',monospace`;
+    ctx.fillStyle="rgba(212,137,26,.4)";
+    ctx.fillText("tubular · fixed · rod-dense · tapetum",ox,oy+105);
+
+    // Right side: HUMAN EYE
+    const hx=W*.78,hy=H*.42;
+    ctx.beginPath();ctx.ellipse(hx,hy,44,44,0,0,Math.PI*2);
+    ctx.fillStyle="rgba(40,35,30,.7)";ctx.fill();
+    ctx.strokeStyle="rgba(212,137,26,.3)";ctx.lineWidth=2;ctx.stroke();
+    // Iris human
+    ctx.beginPath();ctx.arc(hx,hy,36,0,Math.PI*2);
+    const hg=ctx.createRadialGradient(hx,hy,3,hx,hy,36);
+    hg.addColorStop(0,"rgba(180,120,60,.8)");hg.addColorStop(.6,"rgba(120,80,30,.6)");hg.addColorStop(1,"rgba(40,25,10,.4)");
+    ctx.fillStyle=hg;ctx.fill();
+    // Pupil round
+    ctx.beginPath();ctx.arc(hx,hy,14,0,Math.PI*2);
+    ctx.fillStyle="rgba(5,5,8,.95)";ctx.fill();
+    // Fovea marker
+    ctx.beginPath();ctx.arc(hx+8,hy,4,0,Math.PI*2);
+    ctx.strokeStyle="rgba(212,137,26,.5)";ctx.lineWidth=1;ctx.stroke();
+    ctx.fillStyle="rgba(212,137,26,.4)";
+    ctx.font=`${Math.max(6,W*.0075)}px 'Space Mono',monospace`;ctx.textAlign="left";
+    ctx.fillText("fovea",hx+14,hy+3);
+    ctx.fillStyle="rgba(212,137,26,.55)";
+    ctx.font=`italic ${Math.max(9,W*.013)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+    ctx.fillText("Human Eye",hx,hy+90);
+    ctx.font=`${Math.max(6,W*.008)}px 'Space Mono',monospace`;
+    ctx.fillStyle="rgba(212,137,26,.4)";
+    ctx.fillText("spherical · mobile · fovea · color cones",hx,hy+105);
+
+    // CENTER: field of view comparison
+    const cx2=W*.5,cy2=H*.42;
+    // Owl field arc
+    const owlField=Math.PI*1.5; // 270 deg
+    ctx.beginPath();ctx.arc(cx2,cy2,70,-(owlField/2)-Math.PI/2,owlField/2-Math.PI/2);
+    ctx.strokeStyle=`rgba(184,200,216,${.25+.1*Math.sin(t*.02)})`;ctx.lineWidth=2;
+    ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);
+    // Human field arc
+    const humField=Math.PI*1.1; // ~200 deg
+    ctx.beginPath();ctx.arc(cx2,cy2,48,-humField/2-Math.PI/2,humField/2-Math.PI/2);
+    ctx.strokeStyle=`rgba(212,137,26,${.25+.1*Math.sin(t*.02+1)})`;ctx.lineWidth=2;
+    ctx.setLineDash([3,3]);ctx.stroke();ctx.setLineDash([]);
+    // Binocular overlap
+    const bino=Math.PI*(110/180);
+    ctx.beginPath();ctx.moveTo(cx2,cy2);ctx.arc(cx2,cy2,48,-bino/2-Math.PI/2,bino/2-Math.PI/2);ctx.closePath();
+    ctx.fillStyle="rgba(212,137,26,.06)";ctx.fill();
+    // Labels in center
+    ctx.fillStyle="rgba(184,200,216,.45)";
+    ctx.font=`${Math.max(6,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="center";
+    ctx.fillText("Owl: 270°",cx2,cy2-82);
+    ctx.fillStyle="rgba(212,137,26,.45)";
+    ctx.fillText("Human: ~200°",cx2,cy2-62);
+    ctx.fillStyle="rgba(212,137,26,.28)";
+    ctx.fillText("binocular",cx2,cy2+12);
+    ctx.fillText("overlap",cx2,cy2+22);
+
+    // Head rotation indicator (owl)
+    const headAngle=(t*.012)%(Math.PI*1.5)-(Math.PI*.75);
+    ctx.save();ctx.translate(ox,oy-10);ctx.rotate(headAngle);
+    ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(5,-4);ctx.lineTo(8,0);ctx.lineTo(5,4);
+    ctx.strokeStyle="rgba(184,200,216,.3)";ctx.lineWidth=1.5;ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle="rgba(184,200,216,.3)";
+    ctx.font=`${Math.max(6,W*.0075)}px 'Space Mono',monospace`;ctx.textAlign="center";
+    ctx.fillText("head rotates 270°",ox,oy-88);
+    ctx.fillText("eyes fixed",ox,oy-78);
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ SCORPION CANVAS ═══
+(function(){
+  const c=document.getElementById("scorpion-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth||860;H=400}
+  resize();window.addEventListener("resize",resize);
+
+  // Orion stars (belt + shoulders + feet)
+  const ORION_S=[
+    {x:.15,y:.38,r:3.5,name:"Betelgeuse",col:"rgba(255,100,80,"},
+    {x:.25,y:.55,r:4,name:"Rigel",col:"rgba(180,210,255,"},
+    {x:.19,y:.45,r:2.5,name:"Bellatrix",col:"rgba(160,180,255,"},
+    {x:.20,y:.47,r:2,name:"Alnitak",col:"rgba(200,220,255,"},
+    {x:.21,y:.49,r:2,name:"Alnilam",col:"rgba(200,220,255,"},
+    {x:.22,y:.51,r:2,name:"Mintaka",col:"rgba(200,220,255,"},
+    {x:.14,y:.62,r:2.5,name:"Saiph",col:"rgba(160,190,255,"},
+  ];
+
+  // Scorpius stars
+  const SCORP_S=[
+    {x:.72,y:.38,r:4.5,name:"Antares",col:"rgba(255,80,40,"},
+    {x:.68,y:.32,r:2,name:"Graffias",col:"rgba(200,200,255,"},
+    {x:.75,y:.30,r:1.8,name:"Dschubba",col:"rgba(200,200,255,"},
+    {x:.77,y:.44,r:2,name:"",col:"rgba(200,200,255,"},
+    {x:.80,y:.52,r:1.8,name:"",col:"rgba(200,200,255,"},
+    {x:.83,y:.60,r:1.8,name:"",col:"rgba(200,200,255,"},
+    {x:.80,y:.68,r:1.5,name:"",col:"rgba(200,200,255,"},
+    {x:.75,y:.74,r:2,name:"Shaula",col:"rgba(200,220,255,"},
+    {x:.78,y:.77,r:1.8,name:"Lesath",col:"rgba(200,220,255,"},
+  ];
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(3,4,8,.97)";ctx.fillRect(0,0,W,H);
+
+    // Milky Way suggestion
+    for(let i=0;i<60;i++){
+      const bx=W*(.4+.2*Math.random()),by=H*Math.random();
+      ctx.beginPath();ctx.arc(bx,by,Math.random()*.8,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,200,220,${Math.random()*.04})`;ctx.fill();
+    }
+
+    // Background stars
+    for(let i=0;i<180;i++){
+      const sx=((i*137.5)%W),sy=((i*97.3)%H);
+      const a=.04+.06*Math.sin(t*.003+i*.4);
+      ctx.beginPath();ctx.arc(sx,sy,.8,0,Math.PI*2);
+      ctx.fillStyle=`rgba(230,225,215,${a})`;ctx.fill();
+    }
+
+    // ORION group
+    // Connect belt
+    ctx.beginPath();
+    ctx.moveTo(ORION_S[3].x*W,ORION_S[3].y*H);
+    ctx.lineTo(ORION_S[4].x*W,ORION_S[4].y*H);
+    ctx.lineTo(ORION_S[5].x*W,ORION_S[5].y*H);
+    ctx.strokeStyle="rgba(212,137,26,.18)";ctx.lineWidth=1;ctx.stroke();
+    // body lines
+    [[0,3],[1,5],[0,2],[1,6]].forEach(([a,b])=>{
+      ctx.beginPath();ctx.moveTo(ORION_S[a].x*W,ORION_S[a].y*H);ctx.lineTo(ORION_S[b].x*W,ORION_S[b].y*H);
+      ctx.strokeStyle="rgba(212,137,26,.08)";ctx.lineWidth=.8;ctx.stroke();
+    });
+    ORION_S.forEach(s=>{
+      const pulse=s.r*(0.85+0.15*Math.sin(t*.015+s.x*8));
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,pulse,0,Math.PI*2);
+      ctx.fillStyle=s.col+"0.75)";ctx.fill();
+      const gg=ctx.createRadialGradient(s.x*W,s.y*H,0,s.x*W,s.y*H,pulse*5);
+      gg.addColorStop(0,s.col+"0.08)");gg.addColorStop(1,s.col+"0)");
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,pulse*5,0,Math.PI*2);ctx.fillStyle=gg;ctx.fill();
+      if(s.name){
+        ctx.fillStyle=s.col+"0.35)";ctx.font=`${Math.max(6,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="center";
+        ctx.fillText(s.name,s.x*W,s.y*H-s.r*2-4);
+      }
+    });
+
+    // SCORPIUS group
+    for(let i=0;i<SCORP_S.length-1;i++){
+      ctx.beginPath();ctx.moveTo(SCORP_S[i].x*W,SCORP_S[i].y*H);ctx.lineTo(SCORP_S[i+1].x*W,SCORP_S[i+1].y*H);
+      ctx.strokeStyle="rgba(255,60,20,.12)";ctx.lineWidth=.9;ctx.stroke();
+    }
+    SCORP_S.forEach(s=>{
+      const pulse=s.r*(0.85+0.15*Math.sin(t*.018+s.x*10));
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,pulse,0,Math.PI*2);
+      ctx.fillStyle=s.col+"0.8)";ctx.fill();
+      const gg=ctx.createRadialGradient(s.x*W,s.y*H,0,s.x*W,s.y*H,pulse*5);
+      gg.addColorStop(0,s.col+"0.1)");gg.addColorStop(1,s.col+"0)");
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,pulse*5,0,Math.PI*2);ctx.fillStyle=gg;ctx.fill();
+      if(s.name){
+        ctx.fillStyle=s.col+"0.4)";ctx.font=`${Math.max(6,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="center";
+        ctx.fillText(s.name,s.x*W,s.y*H-s.r*2-4);
+      }
+    });
+
+    // LABELS
+    ctx.fillStyle="rgba(212,137,26,.55)";
+    ctx.font=`italic ${Math.max(10,W*.014)}px 'Cormorant Garamond',serif`;ctx.textAlign="center";
+    ctx.fillText("Orion",W*.2,H*.18);
+    ctx.fillStyle="rgba(255,80,40,.5)";
+    ctx.fillText("Scorpius",W*.74,H*.18);
+
+    // SEPARATION text
+    ctx.fillStyle="rgba(230,225,215,.18)";
+    ctx.font=`${Math.max(7,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="center";
+    ctx.fillText("They never share the sky.",W*.5,H*.88);
+    ctx.fillText("As one rises, the other sets.",W*.5,H*.94);
+
+    // Horizon line with rising/setting animation
+    const skyShift=Math.sin(t*.006); // -1 to 1
+    const horizY=H*.75;
+    ctx.strokeStyle="rgba(230,225,215,.06)";ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(0,horizY);ctx.lineTo(W,horizY);ctx.stroke();
+
+    const orionVis=Math.max(0,skyShift); // Orion visible when positive
+    const scorpVis=Math.max(0,-skyShift); // Scorpius visible when negative
+
+    ctx.fillStyle=`rgba(212,137,26,${orionVis*.4})`;
+    ctx.font=`${Math.max(6,W*.009)}px 'Space Mono',monospace`;ctx.textAlign="left";
+    if(orionVis>.1)ctx.fillText("Orion rising",W*.05,horizY-8);
+    ctx.fillStyle=`rgba(255,80,40,${scorpVis*.4})`;
+    ctx.textAlign="right";
+    if(scorpVis>.1)ctx.fillText("Scorpius rising",W*.95,horizY-8);
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ TEAR CANVAS ═══
+(function(){
+  const c=document.getElementById("tear-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W=200,H=120,t=0;
+  c.width=W;c.height=H;
+
+  const drops=[];
+  function addDrop(){
+    drops.push({x:W/2+(Math.random()-.5)*20,y:20,vy:.8+Math.random()*.6,a:1,r:2+Math.random()*2});
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    if(t%40===0)addDrop();
+    drops.forEach(d=>{
+      d.y+=d.vy;d.a-=.008;
+      if(d.a<=0)return;
+      // teardrop shape
+      ctx.beginPath();
+      ctx.moveTo(d.x,d.y-d.r*2.5);
+      ctx.bezierCurveTo(d.x+d.r*2,d.y,d.x+d.r*2,d.y+d.r,d.x,d.y+d.r);
+      ctx.bezierCurveTo(d.x-d.r*2,d.y+d.r,d.x-d.r*2,d.y,d.x,d.y-d.r*2.5);
+      const tg=ctx.createLinearGradient(d.x,d.y-d.r*2.5,d.x,d.y+d.r);
+      tg.addColorStop(0,`rgba(168,200,220,${d.a*.7})`);
+      tg.addColorStop(1,`rgba(100,160,200,${d.a*.4})`);
+      ctx.fillStyle=tg;ctx.fill();
+    });
+    // Remove dead drops
+    for(let i=drops.length-1;i>=0;i--){if(drops[i].a<=0||drops[i].y>H)drops.splice(i,1);}
+    // Star above
+    const sa=.4+.3*Math.sin(t*.04);
+    ctx.beginPath();ctx.arc(W/2,12,3,0,Math.PI*2);
+    ctx.fillStyle=`rgba(220,200,150,${sa})`;ctx.fill();
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ ACCORDION ═══
+function tog(id){
+  const b=document.getElementById("ab-"+id);
+  const tg=document.getElementById("at-"+id);
+  if(!b)return;
+  const open=b.classList.toggle("open");
+  if(tg)tg.textContent=open?"▲":"▼";
+}
+</script>
+</body>
+</html>

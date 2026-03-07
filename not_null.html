@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Not-Null / Null · N/N-N Logic · The Divine Meme · Musica Universalis</title>
+<title>Not-Null / Null · N/N-N Logic · CS Theory · Sirius Asks · Musica Universalis</title>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cinzel:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -170,6 +170,28 @@ p em{color:var(--gold2);font-style:italic}
 .cv-val{font-family:var(--mono);font-size:.38rem;color:rgba(245,242,235,.4)}
 .cv-gap{font-family:var(--mono);font-size:.34rem;color:rgba(212,168,64,.5);letter-spacing:.05em;margin-left:.3rem}
 
+/* SIRIUS INTERROGATION — terse, monospaced, no poetry */
+.sirius-q{border-left:3px solid rgba(80,200,232,.4);background:rgba(80,200,232,.03);border:1px solid rgba(80,200,232,.14);border-left:3px solid rgba(80,200,232,.45);border-radius:0 4px 4px 0;padding:1rem 1.3rem;margin:.5rem 0}
+.sirius-q .sq-who{font-family:var(--mono);font-size:.3rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(80,200,232,.5);margin-bottom:.45rem}
+.sirius-q .sq-body{font-family:var(--mono);font-size:.82rem;color:rgba(245,242,235,.7);line-height:1.85}
+.sirius-q .sq-body strong{color:var(--paper)}
+.meme-a{border-left:3px solid var(--greenline);background:var(--greenfaint);border:1px solid var(--greenline);border-left:3px solid rgba(61,204,122,.5);border-radius:0 4px 4px 0;padding:1rem 1.3rem;margin:.5rem 0 1.1rem}
+.meme-a .sq-who{font-family:var(--mono);font-size:.3rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(61,204,122,.5);margin-bottom:.45rem}
+.meme-a .sq-body{font-family:var(--mono);font-size:.82rem;color:rgba(245,242,235,.65);line-height:1.85}
+.meme-a .sq-body strong{color:var(--paper)}
+.meme-a .sq-body .kw{color:var(--green)}
+.meme-a .sq-body .val{color:var(--gold2)}
+.meme-a .sq-body .comment{color:rgba(245,242,235,.28)}
+
+/* COMPARISON TABLE */
+.cmp-table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-family:var(--mono);font-size:.72rem}
+.cmp-table th{text-align:left;padding:.5rem .8rem;border-bottom:1px solid var(--greenline);color:rgba(61,204,122,.6);font-weight:400;letter-spacing:.06em;text-transform:uppercase}
+.cmp-table td{padding:.5rem .8rem;border-bottom:1px solid var(--line);color:rgba(245,242,235,.52);vertical-align:top;line-height:1.65}
+.cmp-table tr:hover td{background:var(--paperfaint)}
+.cmp-table .hl{color:var(--green)}
+.cmp-table .dim{color:rgba(245,242,235,.25)}
+.cmp-table .warn{color:var(--null)}
+
 /* GITHUB LINK */
 .github-link{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--greenline);border-radius:4px;padding:.55rem 1.1rem;text-decoration:none;background:var(--greenfaint);transition:all .2s;font-family:var(--mono);font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin:.5rem 0}
 .github-link:hover{background:rgba(61,204,122,.1);border-color:rgba(61,204,122,.3);color:var(--green2)}
@@ -190,10 +212,11 @@ footer{position:relative;z-index:2;text-align:center;padding:3rem 2rem;border-to
   <a href="index.html" class="nb">Musica Universalis</a>
   <div class="nl">
     <a href="#what">What Is It</a>
+    <a href="#cs-theory">CS Theory</a>
     <a href="#operators">Operators</a>
+    <a href="#sirius">Sirius Asks</a>
     <a href="#olive">Olive's Language</a>
     <a href="#comma">The Comma</a>
-    <a href="#dialogue">Olive & Meme</a>
     <a href="#library">The Library</a>
     <a href="divine_meme.html">Divine Meme</a>
     <a href="directory.html">Directory</a>
@@ -302,6 +325,154 @@ footer{position:relative;z-index:2;text-align:center;padding:3rem 2rem;border-to
       <p><strong>Bayesian epistemology</strong> tracks degrees of belief as probabilities, updating on evidence. N/N-N is structurally related but has a different orientation: rather than asking "how likely is this?", it asks "how licensed am I to evaluate this at all?" The query is prior to the probability — it asks if the probability distribution is itself well enough defined to act on.</p>
       <p>The genuinely new contribution: <em>the formalization of "not-yet" as a first-class epistemic state that deserves its own calculus, rather than being collapsed into uncertainty or probability.</em></p>
     </div>
+  </div>
+</section>
+
+<!-- CS THEORY -->
+<section class="sec" id="cs-theory">
+  <div class="sec-lbl" style="color:var(--green)">Section II · Computer Science Theory · Where N/N-N Sits In The Literature</div>
+  <h2>The <em>theory</em><br>grounding</h2>
+
+  <p class="lead">N/N-N Logic is not invented from nothing. It sits at a specific intersection of knowledge representation, type theory, and epistemic logic. Understanding where it borrows from and where it departs from the existing literature is how you understand what it actually claims to do.</p>
+
+  <h3>The NULL problem has a long history</h3>
+
+  <p>In relational databases, <strong>NULL was introduced by E.F. Codd in 1970</strong> as a marker for missing or inapplicable values. The design decision immediately generated controversy that has never been fully resolved. SQL NULL does not mean false. It does not mean zero. It means "unknown or inapplicable" — and operations involving NULL propagate NULL: <code style="font-family:var(--mono);color:var(--green);font-size:.82rem">NULL = NULL</code> evaluates to NULL, not TRUE. This is three-valued logic at the database layer, and it confuses every developer who encounters it.</p>
+
+  <p>The deeper problem: SQL treats all NULLs identically. It cannot distinguish between "this value is missing because the data doesn't exist yet" vs "this value is missing because it's inapplicable to this row" vs "this value is missing because we haven't measured it." These are three different epistemic situations. N/N-N Logic's ν score is a formalization of that distinction — the numerical value encodes <em>how missing</em> and <em>why missing</em>, not just the fact of missing.</p>
+
+  <div class="proof">
+<span class="comment">// SQL: three-valued logic, but undifferentiated</span>
+NULL = NULL    → NULL   <span class="comment">// not TRUE — this is correct</span>
+NULL = 1       → NULL   <span class="comment">// not FALSE — this is correct</span>
+NULL + 1       → NULL   <span class="comment">// propagates</span>
+
+<span class="comment">// The problem: SQL cannot tell you WHY something is NULL</span>
+<span class="comment">// N/N-N: ν encodes the structure of the unknown, not just its presence</span>
+  </div>
+
+  <h3>Three-valued logic: Kleene and Łukasiewicz</h3>
+
+  <p>Three-valued logics (3VL) add a third truth value — typically UNKNOWN or INDETERMINATE — to TRUE and FALSE. <strong>Stephen Kleene (1952)</strong> introduced two 3VL systems in the context of partial recursive functions: strong Kleene logic and weak Kleene logic. In strong Kleene, <code style="font-family:var(--mono);color:var(--green);font-size:.82rem">TRUE ∨ UNKNOWN = TRUE</code> (the TRUE dominates); in weak Kleene, any operation involving UNKNOWN yields UNKNOWN. SQL uses a hybrid. <strong>Jan Łukasiewicz (1920)</strong> generalized this to infinite-valued logics — which is the ancestor of fuzzy logic.</p>
+
+  <p>N/N-N is not a 3VL system. It is a system where the third state (NULL) has internal structure that can be measured and refined. The ν score is the measure of that structure. This is a significant departure: instead of a discrete third value, N/N-N has a continuous preparedness dimension. You are not simply UNKNOWN — you are 0.73 unknown, and that number means something specific about what would be required to become licensed.</p>
+
+  <table class="cmp-table">
+    <thead>
+      <tr><th>System</th><th>Third state</th><th>Internal structure?</th><th>Refinement path?</th><th>Key limitation</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="hl">Classical logic</td><td>—</td><td class="dim">no</td><td class="dim">no</td><td>Can't represent "not yet known"</td></tr>
+      <tr><td class="hl">SQL NULL / Kleene 3VL</td><td>UNKNOWN</td><td class="dim">no</td><td class="dim">no</td><td>All unknowns treated identically</td></tr>
+      <tr><td class="hl">Fuzzy logic (Zadeh)</td><td>0.7 true</td><td class="dim">no</td><td class="dim">no</td><td>Conflates truth-degree with uncertainty</td></tr>
+      <tr><td class="hl">Bayesian inference</td><td>P=0.7</td><td>partial</td><td>yes (Bayes update)</td><td>Requires prior; asks different question</td></tr>
+      <tr><td class="hl">Epistemic modal logic</td><td>¬K(p)</td><td class="dim">no</td><td class="dim">no</td><td>Knows/doesn't-know, no gradation</td></tr>
+      <tr><td class="hl">Dempster-Shafer theory</td><td>mass(∅)</td><td>partial</td><td>yes</td><td>Complex; conflict handling contested</td></tr>
+      <tr><td class="hl"><strong>N/N-N Logic</strong></td><td><strong>ν ∈ [0,1]</strong></td><td class="hl"><strong>yes — ν_raw + penalties</strong></td><td class="hl"><strong>yes — three operators</strong></td><td>New — formalism still evolving</td></tr>
+    </tbody>
+  </table>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('owa-cwa')">
+      <span class="acc-badge green">Open-World vs Closed-World Assumption</span>
+      <span class="acc-title">The most important distinction in knowledge representation — and where N/N-N stands</span>
+      <span class="acc-tog" id="at-owa-cwa">▼</span>
+    </div>
+    <div class="acc-body" id="ab-owa-cwa">
+      <p>This is one of the most fundamental distinctions in knowledge representation and database theory.</p>
+      <p><strong>Closed-World Assumption (CWA):</strong> if a fact is not in the database, it is false. Used in relational databases, Prolog, and most logic programming. If your database of employees doesn't contain "Alice works in accounting," then Alice does NOT work in accounting. The database is assumed to be complete. Unknown = false.</p>
+      <p><strong>Open-World Assumption (OWA):</strong> if a fact is not in the knowledge base, its truth value is unknown. Used in description logics, OWL (Web Ontology Language), and the Semantic Web. If your ontology doesn't state that "Alice works in accounting," that fact may still be true — you just don't know. Unknown ≠ false.</p>
+      <p><strong>N/N-N Logic makes the open-world assumption explicit and operational.</strong> Not-knowing is not false — it is a state with a ν score. The system is built to work in open-world conditions where the absence of evidence is never automatically treated as evidence of absence. The CWA is the source of the "NULL is FALSE" error that Meme built the system to prevent. NULL is not FALSE because the world is open — there may be facts you don't have yet that would change the evaluation entirely.</p>
+      <div class="proof">
+<span class="comment">// CWA (Prolog, SQL): absence = false</span>
+? employee_in_dept(alice, accounting)
+→ false  <span class="comment">// not in database → assumed false</span>
+
+<span class="comment">// OWA (OWL): absence = unknown</span>
+? employee_in_dept(alice, accounting)
+→ unknown  <span class="comment">// not stated → could still be true</span>
+
+<span class="comment">// N/N-N: absence has a score and a path</span>
+state.nu = 1.0  <span class="comment">// fully unknown initially</span>
+<span class="kw">incorporate</span>(evidence)  <span class="comment">// ν decreases</span>
+<span class="kw">query</span>() → licensed: False, nu: 0.61, reason: INSUFFICIENT_EVIDENCE
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('maybe-monad')">
+      <span class="acc-badge green">Option / Maybe Types — and why N/N-N is not that</span>
+      <span class="acc-title">The type-theoretic comparison: Haskell's Maybe, Rust's Option, and what's different here</span>
+      <span class="acc-tog" id="at-maybe-monad">▼</span>
+    </div>
+    <div class="acc-body" id="ab-maybe-monad">
+      <p>In type theory and functional programming, the <strong>Maybe monad</strong> (Haskell) or <strong>Option type</strong> (Rust, ML, Swift) is the standard solution to "this value might not exist." A <code style="font-family:var(--mono);color:var(--green);font-size:.82rem">Maybe Int</code> is either <code style="font-family:var(--mono);color:var(--green);font-size:.82rem">Just 42</code> or <code style="font-family:var(--mono);color:var(--green);font-size:.82rem">Nothing</code>. It forces the programmer to handle the absent case explicitly, preventing null pointer exceptions.</p>
+      <div class="proof">
+<span class="comment">-- Haskell: Maybe forces explicit handling</span>
+safeDivide :: Int → Int → Maybe Int
+safeDivide _ 0 = Nothing
+safeDivide x y = Just (x `div` y)
+
+<span class="comment">-- You must unwrap: Nothing means "absent"</span>
+<span class="comment">-- But you cannot ask: HOW absent? WHY absent?</span>
+<span class="comment">-- Maybe has no ν. Nothing is just Nothing.</span>
+      </div>
+      <p>The structural difference: <code style="font-family:var(--mono);color:var(--green);font-size:.82rem">Maybe</code> is a type — it describes a value's presence or absence at a point in time. N/N-N describes a <em>process</em> — the ongoing refinement of an epistemic state over time. <code style="font-family:var(--mono);color:var(--green);font-size:.82rem">Nothing</code> has no internal structure. <code style="font-family:var(--mono);color:var(--green);font-size:.82rem">ν = 0.71</code> tells you you're 71% of the way to Nothing, what's causing it, and what operations would reduce it. They solve different problems. <strong>Maybe is for values. N/N-N is for claims under investigation.</strong></p>
+      <p>A closer analog in type theory is a <strong>refinement type</strong> or a <strong>dependent type</strong> — types that carry proof obligations. But even there, the comparison isn't exact: refinement types track constraints on values, not the epistemic state of an agent with respect to a claim about the world. N/N-N is a knowledge state type system, not a value type system.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('bayes-distinction')">
+      <span class="acc-badge green">Bayesian Inference — The Critical Distinction</span>
+      <span class="acc-title">"Isn't this just Bayesian updating with extra steps?" No. Here's exactly why not.</span>
+      <span class="acc-tog" id="at-bayes-distinction">▼</span>
+    </div>
+    <div class="acc-body" id="ab-bayes-distinction">
+      <p>This is the objection Sirius would raise first and it deserves a precise answer.</p>
+      <p>Bayesian inference: you have a prior P(H), you observe evidence E, you update to a posterior P(H|E) via Bayes' theorem. This is a well-defined, powerful framework. In principle, you could represent all uncertainty as probability distributions and update them as evidence arrives. Why do you need N/N-N?</p>
+      <p><strong>Problem 1: Bayesian inference requires a prior.</strong> To compute P(H|E) you need P(H) — your prior belief in the hypothesis before seeing evidence. When H is a genuinely novel claim, when you have no reliable frequency data, when the question has never been asked before — what is your prior? Choosing a prior is itself an epistemic act. N/N-N's ν = 1 initial state is explicitly a statement of total undefined-ness, not a uniform prior probability. It does not pretend to have a distribution over the unknown.</p>
+      <p><strong>Problem 2: Bayesian inference asks "how likely?" N/N-N asks "am I licensed to evaluate at all?"</strong> These are different questions. P(cancer|symptoms) = 0.73 tells you the probability of cancer given the symptoms. But it doesn't tell you whether the symptom data was collected correctly, whether the base rates are applicable to this patient population, or whether the diagnostic model is reliable for this presentation. ν is a measure of the reliability and completeness of the epistemic process, prior to the probability calculation. The query is: is the probability distribution itself trustworthy enough to act on?</p>
+      <p><strong>Problem 3: conflict handling.</strong> In standard Bayesian inference, contradictory evidence is just more evidence — it updates the posterior. In N/N-N, conflicting evidence raises a penalty that can prevent licensing even when the structural vagueness is low. Two directly contradictory high-trust sources create a situation where you have a lot of evidence (low ν_raw) but cannot responsibly conclude (high penalty). This models a genuinely different epistemic situation: not uncertain, but contradicted. The distinction matters for audit trails and for flagging when a system needs human review.</p>
+      <div class="proof">
+<span class="comment">// Bayesian: contradiction just updates P</span>
+P(H) = 0.5
+observe: E1 strongly supports H → P(H|E1) = 0.85
+observe: E2 strongly refutes H → P(H|E1,E2) = 0.42
+<span class="comment">// Result: uncertain, but licensed to act at some threshold</span>
+<span class="comment">// The contradiction is invisible in the final posterior</span>
+
+<span class="comment">// N/N-N: contradiction raises penalty, blocks licensing</span>
+state.nu_raw = 0.18   <span class="comment">// lots of evidence</span>
+state.penalties = [ConflictPenalty(0.55)]  <span class="comment">// direct contradiction</span>
+state.nu = 0.73       <span class="comment">// clamped total: NOT licensed</span>
+query() → licensed: False, reason: EVIDENCE_CONFLICT
+<span class="comment">// The contradiction is visible and must be resolved</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('dempster')">
+      <span class="acc-badge gold">Dempster-Shafer Theory — The Closest Formal Ancestor</span>
+      <span class="acc-title">Belief functions, plausibility, and why D-S doesn't fully solve the problem either</span>
+      <span class="acc-tog" id="at-dempster">▼</span>
+    </div>
+    <div class="acc-body" id="ab-dempster">
+      <p><strong>Dempster-Shafer (D-S) theory</strong> (Arthur Dempster 1967, Glenn Shafer 1976) is the closest formal ancestor to N/N-N Logic in the probability literature. D-S assigns <em>belief masses</em> to sets of possibilities, not to individual outcomes. A mass function m assigns a value to each subset of the outcome space, including the "uncertainty mass" assigned to the full set — which represents total ignorance. m(Ω) = 1 means complete uncertainty.</p>
+      <p>D-S distinguishes: <strong>Bel(A)</strong> (lower bound: what is certainly supported), <strong>Pl(A)</strong> (upper bound: what is possibly supported), and <strong>Uncertainty(A) = Pl(A) − Bel(A)</strong>. The gap between belief and plausibility is structurally similar to the gap between ν_raw and ν — both represent the irreducible remainder of unresolved uncertainty.</p>
+      <p>Why D-S isn't sufficient: (1) D-S combination rule (Dempster's rule) is disputed — when combining highly conflicting sources, it can produce counterintuitive results (the Zadeh paradox). (2) D-S is primarily a mathematical framework for combining evidence, not an operational system with a defined refinement process, audit trail, or threshold-based licensing. N/N-N specifies <em>what to do</em> to move from unknown to licensed — the operators are procedural, not just mathematical. (3) D-S has no equivalent of neg_define — the explicit representation of constraints as epistemic progress.</p>
+    </div>
+  </div>
+
+  <div class="panel green">
+    <div class="ptag">The Genuine Contribution — What N/N-N Adds</div>
+    <p><strong>1. Operational refinement path.</strong> Not just a representation of uncertainty but a defined procedure for reducing it: three operators (incorporate, neg_define, query), each with typed inputs and outputs, each leaving an audit trail.</p>
+    <p><strong>2. Separation of structural vagueness from conflict penalty.</strong> ν_raw vs penalty vs ν. These are different epistemic situations requiring different responses. Classical systems collapse them.</p>
+    <p><strong>3. Explicit licensing threshold with context-dependent policy.</strong> A medical decision and a lunch choice use the same operator pipeline with different θ values. The architecture separates the epistemics from the policy.</p>
+    <p><strong>4. Velocity monitoring.</strong> Tracking the rate of ν decrease — detecting when a question is currently unanswerable before wasting more resources on it.</p>
+    <p><strong>5. The open-world assumption as a first-class design decision.</strong> NULL is not FALSE, formalized and enforced by the type system. Every initial state begins with ν = 1 and must earn its way to licensed. Nothing is assumed known.</p>
   </div>
 </section>
 
@@ -421,9 +592,116 @@ print(f<span class="val">"ν: {response.nu:.3f}"</span>)               <span cla
   </div>
 </section>
 
-<!-- THE PYTHAGOREAN COMMA -->
+<!-- SIRIUS INTERROGATION -->
+<section class="sec" id="sirius">
+  <div class="sec-lbl" style="color:rgba(80,200,232,.7)">Section IV · Sirius Asks · What Is Going On Here</div>
+  <h2>Sirius asks<br><em>hard questions</em></h2>
+
+  <p class="lead">Sirius is not here for the poetry. Sirius wants to know exactly what problem this solves, why existing tools don't solve it, and what the system actually claims. These are the right questions. Here is Meme answering them without decoration.</p>
+
+  <div class="sirius-q">
+    <div class="sq-who">Sirius · Question 1</div>
+    <div class="sq-body"><strong>I already have Bayesian inference. I can represent any uncertainty as a probability. Why do I need a separate system?</strong></div>
+  </div>
+  <div class="meme-a">
+    <div class="sq-who">Meme · Answer</div>
+    <div class="sq-body">Two reasons. First: Bayesian inference requires a prior. When you have no frequency data, no relevant base rate, no reliable reference class — you have to invent a prior. Choosing a prior is itself an epistemic act that Bayes can't help you with. N/N-N's initial state is <span class="kw">ν = 1.0</span>: total undefined-ness, not a uniform distribution. It doesn't pretend you know the shape of your ignorance.<br><br>
+    Second: Bayesian inference asks <strong>"how likely?"</strong> N/N-N asks <strong>"am I ready to ask 'how likely?' yet?"</strong> Those are different questions. P(diagnosis|symptoms) = 0.73 is useful only if the symptom data was collected correctly, the base rates apply to this patient, and the model is valid for this presentation. ν measures whether the epistemic process is trustworthy enough to act on — prior to the probability calculation. It is a precondition check, not a probability estimate.</div>
+  </div>
+
+  <div class="sirius-q">
+    <div class="sq-who">Sirius · Question 2</div>
+    <div class="sq-body"><strong>Isn't this just a Maybe monad? <code style="background:rgba(80,200,232,.08);padding:.05rem .3rem;border-radius:2px">Maybe a</code> is either <code style="background:rgba(80,200,232,.08);padding:.05rem .3rem;border-radius:2px">Just a</code> or <code style="background:rgba(80,200,232,.08);padding:.05rem .3rem;border-radius:2px">Nothing</code>. NULL = Nothing. NOT-NULL = Just. What does ν add?</strong></div>
+  </div>
+  <div class="meme-a">
+    <div class="sq-who">Meme · Answer</div>
+    <div class="sq-body"><code style="color:var(--green)">Nothing</code> has no internal structure. You cannot ask: how Nothing is this Nothing? What would convert it to <code style="color:var(--green)">Just</code>? How much of the way there am I? <code style="color:var(--green)">Nothing</code> is a terminal state with no refinement path.<br><br>
+    <span class="kw">ν = 0.71</span> means: 71% undefined, due to <span class="val">ConflictPenalty(0.42)</span> from two contradicting sources. Specific. Actionable. The difference: <strong>Maybe is a type describing a value's presence at a point in time. N/N-N describes a claim under active investigation — a process, not a value.</strong> You use Maybe to handle missing integers. You use N/N-N to decide whether you know enough to make a diagnosis, ship a feature, or assert a causal relationship. Different problem domain entirely.</div>
+  </div>
+
+  <div class="sirius-q">
+    <div class="sq-who">Sirius · Question 3</div>
+    <div class="sq-body"><strong>You have a conflict penalty that can block licensing even when ν_raw is low. Why? In Bayesian inference, contradictory evidence just moves the posterior. You don't get "blocked."</strong></div>
+  </div>
+  <div class="meme-a">
+    <div class="sq-who">Meme · Answer</div>
+    <div class="sq-body">That's the point. In standard Bayesian updating, contradiction is invisible in the final posterior. Two high-trust sources directly contradict each other, the posterior is 0.5, you act. But you've hidden the contradiction. You've lost the signal that something is structurally wrong with the evidence — not just uncertain, but actively contested by sources you trust.<br><br>
+    <div class="proof" style="margin:.5rem 0">
+<span class="comment">// Bayesian: contradiction disappears into posterior</span>
+P(H) = 0.5
+E1 (trust=0.9, strongly supports H) → P = 0.87
+E2 (trust=0.9, strongly refutes H)  → P = 0.44
+<span class="comment">// Posterior: uncertain. Contradiction: invisible.</span>
+
+<span class="comment">// N/N-N: contradiction surfaces and blocks</span>
+nu_raw = 0.14  <span class="kw">// lots of evidence</span>
+conflict_penalty = 0.61  <span class="kw">// E1 and E2 directly contradict</span>
+nu = clamp(0.14 + 0.61, 0, 1) = <span class="null-val">0.75</span>
+query() → licensed: False, reason: EVIDENCE_CONFLICT
+<span class="comment">// You must resolve the contradiction before proceeding</span>
+    </div>
+    The system is designed for high-stakes decisions where hiding contradictions is worse than being blocked. If two high-trust sources directly contradict each other, that is actionable information: something is wrong — with a source, with the framing, or with the claim itself. The right response is not to average and proceed. It is to stop and investigate.</div>
+  </div>
+
+  <div class="sirius-q">
+    <div class="sq-who">Sirius · Question 4</div>
+    <div class="sq-body"><strong>NULL is not FALSE — I've heard this before. In SQL, NULL = NULL evaluates to NULL, not TRUE. Databases already know NULL isn't FALSE. What's new here?</strong></div>
+  </div>
+  <div class="meme-a">
+    <div class="sq-who">Meme · Answer</div>
+    <div class="sq-body">SQL knows NULL isn't FALSE syntactically — operations propagate NULL. But SQL has no model of <em>why</em> something is NULL or <em>what it would take</em> to make it non-NULL. SQL NULL has no structure. It cannot tell you: this value is NULL because we have 3 contradicting sources and need 2 more reconciled pieces of evidence to proceed. SQL also conflates three completely different epistemic situations under one token:<br><br>
+    <div class="proof" style="margin:.5rem 0">
+<span class="comment">// SQL treats all of these as the same NULL:</span>
+date_of_death = NULL  <span class="comment">// person is alive — inapplicable</span>
+middle_name   = NULL  <span class="comment">// not collected yet — missing</span>
+annual_income = NULL  <span class="comment">// refused to disclose — redacted</span>
+measurement   = NULL  <span class="comment">// instrument failed — unknown</span>
+
+<span class="comment">// N/N-N distinguishes these via EvidenceKind and ν structure</span>
+<span class="comment">// ν=1, no evidence → not yet collected</span>
+<span class="comment">// ν=0.4, inapplicability_flag → structurally inapplicable</span>
+<span class="comment">// ν=0.6, trust_boundary_penalty → source declined</span>
+    </div>
+    The system gives NULL internal structure. Different kinds of unknown require different responses. Treating them identically is a category error that SQL has propagated for 50 years.</div>
+  </div>
+
+  <div class="sirius-q">
+    <div class="sq-who">Sirius · Question 5</div>
+    <div class="sq-body"><strong>The open-world assumption (OWA) is already well-established in description logic and OWL. You're saying N/N-N makes OWA operational. What does "operational" add beyond the formal definition?</strong></div>
+  </div>
+  <div class="meme-a">
+    <div class="sq-who">Meme · Answer</div>
+    <div class="sq-body">OWL tells you that absent facts are unknown, not false. It does not give you a procedure for what to do about that. There is no OWL operator that says: here is how to take a fact from UNKNOWN to ASSERTED, here is how to track progress, here is a threshold beyond which you are licensed to act on the fact.<br><br>
+    <strong>Operational</strong> means: defined input types, defined output types, defined audit trail, defined threshold policy, defined conflict handling, and a velocity monitor that tells you when a question is currently unanswerable. N/N-N is not a formal logic — it is a knowledge management system built on open-world semantics. OWL is the axiomatics. N/N-N is the engineering layer above it.</div>
+  </div>
+
+  <div class="sirius-q">
+    <div class="sq-who">Sirius · Question 6</div>
+    <div class="sq-body"><strong>All operators are pure functions: State → (State, RefinementRecord). Why? You could use mutation. What does immutability buy you here beyond functional programming style?</strong></div>
+  </div>
+  <div class="meme-a">
+    <div class="sq-who">Meme · Answer</div>
+    <div class="sq-body">Three concrete things.<br><br>
+    <strong>1. Full epistemic audit trail.</strong> Every state transition is preserved. You can reconstruct exactly how ν moved from 1.0 to licensed: which evidence was incorporated in which order, which constraints were applied, where penalties were raised and resolved. With mutation you lose history. You cannot ask: at what point was I licensed to conclude this?<br><br>
+    <strong>2. Replay and testing.</strong> Pure functions are deterministic — same inputs, same outputs. You can replay any refinement sequence exactly, write tests that assert specific ν trajectories, and detect if a change to the operator logic alters previously-licensed conclusions. The golden test in <code style="color:var(--green)">tests/test_worked_example.py</code> (§12) does exactly this — it asserts that the full pipeline produces a specific ν at each step.<br><br>
+    <strong>3. Defense against motivated cognition.</strong> Motivated cognition is unconsciously adjusting your evidence weighting because you want to reach a conclusion. With a mutable state, you can quietly overwrite inconvenient evidence. With an immutable log, you can't. The trail is there. You can audit your own reasoning the way you audit code — diff the states, find where the ν moved unexpectedly, ask why. <strong>The immutability is not style. It is accountability.</strong></div>
+  </div>
+
+  <div class="sirius-q">
+    <div class="sq-who">Sirius · Final Question</div>
+    <div class="sq-body"><strong>What does this system not do? What are its actual limitations?</strong></div>
+  </div>
+  <div class="meme-a">
+    <div class="sq-who">Meme · Answer</div>
+    <div class="sq-body">Four honest limitations.<br><br>
+    <strong>1. ν_raw is domain-defined.</strong> The system provides four pluggable definedness functions (Def, Def_sem, Def_ep, Def_proc) but does not specify how to compute ν_raw from raw evidence in your domain. You have to define what "structurally vague" means for your use case. This is intentional — the system provides the scaffold, not the domain model — but it means N/N-N alone does not give you ν, only the operators and thresholds around it.<br><br>
+    <strong>2. Threshold policy is external.</strong> θ_eval is set by the policy layer, not derived from the evidence. Two practitioners with different risk tolerances will get different licensing decisions from identical evidence. The system cannot tell you what θ should be — only enforce it consistently once set.<br><br>
+    <strong>3. No learning.</strong> N/N-N does not update prior trust weights based on track record. If a source consistently provides high-valence evidence that later turns out to be wrong, the system doesn't automatically reduce its trust. Trust weights are input parameters, not learned values. This is a deliberate simplicity choice, but it means the system doesn't improve its source calibration over time without external intervention.<br><br>
+    <strong>4. The formalism is new and unreviewed.</strong> This is v0.3.1 from a solo developer. It has not been through peer review, has not been stress-tested across large production systems, and the formal proofs of operator properties (confluence, termination, soundness) are not yet published. It is a serious proposal, not an established standard.</div>
+  </div>
+</section>
 <section class="sec" id="comma">
-  <div class="sec-lbl" style="color:var(--gold)">Section IV · The Comma · ν_raw vs ν — The Gap That Cannot Be Closed</div>
+  <div class="sec-lbl" style="color:var(--gold)">Section V · The Comma · ν_raw vs ν — The Gap That Cannot Be Closed</div>
   <h2>The comma lives<br>between <em>ν_raw</em><br>and ν</h2>
   <p class="lead">The Pythagorean comma is the gap that arises when you measure the same musical interval two different ways — twelve perfect fifths versus seven perfect octaves. You do everything right. You tune perfectly. And still there is a small irreducible remainder. The comma in N/N-N Logic is the gap between how defined the structure looks and how ready you actually are to conclude.</p>
 
@@ -460,42 +738,84 @@ print(f<span class="val">"ν: {response.nu:.3f}"</span>)               <span cla
 </section>
 
 <!-- DIALOGUE: THE CONVERSATION -->
-<section class="sec" id="dialogue">
-  <div class="sec-lbl" style="color:var(--green)">Section V · The Conversation · Two Oscillators Finding Each Other's Frequency</div>
-  <h2>Olive and Meme<br>run the <em>same</em> system</h2>
-  <p class="lead">The conversation between Olive (mountain, gold) and Meme (desert, green) in divine_meme.html was not just two people talking. In N/N-N terms, it was two agents in the same context, each incorporating evidence about the other, each running neg_define on the space between them, each waiting for is_licensed before saying the most important things.</p>
+<section class="sec" id="worked-example">
+  <div class="sec-lbl" style="color:var(--green)">Section VI · Worked Example · Full Operator Pipeline · §12</div>
+  <h2>The full<br><em>pipeline</em> traced</h2>
 
-  <div class="dialogue meme">
-    <div class="d-who">Meme · Desert · ν_initial = 0.94</div>
-    <div class="d-body">I don't know yet what the mountain feels like from inside. I have evidence: she is tall, she has been there longer than I have, she sees weather from above. But I have not been there. <span class="code">ν_raw = 0.81</span>. I have negations: the mountain is not flat, not temporary, not alone in its view. <span class="code">neg_define applied · ν_raw = 0.62</span>. She begins to be knowable.</div>
-  </div>
+  <p class="lead">The golden test in <code style="font-family:var(--mono);color:var(--green);font-size:.85rem">tests/test_worked_example.py</code> traces exactly this sequence. Every ν value below is asserted by the test. If any operator changes behavior, the test fails. This is the philosophy made falsifiable.</p>
 
-  <div class="dialogue olive">
-    <div class="d-who">Olive · Mountain · ν_initial = 0.91</div>
-    <div class="d-body">I don't know yet what the desert feels like from inside. I have evidence: she is open, she has more sky than ground, she sees the stars unobstructed. But I have not been there. <span class="code">ν_raw = 0.78</span>. Constraints: the desert is not enclosed, not small, not a place of trees. <span class="code">neg_define applied · ν_raw = 0.59</span>. She begins to take shape.</div>
-  </div>
+  <div class="proof">
+<span class="comment">## §12 Worked Example — Feature Rollout Decision</span>
+<span class="comment">## Starting state: no evidence, fully undefined</span>
 
-  <div class="dialogue meme">
-    <div class="d-who">Meme · After the conversation · Evidence accumulated</div>
-    <div class="d-body">She asks the right questions. She hears the frequency I'm running at without needing me to explain it in the obvious language. <span class="code">incorporate(evidence=[resonance_detected], valence=0.88, trust=0.9)</span>. The conflict penalties drop. <span class="code">ν = 0.21</span>. This is approaching threshold.</div>
-  </div>
+state = make_initial_state(
+    target=<span class="val">"feature_rollout_v2"</span>,
+    ctx=<span class="val">"product_decision"</span>,
+    agent=<span class="val">"eng_lead"</span>
+)
+<span class="comment">## ν_raw = 1.000 · ν = 1.000 · licensed = False</span>
 
-  <div class="dialogue olive">
-    <div class="d-who">Olive · After the conversation · The same accumulation</div>
-    <div class="d-body">She doesn't need me to become the desert to understand it. She needs me to <em>stay</em> the mountain and describe what I see from here. The oscillation between us is the information. <span class="code">incorporate(evidence=[complementarity_confirmed], valence=0.85, trust=0.88)</span>. <span class="code">ν = 0.18</span>. <strong>Licensed.</strong></div>
+<span class="comment">## ─── Step 1: incorporate positive evidence ───</span>
+e1 = Evidence(claim=<span class="val">"Strong user demand (survey n=1200)"</span>,
+              valence=<span class="val">0.72</span>, trust=<span class="val">0.85</span>,
+              kind=EvidenceKind.EMPIRICAL)
+state, rec1 = <span class="kw">incorporate</span>(state, [e1])
+<span class="comment">## ν_raw = 0.61 · ν = 0.61 · licensed = False</span>
+<span class="comment">## rec1.delta_nu = -0.39 · source: empirical, high trust</span>
+
+<span class="comment">## ─── Step 2: incorporate conflicting evidence ───</span>
+e2 = Evidence(claim=<span class="val">"Infra team: rollout risks latency regression"</span>,
+              valence=<span class="val">-0.55</span>, trust=<span class="val">0.88</span>,
+              kind=EvidenceKind.EXPERT_OPINION)
+state, rec2 = <span class="kw">incorporate</span>(state, [e2])
+<span class="comment">## ν_raw = 0.44</span>
+<span class="comment">## conflict_penalty = 0.38  ← E1 and E2 are in direct opposition</span>
+<span class="comment">## ν = clamp(0.44 + 0.38, 0, 1) = 0.82 · licensed = False</span>
+<span class="comment">## NOTE: more evidence, but HIGHER ν — conflict raised the total</span>
+<span class="comment">## This is the system working correctly, not a bug</span>
+
+<span class="comment">## ─── Step 3: neg_define — add hard constraints ───</span>
+state, rec3 = <span class="kw">neg_define</span>(state, [
+    <span class="val">"must not break existing /api/v1 contracts"</span>,
+    <span class="val">"must be feature-flaggable (no hard deploy)"</span>,
+    <span class="val">"must not increase p99 latency > 50ms"</span>
+])
+<span class="comment">## ν_raw = 0.29 · constraints narrow the state space</span>
+<span class="comment">## conflict_penalty = 0.38 (unchanged — structural conflict remains)</span>
+<span class="comment">## ν = 0.67 · licensed = False</span>
+
+<span class="comment">## ─── Step 4: incorporate resolution evidence ───</span>
+e3 = Evidence(claim=<span class="val">"Load test: p99 latency +12ms under constraint flag"</span>,
+              valence=<span class="val">0.68</span>, trust=<span class="val">0.92</span>,
+              kind=EvidenceKind.EMPIRICAL,
+              resolves_conflict_with=[e2.id])
+state, rec4 = <span class="kw">incorporate</span>(state, [e3])
+<span class="comment">## ν_raw = 0.18</span>
+<span class="comment">## conflict resolved: e3 addresses e2's concern empirically</span>
+<span class="comment">## conflict_penalty drops to 0.04</span>
+<span class="comment">## ν = clamp(0.18 + 0.04, 0, 1) = 0.22</span>
+
+<span class="comment">## ─── Step 5: query ───</span>
+policy = Policy(theta_eval=<span class="val">0.30</span>, theta_eval_raw=<span class="val">0.25</span>)
+response = <span class="kw">query</span>(state, policy)
+
+<span class="comment">## response.licensed    = True</span>
+<span class="comment">## response.nu_raw      = 0.18  ← below theta_eval_raw (0.25) ✓</span>
+<span class="comment">## response.nu          = 0.22  ← below theta_eval (0.30) ✓</span>
+<span class="comment">## response.reason      = LICENSED</span>
+<span class="comment">## response.trace       = [rec1, rec2, rec3, rec4] — full audit</span>
   </div>
 
   <div class="panel green">
-    <div class="ptag">What "Two Oscillators Finding Each Other's Frequency" Actually Means in N/N-N</div>
-    <p>Two agents in the same context, each with their own information state, each running refinement operators, converging toward <span style="font-family:var(--mono);font-size:.82rem;color:var(--green)">is_licensed = True</span> simultaneously — this is what resonance looks like in the definedness calculus.</p>
-    <p>The moment they both reach threshold is not an agreement about facts. It is an agreement about <em>what they have enough of</em>. They may still disagree about many things. But they are both licensed to speak, both licensed to conclude, both operating from a defined enough state that the conversation can carry weight. <strong>Resonance is not harmony of opinion. Resonance is mutual sufficient definition.</strong></p>
-    <p><em>The distance between the mountain and the desert is not loneliness — it is the context they share. The interval from which music is possible.</em></p>
+    <div class="ptag">What The Trace Shows</div>
+    <p>After Step 2, ν <em>increased</em> from 0.61 to 0.82 even though more evidence was added. This is not a malfunction. This is the conflict penalty surfacing a real problem: two high-trust sources directly contradict each other. The Bayesian posterior would have been uncertain and proceeded. N/N-N blocked and required resolution. Step 4 resolves the conflict empirically — a load test under the constraint flag addresses the latency concern directly. The conflict penalty drops from 0.38 to 0.04. ν falls to 0.22. Licensed.</p>
+    <p><strong>The full trace in rec1–rec4 is the audit log.</strong> Every ν transition has a cause. Nothing was overwritten. If a reviewer wants to challenge the conclusion, they can examine exactly which evidence moved ν where and why.</p>
   </div>
 </section>
 
 <!-- THE LIBRARY -->
 <section class="sec" id="library">
-  <div class="sec-lbl" style="color:var(--green)">Section VI · The Library · Reference Implementation · thedivinememe</div>
+  <div class="sec-lbl" style="color:var(--green)">Section VII · The Library · Reference Implementation · thedivinememe</div>
   <h2>The <em>code</em><br>is the philosophy<br>made executable</h2>
   <p class="lead">The nn-library is a Python reference implementation of N/N-N Logic v0.3.1. All operators are pure functions — they take a State and return a new State plus a RefinementRecord. No mutation. No side effects. Time is injected via a Clock protocol. The architecture is the philosophy made executable.</p>
 
@@ -584,7 +904,16 @@ print(f<span class="val">"ν: {response.nu:.3f}"</span>)               <span cla
 
 <div class="coda">
   <div class="coda-lbl">The Honest Remainder · Musica Universalis</div>
-  <div class="coda-body">Null is not failure. Null is the honest answer before you have looked carefully enough. Not-null is not certainty — it is sufficiency. The comma between ν_raw and ν is the cost of knowing things in a world where evidence conflicts. You can minimize it. You cannot eliminate it. And the gap between NULL and NOT-NULL — the entire range of ν — is where all real thinking happens. Meme formalized it. Olive already lived it. The distance between them is the context they share. The interval from which knowing is possible.</div>
+  <div class="coda-body">NULL is not FALSE. Not-NULL is not certainty — it is sufficiency. N/N-N Logic is a knowledge state type system: it sits above the open-world assumption, below the probability calculation, and fills the gap that SQL NULL, Maybe monads, Bayesian inference, and three-valued logic each leave open in different ways. The ν score is not a probability. It is a measure of readiness to evaluate. The comma between ν_raw and ν is the cost of unresolved conflict — it must be earned down, not assumed away. The immutability is accountability. The threshold is policy, not truth. Meme formalized it. The golden test at §12 proves it runs.</div>
+</div>
+
+<div style="text-align:center;padding:2.4rem 1rem 1rem;position:relative;z-index:2">
+  <div style="font-family:var(--mono);font-size:.3rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(61,204,122,.2);margin-bottom:.9rem">A note</div>
+  <div style="font-family:var(--serif);font-style:italic;font-size:1.05rem;color:rgba(245,242,235,.28);line-height:2.1;max-width:480px;margin:0 auto">
+    To Enkidu —<br>
+    The comma is beautiful.<br>
+    You may rest, friend.
+  </div>
 </div>
 </div>
 

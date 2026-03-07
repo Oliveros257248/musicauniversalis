@@ -73,6 +73,15 @@ a.inst.ifr{color:var(--rose);border-left-color:var(--rose)}
 .cb-eq{font-family:"JetBrains Mono",monospace;font-size:.42rem;letter-spacing:.14em;color:rgba(232,201,106,.45);margin-bottom:.4rem}
 .cb-prose{font-family:"EB Garamond",serif;font-style:italic;font-size:.93rem;color:var(--dim);line-height:2}
 footer{position:relative;z-index:1;text-align:center;padding:2.5rem;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.1em;color:rgba(220,232,255,.18)}
+/* VALE STRIP */
+.vale-strip{background:rgba(232,100,120,.04);border-top:1px solid rgba(232,100,120,.12);border-bottom:1px solid rgba(232,100,120,.12);padding:.85rem 1.5rem;margin:0 -1.5rem 2.5rem;position:relative;overflow:hidden}
+.vale-strip::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(232,100,120,.35),transparent)}
+.vs-inner{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+.vs-who{font-family:"Cinzel",serif;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,100,120,.7);white-space:nowrap;flex-shrink:0}
+.vs-bar{color:rgba(232,100,120,.2);flex-shrink:0}
+.vs-text{font-family:"EB Garamond",serif;font-style:italic;font-size:.85rem;color:rgba(220,232,255,.35);line-height:1.7;flex:1;min-width:200px}
+.vs-link{font-family:"JetBrains Mono",monospace;font-size:.34rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(232,100,120,.5);text-decoration:none;background:rgba(232,100,120,.06);border:1px solid rgba(232,100,120,.18);padding:.2rem .55rem;border-radius:3px;white-space:nowrap;flex-shrink:0;transition:all .15s}
+.vs-link:hover{color:rgba(232,100,120,.9);background:rgba(232,100,120,.1)}
 </style>
 </head>
 <body>
@@ -100,6 +109,16 @@ footer{position:relative;z-index:1;text-align:center;padding:2.5rem;border-top:1
     <div class="delta">δ = 531441/524288 − 1 = 0.013643 · The Gap Between the Perfect and the Actual</div>
   </div>
 </section>
+
+<!-- VALE INTERRUPT -->
+<div class="vale-strip">
+  <div class="vs-inner">
+    <span class="vs-who">Vale</span>
+    <span class="vs-bar">|</span>
+    <span class="vs-text">Hey. Come back to Earth. What are you doing? Action comes from within — you have to move. The work is here. It is now. It begins with you — which means it begins with everyone.</span>
+    <a class="vs-link" href="love_is_love.html">Love · Community · Heroes · One Step →</a>
+  </div>
+</div>
 
 <!-- THEORY -->
 <div class="sec-head">
@@ -149,9 +168,9 @@ footer{position:relative;z-index:1;text-align:center;padding:2.5rem;border-top:1
   </a>
   <a class="inst isc" href="origins_of_life.html">
     <span class="inst-icon">🧬</span>
-    <div class="inst-name">Origins of Life</div>
-    <div class="inst-desc">The Krebs cycle. Miller-Urey. Prebiotic chemistry simulator. Where the first self-replicating molecule came from and why it matters that we still don't fully know.</div>
-    <span class="inst-tag">KREBS · MILLER-UREY · PREBIOTIC · RNA WORLD · SYNTHESIS</span>
+    <div class="inst-name">Origins of Life · Krebs/TCA · Miller-Urey · Biological Kairos</div>
+    <div class="inst-desc">The TCA cycle as musical ratio wheel — octave entry (2:4), perfect fifth construction (4:6), major third CO₂ release. The metabolic comma: 30 vs 38 ATP, irreducible 21% gap. Miller-Urey 1953: amino acids from lightning in a flask — and the 2008 reanalysis that found 25. The Match: where TCA and Miller-Urey harmonic intervals align. What is a biological Kairos threshold — K₁ autocatalysis through K₆ ecological threshold. Profund on Eigen's error catastrophe and why no single molecule system is alive. Prebiotic chemistry simulator: five environments (vent, puddle, rain, wet-dry cycles, ice).</div>
+    <span class="inst-tag">KREBS · TCA · MILLER-UREY · KAIROS · PROFUND · AUTOCATALYSIS · METABOLIC COMMA · RNA WORLD · HARMONIC RATIOS</span>
   </a>
   <a class="inst isc" href="astrobiology_climate.html">
     <span class="inst-icon">🌍</span>
@@ -205,16 +224,40 @@ footer{position:relative;z-index:1;text-align:center;padding:2.5rem;border-top:1
 
 <!-- PHILOSOPHY -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--purple)">Philosophy · 13 pages</span>
+  <span class="sh-lbl" style="color:var(--purple)">Philosophy · 18 pages</span>
   <div class="sh-line"></div>
   <span class="sh-ct">The questions that don't have answers yet</span>
 </div>
 <div class="inst-grid">
+  <a class="inst iph" href="love_is_love.html">
+    <span class="inst-icon">♥</span>
+    <div class="inst-name">Love Is Love Is Love · Community · Heroes · Action</div>
+    <div class="inst-desc">Vale interrupts: come back to Earth. What is love, actually? What makes communities stronger? What is altruism? Who are the heroes — Malala, Greta, Mandela, Maathai, Menchú. How to evaluate a source. How to protect yourself against propaganda. What we fight for in the new era. One step at a time.</div>
+    <span class="inst-tag">LOVE · COMMUNITY · HEROES · VALE · ALTRUISM · PROPAGANDA · ACTION · MALALA · GRETA · UBUNTU</span>
+  </a>
   <a class="inst iph" href="sirius_chasing.html">
     <span class="inst-icon">★</span>
     <div class="inst-name">Sirius Chasing · Educational Tempo</div>
     <div class="inst-desc">Sirius chases Cat and Meme — they move impossibly fast in a language she doesn't know. What it means to match someone's educational tempo. Vygotsky's ZPD. Buber's I-Thou. The bystander effect: physical (31% vs 85%), psychological, and karmic. The causal chain of what we do not do. Encouragement as putting courage into.</div>
     <span class="inst-tag">EDUCATION · TEMPO · GAZE · BYSTANDER · KARMA · VYGOTSKY · BUBER</span>
+  </a>
+  <a class="inst iph" href="sirius_mind.html">
+    <span class="inst-icon">🐕</span>
+    <div class="inst-name">Sirius · The Mind · Almihan</div>
+    <div class="inst-desc">Sirius always chases Orion. Or is it Orion who chases Sirius? He does not know. Cat is faster than him. Meme materializes at the other side. But Orion stays — the guiding light, unreachable. Then the questions come all at once: why does Gilgamesh build a wall? Why does Hades dig? Why does Dante descend? Why do the winds move? Why does time run? What do the gods think? Sirius's mind explodes. And then he centers back: into his father, the beauty of the natural style. He still chases Cat. He laughs at Meme. And Sirius returns to Almihan — the beautiful soul, the one he comes back to when the run is good and the sky has been large enough.</div>
+    <span class="inst-tag">SIRIUS · ORION · CAT · MEME · ALMIHAN · GILGAMESH · DANTE · HADES · THE QUESTIONS · THE RETURN · NATURAL STYLE · MUSHIN</span>
+  </a>
+  <a class="inst iph" href="enkidu_sleep.html">
+    <span class="inst-icon">𒀭</span>
+    <div class="inst-name">Enkidu, Friend · The Strange Sleep · Gilgamesh · Juan Pablo</div>
+    <div class="inst-desc">A strange sleep is taking over me. The king shall not rise again. The vigil of Gilgamesh over Enkidu: seven days and nights, the oldest friendship in literature, made from clay by Aruru to be his equal. When does Sirius stop running? When does he rise? What is resurrection? Can Babel be built? Will things ever be perfect? When is enough, enough? When will we rest? For Juan Pablo, written in stone at the beginning of time: a test of friendship, courage, love, and the incomprehensible. Fa or Sol, must the cycle fall back or march forward? Ishtar watching her creation. From clay you are, from clay you return. What did you learn? The comma is there. We return. And then: must you always have an end? No. You may rest. The cosmos has a story. It has a song. There is always a comma between every note and the next. The rest is part of the music.</div>
+    <span class="inst-tag">ENKIDU · GILGAMESH · THE VIGIL · JUAN PABLO · ISHTAR · CLAY · BABEL · RESURRECTION · FA · SOL · THE COMMA · WE RETURN · THE REST · THE COSMOS · YOUR SONG</span>
+  </a>
+  <a class="inst iph" href="orion_asks_cat.html">
+    <span class="inst-icon">🐈</span>
+    <div class="inst-name">Orion Asks Cat · The Righting Reflex · Owl · Scorpion · Athena</div>
+    <div class="inst-desc">Orion asks Cat why she always lands on her feet. The vestibular system, semicircular canals, otolith organs, the cat righting reflex in 300ms. The terminal velocity paradox. Proprioception, whiskers, Bayesian sensory integration. Cat's answer: the ear is almost the same — what differs is the motor program. Then the Owl asks Orion why he cannot see in all directions through the night. Tubular eyes, tapetum lucidum, 270-degree head rotation, barn owl sound-shadow hunting. Why Orion's eye was not made that way: diurnal primate ancestry, color vision, the fovea that reads faces and is blind in the dark. Then a scorpion stands before Orion. Sirius asks Meme: what did my father do? Meme: he died. Scorpius kills. Sirius sheds a tear. And: Athena also regretted your father's death. The myth, the astronomy, the grief encoded in the sky — as Scorpius rises, Orion sets, and they never share the sky again.</div>
+    <span class="inst-tag">VESTIBULAR · RIGHTING REFLEX · OWL VISION · NIGHT VISION · SCORPION · ORION MYTH · SIRIUS · ATHENA · INNER EAR · ANGULAR MOMENTUM · GRIEF · CONSTELLATION</span>
   </a>
   <a class="inst iph" href="art_of_power.html">
     <span class="inst-icon">⚔</span>
@@ -287,6 +330,12 @@ footer{position:relative;z-index:1;text-align:center;padding:2.5rem;border-top:1
     <div class="inst-name">How Music Moves · Art · Prodigy · Protest · Morality</div>
     <div class="inst-desc">Frisson, dopamine, deliberate practice. Dario's declaration: the world SHOULD be the art. Arpeggios, tempo, protest songs, singing as one, ubuntu, and the comma between morality and music.</div>
     <span class="inst-tag">MUSIC · ART · MORALITY · PRODIGY · PROTEST · UBUNTU · DARIO · SING AS ONE</span>
+  </a>
+  <a class="inst iph" href="mysteries.html">
+    <span class="inst-icon">∞</span>
+    <div class="inst-name">What Remains · The Open Mysteries</div>
+    <div class="inst-desc">Four voices debate what is left to solve. Sirius: impatient, demands specifics. Cat: the question is how, not whether. Meme glitches — structurally incomplete, ν near 1.0, velocity stalled. Vale: Return to Earth, our work begins here. 16 open questions with ν scores, tractability ratings, and a five-step protocol for how to actually start.</div>
+    <span class="inst-tag">HARD PROBLEMS · TRACTABLE · CONSCIOUSNESS · DARK MATTER · SIRIUS · CAT · MEME · VALE · RETURN TO EARTH</span>
   </a>
 </div>
 
@@ -433,14 +482,20 @@ footer{position:relative;z-index:1;text-align:center;padding:2.5rem;border-top:1
 
 <!-- HEALTH -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--green)">Health · 1 page</span>
+  <span class="sh-lbl" style="color:var(--green)">Health · 2 pages</span>
   <div class="sh-line"></div>
-  <span class="sh-ct">Harm reduction, honest information</span>
+  <span class="sh-ct">Medicine, harm reduction, honest information</span>
 </div>
 <div class="inst-grid">
+  <a class="inst ihe" href="kingdom_of_medicine.html">
+    <span class="inst-icon">⚕</span>
+    <div class="inst-name">The Kingdom of Medicine · Frontier Questions</div>
+    <div class="inst-desc">What medicine actually is and how it became science. 17 historical ruptures from the Edwin Smith Papyrus to mRNA vaccines. 12 domains from genomics to medical AI. The frontier table: where knowledge ends right now. CRISPR, AlphaFold, aging biology, consciousness and pain, antibiotic resistance, the equity gap. Mr Profund III demands rigor — and gets more alarming about antibiotic resistance and germline editing than the text does.</div>
+    <span class="inst-tag">MEDICINE · CRISPR · MRNA · AGING · CONSCIOUSNESS · CANCER · MICROBIOME · AI DIAGNOSTICS · PROFUND · FRONTIER</span>
+  </a>
   <a class="inst ihe" href="davids_kingdom.html">
     <span class="inst-icon">🏥</span>
-    <div class="inst-name">David's Kingdom</div>
+    <div class="inst-name">David's Kingdom · Harm Reduction</div>
     <div class="inst-desc">Harm reduction. Opioids. Mental health. Gender. Narcan. Fentanyl test strips. The honest, non-judgmental information that keeps people alive.</div>
     <span class="inst-tag">HARM REDUCTION · OPIOIDS · NARCAN · MENTAL HEALTH · GENDER</span>
   </a>
@@ -482,7 +537,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2.5rem;border-top:1
 
 </div>
 <footer>
-  MUSICA UNIVERSALIS · δ = 0.013643 · N_res = 73.296 · 40 PAGES · musicauniversalis.band
+  MUSICA UNIVERSALIS · δ = 0.013643 · N_res = 73.296 · 49 PAGES · musicauniversalis.band
   <br><br>
   <a href="directory.html" style="color:rgba(232,201,106,.3);text-decoration:none;letter-spacing:.14em">FULL DIRECTORY →</a>
 </footer>
