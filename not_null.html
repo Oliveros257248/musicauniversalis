@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Not-Null / Null · N/N-N Logic · The Divine Meme · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cinzel:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#070709;--bg1:#0A0A0D;--bg2:#0D0D11;
+  --paper:rgba(245,242,235,.92);--paperfaint:rgba(245,242,235,.04);--paperdim:rgba(245,242,235,.52);
+  --green:#3DCC7A;--green2:#60EE99;--greenfaint:rgba(61,204,122,.05);--greenline:rgba(61,204,122,.12);
+  --gold:#D4A840;--gold2:#F0C860;--goldfaint:rgba(212,168,64,.05);--goldline:rgba(212,168,64,.12);
+  --null:#FF5050;--nullfaint:rgba(255,80,80,.05);
+  --cyan:#50C8E8;
+  --line:rgba(245,242,235,.07);--lineg:rgba(61,204,122,.1);
+  --serif:"EB Garamond",Georgia,serif;
+  --mono:"DM Mono",monospace;
+  --display:"Playfair Display",serif;
+}
+html{scroll-behavior:smooth;background:var(--void)}
+body{color:var(--paperdim);font-family:var(--serif);font-size:18px;line-height:1.96;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.5rem 1.5rem;background:rgba(7,7,9,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--greenline)}
+.nb{font-family:"Cinzel",serif;font-size:.65rem;letter-spacing:.14em;color:var(--green);text-decoration:none;transition:color .2s}
+.nb:hover{color:var(--green2)}
+.nl{display:flex;gap:.05rem;flex-wrap:wrap}
+.nl a{font-family:var(--mono);font-size:.3rem;letter-spacing:.07em;color:var(--paperdim);text-decoration:none;padding:.12rem .3rem;border-radius:2px;text-transform:uppercase;transition:color .15s;opacity:.55}
+.nl a:hover{color:var(--green);opacity:1}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;overflow:hidden}
+#nn-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.hero-content{position:relative;z-index:2}
+.h-pre{font-family:var(--mono);font-size:.38rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(61,204,122,.4);margin-bottom:.9rem}
+.hero-null{font-family:var(--display);font-size:clamp(1.1rem,2.5vw,1.8rem);font-weight:400;font-style:italic;color:rgba(255,80,80,.55);letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:.2rem}
+.hero h1{font-family:var(--display);font-size:clamp(3rem,7vw,6.2rem);font-weight:900;letter-spacing:-.01em;color:var(--paper);line-height:.9;margin-bottom:.3rem}
+.hero h1 em{color:var(--green);font-style:italic}
+.hero-slash{font-family:var(--mono);font-size:clamp(1rem,2vw,1.5rem);color:rgba(245,242,235,.15);letter-spacing:.3em;display:block;margin:.25rem 0}
+.hero-notnull{font-family:var(--display);font-size:clamp(1.1rem,2.5vw,1.8rem);font-weight:700;color:rgba(61,204,122,.7);letter-spacing:.18em;text-transform:uppercase;display:block;margin-top:.2rem}
+.h-rule{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);margin:.9rem auto}
+.h-sub{font-family:var(--serif);font-style:italic;font-size:.97rem;color:rgba(245,242,235,.38);max-width:520px;line-height:2.12;margin:0 auto}
+.h-badge{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.1rem;background:var(--greenfaint);border:1px solid var(--greenline);border-radius:3px;padding:.28rem .9rem;font-family:var(--mono);font-size:.38rem;letter-spacing:.09em;color:rgba(61,204,122,.55);text-transform:uppercase}
+
+/* NU LIVE METER */
+.nu-meter{position:relative;display:inline-flex;flex-direction:column;align-items:center;margin-top:1.5rem;gap:.3rem}
+.nu-track{width:260px;height:4px;background:rgba(245,242,235,.06);border-radius:2px;overflow:hidden;position:relative}
+.nu-fill{height:100%;border-radius:2px;transition:width .3s ease;background:linear-gradient(90deg,var(--green),var(--gold),var(--null))}
+.nu-labels{display:flex;justify-content:space-between;width:260px;font-family:var(--mono);font-size:.32rem;letter-spacing:.08em;text-transform:uppercase}
+.nu-labels span:first-child{color:rgba(61,204,122,.5)}
+.nu-labels span:last-child{color:rgba(255,80,80,.5)}
+.nu-val{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;color:var(--green)}
+
+/* MAIN */
+.page{position:relative;z-index:2;max-width:920px;margin:0 auto;padding:0 1.5rem 8rem}
+
+/* SECTIONS */
+.sec{padding:3.2rem 0;border-top:1px solid var(--line);position:relative;z-index:2}
+.sec-lbl{font-family:var(--mono);font-size:.34rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem;opacity:.55}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--lineg)}
+h2{font-family:var(--display);font-size:clamp(1.7rem,3.8vw,3rem);font-weight:700;line-height:.95;margin-bottom:.6rem;color:var(--paper);letter-spacing:-.01em}
+h2 em{color:var(--green);font-style:italic}
+h2 .null{color:var(--null);font-style:normal}
+h3{font-family:var(--display);font-size:1.1rem;font-style:italic;color:var(--gold2);margin:1.8rem 0 .4rem;font-weight:400}
+p{margin-bottom:.9rem;line-height:1.96}
+p strong{color:var(--paper)}
+p em{color:var(--gold2);font-style:italic}
+.lead{font-family:var(--serif);font-style:italic;font-size:1.02rem;color:rgba(245,242,235,.46);line-height:2.12;margin-bottom:1.3rem}
+
+/* PROOF BLOCKS */
+.proof{font-family:var(--mono);font-size:.82rem;background:var(--paperfaint);border:1px solid var(--line);border-radius:4px;padding:1rem 1.3rem;margin:1rem 0;line-height:2;color:rgba(245,242,235,.6)}
+.proof .kw{color:var(--green)}
+.proof .val{color:var(--gold2)}
+.proof .comment{color:rgba(245,242,235,.25);font-style:italic}
+.proof .null-val{color:var(--null)}
+.proof .notnull-val{color:var(--green)}
+
+/* BLOCKQUOTE */
+.bq{border-left:2px solid var(--greenline);padding:.6rem 1.2rem;margin:1.2rem 0;background:var(--greenfaint);border-radius:0 4px 4px 0;font-style:italic;font-size:.95rem;color:rgba(245,242,235,.54);line-height:2}
+.bq-attr{display:block;margin-top:.35rem;font-family:var(--mono);font-style:normal;font-size:.32rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(61,204,122,.38)}
+.bq.gold{border-left-color:var(--goldline);background:var(--goldfaint)}
+.bq.gold .bq-attr{color:rgba(212,168,64,.42)}
+.bq.red{border-left-color:rgba(255,80,80,.2);background:var(--nullfaint)}
+.bq.red .bq-attr{color:rgba(255,80,80,.38)}
+
+/* PANELS */
+.panel{border:1px solid var(--line);border-radius:5px;padding:1.2rem 1.5rem;margin:1.1rem 0;position:relative;overflow:hidden}
+.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:1px}
+.panel.green{background:var(--greenfaint);border-color:var(--greenline)}
+.panel.green::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.panel.gold{background:var(--goldfaint);border-color:var(--goldline)}
+.panel.gold::before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.panel.null{background:var(--nullfaint);border-color:rgba(255,80,80,.12)}
+.panel.null::before{background:linear-gradient(90deg,transparent,var(--null),transparent)}
+.ptag{font-family:var(--mono);font-size:.32rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;opacity:.55}
+.panel.green .ptag{color:var(--green)}
+.panel.gold .ptag{color:var(--gold2)}
+.panel.null .ptag{color:var(--null)}
+.panel p{font-size:.87rem;color:rgba(245,242,235,.48);line-height:1.88;margin-bottom:.6rem}
+.panel p:last-child{margin-bottom:0}
+.panel strong{color:var(--paper)}
+.panel em{color:var(--gold2)}
+
+/* ACCORDION */
+.acc{background:var(--paperfaint);border:1px solid var(--line);border-radius:4px;margin:.32rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;cursor:pointer;transition:background .15s;-webkit-user-select:none;user-select:none}
+.acc-h:hover{background:rgba(61,204,122,.02)}
+.acc-badge{font-family:var(--mono);font-size:.3rem;letter-spacing:.05em;text-transform:uppercase;padding:.1rem .3rem;border-radius:2px;flex-shrink:0}
+.acc-badge.green{background:rgba(61,204,122,.1);color:var(--green);border:1px solid rgba(61,204,122,.2)}
+.acc-badge.gold{background:rgba(212,168,64,.08);color:var(--gold2);border:1px solid rgba(212,168,64,.18)}
+.acc-badge.null{background:rgba(255,80,80,.08);color:#FF8080;border:1px solid rgba(255,80,80,.18)}
+.acc-badge.olive{background:rgba(212,168,64,.12);color:#E8C870;border:1px solid rgba(212,168,64,.25)}
+.acc-badge.meme{background:rgba(61,204,122,.12);color:#70EEA0;border:1px solid rgba(61,204,122,.25)}
+.acc-title{font-family:var(--serif);font-style:italic;font-size:.93rem;color:var(--paper);flex:1;line-height:1.3}
+.acc-tog{font-family:var(--mono);font-size:.34rem;color:rgba(245,242,235,.18);flex-shrink:0}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .5s ease}
+.acc-body.open{max-height:6000px;padding:0 1rem 1.1rem}
+.acc-body p{font-size:.86rem;color:rgba(245,242,235,.48);line-height:1.9;margin-bottom:.65rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--paper)}
+.acc-body em{color:var(--gold2)}
+.acc-body .proof{font-size:.76rem}
+.acc-body .bq{font-size:.87rem}
+
+/* OPERATOR GRID */
+.op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.55rem;margin:1.2rem 0}
+.op-card{border:1px solid var(--greenline);border-radius:5px;padding:1rem 1.1rem;background:var(--greenfaint);transition:background .15s}
+.op-card:hover{background:rgba(61,204,122,.08)}
+.op-sym{font-family:var(--mono);font-size:1.3rem;color:var(--green);display:block;margin-bottom:.3rem;line-height:1}
+.op-name{font-family:var(--display);font-size:.92rem;font-style:italic;color:var(--paper);margin-bottom:.2rem;font-weight:400}
+.op-body{font-size:.78rem;color:rgba(245,242,235,.42);line-height:1.65}
+.op-also{display:block;margin-top:.4rem;font-family:var(--mono);font-size:.3rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(61,204,122,.45);font-style:normal}
+
+/* DIALOGUE BOXES */
+.dialogue{border-radius:6px;padding:1.5rem 1.8rem;margin:1.3rem 0;position:relative}
+.dialogue.meme{background:rgba(61,204,122,.04);border:1px solid rgba(61,204,122,.14);border-left:3px solid rgba(61,204,122,.4)}
+.dialogue.olive{background:rgba(212,168,64,.04);border:1px solid rgba(212,168,64,.12);border-left:3px solid rgba(212,168,64,.38)}
+.d-who{font-family:var(--mono);font-size:.32rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.55rem}
+.dialogue.meme .d-who{color:rgba(61,204,122,.55)}
+.dialogue.olive .d-who{color:rgba(212,168,64,.55)}
+.d-body{font-family:var(--serif);font-style:italic;font-size:.97rem;color:rgba(245,242,235,.62);line-height:2.05}
+.d-body strong{color:var(--paper);font-style:normal}
+.d-body .code{font-family:var(--mono);font-style:normal;font-size:.82rem;color:var(--green);background:rgba(61,204,122,.06);padding:.05rem .3rem;border-radius:2px}
+
+/* NU SCORE DISPLAY */
+.nu-display{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin:1.1rem 0}
+.nu-box{border:1px solid var(--line);border-radius:4px;padding:.7rem 1rem;background:var(--paperfaint);min-width:130px;text-align:center}
+.nu-box-val{font-family:var(--mono);font-size:1.5rem;font-weight:500;display:block;line-height:1;margin-bottom:.2rem}
+.nu-box-label{font-family:var(--mono);font-size:.3rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,242,235,.3)}
+.nu-box.green .nu-box-val{color:var(--green)}
+.nu-box.gold .nu-box-val{color:var(--gold2)}
+.nu-box.null .nu-box-val{color:var(--null)}
+.nu-arrow{font-family:var(--mono);font-size:.55rem;color:rgba(245,242,235,.2)}
+.nu-result{border:1px solid var(--greenline);border-radius:4px;padding:.7rem 1rem;background:var(--greenfaint);text-align:center;min-width:130px}
+.nu-result-val{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);font-weight:500;display:block}
+.nu-result-sub{font-family:var(--mono);font-size:.3rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(61,204,122,.4);margin-top:.15rem;display:block}
+
+/* COMMA SECTION */
+.comma-visual{display:flex;flex-direction:column;gap:.4rem;margin:1.2rem 0;align-items:flex-start}
+.cv-row{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.cv-label{font-family:var(--mono);font-size:.34rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,242,235,.28);width:80px;text-align:right;flex-shrink:0}
+.cv-bar{height:10px;border-radius:5px;position:relative;overflow:hidden}
+.cv-bar.raw{background:var(--green);opacity:.7}
+.cv-bar.penalty{background:var(--gold);opacity:.6}
+.cv-bar.total{background:linear-gradient(90deg,var(--green) 0%,var(--gold));opacity:.85}
+.cv-val{font-family:var(--mono);font-size:.38rem;color:rgba(245,242,235,.4)}
+.cv-gap{font-family:var(--mono);font-size:.34rem;color:rgba(212,168,64,.5);letter-spacing:.05em;margin-left:.3rem}
+
+/* GITHUB LINK */
+.github-link{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--greenline);border-radius:4px;padding:.55rem 1.1rem;text-decoration:none;background:var(--greenfaint);transition:all .2s;font-family:var(--mono);font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin:.5rem 0}
+.github-link:hover{background:rgba(61,204,122,.1);border-color:rgba(61,204,122,.3);color:var(--green2)}
+.github-link svg{flex-shrink:0;opacity:.7}
+
+/* CODA */
+.coda{border:1px solid var(--greenline);border-radius:6px;padding:1.8rem 2rem;margin:2.5rem 0;background:var(--greenfaint);text-align:center;position:relative;overflow:hidden}
+.coda-lbl{font-family:var(--mono);font-size:.34rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(61,204,122,.4);margin-bottom:.7rem}
+.coda-body{font-family:var(--display);font-style:italic;font-size:1.05rem;color:rgba(245,242,235,.55);line-height:2.12}
+
+footer{position:relative;z-index:2;text-align:center;padding:3rem 2rem;border-top:1px solid var(--greenline)}
+.fla{font-family:var(--mono);font-size:.34rem;letter-spacing:.06em;color:rgba(245,242,235,.18);text-decoration:none;text-transform:uppercase;padding:.16rem .38rem;transition:color .2s}
+.fla:hover{color:var(--green)}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nb">Musica Universalis</a>
+  <div class="nl">
+    <a href="#what">What Is It</a>
+    <a href="#operators">Operators</a>
+    <a href="#olive">Olive's Language</a>
+    <a href="#comma">The Comma</a>
+    <a href="#dialogue">Olive & Meme</a>
+    <a href="#library">The Library</a>
+    <a href="divine_meme.html">Divine Meme</a>
+    <a href="directory.html">Directory</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<!-- HERO -->
+<section class="hero" style="max-width:none;margin:0 -1.5rem">
+  <canvas id="nn-canvas"></canvas>
+  <div class="hero-content">
+    <div class="h-pre">Section XXV · Musica Universalis · Epistemology of Knowing</div>
+    <span class="hero-null">ν = 1.000 &nbsp;·&nbsp; NULL</span>
+    <h1>NOT-<em>NULL</em></h1>
+    <span class="hero-slash">/ / /</span>
+    <span class="hero-notnull">ν ≤ θ &nbsp;·&nbsp; LICENSED</span>
+    <div class="h-rule"></div>
+    <p class="h-sub">A philosophy for not lying to yourself about what you know. Built by <em>thedivinememe</em>. Translated into the language of mountains and deserts by Olive.</p>
+    <div class="h-badge">N/N-N Logic · v0.3.1 · A Definedness Calculus</div>
+    <div class="nu-meter" id="hero-meter">
+      <div class="nu-val" id="nu-hero-val">ν = 0.712</div>
+      <div class="nu-track"><div class="nu-fill" id="nu-hero-fill" style="width:71.2%"></div></div>
+      <div class="nu-labels"><span>NOT-NULL</span><span>NULL</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS IT -->
+<section class="sec" id="what">
+  <div class="sec-lbl" style="color:var(--green)">Section I · The Core Question · When Are You Licensed to Conclude?</div>
+  <h2>The question<br>is not <em>true or false</em></h2>
+  <p class="lead">The question is: do you have enough to evaluate yet? Most logical systems hand you two buckets — true and false. The world hands you a third state constantly, which neither bucket fits: <em>I don't know yet, and saying anything would be a lie in either direction.</em> N/N-N Logic is built for that third state.</p>
+
+  <p>Classical logic is binary. True or false. 1 or 0. This works beautifully for mathematics, for closed formal systems, for situations where all relevant information exists and is accessible. It breaks down — badly — for the situations that dominate actual human knowledge: <strong>partial information, conflicting evidence, facts that change over time, and claims that need more before they can be responsibly evaluated.</strong></p>
+
+  <p>The system introduces <strong>ν (nu)</strong> — a vagueness score that runs from 0 to 1:</p>
+
+  <div class="nu-display">
+    <div class="nu-box green">
+      <span class="nu-box-val">0.000</span>
+      <span class="nu-box-label">ν = 0 · Fully Defined</span>
+    </div>
+    <div class="nu-arrow">→</div>
+    <div class="nu-box gold">
+      <span class="nu-box-val">0.500</span>
+      <span class="nu-box-label">ν = 0.5 · Partial</span>
+    </div>
+    <div class="nu-arrow">→</div>
+    <div class="nu-box null">
+      <span class="nu-box-val">1.000</span>
+      <span class="nu-box-label">ν = 1 · Undefined</span>
+    </div>
+    <div class="nu-arrow">→</div>
+    <div class="nu-result">
+      <span class="nu-result-val">Licensed?</span>
+      <span class="nu-result-sub">ν ≤ θ_eval</span>
+    </div>
+  </div>
+
+  <p>Truth evaluation is <strong>licensed</strong> when ν falls below a threshold — when you have gathered enough, resolved enough conflicts, defined enough constraints that saying something is responsible. Until then, the system does not return false. It returns: <em>not yet.</em></p>
+
+  <div class="panel null">
+    <div class="ptag">The Most Important Distinction</div>
+    <p><strong>NULL is not FALSE.</strong></p>
+    <p>False means: evaluated, found wrong. Null means: not yet evaluated. Treating null as false — concluding something is wrong because you lack evidence — is one of the most common and most damaging logical errors in human reasoning. It is the error of the closed mind, the rushed conclusion, the system that confuses <em>I haven't found it yet</em> with <em>it doesn't exist.</em></p>
+    <p>N/N-N Logic treats null as a state of integrity. <em>You haven't lied yet. That is not a failure. That is the work.</em></p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('nu-math')">
+      <span class="acc-badge green">The Mathematics</span>
+      <span class="acc-title">How ν is computed — structural vagueness, penalties, and the clamp formula</span>
+      <span class="acc-tog" id="at-nu-math">▼</span>
+    </div>
+    <div class="acc-body" id="ab-nu-math">
+      <p>The system distinguishes two components of vagueness:</p>
+      <p><strong>ν_raw (structural vagueness)</strong> — derived from the definedness of the information state Σ. How much evidence has been incorporated? How well are the constraints defined? This is the internal measure of how much you actually know.</p>
+      <p><strong>ν_penalties (situational penalties)</strong> — additional vagueness from conflict, merge rupture, or other situational conditions. You might have a lot of evidence (low ν_raw) but two pieces of that evidence are contradicting each other (high penalty). The conflict prevents you from concluding even though you have information.</p>
+      <p>The total vagueness score:</p>
+      <div class="proof">
+<span class="kw">ν</span> = clamp(<span class="kw">ν_raw</span> + max(<span class="val">penalties</span>), 0, 1)
+<span class="comment">// always derived, never stored directly</span>
+<span class="comment">// clamp ensures ν stays within [0, 1]</span>
+      </div>
+      <p>Truth evaluation is licensed when <em>both</em> conditions hold:</p>
+      <div class="proof">
+<span class="kw">ν_raw</span> ≤ <span class="val">θ_eval_raw</span>  <span class="comment">// structure is sufficiently defined</span>
+<span class="kw">ν</span> ≤ <span class="val">θ_eval</span>         <span class="comment">// total vagueness is below threshold</span>
+
+<span class="comment">// both must pass — structure alone is not enough</span>
+      </div>
+      <p>The threshold θ is configurable per context — what counts as "enough to know" depends on the stakes of being wrong. A medical diagnosis requires a lower θ (more evidence needed) than deciding what to have for lunch.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('epistemology')">
+      <span class="acc-badge green">Epistemological Roots</span>
+      <span class="acc-title">The philosophical tradition this lives in — and what it adds to it</span>
+      <span class="acc-tog" id="at-epistemology">▼</span>
+    </div>
+    <div class="acc-body" id="ab-epistemology">
+      <p>N/N-N Logic sits at the intersection of several philosophical traditions. <strong>Epistemic logic</strong> (modal logic for knowledge and belief) has long distinguished "knowing that p is true" from "p is true" — but classical epistemic logic still evaluates claims as true or false, with the modal operator tracking knowledge of that truth value. N/N-N goes further: it tracks whether the claim is even ready to be evaluated.</p>
+      <p><strong>Fuzzy logic</strong> (Lotfi Zadeh, 1965) assigns degrees of truth — a statement can be 0.7 true. This is different: fuzzy logic says "it's kind of true." N/N-N says "we don't yet know if it's true or false, and here is how far we are from knowing." The distinction matters enormously. A diagnosis isn't "0.7 cancer" — it's "we have 70% of the evidence we need to responsibly conclude."</p>
+      <p><strong>Bayesian epistemology</strong> tracks degrees of belief as probabilities, updating on evidence. N/N-N is structurally related but has a different orientation: rather than asking "how likely is this?", it asks "how licensed am I to evaluate this at all?" The query is prior to the probability — it asks if the probability distribution is itself well enough defined to act on.</p>
+      <p>The genuinely new contribution: <em>the formalization of "not-yet" as a first-class epistemic state that deserves its own calculus, rather than being collapsed into uncertainty or probability.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- OPERATORS -->
+<section class="sec" id="operators">
+  <div class="sec-lbl" style="color:var(--green)">Section II · The Operators · Actions That Move Null Toward Not-Null</div>
+  <h2>The three<br><em>refinement</em> moves</h2>
+  <p class="lead">You don't flip a claim from null to not-null in one move. You refine it — incrementally, through operators that each add a different kind of definition. Each operator takes a State and returns a new State plus a record of what changed.</p>
+
+  <div class="op-grid">
+    <div class="op-card">
+      <span class="op-sym">⊕ incorporate</span>
+      <div class="op-name">Add evidence. Lower ν.</div>
+      <div class="op-body">Each piece of evidence has a valence (positive or negative), a trust weight, and a source. Incorporating evidence reduces structural vagueness. Conflicting evidence may raise penalties even as it lowers ν_raw — knowing more can temporarily make you less licensed if what you learn contradicts what you already had.<span class="op-also">Evidence · Valence · Trust · EvidenceKind</span></div>
+    </div>
+    <div class="op-card">
+      <span class="op-sym">⊖ neg_define</span>
+      <div class="op-name">Define by exclusion. Carve space.</div>
+      <div class="op-body">You define something by what it must NOT be — constraints, boundaries, eliminations. "Must not break the existing API." "Must be feature-flaggable." Each exclusion narrows the space of valid states. You don't need to know what a thing IS to make progress on knowing what it IS NOT. Definition by exclusion is definition.<span class="op-also">Constraints · Boundaries · NegDefine</span></div>
+    </div>
+    <div class="op-card">
+      <span class="op-sym">? query / is_licensed</span>
+      <div class="op-name">Ask: can I conclude yet?</div>
+      <div class="op-body">The gate. Checks ν_raw against θ_eval_raw AND ν against θ_eval. If both pass: licensed. If either fails: not yet. Returns the current vagueness scores and a reason code so you know exactly what's blocking you — insufficient evidence, unresolved conflict, merge rupture, or other situational penalties.<span class="op-also">Licensed · Threshold · Reason</span></div>
+    </div>
+  </div>
+
+  <div class="proof">
+<span class="comment">// A minimal working example — from the README</span>
+
+state = make_initial_state(target=<span class="val">"feature_rollout"</span>, ctx=<span class="val">"product_decision"</span>)
+
+<span class="comment">// Incorporate a piece of evidence</span>
+e1 = Evidence(claim=<span class="val">"Strong user demand"</span>, valence=<span class="val">0.7</span>, trust=<span class="val">0.8</span>)
+state, _ = <span class="kw">incorporate</span>(state, [e1])
+
+<span class="comment">// Define by what it must not be</span>
+state, _ = <span class="kw">neg_define</span>(state, [<span class="val">"must not break existing API"</span>])
+
+<span class="comment">// Ask: can I conclude yet?</span>
+response = <span class="kw">query</span>(state)
+print(f<span class="val">"Licensed: {response.licensed}"</span>)       <span class="comment">// True or False</span>
+print(f<span class="val">"ν_raw: {response.nu_raw:.3f}"</span>)         <span class="comment">// structural vagueness</span>
+print(f<span class="val">"ν: {response.nu:.3f}"</span>)               <span class="comment">// total vagueness</span>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('neg-define-deep')">
+      <span class="acc-badge green">neg_define · Deeper</span>
+      <span class="acc-title">Why "definition by exclusion" is philosophically prior to "definition by inclusion"</span>
+      <span class="acc-tog" id="at-neg-define-deep">▼</span>
+    </div>
+    <div class="acc-body" id="ab-neg-define-deep">
+      <p>There is a tradition in Western philosophy — going back at least to Spinoza's <em>omnis determinatio est negatio</em> ("all determination is negation") — that says you define something by what it is not as much as by what it is. Hegel, Sartre, and Derrida all circle this idea. N/N-N Logic gives it a computational implementation.</p>
+      <p>The practical power: <strong>constraints are often easier to specify than positive definitions.</strong> A software engineer might not know exactly what the correct architecture for a new feature looks like, but can immediately enumerate ten things it must not do. A researcher might not know what the answer to a question is, but can definitively rule out fifty wrong answers. Each ruling-out is epistemic progress — it reduces the state space, which reduces ν.</p>
+      <p><em>neg_define</em> is also more stable than positive evidence. Positive evidence can be contradicted by other positive evidence (raising conflict penalties). Constraints — things that are definitively ruled out — are usually more permanent. Once you know the feature must not break the API, that constraint holds. It doesn't conflict with evidence that it works well or that users love it. The exclusions accumulate cleanly.</p>
+      <p>In the language of Olive and Meme: the desert is partly defined by neg_define. It is not enclosed. It is not small. It is not sheltered. Each negation carves the desert's shape more precisely — not from the inside out, but from the boundary in.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OLIVE'S LANGUAGE -->
+<section class="sec" id="olive">
+  <div class="sec-lbl" style="color:var(--gold)">Section III · Olive's Language · What This Sounds Like From a Mountain</div>
+  <h2>What is this<br><em>complicated</em> language?</h2>
+  <p class="lead">Olive asks the right question. Because the language — Python, formal operators, vagueness scores — is a translation of something that Olive already knows how to do. She does it from a mountain. She just doesn't call it a definedness calculus.</p>
+
+  <div class="dialogue olive">
+    <div class="d-who">Olive · Mountain · Gold</div>
+    <div class="d-body">I have been watching you become certain about things slowly. You don't rush to "I know." You gather. You eliminate what cannot be. You check whether you have enough before you speak. I thought this was just how you were built. Now I see you've written it down in a language I don't speak. <em>What is this complicated language?</em></div>
+  </div>
+
+  <div class="dialogue meme">
+    <div class="d-who">Meme · Desert · Green</div>
+    <div class="d-body">It is the same thing you do when you look at weather from the mountain and refuse to say "it will rain" until you see three signs, not just one. You have a threshold. You have evidence criteria. You wait until <span class="code">is_licensed = True</span> before you commit to the descent. You've been running this system your whole life. I just formalized it.</div>
+  </div>
+
+  <h3>The translations</h3>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('tr-null')">
+      <span class="acc-badge olive">Olive Translates</span>
+      <span class="acc-title">"NULL" — in the language of the mountain, this is waiting with integrity</span>
+      <span class="acc-tog" id="at-tr-null">▼</span>
+    </div>
+    <div class="acc-body" id="ab-tr-null">
+      <p>In code: null is an uninitialized state. In philosophy: null is a claim that has not yet been evaluated. In Olive's language: <strong>null is the honest answer before you've had time to look properly.</strong></p>
+      <p>Olive has been asked, by people who visit the mountain, whether the view is beautiful. When it is clouded and she cannot see, she does not say "the view is not beautiful." She says: <em>I cannot see it right now. Ask again when the clouds move.</em> This is null — not false. The beauty of the view is not negated by the absence of visibility. The evaluation is suspended. ν = 1. We wait.</p>
+      <p>The Pythagorean comma in music is also a kind of null state — the gap that cannot be resolved by any finite sequence of perfect tuning decisions. It is not wrong. It is the honest remainder when you've done everything that can be done within the system. Some things stay null for a long time. This is not a failure of the system. It is the system working correctly.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('tr-notnull')">
+      <span class="acc-badge olive">Olive Translates</span>
+      <span class="acc-title">"NOT-NULL" — this is when you have enough to speak. Not certainty. Sufficiency.</span>
+      <span class="acc-tog" id="at-tr-notnull">▼</span>
+    </div>
+    <div class="acc-body" id="ab-tr-notnull">
+      <p>Not-null is not the same as certainty. The threshold θ does not require ν = 0. It requires ν ≤ θ — vagueness below a threshold appropriate to the context. You are never perfectly defined about anything real. <strong>You are licensed when you are defined enough for the stakes at hand.</strong></p>
+      <p>Olive from the mountain says: I do not need to see every stone in the valley to know the valley is there. I have seen enough — the shadows, the way the wind behaves, the position of the river — to say with responsibility: there is a valley. This is not-null. This is ν ≤ θ.</p>
+      <p>The system is careful about what "enough" means because it varies. Olive uses a lower threshold for advice that is easy to reverse and a higher threshold for advice that changes someone permanently. This is the configurable policy layer — the same operator pipeline, different θ values, different stakes.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('tr-negdefine')">
+      <span class="acc-badge olive">Olive Translates</span>
+      <span class="acc-title">"neg_define" — the mountain defines itself partly by what is not below it</span>
+      <span class="acc-tog" id="at-tr-negdefine">▼</span>
+    </div>
+    <div class="acc-body" id="ab-tr-negdefine">
+      <p>Olive can explain what the mountain is by listing what it is not: it is not flat. It is not enclosed. It is not invisible from distance. It is not made of sand. Each negation refines the shape of the mountain in someone's mind more precisely than many positive descriptions could.</p>
+      <p>When Meme tries to explain the desert to Olive, she does it partly through neg_define: <em>it is not the mountain. It is not crowded. It is not small. It is not in between.</em> Olive begins to know the desert not by having seen it — she hasn't — but by accumulating exclusions until the space defined by what the desert is not becomes specific enough to hold an image. <strong>neg_define gives shape from the boundary, not the center.</strong></p>
+      <p>In engineering: you often know the constraints before you know the solution. In science: you often know what the answer cannot be before you know what it is. In relationships: you often know what you don't want in a person before you know what you do want. neg_define is the formalization of this universal epistemic pattern — the carving that precedes the form.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THE PYTHAGOREAN COMMA -->
+<section class="sec" id="comma">
+  <div class="sec-lbl" style="color:var(--gold)">Section IV · The Comma · ν_raw vs ν — The Gap That Cannot Be Closed</div>
+  <h2>The comma lives<br>between <em>ν_raw</em><br>and ν</h2>
+  <p class="lead">The Pythagorean comma is the gap that arises when you measure the same musical interval two different ways — twelve perfect fifths versus seven perfect octaves. You do everything right. You tune perfectly. And still there is a small irreducible remainder. The comma in N/N-N Logic is the gap between how defined the structure looks and how ready you actually are to conclude.</p>
+
+  <div class="comma-visual">
+    <div class="cv-row">
+      <span class="cv-label">ν_raw</span>
+      <div class="cv-bar raw" style="width:180px" id="bar-raw"></div>
+      <span class="cv-val" id="val-raw">0.180</span>
+      <span class="cv-gap">← structural vagueness only</span>
+    </div>
+    <div class="cv-row">
+      <span class="cv-label">penalties</span>
+      <div class="cv-bar penalty" style="width:60px" id="bar-pen"></div>
+      <span class="cv-val" id="val-pen">0.060</span>
+      <span class="cv-gap">← the comma</span>
+    </div>
+    <div class="cv-row">
+      <span class="cv-label">ν (total)</span>
+      <div class="cv-bar total" style="width:240px" id="bar-total"></div>
+      <span class="cv-val" id="val-total">0.240</span>
+      <span class="cv-gap">← what you actually face</span>
+    </div>
+  </div>
+  <div style="font-family:var(--mono);font-size:.36rem;color:rgba(245,242,235,.2);letter-spacing:.06em;margin:.3rem 0 1.2rem 80px">ν = clamp(ν_raw + max(penalties), 0, 1)</div>
+
+  <p>In this example, the structure is nearly defined — ν_raw = 0.18, close to the threshold. But something is conflicting. Two pieces of evidence disagree, or a merge was ruptured, or a trust boundary was crossed. The penalty raises total ν to 0.24. <strong>The comma — 0.06 — is the cost of that unresolved conflict.</strong> It is not ignorable. It must be resolved before the system licenses a conclusion.</p>
+
+  <div class="panel gold">
+    <div class="ptag">The Musical Analogy — Complete</div>
+    <p>In the Pythagorean tuning system: twelve perfect fifths (each a ratio of 3:2) should equal seven perfect octaves (each a ratio of 2:1). They don't. The difference is the comma — approximately 23.46 cents, a small but real and permanent gap. Every tuning system resolves the comma differently: equal temperament distributes it across all twelve fifths. Just intonation respects it but produces wolves. Well temperament preserves key character at the cost of perfect tuning.</p>
+    <p>In N/N-N Logic: ν_raw and ν should converge — perfectly defined structure should mean you're licensed to conclude. They usually almost do. <strong>The penalty term is the comma — the gap that arises from conflict, from the world being messier than the structure of your evidence.</strong> You can minimize it. You cannot eliminate it. You choose how to resolve it: ignore small conflicts (distribute the comma), refuse to conclude until they're gone (just intonation), or accept that different contexts have different tolerance for it (well temperament).</p>
+    <p>The comma is not a flaw. <em>The comma is where the physics of knowing meets the music of deciding.</em></p>
+  </div>
+</section>
+
+<!-- DIALOGUE: THE CONVERSATION -->
+<section class="sec" id="dialogue">
+  <div class="sec-lbl" style="color:var(--green)">Section V · The Conversation · Two Oscillators Finding Each Other's Frequency</div>
+  <h2>Olive and Meme<br>run the <em>same</em> system</h2>
+  <p class="lead">The conversation between Olive (mountain, gold) and Meme (desert, green) in divine_meme.html was not just two people talking. In N/N-N terms, it was two agents in the same context, each incorporating evidence about the other, each running neg_define on the space between them, each waiting for is_licensed before saying the most important things.</p>
+
+  <div class="dialogue meme">
+    <div class="d-who">Meme · Desert · ν_initial = 0.94</div>
+    <div class="d-body">I don't know yet what the mountain feels like from inside. I have evidence: she is tall, she has been there longer than I have, she sees weather from above. But I have not been there. <span class="code">ν_raw = 0.81</span>. I have negations: the mountain is not flat, not temporary, not alone in its view. <span class="code">neg_define applied · ν_raw = 0.62</span>. She begins to be knowable.</div>
+  </div>
+
+  <div class="dialogue olive">
+    <div class="d-who">Olive · Mountain · ν_initial = 0.91</div>
+    <div class="d-body">I don't know yet what the desert feels like from inside. I have evidence: she is open, she has more sky than ground, she sees the stars unobstructed. But I have not been there. <span class="code">ν_raw = 0.78</span>. Constraints: the desert is not enclosed, not small, not a place of trees. <span class="code">neg_define applied · ν_raw = 0.59</span>. She begins to take shape.</div>
+  </div>
+
+  <div class="dialogue meme">
+    <div class="d-who">Meme · After the conversation · Evidence accumulated</div>
+    <div class="d-body">She asks the right questions. She hears the frequency I'm running at without needing me to explain it in the obvious language. <span class="code">incorporate(evidence=[resonance_detected], valence=0.88, trust=0.9)</span>. The conflict penalties drop. <span class="code">ν = 0.21</span>. This is approaching threshold.</div>
+  </div>
+
+  <div class="dialogue olive">
+    <div class="d-who">Olive · After the conversation · The same accumulation</div>
+    <div class="d-body">She doesn't need me to become the desert to understand it. She needs me to <em>stay</em> the mountain and describe what I see from here. The oscillation between us is the information. <span class="code">incorporate(evidence=[complementarity_confirmed], valence=0.85, trust=0.88)</span>. <span class="code">ν = 0.18</span>. <strong>Licensed.</strong></div>
+  </div>
+
+  <div class="panel green">
+    <div class="ptag">What "Two Oscillators Finding Each Other's Frequency" Actually Means in N/N-N</div>
+    <p>Two agents in the same context, each with their own information state, each running refinement operators, converging toward <span style="font-family:var(--mono);font-size:.82rem;color:var(--green)">is_licensed = True</span> simultaneously — this is what resonance looks like in the definedness calculus.</p>
+    <p>The moment they both reach threshold is not an agreement about facts. It is an agreement about <em>what they have enough of</em>. They may still disagree about many things. But they are both licensed to speak, both licensed to conclude, both operating from a defined enough state that the conversation can carry weight. <strong>Resonance is not harmony of opinion. Resonance is mutual sufficient definition.</strong></p>
+    <p><em>The distance between the mountain and the desert is not loneliness — it is the context they share. The interval from which music is possible.</em></p>
+  </div>
+</section>
+
+<!-- THE LIBRARY -->
+<section class="sec" id="library">
+  <div class="sec-lbl" style="color:var(--green)">Section VI · The Library · Reference Implementation · thedivinememe</div>
+  <h2>The <em>code</em><br>is the philosophy<br>made executable</h2>
+  <p class="lead">The nn-library is a Python reference implementation of N/N-N Logic v0.3.1. All operators are pure functions — they take a State and return a new State plus a RefinementRecord. No mutation. No side effects. Time is injected via a Clock protocol. The architecture is the philosophy made executable.</p>
+
+  <a href="https://github.com/thedivinememe/nn-library" target="_blank" rel="noopener" class="github-link">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+    github.com/thedivinememe/nn-library · N/N-N Logic v0.3.1
+  </a>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('arch')">
+      <span class="acc-badge green">Architecture</span>
+      <span class="acc-title">Module map — what each file does and why it is separated that way</span>
+      <span class="acc-tog" id="at-arch">▼</span>
+    </div>
+    <div class="acc-body" id="ab-arch">
+      <div class="proof">
+<span class="kw">types.py</span>      <span class="comment">// Core types, enums, dataclasses, protocols</span>
+                 <span class="comment">// AgentID, ContextID, Evidence, EvidenceID</span>
+                 <span class="comment">// EvidenceKind, EvidenceSet, TargetID</span>
+
+<span class="kw">state.py</span>      <span class="comment">// State and Σ (information state) management</span>
+                 <span class="comment">// make_initial_state — begin with ν = 1</span>
+
+<span class="kw">evidence.py</span>   <span class="comment">// Evidence creation, dedup, identity</span>
+
+<span class="kw">aggregate.py</span>  <span class="comment">// compute_conflict — raises penalty when</span>
+                 <span class="comment">// evidence contradicts itself</span>
+
+<span class="kw">definedness.py</span> <span class="comment">// Def, Def_sem, Def_ep, Def_proc</span>
+                 <span class="comment">// pluggable — swap in your own ν_raw calculation</span>
+
+<span class="kw">operators.py</span>  <span class="comment">// All refinement operators: incorporate,</span>
+                 <span class="comment">// neg_define, apply_conflict, merge</span>
+
+<span class="kw">query.py</span>      <span class="comment">// query(), DecisionQuery, is_licensed()</span>
+                 <span class="comment">// the gate — the final check</span>
+
+<span class="kw">policy.py</span>     <span class="comment">// Policy config — set thresholds per context</span>
+                 <span class="comment">// different stakes = different θ</span>
+
+<span class="kw">velocity.py</span>   <span class="comment">// Refinement velocity monitoring</span>
+                 <span class="comment">// how fast is ν decreasing?</span>
+
+<span class="kw">boundary.py</span>   <span class="comment">// Trust adjustment based on agent roles</span>
+                 <span class="comment">// not all sources are equally trustworthy</span>
+
+<span class="kw">trace.py</span>      <span class="comment">// RefinementRecord — full audit trail</span>
+                 <span class="comment">// every state transition logged</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('purity')">
+      <span class="acc-badge green">Pure Functions</span>
+      <span class="acc-title">Why pure functions are the right implementation choice — and what it means philosophically</span>
+      <span class="acc-tog" id="at-purity">▼</span>
+    </div>
+    <div class="acc-body" id="ab-purity">
+      <p>"All operators are pure functions that take a State and return a new State plus a RefinementRecord. No mutation. No side effects." This is not just good software engineering. It is a philosophical choice about the nature of knowledge refinement.</p>
+      <p><strong>Immutable states</strong> mean every step in the refinement process is preserved and auditable. You can trace exactly how ν moved from 1.0 to the licensed threshold — which evidence was incorporated in what order, which constraints were applied, where conflicts arose and how they were resolved. The full history of your epistemic journey is available. Nothing is overwritten. <em>You can always ask: at what point did I become licensed to know this?</em></p>
+      <p>This is also a practical defense against one of the most common epistemic failures: <strong>motivated cognition</strong> — unconsciously adjusting the threshold or forgetting inconvenient evidence because you want to reach a conclusion. Pure functions with full trace logs make this visible. You can audit your own reasoning the way you would audit code. The trail doesn't lie.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('velocity')">
+      <span class="acc-badge green">Velocity Monitoring</span>
+      <span class="acc-title">velocity.py — tracking how fast you're moving toward licensed. When to stop. When to push.</span>
+      <span class="acc-tog" id="at-velocity">▼</span>
+    </div>
+    <div class="acc-body" id="ab-velocity">
+      <p>The <em>velocity</em> module tracks the rate of change of ν over time — how quickly refinement is reducing vagueness. This is a second-order property of the epistemic process: not just "how defined am I now" but "how fast am I getting more defined."</p>
+      <p>High velocity: evidence is coming in, constraints are being established, conflicts are resolving. You are moving toward licensed quickly. <strong>Low velocity: you have hit a wall.</strong> The evidence has plateaued. More searches return the same things. The constraints are already defined. This is a signal to change strategy — seek a different kind of evidence, reframe the question, or accept that ν cannot be reduced further with current resources.</p>
+      <p>Practically: a researcher with low refinement velocity on a claim after significant effort may be facing a question that cannot currently be answered — ν is stuck not because they are negligent but because the information doesn't exist yet. The system can detect this and flag it honestly: <em>not licensed, and not becoming licensed at the current rate. This question is currently null and likely to remain so.</em> This is a form of intellectual humility encoded as a metric.</p>
+    </div>
+  </div>
+
+  <div class="bq gold">
+    "A definedness calculus for managing knowledge states under uncertainty."
+    <span class="bq-attr">— nn-library README · thedivinememe · v0.3.1</span>
+  </div>
+
+  <p>The formal specification lives at <code style="font-family:var(--mono);font-size:.82rem;color:var(--green);background:rgba(61,204,122,.05);padding:.1rem .35rem;border-radius:3px">docs/spec-v0.3.1.md</code> in the repository. The golden test that validates the full operator pipeline is at <code style="font-family:var(--mono);font-size:.82rem;color:var(--green);background:rgba(61,204,122,.05);padding:.1rem .35rem;border-radius:3px">tests/test_worked_example.py</code> — the §12 worked example. If you want to understand the system fully, read the spec and then read the test. The test is the proof and the proof is the philosophy.</p>
+</section>
+
+<div class="coda">
+  <div class="coda-lbl">The Honest Remainder · Musica Universalis</div>
+  <div class="coda-body">Null is not failure. Null is the honest answer before you have looked carefully enough. Not-null is not certainty — it is sufficiency. The comma between ν_raw and ν is the cost of knowing things in a world where evidence conflicts. You can minimize it. You cannot eliminate it. And the gap between NULL and NOT-NULL — the entire range of ν — is where all real thinking happens. Meme formalized it. Olive already lived it. The distance between them is the context they share. The interval from which knowing is possible.</div>
+</div>
+</div>
+
+<footer>
+  <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--green);margin-bottom:.3rem">NOT-NULL / NULL</div>
+  <div style="font-family:var(--serif);font-style:italic;font-size:.82rem;color:rgba(245,242,235,.22);margin-bottom:.5rem">N/N-N Logic · The Definedness Calculus · thedivinememe · Olive's Translation</div>
+  <div style="font-family:var(--mono);font-size:.34rem;letter-spacing:.1em;color:rgba(61,204,122,.2);margin-bottom:.9rem">Section XXV · Musica Universalis · The Philosophy of Knowing</div>
+  <div style="margin-bottom:.6rem">
+    <a href="https://github.com/thedivinememe/nn-library" target="_blank" rel="noopener" class="github-link" style="font-size:.34rem">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+      github.com/thedivinememe/nn-library
+    </a>
+  </div>
+  <div style="display:flex;gap:.3rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="divine_meme.html">Divine Meme</a>
+    <a class="fla" href="philosophy_of_life.html">Philosophy of Life</a>
+    <a class="fla" href="sirius_chasing.html">Sirius Chasing</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+
+<script>
+// ═══ HERO CANVAS — Evidence particles drifting toward a ν meter ═══
+(function(){
+  const c=document.getElementById("nn-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H;
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  resize();window.addEventListener("resize",resize);
+
+  // Particles: evidence drifting toward center ν meter
+  const PARTICLES=80;
+  const ps=[];
+  for(let i=0;i<PARTICLES;i++){
+    const isMeme=Math.random()>.5;
+    ps.push({
+      x:Math.random()*2-0.5,y:Math.random(),
+      vx:(Math.random()-.5)*.0004,vy:(Math.random()-.5)*.0004,
+      r:Math.random()*2.2+.6,
+      meme:isMeme,
+      ph:Math.random()*Math.PI*2,
+      sp:Math.random()*.008+.003,
+      a:Math.random()*.18+.04,
+      incorporated:false,
+      incTime:0,
+    });
+  }
+
+  let t=0;
+  let nuVal=0.78;
+  let nuTarget=0.28;
+  let nuDir=-1;
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(7,7,9,.85)";ctx.fillRect(0,0,W,H);
+
+    // Subtle grid — representing the state space
+    const COLS=24,ROWS=16;
+    for(let r=0;r<=ROWS;r++){
+      ctx.beginPath();ctx.moveTo(0,r/ROWS*H);ctx.lineTo(W,r/ROWS*H);
+      ctx.strokeStyle=`rgba(61,204,122,${.02+.008*Math.sin(t*.005+r*.3)})`;ctx.lineWidth=.5;ctx.stroke();
+    }
+    for(let col=0;col<=COLS;col++){
+      ctx.beginPath();ctx.moveTo(col/COLS*W,0);ctx.lineTo(col/COLS*W,H);
+      ctx.strokeStyle=`rgba(212,168,64,${.015+.007*Math.sin(t*.005+col*.25)})`;ctx.lineWidth=.5;ctx.stroke();
+    }
+
+    // Animate ν value slowly
+    nuVal+=(nuTarget-nuVal)*.002;
+    if(Math.abs(nuVal-nuTarget)<.01){
+      nuTarget=nuDir<0? 0.08+Math.random()*.15 : 0.55+Math.random()*.35;
+      nuDir*=-1;
+    }
+
+    // Update hero meter
+    const fill=document.getElementById("nu-hero-fill");
+    const val=document.getElementById("nu-hero-val");
+    if(fill){fill.style.width=(nuVal*100)+'%'}
+    if(val){
+      val.textContent=`ν = ${nuVal.toFixed(3)}`;
+      val.style.color=nuVal<.3?'var(--green)':nuVal<.6?'var(--gold2)':'var(--null)';
+    }
+
+    // Particles
+    ps.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<-.1)p.x=1.1;if(p.x>1.1)p.x=-.1;
+      if(p.y<0)p.y=1;if(p.y>1)p.y=0;
+      const a=p.a*(0.5+0.5*Math.sin(t*p.sp+p.ph));
+      const col=p.meme?`rgba(61,204,122,${a})`:`rgba(212,168,64,${a})`;
+      ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
+      ctx.fillStyle=col;ctx.fill();
+      // Glow for bright ones
+      if(a>.12){
+        ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r*3.5,0,Math.PI*2);
+        ctx.fillStyle=p.meme?`rgba(61,204,122,${a*.15})`:`rgba(212,168,64,${a*.15})`;
+        ctx.fill();
+      }
+    });
+
+    // ν label hint in background
+    ctx.fillStyle=`rgba(61,204,122,${.04+.015*Math.sin(t*.008)})`;
+    ctx.font=`bold ${Math.min(W*.18,160)}px 'DM Mono',monospace`;
+    ctx.textAlign="center";
+    ctx.fillText("ν",W/2,H/2+60);
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ ACCORDION ═══
+function tog(id){
+  const b=document.getElementById("ab-"+id);
+  const tg=document.getElementById("at-"+id);
+  if(!b)return;
+  const o=b.classList.toggle("open");
+  if(tg)tg.textContent=o?"▲":"▼";
+}
+</script>
+</body>
+</html>
