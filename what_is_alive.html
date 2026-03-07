@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>What Is Alive · Wolves & Deer · Extinction Kinetics · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060A06;--bg2:#0A100A;
+  --wolf:#9A7A5A;--wlt:#C8A87A;--wdim:rgba(154,122,90,.3);
+  --deer:#C8A040;--dlt:#E8C870;--ddim:rgba(200,160,64,.3);
+  --veg:#4A9E4A;--vlt:#7ACA7A;--vdim:rgba(74,158,74,.28);
+  --inv:#C05050;--ilt:#E07070;
+  --sky:#5070A0;--slt:#80A0C8;
+  --cream:#EAF0E0;--cdim:rgba(234,240,224,.55);--cfaint:rgba(234,240,224,.04);
+  --line:rgba(234,240,224,.07);
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{color:var(--cdim);font-family:"EB Garamond",Georgia,serif;font-size:18px;line-height:1.85;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.55rem 1.8rem;background:rgba(6,10,6,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(74,158,74,.1)}
+.nb{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1rem;color:var(--vlt)}
+.nl{display:flex;gap:.05rem;flex-wrap:wrap}
+.nl a{font-family:"JetBrains Mono",monospace;font-size:.36rem;letter-spacing:.06em;color:var(--cdim);text-decoration:none;padding:.17rem .35rem;border-radius:3px;text-transform:uppercase;transition:color .15s}
+.nl a:hover{color:var(--vlt)}
+.page{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:0 1.5rem 8rem}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 1rem 4rem;position:relative;overflow:hidden}
+#hcanvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.h-eye{font-family:"JetBrains Mono",monospace;font-size:.43rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(74,158,74,.4);margin-bottom:1.2rem;position:relative;z-index:2}
+.hero h1{font-family:"Cormorant Garamond",serif;font-size:clamp(2.8rem,8vw,5.2rem);font-weight:300;line-height:1.05;color:var(--cream);position:relative;z-index:2}
+.hero h1 em{font-style:italic;color:var(--vlt)}
+.h-rule{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--veg),transparent);margin:1.3rem auto;position:relative;z-index:2}
+.h-sub{font-family:"EB Garamond",serif;font-style:italic;font-size:1.05rem;color:var(--cdim);max-width:560px;line-height:2;position:relative;z-index:2}
+.sec{padding:3.5rem 0;border-top:1px solid var(--line);position:relative;z-index:2}
+.sec-lbl{font-family:"JetBrains Mono",monospace;font-size:.41rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.7rem;display:flex;align-items:center;gap:.6rem}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--line)}
+h2{font-family:"Cormorant Garamond",serif;font-size:clamp(1.7rem,4vw,2.8rem);font-weight:300;line-height:1.1;margin-bottom:.6rem;color:var(--cream)}
+h2 em{font-style:italic;color:var(--vlt)}
+h3{font-family:"Cormorant Garamond",serif;font-size:1.3rem;font-weight:300;color:var(--cream);margin:1.6rem 0 .5rem;font-style:italic}
+p{margin-bottom:1rem;line-height:1.88}
+p strong{color:var(--cream)}
+p em{color:var(--dlt)}
+.lead{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.08rem;color:rgba(234,240,224,.68);line-height:2;margin-bottom:1.4rem}
+.panel{background:var(--cfaint);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.5rem;margin:1.2rem 0;position:relative;overflow:hidden}
+.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0}
+.panel.veg::before{background:linear-gradient(90deg,transparent,var(--veg),transparent)}
+.panel.wolf::before{background:linear-gradient(90deg,transparent,var(--wolf),transparent)}
+.panel.deer::before{background:linear-gradient(90deg,transparent,var(--deer),transparent)}
+.panel.inv::before{background:linear-gradient(90deg,transparent,var(--inv),transparent)}
+.panel.sky::before{background:linear-gradient(90deg,transparent,var(--sky),transparent)}
+.ptag{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(234,240,224,.25);margin-bottom:.5rem}
+.panel p,.panel li{font-size:.9rem;color:rgba(234,240,224,.58);line-height:1.82;margin-bottom:.5rem}
+.panel p:last-child,.panel li:last-child{margin-bottom:0}
+.panel strong{color:var(--cream)}
+.panel em{color:var(--dlt)}
+.panel ul{padding-left:1.2rem;margin:.4rem 0}
+.comma-box{border:1px solid rgba(74,158,74,.2);border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;background:rgba(74,158,74,.03)}
+.cb-label{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(74,158,74,.4);margin-bottom:.4rem}
+.cb-body{font-size:.88rem;color:rgba(234,240,224,.55);line-height:1.82}
+.cb-body strong{color:var(--vlt)}
+.acc{background:var(--cfaint);border:1px solid var(--line);border-radius:10px;margin:.6rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.7rem;padding:.85rem 1.1rem;cursor:pointer;transition:background .15s}
+.acc-h:hover{background:rgba(234,240,224,.03)}
+.acc-badge{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .42rem;border-radius:4px;flex-shrink:0}
+.acc-badge.v{background:rgba(74,158,74,.1);color:var(--vlt);border:1px solid rgba(74,158,74,.2)}
+.acc-badge.w{background:rgba(154,122,90,.1);color:var(--wlt);border:1px solid rgba(154,122,90,.2)}
+.acc-badge.d{background:rgba(200,160,64,.1);color:var(--dlt);border:1px solid rgba(200,160,64,.2)}
+.acc-badge.i{background:rgba(192,80,80,.1);color:var(--ilt);border:1px solid rgba(192,80,80,.2)}
+.acc-title{font-family:"EB Garamond",serif;font-size:.96rem;color:var(--cream);flex:1}
+.acc-tog{font-family:"JetBrains Mono",monospace;font-size:.42rem;color:rgba(234,240,224,.18);flex-shrink:0}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.acc-body.open{max-height:3000px;padding:0 1.1rem 1.1rem}
+.acc-body p{font-size:.9rem;color:rgba(234,240,224,.58);line-height:1.85;margin-bottom:.65rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--cream)}
+.acc-body em{color:var(--dlt)}
+/* SIMULATION */
+.sim-wrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.sim-header{background:rgba(234,240,224,.03);padding:.6rem 1rem;display:flex;align-items:center;gap:.7rem;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.sim-title{font-family:"JetBrains Mono",monospace;font-size:.43rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cdim)}
+.sim-dot{width:7px;height:7px;border-radius:50%;animation:spulse 2s ease-in-out infinite}
+@keyframes spulse{0%,100%{opacity:.3}50%{opacity:1}}
+.sim-dot.live{background:var(--vlt)}
+.sim-controls{padding:.7rem 1rem;background:rgba(234,240,224,.02);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:.5rem}
+.ctrl-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.ctrl-label{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(234,240,224,.35);min-width:150px}
+.ctrl-val{font-family:"JetBrains Mono",monospace;font-size:.42rem;color:var(--vlt);min-width:55px}
+input[type=range]{flex:1;min-width:100px;max-width:240px;accent-color:var(--veg)}
+.btn-row{display:flex;gap:.5rem;flex-wrap:wrap;padding:.5rem 1rem;border-bottom:1px solid var(--line)}
+.sim-btn{font-family:"JetBrains Mono",monospace;font-size:.37rem;letter-spacing:.06em;text-transform:uppercase;padding:.26rem .6rem;border-radius:5px;border:1px solid var(--line);background:rgba(234,240,224,.04);color:var(--cdim);cursor:pointer;transition:all .15s}
+.sim-btn:hover{background:rgba(74,158,74,.12);border-color:rgba(74,158,74,.3);color:var(--vlt)}
+.sim-btn.active{background:rgba(74,158,74,.15);border-color:rgba(74,158,74,.4);color:var(--vlt)}
+.sim-btn.wolf-btn:hover,.sim-btn.wolf-btn.active{background:rgba(154,122,90,.15);border-color:rgba(154,122,90,.35);color:var(--wlt)}
+.sim-btn.danger:hover,.sim-btn.danger.active{background:rgba(192,80,80,.15);border-color:rgba(192,80,80,.35);color:var(--ilt)}
+.sim-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.3rem;padding:.5rem 1rem;background:rgba(234,240,224,.01)}
+.stat-box{background:rgba(234,240,224,.03);border:1px solid var(--line);border-radius:6px;padding:.35rem .6rem}
+.stat-label{font-family:"JetBrains Mono",monospace;font-size:.35rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(234,240,224,.28)}
+.stat-value{font-family:"JetBrains Mono",monospace;font-size:.52rem;letter-spacing:.04em;margin-top:.1rem}
+canvas.sim{display:block;width:100%}
+/* CHART */
+#chart-canvas{display:block;width:100%;background:rgba(6,10,6,.8);border-top:1px solid var(--line)}
+/* EQUATION DISPLAY */
+.eq{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:rgba(234,240,224,.7);background:rgba(234,240,224,.04);border:1px solid var(--line);border-radius:6px;padding:.5rem .8rem;margin:.5rem 0;line-height:1.6}
+.eq-label{font-size:.65rem;color:rgba(234,240,224,.3);display:block;margin-bottom:.15rem;letter-spacing:.05em;text-transform:uppercase}
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);position:relative;z-index:2}
+.fla{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.07em;color:rgba(234,240,224,.2);text-decoration:none;text-transform:uppercase;padding:.18rem .42rem;transition:color .2s}
+.fla:hover{color:var(--vlt)}
+</style>
+</head>
+<body>
+<nav>
+  <span class="nb">Musica Universalis</span>
+  <div class="nl">
+    <a href="#alive">What Is Alive</a>
+    <a href="#sim">Wolves & Deer</a>
+    <a href="#invasive">Invasive Species</a>
+    <a href="#extinction">Extinction</a>
+    <a href="origins_of_life.html">Origins</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+<div class="page">
+
+<section class="hero">
+  <canvas id="hcanvas"></canvas>
+  <div class="h-eye">Section XVIII · Life · Ecology · Kinetics · Comma Framework · Musica Universalis</div>
+  <h1>What Is<br><em>Alive?</em></h1>
+  <div class="h-rule"></div>
+  <p class="h-sub">Tornados, trees, fungal networks, fires. The predator–prey comma. What it means to reintroduce, to overshoot, to consume all your resources. Ecological kinetics with the Lotka–Volterra equations and the comma framework.</p>
+</section>
+
+<!-- WHAT IS ALIVE -->
+<section class="sec" id="alive">
+  <div class="sec-lbl" style="color:var(--vlt)">01 · What Is Actually Alive?</div>
+  <h2>Tornadoes? Trees?<br><em>Fungal networks? Fires?</em></h2>
+  <p class="lead">The standard biological definition of life — metabolism, reproduction, homeostasis, response to stimuli, growth, organization, heredity — seems clear until you test it at the edges. At the edges is where the question becomes philosophically serious, and where it connects to the question of ethical growth.</p>
+  <div class="panel veg">
+    <div class="ptag">Testing the Definition — Six Edge Cases</div>
+    <ul>
+      <li><strong>Tornadoes:</strong> Self-organizing, energy-dissipating, responsive to conditions, can "reproduce" (spawning daughter tornadoes). But: no hereditary information, no internal chemistry, no metabolism. They are <em>dissipative structures</em> — the same physical category as life, but missing the one thing that makes life life: an information system that copies itself and evolves. A tornado is the shape without the memory. Life is the shape that <em>remembers how to make itself.</em></li>
+      <li><strong>Fire:</strong> Consumes fuel, produces waste, spreads, responds to oxygen. Not alive — no hereditary information, no self-regulation beyond fuel availability. But note: fire is how many ecosystems regulate themselves. The forest's <em>relationship</em> with fire may be more alive than the fire itself.</li>
+      <li><strong>Viruses:</strong> Carry and express genetic information, evolve by natural selection, extraordinarily successful at persisting. Cannot metabolize independently. Most biologists: not alive, but the most interesting edge case — parasites of the living machinery, which is itself a kind of life-adjacent existence.</li>
+      <li><strong>Mycorrhizal networks (Wood Wide Web):</strong> Fungal networks through which trees share carbon, water, and chemical warning signals. Older "mother trees" preferentially support seedlings. The network is distributed, adaptive, information-processing. Individual fungi are alive. Is the network a single organism? The question collapses the individual/collective distinction. <em>The forest may be more alive as a system than as a sum of organisms.</em></li>
+      <li><strong>Prions:</strong> Misfolded proteins that induce other proteins to misfold — self-replicating information carried in molecular shape rather than sequence. No DNA, no cell, no metabolism. Yet they propagate, evolve, cause disease, and persist. The edge of heredity without biology.</li>
+      <li><strong>The biosphere:</strong> James Lovelock's Gaia — the entire planetary system as a coupled feedback network that maintains conditions for life. Not alive in the sense of having a cell. Alive in the sense that it actively regulates atmospheric composition, temperature, and ocean chemistry. The comma at planetary scale.</li>
+    </ul>
+  </div>
+  <div class="panel sky">
+    <div class="ptag">What Is Ethical Growth?</div>
+    <p>A tumor is alive by every biological definition. It metabolizes, reproduces rapidly, adapts to its environment, outcompetes neighboring cells. What makes it pathological is not the growth but its <em>relationship to the system it inhabits</em> — it is purely extractive, it leaves no conditions for the next cycle, it converts the comma of the body's homeostasis into a period.</p>
+    <p>Ethical growth is growth that includes its own limit as part of its design. In ecology: a population that grows to the carrying capacity of its environment and stabilizes — a logistic curve rather than exponential runaway. In economics: value creation that restores the commons it draws from rather than liquidating it. In personal development: growth that changes what you can give, not only what you can take.</p>
+    <p><strong>The comma framework definition:</strong> ethical growth is growth that ends with a comma — a pause that makes the next phrase possible — rather than a period that closes the sentence. The wolf that overpopulates and eats every deer does not just eliminate the deer. It eliminates itself. The most successful predators in evolutionary history are the ones that learned to manage the comma — to not quite consume all their resources. <em>Life evolved restraint because restraint is the condition of persistence.</em></p>
+  </div>
+  <div class="comma-box">
+    <div class="cb-label">Comma Framework · What Separates Life from Other Dissipative Structures</div>
+    <div class="cb-body">A tornado and a cell are both far-from-equilibrium systems that maintain their structure by dissipating energy. The difference: <strong>the cell carries a comma within itself</strong> — a hereditary program that encodes how to rebuild the structure after disruption, how to make another copy, how to persist through time. The tornado has no memory. The cell is nothing but memory — DNA is 3.8 billion years of comma, of structures that kept interrupting equilibrium long enough to copy themselves one more time. <strong>Life is the comma that learned to write itself down.</strong></div>
+  </div>
+</section>
+
+<!-- WOLVES AND DEER SIMULATION -->
+<section class="sec" id="sim">
+  <div class="sec-lbl" style="color:var(--vlt)">02 · Wolves & Deer · Predator–Prey Kinetics · Lotka–Volterra</div>
+  <h2>The predator–prey<br><em>comma</em></h2>
+  <p class="lead">The Lotka–Volterra equations model the oscillating relationship between predator and prey — a system that generates its own rhythm without any external forcing. It is a comma system: prey population grows until predators grow, predators grow until prey collapses, predators collapse until prey recovers. The cycle is the meaning.</p>
+
+  <div class="eq">
+    <span class="eq-label">Lotka–Volterra Equations with Vegetation and Carrying Capacity</span>
+    dV/dt = r_v · V · (1 − V/K) − a · D · V &nbsp;&nbsp;[vegetation]<br>
+    dD/dt = b · D · V − c · W · D − d_D · D &nbsp;&nbsp;[deer]<br>
+    dW/dt = e · W · D − d_W · W &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[wolves]
+  </div>
+
+  <div class="sim-wrap">
+    <div class="sim-header">
+      <div class="sim-dot live"></div>
+      <div class="sim-title">Predator–Prey Ecosystem · Wolves · Deer · Vegetation</div>
+    </div>
+    <div class="sim-controls">
+      <div class="ctrl-row">
+        <span class="ctrl-label">🐺 Wolf birth rate (e)</span>
+        <input type="range" id="sl-e" min="0.001" max="0.05" step="0.001" value="0.01" oninput="sliderUpdate('e',this.value)">
+        <span class="ctrl-val" id="vl-e">0.010</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">🐺 Wolf death rate (d_W)</span>
+        <input type="range" id="sl-dw" min="0.01" max="0.4" step="0.01" value="0.1" oninput="sliderUpdate('dw',this.value)">
+        <span class="ctrl-val" id="vl-dw">0.100</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">🦌 Deer birth rate (b)</span>
+        <input type="range" id="sl-b" min="0.001" max="0.05" step="0.001" value="0.015" oninput="sliderUpdate('b',this.value)">
+        <span class="ctrl-val" id="vl-b">0.015</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">🦌 Deer death rate (d_D)</span>
+        <input type="range" id="sl-dd" min="0.0" max="0.15" step="0.005" value="0.01" oninput="sliderUpdate('dd',this.value)">
+        <span class="ctrl-val" id="vl-dd">0.010</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">🌿 Vegetation growth (r_v)</span>
+        <input type="range" id="sl-rv" min="0.01" max="0.5" step="0.01" value="0.15" oninput="sliderUpdate('rv',this.value)">
+        <span class="ctrl-val" id="vl-rv">0.150</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">🌿 Veg. carrying cap. (K)</span>
+        <input type="range" id="sl-K" min="50" max="500" step="10" value="200" oninput="sliderUpdate('K',this.value)">
+        <span class="ctrl-val" id="vl-K">200</span>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="sim-btn active" onclick="setScenario('balanced')">⚖ Balanced</button>
+      <button class="sim-btn wolf-btn" onclick="setScenario('wolves')">🐺 Wolf Surge</button>
+      <button class="sim-btn" onclick="setScenario('reintro')">🐺 Reintroduce Wolves</button>
+      <button class="sim-btn" onclick="setScenario('nodeer')">🦌 Deer Crash</button>
+      <button class="sim-btn danger" onclick="setScenario('overshoot')">💀 Overshoot</button>
+      <button class="sim-btn danger" onclick="setScenario('extinction')">☠ Extinction Run</button>
+      <button class="sim-btn" onclick="setScenario('yellowstone')">🏔 Yellowstone</button>
+      <button class="sim-btn" style="margin-left:auto" onclick="resetSim()">↺ Reset</button>
+    </div>
+    <div class="sim-stats">
+      <div class="stat-box"><div class="stat-label">🌿 Vegetation</div><div class="stat-value" id="sv-veg" style="color:var(--vlt)">—</div></div>
+      <div class="stat-box"><div class="stat-label">🦌 Deer</div><div class="stat-value" id="sv-deer" style="color:var(--dlt)">—</div></div>
+      <div class="stat-box"><div class="stat-label">🐺 Wolves</div><div class="stat-value" id="sv-wolf" style="color:var(--wlt)">—</div></div>
+      <div class="stat-box"><div class="stat-label">Time (years)</div><div class="stat-value" id="sv-time" style="color:var(--cdim)">—</div></div>
+      <div class="stat-box"><div class="stat-label">Phase</div><div class="stat-value" id="sv-phase" style="color:var(--cdim);font-size:.42rem">—</div></div>
+      <div class="stat-box"><div class="stat-label">Status</div><div class="stat-value" id="sv-status" style="font-size:.42rem;color:var(--vlt)">—</div></div>
+    </div>
+    <canvas id="eco-canvas" class="sim" width="860" height="340"></canvas>
+    <canvas id="chart-canvas" width="860" height="180"></canvas>
+  </div>
+
+  <div class="panel wolf">
+    <div class="ptag">What Does It Mean to Reintroduce an Organism?</div>
+    <p><strong>The Yellowstone wolf reintroduction (1995–1996)</strong> is the most studied example of trophic cascade in history. Wolves had been absent from Yellowstone for 70 years. Elk (deer equivalent) had overrun the park — overgrazing riverbanks, preventing tree regeneration, destabilizing stream banks. When 41 wolves were reintroduced, the changes were not only numerical. They were <em>spatial</em> and <em>behavioral</em>.</p>
+    <p>Elk stopped grazing riverbanks — not because wolves eliminated them, but because the <em>fear of wolves</em> changed where they grazed (the "landscape of fear"). Within years: willows and aspens regenerated along rivers, songbirds returned, beavers returned (using the willows), beavers built dams that created wetland habitat, the rivers themselves changed course — meanders stabilized, erosion slowed. This is called a <em>trophic cascade</em>: a predator at the top of the food web restructures the entire ecosystem through the behavioral and numerical changes it induces.</p>
+    <p><strong>The comma framework reading:</strong> the elk without wolves were a sentence without commas — growth without pause, grazing without rest. The wolf reintroduction did not just add predation. It <em>restored the comma</em> — the pause, the hesitation, the behavioral restraint — that allowed the rest of the system to complete its sentences.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('kinetics')">
+      <span class="acc-badge v">Kinetics</span>
+      <span class="acc-title">The mathematics of predator-prey — why the oscillation is unavoidable</span>
+      <span class="acc-tog" id="at-kinetics">▼</span>
+    </div>
+    <div class="acc-body" id="ab-kinetics">
+      <p>The Lotka–Volterra system is a pair of nonlinear differential equations. For the classic two-species model: prey grows exponentially in the absence of predators (rate α), but is reduced by encounters with predators (rate β × predators). Predators grow in proportion to prey consumed (rate δ × prey) but die at a natural rate (γ). The solution is <strong>stable oscillations</strong> around an equilibrium point — not a point attractor, but a <em>center</em>. The amplitude of the oscillation depends on initial conditions. This means: the amplitude is set by history, not by the equations alone.</p>
+      <p><strong>What the model predicts:</strong> After a prey crash, predator population must also crash — it cannot be sustained. After a predator crash, prey population explodes. This lag — the predator population cannot respond instantaneously to changes in prey — is the engine of the oscillation. It is a delayed negative feedback loop, and delay in negative feedback always produces oscillation.</p>
+      <p><strong>What happens with carrying capacity (logistic growth):</strong> When vegetation has a carrying capacity (as in the simulation above), the system gains a third variable and the dynamics become richer. The oscillations can damp to a stable equilibrium (spiral attractor), or under certain parameters, spiral outward to extinction. The carrying capacity of the vegetation is the ultimate constraint — if deer eat faster than vegetation grows, the system collapses from the bottom up.</p>
+      <p><strong>What happens with very high wolf birth rate:</strong> If wolves reproduce much faster than deer, they consume prey faster than it can recover. The prey population crashes to zero. Then the wolf population crashes to zero. The system does not oscillate — it collapses. This is the "overshoot and crash" dynamic that the simulation models in the Overshoot scenario.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INVASIVE SPECIES -->
+<section class="sec" id="invasive">
+  <div class="sec-lbl" style="color:var(--ilt)">03 · Invasive Species · Exponential Disruption</div>
+  <h2>When a comma<br><em>becomes an invasion</em></h2>
+  <p class="lead">An invasive species is an organism introduced into an ecosystem where its natural constraints — predators, pathogens, competitors — are absent. Without the comma of predation or resource competition, its growth becomes exponential rather than logistic. The sentence runs without punctuation until something breaks it.</p>
+  <div class="panel inv">
+    <div class="ptag">Lessons from Real Invasions</div>
+    <ul>
+      <li><strong>Cane toads (Australia, 1935):</strong> Introduced to control sugar cane beetles. They did not eat the beetles (which live at the top of the cane, out of reach). They do eat almost everything else. Toxic to native predators that eat them. No natural predators in Australia. Population: ~2 billion. Expanded range: still growing. Lesson: <em>the introduction creates a one-way door — the comma of control is not easily restored once the species establishes.</em></li>
+      <li><strong>Kudzu (United States):</strong> East Asian vine introduced for erosion control. Without the insects and fungi that limit it in Asia, it grows 30 cm per day and covers entire trees, fields, and roadsides. Called "the vine that ate the South." The comma of competition was absent. Lesson: <em>a plant that is a comma in its native ecosystem becomes a period in a new one.</em></li>
+      <li><strong>Nile perch (Lake Victoria, 1950s):</strong> Introduced for fishing. Caused extinction of ~200+ endemic cichlid fish species — the greatest vertebrate extinction event in recorded history. The perch had no natural predators in the lake, no competitors, and found prey with no evolved wariness. Lesson: <em>when the introduced species outpaces the evolutionary capacity of prey to adapt, the system cannot recover its comma — the period is permanent.</em></li>
+      <li><strong>European rabbits (Australia, 1859):</strong> Thomas Austin released 24 rabbits for hunting. Within 50 years, 10 billion rabbits were degrading vegetation across the continent. The myxomatosis virus was introduced in 1950 — initially 99% fatal. Within decades, rabbit populations evolved resistance and the virus evolved lower virulence. The system found a new comma — a coevolutionary equilibrium. Lesson: <em>given enough time, even invasions can find a comma — but the ecosystem it stabilizes in is permanently different from the one before.</em></li>
+    </ul>
+  </div>
+  <div class="comma-box">
+    <div class="cb-label">The Pattern — Exponential to Crash or to New Equilibrium</div>
+    <div class="cb-body">Every invasive species follows one of three trajectories: (1) <strong>Exponential runaway to crash:</strong> the species consumes all available resources and collapses, often taking the invaded system with it. (2) <strong>Exponential plateau:</strong> resource depletion naturally limits growth and the species stabilizes at a new high density — with the native ecosystem permanently restructured around it. (3) <strong>Coevolution to new comma:</strong> over decades or centuries, native predators, pathogens, and competitors adapt. The system finds a new equilibrium that includes the invader. Which trajectory plays out depends on the timescales of reproduction, resource availability, and evolutionary flexibility. <strong>The comma that was lost in introduction can only be restored by time — evolutionary time, not human-intervention time.</strong></div>
+  </div>
+</section>
+
+<!-- EXTINCTION -->
+<section class="sec" id="extinction">
+  <div class="sec-lbl" style="color:var(--ilt)">04 · Extinction · The Species That Consumed All Their Resources</div>
+  <h2>The boom, the crash,<br><em>and the silence</em></h2>
+  <p class="lead">Extinction is not always slow. Some species write their own ending by crossing a resource threshold — growing past the system's capacity to recover, consuming the comma that would have allowed continuation. The history of life on Earth includes both external catastrophes and internal failures of restraint.</p>
+  <div class="panel deer">
+    <div class="ptag">Lessons from Extinction Dynamics</div>
+    <p><strong>Easter Island (Rapa Nui):</strong> The most studied human example. Population grew, forests were cleared for agriculture and moai transport. Once the forests were gone — soil erosion accelerated, freshwater sources failed, the fishing canoes could not be built, food chains collapsed. Population crashed by ~70% before European contact. The lesson is not that the people were uniquely foolish — it is that the positive feedback loop (more people → more forest clearing → less food → more desperate clearing) is a kinetic trap. Once you pass the tipping point, the comma is gone. The system can only find a new equilibrium at a much lower level.</p>
+    <p><strong>The passenger pigeon:</strong> Once the most abundant bird in North America — flocks of billions that darkened the sky for days. Hunted to extinction by 1914. The critical dynamic: the species required massive collective flocking for successful reproduction. Below a certain population threshold, successful mating became too rare. This is the <em>Allee effect</em> — a minimum viable population below which the birth rate falls below the death rate regardless of resource availability. The comma was not resource depletion but social collapse. <em>Some commas require a minimum number of voices to sustain.</em></p>
+    <p><strong>Megafauna after human arrival:</strong> In North America, Australia, New Zealand, and Madagascar, large mammal extinctions followed human arrival by centuries. Mammoths, mastodons, moa, elephant birds. Not habitat destruction — hunting pressure on animals that had never evolved to fear upright primates. Their reproductive rates were too slow to compensate. The comma of slow reproduction could not match the sudden introduction of a new apex predator with weapons. The interval between human arrival and extinction was typically 500–2000 years — fast on geological time, slow enough to be invisible to any individual generation.</p>
+    <p><strong>The current sixth mass extinction:</strong> Species are going extinct at 100–1000× the background rate. The drivers are habitat loss (the primary), overexploitation, invasive species, pollution, and now climate change. The comma framework: we are systematically removing the conditions that allow other commas to continue. Each species extinction simplifies the ecosystem it inhabited, reducing resilience, reducing the number of commas that can buffer the next disruption. <em>The sixth mass extinction is the removal of the earth's own punctuation — sentence by sentence, the text is becoming harder to read.</em></p>
+  </div>
+  <div class="acc">
+    <div class="acc-h" onclick="tog('revival')">
+      <span class="acc-badge i">Revival</span>
+      <span class="acc-title">Can we restore lost commas? De-extinction, rewilding, and ecological restoration</span>
+      <span class="acc-tog" id="at-revival">▼</span>
+    </div>
+    <div class="acc-body" id="ab-revival">
+      <p><strong>De-extinction:</strong> Colossal Biosciences is working on woolly mammoth revival (targeting 2028 for a cold-adapted Asian elephant hybrid). Passenger pigeon revival (Ben Novak / Revive &amp; Restore). The technology: CRISPR gene editing to add extinct species' traits to living relatives. The philosophical question: is a mammoth with elephant genetics a restored comma, or a new sentence? Does the ecosystem that required mammoths for 50,000 years still have a place for them? <em>We can potentially rebuild the organism; we cannot rebuild the relationship.</em></p>
+      <p><strong>Rewilding:</strong> Large-scale ecological restoration by reintroducing keystone species and removing human management. Rewilding Europe's program spans millions of hectares. The Pleistocene Park project in Siberia (Sergey Zimov) is attempting to recreate mammoth-steppe grassland by introducing bison, horses, musk ox — to reverse the shrub-takeover that followed megafauna extinction and potentially slow permafrost thaw. Evidence so far: the animal-compacted snow is 15°C colder than uncompacted snow in winter, insulating permafrost. <em>Restoring the comma can work — but the system that reconvenes is a new sentence, not the old one.</em></p>
+      <p><strong>The honest limit:</strong> Once a keystone species is gone, the ecosystem reorganizes around its absence. Introducing it back does not restore the prior state — it creates a new state that must find its own equilibrium. This can be better, worse, or just different. Rewilding and restoration are not undo buttons. They are new commas — new opportunities for ecological sentences to continue. They are worth it. But they require humility about what was lost and what can be restored.</p>
+    </div>
+  </div>
+  <div class="comma-box">
+    <div class="cb-label">Comma Framework · What the Ecology of Extinction Teaches</div>
+    <div class="cb-body">The deepest lesson from ecological kinetics is simple: <strong>every population that has ever gone extinct believed it had enough resources for one more round.</strong> Not consciously — but the growth equations do not include foresight. The Lotka-Volterra system has no mechanism by which wolves can slow their reproduction in anticipation of deer collapse. Evolution did not wire restraint into predators as foresight — it wired it in as consequence, as the crash that follows overshoot. <strong>The only species that has the cognitive capacity to add foresight to the equations is also the species currently running the most aggressive overshoot in the history of complex life.</strong> The question is not whether we understand the comma — we clearly do, we can model it, simulate it, name it. The question is whether understanding the comma is enough to choose it before the crash rather than after.</div>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--vlt);margin-bottom:.4rem">What Is Alive · Wolves & Deer · Extinction Kinetics</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(234,240,224,.18);margin-bottom:1rem">Section XVIII · Musica Universalis · δ = 0.013643</div>
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="astrobiology_climate.html">Astrobiology</a>
+    <a class="fla" href="origins_of_life.html">Origins of Life</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+
+<script>
+// ═══ HERO CANVAS ═══
+(function(){
+  const c=document.getElementById("hcanvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  resize();window.addEventListener("resize",resize);
+  // Animated creatures moving through forest
+  const creatures=[];
+  for(let i=0;i<12;i++){creatures.push({x:Math.random(),y:.4+Math.random()*.5,type:i<4?"wolf":i<9?"deer":"veg",speed:(Math.random()*.003+.001)*(Math.random()<.5?1:-1),r:Math.random()*1.5+1.5,a:Math.random()*.25+.08})}
+  // Trees
+  const trees=[];for(let i=0;i<30;i++){trees.push({x:Math.random(),y:.3+Math.random()*.6,h:Math.random()*40+20,r:Math.random()*1.5+.5})}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Sky gradient
+    const sg=ctx.createLinearGradient(0,0,0,H);
+    sg.addColorStop(0,"rgba(6,10,6,1)");sg.addColorStop(.4,"rgba(10,18,10,.8)");sg.addColorStop(1,"rgba(20,30,15,.6)");
+    ctx.fillStyle=sg;ctx.fillRect(0,0,W,H);
+    // Moon
+    ctx.beginPath();ctx.arc(W*.8,H*.15,18,0,Math.PI*2);
+    ctx.fillStyle="rgba(234,240,224,.06)";ctx.fill();
+    ctx.strokeStyle="rgba(234,240,224,.12)";ctx.lineWidth=1;ctx.stroke();
+    // Trees
+    trees.forEach(tr=>{
+      const tx=tr.x*W,ty=tr.y*H;
+      ctx.strokeStyle=`rgba(74,158,74,${tr.r*.04})`;ctx.lineWidth=tr.r*.4;
+      ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(tx,ty-tr.h);ctx.stroke();
+      ctx.beginPath();ctx.arc(tx,ty-tr.h,tr.h*.35,0,Math.PI*2);
+      ctx.fillStyle=`rgba(74,158,74,${tr.r*.04})`;ctx.fill();
+    });
+    // Creatures
+    creatures.forEach(cr=>{
+      cr.x+=cr.speed;if(cr.x<0)cr.x=1;if(cr.x>1)cr.x=0;
+      const cx2=cr.x*W,cy=cr.y*H;
+      const col=cr.type==="wolf"?"154,122,90":cr.type==="deer"?"200,160,64":"74,158,74";
+      ctx.beginPath();ctx.arc(cx2,cy,cr.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${col},${cr.a+Math.abs(Math.sin(t*.015+cr.x*10))*.1})`;ctx.fill();
+    });
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ ECOSYSTEM SIMULATION ═══
+const ECO={
+  // Parameters (Lotka-Volterra with vegetation)
+  rv:0.15,   // vegetation growth rate
+  K:200,     // vegetation carrying capacity
+  a:0.005,   // deer grazing rate on vegetation
+  b:0.015,   // deer birth rate from vegetation
+  c:0.04,    // wolf predation rate on deer
+  e:0.01,    // wolf birth rate from deer
+  dD:0.01,   // deer natural death rate
+  dW:0.1,    // wolf natural death rate
+  // State
+  V:150, D:80, W:20,
+  t:0, running:true,
+  history:{V:[],D:[],W:[]},
+  maxHistory:300,
+  event:""
+};
+
+function sliderUpdate(p,v){
+  const map={e:'e',dw:'dW',b:'b',dd:'dD',rv:'rv',K:'K'};
+  ECO[map[p]]=parseFloat(v);
+  document.getElementById('vl-'+p).textContent=parseFloat(v).toFixed(3);
+}
+
+function setScenario(name){
+  const scenarios={
+    balanced: {V:150,D:80,W:20,rv:0.15,K:200,a:0.005,b:0.015,c:0.04,e:0.01,dD:0.01,dW:0.1,msg:"⚖ Balanced ecosystem"},
+    wolves:   {V:150,D:80,W:80,rv:0.15,K:200,a:0.005,b:0.015,c:0.04,e:0.01,dD:0.01,dW:0.1,msg:"🐺 Wolf surge — watch deer collapse then wolves crash"},
+    reintro:  {V:200,D:200,W:5, rv:0.15,K:200,a:0.008,b:0.015,c:0.04,e:0.01,dD:0.005,dW:0.1,msg:"🐺 Wolves reintroduced into deer-overpopulated system"},
+    nodeer:   {V:200,D:5,  W:5, rv:0.15,K:200,a:0.005,b:0.015,c:0.04,e:0.01,dD:0.01,dW:0.1,msg:"🦌 Deer crash — vegetation recovers, wolves barely persist"},
+    overshoot:{V:120,D:100,W:5, rv:0.08,K:150,a:0.012,b:0.02, c:0.04,e:0.012,dD:0.005,dW:0.08,msg:"💀 Overshoot — deer eat faster than vegetation grows"},
+    extinction:{V:80,D:60, W:3, rv:0.05,K:100,a:0.015,b:0.025,c:0.05,e:0.015,dD:0.02,dW:0.05,msg:"☠ Extinction run — fragile system, watch for collapse"},
+    yellowstone:{V:100,D:180,W:0,rv:0.12,K:200,a:0.01,b:0.015,c:0.04,e:0.01,dD:0.008,dW:0.1,msg:"🏔 Yellowstone: wolves absent, deer overpopulated"}
+  };
+  const s=scenarios[name]||scenarios.balanced;
+  ECO.V=s.V;ECO.D=s.D;ECO.W=s.W;
+  ECO.rv=s.rv;ECO.K=s.K;ECO.a=s.a||0.005;
+  ECO.b=s.b;ECO.c=s.c;ECO.e=s.e;ECO.dD=s.dD;ECO.dW=s.dW;
+  ECO.t=0;ECO.event=s.msg||"";
+  ECO.history={V:[],D:[],W:[]};
+  // Add wolves after delay for reintro scenario
+  if(name==='yellowstone'){setTimeout(()=>{ECO.W=20;ECO.event="🐺 Wolves reintroduced!";},4000);}
+  // Update sliders
+  ['rv','K'].forEach(p=>{
+    const sl=document.getElementById('sl-'+p);if(sl){sl.value=ECO[p];document.getElementById('vl-'+p).textContent=parseFloat(ECO[p]).toFixed(3);}
+  });
+  [['e','e'],['dw','dW'],['b','b'],['dd','dD']].forEach(([slId,key])=>{
+    const sl=document.getElementById('sl-'+slId);if(sl){sl.value=ECO[key];document.getElementById('vl-'+slId).textContent=parseFloat(ECO[key]).toFixed(3);}
+  });
+  document.querySelectorAll('.sim-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function resetSim(){ECO.V=150;ECO.D=80;ECO.W=20;ECO.t=0;ECO.history={V:[],D:[],W:[]};}
+
+// Simulation loop
+const DT=0.08;
+function stepEco(){
+  if(!ECO.running)return;
+  for(let i=0;i<3;i++){// multiple steps per frame for smooth animation
+    const {V,D,W,rv,K,a,b,c,e,dD,dW}=ECO;
+    // Lotka-Volterra with vegetation
+    const dV=rv*V*(1-V/K)-a*D*V;
+    const dD2=b*D*V-c*W*D-dD*D;
+    const dW2=e*W*D-dW*W;
+    ECO.V=Math.max(0,V+dV*DT);
+    ECO.D=Math.max(0,D+dD2*DT);
+    ECO.W=Math.max(0,W+dW2*DT);
+    ECO.t+=DT;
+  }
+  // Clamp to prevent runaway
+  ECO.V=Math.min(ECO.K*2,ECO.V);
+  ECO.D=Math.min(2000,ECO.D);
+  ECO.W=Math.min(500,ECO.W);
+  // Record history
+  ECO.history.V.push(ECO.V);
+  ECO.history.D.push(ECO.D);
+  ECO.history.W.push(ECO.W);
+  if(ECO.history.V.length>ECO.maxHistory){ECO.history.V.shift();ECO.history.D.shift();ECO.history.W.shift();}
+  // Status
+  const extinct=[];
+  if(ECO.D<1)extinct.push("Deer");if(ECO.W<1)extinct.push("Wolves");if(ECO.V<2)extinct.push("Vegetation");
+  let status="Stable";
+  if(extinct.length>0)status="💀 "+extinct.join(", ")+" extinct";
+  else if(ECO.D>800)status="⚠ Deer overpopulation";
+  else if(ECO.W>200)status="⚠ Wolf overpopulation";
+  else if(ECO.W<3&&ECO.D>100)status="🐺 Wolves near extinction";
+  // Phase detection
+  let phase="Oscillating";
+  if(ECO.W<2&&ECO.D<2)phase="Collapse";
+  else if(ECO.W<2&&ECO.D>80)phase="No predator";
+  else if(ECO.D>300)phase="Prey bloom";
+  else if(ECO.W>100)phase="Predator bloom";
+  document.getElementById("sv-veg").textContent=ECO.V.toFixed(0);
+  document.getElementById("sv-deer").textContent=ECO.D.toFixed(0);
+  document.getElementById("sv-wolf").textContent=ECO.W.toFixed(0);
+  document.getElementById("sv-time").textContent=ECO.t.toFixed(0)+"y";
+  document.getElementById("sv-phase").textContent=phase;
+  document.getElementById("sv-status").textContent=status;
+}
+
+// Draw ecosystem visualization
+function drawEco(){
+  const ec=document.getElementById("eco-canvas");if(!ec)return;
+  const ctx=ec.getContext("2d");
+  const W=ec.clientWidth||860,H=340;ec.width=W;
+  ctx.clearRect(0,0,W,H);
+  // Sky
+  const skyG=ctx.createLinearGradient(0,0,0,H);
+  skyG.addColorStop(0,"rgba(6,10,6,1)");skyG.addColorStop(1,"rgba(15,25,12,1)");
+  ctx.fillStyle=skyG;ctx.fillRect(0,0,W,H);
+  // Ground
+  const vegFrac=Math.min(1,ECO.V/ECO.K);
+  const gG=ctx.createLinearGradient(0,H*.6,0,H);
+  gG.addColorStop(0,`rgba(${Math.floor(15+vegFrac*40)},${Math.floor(30+vegFrac*60)},${Math.floor(10+vegFrac*20)},.9)`);
+  gG.addColorStop(1,"rgba(10,15,8,1)");
+  ctx.fillStyle=gG;ctx.fillRect(0,H*.6,W,H*.4);
+  // Vegetation (trees based on V value)
+  const numTrees=Math.floor(vegFrac*40)+2;
+  for(let i=0;i<numTrees;i++){
+    const tx=(i/numTrees*1.1-0.05)*W+((i*137)%1)*W*.03;
+    const ty=H*.6-((i*73)%20);
+    const th=15+((i*41)%25)*vegFrac;
+    ctx.strokeStyle=`rgba(74,158,74,${.15+vegFrac*.25})`;ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(tx,ty-th);ctx.stroke();
+    ctx.beginPath();ctx.arc(tx,ty-th,th*.4,0,Math.PI*2);
+    ctx.fillStyle=`rgba(74,158,74,${.08+vegFrac*.12})`;ctx.fill();
+  }
+  // Deer (amber dots)
+  const numDeer=Math.min(80,Math.floor(ECO.D/3));
+  for(let i=0;i<numDeer;i++){
+    const dx=((i*137+ECO.t*2)%(W*0.9))+W*.05;
+    const dy=H*.65+((i*41)%30);
+    ctx.beginPath();ctx.arc(dx,dy,3,0,Math.PI*2);
+    ctx.fillStyle="rgba(200,160,64,.7)";ctx.fill();
+  }
+  // Wolves (brown dots, slightly larger)
+  const numWolves=Math.min(40,Math.floor(ECO.W/1.5));
+  for(let i=0;i<numWolves;i++){
+    const wx=((i*173+ECO.t*3)%(W*0.85))+W*.08;
+    const wy=H*.63+((i*53)%35);
+    ctx.beginPath();ctx.arc(wx,wy,4,0,Math.PI*2);
+    ctx.fillStyle="rgba(154,122,90,.8)";ctx.fill();
+    ctx.strokeStyle="rgba(154,122,90,.4)";ctx.lineWidth=1;ctx.stroke();
+  }
+  // Population bars (right side)
+  const barX=W*.78,barW=20,barMaxH=H*.45,barY=H*.55;
+  [[ECO.V,ECO.K*1.5,"rgba(74,158,74,.8)","V"],[ECO.D,400,"rgba(200,160,64,.8)","D"],[ECO.W,100,"rgba(154,122,90,.8)","W"]].forEach(([val,max,col,lbl],i)=>{
+    const bx=barX+i*(barW+12);
+    const frac=Math.min(1,val/max);
+    ctx.fillStyle="rgba(234,240,224,.06)";ctx.fillRect(bx,barY-barMaxH,barW,barMaxH);
+    ctx.fillStyle=col;ctx.fillRect(bx,barY-frac*barMaxH,barW,frac*barMaxH);
+    ctx.fillStyle="rgba(234,240,224,.5)";ctx.textAlign="center";ctx.font="9px JetBrains Mono";
+    ctx.fillText(lbl,bx+barW/2,barY+12);
+    ctx.fillText(Math.round(val),bx+barW/2,barY-frac*barMaxH-4);
+  });
+  // Event annotation
+  if(ECO.event){
+    ctx.fillStyle="rgba(234,240,224,.6)";ctx.textAlign="center";ctx.font="italic 11px 'EB Garamond'";
+    ctx.fillText(ECO.event,W/2,20);
+  }
+}
+
+// Draw population chart
+function drawChart(){
+  const cc=document.getElementById("chart-canvas");if(!cc)return;
+  const ctx=cc.getContext("2d");
+  const W=cc.clientWidth||860,H=180;cc.width=W;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle="rgba(6,10,6,.9)";ctx.fillRect(0,0,W,H);
+  const hist=ECO.history;if(hist.V.length<2)return;
+  const n=hist.V.length;
+  const maxV=Math.max(10,...hist.V,...hist.D);
+  const series=[{data:hist.V,col:"rgba(74,158,74,.7)",lbl:"Vegetation"},{data:hist.D,col:"rgba(200,160,64,.7)",lbl:"Deer"},{data:hist.W,col:"rgba(154,122,90,.7)",lbl:"Wolves"}];
+  // Grid
+  ctx.strokeStyle="rgba(234,240,224,.05)";ctx.lineWidth=.5;
+  [.25,.5,.75,1].forEach(f=>{const y=H-.1*H-f*(H*.8);ctx.beginPath();ctx.moveTo(40,y);ctx.lineTo(W-5,y);ctx.stroke();});
+  // Lines
+  series.forEach(s=>{
+    if(s.data.length<2)return;
+    ctx.beginPath();
+    s.data.forEach((v,i)=>{
+      const x=40+(i/(ECO.maxHistory-1))*(W-45);
+      const y=H-.1*H-(v/maxV)*(H*.8);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle=s.col;ctx.lineWidth=1.5;ctx.stroke();
+  });
+  // Legend
+  ctx.textAlign="left";ctx.font="9px JetBrains Mono";
+  series.forEach((s,i)=>{
+    ctx.fillStyle=s.col;ctx.fillRect(45+i*80,H-15,8,8);
+    ctx.fillStyle="rgba(234,240,224,.5)";ctx.fillText(s.lbl,56+i*80,H-8);
+  });
+  ctx.fillStyle="rgba(234,240,224,.2)";ctx.font="9px JetBrains Mono";
+  ctx.textAlign="left";ctx.fillText("Population over time →",45,12);
+  // Y-axis
+  ctx.fillStyle="rgba(234,240,224,.25)";ctx.textAlign="right";
+  ctx.fillText(Math.round(maxV),35,H*.12+4);ctx.fillText("0",35,H*.88+4);
+}
+
+// Main loop
+function loop(){
+  stepEco();drawEco();drawChart();
+  requestAnimationFrame(loop);
+}
+loop();
+
+function tog(id){
+  const b=document.getElementById("ab-"+id);const tg=document.getElementById("at-"+id);
+  if(!b)return;const o=b.classList.toggle("open");if(tg)tg.textContent=o?"▲":"▼";
+}
+</script>
+</body>
+</html>

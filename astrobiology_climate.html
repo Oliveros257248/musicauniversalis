@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Astrobiology & Climate · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060810;--bg2:#0A0E1A;
+  --blue:#3A6EA8;--blt:#6A9ED8;--bdim:rgba(58,110,168,.3);
+  --cyan:#3AA8A0;--clt:#6AD8D0;
+  --amber:#C89832;--alt:#E4B85A;
+  --red:#C84040;--rlt:#E87070;
+  --green:#4A9E6A;--glt:#7ACA9A;
+  --cream:#E0E8F4;--cdim:rgba(224,232,244,.55);--cfaint:rgba(224,232,244,.04);
+  --line:rgba(224,232,244,.07);
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{color:var(--cdim);font-family:"EB Garamond",Georgia,serif;font-size:18px;line-height:1.85;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.55rem 1.8rem;background:rgba(6,8,16,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(58,110,168,.12)}
+.nb{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1rem;color:var(--blt)}
+.nl{display:flex;gap:.05rem;flex-wrap:wrap}
+.nl a{font-family:"JetBrains Mono",monospace;font-size:.36rem;letter-spacing:.06em;color:var(--cdim);text-decoration:none;padding:.17rem .35rem;border-radius:3px;text-transform:uppercase;transition:color .15s}
+.nl a:hover{color:var(--blt)}
+.page{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:0 1.5rem 8rem}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 1rem 4rem;position:relative;overflow:hidden}
+#hcanvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.h-eye{font-family:"JetBrains Mono",monospace;font-size:.43rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(58,110,168,.45);margin-bottom:1.2rem;position:relative;z-index:2}
+.hero h1{font-family:"Cormorant Garamond",serif;font-size:clamp(2.8rem,8vw,5.2rem);font-weight:300;line-height:1.05;color:var(--cream);position:relative;z-index:2}
+.hero h1 em{font-style:italic;color:var(--blt)}
+.h-rule{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent);margin:1.3rem auto;position:relative;z-index:2}
+.h-sub{font-family:"EB Garamond",serif;font-style:italic;font-size:1.05rem;color:var(--cdim);max-width:560px;line-height:2;position:relative;z-index:2}
+.sec{padding:3.5rem 0;border-top:1px solid var(--line);position:relative;z-index:2}
+.sec-lbl{font-family:"JetBrains Mono",monospace;font-size:.41rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.7rem;display:flex;align-items:center;gap:.6rem}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--line)}
+h2{font-family:"Cormorant Garamond",serif;font-size:clamp(1.7rem,4vw,2.8rem);font-weight:300;line-height:1.1;margin-bottom:.6rem;color:var(--cream)}
+h2 em{font-style:italic;color:var(--blt)}
+h3{font-family:"Cormorant Garamond",serif;font-size:1.3rem;font-weight:300;color:var(--cream);margin:1.6rem 0 .5rem;font-style:italic}
+p{margin-bottom:1rem;line-height:1.88}
+p strong{color:var(--cream)}
+p em{color:var(--alt)}
+.lead{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.08rem;color:rgba(224,232,244,.68);line-height:2;margin-bottom:1.4rem}
+.panel{background:var(--cfaint);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.5rem;margin:1.2rem 0;position:relative;overflow:hidden}
+.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0}
+.panel.blue::before{background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+.panel.cyan::before{background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+.panel.red::before{background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.panel.green::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.panel.amber::before{background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.ptag{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(224,232,244,.25);margin-bottom:.5rem}
+.panel p,.panel li{font-size:.9rem;color:rgba(224,232,244,.58);line-height:1.82;margin-bottom:.5rem}
+.panel p:last-child,.panel li:last-child{margin-bottom:0}
+.panel strong{color:var(--cream)}
+.panel em{color:var(--alt)}
+.panel ul{padding-left:1.2rem;margin:.4rem 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem;margin:1.3rem 0}
+.card{background:var(--cfaint);border:1px solid var(--line);border-radius:10px;padding:1rem;border-top:2px solid var(--blue);transition:transform .18s}
+.card:hover{transform:translateY(-2px)}
+.ci{font-size:1.6rem;display:block;margin-bottom:.35rem}
+.ct{font-family:"Cormorant Garamond",serif;font-size:.97rem;color:var(--cream);margin-bottom:.2rem}
+.cb{font-size:.82rem;color:rgba(224,232,244,.5);line-height:1.58}
+.comma-box{border:1px solid rgba(58,110,168,.22);border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;background:rgba(58,110,168,.04)}
+.cb-label{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(58,110,168,.45);margin-bottom:.4rem}
+.cb-body{font-size:.88rem;color:rgba(224,232,244,.55);line-height:1.82}
+.cb-body strong{color:var(--blt)}
+/* CLIMATE SIM */
+.sim-wrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.sim-header{background:rgba(224,232,244,.03);padding:.6rem 1rem;display:flex;align-items:center;gap:.7rem;border-bottom:1px solid var(--line)}
+.sim-title{font-family:"JetBrains Mono",monospace;font-size:.43rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cdim)}
+.sim-dot{width:7px;height:7px;border-radius:50%;animation:spulse 2s ease-in-out infinite}
+@keyframes spulse{0%,100%{opacity:.3}50%{opacity:1}}
+.sim-dot.live{background:var(--red)}
+.sim-controls{padding:.7rem 1rem;background:rgba(224,232,244,.02);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:.5rem}
+.ctrl-row{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.ctrl-label{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(224,232,244,.35);min-width:120px}
+.ctrl-val{font-family:"JetBrains Mono",monospace;font-size:.42rem;color:var(--blt);min-width:40px}
+input[type=range]{flex:1;min-width:100px;accent-color:var(--blue);max-width:260px}
+.sim-btn{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase;padding:.26rem .6rem;border-radius:5px;border:1px solid var(--line);background:rgba(224,232,244,.04);color:var(--cdim);cursor:pointer;transition:all .15s}
+.sim-btn:hover,.sim-btn.active{background:rgba(200,80,64,.12);border-color:rgba(200,80,64,.3);color:var(--rlt)}
+.sim-btn.green:hover,.sim-btn.green.active{background:rgba(74,158,106,.12);border-color:rgba(74,158,106,.3);color:var(--glt)}
+.sim-stats{display:flex;gap:1rem;flex-wrap:wrap;padding:.5rem 1rem;background:rgba(224,232,244,.01)}
+.stat-item{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.04em;text-transform:uppercase;color:rgba(224,232,244,.35)}
+.stat-item span{color:var(--blt);margin-left:.3rem}
+canvas.sim{display:block;width:100%}
+.acc{background:var(--cfaint);border:1px solid var(--line);border-radius:10px;margin:.6rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.7rem;padding:.85rem 1.1rem;cursor:pointer;transition:background .15s}
+.acc-h:hover{background:rgba(224,232,244,.03)}
+.acc-badge{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .42rem;border-radius:4px;flex-shrink:0}
+.acc-badge.b{background:rgba(58,110,168,.1);color:var(--blt);border:1px solid rgba(58,110,168,.2)}
+.acc-badge.r{background:rgba(200,80,64,.1);color:var(--rlt);border:1px solid rgba(200,80,64,.2)}
+.acc-badge.g{background:rgba(74,158,106,.1);color:var(--glt);border:1px solid rgba(74,158,106,.2)}
+.acc-title{font-family:"EB Garamond",serif;font-size:.96rem;color:var(--cream);flex:1}
+.acc-tog{font-family:"JetBrains Mono",monospace;font-size:.42rem;color:rgba(224,232,244,.18);flex-shrink:0}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.acc-body.open{max-height:3000px;padding:0 1.1rem 1.1rem}
+.acc-body p{font-size:.9rem;color:rgba(224,232,244,.58);line-height:1.85;margin-bottom:.65rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--cream)}
+.acc-body em{color:var(--alt)}
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);position:relative;z-index:2}
+.fla{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.07em;color:rgba(224,232,244,.2);text-decoration:none;text-transform:uppercase;padding:.18rem .42rem;transition:color .2s}
+.fla:hover{color:var(--blt)}
+</style>
+</head>
+<body>
+<nav>
+  <span class="nb">Musica Universalis</span>
+  <div class="nl">
+    <a href="#astro">Astrobiology</a><a href="#earth">Earth</a>
+    <a href="#climate">Climate</a><a href="#prepare">Prepare</a>
+    <a href="origins_of_life.html">Origins</a><a href="index.html">Home</a>
+  </div>
+</nav>
+<div class="page">
+<section class="hero">
+  <canvas id="hcanvas"></canvas>
+  <div class="h-eye">Section XVII · Astrobiology · Earth · Climate · Comma Framework</div>
+  <h1>Life in the<br><em>Cosmos</em></h1>
+  <div class="h-rule"></div>
+  <p class="h-sub">What we know about life beyond Earth, the composition and history of the planet that made us, and a kinetic model of the climate as a system approaching a threshold.</p>
+</section>
+
+<!-- ASTROBIOLOGY -->
+<section class="sec" id="astro">
+  <div class="sec-lbl" style="color:var(--blt)">01 · Astrobiology · Life in the Universe</div>
+  <h2>What we know about<br><em>life beyond Earth</em></h2>
+  <p class="lead">Astrobiology is the study of the origin, evolution, and distribution of life in the universe. It is the only science whose subject of study has, so far, exactly one confirmed example. Everything we know about life beyond Earth, we know by inference — from what life can survive, from what chemistry the cosmos produces, from what worlds might harbor liquid water.</p>
+  <div class="cards">
+    <div class="card"><span class="ci">🧬</span><div class="ct">Life is chemistry</div><div class="cb">All known life uses carbon-based chemistry, water as solvent, ATP as energy currency. These choices may be universal or contingent — we don't know yet.</div></div>
+    <div class="card"><span class="ci">💧</span><div class="ct">Liquid water</div><div class="cb">The habitable zone is defined by liquid water at the surface. But subsurface oceans (Europa, Enceladus, Titan) extend the zone dramatically. Ice-covered oceans may be the most common habitable environment in the galaxy.</div></div>
+    <div class="card"><span class="ci">⚡</span><div class="ct">Energy source</div><div class="cb">Photosynthesis, chemosynthesis, radiolysis. Life at hydrothermal vents needs no sunlight. Life in subsurface rock lives on radioactive decay products. The energy requirement for life is very flexible.</div></div>
+    <div class="card"><span class="ci">🌡</span><div class="ct">Extremophiles</div><div class="cb">Life exists in boiling acid (pH 0, 100°C), in -20°C brine, in 10 km depth rock, in the stratosphere, inside nuclear reactors. The range of survivable conditions is far wider than expected. Life explores the edges.</div></div>
+    <div class="card"><span class="ci">☁</span><div class="ct">Organic molecules</div><div class="cb">Amino acids in meteorites (Murchison, 2021 Ryugu samples), sugars in molecular clouds, complex organics in comet Churyumov-Gerasimenko. The building blocks of life are everywhere in the cosmos.</div></div>
+    <div class="card"><span class="ci">🔭</span><div class="ct">Biosignatures</div><div class="cb">James Webb Space Telescope can detect atmospheric O₂, CH₄, N₂O, and even dimethyl sulfide (a potential marine biosignature) in nearby exoplanet atmospheres. The tools for detection now exist.</div></div>
+  </div>
+  <div class="acc">
+    <div class="acc-h" onclick="tog('candidates')">
+      <span class="acc-badge b">Candidates</span>
+      <span class="acc-title">Best candidates for life in our solar system — what the evidence says</span>
+      <span class="acc-tog" id="at-candidates">▼</span>
+    </div>
+    <div class="acc-body" id="ab-candidates">
+      <p><strong>Europa (Jupiter's moon):</strong> A global saltwater ocean beneath ~10–30 km of ice, kept liquid by tidal flexing. The ocean is in contact with a rocky seafloor — hydrothermal activity likely. Organic chemistry probable. The magnetic induction signal confirms the ocean exists. NASA's Europa Clipper mission launched 2024, arriving 2030. <em>Best bet for extraterrestrial life.</em></p>
+      <p><strong>Enceladus (Saturn's moon):</strong> Plumes of water ice and organic molecules actively venting from the south polar ocean through the ice shell into space. Cassini flew through and detected H₂, CO₂, methane — the chemical signatures of hydrothermal venting. Methane levels higher than abiotic chemistry alone predicts. <em>Could be actively venting life into space right now.</em></p>
+      <p><strong>Mars:</strong> Was wet and warm 3.8+ billion years ago — rivers, lakes, possibly an ocean. Perseverance rover is currently caching samples near an ancient river delta. Methane fluctuations in the atmosphere (seasonal, localized) remain unexplained — biological or geological? <em>Best case: ancient fossil life. Possible: subsurface microbial life today.</em></p>
+      <p><strong>Titan (Saturn's moon):</strong> Dense nitrogen atmosphere, lakes and seas of liquid methane and ethane, complex organic chemistry, possible subsurface water ocean. Life based on a different solvent? Dragonfly mission launching 2028. <em>Most exotic possibility.</em></p>
+      <p><strong>Venus:</strong> The 2020 phosphine claim (Greaves et al.) — a potential biosignature in the cloud layer — was controversial and the statistical significance has been debated. But the cloud layer at 50–60 km altitude has Earth-like temperatures and pressures. <em>Highly speculative but not ruled out.</em></p>
+    </div>
+  </div>
+  <div class="comma-box">
+    <div class="cb-label">Comma Framework · Life as a Cosmic Comma</div>
+    <div class="cb-body">The universe trends toward equilibrium — toward maximum entropy, dead chemistry, cold uniformity. Life is the local, temporary, astonishing exception: matter that <strong>maintains its own disequilibrium</strong>, that uses energy to sustain complexity rather than dissipate into simplicity. Every living cell is a comma in the thermodynamic sentence that otherwise trends toward a period. Astrobiology asks: <strong>how many commas are there, in how many places?</strong> The answer changes everything about the meaning of the comma we already know.</div>
+  </div>
+</section>
+
+<!-- EARTH COMPOSITION -->
+<section class="sec" id="earth">
+  <div class="sec-lbl" style="color:var(--blt)">02 · Earth · Composition · History · Conditions</div>
+  <h2>The composition of<br><em>the Earth</em></h2>
+  <p class="lead">Earth is not a passive stage for life — it is a co-author. The planet's composition, its geological cycles, its magnetic field, its atmosphere, its plate tectonics: all are active participants in the evolution of life and the maintenance of habitability.</p>
+  <div class="panel blue">
+    <div class="ptag">Earth's Composition — by Layer</div>
+    <ul>
+      <li><strong>Inner core (1,220 km radius):</strong> Solid iron-nickel alloy. 5,000–6,000°C. Pressure prevents melting despite extreme heat. Rotates slightly faster than the mantle — the source of Earth's magnetic field through the geodynamo.</li>
+      <li><strong>Outer core (2,260 km thick):</strong> Liquid iron-nickel. Convective currents generate the magnetic field that protects Earth's atmosphere from solar wind stripping. Without it: Mars scenario — atmosphere lost over billions of years.</li>
+      <li><strong>Mantle (2,900 km thick):</strong> Silicate rock, solid but flows over geological timescales (convection cells drive plate tectonics). Upper mantle (~1,300°C), lower mantle (~3,700°C). The driver of the rock cycle and volcanism.</li>
+      <li><strong>Crust (5–70 km thick):</strong> Oceanic crust (basalt, ~5–10 km, denser, younger, constantly recycled at subduction zones) and continental crust (granite, up to 70 km, less dense, preserves the oldest rocks — 4.03 billion years in Canada). The stage of the biosphere.</li>
+    </ul>
+  </div>
+  <div class="panel cyan">
+    <div class="ptag">The Great Oxygenation Event — Life Changed the Planet</div>
+    <p>~2.45 billion years ago, cyanobacteria began releasing oxygen as a byproduct of photosynthesis. Oxygen was initially absorbed by dissolved iron in the oceans (forming the banded iron formations that we now mine). When the iron was saturated, <strong>oxygen began accumulating in the atmosphere.</strong> This was catastrophic for the anaerobic organisms that dominated life at the time — oxygen was toxic to them. It was the first mass extinction. And it was caused by life itself. The planet's atmosphere was fundamentally transformed by a single metabolic innovation. <strong>Life does not merely adapt to the planet — it reshapes the planet's chemistry.</strong> The Gaia hypothesis (Lovelock) describes Earth as a self-regulating system — not a conscious entity, but a system in which life and geology are so deeply coupled that neither can be understood independently.</p>
+  </div>
+</section>
+
+<!-- CLIMATE SIMULATOR -->
+<section class="sec" id="climate">
+  <div class="sec-lbl" style="color:var(--rlt)">03 · Climate Change Simulator · Kinetics + Comma Framework</div>
+  <h2>Earth's temperature:<br><em>a kinetic system approaching threshold</em></h2>
+  <p class="lead">The climate is a kinetic system — a balance of energy inputs (solar radiation absorbed) and energy outputs (infrared radiation emitted). Greenhouse gases reduce the rate of energy output by absorbing outgoing infrared. The comma framework: every feedback loop is a comma — it either returns the system to stability or amplifies the departure. When enough feedbacks cross threshold, the comma becomes irreversible.</p>
+
+  <div class="sim-wrap">
+    <div class="sim-header">
+      <div class="sim-dot live"></div>
+      <div class="sim-title">Earth Climate Model · Kinetic Energy Balance</div>
+    </div>
+    <div class="sim-controls">
+      <div class="ctrl-row">
+        <span class="ctrl-label">CO₂ level (ppm)</span>
+        <input type="range" id="co2-slider" min="280" max="1200" value="420" oninput="updateClimate()">
+        <span class="ctrl-val" id="co2-val">420 ppm</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Solar output (%)</span>
+        <input type="range" id="solar-slider" min="90" max="110" value="100" oninput="updateClimate()">
+        <span class="ctrl-val" id="solar-val">100%</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Albedo (ice cover)</span>
+        <input type="range" id="albedo-slider" min="10" max="80" value="30" oninput="updateClimate()">
+        <span class="ctrl-val" id="albedo-val">30%</span>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label">Methane (ppb)</span>
+        <input type="range" id="ch4-slider" min="700" max="4000" value="1900" oninput="updateClimate()">
+        <span class="ctrl-val" id="ch4-val">1900 ppb</span>
+      </div>
+      <div class="ctrl-row">
+        <button class="sim-btn active" onclick="setScenario('preindustrial')">Pre-industrial (1750)</button>
+        <button class="sim-btn" onclick="setScenario('today')">Today (2025)</button>
+        <button class="sim-btn" onclick="setScenario('rcp45')">+2°C scenario</button>
+        <button class="sim-btn" onclick="setScenario('rcp85')">+4°C scenario</button>
+        <button class="sim-btn" onclick="setScenario('snowball')">Snowball Earth</button>
+        <button class="sim-btn green" onclick="setScenario('ideal')">Net Zero pathway</button>
+      </div>
+    </div>
+    <div class="sim-stats">
+      <div class="stat-item">Temp: <span id="temp-val">14.0°C</span></div>
+      <div class="stat-item">Anomaly: <span id="anom-val">+0.0°C</span></div>
+      <div class="stat-item">Forcing: <span id="force-val">0.0 W/m²</span></div>
+      <div class="stat-item">Status: <span id="status-val">Stable</span></div>
+      <div class="stat-item">Threshold: <span id="thresh-val">—</span></div>
+    </div>
+    <canvas id="climate-canvas" class="sim" width="860" height="340"></canvas>
+  </div>
+
+  <div class="panel red">
+    <div class="ptag">The Kinetics of Climate — Why It Is Not Linear</div>
+    <p>The basic energy balance equation: <strong>ΔT = λ × ΔF</strong>, where ΔT is temperature change, λ is the climate sensitivity parameter (~0.8°C per W/m² for direct forcing), and ΔF is the radiative forcing in W/m². The forcing from CO₂ follows a logarithmic relationship: <strong>ΔF = 5.35 × ln(C/C₀)</strong> W/m², where C is the current CO₂ concentration and C₀ is the pre-industrial baseline (280 ppm). This means doubling CO₂ from 280 to 560 ppm gives ~3.7 W/m² forcing. But the full equilibrium sensitivity (including all feedbacks) is 2.5–4°C per doubling.</p>
+    <p><strong>The feedbacks are the commas.</strong> Ice-albedo feedback: warming melts ice → darker ocean absorbs more sunlight → more warming (positive feedback, amplifying comma). Water vapor: warming increases atmospheric water vapor → stronger greenhouse → more warming (largest positive feedback). Cloud feedbacks: complex — low clouds cool, high clouds warm; net effect uncertain. Permafrost methane: warming thaws permafrost → releases CH₄ (80× more potent than CO₂ over 20 years) → more warming. The carbon cycle: ocean acidification reduces CO₂ uptake by marine organisms. <strong>These are all commas that may become irreversible once crossed.</strong></p>
+  </div>
+  <div class="acc">
+    <div class="acc-h" onclick="tog('tipping')">
+      <span class="acc-badge r">Tipping Points</span>
+      <span class="acc-title">The tipping points — kairos thresholds of the climate system</span>
+      <span class="acc-tog" id="at-tipping">▼</span>
+    </div>
+    <div class="acc-body" id="ab-tipping">
+      <p><strong>West Antarctic Ice Sheet (WAIS):</strong> ~1.5–2°C threshold. Marine ice sheet instability — once enough of the grounding line retreats into deeper water, the collapse becomes self-sustaining. Sea level rise: 3–5 meters over centuries.</p>
+      <p><strong>Greenland Ice Sheet:</strong> ~1.5–2°C threshold. Complete loss would raise sea level 7 meters. Albedo-elevation feedback: as the surface lowers, it enters warmer air, melting faster. Timescale: centuries to millennia.</p>
+      <p><strong>Amazon Dieback:</strong> ~3–4°C local warming or ~20–25% deforestation threshold. The Amazon generates its own rainfall through transpiration. Cross the threshold and it can flip from tropical rainforest to savanna — releasing ~90 billion tonnes of carbon.</p>
+      <p><strong>Permafrost (Arctic):</strong> No well-defined threshold — gradual release from +1°C already underway. Total carbon locked in permafrost: ~1,500 billion tonnes (twice current atmospheric carbon). Self-reinforcing once started.</p>
+      <p><strong>Atlantic Meridional Overturning Circulation (AMOC):</strong> Weakening detected. A collapse would dramatically cool Northern Europe, disrupt monsoons, and alter precipitation globally. Threshold poorly constrained but may be within 1.5–4°C.</p>
+      <p><strong>The cascade risk:</strong> 2018 Steffen et al. paper in PNAS introduced the concept of "Hothouse Earth" — a scenario where cascading tipping points interact and drive warming far beyond what greenhouse gas emissions alone would produce. The system has its own momentum once enough commas tip.</p>
+    </div>
+  </div>
+  <div class="comma-box">
+    <div class="cb-label">Are You a Meteorologist? Can You Prepare?</div>
+    <div class="cb-body">The meteorologist models the atmosphere — a chaotic system where initial conditions determine outcomes and predictions have a finite horizon (~10 days for weather, decades for climate trends). The climate system is different from weather: it is the statistical ensemble, the long-term behavior of the atmosphere-ocean system. You cannot predict the weather on March 6, 2045 — but you can predict that summers will be hotter and extreme events more frequent. <strong>Preparation operates on the same principle as the comma framework: you cannot prevent the system from changing, but you can shape the conditions that determine where it crosses its next threshold.</strong> Decarbonization does not prevent all warming — it determines whether we stop at 1.5°C (a difficult comma) or 4°C (a civilizationally dangerous tipping cascade). The difference is not "avoid the problem" — it is "choose your threshold." Preparation: coastal adaptation, heat infrastructure, food system resilience, water security, emergency cooling — all of these are preparations for the comma that is already in motion.</div>
+  </div>
+</section>
+
+<!-- WHAT IS ALIVE -->
+<section class="sec" id="prepare">
+  <div class="sec-lbl" style="color:var(--glt)">04 · What Is Actually Alive? · Philosophical Question</div>
+  <h2>Are tornadoes alive?<br><em>Trees? Fungal networks? Fires?</em></h2>
+  <p class="lead">The question "what is alive?" seems obvious until you press it. The standard definition (metabolism, reproduction, homeostasis, response to stimuli, growth, organization) breaks down at the edges. And the edges are where the most interesting life is.</p>
+  <div class="panel green">
+    <div class="ptag">The Edge Cases — Testing the Definition</div>
+    <p><strong>Viruses:</strong> Cannot metabolize, cannot reproduce independently, have no metabolism outside a host. But they carry and express genetic information, evolve by natural selection, and are extraordinarily successful at persisting and spreading. Most biologists say: not alive, but near the edge. More accurately: they are parasites of the living, which is itself a kind of life-adjacent existence.</p>
+    <p><strong>Tornadoes:</strong> Self-organizing, energy-dissipating structures that maintain their form against entropy. They respond to conditions (a tornado "seeks" low pressure). They can reproduce (spawning daughter tornadoes). They are not alive — they lack heredity, they have no internal chemistry, they leave no descendants in any meaningful sense. But they are <em>self-organizing non-equilibrium systems</em> — the same category as life. The physicist Prigogine called them "dissipative structures." Life is a very specific kind of dissipative structure — one with hereditary information.</p>
+    <p><strong>Forests and fungal networks (mycorrhizae):</strong> Forests communicate through the "Wood Wide Web" — mycorrhizal networks through which trees share carbon, water, and even chemical warning signals. Is the network alive? The individual fungi are. The network itself is a distributed, adaptive, information-processing system. Suzanne Simard's work shows older "mother trees" preferentially support seedlings — behavior that looks like care. Is this alive in a morally relevant sense? The question becomes ethical as well as biological.</p>
+    <p><strong>Fire:</strong> Consumes fuel, produces waste, "reproduces" by spreading, responds to oxygen availability. Not alive — no hereditary information, no metabolic self-regulation. But fire is how many ecosystems regulate themselves: fire-adapted landscapes use periodic burning as a homeostatic mechanism. The forest's relationship with fire might be more alive than the fire itself.</p>
+    <p><strong>What is ethical growth?</strong> The question of life connects directly to the question of ethical growth. A tumor grows. A cancer colony is alive in every biological sense — it metabolizes, reproduces, adapts. What makes growth ethical is not the growth itself but its relationship to the system it inhabits: whether it is regenerative or extractive, whether it restores or depletes, whether it participates in commas or converts commas into periods. <strong>Ethical growth is growth that includes its own ending as part of its design — that leaves the conditions for the next cycle rather than consuming them.</strong></p>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--blt);margin-bottom:.4rem">Astrobiology · Earth · Climate · What Is Alive</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(224,232,244,.18);margin-bottom:1rem">Section XVII · Musica Universalis · δ = 0.013643</div>
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="origins_of_life.html">Origins of Life</a>
+    <a class="fla" href="what_is_alive.html">Wolves & Deer</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+<script>
+// HERO
+(function(){
+  const c=document.getElementById("hcanvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  resize();window.addEventListener("resize",resize);
+  const stars=[];for(let i=0;i<120;i++)stars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.5+.3,a:Math.random()*.6+.1,twinkle:Math.random()*Math.PI*2});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      const alpha=s.a*(0.7+0.3*Math.sin(t*.02+s.twinkle));
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(224,232,244,${alpha})`;ctx.fill();
+    });
+    // Earth glow at bottom
+    const eg=ctx.createRadialGradient(W/2,H+100,0,W/2,H+100,W*.7);
+    eg.addColorStop(0,"rgba(58,110,168,.15)");eg.addColorStop(1,"rgba(58,110,168,0)");
+    ctx.fillStyle=eg;ctx.fillRect(0,0,W,H);
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// CLIMATE SIMULATOR
+const CLIMATE={co2:420,solar:100,albedo:30,ch4:1900};
+const histT=[];const histYear=[];
+let climT=0;
+
+function calcTemp(){
+  const c=CLIMATE;
+  const co2Forcing=5.35*Math.log(c.co2/280);
+  const ch4Forcing=0.036*(Math.sqrt(c.ch4)-Math.sqrt(722));
+  const solarForcing=(c.solar-100)*0.17;
+  const albedoForcing=-(c.albedo-30)*0.08;
+  const totalForcing=co2Forcing+ch4Forcing+solarForcing+albedoForcing;
+  const sensitivity=0.8;
+  const dT=totalForcing*sensitivity;
+  const T=14+dT;
+  return{T:T,forcing:totalForcing,anomaly:dT};
+}
+
+function updateClimate(){
+  CLIMATE.co2=+document.getElementById("co2-slider").value;
+  CLIMATE.solar=+document.getElementById("solar-slider").value;
+  CLIMATE.albedo=+document.getElementById("albedo-slider").value;
+  CLIMATE.ch4=+document.getElementById("ch4-slider").value;
+  document.getElementById("co2-val").textContent=CLIMATE.co2+" ppm";
+  document.getElementById("solar-val").textContent=CLIMATE.solar+"%";
+  document.getElementById("albedo-val").textContent=CLIMATE.albedo+"%";
+  document.getElementById("ch4-val").textContent=CLIMATE.ch4+" ppb";
+  const res=calcTemp();
+  document.getElementById("temp-val").textContent=res.T.toFixed(1)+"°C";
+  const sign=res.anomaly>=0?"+":"";
+  document.getElementById("anom-val").textContent=sign+res.anomaly.toFixed(2)+"°C";
+  document.getElementById("force-val").textContent=(res.forcing>=0?"+":"")+res.forcing.toFixed(2)+" W/m²";
+  let status,thresh;
+  if(res.anomaly<1){status="Pre-tipping";thresh="Safe"}
+  else if(res.anomaly<1.5){status="Paris limit";thresh="1 tipping approaching"}
+  else if(res.anomaly<2){status="⚠ Dangerous";thresh="WAIS/Greenland risk"}
+  else if(res.anomaly<3){status="🔴 Critical";thresh="Multiple tipping points"}
+  else if(res.anomaly<4){status="🔴 Cascade risk";thresh="Amazon dieback possible"}
+  else{status="☠ Hothouse";thresh="Cascade locked in"}
+  document.getElementById("status-val").textContent=status;
+  document.getElementById("thresh-val").textContent=thresh;
+  // Add to history
+  histT.push(res.T);histYear.push(histT.length);
+  if(histT.length>200){histT.shift();histYear.shift();}
+  drawClimate(res);
+}
+
+function setScenario(s){
+  const scenarios={
+    preindustrial:{co2:280,solar:100,albedo:32,ch4:722},
+    today:{co2:423,solar:100,albedo:30,ch4:1900},
+    rcp45:{co2:550,solar:100,albedo:28,ch4:2000},
+    rcp85:{co2:900,solar:100,albedo:24,ch4:3500},
+    snowball:{co2:280,solar:94,albedo:75,ch4:700},
+    ideal:{co2:350,solar:100,albedo:31,ch4:1200}
+  };
+  const sc=scenarios[s]||scenarios.today;
+  CLIMATE.co2=sc.co2;CLIMATE.solar=sc.solar;CLIMATE.albedo=sc.albedo;CLIMATE.ch4=sc.ch4;
+  document.getElementById("co2-slider").value=sc.co2;
+  document.getElementById("solar-slider").value=sc.solar;
+  document.getElementById("albedo-slider").value=sc.albedo;
+  document.getElementById("ch4-slider").value=sc.ch4;
+  histT.length=0;histYear.length=0;
+  updateClimate();
+  document.querySelectorAll(".sim-btn").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
+}
+
+function drawClimate(res){
+  const c=document.getElementById("climate-canvas");if(!c)return;
+  const ctx=c.getContext("2d");
+  const W=c.clientWidth||860,H=340;c.width=W;
+  ctx.clearRect(0,0,W,H);
+  // Background gradient based on temperature
+  const tFrac=Math.min(1,Math.max(0,(res.T-10)/25));
+  const bg=ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,`rgba(6,8,16,.95)`);
+  bg.addColorStop(1,`rgba(${Math.floor(6+tFrac*40)},${Math.floor(8+tFrac*10)},${Math.floor(16-tFrac*10)},.95)`);
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  // Earth (circle bottom center)
+  const ex=W/2,ey=H+100,er=180;
+  const eg=ctx.createRadialGradient(ex,ey,0,ex,ey,er);
+  const hotness=Math.min(1,(res.T-10)/20);
+  eg.addColorStop(0,`rgba(${Math.floor(30+hotness*100)},${Math.floor(80+hotness*20)},${Math.floor(200-hotness*150)},0.9)`);
+  eg.addColorStop(.6,`rgba(${Math.floor(20+hotness*60)},${Math.floor(60+hotness*30)},${Math.floor(120-hotness*80)},0.5)`);
+  eg.addColorStop(1,"rgba(6,8,16,0)");
+  ctx.beginPath();ctx.arc(ex,ey,er,0,Math.PI*2);ctx.fillStyle=eg;ctx.fill();
+  // Atmosphere glow
+  const atmThickness=Math.min(80,20+res.forcing*5);
+  const ag=ctx.createRadialGradient(ex,ey,er-5,ex,ey,er+atmThickness);
+  ag.addColorStop(0,`rgba(${Math.floor(58+hotness*80)},${Math.floor(110-hotness*40)},${Math.floor(168-hotness*80)},0.3)`);
+  ag.addColorStop(1,"rgba(6,8,16,0)");
+  ctx.beginPath();ctx.arc(ex,ey,er+atmThickness,0,Math.PI*2);ctx.fillStyle=ag;ctx.fill();
+  // Temperature history graph (left side)
+  if(histT.length>1){
+    const gx=30,gy=20,gw=W*.45,gh=H*.55;
+    ctx.fillStyle="rgba(224,232,244,.03)";ctx.fillRect(gx,gy,gw,gh);
+    ctx.strokeStyle="rgba(224,232,244,.08)";ctx.lineWidth=1;
+    // Grid lines
+    [10,12,14,16,18,20].forEach(t=>{
+      const y=gy+gh-(t-10)/(20-10)*gh;
+      ctx.beginPath();ctx.moveTo(gx,y);ctx.lineTo(gx+gw,y);ctx.stroke();
+      ctx.fillStyle="rgba(224,232,244,.3)";ctx.font="9px JetBrains Mono";
+      ctx.textAlign="right";ctx.fillText(t+"°C",gx-3,y+3);
+    });
+    // Danger zones
+    ctx.fillStyle="rgba(200,80,64,.06)";
+    const y15=gy+gh-(15-10)/(20-10)*gh;
+    const y2=gy+gh-(16-10)/(20-10)*gh;
+    ctx.fillRect(gx,y15,gw,y2-y15);
+    ctx.fillStyle="rgba(200,80,64,.1)";
+    ctx.fillRect(gx,gy,gw,y2-gy);
+    // Temperature line
+    ctx.beginPath();
+    histT.forEach((tt,i)=>{
+      const x=gx+i/histT.length*gw;
+      const y=gy+gh-(Math.min(20,Math.max(10,tt))-10)/(20-10)*gh;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    const lineHot=Math.min(1,(res.T-14)/6);
+    ctx.strokeStyle=`rgba(${Math.floor(74+lineHot*150)},${Math.floor(158-lineHot*90)},${Math.floor(106-lineHot*70)},0.8)`;
+    ctx.lineWidth=2;ctx.stroke();
+    // Labels
+    ctx.font="9px JetBrains Mono";ctx.fillStyle="rgba(224,232,244,.4)";
+    ctx.textAlign="left";ctx.fillText("Temperature History",gx+3,gy+12);
+    ctx.fillStyle="rgba(200,80,64,.6)";ctx.fillText("+1.5°C Paris",gx+3,y15-3);
+  }
+  // Right side: current readings
+  const rx=W*.55;
+  ctx.textAlign="left";
+  ctx.font="11px JetBrains Mono";
+  ctx.fillStyle="rgba(224,232,244,.35)";ctx.fillText("FORCING BREAKDOWN",rx,40);
+  const components=[
+    {label:"CO₂ forcing",val:(5.35*Math.log(CLIMATE.co2/280)).toFixed(2)+" W/m²",col:"rgba(200,80,64,.8)"},
+    {label:"CH₄ forcing",val:(0.036*(Math.sqrt(CLIMATE.ch4)-Math.sqrt(722))).toFixed(2)+" W/m²",col:"rgba(224,140,64,.8)"},
+    {label:"Solar",val:((CLIMATE.solar-100)*0.17).toFixed(2)+" W/m²",col:"rgba(224,200,64,.8)"},
+    {label:"Albedo",val:(-(CLIMATE.albedo-30)*0.08).toFixed(2)+" W/m²",col:"rgba(96,160,224,.8)"},
+    {label:"TOTAL",val:(res.forcing>=0?"+":"")+res.forcing.toFixed(2)+" W/m²",col:res.forcing>3?"rgba(200,64,64,.9)":"rgba(96,200,140,.8)"},
+  ];
+  components.forEach((c,i)=>{
+    ctx.fillStyle=c.col;ctx.font="10px JetBrains Mono";
+    ctx.fillText(c.label,rx,68+i*22);
+    ctx.textAlign="right";ctx.fillText(c.val,W-20,68+i*22);ctx.textAlign="left";
+  });
+  // Temperature display (large)
+  ctx.font=`bold 42px "Cormorant Garamond",serif`;
+  const tc=res.anomaly>3?"rgba(200,64,64,.9)":res.anomaly>1.5?"rgba(200,140,64,.9)":"rgba(96,200,140,.9)";
+  ctx.fillStyle=tc;ctx.textAlign="center";
+  ctx.fillText(res.T.toFixed(1)+"°C",W*.78,H*.65);
+  ctx.font=`12px "JetBrains Mono",monospace`;ctx.fillStyle="rgba(224,232,244,.35)";
+  ctx.fillText("Global Mean Surface Temperature",W*.78,H*.65+20);
+}
+
+// Initialize climate
+updateClimate();
+
+function tog(id){
+  const b=document.getElementById("ab-"+id);const tg=document.getElementById("at-"+id);
+  if(!b)return;const o=b.classList.toggle("open");if(tg)tg.textContent=o?"▲":"▼";
+}
+</script>
+</body>
+</html>

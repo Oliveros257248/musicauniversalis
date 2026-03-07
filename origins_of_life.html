@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Origins of Life · Krebs Cycle · Miller-Urey · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060A08;--bg2:#0C1410;--bg3:#121E16;
+  --green:#4A9E6A;--glt:#7ACA9A;--gdim:rgba(74,158,106,.32);
+  --amber:#C89832;--alt:#E4B85A;--adim:rgba(200,152,50,.3);
+  --volcanic:#E06040;--vlava:#FF8855;
+  --ocean:#2A6080;--olt:#5090B8;
+  --sky:#5080B0;--skylt:#80B0D8;
+  --cream:#E8F0E0;--cdim:rgba(232,240,224,.56);--cfaint:rgba(232,240,224,.04);
+  --line:rgba(232,240,224,.07);
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{color:var(--cdim);font-family:"EB Garamond",Georgia,serif;font-size:18px;line-height:1.85;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(74,158,106,.05),transparent),
+             radial-gradient(ellipse 30% 40% at 0% 70%,rgba(200,152,50,.03),transparent)}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.55rem 1.8rem;background:rgba(6,10,8,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(74,158,106,.12)}
+.nb{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1rem;color:var(--glt)}
+.nl{display:flex;gap:.05rem;flex-wrap:wrap}
+.nl a{font-family:"JetBrains Mono",monospace;font-size:.36rem;letter-spacing:.06em;color:var(--cdim);text-decoration:none;padding:.17rem .35rem;border-radius:3px;text-transform:uppercase;transition:color .15s}
+.nl a:hover{color:var(--glt)}
+.page{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:0 1.5rem 8rem}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 1rem 4rem;position:relative;overflow:hidden}
+#hcanvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.h-eye{font-family:"JetBrains Mono",monospace;font-size:.43rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(74,158,106,.4);margin-bottom:1.2rem;position:relative;z-index:2}
+.hero h1{font-family:"Cormorant Garamond",serif;font-size:clamp(2.8rem,8vw,5.2rem);font-weight:300;line-height:1.05;color:var(--cream);position:relative;z-index:2;margin-bottom:.3rem}
+.hero h1 em{font-style:italic;color:var(--glt)}
+.h-rule{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);margin:1.3rem auto;position:relative;z-index:2}
+.h-sub{font-family:"EB Garamond",serif;font-style:italic;font-size:1.05rem;color:var(--cdim);max-width:560px;line-height:2;position:relative;z-index:2}
+.sec{padding:3.5rem 0;border-top:1px solid var(--line);position:relative;z-index:2}
+.sec-lbl{font-family:"JetBrains Mono",monospace;font-size:.41rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.7rem;display:flex;align-items:center;gap:.6rem;color:var(--glt)}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--line)}
+h2{font-family:"Cormorant Garamond",serif;font-size:clamp(1.7rem,4vw,2.8rem);font-weight:300;line-height:1.1;margin-bottom:.6rem;color:var(--cream)}
+h2 em{font-style:italic;color:var(--glt)}
+h3{font-family:"Cormorant Garamond",serif;font-size:1.35rem;font-weight:300;color:var(--cream);margin:1.8rem 0 .5rem;font-style:italic}
+p{margin-bottom:1rem;line-height:1.88}
+p strong{color:var(--cream)}
+p em{color:var(--alt)}
+.lead{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:1.08rem;color:rgba(232,240,224,.68);line-height:2;margin-bottom:1.4rem}
+.panel{background:var(--cfaint);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.5rem;margin:1.2rem 0;position:relative;overflow:hidden}
+.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0}
+.panel.green::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.panel.amber::before{background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.panel.volc::before{background:linear-gradient(90deg,transparent,var(--volcanic),transparent)}
+.panel.ocean::before{background:linear-gradient(90deg,transparent,var(--ocean),transparent)}
+.ptag{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(232,240,224,.25);margin-bottom:.5rem}
+.panel p{font-size:.9rem;color:rgba(232,240,224,.58);line-height:1.82;margin-bottom:.55rem}
+.panel p:last-child{margin-bottom:0}
+.panel strong{color:var(--cream)}
+.panel em{color:var(--alt)}
+.panel ul{padding-left:1.2rem;margin:.4rem 0}
+.panel li{font-size:.9rem;color:rgba(232,240,224,.56);line-height:1.75;margin-bottom:.28rem}
+.panel li strong{color:var(--cream)}
+.comma-box{border:1px solid rgba(74,158,106,.2);border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;background:rgba(74,158,106,.03);position:relative}
+.comma-box::after{content:"，";position:absolute;top:.4rem;right:.7rem;font-size:2rem;color:rgba(74,158,106,.07);line-height:1}
+.cb-label{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(74,158,106,.4);margin-bottom:.4rem}
+.cb-body{font-size:.88rem;color:rgba(232,240,224,.55);line-height:1.82}
+.cb-body strong{color:var(--glt)}
+.acc{background:var(--cfaint);border:1px solid var(--line);border-radius:10px;margin:.6rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.7rem;padding:.85rem 1.1rem;cursor:pointer;transition:background .15s}
+.acc-h:hover{background:rgba(232,240,224,.03)}
+.acc-badge{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .42rem;border-radius:4px;flex-shrink:0}
+.acc-badge.g{background:rgba(74,158,106,.1);color:var(--glt);border:1px solid rgba(74,158,106,.2)}
+.acc-badge.a{background:rgba(200,152,50,.1);color:var(--alt);border:1px solid rgba(200,152,50,.2)}
+.acc-badge.v{background:rgba(224,96,64,.1);color:var(--vlava);border:1px solid rgba(224,96,64,.2)}
+.acc-badge.o{background:rgba(42,96,128,.15);color:var(--olt);border:1px solid rgba(42,96,128,.3)}
+.acc-title{font-family:"EB Garamond",serif;font-size:.96rem;color:var(--cream);flex:1;line-height:1.35}
+.acc-tog{font-family:"JetBrains Mono",monospace;font-size:.42rem;color:rgba(232,240,224,.18);flex-shrink:0}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.acc-body.open{max-height:3000px;padding:0 1.1rem 1.1rem}
+.acc-body p{font-size:.9rem;color:rgba(232,240,224,.58);line-height:1.85;margin-bottom:.65rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--cream)}
+.acc-body em{color:var(--alt)}
+/* SIMULATION CONTAINER */
+.sim-wrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1.5rem 0}
+.sim-header{background:rgba(232,240,224,.03);padding:.6rem 1rem;display:flex;align-items:center;gap:.7rem;border-bottom:1px solid var(--line)}
+.sim-title{font-family:"JetBrains Mono",monospace;font-size:.43rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cdim)}
+.sim-dot{width:7px;height:7px;border-radius:50%;animation:spulse 2s ease-in-out infinite}
+.sim-dot.live{background:var(--green)}
+@keyframes spulse{0%,100%{opacity:.3}50%{opacity:1}}
+.sim-controls{display:flex;gap:.5rem;flex-wrap:wrap;padding:.6rem 1rem;background:rgba(232,240,224,.02);border-bottom:1px solid var(--line)}
+.sim-btn{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase;padding:.28rem .65rem;border-radius:5px;border:1px solid var(--line);background:rgba(232,240,224,.04);color:var(--cdim);cursor:pointer;transition:all .15s}
+.sim-btn:hover,.sim-btn.active{background:rgba(74,158,106,.12);border-color:rgba(74,158,106,.3);color:var(--glt)}
+.sim-stats{display:flex;gap:1rem;flex-wrap:wrap;padding:.5rem 1rem;background:rgba(232,240,224,.01)}
+.stat-item{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.04em;text-transform:uppercase;color:rgba(232,240,224,.35)}
+.stat-item span{color:var(--glt);margin-left:.3rem}
+canvas.sim{display:block;width:100%;cursor:pointer}
+/* KREBS CANVAS */
+#krebs-canvas{display:block;width:100%;background:rgba(6,10,8,.8)}
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);position:relative;z-index:2}
+.fla{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.07em;color:rgba(232,240,224,.2);text-decoration:none;text-transform:uppercase;padding:.18rem .42rem;transition:color .2s}
+.fla:hover{color:var(--glt)}
+</style>
+</head>
+<body>
+<nav>
+  <span class="nb">Musica Universalis</span>
+  <div class="nl">
+    <a href="#krebs">Krebs</a><a href="#origins">Origins</a>
+    <a href="#miller">Miller-Urey</a><a href="#sim">Simulation</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+<div class="page">
+<section class="hero">
+  <canvas id="hcanvas"></canvas>
+  <div class="h-eye">Section XVI · Origins of Life · Krebs Cycle · Miller-Urey · Musica Universalis</div>
+  <h1>The <em>Origin</em><br>of Life</h1>
+  <div class="h-rule"></div>
+  <p class="h-sub">Before the first cell, before the first gene — there was chemistry finding its loop. The Krebs cycle as the comma of metabolism. The primordial puddle as the first kairos threshold.</p>
+</section>
+
+<!-- KREBS CYCLE -->
+<section class="sec" id="krebs">
+  <div class="sec-lbl">01 · The Krebs Cycle · The Loop That Became Life</div>
+  <h2>The Krebs cycle:<br><em>life as a chemical comma</em></h2>
+  <p class="lead">The Krebs cycle — also called the citric acid cycle or TCA cycle — is the central metabolic engine of nearly every living cell on Earth. It does not produce much ATP directly. What it does is more fundamental: it <em>turns molecules</em> — it regenerates the carriers that power the entire cell, strips carbon, captures electrons, and returns to its starting molecule. It is a loop. A comma. A cycle that can only mean anything because it comes back.</p>
+  <div id="krebs-wrap" class="sim-wrap">
+    <div class="sim-header">
+      <div class="sim-dot live"></div>
+      <div class="sim-title">Krebs Cycle / TCA Cycle · Interactive Diagram</div>
+    </div>
+    <canvas id="krebs-canvas" width="860" height="440"></canvas>
+  </div>
+  <div class="panel green">
+    <div class="ptag">What the Krebs Cycle Actually Does</div>
+    <p>The cycle begins when <strong>Acetyl-CoA</strong> (a 2-carbon fragment from glucose, fatty acids, or amino acids) enters and joins with <strong>Oxaloacetate</strong> (4 carbons) to form <strong>Citrate</strong> (6 carbons). Over eight enzymatic steps, the cycle: (1) releases 2 CO₂ molecules (stripping carbons back out), (2) produces 3 NADH and 1 FADH₂ (electron carriers that power the electron transport chain — where most ATP is actually made), (3) produces 1 GTP/ATP directly, and (4) <em>regenerates oxaloacetate</em> — the molecule it started with. The cycle is complete. Ready to receive the next acetyl group.</p>
+    <p>This is why it is a comma, not a period. <strong>Oxaloacetate is not consumed — it is the instrument that plays the same note in every measure.</strong> The cycle does not progress toward a destination. It turns. Each turn extracts energy from carbon bonds and packages it as electron carriers. The electron transport chain then cashes those carriers in for 34 of the 36–38 ATP per glucose molecule. The Krebs cycle is the middle movement of the cellular energy symphony.</p>
+    <p><strong>Why does it matter for the origin of life?</strong> Because the Krebs cycle — or a simpler ancestral version of it running in reverse — may have been one of the first self-sustaining chemical reactions on the early Earth. Running backwards (reductive TCA cycle), it <em>builds</em> organic molecules from CO₂ rather than breaking them down. It is how early life may have fixed carbon before photosynthesis existed.</p>
+  </div>
+  <div class="acc">
+    <div class="acc-h" onclick="tog('krebs-steps')">
+      <span class="acc-badge g">8 Steps</span>
+      <span class="acc-title">The eight reactions of the Krebs cycle — all molecules, all enzymes</span>
+      <span class="acc-tog" id="at-krebs-steps">▼</span>
+    </div>
+    <div class="acc-body" id="ab-krebs-steps">
+      <p><strong>1. Citrate synthase:</strong> Acetyl-CoA (2C) + Oxaloacetate (4C) → Citrate (6C). The entry point. CoA is released. The cycle has begun its comma.</p>
+      <p><strong>2. Aconitase:</strong> Citrate → Isocitrate. Rearrangement — moving the hydroxyl group to prepare for the next step. Fluorocitrate (the active ingredient in some pesticides) blocks this step, which is why it kills.</p>
+      <p><strong>3. Isocitrate dehydrogenase:</strong> Isocitrate → α-Ketoglutarate + CO₂ + NADH. <em>First CO₂ released. First NADH captured.</em> A carbon leaves the cycle. The molecule shrinks from 6C to 5C.</p>
+      <p><strong>4. α-Ketoglutarate dehydrogenase:</strong> α-Ketoglutarate → Succinyl-CoA + CO₂ + NADH. <em>Second CO₂ released. Second NADH.</em> Now 4C. Both carbons that entered as acetyl-CoA have been released as CO₂ — but the cycle has not ended. It continues through the 4-carbon scaffold.</p>
+      <p><strong>5. Succinyl-CoA synthetase:</strong> Succinyl-CoA → Succinate + GTP (or ATP). The only step that directly produces a high-energy phosphate. CoA is released again.</p>
+      <p><strong>6. Succinate dehydrogenase:</strong> Succinate → Fumarate + FADH₂. Embedded in the inner mitochondrial membrane. FADH₂ captured — this enzyme is also Complex II of the electron transport chain.</p>
+      <p><strong>7. Fumarase:</strong> Fumarate → Malate. Water addition across the double bond. Simple hydration.</p>
+      <p><strong>8. Malate dehydrogenase:</strong> Malate → Oxaloacetate + NADH. <em>Third NADH.</em> And oxaloacetate is regenerated. <strong>The comma completes. The cycle returns to its beginning. Ready.</strong></p>
+      <p>Net per turn: 2 CO₂ out, 3 NADH, 1 FADH₂, 1 GTP. Per glucose (two pyruvates → two acetyl-CoA → two turns): 6 NADH, 2 FADH₂, 2 GTP, 4 CO₂.</p>
+    </div>
+  </div>
+  <div class="comma-box">
+    <div class="cb-label">Comma Framework · The Krebs Cycle as Biological Comma</div>
+    <div class="cb-body">The comma is the pause that is not an ending — it is the return that makes continuation possible. The Krebs cycle is the most fundamental biological comma in existence: a chemical reaction that <strong>returns to its starting molecule</strong> so that the next round of inputs can be processed. Without the comma — without oxaloacetate regenerating — the cycle would run once and stop. Every breath you take, every movement you make, every synapse that fires: it is all downstream of this eight-step comma happening billions of times per second in your mitochondria. <strong>Life is the comma that learned to sustain itself.</strong></div>
+  </div>
+</section>
+
+<!-- ORIGINS OF LIFE -->
+<section class="sec" id="origins">
+  <div class="sec-lbl">02 · The Origins of Life · What We Actually Know</div>
+  <h2>How did life begin?<br><em>What the evidence says</em></h2>
+  <p class="lead">4.5 billion years ago: Earth forms. 4.1 billion: first geological evidence of water. 3.7–3.5 billion: first microfossils and stromatolites. That is an astonishingly short window — within 500 million years of Earth forming, life was already here. Something crossed the threshold from chemistry to biology with remarkable speed. We do not fully know how. Here is what we do know.</p>
+  <div class="panel amber">
+    <div class="ptag">The Four Unsolved Problems — and the Current Best Answers</div>
+    <p><strong>1. The monomer problem (solved):</strong> Simple organic molecules — amino acids, nucleotides, sugars — can be synthesized abiotically from inorganic precursors. The Miller-Urey experiment (1953) proved this. More recent work has synthesized all four RNA nucleotides abiotically. The building blocks can arise from chemistry alone. ✓</p>
+    <p><strong>2. The polymer problem (partially solved):</strong> How do monomers link into polymers (proteins, RNA) without enzymes — when polymerization normally requires the removal of water? Wet-dry cycles on mineral surfaces (particularly clay and montmorillonite) catalyze polymerization. Hydrothermal vent chemistry also produces conditions for phosphorylation. The mechanism exists; the specific early-Earth conditions remain debated. ✓~</p>
+    <p><strong>3. The information problem (the hardest):</strong> Which came first — proteins (catalysts) or RNA (information)? Proteins cannot replicate without RNA; RNA cannot fold and function without proteins. The current leading answer: <em>RNA World</em> — RNA can both carry information AND catalyze reactions. Ribozymes (RNA enzymes) are real. The ribosome itself is fundamentally an RNA machine with proteins added later. RNA first, then proteins. ✓~</p>
+    <p><strong>4. The compartmentalization problem (partially solved):</strong> Reactions need to be enclosed to concentrate and co-evolve. Fatty acids (simpler than phospholipids) spontaneously form vesicles in water and can encapsulate RNA. These proto-cells can grow, divide, and exchange contents. No proteins needed for this step. ✓~</p>
+  </div>
+  <div class="acc">
+    <div class="acc-h" onclick="tog('venues')">
+      <span class="acc-badge v">Venues</span>
+      <span class="acc-title">Where did life start? Hydrothermal vents vs warm little ponds — the debate</span>
+      <span class="acc-tog" id="at-venues">▼</span>
+    </div>
+    <div class="acc-body" id="ab-venues">
+      <p><strong>Hydrothermal vents (alkaline):</strong> Nick Lane and Mike Russell argue that alkaline hydrothermal vents (like Lost City) provide a natural proton gradient across mineral membranes — the same chemiosmotic gradient that modern cells use to make ATP. These vents are rich in H₂, CO₂, and Fe-S mineral catalysts. The first metabolism may have been a geochemical version of what our mitochondria do. <em>Strong case for metabolism-first.</em></p>
+      <p><strong>Warm little ponds (Darwin) / tidal pools:</strong> Darwin's "warm little pond" has been vindicated in some ways. Jack Szostak's Harvard lab showed that wet-dry cycling on mineral surfaces can polymerize RNA, create vesicles, and even produce selective amplification of sequences. UV light drives chemistry. Temperature gradients concentrate molecules. <em>Strong case for RNA-first.</em></p>
+      <p><strong>Ice:</strong> Frozen environments concentrate solutes, provide a stable liquid-water phase at the ice-water interface, and slow degradation reactions. RNA can be preserved and replicated in ice. Ice world origin theories are gaining experimental support.</p>
+      <p><strong>The honest answer:</strong> Life may have started in multiple environments simultaneously, with one environment providing the initial chemistry that was then transferred or that independently converged on similar solutions. The Earth was vastly more heterogeneous 4 billion years ago than any single experiment can capture.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MILLER-UREY -->
+<section class="sec" id="miller">
+  <div class="sec-lbl">03 · The Miller-Urey Experiment · 1953</div>
+  <h2>Stanley Miller &amp; Harold Urey:<br><em>lightning in a flask</em></h2>
+  <p class="lead">In 1953, a 23-year-old graduate student named Stanley Miller, working under Nobel laureate Harold Urey at the University of Chicago, set up a sealed glass apparatus containing what they believed was the early Earth atmosphere, ran electric sparks through it for a week, and produced amino acids. It was the first experimental demonstration that the chemistry of life could arise from the chemistry of the early Earth.</p>
+  <div class="panel volc">
+    <div class="ptag">The Experiment</div>
+    <p><strong>Setup:</strong> A 5-liter flask containing water (simulating the ocean), connected to a smaller flask containing a "reducing atmosphere" of methane (CH₄), ammonia (NH₃), hydrogen (H₂), and water vapor. Electric sparks simulated lightning. A condenser cooled the gases, and the "rain" fell back into the ocean flask. The cycle ran continuously for a week.</p>
+    <p><strong>Result:</strong> The water turned pink, then brown. Analysis revealed <strong>5 amino acids</strong> had been produced, including glycine and alanine — the simplest amino acids and among the most common in proteins. Miller published in <em>Science</em>. The world was astonished.</p>
+    <p><strong>What happened to the original samples?</strong> When Miller died in 2007, his archived vials were reanalyzed with modern HPLC and mass spectrometry. The reanalysis found not 5 but <strong>25 amino acids</strong> — far more than Miller had been able to detect with 1953 technology. The experiment was even more successful than originally reported.</p>
+    <p><strong>Revised atmosphere:</strong> Current models suggest the early Earth atmosphere was less reducing (more CO₂ and N₂, less CH₄ and NH₃) than Miller assumed. Subsequent experiments with CO₂/N₂/H₂O atmospheres still produce amino acids, though in smaller quantities. Experiments with volcanic gas mixtures (CO₂, SO₂, H₂S, N₂) are particularly productive. <strong>The core result — abiotic amino acid synthesis — is robust across many starting conditions.</strong></p>
+  </div>
+  <div class="comma-box">
+    <div class="cb-label">Comma Framework · Miller-Urey as the First Kairos</div>
+    <div class="cb-body">The Miller-Urey experiment models the <strong>first kairos threshold</strong> in the history of life: the moment when inorganic chemistry crossed into organic chemistry, when molecules gained the complexity to begin self-organizing. The spark is not the life — the spark is the comma. It imposes a discontinuity on the equilibrium chemistry of the early atmosphere, forcing it temporarily out of equilibrium into a state where complex molecules can form. <strong>Life itself is the maintenance of this out-of-equilibrium state.</strong> Erwin Schrödinger said this in 1944: living things are characterized by their ability to resist the tendency toward thermodynamic equilibrium — to stay far from dead. The comma is what separates chemistry from biology: the capacity to keep interrupting equilibrium, to keep adding energy, to keep the cycle turning.</div>
+  </div>
+</section>
+
+<!-- SIMULATION -->
+<section class="sec" id="sim">
+  <div class="sec-lbl">04 · Prebiotic Chemistry Simulator</div>
+  <h2>Simulate the<br><em>origin of life</em></h2>
+  <p class="lead">Five environments — each proposed as a cradle of life. Select an environment, watch molecules collide, polymerize, and either persist or degrade. The simulation models molecular concentration, temperature, UV exposure, wet-dry cycling, and polymer formation probability.</p>
+
+  <div class="sim-wrap">
+    <div class="sim-header">
+      <div class="sim-dot live"></div>
+      <div class="sim-title">Prebiotic Chemistry Simulator · Select Environment</div>
+    </div>
+    <div class="sim-controls">
+      <button class="sim-btn active" onclick="setEnv('vent')">🌋 Alkaline Vent</button>
+      <button class="sim-btn" onclick="setEnv('static')">💧 Static Puddle</button>
+      <button class="sim-btn" onclick="setEnv('rain')">🌧 Random Rain</button>
+      <button class="sim-btn" onclick="setEnv('cycle')">🔄 Wet-Dry Cycles</button>
+      <button class="sim-btn" onclick="setEnv('ice')">🧊 Ice World</button>
+    </div>
+    <div class="sim-stats">
+      <div class="stat-item">Environment: <span id="env-name">Alkaline Vent</span></div>
+      <div class="stat-item">Molecules: <span id="mol-count">0</span></div>
+      <div class="stat-item">Polymers: <span id="poly-count">0</span></div>
+      <div class="stat-item">Max chain: <span id="max-chain">0</span></div>
+      <div class="stat-item">Phase: <span id="phase-name">—</span></div>
+    </div>
+    <canvas id="sim-canvas" class="sim" width="860" height="380"></canvas>
+  </div>
+  <div class="panel green" id="env-description">
+    <div class="ptag" id="env-desc-tag">Alkaline Hydrothermal Vent</div>
+    <p id="env-desc-text">Alkaline vents (like Lost City field, mid-Atlantic) produce warm alkaline fluids rich in H₂ and CO₂. The mineral chimneys create natural proton gradients — the same electrochemical gradient that drives ATP synthesis in modern cells. Temperature: 40–90°C. pH: 9–11. Reaction rate is high; wet conditions are constant; UV is absent. Polymers form readily but must compete with hydrolysis.</p>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--glt);margin-bottom:.4rem">Origins of Life · Krebs Cycle · Miller-Urey</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(232,240,224,.18);margin-bottom:1rem">Section XVI · Musica Universalis · δ = 0.013643</div>
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="astrobiology_climate.html">Astrobiology</a>
+    <a class="fla" href="what_is_alive.html">What Is Alive?</a>
+    <a class="fla" href="biology_of_the_mind.html">Biology</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+<script>
+// ═══ HERO CANVAS ═══
+(function(){
+  const c=document.getElementById("hcanvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  resize();window.addEventListener("resize",resize);
+  // Floating organic molecules
+  const mols=[];
+  for(let i=0;i<80;i++){mols.push({x:Math.random(),y:Math.random(),r:Math.random()*2+.6,vx:(Math.random()-.5)*.0004,vy:(Math.random()-.5)*.0004,col:Math.random()<.5?"74,158,106":"200,152,50",a:Math.random()*.15+.05})}
+  // Bonds between close molecules
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Draw bonds
+    for(let i=0;i<mols.length;i++){for(let j=i+1;j<mols.length;j++){
+      const dx=(mols[i].x-mols[j].x)*W,dy=(mols[i].y-mols[j].y)*H;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<60){ctx.beginPath();ctx.moveTo(mols[i].x*W,mols[i].y*H);ctx.lineTo(mols[j].x*W,mols[j].y*H);ctx.strokeStyle=`rgba(74,158,106,${.04*(1-d/60)})`;ctx.lineWidth=.5;ctx.stroke()}
+    }}
+    mols.forEach(m=>{
+      m.x+=m.vx;m.y+=m.vy;
+      if(m.x<0)m.x=1;if(m.x>1)m.x=0;if(m.y<0)m.y=1;if(m.y>1)m.y=0;
+      ctx.beginPath();ctx.arc(m.x*W,m.y*H,m.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${m.col},${m.a+Math.abs(Math.sin(t*.01+m.x*10))*.08})`;ctx.fill();
+    });
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ KREBS CANVAS ═══
+(function(){
+  const c=document.getElementById("krebs-canvas");if(!c)return;
+  const ctx=c.getContext("2d");
+  const W=c.clientWidth||860,H=440;c.width=W;
+  const cx=W/2,cy=H/2-10,R=150;
+  // Krebs molecules on the circle
+  const steps=[
+    {n:"Oxaloacetate",c:4,col:"#C89832",angle:-Math.PI/2},
+    {n:"Citrate",c:6,col:"#4A9E6A",angle:-Math.PI/2+Math.PI*2/8},
+    {n:"Isocitrate",c:6,col:"#4A9E6A",angle:-Math.PI/2+Math.PI*4/8},
+    {n:"α-Ketoglutarate",c:5,col:"#6A9E4A",angle:-Math.PI/2+Math.PI*6/8},
+    {n:"Succinyl-CoA",c:4,col:"#7A8E4A",angle:-Math.PI/2+Math.PI*8/8},
+    {n:"Succinate",c:4,col:"#8A7E4A",angle:-Math.PI/2+Math.PI*10/8},
+    {n:"Fumarate",c:4,col:"#9A6E4A",angle:-Math.PI/2+Math.PI*12/8},
+    {n:"Malate",c:4,col:"#AA5E4A",angle:-Math.PI/2+Math.PI*14/8}
+  ];
+  // Outputs at each step
+  const outputs=[
+    {at:2,text:"+ Acetyl-CoA",col:"rgba(200,152,50,.7)"},
+    {at:2,text:"(entry)",col:"rgba(200,152,50,.5)"},
+    {at:3,text:"CO₂ + NADH",col:"rgba(224,96,64,.7)"},
+    {at:4,text:"CO₂ + NADH",col:"rgba(224,96,64,.7)"},
+    {at:5,text:"GTP/ATP",col:"rgba(74,158,200,.7)"},
+    {at:6,text:"FADH₂",col:"rgba(130,158,200,.7)"},
+    {at:8,text:"NADH",col:"rgba(224,140,64,.7)"},
+  ];
+
+  let t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Background glow
+    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,R+60);
+    g.addColorStop(0,"rgba(74,158,106,.04)");g.addColorStop(1,"rgba(74,158,106,0)");
+    ctx.beginPath();ctx.arc(cx,cy,R+60,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+
+    // Draw cycle arc
+    ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);
+    ctx.strokeStyle="rgba(74,158,106,.15)";ctx.lineWidth=2;ctx.stroke();
+    // Animated arrows between steps
+    steps.forEach((s,i)=>{
+      const next=steps[(i+1)%steps.length];
+      const x1=cx+Math.cos(s.angle)*R,y1=cy+Math.sin(s.angle)*R;
+      const x2=cx+Math.cos(next.angle)*R,y2=cy+Math.sin(next.angle)*R;
+      // Arrow progress animation
+      const prog=(t*.012+i/steps.length)%1;
+      const ax=x1+(x2-x1)*prog,ay=y1+(y2-y1)*prog;
+      ctx.beginPath();ctx.arc(ax,ay,3,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${i%2===0?"74,158,106":"200,152,50"},.6)`;ctx.fill();
+    });
+    // Draw molecule nodes
+    steps.forEach((s,i)=>{
+      const x=cx+Math.cos(s.angle)*R,y=cy+Math.sin(s.angle)*R;
+      // Glow
+      const glow=ctx.createRadialGradient(x,y,0,x,y,20);
+      glow.addColorStop(0,s.col.replace("#","rgba(").replace(/(.{2})(.{2})(.{2})/,"$1,$2,$3")+",0.15)".replace("(",""));
+      // Simple glow via arc
+      ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);ctx.fillStyle=s.col+"22";ctx.fill();
+      ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);ctx.fillStyle=s.col+"CC";ctx.fill();
+      ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);ctx.strokeStyle=s.col;ctx.lineWidth=1.5;ctx.stroke();
+      // Carbon count
+      ctx.textAlign="center";ctx.fillStyle=s.col;
+      ctx.font=`bold 9px "JetBrains Mono",monospace`;
+      ctx.fillText(`C${s.c}`,x,y+3.5);
+      // Label (outside circle)
+      const labelR=R+35;const lx=cx+Math.cos(s.angle)*labelR,ly=cy+Math.sin(s.angle)*labelR;
+      ctx.font=`11px "EB Garamond",serif`;
+      ctx.fillStyle="rgba(232,240,224,.75)";
+      ctx.textAlign=Math.cos(s.angle)>0?"left":Math.cos(s.angle)<-.1?"right":"center";
+      const shortName=s.n.length>14?s.n.substring(0,13)+"…":s.n;
+      ctx.fillText(shortName,lx+(Math.cos(s.angle)>0?4:Math.cos(s.angle)<-.1?-4:0),ly);
+    });
+    // Center label
+    ctx.textAlign="center";
+    ctx.font=`italic 14px "Cormorant Garamond",serif`;
+    ctx.fillStyle="rgba(74,158,106,.7)";ctx.fillText("Krebs",cx,cy-8);
+    ctx.font=`italic 11px "Cormorant Garamond",serif`;
+    ctx.fillStyle="rgba(74,158,106,.4)";ctx.fillText("Cycle",cx,cy+8);
+    // Outputs display (right side)
+    const outLabels=["→ CO₂ + NADH (×2)","→ GTP/ATP (×1)","→ FADH₂ (×1)","→ NADH (×3 total)"];
+    const outColors=["rgba(224,96,64,.7)","rgba(74,158,200,.7)","rgba(130,158,200,.7)","rgba(224,140,64,.7)"];
+    ctx.textAlign="left";
+    ctx.font=`11px "JetBrains Mono",monospace`;
+    outLabels.forEach((l,i)=>{ctx.fillStyle=outColors[i];ctx.fillText(l,W*.72,60+i*22)});
+    ctx.font=`9px "JetBrains Mono",monospace`;
+    ctx.fillStyle="rgba(232,240,224,.25)";ctx.fillText("per turn:",W*.72,40);
+    // Acetyl-CoA entry
+    ctx.fillStyle="rgba(200,152,50,.65)";ctx.textAlign="center";
+    ctx.font=`11px "EB Garamond",serif`;ctx.fillText("↓ Acetyl-CoA",cx,cy-R-22);
+    // Arrow annotation
+    ctx.strokeStyle="rgba(200,152,50,.4)";ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(cx,cy-R-12);ctx.lineTo(cx,cy-R+12);ctx.stroke();
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ PREBIOTIC SIMULATOR ═══
+const SIM={};
+(function(){
+  const c=document.getElementById("sim-canvas");if(!c)return;
+  const ctx=c.getContext("2d");
+  let W=c.clientWidth||860,H=380;c.width=W;
+  let env="vent",t=0,phase="active",phaseTimer=0,isDry=false;
+  let molecules=[],polymers=[],rain=[],bubbles=[];
+  const envConfigs={
+    vent:{name:"Alkaline Vent",bg:"#060F0A",temp:70,uvFactor:0,polyRate:.008,hydroRate:.002,desc:"Alkaline hydrothermal vent — constant warm alkaline conditions, H₂ and CO₂ rich, no UV. Polymers form readily.",descTag:"Alkaline Hydrothermal Vent"},
+    static:{name:"Static Puddle",bg:"#080A0C",temp:25,uvFactor:.4,polyRate:.003,hydroRate:.004,desc:"A still puddle — room temperature, UV exposure, no concentration mechanism. Polymers form but degrade rapidly.",descTag:"Static Puddle"},
+    rain:{name:"Random Rain",bg:"#060810",temp:22,uvFactor:.3,polyRate:.004,hydroRate:.005,desc:"Random rainfall dilutes the puddle, then evaporation concentrates it. Stochastic wet-dry cycling. Some concentration events favor polymerization.",descTag:"Random Rain Puddle"},
+    cycle:{name:"Wet-Dry Cycles",bg:"#080A06",temp:35,uvFactor:.5,polyRate:.012,hydroRate:.003,desc:"Regular wet-dry cycling — the most productive prebiotic environment in Jack Szostak's experiments. Concentration during drying drives polymerization on mineral surfaces. UV drives chemistry.",descTag:"Cyclical Wet-Dry Puddle"},
+    ice:{name:"Ice World",bg:"#050812",temp:-5,uvFactor:.1,polyRate:.002,hydroRate:.0005,desc:"Cold ice world — reactions slow but polymers stable. Liquid water at ice-water interface concentrates solutes. Long time horizons for complex molecules.",descTag:"Ice World"}
+  };
+  function initMolecules(){
+    molecules=[];polymers=[];rain=[];bubbles=[];
+    for(let i=0;i<60;i++)molecules.push({x:Math.random()*W,y:H*.3+Math.random()*H*.6,vx:(Math.random()-.5)*1.2,vy:(Math.random()-.5)*1.2,type:Math.floor(Math.random()*4),r:4,chain:1,col:["#4A9E6A","#C89832","#6A90C0","#C06070"][Math.floor(Math.random()*4)]});
+  }
+  initMolecules();
+  SIM.setEnv=function(e){
+    env=e;t=0;phaseTimer=0;phase="active";isDry=false;
+    initMolecules();
+    const cfg=envConfigs[e];
+    document.getElementById("env-name").textContent=cfg.name;
+    document.getElementById("env-desc-tag").textContent=cfg.descTag;
+    document.getElementById("env-desc-text").textContent=cfg.desc;
+    document.querySelectorAll(".sim-btn").forEach(b=>{b.classList.remove("active");if(b.textContent.toLowerCase().includes(e.split("/")[0].toLowerCase().substring(0,4)))b.classList.add("active")});
+  };
+  function drawBackground(){
+    const cfg=envConfigs[env];
+    ctx.fillStyle=cfg.bg;ctx.fillRect(0,0,W,H);
+    if(env==="vent"){
+      // Ocean floor gradient
+      const g=ctx.createLinearGradient(0,0,0,H);
+      g.addColorStop(0,"rgba(10,30,40,.8)");g.addColorStop(.6,"rgba(10,40,30,.6)");g.addColorStop(1,"rgba(20,30,10,.9)");
+      ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+      // Vent chimney
+      const vx=W*.15;
+      ctx.fillStyle="rgba(80,60,40,.8)";ctx.fillRect(vx-18,H*.4,36,H*.6);
+      // Bubbles rising
+      if(Math.random()<.12)bubbles.push({x:vx+(Math.random()-0.5)*20,y:H*.4,r:Math.random()*4+2,vy:Math.random()*1.5+.5});
+      bubbles=bubbles.filter(b=>{b.y-=b.vy;b.x+=(Math.random()-.5)*.5;
+        ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.strokeStyle="rgba(74,158,106,.35)";ctx.lineWidth=.8;ctx.stroke();return b.y>0;});
+      // Vent glow
+      const vg=ctx.createRadialGradient(vx,H*.4,0,vx,H*.4,60);
+      vg.addColorStop(0,"rgba(200,152,50,.18)");vg.addColorStop(1,"rgba(200,152,50,0)");
+      ctx.fillStyle=vg;ctx.beginPath();ctx.arc(vx,H*.4,60,0,Math.PI*2);ctx.fill();
+      // Water surface
+      ctx.beginPath();
+      for(let x=0;x<=W;x+=4){ctx.lineTo(x,H*.28+Math.sin(x*.02+t*.03)*4);}
+      ctx.lineTo(W,0);ctx.lineTo(0,0);ctx.fillStyle="rgba(20,60,80,.3)";ctx.fill();
+    } else if(env==="cycle"||env==="rain"||env==="static"){
+      // Ground
+      ctx.fillStyle="rgba(40,30,15,.9)";ctx.fillRect(0,H*.65,W,H*.35);
+      // Puddle
+      const pudW=isDry?.4:.75,pudH=isDry?.06:.18;
+      const pudX=W*(1-pudW)/2,pudY=H*.65-H*pudH;
+      const pg=ctx.createRadialGradient(W/2,pudY+H*pudH/2,0,W/2,pudY+H*pudH/2,W*pudW/2);
+      pg.addColorStop(0,"rgba(30,60,80,.5)");pg.addColorStop(1,"rgba(20,40,60,.2)");
+      ctx.beginPath();ctx.ellipse(W/2,H*.65-H*pudH/2,W*pudW/2,H*pudH/2,0,0,Math.PI*2);
+      ctx.fillStyle=pg;ctx.fill();
+      ctx.strokeStyle="rgba(74,158,106,.2)";ctx.lineWidth=1;ctx.stroke();
+      // UV rays
+      if(envConfigs[env].uvFactor>0&&!isDry){
+        for(let i=0;i<3;i++){
+          const rx=W*.2+i*W*.3;
+          ctx.beginPath();ctx.moveTo(rx,0);ctx.lineTo(rx-20,H*.3);
+          ctx.strokeStyle="rgba(180,150,255,.05)";ctx.lineWidth=15;ctx.stroke();
+        }
+      }
+      // Rain drops
+      if(env==="rain"&&Math.random()<.3){rain.push({x:Math.random()*W,y:0,vy:Math.random()*6+4})}
+      if(env==="cycle"&&phase==="wet"&&Math.random()<.5){rain.push({x:Math.random()*W,y:0,vy:Math.random()*5+3})}
+      rain=rain.filter(r=>{r.y+=r.vy;ctx.beginPath();ctx.moveTo(r.x,r.y);ctx.lineTo(r.x-r.vy*.3,r.y-r.vy);ctx.strokeStyle="rgba(80,130,180,.5)";ctx.lineWidth=1;ctx.stroke();return r.y<H*.7;});
+    } else if(env==="ice"){
+      // Ice world
+      const ig=ctx.createLinearGradient(0,0,0,H);
+      ig.addColorStop(0,"rgba(10,15,30,.95)");ig.addColorStop(.5,"rgba(15,25,50,.8)");ig.addColorStop(1,"rgba(20,35,60,.9)");
+      ctx.fillStyle=ig;ctx.fillRect(0,0,W,H);
+      // Ice crystals
+      ctx.strokeStyle="rgba(100,150,200,.12)";ctx.lineWidth=.8;
+      for(let i=0;i<6;i++){const ix=W*(.1+i*.16),iy=H*.1+Math.random()*H*.2;ctx.beginPath();ctx.moveTo(ix,iy);ctx.lineTo(ix,iy+30);ctx.moveTo(ix-15,iy+15);ctx.lineTo(ix+15,iy+15);ctx.stroke();}
+      // Ice surface
+      ctx.fillStyle="rgba(120,170,220,.15)";ctx.fillRect(0,H*.6,W,H*.4);
+      ctx.fillStyle="rgba(150,200,250,.08)";ctx.fillRect(0,H*.62,W,H*.02);
+    }
+  }
+  function updatePhysics(){
+    const cfg=envConfigs[env];
+    // Phase cycling for cycle environment
+    if(env==="cycle"){
+      phaseTimer++;
+      if(phase==="wet"&&phaseTimer>200){phase="drying";phaseTimer=0}
+      else if(phase==="drying"&&phaseTimer>80){phase="dry";isDry=true;phaseTimer=0;
+        // Concentration: pull molecules together
+        molecules.forEach(m=>{m.x+=(W/2-m.x)*.1;m.y+=((H*.55)-m.y)*.1});}
+      else if(phase==="dry"&&phaseTimer>120){phase="rewetting";isDry=false;phaseTimer=0}
+      else if(phase==="rewetting"&&phaseTimer>60){phase="wet";phaseTimer=0;
+        molecules.forEach(m=>{m.vx=(Math.random()-.5)*2;m.vy=(Math.random()-.5)*2});}
+      document.getElementById("phase-name").textContent=phase.toUpperCase();
+    } else{
+      document.getElementById("phase-name").textContent=env==="vent"?"ACTIVE":env==="ice"?"COLD":"EXPOSED";
+    }
+    if(env==="rain"&&Math.random()<.003){// random dilution event
+      molecules.forEach(m=>{m.vx=(Math.random()-.5)*3;m.vy=(Math.random()-.5)*3;});
+    }
+    // Move molecules
+    const boundary=env==="vent"?{xMin:W*.25,xMax:W*.95,yMin:H*.3,yMax:H*.95}:{xMin:W*.1,xMax:W*.9,yMin:H*.4,yMax:H*.75};
+    const speedFactor=env==="ice"?.35:env==="cycle"&&isDry?.2:1;
+    molecules.forEach(m=>{
+      m.x+=m.vx*speedFactor;m.y+=m.vy*speedFactor;
+      if(m.x<boundary.xMin){m.x=boundary.xMin;m.vx*=-1;}
+      if(m.x>boundary.xMax){m.x=boundary.xMax;m.vx*=-1;}
+      if(m.y<boundary.yMin){m.y=boundary.yMin;m.vy*=-1;}
+      if(m.y>boundary.yMax){m.y=boundary.yMax;m.vy*=-1;}
+    });
+    // Collision/polymerization
+    for(let i=0;i<molecules.length;i++){for(let j=i+1;j<molecules.length;j++){
+      const mi=molecules[i],mj=molecules[j];
+      const dx=mi.x-mj.x,dy=mi.y-mj.y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<12&&Math.random()<cfg.polyRate*(isDry?3:1)){
+        // Polymerize: absorb j into i
+        mi.chain+=mj.chain;mi.r=Math.min(12,4+mi.chain*.8);
+        mi.col=mi.chain>4?"#C89832":mi.chain>2?"#6A90C0":"#4A9E6A";
+        molecules.splice(j,1);break;
+      }
+      if(d<mi.r+mj.r+2){// elastic bounce
+        const nx=dx/d,ny=dy/d;
+        const dvx=mi.vx-mj.vx,dvy=mi.vy-mj.vy;
+        const dot=dvx*nx+dvy*ny;
+        if(dot<0){mi.vx-=dot*nx;mi.vy-=dot*ny;mj.vx+=dot*nx;mj.vy+=dot*ny;}
+      }
+    }}
+    // Hydrolysis (polymers break down)
+    molecules.forEach(m=>{
+      if(m.chain>1&&Math.random()<cfg.hydroRate*(env==="ice"?.1:1)){
+        m.chain=Math.max(1,m.chain-1);m.r=Math.max(4,m.r-.8);
+      }
+    });
+    // Spawn new monomer if too few
+    if(molecules.length<20&&Math.random()<.05){
+      molecules.push({x:Math.random()*W*.6+W*.2,y:H*.5+Math.random()*H*.2,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,type:Math.floor(Math.random()*4),r:4,chain:1,col:["#4A9E6A","#C89832","#6A90C0","#C06070"][Math.floor(Math.random()*4)]});
+    }
+    // Update stats
+    const total=molecules.length;
+    const polys=molecules.filter(m=>m.chain>1).length;
+    const maxC=molecules.reduce((a,m)=>Math.max(a,m.chain),0);
+    document.getElementById("mol-count").textContent=total;
+    document.getElementById("poly-count").textContent=polys;
+    document.getElementById("max-chain").textContent=maxC;
+  }
+  function drawMolecules(){
+    molecules.forEach(m=>{
+      if(m.chain>1){// polymer — draw as elongated shape
+        const r=m.r;
+        ctx.beginPath();ctx.arc(m.x,m.y,r,0,Math.PI*2);
+        ctx.fillStyle=m.col+"44";ctx.fill();
+        ctx.strokeStyle=m.col+"CC";ctx.lineWidth=1.5;ctx.stroke();
+        if(m.chain>3){// label chain length
+          ctx.textAlign="center";ctx.fillStyle="rgba(232,240,224,.7)";
+          ctx.font=`${Math.min(9,7+m.chain*.3)}px "JetBrains Mono",monospace`;
+          ctx.fillText("n="+m.chain,m.x,m.y+3);
+        }
+      } else {
+        ctx.beginPath();ctx.arc(m.x,m.y,m.r,0,Math.PI*2);
+        ctx.fillStyle=m.col+"99";ctx.fill();
+      }
+    });
+  }
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    drawBackground();updatePhysics();drawMolecules();
+    t++;requestAnimationFrame(loop);
+  }
+  loop();
+})();
+function setEnv(e){
+  // Map button env to config key
+  const map={"vent":"vent","static":"static","rain":"rain","cycle":"cycle","ice":"ice"};
+  SIM.setEnv(map[e]||e);
+  document.querySelectorAll(".sim-btn").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
+}
+function tog(id){
+  const b=document.getElementById("ab-"+id);const tg=document.getElementById("at-"+id);
+  if(!b)return;const o=b.classList.toggle("open");if(tg)tg.textContent=o?"▲":"▼";
+}
+</script>
+</body>
+</html>

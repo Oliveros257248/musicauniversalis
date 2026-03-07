@@ -60,9 +60,8 @@ blockquote cite{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-s
 .panel p:last-child{margin-bottom:0}
 .panel strong{color:var(--parch)}
 
-/* FAMILY TREE SVG */
+/* FAMILY TREE CANVAS */
 .tree-wrap{overflow-x:auto;margin:1.5rem -1rem;padding:1rem}
-svg text{font-family:'Crimson Text',Georgia,serif}
 
 /* DEITY GRID */
 .deity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.85rem;margin:1.5rem 0}
@@ -121,8 +120,8 @@ tr:last-child td{border-bottom:none}
 td:first-child{color:var(--parch);font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.04em}
 tr:hover td{background:rgba(237,230,208,0.02)}
 
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s,transform .65s}
-.reveal.in{opacity:1;transform:none}
+
+
 footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);position:relative;z-index:2}
 .fla{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.09em;color:rgba(237,230,208,0.22);text-decoration:none;text-transform:uppercase;padding:.2rem .5rem;transition:color .2s}
 .fla:hover{color:var(--glt)}
@@ -146,13 +145,13 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 01: GREEK FAMILY TREE ══ -->
-<section class="sec reveal" id="greek">
+<section class="sec" id="greek">
   <div class="sec-lbl" style="color:var(--olymp-lt)">01 · The Greek–Roman Family Tree</div>
   <h2>From Chaos to <em>Olympus</em></h2>
   <p class="lead">The Greek cosmos began not with a god but with Chaos — the primordial void. From it arose Gaia (Earth), Ouranos (Sky), Eros (Love), and the others. Everything in the family tree descends from these first beings. The notebook's diagram maps the Roman layer: Terra = Gaia, Caelus = Ouranos, Ops = Rhea, Saturn = Kronos.</p>
 
   <div class="tree-wrap">
-    <svg id="ftree" viewBox="0 0 900 600" width="900" height="600" xmlns="http://www.w3.org/2000/svg"></svg>
+    <canvas id="ftree" width="900" height="600" style="display:block;max-width:100%;background:rgba(12,11,21,0.5);border-radius:8px;border:1px solid rgba(200,148,58,0.1)"></canvas>
   </div>
 
   <div class="panel olymp">
@@ -174,7 +173,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 02: WHO IS GOD ══ -->
-<section class="sec reveal" id="who-is-god">
+<section class="sec" id="who-is-god">
   <div class="sec-lbl" style="color:var(--glt)">02 · Who Is God? · Concepts of the Divine</div>
   <h2>Who is <em>God?</em></h2>
   <p class="lead">This is the oldest question in philosophy. The answers are not variations on a theme — they are genuinely different conceptions of what divinity is, what it wants, and whether it can be known at all.</p>
@@ -220,14 +219,14 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 03: WORLD RELIGIONS ══ -->
-<section class="sec reveal" id="world-religions">
+<section class="sec" id="world-religions">
   <div class="sec-lbl" style="color:var(--glt)">03 · World Religions · What They Actually Teach</div>
   <h2>The great <em>traditions</em></h2>
   <div class="rel-grid" id="rel-grid"></div>
 </section>
 
 <!-- ══ 04: BUDDHISM ══ -->
-<section class="sec reveal" id="buddhism">
+<section class="sec" id="buddhism">
   <div class="sec-lbl" style="color:var(--lotus)">04 · Buddhism · The Actual Teachings</div>
   <h2>What Buddhism<br><em>actually teaches</em></h2>
   <p class="lead">Buddhism is a philosophy of mind as much as a religion. Its core claim: suffering has a cause, the cause can be understood, and there is a path out of it. This is a diagnosis and a prescription — not a comfort.</p>
@@ -282,7 +281,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 05: TAOISM ══ -->
-<section class="sec reveal" id="taoism">
+<section class="sec" id="taoism">
   <div class="sec-lbl" style="color:var(--olymp-lt)">05 · Taoism · The Way</div>
   <h2>Taoism: the way<br><em>that cannot be named</em></h2>
   <p class="lead">The Tao Te Ching opens: "The Tao that can be named is not the eternal Tao." This is not a paradox for its own sake — it is the central point. The sacred cannot be captured in language. Language divides what is undivided. The moment you name it, you've already lost it.</p>
@@ -315,7 +314,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 06: WHAT IS FAITH ══ -->
-<section class="sec reveal" id="faith">
+<section class="sec" id="faith">
   <div class="sec-lbl" style="color:var(--glt)">06 · What Is Faith?</div>
   <h2>What is <em>faith?</em></h2>
   <div class="panel gold">
@@ -327,7 +326,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 07: PHILOSOPHIES ══ -->
-<section class="sec reveal" id="philosophies">
+<section class="sec" id="philosophies">
   <div class="sec-lbl" style="color:var(--glt)">07 · Famous Philosophies · What They Claim</div>
   <h2>The great <em>philosophies</em></h2>
 
@@ -387,7 +386,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 08: PHILOSOPHY vs PSYCHOLOGY ══ -->
-<section class="sec reveal" id="compare">
+<section class="sec" id="compare">
   <div class="sec-lbl" style="color:var(--glt)">08 · Philosophy vs Psychology · CBT · DBT · How They Compare</div>
   <h2>How philosophies compare<br><em>to CBT and DBT</em></h2>
   <p class="lead">CBT and DBT are not philosophies — they are clinical protocols. But both drew explicitly on philosophical traditions. Understanding the lineage shows both what they offer and what they cannot.</p>
@@ -430,140 +429,116 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </footer>
 
 <script>
-// ── FAMILY TREE SVG ──
+// ── FAMILY TREE CANVAS ──
 (function(){
-  const svg = document.getElementById('ftree');
-  const ns = 'http://www.w3.org/2000/svg';
-  const GOLD = '#C8943A'; const GDIM = 'rgba(200,148,58,0.35)';
-  const CREAM = 'rgba(237,230,208,0.88)'; const DIM = 'rgba(237,230,208,0.4)';
-  const OLYMP = '#7B9EBF'; const SAGE = '#7BAF8A';
+  const c=document.getElementById('ftree');if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=900,H=600;
+  const GOLD='rgba(200,148,58,0.85)',GDIM='rgba(200,148,58,0.35)';
+  const CREAM='rgba(237,230,208,0.9)',DIM='rgba(237,230,208,0.4)',OLYMP='#7B9EBF';
 
-  function el(tag, attrs){
-    const e = document.createElementNS(ns, tag);
-    for(const [k,v] of Object.entries(attrs)) e.setAttribute(k,v);
-    return e;
+  function ln(x1,y1,x2,y2,col,dash){
+    ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);
+    ctx.strokeStyle=col||GOLD;ctx.lineWidth=1.3;
+    ctx.setLineDash(dash||[]);ctx.stroke();ctx.setLineDash([]);
   }
-  function line(x1,y1,x2,y2,col,dash){
-    const l = el('line',{x1,y1,x2,y2,stroke:col||GOLD,'stroke-width':'1.3'});
-    if(dash) l.setAttribute('stroke-dasharray',dash);
-    svg.appendChild(l);
+  function dot(x,y,col){
+    ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);
+    ctx.fillStyle=col||GOLD;ctx.fill();
   }
-  function text(x,y,t,col,sz,anchor,style){
-    const e = el('text',{x,y,fill:col||CREAM,'font-size':sz||12,'text-anchor':anchor||'middle','font-family':style==='mono'?'JetBrains Mono,monospace':'Crimson Text,Georgia,serif'});
-    e.textContent = t;
-    svg.appendChild(e);
+  function lbl(x,y,txt,col,sz,align){
+    ctx.textAlign=align||'center';ctx.fillStyle=col||CREAM;
+    ctx.font=`${sz||12}px "Crimson Text",Georgia,serif`;
+    ctx.fillText(txt,x,y);
   }
-  function dot(x,y,col){ svg.appendChild(el('circle',{cx:x,cy:y,r:3,fill:col||GOLD})); }
+  function mono(x,y,txt,col,sz){
+    ctx.textAlign='center';ctx.fillStyle=col||GDIM;
+    ctx.font=`${sz||9}px "JetBrains Mono",monospace`;
+    ctx.fillText(txt,x,y);
+  }
 
-  // Background
-  svg.appendChild(el('rect',{width:900,height:600,fill:'rgba(12,11,20,0)'}));
+  ctx.clearRect(0,0,W,H);
 
-  // Row 1: Primordials (y=45)
-  text(170,45,'Terra',DIM,11,'middle');
-  text(170,58,'(Gaia)',DIM,9,'middle','mono');
-  text(320,45,'Caelus',DIM,11,'middle');
-  text(320,58,'(Ouranos)',DIM,9,'middle','mono');
-  line(170,50,320,50,GDIM);
-  text(620,45,'Venus',OLYMP,12,'middle');
-  text(620,58,'(Aphrodite)',DIM,9,'middle','mono');
+  // ROW 1: Primordials
+  lbl(170,44,'Terra',DIM,11); mono(170,56,'(Gaia)',DIM);
+  lbl(320,44,'Caelus',DIM,11); mono(320,56,'(Ouranos)',DIM);
+  ln(170,48,320,48,GDIM);
+  lbl(650,44,'Venus',OLYMP,12); mono(650,56,'Aphrodite',GDIM);
 
-  // Titans row (y=90)
-  text(200,92,'Ops',GOLD+'AA',12,'middle');
-  text(200,105,'(Rhea)',GDIM,9,'middle','mono');
-  text(340,92,'—',GDIM,14,'middle');
-  text(400,92,'Saturn',GOLD+'AA',12,'middle');
-  text(400,105,'(Kronos)',GDIM,9,'middle','mono');
-  line(170,54,170,75,GDIM);
-  line(170,75,300,75,GDIM);
-  line(300,75,300,88,GDIM);
-  dot(300,75,GDIM);
+  // ROW 2: Titans
+  lbl(185,95,'Ops',GOLD+'BB',12); mono(185,108,'(Rhea)',GDIM);
+  lbl(360,95,'Saturn',GOLD+'BB',12); mono(360,108,'(Kronos)',GDIM);
+  ln(185,95,360,95,'rgba(200,148,58,0.4)');
+  // descent from primordials to titans
+  ln(170,50,170,72,GDIM); ln(320,50,320,72,GDIM);
+  ln(170,72,272,72,GDIM); ln(272,72,272,88,GDIM);
 
-  // Main descent line (y=130)
-  const bY = 130;
-  line(300,105,300,bY);
-  line(60,bY,720,bY,GOLD);
-  [60,155,300,390,500,720].forEach(x=>dot(x,bY,GOLD));
+  // MAIN BRANCH (y=130)
+  const bY=130;
+  ln(272,108,272,bY);
+  ln(55,bY,730,bY,GOLD);
+  [55,155,272,385,485,560,730].forEach(x=>dot(x,bY,GOLD));
 
-  // Gen 1 (y=155)
-  const g1=[{x:60,n:'Pluto'},{x:155,n:'Neptune'},{x:300,n:'Jupiter'},{x:390,n:'Juno'},{x:500,n:'Ceres'},{x:720,n:'Vesta'}];
-  g1.forEach(g=>{
-    line(g.x,bY,g.x,145);
-    text(g.x,162,g.n,CREAM,12,'middle');
-  });
-  // Jupiter–Juno marriage line
-  line(300,155,390,155,GOLD);
-  dot(345,155,GOLD);
+  // ROW 3: Six Olympians (y=158)
+  const g1=[
+    {x:55,n:'Pluto'},{x:155,n:'Neptune'},{x:272,n:'Jupiter'},
+    {x:385,n:'Juno'},{x:560,n:'Ceres'},{x:730,n:'Vesta'}
+  ];
+  g1.forEach(g=>{ln(g.x,bY,g.x,148);lbl(g.x,162,g.n,CREAM,12);});
+  // Jupiter-Juno marriage line
+  ln(272,155,385,155,GOLD); dot(328,155,GOLD);
 
-  // Latona → Diana + Apollo (y=200–260)
-  text(100,200,'Latona',DIM,10,'middle');
-  text(100,212,'(Leto)',DIM,9,'middle','mono');
-  line(100,205,155,205,GDIM,'3,3');
-  line(155,162,155,205,GDIM,'3,3');
-  dot(155,205,GDIM);
-  line(130,240,210,240,OLYMP);
-  line(130,205,130,240,OLYMP);
-  line(210,205,210,240,OLYMP);
-  dot(130,240,OLYMP);dot(210,240,OLYMP);
-  text(115,260,'DIANA',OLYMP,11,'middle');
-  text(115,272,'Diano·Luna',GDIM,8,'middle','mono');
-  text(210,260,'APOLLO',OLYMP,11,'middle');
-  text(210,272,'Apolla·Sol',GDIM+'AA',8,'middle','mono');
+  // Latona + Jupiter → Diana + Apollo
+  lbl(105,205,'Latona',DIM,10); mono(105,217,'(Leto)',DIM);
+  ln(105,210,155,210,GDIM,[3,3]); ln(155,162,155,210,GDIM,[3,3]);
+  dot(155,210,GDIM);
+  ln(130,248,220,248,OLYMP); ln(130,210,130,248,OLYMP); ln(220,210,220,248,OLYMP);
+  dot(130,248,OLYMP); dot(220,248,OLYMP);
+  lbl(115,266,'DIANA',OLYMP,11); mono(115,278,'Diano · Luna',GDIM);
+  lbl(220,266,'APOLLO',OLYMP,11); mono(220,278,'Apolla · Sol','rgba(200,148,58,0.5)');
 
-  // Ceres + Jupiter → Proserpina (dotted)
-  line(500,162,500,220,GDIM,'3,3');
-  text(560,215,'· · · Jupiter',DIM,9,'right','mono');
-  text(600,250,'Proserpina',DIM,10,'middle');
-  text(600,263,'(Persephone)',DIM,8,'middle','mono');
+  // Ceres + Jupiter → Proserpina
+  ln(560,162,560,218,GDIM,[3,3]);
+  mono(600,214,'· · · Jupiter',DIM,9);
+  lbl(620,248,'Proserpina',DIM,10); mono(620,260,'(Persephone)',DIM,8);
 
   // Juno → Mars + Vulcan
-  line(345,155,345,310);
-  line(310,310,390,310,OLYMP);
-  dot(310,310,OLYMP);dot(390,310,OLYMP);
-  text(305,328,'MARS',OLYMP,11,'middle');
-  text(390,328,'VULCAN',OLYMP,11,'middle');
+  ln(328,155,328,312); ln(295,312,375,312,OLYMP);
+  dot(295,312,OLYMP); dot(375,312,OLYMP);
+  lbl(293,330,'MARS',OLYMP,11); lbl(378,330,'VULCAN',OLYMP,11);
 
   // Metis → Minerva
-  text(80,370,'METIS',DIM,10,'middle');
-  line(80,365,300,365,GDIM,'3,3');
-  line(300,162,300,365,GDIM,'3,3');
-  dot(190,365,GDIM);
-  line(190,365,190,420);
-  text(190,437,'MINERVA',OLYMP,11,'middle');
+  lbl(80,372,'METIS',DIM,10);
+  ln(80,367,272,367,GDIM,[3,3]); ln(272,162,272,367,GDIM,[3,3]);
+  dot(176,367,GDIM); ln(176,367,176,420);
+  lbl(176,437,'MINERVA',OLYMP,11);
 
   // Semele → Bacchus
-  text(240,460,'Semele',DIM,10,'middle');
-  line(240,455,300,455,GDIM,'3,3');
-  line(300,365,300,455,GDIM,'3,3');
-  dot(270,455,GDIM);
-  line(270,455,270,500);
-  text(270,517,'Bacchus',OLYMP,11,'middle');
-  text(270,529,'(Dionysus)',GDIM,8,'middle','mono');
+  lbl(225,462,'Semele',DIM,10);
+  ln(225,457,272,457,GDIM,[3,3]); ln(272,367,272,457,GDIM,[3,3]);
+  dot(248,457,GDIM); ln(248,457,248,500);
+  lbl(248,517,'Bacchus',OLYMP,11); mono(248,529,'(Dionysus)',GDIM,8);
 
   // Maia → Mercury
-  text(240,545,'MAIA',DIM,10,'middle');
-  line(240,540,300,540,GDIM,'3,3');
-  line(300,455,300,540,GDIM,'3,3');
-  dot(270,540,GDIM);
-  line(270,540,270,572);
-  text(270,585,'MERCURY',OLYMP,11,'middle');
+  lbl(218,545,'MAIA',DIM,10);
+  ln(218,540,272,540,GDIM,[3,3]); ln(272,457,272,540,GDIM,[3,3]);
+  dot(245,540,GDIM); ln(245,540,245,570);
+  lbl(245,585,'MERCURY',OLYMP,11);
 
-  // Jupiter + Maea (right side)
-  text(520,390,'Jupiter',DIM,10,'middle','mono');
-  text(580,390,'···',GDIM,12,'middle');
-  text(640,390,'Maea',DIM,10,'middle','mono');
-  line(520,395,640,395,GDIM,'2,4');
-  dot(580,395,GDIM);
-  line(580,395,580,430);
-  text(580,447,'Mercury',OLYMP,10,'middle');
-  text(580,460,'(Greek tradition)',DIM,8,'middle','mono');
+  // Jupiter + Maea (right side note)
+  mono(475,395,'Jupiter · · · Maea',DIM,9);
+  ln(475,400,600,400,GDIM,[2,4]); dot(537,400,GDIM);
+  ln(537,400,537,430); lbl(537,447,'Mercury',OLYMP,10); mono(537,460,'(Greek)',DIM,8);
 
-  // Labels
-  text(10,592,'━ solid: marriage   - - - dotted: secondary union   ● dot: child node',GDIM,8,'left','mono');
+  // Legend
+  ctx.textAlign='left'; ctx.fillStyle='rgba(200,148,58,0.3)'; 
+  ctx.font='8px JetBrains Mono,monospace';
+  ctx.fillText('━ marriage / primary union   - - - secondary union   ● child node',10,590);
 })();
 
 // ── RELIGION CARDS ──
 const RELS = [
-  {icon:'✝️',name:'Christianity',cls:'chr',pop:'~2.4 billion · World's largest',
+  {icon:'✝️',name:'Christianity',cls:'chr',pop:'~2.4 billion · World\u2019s largest',
    body:'God is a Trinity: Father, Son, Holy Spirit. Jesus Christ is God incarnate — fully human and fully divine — who died and rose for humanity\'s salvation. Salvation through faith. Sacred text: the Bible. Profoundly diverse: Catholic, Protestant, Orthodox.',
    core:['Love God and neighbor above all things','Forgiveness, grace, and redemption','Resurrection and eternal life','The Sermon on the Mount as ethical center']},
   {icon:'☪️',name:'Islam',cls:'isl',pop:'~1.9 billion',
@@ -575,7 +550,7 @@ const RELS = [
   {icon:'☸️',name:'Buddhism',cls:'bud',pop:'~500 million',
    body:'Non-theistic. Siddhartha Gautama (~563–483 BCE) became the Buddha ("awakened one") through meditation. Diagnoses suffering (dukkha), identifies its cause (craving/attachment), and prescribes the Noble Eightfold Path. Goal: Nirvana — liberation from the cycle of rebirth.',
    core:['Four Noble Truths — complete diagnosis','Noble Eightfold Path — the treatment','Impermanence, no-self, interdependence','Compassion (karuna) as central practice']},
-  {icon:'🕉️',name:'Hinduism',cls:'hin',pop:'~1.2 billion · World's oldest living religion',
+  {icon:'🕉️',name:'Hinduism',cls:'hin',pop:'~1.2 billion · World\u2019s oldest living religion',
    body:'A family of traditions from the Indus Valley (~3000 BCE), unified by the Vedas. Multiple valid paths to liberation (moksha): jnana (knowledge), bhakti (devotion), karma (action). The ultimate reality is Brahman; the individual soul (Atman) is ultimately one with it.',
    core:['Dharma — right living according to one\'s nature','Karma — every action has consequences','Moksha — liberation from the cycle of rebirth','Ahimsa — non-violence toward all beings']},
   {icon:'☯️',name:'Taoism',cls:'tao',pop:'~12 million formal · ~400M influenced',
@@ -619,8 +594,6 @@ function tog(id){
 }
 
 // ── REVEAL ──
-const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')})},{threshold:.06});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>

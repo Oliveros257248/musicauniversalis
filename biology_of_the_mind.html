@@ -34,7 +34,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 
 /* HERO */
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 1rem 4rem;position:relative;overflow:hidden}
-#hcanvas{position:absolute;inset:0;z-index:0}
+#h#hcanvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
 .h-eye{font-family:'JetBrains Mono',monospace;font-size:.46rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan-dim);margin-bottom:1.2rem;position:relative;z-index:2}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,9vw,5.5rem);font-weight:400;line-height:1.05;color:var(--cream);position:relative;z-index:2;margin-bottom:.3rem}
 .hero h1 em{color:var(--cyan-lt);font-style:italic}
@@ -148,7 +148,7 @@ blockquote p{font-style:italic;color:rgba(232,238,244,.68);margin:0;font-size:.9
 .fmri-dot{width:8px;height:8px;border-radius:50%;animation:fpulse 2s ease-in-out infinite}
 .fmri-dot.live{background:var(--cancer)}
 @keyframes fpulse{0%,100%{opacity:.3}50%{opacity:1}}
-#fmri-canvas{display:block;width:100%;background:var(--bg2)}
+#fmri-#fmri-canvas{display:block;width:100%;background:var(--bg2)}
 
 /* COMPARISON TABLE */
 .tbl-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:8px;border:1px solid var(--line)}
@@ -171,8 +171,8 @@ tr:hover td{background:rgba(232,238,244,.02)}
 .dside p:last-child{margin-bottom:0}
 .dside strong{color:var(--cream)}
 
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s,transform .65s}
-.reveal.in{opacity:1;transform:none}
+
+
 footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);position:relative;z-index:2}
 .fla{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.09em;color:rgba(232,238,244,.22);text-decoration:none;text-transform:uppercase;padding:.2rem .5rem;transition:color .2s}
 .fla:hover{color:var(--cyan-lt)}
@@ -205,7 +205,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 01: THE BRAIN ══ -->
-<section class="sec reveal" id="brain">
+<section class="sec" id="brain">
   <div class="sec-lbl" style="color:var(--neural-lt)">01 · The Brain · How It Works · Patterns & Cycles</div>
   <h2>Your brain is a<br><em>pattern machine</em></h2>
   <p class="lead">You have approximately 86 billion neurons. Each one connects to up to 10,000 others. The total number of synaptic connections is estimated at 100 trillion — more than the number of stars in 1,000 Milky Ways. And yet what this system does is not primarily store information. It predicts. It patterns. It oscillates. It sleeps to restore itself.</p>
@@ -266,7 +266,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 02: CANCER ══ -->
-<section class="sec reveal" id="cancer">
+<section class="sec" id="cancer">
   <div class="sec-lbl" style="color:var(--cancer-lt)">02 · Cancer · The Loop That Doesn't Stop · Apoptosis</div>
   <h2>Cancer:<br><em>the loop that won't stop</em></h2>
 
@@ -330,7 +330,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 03: ALZHEIMER ══ -->
-<section class="sec reveal" id="alzheimer">
+<section class="sec" id="alzheimer">
   <div class="sec-lbl" style="color:var(--alz-lt)">03 · Alzheimer's Disease · The End of Memory</div>
   <h2>Alzheimer's:<br><em>the failure of forgetting to forget</em></h2>
   <p class="lead">Memory is not stored in static files like a hard drive. It is reconstructed every time you recall it — rebuilt from patterns of neural activation distributed across billions of synapses. Alzheimer's disease doesn't erase memory like deleting a file. It destroys the infrastructure that rebuilds it.</p>
@@ -372,7 +372,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 04: PARKINSON'S ══ -->
-<section class="sec reveal" id="parkinson">
+<section class="sec" id="parkinson">
   <div class="sec-lbl" style="color:var(--park-lt)">04 · Parkinson's Disease · Dopamine · Movement · The Tremor</div>
   <h2>Parkinson's:<br><em>when the signal stutters</em></h2>
 
@@ -392,7 +392,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 05: fMRI ══ -->
-<section class="sec reveal" id="fmri">
+<section class="sec" id="fmri">
   <div class="sec-lbl" style="color:var(--cyan-lt)">05 · fMRI · What Neuroscientists Actually See</div>
   <h2>What is an fMRI?<br><em>What do they actually see?</em></h2>
 
@@ -447,7 +447,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 06: MEMORY ══ -->
-<section class="sec reveal" id="memory">
+<section class="sec" id="memory">
   <div class="sec-lbl" style="color:var(--glt)">06 · Memory · Sleep · How the Brain Remembers and Forgets</div>
   <h2>Memory —<br><em>how the brain writes its story</em></h2>
 
@@ -460,7 +460,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 07: ECT (SHOCK THERAPY) ══ -->
-<section class="sec reveal" id="ecg">
+<section class="sec" id="ecg">
   <div class="sec-lbl" style="color:var(--shock-lt)">07 · Electroconvulsive Therapy · Myths · The Science of Why It Works</div>
   <h2>Shock therapy:<br><em>the myths vs the reality</em></h2>
 
@@ -492,7 +492,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 08: NEURALINK ══ -->
-<section class="sec reveal" id="neuralink">
+<section class="sec" id="neuralink">
   <div class="sec-lbl" style="color:var(--cyan-lt)">08 · Neuralink · Neural Chips · Ethics · Black Mirror</div>
   <h2>Neuralink:<br><em>are we in a Black Mirror episode?</em></h2>
 
@@ -528,7 +528,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 09: QUANTUM BIOLOGY ══ -->
-<section class="sec reveal" id="quantum">
+<section class="sec" id="quantum">
   <div class="sec-lbl" style="color:var(--cyan-lt)">09 · Quantum Mechanics + Biology · Where They Meet</div>
   <h2>What biological problems<br><em>involve quantum mechanics?</em></h2>
 
@@ -567,7 +567,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 </section>
 
 <!-- ══ 10: THE EPHEMERAL ══ -->
-<section class="sec reveal" id="ephemeral">
+<section class="sec" id="ephemeral">
   <div class="sec-lbl" style="color:var(--glt)">10 · Will You Let the Ephemeral Die? · Impermanence · The Final Question</div>
   <h2>Will you let<br><em>the ephemeral die?</em></h2>
 
@@ -695,8 +695,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 (function(){
   const c=document.getElementById('fmri-canvas');if(!c)return;
   const ctx=c.getContext('2d');
-  const W=860,H=200;
-  let t=0;
+  let W=c.clientWidth||860;const H=200;c.width=W;let t=0;
   // brain "slices" — simplified colored regions
   const regions=[
     {name:'PFC',cx:.15,cy:.5,rx:.10,ry:.32,base:'38,90,180',active:'79,196,207'},
@@ -781,8 +780,6 @@ function tog(id){
 }
 
 // ── REVEAL ──
-const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')})},{threshold:.05});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
