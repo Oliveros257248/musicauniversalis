@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Biology of the Mind · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070B12;--bg2:#0C1220;
+  --cyan:#4FC4CF;--cyan-lt:#7FDDE6;--cyan-dim:rgba(79,196,207,.35);
+  --gold:#C89432;--glt:#E4B85A;
+  --neural:#3A7BD5;--neural-lt:#6BA3F0;
+  --cancer:#E05050;--cancer-lt:#F08080;
+  --alz:#9B70C0;--alz-lt:#C4A0E8;
+  --park:#70C090;--park-lt:#A0E0B8;
+  --shock:#E0A030;--shock-lt:#F0C060;
+  --cream:#E8EEF4;--cdim:rgba(232,238,244,.52);--cfaint:rgba(232,238,244,.04);
+  --line:rgba(232,238,244,.07);
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{color:var(--cdim);font-family:'Spectral',Georgia,serif;font-size:17px;line-height:1.9;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(58,123,213,.06),transparent),
+             radial-gradient(ellipse 40% 60% at 0% 100%,rgba(79,196,207,.04),transparent),
+             radial-gradient(ellipse 30% 30% at 100% 50%,rgba(192,80,80,.03),transparent)}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.6rem 2rem;background:rgba(7,11,18,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(79,196,207,.1)}
+.nb{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:var(--glt)}
+.nl{display:flex;gap:.1rem;flex-wrap:wrap}
+.nl a{font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.07em;color:var(--cdim);text-decoration:none;padding:.2rem .4rem;border-radius:3px;text-transform:uppercase;transition:all .15s}
+.nl a:hover{color:var(--cyan-lt)}
+.page{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:0 1.5rem 8rem}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 1rem 4rem;position:relative;overflow:hidden}
+#hcanvas{position:absolute;inset:0;z-index:0}
+.h-eye{font-family:'JetBrains Mono',monospace;font-size:.46rem;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan-dim);margin-bottom:1.2rem;position:relative;z-index:2}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,9vw,5.5rem);font-weight:400;line-height:1.05;color:var(--cream);position:relative;z-index:2;margin-bottom:.3rem}
+.hero h1 em{color:var(--cyan-lt);font-style:italic}
+.h-rule{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);margin:1.4rem auto;position:relative;z-index:2}
+.h-sub{font-family:'Spectral',serif;font-style:italic;font-size:1.1rem;color:var(--cdim);max-width:600px;line-height:1.9;position:relative;z-index:2}
+.h-pills{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-top:1.5rem;position:relative;z-index:2}
+.hpill{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .7rem;border-radius:20px;border:1px solid}
+.hpill.n{color:var(--neural-lt);border-color:rgba(58,123,213,.4)}
+.hpill.c{color:var(--cancer-lt);border-color:rgba(224,80,80,.4)}
+.hpill.a{color:var(--alz-lt);border-color:rgba(155,112,192,.4)}
+.hpill.p{color:var(--park-lt);border-color:rgba(112,192,144,.4)}
+.hpill.q{color:var(--cyan-lt);border-color:rgba(79,196,207,.4)}
+
+/* SECTIONS */
+.sec{padding:4rem 0;border-top:1px solid var(--line);position:relative;z-index:2}
+.sec-lbl{font-family:'JetBrains Mono',monospace;font-size:.43rem;letter-spacing:.22em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--line)}
+h2{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,4vw,2.8rem);font-weight:400;line-height:1.12;margin-bottom:1.1rem;color:var(--cream)}
+h2 em{font-style:italic;color:var(--cyan-lt)}
+h2 strong{font-weight:700}
+h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:400;color:var(--cream);margin:2rem 0 .6rem}
+h4{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(79,196,207,.5);margin:1.2rem 0 .4rem}
+p{margin-bottom:1rem;line-height:1.9}
+p strong{color:var(--cream)}
+p em{color:var(--glt)}
+.lead{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:rgba(232,238,244,.68);line-height:2;margin-bottom:1.5rem}
+blockquote{border-left:2px solid var(--cyan);padding:.6rem 1.2rem;margin:1.5rem 0;background:rgba(79,196,207,.04);border-radius:0 8px 8px 0}
+blockquote p{font-style:italic;color:rgba(232,238,244,.68);margin:0;font-size:.95rem}
+
+/* PANELS */
+.panel{background:var(--cfaint);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.6rem;margin:1.3rem 0;position:relative;overflow:hidden}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0}
+.panel.cyan::before{background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+.panel.gold::before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.panel.cancer::before{background:linear-gradient(90deg,transparent,var(--cancer),transparent)}
+.panel.alz::before{background:linear-gradient(90deg,transparent,var(--alz),transparent)}
+.panel.park::before{background:linear-gradient(90deg,transparent,var(--park),transparent)}
+.panel.shock::before{background:linear-gradient(90deg,transparent,var(--shock),transparent)}
+.panel.neural::before{background:linear-gradient(90deg,transparent,var(--neural),transparent)}
+.panel.warning{background:rgba(224,80,80,.06);border-color:rgba(224,80,80,.2)}
+.panel.warning::before{background:linear-gradient(90deg,transparent,var(--cancer),transparent)}
+.ptag{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(232,238,244,.27);margin-bottom:.5rem}
+.panel p,.panel li{font-size:.91rem;line-height:1.82;margin-bottom:.6rem;color:rgba(232,238,244,.6)}
+.panel p:last-child{margin-bottom:0}
+.panel strong{color:var(--cream)}
+.panel ul{padding-left:1.2rem;margin:.5rem 0}
+.panel li{margin-bottom:.3rem}
+
+/* KAIROS BOX */
+.kairos-box{border:1px solid rgba(200,148,50,.3);border-radius:10px;padding:1.2rem 1.4rem;margin:1.3rem 0;background:rgba(200,148,50,.04);position:relative}
+.kairos-box::after{content:'К';position:absolute;top:.5rem;right:.8rem;font-family:'Playfair Display',serif;font-size:2rem;color:rgba(200,148,50,.1);line-height:1}
+.kb-label{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(200,148,50,.5);margin-bottom:.5rem}
+.kb-body{font-size:.88rem;color:rgba(232,238,244,.58);line-height:1.82}
+.kb-body strong{color:var(--glt)}
+
+/* COMMA BOX */
+.comma-box{border:1px solid rgba(79,196,207,.2);border-radius:10px;padding:1.2rem 1.4rem;margin:1.3rem 0;background:rgba(79,196,207,.03);position:relative}
+.comma-box::after{content:'，';position:absolute;top:.4rem;right:.8rem;font-size:2.2rem;color:rgba(79,196,207,.08);line-height:1}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(79,196,207,.4);margin-bottom:.5rem}
+.cb-body{font-size:.88rem;color:rgba(232,238,244,.58);line-height:1.82}
+.cb-body strong{color:var(--cyan-lt)}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.85rem;margin:1.5rem 0}
+.card{background:var(--cfaint);border:1px solid var(--line);border-radius:10px;padding:1.1rem;border-top:2px solid transparent;transition:all .2s}
+.card:hover{background:rgba(232,238,244,.06);transform:translateY(-2px)}
+.card.nn{border-top-color:var(--neural)}.card.cn{border-top-color:var(--cancer)}
+.card.az{border-top-color:var(--alz)}.card.pk{border-top-color:var(--park)}
+.card.cy{border-top-color:var(--cyan)}.card.gd{border-top-color:var(--gold)}
+.card.sh{border-top-color:var(--shock)}
+.ci{font-size:1.8rem;display:block;margin-bottom:.4rem}
+.ct{font-family:'Playfair Display',serif;font-size:1rem;color:var(--cream);margin-bottom:.3rem}
+.cb{font-size:.82rem;color:rgba(232,238,244,.5);line-height:1.6}
+
+/* ACCORDION */
+.acc{background:var(--cfaint);border:1px solid var(--line);border-radius:10px;margin:.65rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.7rem;padding:.9rem 1.1rem;cursor:pointer;transition:background .15s}
+.acc-h:hover{background:rgba(232,238,244,.04)}
+.acc-badge{font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.07em;text-transform:uppercase;padding:.17rem .48rem;border-radius:4px;flex-shrink:0;white-space:nowrap}
+.acc-badge.bio{background:rgba(79,196,207,.1);color:var(--cyan-lt);border:1px solid rgba(79,196,207,.22)}
+.acc-badge.cn{background:rgba(224,80,80,.1);color:var(--cancer-lt);border:1px solid rgba(224,80,80,.22)}
+.acc-badge.az{background:rgba(155,112,192,.1);color:var(--alz-lt);border:1px solid rgba(155,112,192,.22)}
+.acc-badge.pk{background:rgba(112,192,144,.1);color:var(--park-lt);border:1px solid rgba(112,192,144,.22)}
+.acc-badge.ne{background:rgba(58,123,213,.1);color:var(--neural-lt);border:1px solid rgba(58,123,213,.22)}
+.acc-badge.sh{background:rgba(224,160,48,.1);color:var(--shock-lt);border:1px solid rgba(224,160,48,.22)}
+.acc-badge.eth{background:rgba(200,148,50,.1);color:var(--glt);border:1px solid rgba(200,148,50,.2)}
+.acc-title{font-family:'Spectral',serif;font-size:.97rem;color:var(--cream);flex:1;line-height:1.4}
+.acc-tog{font-family:'JetBrains Mono',monospace;font-size:.46rem;color:rgba(232,238,244,.2);flex-shrink:0}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.acc-body.open{max-height:4000px;padding:0 1.1rem 1.1rem}
+.acc-body p{font-size:.9rem;color:rgba(232,238,244,.6);line-height:1.85;margin-bottom:.65rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--cream)}
+.acc-body em{color:var(--glt)}
+
+/* SIGNAL BOXES — for dramatic moments */
+.signal{border:1px solid rgba(224,80,80,.35);border-radius:8px;padding:1rem 1.2rem;margin:1rem 0;background:rgba(224,80,80,.05)}
+.signal-label{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cancer-lt);margin-bottom:.4rem}
+.signal p{font-size:.88rem;color:rgba(232,238,244,.65);line-height:1.8;margin:0}
+.signal.cyan{border-color:rgba(79,196,207,.35);background:rgba(79,196,207,.04)}
+.signal.cyan .signal-label{color:var(--cyan-lt)}
+.signal.gold{border-color:rgba(200,148,50,.35);background:rgba(200,148,50,.04)}
+.signal.gold .signal-label{color:var(--glt)}
+.signal.purple{border-color:rgba(155,112,192,.35);background:rgba(155,112,192,.05)}
+.signal.purple .signal-label{color:var(--alz-lt)}
+
+/* FMRI VISUALIZER */
+.fmri-wrap{margin:1.5rem 0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.fmri-header{background:rgba(232,238,244,.03);padding:.7rem 1rem;display:flex;align-items:center;gap:.7rem;border-bottom:1px solid var(--line)}
+.fmri-title{font-family:'JetBrains Mono',monospace;font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cdim)}
+.fmri-dot{width:8px;height:8px;border-radius:50%;animation:fpulse 2s ease-in-out infinite}
+.fmri-dot.live{background:var(--cancer)}
+@keyframes fpulse{0%,100%{opacity:.3}50%{opacity:1}}
+#fmri-canvas{display:block;width:100%;background:var(--bg2)}
+
+/* COMPARISON TABLE */
+.tbl-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:8px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+th{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(232,238,244,.3);padding:.55rem .85rem;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;background:rgba(232,238,244,.02)}
+td{padding:.6rem .85rem;border-bottom:1px solid rgba(232,238,244,.04);color:rgba(232,238,244,.58);vertical-align:top;line-height:1.55}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--cream);font-size:.85rem}
+tr:hover td{background:rgba(232,238,244,.02)}
+
+/* NEURALINK DEBATE */
+.debate{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+@media(max-width:580px){.debate{grid-template-columns:1fr}}
+.dside{border:1px solid var(--line);border-radius:10px;padding:1.2rem}
+.dside.pro{border-top:2px solid var(--park)}
+.dside.con{border-top:2px solid var(--cancer)}
+.dside-label{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.6rem}
+.dside.pro .dside-label{color:var(--park-lt)}.dside.con .dside-label{color:var(--cancer-lt)}
+.dside p{font-size:.85rem;color:rgba(232,238,244,.55);line-height:1.72;margin-bottom:.5rem}
+.dside p:last-child{margin-bottom:0}
+.dside strong{color:var(--cream)}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s,transform .65s}
+.reveal.in{opacity:1;transform:none}
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);position:relative;z-index:2}
+.fla{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.09em;color:rgba(232,238,244,.22);text-decoration:none;text-transform:uppercase;padding:.2rem .5rem;transition:color .2s}
+.fla:hover{color:var(--cyan-lt)}
+</style>
+</head>
+<body>
+<nav>
+  <span class="nb">Musica Universalis</span>
+  <div class="nl">
+    <a href="#brain">Brain</a><a href="#cancer">Cancer</a><a href="#alzheimer">Alzheimer</a>
+    <a href="#parkinson">Parkinson</a><a href="#fmri">fMRI</a><a href="#memory">Memory</a>
+    <a href="#ecg">ECT</a><a href="#neuralink">Neuralink</a><a href="#quantum">Quantum Bio</a><a href="#ephemeral">Ephemeral</a>
+  </div>
+</nav>
+
+<div class="page">
+<section class="hero">
+  <canvas id="hcanvas"></canvas>
+  <div class="h-eye">Section XIV · Biology · Neuroscience · The Mind · Musica Universalis</div>
+  <h1>The <em>Biology</em><br>of the Mind</h1>
+  <div class="h-rule"></div>
+  <p class="h-sub">What are you made of? What is happening inside the three pounds of tissue between your ears right now? Why does it end? What are the biological problems — the loops that don't stop, the signals that won't quit, the patterns that can't restore themselves?</p>
+  <div class="h-pills">
+    <span class="hpill n">Neuroscience</span>
+    <span class="hpill c">Cancer</span>
+    <span class="hpill a">Alzheimer</span>
+    <span class="hpill p">Parkinson</span>
+    <span class="hpill q">Quantum Biology</span>
+  </div>
+</section>
+
+<!-- ══ 01: THE BRAIN ══ -->
+<section class="sec reveal" id="brain">
+  <div class="sec-lbl" style="color:var(--neural-lt)">01 · The Brain · How It Works · Patterns & Cycles</div>
+  <h2>Your brain is a<br><em>pattern machine</em></h2>
+  <p class="lead">You have approximately 86 billion neurons. Each one connects to up to 10,000 others. The total number of synaptic connections is estimated at 100 trillion — more than the number of stars in 1,000 Milky Ways. And yet what this system does is not primarily store information. It predicts. It patterns. It oscillates. It sleeps to restore itself.</p>
+
+  <div class="panel neural">
+    <div class="ptag">What Is a Neuron — The Basic Unit</div>
+    <p>A neuron is an electrically excitable cell with three parts: <strong>dendrites</strong> (input branches that receive signals from other neurons), the <strong>cell body/soma</strong> (which integrates signals), and the <strong>axon</strong> (the output cable that transmits the signal onward). At the end of the axon, neurotransmitter molecules are released across the synapse — the tiny gap between neurons — where they bind to receptors on the next neuron's dendrites.</p>
+    <p>The action potential: when a neuron reaches its threshold of excitation, it fires an electrical spike that travels down the axon at up to 120 m/s (~270 mph). This is all-or-nothing — the neuron either fires or doesn't; there's no such thing as a "half-signal." Information is encoded in the <em>pattern and timing of spikes</em>, not in their amplitude. Your entire subjective experience — every memory, emotion, perception, thought — is patterns of spikes across billions of neurons.</p>
+    <p>Neurotransmitters: <strong>Glutamate</strong> — the main excitatory neurotransmitter (activates the next neuron). <strong>GABA</strong> — the main inhibitory one (suppresses it). <strong>Dopamine</strong> — reward, motivation, movement control. <strong>Serotonin</strong> — mood, appetite, sleep. <strong>Norepinephrine</strong> — alertness, stress response. <strong>Acetylcholine</strong> — memory, muscle control. The drugs that affect your mood, your focus, your pain — nearly all work by manipulating these systems.</p>
+  </div>
+
+  <h3>The Brain's Patterns — Oscillations and Waves</h3>
+  <div class="cards">
+    <div class="card nn">
+      <span class="ci">🔵</span>
+      <div class="ct">Delta Waves (0.5–4 Hz)</div>
+      <div class="cb">Deep, dreamless sleep. Large-amplitude, slow oscillations. During delta sleep: growth hormone is released, cellular repair occurs, the glymphatic system (the brain's waste-clearance mechanism) is most active. Abnormal delta in waking states: associated with brain injury, dementia, coma.</div>
+    </div>
+    <div class="card nn">
+      <span class="ci">🟣</span>
+      <div class="ct">Theta Waves (4–8 Hz)</div>
+      <div class="cb">Drowsiness, meditation, REM sleep, deep creativity. Hippocampal theta is directly linked to spatial navigation and memory consolidation. The hippocampus "replays" memories during theta-rich states — this is how short-term memory becomes long-term memory. Also: the state of flow and creative insight.</div>
+    </div>
+    <div class="card nn">
+      <span class="ci">🟡</span>
+      <div class="ct">Alpha Waves (8–12 Hz)</div>
+      <div class="cb">Relaxed wakefulness, eyes closed. A baseline resting state that gates sensory input — alpha waves suppress irrelevant signals. "Alpha blocking" occurs when you open your eyes or engage with a task — alpha drops, beta rises. Linked to relaxed focused awareness, mindfulness states.</div>
+    </div>
+    <div class="card nn">
+      <span class="ci">🟠</span>
+      <div class="ct">Beta Waves (12–30 Hz)</div>
+      <div class="cb">Active thinking, focus, anxiety. The dominant waking pattern during cognitive tasks. High beta: anxiety, stress, rumination. Beta coherence between regions: active communication during working memory, decision-making, and language. Too much beta without rest leads to cognitive fatigue.</div>
+    </div>
+    <div class="card nn">
+      <span class="ci">🔴</span>
+      <div class="ct">Gamma Waves (30–100 Hz)</div>
+      <div class="cb">The fastest waves. Associated with binding — the brain linking separate pieces of information into a unified conscious experience. Gamma is disrupted in schizophrenia and Alzheimer's disease. Long-term meditators show unusually high gamma synchrony. The "aha!" moment of insight produces a gamma burst.</div>
+    </div>
+    <div class="card cy">
+      <span class="ci">🌊</span>
+      <div class="ct">The Glymphatic System</div>
+      <div class="cb">Discovered 2013 (Maiken Nedergaard). During sleep, cerebrospinal fluid pulses through the brain, flushing out metabolic waste — including amyloid-beta, the protein that accumulates in Alzheimer's disease. The brain shrinks ~60% during sleep to allow this flow. Sleep is not rest — it is active biological maintenance. Chronic sleep deprivation = amyloid accumulation = elevated Alzheimer's risk.</div>
+    </div>
+  </div>
+
+  <h3>What Are the Patterns in Your Brain?</h3>
+  <div class="panel cyan">
+    <div class="ptag">Default Mode Network · The Brain's Resting Story</div>
+    <p>When you are not actively focused on a task, a distributed network of brain regions activates together — the <strong>Default Mode Network (DMN)</strong>: medial prefrontal cortex, posterior cingulate, angular gyrus, hippocampus. This is the network of self-referential thought: daydreaming, remembering the past, imagining the future, thinking about other people, narrative self-construction. When you "zone out" and think about your life — that is the DMN.</p>
+    <p>The DMN is overactive in depression (rumination), suppressed in flow states and focused attention, dysregulated in ADHD (too much switching in and out), and profoundly altered by psychedelics (which flatten its hierarchy, leading to ego dissolution). Meditation reduces DMN activity over time — particularly the self-referential, self-critical loop. The DMN is, in a real sense, the neural substrate of your sense of self.</p>
+    <p><strong>Other major networks:</strong> The <em>Salience Network</em> (anterior insula + anterior cingulate) — decides what deserves your attention; dysregulated in PTSD and chronic pain. The <em>Central Executive Network</em> (dorsolateral prefrontal + posterior parietal) — working memory and deliberate reasoning; the "thinking" network. These networks toggle — you cannot have both the DMN and the CEN fully active simultaneously. ADHD is partly a failure of this toggle.</p>
+  </div>
+
+  <div class="comma-box">
+    <div class="cb-label">Comma Framework · Brain Patterns That Need Restoration</div>
+    <div class="cb-body">The brain oscillates — it is never fully on or fully off, but cycling through states that serve different functions. <strong>The comma in the brain is sleep.</strong> Every 90 minutes during sleep, the brain cycles through a pattern: light sleep → deep delta → REM, over and over. Each cycle is a comma — the pause in which the previous day's experience is sorted, the waste is cleared, the synaptic connections are pruned back to baseline (synaptic homeostasis theory). <strong>A brain without sleep is a brain without commas: overloaded, wasteful, prone to runaway patterns.</strong> This is not metaphor — it is the glymphatic mechanism.</div>
+  </div>
+</section>
+
+<!-- ══ 02: CANCER ══ -->
+<section class="sec reveal" id="cancer">
+  <div class="sec-lbl" style="color:var(--cancer-lt)">02 · Cancer · The Loop That Doesn't Stop · Apoptosis</div>
+  <h2>Cancer:<br><em>the loop that won't stop</em></h2>
+
+  <div class="signal">
+    <div class="signal-label">⚡ APOPTOSIS — APOPTOSIS — APOPTOSIS</div>
+    <p>The cell hears the signal. The program begins. The caspases activate. The DNA fragments. The cell packages itself for safe removal, neat as a fallen leaf. <strong>This is supposed to happen.</strong> 50–70 billion cells die this way every day in the adult human body. They hear the signal. Cancer is what happens when they stop hearing it.</p>
+  </div>
+
+  <p class="lead">Cancer is not one disease — it is a family of over 100 diseases unified by one principle: cells that have lost the ability to stop dividing. Normal cells divide, do their job, and when their time is up — or when they are damaged — they receive a signal to die. Cancer cells don't receive it, don't respond to it, or actively suppress it.</p>
+
+  <div class="panel cancer">
+    <div class="ptag">What Cancer Actually Is — The Biology</div>
+    <p>Every cell contains two classes of genes governing division: <strong>proto-oncogenes</strong> (growth accelerators — like the gas pedal) and <strong>tumor suppressor genes</strong> (growth brakes — like the brake pedal). Cancer begins when mutations accumulate that press the gas pedal and cut the brake cable simultaneously.</p>
+    <p>Key mutations: <strong>TP53</strong> — the "guardian of the genome." Normally, p53 protein detects DNA damage and either halts division for repair or triggers apoptosis. Mutated in >50% of all cancers. When p53 fails, a damaged cell that should be eliminated instead continues to divide, passing its mutations to daughter cells. <strong>RAS oncogenes</strong> — mutated in ~30% of cancers; produce a constantly active "divide now" signal. <strong>BRCA1/2</strong> — tumor suppressors critical for DNA repair; mutations dramatically increase breast and ovarian cancer risk.</p>
+    <p>The hallmarks of cancer (Hanahan & Weinberg, 2000/2011): (1) <em>Self-sufficiency in growth signals</em> — doesn't need external "grow" commands. (2) <em>Insensitivity to anti-growth signals</em> — ignores "stop" commands. (3) <em>Evading apoptosis</em> — won't die when told. (4) <em>Limitless replicative potential</em> — normal cells can only divide ~50–70 times (the Hayflick limit); cancer cells activate telomerase to divide indefinitely. (5) <em>Angiogenesis</em> — grows its own blood supply. (6) <em>Invasion and metastasis</em> — spreads to other tissues. Plus: (7) <em>Reprogramming energy metabolism</em> (Warburg effect — using fermentation even with oxygen). (8) <em>Evading immune destruction</em>.</p>
+  </div>
+
+  <div class="signal">
+    <div class="signal-label">🔴 The Cell That Won't Die — A Drama in One Act</div>
+    <p>Hey — <strong>STOP</strong>. You've copied your DNA incorrectly. // I hear you. // No, you didn't hear me. STOP. // ... // APOPTOSIS SIGNAL. APOPTOSIS SIGNAL. // The cell keeps dividing. The signal goes unanswered. The tumor grows. The body's checkpoint signals — all the hearings, all the sensors — have gone overwired. Overstimulated. Silenced. <strong>Who can stop this runaway reaction?</strong> The immune system tries. Sometimes it wins. Sometimes it doesn't.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('apo')">
+      <span class="acc-badge cn">Apoptosis</span>
+      <span class="acc-title">The biology of programmed cell death — and why cancer defeats it</span>
+      <span class="acc-tog" id="at-apo">▼</span>
+    </div>
+    <div class="acc-body" id="ab-apo">
+      <p>Apoptosis (from Greek: "falling off," as leaves from a tree) is programmed cell death — a precise, orderly biological process by which cells self-destruct when they are: damaged beyond repair, infected by virus, potentially cancerous, or developmentally finished (the spaces between your fingers in the embryo were sculpted by apoptosis). It is not the same as necrosis (traumatic cell death, which causes inflammation) — apoptosis is clean, silent, and occurs constantly.</p>
+      <p><strong>The intrinsic pathway</strong> (internal damage sensor): DNA damage, oxidative stress, or developmental signals activate the BCL-2 family of proteins. Pro-apoptotic proteins (Bax, Bak) overwhelm anti-apoptotic ones (BCL-2, BCL-XL), causing the mitochondrial outer membrane to permeabilize. Cytochrome c releases into the cytoplasm, activating the caspase cascade — a proteolytic chain reaction that systematically dismantles the cell from within. The cell packages itself into "apoptotic bodies" that neighboring cells and immune cells quietly consume.</p>
+      <p><strong>The extrinsic pathway</strong> (external signal): Immune cells can trigger apoptosis in target cells by binding death receptors (Fas, TRAIL receptors) on the cell surface. T cells kill virus-infected and cancerous cells this way. Cancer evades this by downregulating death receptors, overexpressing BCL-2 to block the cascade, or producing signals that suppress immune cells before they can deliver the death signal.</p>
+      <p><strong>The runaway:</strong> BCL-2 overexpression was one of the first molecular discoveries in cancer biology — found in follicular lymphoma (1984). The BCL-2 protein simply prevents apoptosis from completing. The cell lives. And lives. And lives. Modern targeted therapies (venetoclax — a BCL-2 inhibitor) work by restoring the apoptosis signal. <em>The treatment for cancer is, in many cases, restoring the ability to hear the signal to stop.</em></p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('treat')">
+      <span class="acc-badge cn">Treatment</span>
+      <span class="acc-title">Surgery · Chemotherapy · Radiation · Immunotherapy · Targeted therapy</span>
+      <span class="acc-tog" id="at-treat">▼</span>
+    </div>
+    <div class="acc-body" id="ab-treat">
+      <p><strong>Surgery:</strong> Physical removal of the tumor. Gold standard when cancer is localized and accessible. The margin matters — surgeons aim for "negative margins," meaning no cancer cells at the cut edge.</p>
+      <p><strong>Chemotherapy:</strong> Drugs that kill rapidly dividing cells — which targets cancer cells (dividing fast) but also harms other rapidly dividing cells: hair follicles, gut lining, bone marrow. This causes the familiar side effects. Most chemo works by damaging DNA during replication, triggering apoptosis in dividing cells. The problem: it is not specific to cancer cells.</p>
+      <p><strong>Radiation:</strong> High-energy ionizing radiation damages DNA specifically in the targeted region. Cancer cells are often less able to repair DNA damage than normal cells — so radiation kills them preferentially. Modern precision radiation (CyberKnife, proton therapy) can target tumors with millimeter accuracy while sparing surrounding tissue.</p>
+      <p><strong>Immunotherapy:</strong> The revolution of the last 15 years. Checkpoint inhibitors (pembrolizumab/Keytruda, nivolumab) block PD-1 and CTLA-4 — proteins that cancer cells use to "hide" from the immune system. Releasing this brake allows T cells to find and kill the tumor. Produces durable remissions in some cancers (melanoma, lung cancer) that were previously untreatable. CAR-T therapy engineers the patient's own T cells to recognize cancer-specific antigens.</p>
+      <p><strong>Targeted therapy:</strong> Drugs designed against specific molecular targets — imatinib (Gleevec) against BCR-ABL in CML (chronic myeloid leukemia) was the paradigm shift: a once-fatal cancer became manageable with a daily pill. Venetoclax against BCL-2. PARP inhibitors for BRCA-mutated cancers. These are precision tools rather than broad cellular poisons.</p>
+    </div>
+  </div>
+
+  <div class="kairos-box">
+    <div class="kb-label">Kairos Threshold · Cancer</div>
+    <div class="kb-body">In the comma framework: a healthy cell operates in cycles — divide, function, rest, die. <strong>The kairos threshold for a cell is the moment when its accumulated damage crosses the point of no return.</strong> Below the threshold: repair mechanisms (p53, DNA repair enzymes) correct the error. The cycle continues. Above the threshold: the damage is too great, and the correct response is apoptosis — the comma becomes a period. Cancer is the cell that crosses the threshold but refuses the period. It converts a moment of necessary ending into a comma that loops forever. The loop doesn't stop. Every biological problem in cancer is a version of the same philosophical problem: <strong>the refusal of the ending that should have happened.</strong></div>
+  </div>
+
+  <div class="panel gold">
+    <div class="ptag">Biology + Quantum Mechanics · Where They Intersect in Cancer</div>
+    <p>Quantum mechanics enters biology most clearly in the problem of DNA mutation. <strong>Proton tunneling</strong> — a quantum mechanical phenomenon where protons quantum-tunnel through energy barriers rather than over them — is proposed as a mechanism for some spontaneous mutations. In a DNA base pair, hydrogen atoms can tunnel between tautomeric forms, creating a rare form that mispairs during replication. This is not classical chemistry — it is the wave-nature of matter operating at the scale of the atom. Some researchers propose this accounts for a fraction of cancer-causing mutations that cannot be explained by classical DNA chemistry. The evidence is preliminary but growing — quantum biology as a field is establishing that quantum coherence, tunneling, and entanglement operate in biological systems (photosynthesis, bird navigation, enzyme catalysis) that were previously assumed to be "too warm and wet" for quantum effects.</p>
+  </div>
+</section>
+
+<!-- ══ 03: ALZHEIMER ══ -->
+<section class="sec reveal" id="alzheimer">
+  <div class="sec-lbl" style="color:var(--alz-lt)">03 · Alzheimer's Disease · The End of Memory</div>
+  <h2>Alzheimer's:<br><em>the failure of forgetting to forget</em></h2>
+  <p class="lead">Memory is not stored in static files like a hard drive. It is reconstructed every time you recall it — rebuilt from patterns of neural activation distributed across billions of synapses. Alzheimer's disease doesn't erase memory like deleting a file. It destroys the infrastructure that rebuilds it.</p>
+
+  <div class="panel alz">
+    <div class="ptag">What Is Alzheimer's Disease — The Biology</div>
+    <p>Alzheimer's disease (AD) is a progressive neurodegenerative disease characterized by two pathological signatures: <strong>amyloid plaques</strong> and <strong>neurofibrillary tangles</strong>, accompanied by widespread synaptic failure, neuroinflammation, and eventually massive neuronal death.</p>
+    <p><strong>Amyloid-beta (Aβ):</strong> Amyloid precursor protein (APP) is a normal membrane protein. In Alzheimer's, it is cleaved abnormally to produce Aβ42, a small peptide that misfolds and aggregates into oligomers and then plaques. Aβ oligomers (the soluble, mobile form) are now thought to be the most toxic species — they disrupt synaptic signaling, activate inflammatory responses, and impair the glymphatic clearance system. The plaques themselves may be a late-stage manifestation.</p>
+    <p><strong>Tau tangles:</strong> Tau is a protein that normally stabilizes the microtubules that serve as the cell's internal transport system — the rails on which nutrients, organelles, and molecular machinery move up and down the axon. In AD, tau becomes hyperphosphorylated (too many phosphate groups added), detaches from microtubules, and aggregates into neurofibrillary tangles. The transport system collapses. The neuron slowly starves itself from within.</p>
+    <p><strong>Neuroinflammation:</strong> Microglia (the brain's immune cells) are activated by amyloid deposits. Initially protective (clearing amyloid), chronic activation becomes destructive — the inflammatory response damages surrounding neurons. The APOE4 gene variant, the strongest genetic risk factor for late-onset AD, affects both amyloid clearance and neuroinflammation.</p>
+    <p><strong>Why memory first?</strong> The hippocampus — the structure critical for forming new memories — and the entorhinal cortex are among the first regions affected. This is why the earliest symptom is typically new memory formation (you can't learn new things) rather than loss of old memories. Old memories are distributed across cortical networks and survive longer. In late stages, this reverses — even decades-old memories dissolve as cortical networks are destroyed.</p>
+  </div>
+
+  <h3>What Sleep Does to Memory — and to Alzheimer's Risk</h3>
+  <div class="panel alz">
+    <div class="ptag">The Sleep–Amyloid Connection</div>
+    <p>The glymphatic system (the brain's waste clearance mechanism, active primarily during slow-wave sleep) removes amyloid-beta from the brain each night. Studies show that <strong>a single night of sleep deprivation produces a measurable increase in amyloid-beta in the cerebrospinal fluid</strong>. Chronic sleep deprivation accelerates amyloid accumulation — there is a bidirectional relationship: Alzheimer's disrupts sleep, and poor sleep accelerates Alzheimer's pathology.</p>
+    <p>During slow-wave sleep, the hippocampus "replays" the day's experiences to the cortex — the consolidation process that converts short-term to long-term memory. During REM sleep, emotional memories are processed and integrated into the broader autobiographical narrative. <strong>Sleep is not rest for the brain — it is the night shift: memory consolidation, waste clearance, synaptic recalibration.</strong></p>
+    <p>The patterns your brain uses to remember: <em>pattern completion</em> (seeing part of something and reconstructing the whole — hippocampal function), <em>pattern separation</em> (distinguishing similar memories from each other — dentate gyrus function — specifically impaired early in AD), <em>engram cells</em> (specific neurons that are reactivated during recall — pioneered by Liu, Ramirez, Tonegawa at MIT). In AD, the engram cells survive longer than the connections between them — memories may still be "stored" long after they become unreachable.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('alzt')">
+      <span class="acc-badge az">Treatment & Research</span>
+      <span class="acc-title">Lecanemab · APOE4 · Prevention · What we know in 2025</span>
+      <span class="acc-tog" id="at-alzt">▼</span>
+    </div>
+    <div class="acc-body" id="ab-alzt">
+      <p><strong>Lecanemab (Leqembi, 2023):</strong> The first drug to modestly slow Alzheimer's progression — an anti-amyloid antibody that clears amyloid from the brain. It slows decline by ~27% in early AD. Not a cure. Requires frequent IV infusions. Side effects include ARIA (amyloid-related imaging abnormalities — brain swelling/bleeding). Represents a genuine proof of concept that targeting amyloid at the right stage can change the disease course — but the effect is modest and the window is narrow (early-stage only).</p>
+      <p><strong>APOE4:</strong> Having one copy of the APOE4 gene variant triples lifetime Alzheimer's risk; two copies increase it 8–12×. APOE4 impairs amyloid clearance, disrupts lipid metabolism in neurons, and amplifies neuroinflammation. APOE4 homozygotes now recognized as essentially having a distinct, more aggressive form of the disease. First targeted treatments for APOE4 carriers in clinical trials.</p>
+      <p><strong>Prevention (what the evidence supports):</strong> Regular aerobic exercise (most robustly supported — increases BDNF, promotes neurogenesis, improves sleep quality, reduces cardiovascular risk factors). Quality sleep. Treating hearing loss (untreated hearing loss in mid-life is the single largest modifiable risk factor by population-attributable fraction). Social engagement. Mediterranean diet. Cognitive challenge. Blood pressure control. These are not guaranteed prevention — but they delay onset, which at the population level is enormously significant.</p>
+    </div>
+  </div>
+
+  <div class="kairos-box">
+    <div class="kb-label">Kairos Threshold · Alzheimer's</div>
+    <div class="kb-body">Memory is the brain's collection of commas — the pauses that connect present experience to the past, that give continuity to the self. Alzheimer's disease erodes these commas one by one. The early stage is the loss of new comma-making: new experiences no longer connect to the ongoing story. The later stages dissolve the old commas: the accumulated story disconnects, chapter by chapter, until only the present moment remains — and then even that. <strong>The kairos threshold in Alzheimer's is synaptic — each synapse has a tipping point beyond which it cannot recover.</strong> Below the threshold: compensatory mechanisms activate; the brain routes around damage. Above: the cascade is irreversible. Current drugs work only below the threshold, which is why early detection is the entire game.</div>
+  </div>
+</section>
+
+<!-- ══ 04: PARKINSON'S ══ -->
+<section class="sec reveal" id="parkinson">
+  <div class="sec-lbl" style="color:var(--park-lt)">04 · Parkinson's Disease · Dopamine · Movement · The Tremor</div>
+  <h2>Parkinson's:<br><em>when the signal stutters</em></h2>
+
+  <div class="panel park">
+    <div class="ptag">What Is Parkinson's Disease</div>
+    <p>Parkinson's disease (PD) is a progressive neurodegenerative disorder caused by the loss of dopaminergic neurons in the <strong>substantia nigra</strong> — a small, darkly pigmented region deep in the brainstem (the dark color comes from neuromelanin, a byproduct of dopamine synthesis). These neurons project to the striatum as part of the <strong>basal ganglia</strong> circuit — the brain's movement control and motor learning system.</p>
+    <p>By the time symptoms appear (~50–60% of these neurons are already dead), the brain has been compensating for years. The basal ganglia circuit normally facilitates desired movements and suppresses competing ones. Without dopamine: the "go" signal (direct pathway) is weakened; the "stop" signal (indirect pathway) is overactive. Movement becomes effortful, slow, and prone to involuntary activation — the tremor is the motor system stuck between competing signals.</p>
+    <p><strong>The four cardinal symptoms (TRAP):</strong> <em>Tremor</em> (resting tremor — present when the limb is relaxed, disappears during voluntary movement); <em>Rigidity</em> (stiffness, "cogwheel" resistance to passive movement); <em>Akinesia/Bradykinesia</em> (slowness and poverty of movement); <em>Postural instability</em> (balance impairment, late-stage).</p>
+    <p><strong>Lewy bodies:</strong> The cellular signature of Parkinson's — abnormal aggregates of alpha-synuclein protein that accumulate inside dopaminergic neurons, eventually killing them. Alpha-synuclein normally regulates neurotransmitter release; misfolded, it is toxic and spreads through the nervous system in a prion-like manner. Braak staging maps how Lewy body pathology spreads — starting in the gut and olfactory bulb, moving through the brainstem, then to the substantia nigra, then to the cortex. Loss of smell is often the first symptom, years before motor signs.</p>
+    <p><strong>Treatment:</strong> Levodopa (L-DOPA) — a dopamine precursor that crosses the blood-brain barrier and is converted to dopamine in the brain — remains the gold standard 60 years after its introduction. It is dramatically effective at first but loses potency over time as fewer neurons remain to convert it. Deep Brain Stimulation (DBS) — electrical stimulation of specific basal ganglia nuclei through implanted electrodes — is the most effective treatment for medication-resistant motor fluctuations. It does not slow the disease; it modulates the circuit.</p>
+  </div>
+
+  <div class="kairos-box">
+    <div class="kb-label">Kairos Threshold · Parkinson's</div>
+    <div class="kb-body">Parkinson's kairos is the threshold of dopamine depletion — 50–60% of the neurons must be gone before the system fails visibly. Below this threshold, the brain compensates: remaining neurons produce more dopamine per cell, circuits reroute. Above it: compensation is no longer sufficient, and the characteristic symptoms appear. This is the "clinical iceberg" — the visible disease is always late-stage at the biological level. The comma in Parkinson's is the dopamine signal itself — the pause between intention and movement, the brief moment in which the basal ganglia coordinates the outgoing command. When dopamine depletes, the comma either fails to appear (akinesia — the movement that won't start) or stutters (tremor — the movement that won't stop). <strong>It is the loss of the signal that lets movement be smooth, be intentional, be coordinated. The comma that makes motion into dance.</strong></div>
+  </div>
+</section>
+
+<!-- ══ 05: fMRI ══ -->
+<section class="sec reveal" id="fmri">
+  <div class="sec-lbl" style="color:var(--cyan-lt)">05 · fMRI · What Neuroscientists Actually See</div>
+  <h2>What is an fMRI?<br><em>What do they actually see?</em></h2>
+
+  <div class="fmri-wrap">
+    <div class="fmri-header">
+      <div class="fmri-dot live"></div>
+      <div class="fmri-title">fMRI Signal Simulation · BOLD Response · Axial Slice</div>
+    </div>
+    <canvas id="fmri-canvas" width="860" height="200"></canvas>
+  </div>
+
+  <div class="panel cyan">
+    <div class="ptag">fMRI — Functional Magnetic Resonance Imaging</div>
+    <p>An fMRI machine is a giant magnet (typically 1.5–7 Tesla — between 30,000 and 140,000 times Earth's magnetic field). It measures <strong>BOLD signal: Blood-Oxygen-Level-Dependent</strong> changes in the MRI signal caused by differences in the magnetic properties of oxygenated vs deoxygenated hemoglobin. Active neurons consume more oxygen, causing a local increase in blood flow and oxygenated hemoglobin — which has a different MRI signal than deoxygenated hemoglobin. <strong>An fMRI does not directly measure neural activity — it measures blood flow as a proxy.</strong></p>
+    <p>Temporal resolution: ~1–2 seconds (the BOLD response lags neural activity by ~5–6 seconds). Spatial resolution: ~2–3mm. For context: a single cortical column is ~0.5mm wide and contains ~10,000 neurons. A single fMRI voxel contains hundreds of thousands of neurons. <strong>What neuroscientists see is not thoughts — they see which regions use more blood oxygen while a person does a task.</strong> The colorful brain activation maps in scientific papers show: compared to resting baseline, these regions showed statistically greater BOLD signal during this task, averaged across many people. They are statistical maps of average activation, not direct recordings of experience.</p>
+    <p>What it can genuinely tell us: which broad brain regions are involved in different cognitive functions; how these patterns differ in neurological and psychiatric conditions; how brain connectivity (synchrony between regions) changes with drugs, therapy, sleep, or experience; the trajectory of degeneration in diseases like Alzheimer's and Parkinson's. What it cannot tell us: what a specific person is thinking; whether someone is lying; the precise mechanism of any specific thought. The "mind-reading" headlines are almost always massive overstatements of statistical patterns in averaged group data.</p>
+  </div>
+
+  <h3>The Brain Regions — A Simplified Map</h3>
+  <div class="cards">
+    <div class="card cy">
+      <span class="ci">🎯</span>
+      <div class="ct">Prefrontal Cortex (PFC)</div>
+      <div class="cb">The "executive" — working memory, decision-making, inhibition, long-term planning, personality expression. Last to fully mature (~25 years). Suppressed during emotional flooding and trauma flashbacks. Atrophied in chronic stress and addiction. The seat of "civilization" in the brain.</div>
+    </div>
+    <div class="card cy">
+      <span class="ci">⚡</span>
+      <div class="ct">Amygdala</div>
+      <div class="cb">Threat detection and emotional salience — the brain's alarm system. Responds to danger before the PFC can think. Enlarged in PTSD (hypervigilant). Reduced by successful therapy and meditation. Not only negative emotion — also involved in emotional memory and positive social bonding.</div>
+    </div>
+    <div class="card cy">
+      <span class="ci">🐎</span>
+      <div class="ct">Hippocampus</div>
+      <div class="cb">Memory formation (not storage — conversion of short-term to long-term memory) and spatial navigation. Contains "place cells" that fire when you are in specific locations. First target of Alzheimer's pathology. Shrinks with chronic stress (cortisol is neurotoxic here). Grows with aerobic exercise and learning.</div>
+    </div>
+    <div class="card cy">
+      <span class="ci">🔗</span>
+      <div class="ct">Anterior Cingulate Cortex</div>
+      <div class="cb">Error detection, conflict monitoring, and attention control. The brain's "uh-oh" signal — fires when expected and actual outcomes diverge. Dysregulated in OCD (too many false alarms), depression (overactive in rumination), and ADHD (underactive for error monitoring). Bridge between limbic emotion and PFC cognition.</div>
+    </div>
+    <div class="card nn">
+      <span class="ci">🧩</span>
+      <div class="ct">Insula</div>
+      <div class="cb">Interoception — awareness of the body's internal state (heartbeat, breathing, hunger, pain, nausea, emotion as felt in the body). Crucial for empathy (you feel others' states through your insula). Dysregulated in eating disorders, chronic pain, and alexithymia (inability to identify emotions). Grows with meditation practice.</div>
+    </div>
+    <div class="card nn">
+      <span class="ci">⚙️</span>
+      <div class="ct">Basal Ganglia</div>
+      <div class="cb">Habit formation, movement control, reward learning. Dopamine-dependent. The site of Parkinson's failure. Also: the circuitry of addiction (dopamine hijacking in the nucleus accumbens — the basal ganglia's reward hub). Once a behavior is learned by the basal ganglia, it becomes automatic — the conscious brain is bypassed.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 06: MEMORY ══ -->
+<section class="sec reveal" id="memory">
+  <div class="sec-lbl" style="color:var(--glt)">06 · Memory · Sleep · How the Brain Remembers and Forgets</div>
+  <h2>Memory —<br><em>how the brain writes its story</em></h2>
+
+  <div class="panel gold">
+    <div class="ptag">Types of Memory — Not One System</div>
+    <p><strong>Declarative memory (hippocampus-dependent):</strong> Memory you can consciously access. <em>Episodic memory</em>: autobiographical — what happened to you, when, where. <em>Semantic memory</em>: facts about the world — what Paris is, what photosynthesis means. These can be damaged independently: amnesia patients may lose episodes while retaining semantics; some dementia presentations show the reverse. <strong>Procedural/Implicit memory (basal ganglia and cerebellum):</strong> How to ride a bike, how to type, how to swing a tennis racket. This memory is not consciously accessible — you cannot explain how you balance. It is preserved in Alzheimer's disease long after episodic memory is destroyed. It is why music can reach people with advanced dementia who cannot remember their own names.</p>
+    <p><strong>Working memory (prefrontal cortex):</strong> The mental scratchpad — active information currently "in mind." Capacity: roughly 4 ± 1 "chunks" (Miller's Law was 7±2 but this has been revised down). Working memory is the bottleneck of cognition — education, intelligence, and most executive function depend on it. Reduced by stress, sleep deprivation, ADHD, aging, and alcohol.</p>
+    <p><strong>Memory consolidation:</strong> A new memory begins as a fragile pattern of neural activation. Over hours to days, this pattern is replayed (especially during sleep) and gradually transferred from hippocampus-dependent short-term form to distributed cortical long-term form. During this window, memories are malleable — they can be strengthened (by sleep, by spaced repetition) or interfered with (by stress hormones, by retroactive learning). <strong>Every time you recall a memory, you reconsolidate it</strong> — re-save it, possibly with modifications. Memory is not playback; it is reconstruction. This is why eyewitness testimony is unreliable and why EMDR can modify the emotional charge of traumatic memories.</p>
+  </div>
+</section>
+
+<!-- ══ 07: ECT (SHOCK THERAPY) ══ -->
+<section class="sec reveal" id="ecg">
+  <div class="sec-lbl" style="color:var(--shock-lt)">07 · Electroconvulsive Therapy · Myths · The Science of Why It Works</div>
+  <h2>Shock therapy:<br><em>the myths vs the reality</em></h2>
+
+  <div class="signal gold">
+    <div class="signal-label">The Myth — One Flew Over the Cuckoo's Nest (1975)</div>
+    <p>The dominant cultural image: a patient strapped to a table, writhing in a prolonged seizure, waking up lobotomized — used by sadistic staff as punishment for non-compliance. <strong>This image is 50 years out of date and was never an accurate portrayal of therapeutic ECT even then.</strong> It shaped the public's understanding of ECT more than any clinical reality and has caused immeasurable harm by deterring people from a highly effective treatment for severe depression.</p>
+  </div>
+
+  <div class="panel shock">
+    <div class="ptag">What Modern ECT Actually Is</div>
+    <p>Modern ECT (electroconvulsive therapy) is administered under general anesthesia and muscle relaxant. The patient is unconscious throughout. A brief electrical current induces a generalized seizure that lasts approximately 20–60 seconds in the brain — the body shows no convulsions because of the muscle relaxant. The patient wakes up about 15 minutes later with no memory of the procedure. It is done in a clinical setting, typically 3× per week for 2–4 weeks.</p>
+    <p><strong>The evidence:</strong> ECT is the most effective treatment for severe treatment-resistant depression — response rates of 60–80%, compared to 30–40% for antidepressants. It is also highly effective for bipolar depression, severe mania, catatonia, and treatment-resistant schizophrenia. It works faster than any medication — improvement often within days. It is the treatment of choice when speed of response matters: severe suicidality, refusal to eat or drink, psychiatric emergencies.</p>
+    <p><strong>Side effects:</strong> The significant one is <em>memory impairment</em> — particularly autobiographical memory around the time of treatment. This is temporary in most patients (weeks to months). Some patients report more persistent memory problems. The cognitive side effects are the main limitation. Bilateral electrode placement produces more memory impairment than unilateral right-sided placement; modern dosing algorithms minimize effective dose while maintaining efficacy.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('ectwhy')">
+      <span class="acc-badge sh">Why Does It Work?</span>
+      <span class="acc-title">The genuine scientific answer — what we know and don't know</span>
+      <span class="acc-tog" id="at-ectwhy">▼</span>
+    </div>
+    <div class="acc-body" id="ab-ectwhy">
+      <p>The honest answer: we don't fully know. Several mechanisms are supported by evidence: <strong>Neuroplasticity upregulation</strong> — seizure activity dramatically increases BDNF (brain-derived neurotrophic factor), which promotes synaptogenesis (formation of new synaptic connections) and neurogenesis in the hippocampus. Depression is associated with reduced hippocampal volume and synaptic connectivity; ECT appears to reverse this. This is the same mechanism proposed for ketamine (a rapid antidepressant) and, over longer timescales, for aerobic exercise and antidepressants generally.</p>
+      <p><strong>Neurotransmitter resetting:</strong> Repeated seizures normalize sensitized or dysregulated neurotransmitter systems — particularly serotonin, dopamine, and GABA. The seizure essentially forces a massive, synchronized neurochemical event that resets pathologically stuck states. This is analogous (at the neural circuit level) to rebooting an overloaded computer — not elegant, but effective.</p>
+      <p><strong>The anticonvulsant paradox:</strong> ECT works partly by making the brain better at stopping seizures — it raises seizure threshold over the course of treatment. This anticonvulsant effect is itself thought to be mood-stabilizing (consistent with the effectiveness of anticonvulsant drugs in bipolar disorder).</p>
+      <p><strong>Default Mode Network modulation:</strong> Neuroimaging studies show that ECT reduces overactivation of the subgenual anterior cingulate cortex (sgACC) — a region chronically hyperactive in depression and linked to rumination and negative self-referential thought. ECT appears to disrupt the pathological loop that maintains depressive states. The seizure is, in the language of the comma, a forced interruption — an imposed pause that breaks the runaway pattern of depressive rumination long enough for the system to reset.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 08: NEURALINK ══ -->
+<section class="sec reveal" id="neuralink">
+  <div class="sec-lbl" style="color:var(--cyan-lt)">08 · Neuralink · Neural Chips · Ethics · Black Mirror</div>
+  <h2>Neuralink:<br><em>are we in a Black Mirror episode?</em></h2>
+
+  <div class="panel cyan">
+    <div class="ptag">What Neuralink Actually Is — The Technology</div>
+    <p>Neuralink (founded 2016 by Elon Musk and others) is a brain-computer interface (BCI) company developing implantable microelectrode arrays. The device — "the Link" — is a chip ~23mm diameter implanted in the skull by a robotic surgical system. 1,024 electrodes on 64 flexible threads are inserted into the cortex, recording action potentials from individual neurons and transmitting data wirelessly. The first human implant was January 2024 (Noland Arbaugh, quadriplegic from a diving accident). He could control a computer cursor and play chess with his thoughts.</p>
+    <p><strong>The stated mission:</strong> Restore motor and communication function in people with paralysis or ALS. Long-term: treat neurological disorders (depression, epilepsy, Alzheimer's). Far-future aspiration (Musk): "symbiosis with AI" — a high-bandwidth interface between human cognition and machine intelligence. Current state: demonstrably helpful for its medical applications. The far-future claims are speculation.</p>
+    <p><strong>The science behind it:</strong> Brain-computer interfaces have existed since the 1990s. BrainGate (academic consortium) has had similar devices in clinical trials for 20+ years. What Neuralink adds: miniaturization, wireless transmission, robotic implantation precision, electrode count (1,024 vs ~100 in older devices). Other approaches: EEG (non-invasive, low resolution), ECoG (electrocorticography — on the surface of the brain, not penetrating), Utah arrays (used in clinical trials), and optogenetics (light-activated neurons — not yet in humans).</p>
+  </div>
+
+  <h3>The Ethical Questions — Real Ones</h3>
+  <div class="debate">
+    <div class="dside pro">
+      <div class="dside-label">For Neural Interfaces</div>
+      <p><strong>Medical necessity is real.</strong> For ALS patients who lose all motor control, including speech — a thought-to-communication interface is not enhancement, it is restoration of fundamental humanity. For people with treatment-resistant epilepsy, closed-loop stimulation that detects and aborts seizures can be life-changing. The medical case for BCI is sound.</p>
+      <p><strong>Neural interfaces already exist.</strong> Cochlear implants (hearing), retinal implants (partial vision), deep brain stimulation for Parkinson's — these are brain-computer interfaces. The question is not whether to do this, but what the appropriate next steps are.</p>
+      <p><strong>The alternative is also bad.</strong> A world where only untreated neurological disease exists — where ALS means locked-in syndrome, where Alzheimer's progresses untreated — is not the ethical baseline. Technology that reduces suffering is presumptively good.</p>
+    </div>
+    <div class="dside con">
+      <div class="dside-label">Against / Concerns</div>
+      <p><strong>Consent under desperation.</strong> Severely ill patients may not be able to give fully informed, fully voluntary consent. When you are dying from ALS, the risk-benefit calculation is different from a healthy enhancement-seeker. But this asymmetry can be exploited — "nothing to lose" is not informed consent.</p>
+      <p><strong>Data sovereignty and privacy.</strong> Neural data is the most intimate data imaginable. Who owns your thought patterns? What happens when the company is acquired, goes bankrupt, or is hacked? Neuralink's current data policies provide inadequate protection for neural data. The FDA has not yet established a regulatory framework for continuous neural data collection.</p>
+      <p><strong>Cognitive liberty.</strong> The right not to have your thoughts read or your cognition altered without consent. Current devices are read-only or stimulation-only. Future devices will be bidirectional. The possibility of unauthorized cognitive influence — by corporations, governments, advertisers, abusers — is not science fiction; it is the logical extension of existing capabilities.</p>
+      <p><strong>Enhancement inequality.</strong> Medical use is one thing; cognitive enhancement is another. If neural interfaces enhance cognitive performance, who gets them? History suggests: the wealthy get them first, the poor get the cognitive disadvantage of competing against enhanced rivals. This is a new dimension of inequality with no obvious correction mechanism.</p>
+    </div>
+  </div>
+
+  <div class="panel warning">
+    <div class="ptag">Are We in a Black Mirror Episode?</div>
+    <p>Black Mirror's premise: technology that is individually desirable and collectively catastrophic, often because of the gap between the intention and the systemic use. The episode "The Entire History of You" depicts perfect memory implants — everyone can rewatch any moment of their lives. The technology itself is neutral. The catastrophe is what it does to human relationships: the inability to forgive, to forget, to let the imperfect past be imperfect, to let people grow beyond their mistakes. <strong>Black Mirror is not about bad technology. It is about human nature — specifically, the parts of human nature that are destructive — given perfect tools.</strong></p>
+    <p>The relevant question for Neuralink is not "can we?" — clearly we can. It is: "What does perfect connectivity, continuous neural monitoring, and bidirectional brain-machine interface do to the things that make us human?" The ephemeral — the thought that crosses the mind and disappears, the memory that fades, the feeling that passes — may not be a bug. It may be essential architecture. The right to be temporarily irrational, the mercy of forgetting, the biological imperative to sleep and dream and discard — these are not inefficiencies. They are the comma.</p>
+  </div>
+</section>
+
+<!-- ══ 09: QUANTUM BIOLOGY ══ -->
+<section class="sec reveal" id="quantum">
+  <div class="sec-lbl" style="color:var(--cyan-lt)">09 · Quantum Mechanics + Biology · Where They Meet</div>
+  <h2>What biological problems<br><em>involve quantum mechanics?</em></h2>
+
+  <div class="cards">
+    <div class="card cy">
+      <span class="ci">☀️</span>
+      <div class="ct">Photosynthesis</div>
+      <div class="cb">The Fenna-Matthews-Olson (FMO) complex in green sulfur bacteria shows quantum coherence — the simultaneous exploration of multiple energy transfer pathways. A photon's energy finds the most efficient route to the reaction center via quantum superposition rather than random classical diffusion. Efficiency ~99%. Nobel-adjacent discovery (Fleming lab, 2007). Evidence that biology exploits quantum mechanics at room temperature.</div>
+    </div>
+    <div class="card cy">
+      <span class="ci">🧭</span>
+      <div class="ct">Bird Navigation</div>
+      <div class="cb">Cryptochrome proteins in bird retinas may use quantum entanglement for magnetic sensing. Radical pairs (paired electrons in quantum-correlated spin states) respond differently to magnetic field orientation — giving birds a quantum compass. The orientation of migration changes predictably when birds are exposed to radiofrequency fields that disrupt quantum spin coherence. Strong evidence, not yet fully established.</div>
+    </div>
+    <div class="card cy">
+      <span class="ci">👃</span>
+      <div class="ct">Olfaction</div>
+      <div class="cb">The "vibration theory" of smell (Luca Turin): molecules may trigger smell not purely by shape (the lock-and-key model) but by the quantum vibrational frequencies of their chemical bonds — the olfactory receptor acts as an inelastic electron tunneling spectrometer. Controversial but supported by some evidence: molecules with identical shapes but different isotopes (deuterium vs hydrogen) smell different in some studies.</div>
+    </div>
+    <div class="card cy">
+      <span class="ci">⚗️</span>
+      <div class="ct">Enzyme Catalysis</div>
+      <div class="cb">Many enzymes achieve reaction rates far higher than classical chemistry predicts. Proton and hydrogen tunneling — quantum mechanical penetration of energy barriers rather than thermally climbing over them — is now well-documented in several enzymatic reactions. Alcohol dehydrogenase, aromatic amine dehydrogenase. At body temperature, quantum tunneling contributes meaningfully to biological chemistry.</div>
+    </div>
+    <div class="card cy">
+      <span class="ci">🧬</span>
+      <div class="ct">DNA Mutation</div>
+      <div class="cb">Proton tunneling in DNA hydrogen bonds may produce tautomeric forms (rare base pair configurations) that are invisible to repair machinery and cause mutations during replication. This may be a quantum-mechanical source of some cancer-causing mutations and some evolutionary variation. The question of whether natural selection has incorporated quantum effects into mutation rates is genuinely open.</div>
+    </div>
+    <div class="card cy">
+      <span class="ci">🧠</span>
+      <div class="ct">Consciousness (Orch-OR)</div>
+      <div class="cb">Penrose-Hameroff Orchestrated Objective Reduction (Orch-OR): proposes that consciousness arises from quantum computations in microtubules inside neurons. The most speculative application in this list — criticized for requiring quantum coherence at biological temperatures in large structures, though recent quantum biology findings (see above) make "too warm for quantum effects" a less compelling objection. Not mainstream, not dismissed.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 10: THE EPHEMERAL ══ -->
+<section class="sec reveal" id="ephemeral">
+  <div class="sec-lbl" style="color:var(--glt)">10 · Will You Let the Ephemeral Die? · Impermanence · The Final Question</div>
+  <h2>Will you let<br><em>the ephemeral die?</em></h2>
+
+  <div class="panel gold">
+    <div class="ptag">The Question That Underlies All of This</div>
+    <p>The entire project of preserving memory — against Alzheimer's, against neural death, against ordinary forgetting, against death itself — rests on a prior question: <em>should</em> everything be preserved? The Neuralink vision of "symbiosis with AI" and the implicit fantasy of mind uploading are attempts to make the ephemeral permanent. To convert all the commas into connected prose. To prevent the ending of every note.</p>
+    <p>But biology insists on impermanence. The glymphatic system clears amyloid <em>because</em> the brain needs to be cleared — some things must go for the system to function. Synaptic homeostasis theory: every night, synaptic connections made during the day are selectively pruned — the signal-to-noise ratio would collapse without forgetting. Sleep is the night when the day is edited. The brain that forgets nothing is a brain that cannot learn anything new.</p>
+    <p>The Buddhist answer (see Sophia's Search, the Three Marks of Existence): the ephemeral does not need saving. Its impermanence is not a defect — it is the condition for new experience. The grief at forgetting is real; so is the mercy of forgetting. The person who could never forget their worst moments would not be more whole — they would be more trapped. Alzheimer's is tragedy; ordinary forgetting is grace.</p>
+  </div>
+
+  <div class="comma-box">
+    <div class="cb-label">Comma Framework · The Ephemeral and the Permanent</div>
+    <div class="cb-body">The comma is a pause, not a death — but it is a letting-go. The musician breathes. The breath empties. The next note can only be played because the previous one ended. The brain sleeps. The day is edited. The next day begins fresh. The person ages. The younger self is not preserved — it becomes the foundation of the next self, which the younger self could not have been. <strong>The question is not whether to let the ephemeral die. It is whether you will hold it with open hands while it is here — fully present with the note while it plays — rather than spending the note's entire duration trying to prevent its ending.</strong> That is what the comma asks of you. Not immortality. Not forgetting. Presence. And then, when it is time, the willingness to breathe.</div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.2rem;color:var(--glt);margin-bottom:.4rem">The Biology of the Mind</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.44rem;letter-spacing:.1em;color:rgba(232,238,244,.2);margin-bottom:1rem">Section XIV · Musica Universalis · δ = 0.013643</div>
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="circadian_clock.html">Circadian Clock</a>
+    <a class="fla" href="philosophy_of_gods.html">Gods</a>
+    <a class="fla" href="sophias_search.html">Sophia's Search</a>
+    <a class="fla" href="davids_kingdom.html">David's Kingdom</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+
+<script>
+// ── HERO CANVAS — NEURAL FIRING SIMULATION ──
+(function(){
+  const c=document.getElementById('hcanvas');if(!c)return;
+  const ctx=c.getContext('2d');let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  resize();window.addEventListener('resize',resize);
+
+  // Create neurons
+  const N=80;const neurons=[];
+  for(let i=0;i<N;i++){
+    neurons.push({
+      x:Math.random()*0.9+0.05, y:Math.random()*0.85+0.05,
+      r:Math.random()*2+1.2,
+      fire:0, firecool:Math.random()*200+50,
+      thresh:Math.random()*0.6+0.2,
+      connections:[]
+    });
+  }
+  // Create connections (sparse)
+  neurons.forEach((n,i)=>{
+    const near=neurons.map((m,j)=>({j,d:Math.hypot(n.x-m.x,n.y-m.y)}))
+      .filter(({j,d})=>j!==i&&d<.22)
+      .sort((a,b)=>a.d-b.d).slice(0,3);
+    n.connections=near.map(({j})=>j);
+  });
+
+  // Pulses travelling along axons
+  const pulses=[];
+  function spawnPulse(from,to){
+    pulses.push({from,to,t:0,dur:30+Math.random()*20,col:Math.random()>.5?'79,196,207':'58,123,213'});
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Draw connections
+    neurons.forEach((n,i)=>{
+      n.connections.forEach(j=>{
+        const m=neurons[j];
+        ctx.beginPath();ctx.moveTo(n.x*W,n.y*H);ctx.lineTo(m.x*W,m.y*H);
+        ctx.strokeStyle='rgba(58,123,213,0.06)';ctx.lineWidth=.7;ctx.stroke();
+      });
+    });
+
+    // Random firing
+    if(Math.random()<.04){
+      const idx=Math.floor(Math.random()*N);
+      neurons[idx].fire=1;
+      neurons[idx].connections.forEach(j=>spawnPulse(idx,j));
+    }
+
+    // Draw pulses
+    pulses.forEach((p,pi)=>{
+      p.t++;
+      const frac=p.t/p.dur;
+      const from=neurons[p.from],to=neurons[p.to];
+      const px=from.x+(to.x-from.x)*frac,py=from.y+(to.y-from.y)*frac;
+      const a=1-frac;
+      ctx.beginPath();ctx.arc(px*W,py*H,2.5,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${p.col},${a*0.8})`;ctx.fill();
+      // Arrive — trigger target
+      if(frac>0.95){
+        to.fire=Math.min(1,to.fire+0.4);
+        if(to.fire>=to.thresh){
+          to.connections.forEach(j=>spawnPulse(p.to,j));
+        }
+      }
+    });
+    // Cull old pulses
+    for(let i=pulses.length-1;i>=0;i--){if(pulses[i].t>=pulses[i].dur)pulses.splice(i,1);}
+
+    // Draw neurons
+    neurons.forEach(n=>{
+      const glow=n.fire>0.3;
+      if(glow){
+        const g=ctx.createRadialGradient(n.x*W,n.y*H,0,n.x*W,n.y*H,14);
+        g.addColorStop(0,`rgba(79,196,207,${n.fire*0.3})`);
+        g.addColorStop(1,'rgba(79,196,207,0)');
+        ctx.beginPath();ctx.arc(n.x*W,n.y*H,14,0,Math.PI*2);
+        ctx.fillStyle=g;ctx.fill();
+      }
+      ctx.beginPath();ctx.arc(n.x*W,n.y*H,n.r,0,Math.PI*2);
+      const bright=n.fire>0.3;
+      ctx.fillStyle=bright?`rgba(79,196,207,${0.4+n.fire*0.5})`:'rgba(58,123,213,0.18)';
+      ctx.fill();
+      n.fire*=0.92;
+    });
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── fMRI CANVAS ──
+(function(){
+  const c=document.getElementById('fmri-canvas');if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=860,H=200;
+  let t=0;
+  // brain "slices" — simplified colored regions
+  const regions=[
+    {name:'PFC',cx:.15,cy:.5,rx:.10,ry:.32,base:'38,90,180',active:'79,196,207'},
+    {name:'Motor',cx:.32,cy:.3,rx:.07,ry:.18,base:'38,90,180',active:'224,80,80'},
+    {name:'Sensory',cx:.42,cy:.25,rx:.07,ry:.16,base:'38,90,180',active:'224,160,48'},
+    {name:'Insula',cx:.45,cy:.52,rx:.05,ry:.12,base:'38,90,180',active:'155,112,192'},
+    {name:'Hippocampus',cx:.52,cy:.65,rx:.07,ry:.1,base:'38,90,180',active:'112,192,144'},
+    {name:'Amygdala',cx:.48,cy:.6,rx:.04,ry:.08,base:'38,90,180',active:'224,80,80'},
+    {name:'Visual',cx:.75,cy:.5,rx:.12,ry:.35,base:'38,90,180',active:'224,160,48'},
+    {name:'Cerebellum',cx:.82,cy:.75,rx:.09,ry:.18,base:'38,90,180',active:'112,192,144'},
+    {name:'ACC',cx:.35,cy:.45,rx:.05,ry:.1,base:'38,90,180',active:'79,196,207'},
+    {name:'DMN-PCC',cx:.58,cy:.38,rx:.07,ry:.14,base:'38,90,180',active:'155,112,192'},
+  ];
+  // activation pulses: region, start time, duration
+  const schedule=[
+    {r:0,start:0,dur:60},{r:8,start:20,dur:40},{r:9,start:40,dur:80},
+    {r:1,start:80,dur:30},{r:2,start:95,dur:35},{r:3,start:120,dur:50},
+    {r:4,start:160,dur:70},{r:5,start:170,dur:40},{r:6,start:200,dur:80},
+    {r:7,start:220,dur:50},{r:0,start:260,dur:60},{r:9,start:280,dur:80},
+  ];
+  const PERIOD=360;
+
+  function activationAt(ri,tt){
+    const tmod=tt%PERIOD;
+    let act=0;
+    schedule.filter(s=>s.r===ri).forEach(s=>{
+      const ss=s.start%PERIOD;
+      if(tmod>=ss&&tmod<ss+s.dur){
+        const frac=(tmod-ss)/s.dur;
+        act=Math.max(act,Math.sin(frac*Math.PI));
+      }
+    });
+    return act;
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // brain outline
+    ctx.beginPath();
+    ctx.ellipse(W*.5,H*.5,W*.46,H*.42,0,0,Math.PI*2);
+    ctx.fillStyle='rgba(12,18,32,0.9)';ctx.fill();
+    ctx.strokeStyle='rgba(58,123,213,0.2)';ctx.lineWidth=1.5;ctx.stroke();
+
+    // Draw regions
+    regions.forEach((r,i)=>{
+      const act=activationAt(i,t);
+      ctx.beginPath();
+      ctx.ellipse(r.cx*W,r.cy*H,r.rx*W,r.ry*H,0,0,Math.PI*2);
+      if(act>0.05){
+        const g=ctx.createRadialGradient(r.cx*W,r.cy*H,0,r.cx*W,r.cy*H,r.rx*W);
+        g.addColorStop(0,`rgba(${r.active},${0.2+act*0.7})`);
+        g.addColorStop(0.7,`rgba(${r.active},${0.05+act*0.25})`);
+        g.addColorStop(1,`rgba(${r.active},0)`);
+        ctx.fillStyle=g;
+      } else {
+        ctx.fillStyle=`rgba(${r.base},0.04)`;
+      }
+      ctx.fill();
+      // label
+      if(act>0.3){
+        ctx.font='9px JetBrains Mono';ctx.fillStyle=`rgba(232,238,244,${act*0.8})`;
+        ctx.textAlign='center';ctx.fillText(r.name,r.cx*W,r.cy*H-r.ry*H-4);
+      }
+    });
+
+    // BOLD legend
+    ctx.font='9px JetBrains Mono';ctx.fillStyle='rgba(79,196,207,0.4)';
+    ctx.textAlign='left';ctx.fillText(`BOLD signal · t=${(t%PERIOD).toString().padStart(3,' ')}s`,8,H-8);
+    ctx.fillStyle='rgba(232,238,244,0.15)';ctx.fillText('fMRI simulation · relative activation only',160,H-8);
+    t+=0.8;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── ACCORDION ──
+function tog(id){
+  const b=document.getElementById('ab-'+id);
+  const tg=document.getElementById('at-'+id);
+  if(!b)return;
+  const o=b.classList.toggle('open');
+  if(tg)tg.textContent=o?'▲':'▼';
+}
+
+// ── REVEAL ──
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')})},{threshold:.05});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Philosophy of Gods · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0C0B14;--bg2:#131221;
+  --indigo:#1E1B3A;--indigo-lt:#2D2955;
+  --gold:#C8943A;--glt:#E4B86A;--gdim:rgba(200,148,58,0.4);
+  --parch:#EDE6D0;--pdim:rgba(237,230,208,0.55);--pfaint:rgba(237,230,208,0.04);
+  --line:rgba(237,230,208,0.07);
+  --olymp:#7B9EBF;--olymp-lt:#A8C4E0;
+  --titan:#BF9B6B;--titan-lt:#E0C090;
+  --lotus:#7BAF8A;--sage:#8FC4A0;
+  --crimson:#C04040;--crimson-lt:#E07070;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{color:var(--pdim);font-family:'Crimson Text',Georgia,serif;font-size:18px;line-height:1.85;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(30,27,58,0.8),transparent),
+             radial-gradient(ellipse 40% 40% at 80% 80%,rgba(200,148,58,0.04),transparent);}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem;padding:.65rem 2rem;background:rgba(12,11,20,0.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(200,148,58,0.12)}
+.nb{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.12em;color:var(--glt)}
+.nl{display:flex;gap:.15rem;flex-wrap:wrap}
+.nl a{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.08em;color:var(--pdim);text-decoration:none;padding:.22rem .45rem;border-radius:3px;text-transform:uppercase;transition:all .15s}
+.nl a:hover{color:var(--glt);background:rgba(200,148,58,0.07)}
+.page{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:0 1.5rem 8rem}
+.hero{text-align:center;padding:8rem 1rem 4rem;position:relative}
+.hero::before{content:'XII';position:absolute;top:4rem;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:8rem;color:rgba(200,148,58,0.04);letter-spacing:.2em;pointer-events:none;z-index:0}
+.h-eye{font-family:'JetBrains Mono',monospace;font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gdim);margin-bottom:1.2rem;position:relative;z-index:1}
+.hero h1{font-family:'Cinzel',serif;font-size:clamp(2.5rem,8vw,5rem);font-weight:400;letter-spacing:.06em;line-height:1.15;color:var(--parch);position:relative;z-index:1;margin-bottom:.4rem}
+.hero h1 em{color:var(--glt);font-style:normal}
+.h-rule{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:1.5rem auto}
+.h-sub{font-family:'Crimson Text',serif;font-style:italic;font-size:1.15rem;color:var(--pdim);max-width:600px;margin:0 auto;line-height:1.9}
+.sec{padding:4rem 0;border-top:1px solid var(--line);position:relative;z-index:2}
+.sec-lbl{font-family:'JetBrains Mono',monospace;font-size:.44rem;letter-spacing:.25em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--line)}
+h2{font-family:'Cinzel',serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:400;letter-spacing:.04em;line-height:1.2;margin-bottom:1.1rem;color:var(--parch)}
+h3{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:400;letter-spacing:.06em;color:var(--parch);margin:2rem 0 .6rem}
+h4{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gdim);margin:1.2rem 0 .4rem}
+p{margin-bottom:1rem;line-height:1.88}
+p strong{color:var(--parch)}
+p em{color:var(--glt)}
+.lead{font-family:'Crimson Text',serif;font-style:italic;font-size:1.12rem;color:rgba(237,230,208,0.7);line-height:2;margin-bottom:1.5rem}
+blockquote{border-left:2px solid var(--gold);padding:.6rem 1.2rem;margin:1.5rem 0;background:rgba(200,148,58,0.04);border-radius:0 8px 8px 0}
+blockquote p{font-style:italic;color:rgba(237,230,208,0.7);margin:0;font-size:.95rem}
+blockquote cite{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.08em;color:rgba(200,148,58,0.45);font-style:normal;display:block;margin-top:.35rem}
+.panel{background:var(--pfaint);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.6rem;margin:1.3rem 0;position:relative;overflow:hidden}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0}
+.panel.gold::before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.panel.olymp::before{background:linear-gradient(90deg,transparent,var(--olymp),transparent)}
+.panel.lotus::before{background:linear-gradient(90deg,transparent,var(--lotus),transparent)}
+.panel.crimson::before{background:linear-gradient(90deg,transparent,var(--crimson),transparent)}
+.ptag{font-family:'JetBrains Mono',monospace;font-size:.43rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(237,230,208,0.27);margin-bottom:.5rem}
+.panel p{font-size:.92rem;line-height:1.82;margin-bottom:.6rem}
+.panel p:last-child{margin-bottom:0}
+.panel strong{color:var(--parch)}
+
+/* FAMILY TREE SVG */
+.tree-wrap{overflow-x:auto;margin:1.5rem -1rem;padding:1rem}
+svg text{font-family:'Crimson Text',Georgia,serif}
+
+/* DEITY GRID */
+.deity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.85rem;margin:1.5rem 0}
+.deity{background:var(--pfaint);border:1px solid var(--line);border-radius:10px;padding:1.1rem;transition:all .22s;border-top:2px solid transparent}
+.deity:hover{background:rgba(237,230,208,0.07);transform:translateY(-2px)}
+.deity.olymp{border-top-color:var(--olymp)}
+.deity.titan{border-top-color:var(--titan)}
+.deity.chthonic{border-top-color:#9B6BB5}
+.d-sym{font-size:1.8rem;display:block;margin-bottom:.4rem}
+.d-name{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.06em;color:var(--parch);margin-bottom:.15rem}
+.d-roman{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gdim);margin-bottom:.4rem}
+.d-body{font-size:.82rem;color:rgba(237,230,208,0.5);line-height:1.6}
+
+/* RELIGION CARDS */
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin:1.5rem 0}
+.rel{background:var(--pfaint);border:1px solid var(--line);border-radius:12px;padding:1.4rem;border-left:3px solid transparent}
+.rel.chr{border-left-color:#8090C0}
+.rel.isl{border-left-color:#70A080}
+.rel.jud{border-left-color:#C0A040}
+.rel.bud{border-left-color:var(--lotus)}
+.rel.hin{border-left-color:#C08060}
+.rel.tao{border-left-color:var(--olymp)}
+.rel-icon{font-size:2rem;display:block;margin-bottom:.5rem}
+.rel-name{font-family:'Cinzel',serif;font-size:.95rem;letter-spacing:.06em;color:var(--parch);margin-bottom:.1rem}
+.rel-pop{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gdim);margin-bottom:.5rem}
+.rel-body{font-size:.83rem;color:rgba(237,230,208,0.52);line-height:1.65}
+.rel-core{margin-top:.7rem;padding-top:.6rem;border-top:1px solid var(--line)}
+.rel-core-title{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gdim);margin-bottom:.3rem}
+.rel-core ul{list-style:none;padding:0}
+.rel-core li{font-size:.8rem;color:rgba(237,230,208,0.48);padding:.12rem 0 .12rem .7rem;position:relative;line-height:1.5}
+.rel-core li::before{content:'·';position:absolute;left:0;color:var(--gdim)}
+
+/* ACCORDION */
+.acc{background:var(--pfaint);border:1px solid var(--line);border-radius:10px;margin:.7rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.75rem;padding:.95rem 1.1rem;cursor:pointer;transition:background .15s}
+.acc-h:hover{background:rgba(237,230,208,0.04)}
+.acc-badge{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .5rem;border-radius:4px;flex-shrink:0}
+.acc-badge.bud{background:rgba(123,175,138,0.12);color:var(--sage);border:1px solid rgba(123,175,138,0.25)}
+.acc-badge.tao{background:rgba(123,158,191,0.12);color:var(--olymp-lt);border:1px solid rgba(123,158,191,0.25)}
+.acc-badge.phi{background:rgba(200,148,58,0.1);color:var(--glt);border:1px solid rgba(200,148,58,0.2)}
+.acc-badge.mon{background:rgba(128,144,192,0.12);color:#A0B0E0;border:1px solid rgba(128,144,192,0.25)}
+.acc-title{font-family:'Crimson Text',serif;font-size:1.02rem;color:var(--parch);flex:1;line-height:1.4}
+.acc-tog{font-family:'JetBrains Mono',monospace;font-size:.48rem;color:rgba(237,230,208,0.22);flex-shrink:0}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.acc-body.open{max-height:3000px;padding:0 1.1rem 1.1rem}
+.acc-body p{font-size:.9rem;color:rgba(237,230,208,0.6);line-height:1.85;margin-bottom:.65rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--parch)}
+
+/* COMPARISON TABLE */
+.tbl{overflow-x:auto;margin:1.5rem 0;border-radius:8px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.09em;text-transform:uppercase;color:rgba(237,230,208,0.3);padding:.55rem .85rem;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;background:rgba(237,230,208,0.02)}
+td{padding:.6rem .85rem;border-bottom:1px solid rgba(237,230,208,0.04);color:rgba(237,230,208,0.58);vertical-align:top;line-height:1.55}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--parch);font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.04em}
+tr:hover td{background:rgba(237,230,208,0.02)}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s,transform .65s}
+.reveal.in{opacity:1;transform:none}
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);position:relative;z-index:2}
+.fla{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.09em;color:rgba(237,230,208,0.22);text-decoration:none;text-transform:uppercase;padding:.2rem .5rem;transition:color .2s}
+.fla:hover{color:var(--glt)}
+</style>
+</head>
+<body>
+<nav>
+  <span class="nb">Musica Universalis</span>
+  <div class="nl">
+    <a href="#greek">Greek Gods</a><a href="#who-is-god">Who Is God</a><a href="#world-religions">Religions</a>
+    <a href="#buddhism">Buddhism</a><a href="#taoism">Taoism</a><a href="#philosophies">Philosophies</a><a href="#compare">vs Psychology</a>
+  </div>
+</nav>
+
+<div class="page">
+<section class="hero">
+  <div class="h-eye">Section XII · Gods · Faith · Philosophy · Musica Universalis</div>
+  <h1>The Philosophy<br>of <em>Gods</em></h1>
+  <div class="h-rule"></div>
+  <p class="h-sub">One question asked in ten thousand languages across ten thousand years: what is the shape of the sacred? Who made the world? Who watches it? And why does it hurt?</p>
+</section>
+
+<!-- ══ 01: GREEK FAMILY TREE ══ -->
+<section class="sec reveal" id="greek">
+  <div class="sec-lbl" style="color:var(--olymp-lt)">01 · The Greek–Roman Family Tree</div>
+  <h2>From Chaos to <em>Olympus</em></h2>
+  <p class="lead">The Greek cosmos began not with a god but with Chaos — the primordial void. From it arose Gaia (Earth), Ouranos (Sky), Eros (Love), and the others. Everything in the family tree descends from these first beings. The notebook's diagram maps the Roman layer: Terra = Gaia, Caelus = Ouranos, Ops = Rhea, Saturn = Kronos.</p>
+
+  <div class="tree-wrap">
+    <svg id="ftree" viewBox="0 0 900 600" width="900" height="600" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <div class="panel olymp">
+    <div class="ptag">Reading the Tree · Roman Names · Lines of Descent</div>
+    <p><strong>Solid gold lines</strong> = legitimate marriage or primary union. <strong>Dashed lines</strong> = extramarital or secondary union. <strong>Dots</strong> = child connection. The diagram follows the notebook exactly: Terra (Gaia) + Caelus (Ouranos) → Titans including Ops (Rhea) + Saturn (Kronos) → six Olympian siblings on the main branch: Pluto, Neptune, Jupiter, Juno, Ceres, Vesta. Jupiter's unions produce the second generation: with Latona (Leto) → Diana + Apollo; with Metis → Minerva; with Semele → Bacchus; with Maia → Mercury; Jupiter + Juno → Mars + Vulcan. Ceres + Jupiter (dotted) → Proserpina.</p>
+    <p><strong>Roman ↔ Greek equivalents:</strong> Jupiter=Zeus · Juno=Hera · Neptune=Poseidon · Pluto=Hades · Saturn=Kronos · Ops=Rhea · Ceres=Demeter · Vesta=Hestia · Diana=Artemis (also Diano, Luna) · Apollo=Apollo (also Sol) · Mars=Ares · Vulcan=Hephaestus · Mercury=Hermes · Minerva=Athena · Bacchus=Dionysus · Proserpina=Persephone · Latona=Leto · Venus=Aphrodite.</p>
+  </div>
+
+  <h3>The Olympians — Who They Are</h3>
+  <div class="deity-grid" id="deity-grid"></div>
+
+  <h3>What Does "Under One Pantheon" Mean?</h3>
+  <div class="panel gold">
+    <div class="ptag">Pantheon — From Greek: Pan (all) + Theos (god)</div>
+    <p>A <strong>pantheon</strong> is the complete assembly of gods recognized within a single religious tradition, understood as inhabiting a shared cosmological framework — a family, a council, a court. "Under one pantheon" means these deities operate within the same metaphysical universe: they share rules, relationships, and constraints. They are bound by the same cosmic laws: Fate (Moira), Necessity (Ananke), and the Oath sworn on the river Styx, which even Zeus cannot violate without consequence.</p>
+    <p>Greek polytheism is not a grab-bag of unrelated beings — it is a <em>system</em>. Each deity represents a domain of experience (love, war, wisdom, death, craftsmanship) and the relationships between deities map the relationships between those domains. <em>Ares and Aphrodite are lovers</em> — war and love are entangled. <em>Hephaestus is cuckolded by Ares</em> — craft and beauty are taken from the maker by violence. The mythology is a philosophical diagram of how the world works, expressed as story.</p>
+    <p><strong>Syncretism:</strong> When cultures meet, pantheons merge. Romans encountered Greeks and mapped their gods onto Greek ones (Jupiter=Zeus) while Romanizing names and emphasizing different aspects. This happened across the ancient world — Egyptian Thoth merged with Greek Hermes into Hermes Trismegistus. Celtic gods absorbed Roman ones. Syncretism is the historical norm; the idea of a sealed, exclusive pantheon is largely modern.</p>
+  </div>
+</section>
+
+<!-- ══ 02: WHO IS GOD ══ -->
+<section class="sec reveal" id="who-is-god">
+  <div class="sec-lbl" style="color:var(--glt)">02 · Who Is God? · Concepts of the Divine</div>
+  <h2>Who is <em>God?</em></h2>
+  <p class="lead">This is the oldest question in philosophy. The answers are not variations on a theme — they are genuinely different conceptions of what divinity is, what it wants, and whether it can be known at all.</p>
+
+  <div class="acc" id="acc-mono">
+    <div class="acc-h" onclick="tog('mono')">
+      <span class="acc-badge mon">Monotheism</span>
+      <span class="acc-title">One God, personal, creator of all — Christianity, Islam, Judaism</span>
+      <span class="acc-tog" id="atog-mono">▼</span>
+    </div>
+    <div class="acc-body" id="abody-mono">
+      <p>Abrahamic monotheism holds that there is one God who is omnipotent (all-powerful), omniscient (all-knowing), omnipresent (everywhere at once), and omnibenevolent (perfectly good). This God created the universe <em>ex nihilo</em> — from nothing, not from pre-existing matter — and remains personally related to creation: prayers are heard, history has direction, suffering has meaning within a larger story.</p>
+      <p>The three traditions diverge significantly. <strong>Judaism:</strong> the covenant relationship between God (YHWH) and the Jewish people, revealed through Torah; a religion of deed more than creed — how you act matters more than what you profess. <strong>Christianity:</strong> the Trinity (Father, Son, Holy Spirit — three persons, one substance); Jesus as God incarnate, fully human and fully divine; salvation through faith in his death and resurrection. <strong>Islam:</strong> strict tawhid (absolute oneness of God — the Trinity is shirk, associating partners with God); Muhammad as the final prophet; the Quran as God's direct speech in Arabic, not merely inspired but dictated.</p>
+      <p>The shared philosophical problem: <strong>the Problem of Evil.</strong> If God is omnipotent, omniscient, and perfectly good — why does suffering exist? The responses: <em>free will theodicy</em> (God allows suffering to preserve human freedom), <em>soul-making theodicy</em> (Irenaeus: suffering produces moral growth), <em>eschatological theodicy</em> (suffering will be redeemed in the afterlife), <em>skeptical theism</em> (we cannot understand God's reasons, as a child cannot understand surgery). None is considered fully resolved. The problem has not been solved in 2,500 years of serious thought — which tells you something about both the difficulty of the question and the depth of the commitment.</p>
+    </div>
+  </div>
+
+  <div class="acc" id="acc-poly">
+    <div class="acc-h" onclick="tog('poly')">
+      <span class="acc-badge phi">Polytheism</span>
+      <span class="acc-title">Many gods, each with a domain — Greek, Roman, Norse, Hindu, Shinto</span>
+      <span class="acc-tog" id="atog-poly">▼</span>
+    </div>
+    <div class="acc-body" id="abody-poly">
+      <p>Polytheism holds that multiple divine beings exist, each with specific domains, personalities, and limited powers. These gods are not omnipotent — they can be tricked, wounded, outmaneuvered, and in some traditions, killed. They are more like extremely powerful persons embedded in a cosmos that constrains even them.</p>
+      <p><strong>Greek/Roman polytheism:</strong> Gods are immortal and powerful within their domains, but subject to Fate (Moira) and Necessity (Ananke). They are not primarily moral — Zeus/Jupiter is powerful, often unjust, and driven by desire. The cosmos has moral structure (Dike=Justice, Themis=Divine Law) but it is not simple or comfortable. The gods are real, present, and capable of both help and harm.</p>
+      <p><strong>Norse polytheism:</strong> Uniquely tragic — the gods know Ragnarök is coming and cannot avoid it. Odin sacrifices his eye for wisdom and hangs on Yggdrasil for nine days to gain runes. The gods are not invincible or eternal — they are heroic beings facing inevitable doom. This is sometimes called the most philosophically honest mythology: even the gods die.</p>
+      <p><strong>Hinduism:</strong> The situation is far more complex. Hinduism contains multiple overlapping frameworks simultaneously: full polytheism (many distinct devas with independent existence), henotheism (worship of one deity as supreme while acknowledging others), monism (Advaita Vedanta: all gods are manifestations of one ultimate reality, Brahman — the ground of all being), and radical non-dualism that transcends all these categories. It is better understood as a family of philosophical traditions than a single religion with fixed doctrine.</p>
+    </div>
+  </div>
+
+  <div class="acc" id="acc-non">
+    <div class="acc-h" onclick="tog('non')">
+      <span class="acc-badge tao">Non-Theism & Other Frameworks</span>
+      <span class="acc-title">No personal creator god — Buddhism, Taoism, Stoicism, Pantheism, Deism</span>
+      <span class="acc-tog" id="atog-non">▼</span>
+    </div>
+    <div class="acc-body" id="abody-non">
+      <p>Many traditions answer the question "who is God?" by dissolving the question. This is not the same as atheism — it is a different understanding of what the sacred is. <strong>Buddhism:</strong> the Buddha explicitly refused to answer whether God exists, calling it a "thicket of views" — unhelpful to the project of ending suffering. The sacred is not a being; it is the nature of reality itself (dharma, the law of interdependence and impermanence). <strong>Taoism:</strong> "The Tao that can be named is not the eternal Tao." The sacred is the underlying pattern of reality that cannot be fully described or personified. You can align with it or work against it, but you cannot pray to it.</p>
+      <p><strong>Pantheism</strong> (Spinoza): God and Nature are identical. There is no God separate from the universe who created it — God is the totality of existence, and existence is God. Einstein's famous "God" was roughly Spinozan: not a personal being who answers prayer, but the rational structure of nature itself. <strong>Panentheism:</strong> the universe is within God but God exceeds the universe — process theology's position. <strong>Deism</strong> (Newton, Voltaire, many Enlightenment thinkers): God created the universe, established its laws, and stepped back. No miracles, no prophecy, no answered prayer — the clockmaker who wound the clock and walked away. <strong>Stoicism:</strong> the Logos — the rational principle structuring all reality — may or may not be personal, but can be aligned with through reason and virtue.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 03: WORLD RELIGIONS ══ -->
+<section class="sec reveal" id="world-religions">
+  <div class="sec-lbl" style="color:var(--glt)">03 · World Religions · What They Actually Teach</div>
+  <h2>The great <em>traditions</em></h2>
+  <div class="rel-grid" id="rel-grid"></div>
+</section>
+
+<!-- ══ 04: BUDDHISM ══ -->
+<section class="sec reveal" id="buddhism">
+  <div class="sec-lbl" style="color:var(--lotus)">04 · Buddhism · The Actual Teachings</div>
+  <h2>What Buddhism<br><em>actually teaches</em></h2>
+  <p class="lead">Buddhism is a philosophy of mind as much as a religion. Its core claim: suffering has a cause, the cause can be understood, and there is a path out of it. This is a diagnosis and a prescription — not a comfort.</p>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('4n')">
+      <span class="acc-badge bud">The Four Noble Truths</span>
+      <span class="acc-title">Dukkha · Samudaya · Nirodha · Magga — the complete diagnosis</span>
+      <span class="acc-tog" id="atog-4n">▼</span>
+    </div>
+    <div class="acc-body" id="abody-4n">
+      <p><strong>1. Dukkha — Suffering/Unsatisfactoriness.</strong> Life as ordinarily lived contains dukkha — not only obvious suffering (pain, grief, death) but a subtle pervasive unsatisfactoriness even in pleasant experiences, because they are impermanent. The word dukkha originally described a wheel with its axle-hole off-center: it turns, but never smoothly. Everything turns, but never quite right.</p>
+      <p><strong>2. Samudaya — The Origin of Suffering.</strong> Suffering arises from <em>tanha</em> — craving, thirst, compulsive wanting. Specifically three "poisons": desire/greed (raga), aversion/hatred (dvesha), and delusion/ignorance (moha). We suffer because we cling to what is impermanent and resist what is inevitable. The problem is not the world — it is the grasping relationship with the world.</p>
+      <p><strong>3. Nirodha — The Cessation of Suffering.</strong> The cessation of craving is possible. This is Nirvana — literally "blowing out," like extinguishing a flame. Not oblivion, not suicide, not numb detachment: the cessation of the compulsive, reactive, craving-driven mode of existence. Liberation is possible in this life.</p>
+      <p><strong>4. Magga — The Path.</strong> There is a practical path to this liberation: the Noble Eightfold Path. Not theoretical — an actual program for transformation of mind, speech, and behavior, structured around wisdom, ethics, and meditation.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('8f')">
+      <span class="acc-badge bud">The Noble Eightfold Path</span>
+      <span class="acc-title">Three categories, eight factors — the actual practice</span>
+      <span class="acc-tog" id="atog-8f">▼</span>
+    </div>
+    <div class="acc-body" id="abody-8f">
+      <p><strong>WISDOM (Prajña):</strong></p>
+      <p><strong>1. Right Understanding (Samma Ditthi):</strong> Seeing clearly — understanding the Four Noble Truths, impermanence, no-self, and interdependence. Not just intellectual knowledge but a non-distorted perception of reality as it is, rather than as fear and desire shape it.</p>
+      <p><strong>2. Right Intention (Samma Sankappa):</strong> Commitment to renunciation (releasing attachment), non-harm, and non-ill-will as the orientation of one's life. Intention — not just action — shapes the mind.</p>
+      <p><strong>ETHICS (Sila):</strong></p>
+      <p><strong>3. Right Speech:</strong> Truthful, kind, useful, well-timed speech. No lying, no divisive speech, no harsh speech, no idle chatter. The Buddha treated speech as an ethical domain as serious as action.</p>
+      <p><strong>4. Right Action:</strong> Non-killing, non-stealing, non-sexual misconduct. The Five Precepts (for lay practitioners) extend this to a full ethical framework for daily life.</p>
+      <p><strong>5. Right Livelihood:</strong> Earning one's living without harming others. The Buddha specifically named incompatible trades: weapons dealing, human trafficking, raising animals for slaughter, selling intoxicants, selling poison.</p>
+      <p><strong>MEDITATION (Samadhi):</strong></p>
+      <p><strong>6. Right Effort:</strong> Active mental work — preventing unwholesome states from arising, abandoning those already present, cultivating wholesome states, maintaining them once present. Not passive.</p>
+      <p><strong>7. Right Mindfulness (Samma Sati):</strong> Clear, present-moment awareness of body sensations, feelings, mind-states, and mental objects. This is the foundation of every modern mindfulness-based therapy — MBSR, MBCT, the mindfulness component of DBT. The Satipatthana Sutta is the foundational text.</p>
+      <p><strong>8. Right Concentration (Samma Samadhi):</strong> The four jhanas — progressive stages of meditative absorption. From this platform, direct insight (vipassana) into the impermanent, selfless, interdependent nature of all phenomena becomes possible.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('3m')">
+      <span class="acc-badge bud">Three Marks of Existence</span>
+      <span class="acc-title">Anicca · Dukkha · Anatta — the Buddha's three foundational observations</span>
+      <span class="acc-tog" id="atog-3m">▼</span>
+    </div>
+    <div class="acc-body" id="abody-3m">
+      <p><strong>Anicca — Impermanence.</strong> Everything that arises passes away. Every feeling, thought, pleasure, pain, relationship, self-conception — impermanent. This is not pessimism; it is precision. The suffering caused by clinging to what is impermanent is solved not by finding permanent things to cling to (there are none) but by deeply understanding impermanence so that clinging loosens naturally.</p>
+      <p><strong>Dukkha — Unsatisfactoriness.</strong> Even pleasant experiences have a quality of incompleteness because they are impermanent. This is the subtle restlessness beneath ordinary life — not agony, but the fact that satisfaction never quite arrives, and when it does, it doesn't stay. This is the condition the Buddha diagnosed — and it is recognizable.</p>
+      <p><strong>Anatta — No-Self.</strong> The most radical teaching. There is no fixed, permanent, independent "self" — no homunculus sitting at the center of experience pulling levers. What we call "I" is a collection of five aggregates (skandhas): form (body), feeling-tone, perception, mental formations, and consciousness — all impermanent, all in flux, none of them a fixed "you." This is not nihilism — functional continuity remains. But the self that defends itself, accumulates grievances, compares itself to others, fears death — that self is a constructed narrative, not a discovered essence. Much of human suffering is the defense of a fiction.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 05: TAOISM ══ -->
+<section class="sec reveal" id="taoism">
+  <div class="sec-lbl" style="color:var(--olymp-lt)">05 · Taoism · The Way</div>
+  <h2>Taoism: the way<br><em>that cannot be named</em></h2>
+  <p class="lead">The Tao Te Ching opens: "The Tao that can be named is not the eternal Tao." This is not a paradox for its own sake — it is the central point. The sacred cannot be captured in language. Language divides what is undivided. The moment you name it, you've already lost it.</p>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('ttc')">
+      <span class="acc-badge tao">The Tao Te Ching</span>
+      <span class="acc-title">Laozi's 81 chapters — wu wei, yin-yang, the Tao itself</span>
+      <span class="acc-tog" id="atog-ttc">▼</span>
+    </div>
+    <div class="acc-body" id="abody-ttc">
+      <p>The <em>Tao Te Ching</em> (Book of the Way and Virtue, ~4th century BCE, attributed to Laozi) is 81 short chapters that together form one of the most translated and interpreted texts ever written. It is deliberately paradoxical not as a literary trick but as structural honesty: the subject matter resists direct statement.</p>
+      <p><strong>The Tao</strong> is the underlying principle and source of all reality — formless, nameless, prior to heaven and earth, the mother of ten thousand things. It is not a god in any personal sense. It does not have will, cannot be prayed to, does not love or punish. It is more like the pattern beneath all patterns, the silence within all sound, the stillness within all motion. Water is the Taoists' favorite metaphor: soft, yielding, going to the lowest places — yet over time, water carves canyons in stone. The weak overcomes the strong. The yielding overcomes the rigid.</p>
+      <p><strong>Wu Wei</strong> — "non-action" or "non-forcing" — is the Taoist ideal of action so aligned with the natural order that it requires no force. Not laziness or passivity: Zhuangzi's master cook who has butchered ten thousand oxen is expressing wu wei — his knife never meets bone because he follows the natural structure of the animal. The paradox: by not fighting, more is accomplished. By not grasping power, influence flows naturally. The Tao Te Ching on leadership: the best leader is one the people barely know exists; when the work is done, the people say "we did it ourselves."</p>
+      <p><strong>Yin and Yang</strong> are not opposites at war — they are complementary aspects of a dynamic whole, each containing the seed of the other. Day contains the seed of night (the moment of maximum light begins the return to darkness). Strength contains the seed of weakness. The full contains the seed of the empty. Taoism does not seek to eliminate the "negative" pole — it seeks dynamic balance and the understanding that apparent opposites are aspects of a single process.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('zhu')">
+      <span class="acc-badge tao">Zhuangzi</span>
+      <span class="acc-title">The butterfly dream · the cook and the ox · death and transformation</span>
+      <span class="acc-tog" id="atog-zhu">▼</span>
+    </div>
+    <div class="acc-body" id="abody-zhu">
+      <p>Zhuangzi (~369–286 BCE) writes with humor, absurdity, and flights of imagination that contrast sharply with Laozi's spare aphorisms. His central question: how do we know what we think we know? The famous passage: "Once upon a time, I, Zhuangzi, dreamed I was a butterfly. Upon waking, I did not know whether I was Zhuangzi who had dreamed of being a butterfly, or a butterfly now dreaming it was Zhuangzi." This is not a trick — it is a genuine meditation on identity, consciousness, and the conventions that make "I" feel solid and fixed.</p>
+      <p>Zhuangzi on death: when his wife died, his friend Huizi found him singing. Asked how he could, Zhuangzi explained: before she was born, she had no spirit; before that, no form; before that, no vital energy. There was a great transformation from not-being into being, from being into life, from life into death — and from death, another transformation onward. To mourn excessively is to fail to understand the natural transformation of things. This is not callousness — it is radical acceptance of impermanence more thoroughgoing than most philosophical traditions dare to go.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 06: WHAT IS FAITH ══ -->
+<section class="sec reveal" id="faith">
+  <div class="sec-lbl" style="color:var(--glt)">06 · What Is Faith?</div>
+  <h2>What is <em>faith?</em></h2>
+  <div class="panel gold">
+    <div class="ptag">Pistis · Emunah · Iman · Shraddha — four words for one thing</div>
+    <p>Faith is not the opposite of reason — it is a different mode of relationship with uncertainty. Every person operates on faith constantly: that the future will resemble the past, that other minds exist, that love is real, that the world described by physics is really there. The question is not <em>whether</em> you have faith, but what you have placed it in.</p>
+    <p><strong>Greek Pistis</strong> — trust, confidence, faithfulness. In the New Testament, pistis is less about intellectual assent to propositions and more about relational trust — trusting Jesus the way you trust a person, not the way you believe a mathematical theorem. <strong>Hebrew Emunah</strong> — firmness, reliability, faithfulness. The root aman gives us "Amen" (so be it, this is firm). Emunah is faithfulness more than belief — the covenant is mutual: God is faithful to Israel; Israel is faithful to God. <strong>Arabic Iman</strong> — faith, belief, security. From the root amana (to be secure, to entrust). <strong>Sanskrit Shraddha</strong> — literally "heart-placed," from shrad (heart) + dha (place). Faith is where you put your heart. These are all different from "believing things without evidence."</p>
+    <p><strong>William James</strong> (<em>The Will to Believe</em>, 1897): when evidence is genuinely ambiguous, when the question is live, forced, and momentous — when you must choose and cannot wait for more evidence — it can be rational to choose the hypothesis that is more life-enabling. Not inventing evidence, but acknowledging that the disposition you bring shapes what you notice, what you find, who you become. <strong>Paul Tillich</strong> (<em>Dynamics of Faith</em>, 1957): faith is "ultimate concern" — whatever you treat as unconditionally important, as the ground of your being. In this sense, everyone has faith: in human progress, in reason, in their nation, in themselves. The religious question is not whether to have ultimate concern but which concern is actually worthy of ultimacy.</p>
+  </div>
+</section>
+
+<!-- ══ 07: PHILOSOPHIES ══ -->
+<section class="sec reveal" id="philosophies">
+  <div class="sec-lbl" style="color:var(--glt)">07 · Famous Philosophies · What They Claim</div>
+  <h2>The great <em>philosophies</em></h2>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('stoic')">
+      <span class="acc-badge phi">Stoicism</span>
+      <span class="acc-title">Marcus Aurelius · Epictetus · Seneca — control only what you can control</span>
+      <span class="acc-tog" id="atog-stoic">▼</span>
+    </div>
+    <div class="acc-body" id="abody-stoic">
+      <p>Founded by Zeno of Citium in Athens (~300 BCE). The core distinction: some things are <em>up to us</em> (our judgments, intentions, desires, aversions) and some things are <em>not up to us</em> (body, reputation, property, the actions of others). Suffering comes from treating what is not up to us as if it were. The Stoic practice: distinguish clearly, accept what is not up to you with equanimity, work only on what is. This is harder than it sounds — most of what people pursue (status, wealth, others' approval) is not truly up to them.</p>
+      <p>The four cardinal virtues: <strong>Wisdom</strong> (knowing what is genuinely good), <strong>Justice</strong> (treating others rightly), <strong>Courage</strong> (acting rightly under pressure), <strong>Temperance</strong> (appropriate measure). Virtue is the only true good — everything else (wealth, health, pleasure) is a "preferred indifferent": worth pursuing if virtue permits, not worth pursuing at the cost of virtue.</p>
+      <p><strong>Modern relevance:</strong> CBT (Cognitive Behavioral Therapy) is directly built on Stoic ideas. Albert Ellis, founder of REBT (the direct precursor to CBT), cited Epictetus explicitly: "Men are disturbed not by the things which happen, but by the opinions about the things." This is the cognitive model of emotional disturbance — nearly word for word. The Stoic practice of <em>negative visualization</em> (imagining loss to appreciate what you have) is now studied in positive psychology. Stoicism is experiencing a genuine contemporary revival, partly through Ryan Holiday's books, partly through the rediscovery of Marcus Aurelius's <em>Meditations</em> as a manual of practical ethics.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('exist')">
+      <span class="acc-badge phi">Existentialism</span>
+      <span class="acc-title">Sartre · Camus · Heidegger · Kierkegaard — existence precedes essence</span>
+      <span class="acc-tog" id="atog-exist">▼</span>
+    </div>
+    <div class="acc-body" id="abody-exist">
+      <p>Sartre's central claim: <em>existence precedes essence</em>. For a hammer, the idea ("essence") existed before the object — a craftsman had a concept and made the thing. For humans, there is no pre-given essence — no designer, no fixed human nature, no predetermined role. We exist first, then create ourselves through choices. This is simultaneously liberating (radical freedom) and terrifying (radical responsibility). There is no human nature to blame, no God to appeal to. You are what you do.</p>
+      <p><strong>Bad Faith (mauvaise foi):</strong> The attempt to escape freedom by pretending you had no choice. The waiter who performs "waiter" as if it were his essential nature — not just doing his job but being nothing but waiter — is in bad faith. Any claim of "I had no choice" when a genuine choice was available is bad faith. Bad faith is self-deception that damages authentic existence. It is comfortable, widespread, and corrosive.</p>
+      <p><strong>Camus and the Absurd:</strong> Humans demand meaning; the universe is silent. This collision — our insistence on significance, the cosmos's indifference — is the Absurd. Camus's response is not Sartre's defiant creation of meaning but something stranger: revolt without hope. Accept that the boulder always rolls back. Push it anyway. "One must imagine Sisyphus happy."</p>
+      <p><strong>Kierkegaard:</strong> Three stages of existence — aesthetic (pleasure, novelty, variety), ethical (duty, principle, consistency), religious (the "leap of faith" beyond what reason can justify). The leap cannot be rationalized — that is why it is a leap. Faith is not the conclusion of an argument; it is a choice that reason cannot complete. This is the most philosophically honest account of religious faith.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('nietz')">
+      <span class="acc-badge phi">Nietzsche</span>
+      <span class="acc-title">God is dead · Will to Power · Eternal Recurrence · Amor Fati</span>
+      <span class="acc-tog" id="atog-nietz">▼</span>
+    </div>
+    <div class="acc-body" id="abody-nietz">
+      <p>"God is dead. God remains dead. And we have killed him." This is not a triumphant atheist declaration — it is a diagnosis of crisis. European civilization had been structured by Christian metaphysics for 1,500 years: providing moral framework, source of meaning, answer to suffering. If that foundation is gone (as Nietzsche believed modernity had destroyed it through science and criticism), then the entire structure of inherited meaning collapses. The danger: nihilism. The challenge: can we create values without God?</p>
+      <p><strong>Will to Power</strong> is not about dominating others — it is the fundamental drive toward self-mastery, growth, and the overcoming of current limitations. Art, love, philosophy, friendship — all expressions of will to power, all affirmations of life. Nihilism is will to power turned against itself: the refusal to affirm, the preference for nothingness.</p>
+      <p><strong>Eternal Recurrence</strong> as ethical test: imagine you must live this exact life, every moment, infinitely repeated, with no variation. Would you choose it? If not, something is wrong with how you are living. This is not a cosmological claim — it is a test for whether you are living a life you would want forever.</p>
+      <p><strong>Amor Fati</strong> — love of fate: "My formula for greatness in a human being is amor fati: that one wants nothing to be different, not forward, not backward, not in all eternity. Not merely bear what is necessary, still less conceal it — but love it." This is not passive resignation. It is the highest form of affirmation: to love your life including its suffering, its losses, its irreversible moments. The philosophy of destiny, taken to its limit.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('epicu')">
+      <span class="acc-badge phi">Epicureanism</span>
+      <span class="acc-title">Epicurus — pleasure as the good, but not what you think</span>
+      <span class="acc-tog" id="atog-epicu">▼</span>
+    </div>
+    <div class="acc-body" id="abody-epicu">
+      <p>Epicurus (~341–270 BCE) is almost universally misrepresented as advocating sensual excess. He actually recommended simple pleasures, philosophical friendship, freedom from fear, and retreat from political ambition. <em>Ataraxia</em> (tranquility, freedom from mental disturbance) and <em>aponia</em> (absence of physical pain) — these are the goals, not luxury. The most intense pleasures tend to bring the most intense suffering in their aftermath. Prefer stable, reliable pleasures: bread, water, philosophical conversation, close friends.</p>
+      <p>On death: "When I am, death is not; when death is, I am not." There is no subject to experience death — no suffering in non-existence. The fear of death is the fear of an experience that will never occur. Closely related to Buddhist anatta. On the gods: they exist but are indifferent to humans — they have no reason to intervene. Religious fear is therefore irrational.</p>
+      <p>Epicurean friendship is philosophically distinctive: the highest pleasure is not solitary enjoyment but shared philosophical life with friends who genuinely care for each other's good. Epicurus lived communally in "the Garden" — a community that included, scandalously, women and slaves on equal terms.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 08: PHILOSOPHY vs PSYCHOLOGY ══ -->
+<section class="sec reveal" id="compare">
+  <div class="sec-lbl" style="color:var(--glt)">08 · Philosophy vs Psychology · CBT · DBT · How They Compare</div>
+  <h2>How philosophies compare<br><em>to CBT and DBT</em></h2>
+  <p class="lead">CBT and DBT are not philosophies — they are clinical protocols. But both drew explicitly on philosophical traditions. Understanding the lineage shows both what they offer and what they cannot.</p>
+
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Tradition</th><th>Root Cause of Suffering</th><th>The Prescription</th><th>What CBT/DBT Borrowed</th><th>What Philosophy Has That Therapy Lacks</th></tr></thead>
+      <tbody>
+        <tr><td>Stoicism</td><td>Judgments about events, not events themselves</td><td>Distinguish what is up to you; practice virtue; memento mori</td><td>CBT's core: cognitive restructuring. Ellis cited Epictetus directly. "Events don't disturb us — our opinions about events do."</td><td>A complete cosmological and ethical framework; a theory of virtue not just symptom relief; community and practice</td></tr>
+        <tr><td>Buddhism</td><td>Craving, attachment, the constructed self</td><td>Eightfold Path; mindfulness; insight into impermanence and no-self</td><td>DBT's entire mindfulness component. MBSR is applied Buddhism. MBCT (Mindfulness-Based Cognitive Therapy) directly synthesizes both.</td><td>A complete theory of self and reality; the goal of liberation (not just symptom reduction); ethics as intrinsic to mental health</td></tr>
+        <tr><td>Taoism</td><td>Fighting against the natural order; forcing</td><td>Wu wei — flow with rather than force against; be like water</td><td>DBT's Radical Acceptance (Marsha Linehan was influenced by Zen Buddhism, a Buddhist-Taoist synthesis)</td><td>A philosophy of action in the world; a cosmology of opposites; the relief of not having to force everything</td></tr>
+        <tr><td>Existentialism</td><td>Bad faith; flight from freedom and responsibility</td><td>Authentic existence; accept freedom; create meaning actively</td><td>ACT (Acceptance and Commitment Therapy): values clarification, psychological flexibility, acceptance of unavoidable suffering, committed action</td><td>A full account of meaning, authenticity, and what a life worth living looks like; addresses the why, not just the how</td></tr>
+        <tr><td>Epicureanism</td><td>Irrational fears; unnecessary desires; wrong hierarchy of pleasures</td><td>Distinguish necessary from vain desires; cultivate friendship; accept death</td><td>Behavioral activation in CBT: scheduling accessible pleasures that are reliably available — Epicurean insight in clinical form</td><td>A philosophy of friendship as central to mental health; a theory of adequate pleasure; a complete treatment of death anxiety</td></tr>
+        <tr><td>CBT</td><td>Distorted automatic thoughts and maladaptive core beliefs</td><td>Identify, challenge, and restructure cognitive distortions; behavioral experiments to test beliefs</td><td>—</td><td>Rigorous evidence base; manualized protocols; measurable outcomes; applicable without prior philosophical commitment</td></tr>
+        <tr><td>DBT</td><td>Emotional dysregulation combined with an invalidating environment</td><td>Mindfulness + distress tolerance + emotion regulation + interpersonal effectiveness; dialectical balance of acceptance and change</td><td>—</td><td>Addresses dialectical tensions directly; especially effective for complex trauma and emotional intensity; the only therapy built around a philosophical paradox (acceptance AND change)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel gold">
+    <div class="ptag">The Key Difference · Treatment vs. Transformation</div>
+    <p>CBT and DBT are clinical tools: their goal is symptom reduction, improved functioning, and relief from suffering. They are evidence-based, measurable, and excellent at what they do. <strong>But they are not designed to answer the question of how to live.</strong> CBT can reduce anxiety without addressing whether what you're anxious about is worth pursuing. DBT can reduce emotional dysregulation without addressing whether your relationships reflect your deepest values.</p>
+    <p>Philosophies and religious traditions address the deeper questions: What is worth wanting? How should I treat others? What is real? What happens when I die? What makes a life worth living? These are not symptoms to be managed — they are the human condition to be inhabited. The person who completes a successful course of CBT and reduces anxiety may then face the exact questions Stoics, Buddhists, and Existentialists were answering. Philosophy and practice pick up where therapy ends.</p>
+    <p>The most honest integration (proposed by Viktor Frankl's Logotherapy, ACT's values work, and contemplative-based therapies): <em>therapy clears the obstacles; philosophy and practice provide the direction.</em> You clear the cognitive distortions so you can see clearly. Then the question is what to do with clear sight — and for that, you need something older than a clinical manual.</p>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div style="font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:.08em;color:var(--glt);margin-bottom:.5rem">The gods, the path, the way</div>
+  <div style="font-family:'Crimson Text',serif;font-style:italic;font-size:.95rem;color:rgba(237,230,208,0.3);margin-bottom:1rem">Section XII · Musica Universalis</div>
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="philosophy_of_destiny.html">Destiny</a>
+    <a class="fla" href="philosophy_of_meaning.html">Meaning</a>
+    <a class="fla" href="sophias_search.html">Sophia's Search</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+
+<script>
+// ── FAMILY TREE SVG ──
+(function(){
+  const svg = document.getElementById('ftree');
+  const ns = 'http://www.w3.org/2000/svg';
+  const GOLD = '#C8943A'; const GDIM = 'rgba(200,148,58,0.35)';
+  const CREAM = 'rgba(237,230,208,0.88)'; const DIM = 'rgba(237,230,208,0.4)';
+  const OLYMP = '#7B9EBF'; const SAGE = '#7BAF8A';
+
+  function el(tag, attrs){
+    const e = document.createElementNS(ns, tag);
+    for(const [k,v] of Object.entries(attrs)) e.setAttribute(k,v);
+    return e;
+  }
+  function line(x1,y1,x2,y2,col,dash){
+    const l = el('line',{x1,y1,x2,y2,stroke:col||GOLD,'stroke-width':'1.3'});
+    if(dash) l.setAttribute('stroke-dasharray',dash);
+    svg.appendChild(l);
+  }
+  function text(x,y,t,col,sz,anchor,style){
+    const e = el('text',{x,y,fill:col||CREAM,'font-size':sz||12,'text-anchor':anchor||'middle','font-family':style==='mono'?'JetBrains Mono,monospace':'Crimson Text,Georgia,serif'});
+    e.textContent = t;
+    svg.appendChild(e);
+  }
+  function dot(x,y,col){ svg.appendChild(el('circle',{cx:x,cy:y,r:3,fill:col||GOLD})); }
+
+  // Background
+  svg.appendChild(el('rect',{width:900,height:600,fill:'rgba(12,11,20,0)'}));
+
+  // Row 1: Primordials (y=45)
+  text(170,45,'Terra',DIM,11,'middle');
+  text(170,58,'(Gaia)',DIM,9,'middle','mono');
+  text(320,45,'Caelus',DIM,11,'middle');
+  text(320,58,'(Ouranos)',DIM,9,'middle','mono');
+  line(170,50,320,50,GDIM);
+  text(620,45,'Venus',OLYMP,12,'middle');
+  text(620,58,'(Aphrodite)',DIM,9,'middle','mono');
+
+  // Titans row (y=90)
+  text(200,92,'Ops',GOLD+'AA',12,'middle');
+  text(200,105,'(Rhea)',GDIM,9,'middle','mono');
+  text(340,92,'—',GDIM,14,'middle');
+  text(400,92,'Saturn',GOLD+'AA',12,'middle');
+  text(400,105,'(Kronos)',GDIM,9,'middle','mono');
+  line(170,54,170,75,GDIM);
+  line(170,75,300,75,GDIM);
+  line(300,75,300,88,GDIM);
+  dot(300,75,GDIM);
+
+  // Main descent line (y=130)
+  const bY = 130;
+  line(300,105,300,bY);
+  line(60,bY,720,bY,GOLD);
+  [60,155,300,390,500,720].forEach(x=>dot(x,bY,GOLD));
+
+  // Gen 1 (y=155)
+  const g1=[{x:60,n:'Pluto'},{x:155,n:'Neptune'},{x:300,n:'Jupiter'},{x:390,n:'Juno'},{x:500,n:'Ceres'},{x:720,n:'Vesta'}];
+  g1.forEach(g=>{
+    line(g.x,bY,g.x,145);
+    text(g.x,162,g.n,CREAM,12,'middle');
+  });
+  // Jupiter–Juno marriage line
+  line(300,155,390,155,GOLD);
+  dot(345,155,GOLD);
+
+  // Latona → Diana + Apollo (y=200–260)
+  text(100,200,'Latona',DIM,10,'middle');
+  text(100,212,'(Leto)',DIM,9,'middle','mono');
+  line(100,205,155,205,GDIM,'3,3');
+  line(155,162,155,205,GDIM,'3,3');
+  dot(155,205,GDIM);
+  line(130,240,210,240,OLYMP);
+  line(130,205,130,240,OLYMP);
+  line(210,205,210,240,OLYMP);
+  dot(130,240,OLYMP);dot(210,240,OLYMP);
+  text(115,260,'DIANA',OLYMP,11,'middle');
+  text(115,272,'Diano·Luna',GDIM,8,'middle','mono');
+  text(210,260,'APOLLO',OLYMP,11,'middle');
+  text(210,272,'Apolla·Sol',GDIM+'AA',8,'middle','mono');
+
+  // Ceres + Jupiter → Proserpina (dotted)
+  line(500,162,500,220,GDIM,'3,3');
+  text(560,215,'· · · Jupiter',DIM,9,'right','mono');
+  text(600,250,'Proserpina',DIM,10,'middle');
+  text(600,263,'(Persephone)',DIM,8,'middle','mono');
+
+  // Juno → Mars + Vulcan
+  line(345,155,345,310);
+  line(310,310,390,310,OLYMP);
+  dot(310,310,OLYMP);dot(390,310,OLYMP);
+  text(305,328,'MARS',OLYMP,11,'middle');
+  text(390,328,'VULCAN',OLYMP,11,'middle');
+
+  // Metis → Minerva
+  text(80,370,'METIS',DIM,10,'middle');
+  line(80,365,300,365,GDIM,'3,3');
+  line(300,162,300,365,GDIM,'3,3');
+  dot(190,365,GDIM);
+  line(190,365,190,420);
+  text(190,437,'MINERVA',OLYMP,11,'middle');
+
+  // Semele → Bacchus
+  text(240,460,'Semele',DIM,10,'middle');
+  line(240,455,300,455,GDIM,'3,3');
+  line(300,365,300,455,GDIM,'3,3');
+  dot(270,455,GDIM);
+  line(270,455,270,500);
+  text(270,517,'Bacchus',OLYMP,11,'middle');
+  text(270,529,'(Dionysus)',GDIM,8,'middle','mono');
+
+  // Maia → Mercury
+  text(240,545,'MAIA',DIM,10,'middle');
+  line(240,540,300,540,GDIM,'3,3');
+  line(300,455,300,540,GDIM,'3,3');
+  dot(270,540,GDIM);
+  line(270,540,270,572);
+  text(270,585,'MERCURY',OLYMP,11,'middle');
+
+  // Jupiter + Maea (right side)
+  text(520,390,'Jupiter',DIM,10,'middle','mono');
+  text(580,390,'···',GDIM,12,'middle');
+  text(640,390,'Maea',DIM,10,'middle','mono');
+  line(520,395,640,395,GDIM,'2,4');
+  dot(580,395,GDIM);
+  line(580,395,580,430);
+  text(580,447,'Mercury',OLYMP,10,'middle');
+  text(580,460,'(Greek tradition)',DIM,8,'middle','mono');
+
+  // Labels
+  text(10,592,'━ solid: marriage   - - - dotted: secondary union   ● dot: child node',GDIM,8,'left','mono');
+})();
+
+// ── RELIGION CARDS ──
+const RELS = [
+  {icon:'✝️',name:'Christianity',cls:'chr',pop:'~2.4 billion · World's largest',
+   body:'God is a Trinity: Father, Son, Holy Spirit. Jesus Christ is God incarnate — fully human and fully divine — who died and rose for humanity\'s salvation. Salvation through faith. Sacred text: the Bible. Profoundly diverse: Catholic, Protestant, Orthodox.',
+   core:['Love God and neighbor above all things','Forgiveness, grace, and redemption','Resurrection and eternal life','The Sermon on the Mount as ethical center']},
+  {icon:'☪️',name:'Islam',cls:'isl',pop:'~1.9 billion',
+   body:'Allah is one, indivisible. Muhammad (~570–632 CE) is the final prophet. The Quran is God\'s direct speech revealed through the angel Jibreel. The Five Pillars: Shahada, Salat (5x daily prayer), Zakat (charity), Sawm (Ramadan fasting), Hajj (pilgrimage).',
+   core:['Tawhid — absolute oneness of God','Submission and surrender (Islam = peace/submission)','Justice, compassion, community (ummah)','The Day of Judgment and resurrection']},
+  {icon:'✡️',name:'Judaism',cls:'jud',pop:'~15 million · Oldest Abrahamic faith',
+   body:'The covenant relationship between God (YHWH) and the Jewish people. Torah as foundational text; Talmud as living interpretation. A religion of deed more than creed — how you act matters more than what you profess. Deeply varied: Orthodox, Conservative, Reform.',
+   core:['Tikkun olam — repair of the world','The covenant and its mutual obligations','Torah as living, ever-interpreted text','This world matters; ethical action is sacred']},
+  {icon:'☸️',name:'Buddhism',cls:'bud',pop:'~500 million',
+   body:'Non-theistic. Siddhartha Gautama (~563–483 BCE) became the Buddha ("awakened one") through meditation. Diagnoses suffering (dukkha), identifies its cause (craving/attachment), and prescribes the Noble Eightfold Path. Goal: Nirvana — liberation from the cycle of rebirth.',
+   core:['Four Noble Truths — complete diagnosis','Noble Eightfold Path — the treatment','Impermanence, no-self, interdependence','Compassion (karuna) as central practice']},
+  {icon:'🕉️',name:'Hinduism',cls:'hin',pop:'~1.2 billion · World's oldest living religion',
+   body:'A family of traditions from the Indus Valley (~3000 BCE), unified by the Vedas. Multiple valid paths to liberation (moksha): jnana (knowledge), bhakti (devotion), karma (action). The ultimate reality is Brahman; the individual soul (Atman) is ultimately one with it.',
+   core:['Dharma — right living according to one\'s nature','Karma — every action has consequences','Moksha — liberation from the cycle of rebirth','Ahimsa — non-violence toward all beings']},
+  {icon:'☯️',name:'Taoism',cls:'tao',pop:'~12 million formal · ~400M influenced',
+   body:'Founded on the Tao Te Ching (Laozi, ~4th c. BCE). The Tao is the underlying principle of all reality — formless, nameless, the source of everything. Goal: wu wei (effortless action aligned with the natural order). Yin and yang as dynamic balance of opposites.',
+   core:['Wu wei — non-forcing, effortless action','Tzu-jan — naturalness and spontaneity','Simplicity, humility, flexibility','Balance of opposites rather than conquest']},
+];
+const rg = document.getElementById('rel-grid');
+RELS.forEach(r=>{
+  rg.innerHTML+=`<div class="rel ${r.cls}"><span class="rel-icon">${r.icon}</span><div class="rel-name">${r.name}</div><div class="rel-pop">${r.pop}</div><div class="rel-body">${r.body}</div><div class="rel-core"><div class="rel-core-title">Core teachings</div><ul>${r.core.map(c=>`<li>${c}</li>`).join('')}</ul></div></div>`;
+});
+
+// ── DEITY CARDS ──
+const DEITIES = [
+  {sym:'⚡',name:'Jupiter',roman:'Zeus · King of the Gods',body:'God of sky, thunder, law, and order. Ruler of Olympus. Also Dis Pater. Married Juno but had countless unions that drove most of Greek mythology.',type:'olymp'},
+  {sym:'👑',name:'Juno',roman:'Hera · Queen of the Gods',body:'Goddess of marriage, women, and childbirth. Perpetually jealous of Jupiter\'s infidelities — this jealousy drove enormous amounts of myth, including the founding of Rome.',type:'olymp'},
+  {sym:'🔱',name:'Neptune',roman:'Poseidon · Sea',body:'Rules oceans, earthquakes, and horses. "Earth-Shaker." Capricious and powerful. Brother of Jupiter. His trident struck the ground and caused earthquakes.',type:'olymp'},
+  {sym:'💀',name:'Pluto',roman:'Hades · Underworld',body:'Rules the dead. Not evil — neutral, fair, implacable. Married Proserpina (abducted, causing the seasons). Rarely left the underworld. Feared to name.',type:'chthonic'},
+  {sym:'🌾',name:'Ceres',roman:'Demeter · Agriculture',body:'Her grief over Proserpina\'s abduction causes winter. Patron of the Eleusinian Mysteries — the ancient world\'s most important secret religious rites.',type:'olymp'},
+  {sym:'🔥',name:'Vesta',roman:'Hestia · Hearth',body:'Sacred fire of home and city. The Roman Vestal Virgins maintained her eternal flame. Quiet, rarely in myths — but present in every home, the most intimate goddess.',type:'olymp'},
+  {sym:'🌙',name:'Diana',roman:'Artemis · Hunt · Moon · Diano · Luna',body:'Goddess of the hunt, wilderness, and the moon. Twin of Apollo. Patron of young women. Fiercely independent. Chastity as autonomy.',type:'olymp'},
+  {sym:'☀️',name:'Apollo',roman:'Apollo · Light · Music · Sol',body:'God of light, music, poetry, prophecy, medicine, and plague. Twin of Diana. His oracle at Delphi was the most important in the ancient world. "Know thyself" was inscribed at his temple.',type:'olymp'},
+  {sym:'⚔️',name:'Mars',roman:'Ares · War',body:'Roman Mars is more dignified than chaotic Greek Ares. Father of Romulus and Remus — ancestor of the Roman people. Central to Roman religion in a way Ares was not to Greek.',type:'olymp'},
+  {sym:'🔨',name:'Vulcan',roman:'Hephaestus · Forge · Fire',body:'God of fire, metalworking, and craft. Lame (thrown from Olympus, or born lame). Made Achilles\'s armor, the net that caught Ares and Aphrodite, Hermes\'s winged sandals.',type:'olymp'},
+  {sym:'🪄',name:'Mercury',roman:'Hermes · Messenger · Commerce',body:'God of commerce, communication, thieves, travelers, and guide of souls to the underworld (psychopomp). Inventor of the lyre. Most versatile of the gods.',type:'olymp'},
+  {sym:'🦉',name:'Minerva',roman:'Athena · Wisdom · Crafts',body:'Born fully armored from Jupiter\'s head (Metis swallowed). Goddess of wisdom, crafts, and strategic war. Patron of Athens. Goddess of civilization itself.',type:'olymp'},
+  {sym:'🍇',name:'Bacchus',roman:'Dionysus · Wine · Ecstasy',body:'Son of Jupiter and the mortal Semele. God of wine, theater, ecstasy, and dissolution of boundaries. The god who breaks down the barriers between human and divine, self and other.',type:'olymp'},
+  {sym:'💛',name:'Venus',roman:'Aphrodite · Love · Beauty',body:'Goddess of love, beauty, and desire. Born from sea-foam (Hesiod: from Ouranos\'s severed parts). Mother of Aeneas — ancestor of the Romans. Most desired and most dangerous.',type:'olymp'},
+];
+const dg = document.getElementById('deity-grid');
+DEITIES.forEach(d=>{
+  dg.innerHTML+=`<div class="deity ${d.type}"><span class="d-sym">${d.sym}</span><div class="d-name">${d.name}</div><div class="d-roman">${d.roman}</div><div class="d-body">${d.body}</div></div>`;
+});
+
+// ── ACCORDION ──
+function tog(id){
+  const b=document.getElementById('abody-'+id);
+  const t=document.getElementById('atog-'+id);
+  if(!b)return;
+  const o=b.classList.toggle('open');
+  if(t)t.textContent=o?'▲':'▼';
+}
+
+// ── REVEAL ──
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')})},{threshold:.06});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

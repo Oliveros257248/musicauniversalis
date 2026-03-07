@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Emotions as Frequency · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0A0806;--bg2:#120F0A;--bg3:#1A1510;
+  --amber:#C8922A;--amber-lt:#E8B85A;--amber-dim:rgba(200,146,42,.32);
+  --cream:#F0E8D8;--cdim:rgba(240,232,216,.58);--cfaint:rgba(240,232,216,.05);
+  --sage:#7AAF88;--sage-lt:#A0D0B0;
+  --rose:#C86060;--rose-lt:#E89090;
+  --sky:#6090C0;--sky-lt:#90B8E8;
+  --confirm:#5A9E72;--partial:#B8943A;--specul:#6090C8;--disprove:#C06050;
+  --line:rgba(240,232,216,.07);
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{color:var(--cdim);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.85;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(200,146,42,.05),transparent),
+             radial-gradient(ellipse 30% 50% at 0% 80%,rgba(90,158,114,.03),transparent),
+             radial-gradient(ellipse 25% 30% at 100% 30%,rgba(200,96,80,.02),transparent)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.55rem 1.8rem;background:rgba(10,8,6,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(200,146,42,.1)}
+.nb{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--amber-lt)}
+.nl{display:flex;gap:.1rem;flex-wrap:wrap}
+.nl a{font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.07em;color:var(--cdim);text-decoration:none;padding:.18rem .38rem;border-radius:3px;text-transform:uppercase;transition:color .15s}
+.nl a:hover{color:var(--amber-lt)}
+
+.page{position:relative;z-index:2;max-width:940px;margin:0 auto;padding:0 1.5rem 8rem}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 1rem 4rem;position:relative;overflow:hidden}
+#hcanvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.h-eye{font-family:'JetBrains Mono',monospace;font-size:.44rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(200,146,42,.4);margin-bottom:1.2rem;position:relative;z-index:2}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,9vw,5.8rem);font-weight:300;line-height:1.04;color:var(--cream);position:relative;z-index:2;margin-bottom:.3rem}
+.hero h1 em{font-style:italic;color:var(--amber-lt)}
+.h-rule{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);margin:1.3rem auto;position:relative;z-index:2}
+.h-sub{font-family:'EB Garamond',serif;font-style:italic;font-size:1.08rem;color:var(--cdim);max-width:580px;line-height:2;position:relative;z-index:2}
+.h-questions{display:flex;gap:.45rem;flex-wrap:wrap;justify-content:center;margin-top:1.6rem;position:relative;z-index:2}
+.hq{font-family:'JetBrains Mono',monospace;font-size:.37rem;letter-spacing:.06em;text-transform:uppercase;padding:.22rem .6rem;border-radius:20px;border:1px solid rgba(200,146,42,.3);color:rgba(200,146,42,.6)}
+
+/* SECTIONS */
+.sec{padding:4rem 0;border-top:1px solid var(--line);position:relative;z-index:2}
+.sec-lbl{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--line)}
+h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4.5vw,3rem);font-weight:300;line-height:1.1;margin-bottom:.5rem;color:var(--cream)}
+h2 em{font-style:italic;color:var(--amber-lt)}
+h3{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--cream);margin:2rem 0 .6rem;font-style:italic}
+p{margin-bottom:1rem;line-height:1.9}
+p strong{color:var(--cream)}
+p em{color:var(--amber-lt)}
+.lead{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.12rem;color:rgba(240,232,216,.7);line-height:2;margin-bottom:1.5rem}
+blockquote{border-left:2px solid var(--amber-dim);padding:.5rem 1.1rem;margin:1.3rem 0;background:rgba(200,146,42,.03);border-radius:0 6px 6px 0}
+blockquote p{font-style:italic;color:rgba(240,232,216,.6);margin:0;font-size:.93rem}
+
+/* VERDICT BADGES */
+.verdict{display:inline-flex;align-items:center;gap:.4rem;padding:.2rem .7rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem;border:1px solid}
+.v-confirm{background:rgba(90,158,114,.1);color:#7ACA98;border-color:rgba(90,158,114,.3)}
+.v-partial{background:rgba(184,148,58,.1);color:#D4A850;border-color:rgba(184,148,58,.3)}
+.v-specul{background:rgba(96,144,200,.1);color:#90B8E8;border-color:rgba(96,144,200,.3)}
+.v-disprove{background:rgba(192,96,80,.1);color:#E09080;border-color:rgba(192,96,80,.3)}
+.vdot{width:6px;height:6px;border-radius:50%}
+.v-confirm .vdot{background:#7ACA98}
+.v-partial .vdot{background:#D4A850}
+.v-specul .vdot{background:#90B8E8}
+.v-disprove .vdot{background:#E09080}
+
+/* CLAIM BOXES */
+.claim{background:var(--cfaint);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.5rem;margin:1.2rem 0;border-left:3px solid transparent}
+.claim.confirm{border-left-color:var(--confirm)}
+.claim.partial{border-left-color:var(--partial)}
+.claim.specul{border-left-color:var(--sky)}
+.claim.disprove{border-left-color:var(--rose)}
+.claim-head{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,232,216,.28);margin-bottom:.5rem}
+.claim-statement{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--cream);margin-bottom:.7rem;line-height:1.55}
+.claim p{font-size:.9rem;color:rgba(240,232,216,.6);line-height:1.82;margin-bottom:.55rem}
+.claim p:last-child{margin-bottom:0}
+.claim strong{color:var(--cream)}
+.claim em{color:var(--amber-lt)}
+
+/* PANEL */
+.panel{background:var(--cfaint);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.5rem;margin:1.2rem 0;position:relative;overflow:hidden}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0}
+.panel.amber::before{background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.panel.sage::before{background:linear-gradient(90deg,transparent,var(--sage),transparent)}
+.panel.sky::before{background:linear-gradient(90deg,transparent,var(--sky),transparent)}
+.panel.rose::before{background:linear-gradient(90deg,transparent,var(--rose),transparent)}
+.ptag{font-family:'JetBrains Mono',monospace;font-size:.41rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,232,216,.25);margin-bottom:.5rem}
+.panel p{font-size:.9rem;color:rgba(240,232,216,.6);line-height:1.82;margin-bottom:.55rem}
+.panel p:last-child{margin-bottom:0}
+.panel strong{color:var(--cream)}
+.panel em{color:var(--amber-lt)}
+.panel ul{padding-left:1.2rem;margin:.4rem 0}
+.panel li{font-size:.9rem;color:rgba(240,232,216,.58);line-height:1.75;margin-bottom:.3rem}
+.panel li strong{color:var(--cream)}
+
+/* SCORE TABLE */
+.score-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin:1.3rem 0}
+@media(max-width:560px){.score-grid{grid-template-columns:1fr}}
+.sg{border:1px solid var(--line);border-radius:10px;padding:1rem 1rem .8rem;text-align:center}
+.sg-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;line-height:1;margin-bottom:.2rem}
+.sg-lbl{font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,232,216,.28)}
+.sg-sub{font-size:.8rem;color:rgba(240,232,216,.45);font-style:italic;margin-top:.2rem;line-height:1.4}
+
+/* ACCORDION */
+.acc{background:var(--cfaint);border:1px solid var(--line);border-radius:10px;margin:.6rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.7rem;padding:.85rem 1.1rem;cursor:pointer;transition:background .15s;list-style:none}
+.acc-h:hover{background:rgba(240,232,216,.03)}
+.acc-badge{font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase;padding:.16rem .44rem;border-radius:4px;flex-shrink:0}
+.acc-badge.am{background:rgba(200,146,42,.1);color:var(--amber-lt);border:1px solid rgba(200,146,42,.2)}
+.acc-badge.sg{background:rgba(90,158,114,.1);color:var(--sage-lt);border:1px solid rgba(90,158,114,.2)}
+.acc-badge.sk{background:rgba(96,144,200,.1);color:var(--sky-lt);border:1px solid rgba(96,144,200,.2)}
+.acc-badge.rs{background:rgba(200,96,80,.1);color:var(--rose-lt);border:1px solid rgba(200,96,80,.2)}
+.acc-title{font-family:'EB Garamond',serif;font-size:.97rem;color:var(--cream);flex:1;line-height:1.35}
+.acc-tog{font-family:'JetBrains Mono',monospace;font-size:.44rem;color:rgba(240,232,216,.18);flex-shrink:0}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .42s ease,padding .3s}
+.acc-body.open{max-height:3000px;padding:0 1.1rem 1.1rem}
+.acc-body p{font-size:.9rem;color:rgba(240,232,216,.6);line-height:1.85;margin-bottom:.65rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--cream)}
+.acc-body em{color:var(--amber-lt)}
+
+/* SOLFEGGIO TABLE */
+.solf-table{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:1.3rem 0}
+.solf-row{display:grid;grid-template-columns:55px 65px 1fr 1fr;align-items:center;padding:.55rem .9rem;border-bottom:1px solid rgba(240,232,216,.04)}
+.solf-row:last-child{border-bottom:none}
+.solf-row.header{background:rgba(240,232,216,.02)}
+.sr-sol{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--cream)}
+.sr-hz{font-family:'JetBrains Mono',monospace;font-size:.44rem;color:var(--amber-lt)}
+.sr-chakra span{font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.05em;text-transform:uppercase;padding:.14rem .4rem;border-radius:3px;display:inline-block}
+.sr-note{font-size:.85rem;color:rgba(240,232,216,.5);font-style:italic}
+.sr-verdict{display:flex;align-items:center;gap:.3rem;font-family:'JetBrains Mono',monospace;font-size:.37rem;letter-spacing:.05em;text-transform:uppercase}
+.vdot-sm{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* COMMA BOX */
+.comma-box{border:1px solid rgba(200,146,42,.2);border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;background:rgba(200,146,42,.03);position:relative}
+.comma-box::after{content:'，';position:absolute;top:.4rem;right:.7rem;font-size:2rem;color:rgba(200,146,42,.07);line-height:1}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(200,146,42,.4);margin-bottom:.4rem}
+.cb-body{font-size:.88rem;color:rgba(240,232,216,.56);line-height:1.82}
+.cb-body strong{color:var(--amber-lt)}
+
+/* SONG STRUCTURE */
+.song{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:1.3rem 0}
+.song-row{display:grid;grid-template-columns:140px 70px 1fr;align-items:center;padding:.6rem 1rem;border-bottom:1px solid rgba(240,232,216,.04)}
+.song-row:last-child{border-bottom:none}
+.song-row.hdr{background:rgba(240,232,216,.02)}
+.song-row .spart{font-family:'Cormorant Garamond',serif;font-size:.97rem;color:var(--cream)}
+.song-row .shz{font-family:'JetBrains Mono',monospace;font-size:.44rem;color:var(--amber-lt)}
+.song-row .smood{font-size:.86rem;color:rgba(240,232,216,.5);font-style:italic}
+
+/* KAIROS */
+.kairos-box{border:1px solid rgba(200,146,42,.28);border-radius:10px;padding:1.1rem 1.3rem;margin:1.2rem 0;background:rgba(200,146,42,.04);position:relative}
+.kairos-box::after{content:'К';position:absolute;top:.5rem;right:.8rem;font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:rgba(200,146,42,.08);line-height:1}
+.kb-label{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(200,146,42,.45);margin-bottom:.4rem}
+.kb-body{font-size:.88rem;color:rgba(240,232,216,.56);line-height:1.82}
+.kb-body strong{color:var(--amber-lt)}
+
+/* SUMMARY LEGEND */
+.legend{display:flex;gap:1rem;flex-wrap:wrap;margin:1.5rem 0;padding:1rem 1.2rem;background:var(--cfaint);border:1px solid var(--line);border-radius:10px}
+.lg-item{display:flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase}
+.lg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.lg-item.c .lg-dot{background:var(--confirm)}.lg-item.c{color:#7ACA98}
+.lg-item.p .lg-dot{background:var(--partial)}.lg-item.p{color:#D4A850}
+.lg-item.s .lg-dot{background:var(--sky)}.lg-item.s{color:var(--sky-lt)}
+.lg-item.d .lg-dot{background:var(--rose)}.lg-item.d{color:var(--rose-lt)}
+
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);position:relative;z-index:2}
+.fla{font-family:'JetBrains Mono',monospace;font-size:.41rem;letter-spacing:.08em;color:rgba(240,232,216,.2);text-decoration:none;text-transform:uppercase;padding:.18rem .45rem;transition:color .2s}
+.fla:hover{color:var(--amber-lt)}
+</style>
+</head>
+<body>
+<nav>
+  <span class="nb">Musica Universalis</span>
+  <div class="nl">
+    <a href="#q1">Emotions & Hz</a>
+    <a href="#q2">Detuning</a>
+    <a href="#q3">Love</a>
+    <a href="#q4">Trauma</a>
+    <a href="#q5">Universe</a>
+    <a href="#solfeggio">Solfeggio</a>
+    <a href="#model">Model</a>
+  </div>
+</nav>
+
+<div class="page">
+<section class="hero">
+  <canvas id="hcanvas"></canvas>
+  <div class="h-eye">Section XV · Emotions · Frequency · Resonance · Musica Universalis</div>
+  <h1>Emotions as<br><em>Frequency</em></h1>
+  <div class="h-rule"></div>
+  <p class="h-sub">Five questions at the intersection of neuroscience, music theory, and physics — each examined against what the evidence actually says.</p>
+  <div class="h-questions">
+    <span class="hq">Q1 · Emotions = Hz?</span>
+    <span class="hq">Q2 · Inner detuning</span>
+    <span class="hq">Q3 · Love as harmony</span>
+    <span class="hq">Q4 · Trauma as dissonance</span>
+    <span class="hq">Q5 · Universe as song</span>
+  </div>
+</section>
+
+<!-- LEGEND -->
+<section class="sec" id="legend" style="padding:2rem 0 0">
+  <div class="legend">
+    <div class="lg-item c"><div class="lg-dot"></div>Confirmed — strong empirical support</div>
+    <div class="lg-item p"><div class="lg-dot"></div>Partial — real phenomenon, overstated claims</div>
+    <div class="lg-item s"><div class="lg-dot"></div>Speculative — plausible hypothesis, insufficient evidence</div>
+    <div class="lg-item d"><div class="lg-dot"></div>Disproved / unsupported as stated</div>
+  </div>
+</section>
+
+<!-- ══ Q1: EMOTIONS AS FREQUENCY ══ -->
+<section class="sec" id="q1">
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 1 · Pages 640–641</div>
+  <h2>Are emotions<br><em>frequency signatures</em>?</h2>
+  <p class="lead">The brain produces electrical waves measurable in Hz. The body responds to auditory vibration. Emotions are linked to nervous system states — all tied to oscillatory behavior. Define emotions as bio-psycho-spiritual resonance, emerging from interaction between system and environmental dissonance.</p>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 1a</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
+    <div class="claim-statement">"The brain produces electrical waves (theta, alpha, beta, gamma) in Hz"</div>
+    <p>This is firmly established neuroscience. Electroencephalography (EEG) has measured distinct brainwave bands since Hans Berger in 1929. The exact bands recorded in the notebook are standard clinical categories used in every sleep lab and research hospital in the world. <strong>Delta (0.5–4 Hz): deep sleep, unconscious healing.</strong> <strong>Theta (4–8 Hz): dreaming, deep meditation, memory consolidation, trauma surfacing.</strong> <strong>Alpha (8–12 Hz): calm focus, flow state, relaxed alertness.</strong> <strong>Beta (13–30 Hz): active thinking, stress, anxiety, planning.</strong> <strong>Gamma (30–100+ Hz): higher awareness, perception, insight, cognition — and binding of conscious experience.</strong></p>
+    <p>The link between autonomic nervous system state (fight/flight → high beta; freeze/collapse → low theta; rest/digest → alpha; flow/presence → alpha-theta; insight/unity → gamma) is also well-supported. These are not claims — they are the working vocabulary of clinical neuroscience.</p>
+  </div>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 1b</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
+    <div class="claim-statement">"The body responds to auditory vibrations: affecting heart rate, breathing, hormonal output"</div>
+    <p>Sound directly influences physiology through multiple pathways. The vagus nerve (the primary rest-and-digest pathway) is physically connected to the inner ear via the stapedius muscle — sound at certain frequencies preferentially activates the social engagement system. This is the basis of Stephen Porges' Polyvagal Theory and his Safe and Sound Protocol therapy.</p>
+    <p><strong>Heart rate:</strong> Slow music with regular rhythm entrains heart rate variability (HRV). <strong>Cortisol:</strong> Music reduces cortisol (stress hormone) in measurable amounts — used clinically before surgery. <strong>Oxytocin:</strong> Singing and synchronized music-making increases oxytocin (bonding hormone). <strong>Dopamine:</strong> Music that produces "chills" releases dopamine in the nucleus accumbens — the same reward circuitry as food and sex. These are all replicable, replicated findings.</p>
+  </div>
+
+  <div class="claim partial">
+    <div class="claim-head">Claim 1c</div>
+    <div class="verdict v-partial"><div class="vdot"></div>Partial — the framework is real; the precision is overstated</div>
+    <div class="claim-statement">"Define emotions as bio-psycho-spiritual resonance emerging from system–environment interaction"</div>
+    <p>The first part — that emotions are not purely mental events but whole-body states arising from interaction between internal physiology and environmental context — is strongly supported. This is exactly what the predictive processing framework (Karl Friston), the embodied cognition tradition, and interoceptive theories of emotion (Lisa Feldman Barrett's <em>How Emotions Are Made</em>) all converge on. <strong>Emotions are states of the whole organism, not events in the brain alone.</strong></p>
+    <p>The word "spiritual" adds a layer that science cannot confirm or deny — it names something real about the felt quality of extreme states (awe, grief, ecstasy) that neurological language alone fails to capture. <strong>The framework is good. The precision of assigning exact Hz values to specific emotions is where it becomes an overstatement</strong> — different individuals and different contexts produce different brainwave patterns for the same emotion. The map exists; the legend is approximate.</p>
+  </div>
+
+  <div class="kairos-box">
+    <div class="kb-label">Comma Framework · Emotions as Threshold Events</div>
+    <div class="kb-body">Emotions are not continuous — they arrive at kairos moments. The body has been building a state (a frequency pattern), and at a certain threshold it becomes <em>named</em>, becomes <em>felt</em>, becomes <em>an emotion rather than background noise</em>. The comma in emotional experience is the moment of recognition — the instant the oscillating system crosses the threshold from subthreshold arousal into conscious emotional state. Grief is not always present; it arrives. So does joy. What precedes them is frequency. What crosses the threshold is meaning. <strong>The notebook's framework correctly identifies the substrate (oscillation, Hz) while the comma is the emergence event — the moment pattern becomes experience.</strong></div>
+  </div>
+</section>
+
+<!-- ══ SOLFEGGIO TABLE ══ -->
+<section class="sec" id="solfeggio">
+  <div class="sec-lbl" style="color:var(--amber-lt)">Solfeggio Frequencies · The Evidence Map</div>
+  <h2>The Solfeggio scale<br><em>and what the evidence says</em></h2>
+  <p class="lead">The notebook maps the solfeggio scale (Do–Re–Mi–Fa–Sol–La–Si) to Hertz values, chakras, and emotional/spiritual qualities. Each pairing requires its own verdict.</p>
+
+  <div class="solf-table">
+    <div class="solf-row header" style="font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,232,216,.28)">
+      <div>Note</div><div>Hz</div><div>Ascribed quality</div><div>Evidence</div>
+    </div>
+    <div class="solf-row">
+      <div class="sr-sol">Do</div><div class="sr-hz">396</div>
+      <div class="sr-note">Grounding, quiet release · Root chakra</div>
+      <div class="sr-verdict" style="color:#D4A850"><div class="vdot-sm" style="background:#D4A850"></div>Partial</div>
+    </div>
+    <div class="solf-row">
+      <div class="sr-sol">Re</div><div class="sr-hz">417</div>
+      <div class="sr-note">Creativity, movement · Sacral</div>
+      <div class="sr-verdict" style="color:#90B8E8"><div class="vdot-sm" style="background:#90B8E8"></div>Speculative</div>
+    </div>
+    <div class="solf-row">
+      <div class="sr-sol">Mi</div><div class="sr-hz">528</div>
+      <div class="sr-note">Hope, healing, identity · Solar plexus</div>
+      <div class="sr-verdict" style="color:#D4A850"><div class="vdot-sm" style="background:#D4A850"></div>Partial</div>
+    </div>
+    <div class="solf-row">
+      <div class="sr-sol">Fa</div><div class="sr-hz">639</div>
+      <div class="sr-note">Connection, forgiveness · Heart</div>
+      <div class="sr-verdict" style="color:#90B8E8"><div class="vdot-sm" style="background:#90B8E8"></div>Speculative</div>
+    </div>
+    <div class="solf-row">
+      <div class="sr-sol">Sol</div><div class="sr-hz">741</div>
+      <div class="sr-note">Expression, truth · Throat</div>
+      <div class="sr-verdict" style="color:#90B8E8"><div class="vdot-sm" style="background:#90B8E8"></div>Speculative</div>
+    </div>
+    <div class="solf-row">
+      <div class="sr-sol">La</div><div class="sr-hz">852</div>
+      <div class="sr-note">Intuition, vision · Third Eye</div>
+      <div class="sr-verdict" style="color:#90B8E8"><div class="vdot-sm" style="background:#90B8E8"></div>Speculative</div>
+    </div>
+    <div class="solf-row">
+      <div class="sr-sol">Si</div><div class="sr-hz">963</div>
+      <div class="sr-note">Unity, cosmic consciousness · Crown</div>
+      <div class="sr-verdict" style="color:#90B8E8"><div class="vdot-sm" style="background:#90B8E8"></div>Speculative</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('solf-context')">
+      <span class="acc-badge am">History</span>
+      <span class="acc-title">Where did these frequencies come from? The honest story</span>
+      <span class="acc-tog" id="at-solf-context">▼</span>
+    </div>
+    <div class="acc-body" id="ab-solf-context">
+      <p>The Solfeggio frequencies as a system were popularized in the 1990s by Dr. Joseph Puleo and Leonard Horowitz, who claimed to have found them encoded in the Book of Numbers in the Bible via numerology. The original medieval Gregorian chant scale (ut–re–mi–fa–sol–la) used different note names but was <em>not</em> tuned to these specific Hz values — that correspondence is modern and invented. <strong>There is no ancient system that tuned instruments to 396, 417, 528 Hz specifically.</strong></p>
+      <p>The 528 Hz "miracle tone" or "DNA repair frequency" claim originated with Horowitz and is the most commercially promoted. The claim that 528 Hz repairs DNA has been tested: one study (Baati et al., 2012, widely misrepresented) examined effects of certain water preparations — not 528 Hz tones — on DNA. <strong>No peer-reviewed study has demonstrated that listening to 528 Hz audio repairs human DNA.</strong></p>
+      <p>What IS real: these are specific audible frequencies that, like all frequencies in the human hearing range, interact with the auditory system and can produce physiological responses. Music at any frequency can affect mood, autonomic tone, and neurochemistry. The emotional assignments (528 = hope, 396 = grounding) are unfalsifiable as stated — they cannot be disproved because they were never derived from experiment.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('solf-real')">
+      <span class="acc-badge sg">Real Effects</span>
+      <span class="acc-title">What is actually real about frequency and emotional state</span>
+      <span class="acc-tog" id="at-solf-real">▼</span>
+    </div>
+    <div class="acc-body" id="ab-solf-real">
+      <p><strong>Binaural beats — Partial:</strong> When two slightly different frequencies are played to each ear (e.g., 200 Hz left, 210 Hz right), the brain generates a "beat" at the difference frequency (10 Hz = alpha). EEG studies confirm the brain entrains toward this frequency. Effects on mood, focus, and anxiety reduction are real but modest — comparable to gentle music rather than medication. The brain's ability to be "driven" by an external oscillation (entrainment) is genuine. The specific Hz claimed for specific emotional states are approximate at best.</p>
+      <p><strong>432 Hz vs 440 Hz tuning — Disproved as stated:</strong> Claims that instruments tuned to A=432 Hz produce measurably superior physiological or emotional effects compared to the standard A=440 Hz have not survived controlled blind testing. Musical intervals (the relationships between notes) matter enormously to emotion; absolute pitch reference does not produce measurable emotional differences in controlled studies.</p>
+      <p><strong>Acoustic resonance of the body — Partial:</strong> Different body structures do have resonant frequencies. The chest resonates around 50–60 Hz. Cranial resonance has been measured. Whether external sound at these frequencies produces therapeutic effects is under investigation — some sound therapy (particularly for pain) has genuine mechanistic support. The claim that these specific solfeggio Hz values target specific organs or chakras precisely has no mechanistic support in anatomy.</p>
+    </div>
+  </div>
+
+  <div class="panel amber">
+    <div class="ptag">The Comma View · What the Solfeggio Map Gets Right as a Model</div>
+    <p>Even where the specific Hz-to-chakra mapping lacks empirical grounding, the underlying intuition of the solfeggio framework is pointing at something real: that <strong>different frequency ranges of auditory input engage different physiological systems and emotional states</strong>. Sub-bass frequencies (20–80 Hz) engage the body physically, produce felt vibration, are associated with grounding and presence. Mid frequencies (200–2000 Hz) carry speech and social signals — where the vagal system is most active. High frequencies (2000–8000 Hz) carry alertness cues. The emotional qualities assigned to solfeggio bands loosely track these real acoustic-physiological relationships. The map has real terrain beneath it, even if the coordinates are approximate.</p>
+    <p>The notebook asks the right question: <em>How do these frequencies relate to emotion pairing and the Solfeggio frequencies?</em> The answer is that the relationship is real but mediated — it runs through the nervous system's responses to frequency ranges and musical context, not through direct Hz-to-emotion wiring. The instrument of translation is you.</p>
+  </div>
+</section>
+
+<!-- ══ Q2: EMOTIONAL DETUNING ══ -->
+<section class="sec" id="q2">
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 2 · Pages 645 · Emotional Detuning</div>
+  <h2>What happens when our<br><em>"inner tuning" is out of sync?</em></h2>
+  <p class="lead">When "inner tuning" is out of sync → MANIA. Neuroscience: dysregulation of brain waves linked to trauma, chronic stress, substance use, genetic/neurochemical factors → depression, PTSD, schizophrenia, probably mania too. Physics: resonance happens when frequencies align; lost energy becomes dissipated, not amplified. ⟹ Emotional detuning. Healing becomes recalibration, not fixing.</p>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 2a</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
+    <div class="claim-statement">"Dysregulation of brain waves is linked to depression, PTSD, schizophrenia, mania"</div>
+    <p>This is textbook clinical neuroscience. In <strong>depression</strong>: elevated frontal alpha asymmetry (right hemisphere more active at rest), increased high-frequency beta in ruminative states, reduced alpha coherence. In <strong>PTSD</strong>: chronically elevated beta and gamma associated with hypervigilance; disrupted theta (preventing memory consolidation during sleep — causing nightmare repetition); reduced default mode network coherence. In <strong>mania</strong>: dramatic reduction of slow waves (especially alpha, which normally gates and suppresses stimulation), explosive increase in gamma and beta — the neural signature of a system without its inhibitory rhythms. In <strong>schizophrenia</strong>: disrupted gamma synchrony specifically in the 40 Hz range — affecting perceptual binding (the reason experiences fragment).</p>
+    <p>The notebook's identification of mania as "suppressed alpha / inability to rest or affect / excessive beta-gamma / racing thoughts / instability across states / rapid shift of confidence–paranoia–grief" is a precise lay description of the EEG and clinical phenomenology of a manic episode. <strong>This mapping is accurate.</strong></p>
+  </div>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 2b</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — with important precision</div>
+    <div class="claim-statement">"Resonance: when frequencies align, lost energy is dissipated, not amplified"</div>
+    <p>This is physically correct and the distinction is critical. In resonance, energy is <em>transferred efficiently</em> between oscillators — the driving frequency matches the natural frequency of the receiving system, so input energy becomes motion rather than heat. When frequencies are mismatched (detuned), the energy is <em>dissipated</em>: it produces friction, heat, noise — not coordinated motion. <strong>This is a genuinely beautiful physical analogy for emotional dysregulation.</strong> The dysregulated nervous system is not receiving the frequency of the environment efficiently — it is converting environmental input into heat (activation without direction, arousal without resolution).</p>
+    <p>The constraint: the human nervous system is not a simple harmonic oscillator. Its "natural frequencies" are not fixed — they change with state, with context, with history. The analogy is illuminating; it is not a complete mechanism.</p>
+  </div>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 2c</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — this reframe has clinical consequences</div>
+    <div class="claim-statement">"Healing becomes recalibration, not fixing"</div>
+    <p>This is not merely poetic — it describes a genuine paradigm shift in how treatment-resistant mental illness is approached. The "fixing" model: something is broken, restore it to a prior baseline. The "recalibration" model: the system has settled into a different attractor state; therapy is the process of making other states accessible again, widening the repertoire, restoring flexibility. <strong>This is exactly the framework of neurofeedback, which trains the brain to access non-dominant states; of HRV biofeedback, which trains the vagal system to widen its operational range; of polyvagal-informed therapy, which works by expanding the "window of tolerance" rather than eliminating dysregulation.</strong></p>
+    <p>The phrase "you can't receive love clearly — you distort — you vibrate against your own rhythm" is also clinically precise: attachment research consistently shows that chronic dysregulation disrupts the ability to perceive and respond appropriately to social signals. Fearful-avoidant and disorganized attachment are exactly this: the system distorts incoming relational frequency because its own reference oscillation is unstable.</p>
+  </div>
+</section>
+
+<!-- ══ Q3: LOVE AS HARMONY ══ -->
+<section class="sec" id="q3">
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 3 · Page 646 · Love as Harmonic Event</div>
+  <h2>Could love be a<br><em>harmonizing of two bodies' vibrations?</em></h2>
+  <p class="lead">People in love sync heartbeats, brainwaves, breathing rhythms. Quantum entanglement: two particles become linked — actions on one affect the other instantly. → Love is not one frequency; it is a harmonic event. Dissonance can still exist, but none persists.</p>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 3a</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
+    <div class="claim-statement">"People in love sync heartbeats, brainwaves, breathing rhythms"</div>
+    <p>Physiological synchrony between people in close relationships is well-documented and increasingly well-understood mechanistically. <strong>Heart rate:</strong> Couples in close proximity or during eye contact show cardiac synchrony — their heart rate variability patterns correlate. Uri Hasson's lab at Princeton demonstrated that during storytelling, speaker and listener brains "couple" — listener neural activity begins to mirror speaker activity with a short delay, and the degree of coupling predicts comprehension. <strong>Respiratory synchrony:</strong> Partners synchronize breathing during sleep, and during focused communication. <strong>EEG hyperscanning:</strong> Studies measuring two people's brains simultaneously (EEG hyperscanning) show increased inter-brain synchrony in frontal and parietal regions during cooperative tasks and emotional attunement.</p>
+    <p>This is not metaphor. The mechanism involves mirror neuron systems, vagal regulation, oxytocin-mediated social attunement, and the predictive processing system's continuous modeling of another person's state. <strong>Attunement is a real neurophysiological phenomenon.</strong></p>
+  </div>
+
+  <div class="claim disprove">
+    <div class="claim-head">Claim 3b</div>
+    <div class="verdict v-disprove"><div class="vdot"></div>Disproved as a mechanism for love specifically</div>
+    <div class="claim-statement">"Quantum entanglement — two particles become linked across space — could explain nonlocal consciousness, morphic resonance, minds operating like quantum fields"</div>
+    <p>This is where the science breaks down sharply, and the distinction matters. <strong>Quantum entanglement is real</strong> — it is one of the most confirmed phenomena in modern physics. Two particles can be prepared in correlated quantum states such that measuring one instantly determines the state of the other, regardless of distance. This is not disputed. <strong>What quantum entanglement cannot do: transmit information faster than light. The correlation exists, but neither party can use it to send a message or influence the other's experience.</strong></p>
+    <p>The leap from quantum entanglement to "people in love are quantum entangled" involves crossing multiple scales: quantum effects operate at the subatomic level and are destroyed (decoherence) almost instantly at body temperature in biological tissue. The human brain is far too warm and wet for quantum entanglement to maintain coherence at the scale required for consciousness or emotional connection. <strong>Rupert Sheldrake's "morphic resonance" — shared fields of memory and emotion — is not supported by experimental evidence and has no accepted physical mechanism.</strong> The idea is interesting and unfalsified; it is not confirmed science.</p>
+    <p>The physiological synchrony that is real (heartbeat, breath, brainwave coupling) has entirely sufficient classical explanations: mirror neurons, co-regulation, oxytocin, shared behavioral rhythms. No quantum mechanism is needed to explain why people in love synchronize — and invoking it overstates and distorts a genuinely beautiful set of findings.</p>
+  </div>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 3c</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — as a description</div>
+    <div class="claim-statement">"Love is not one frequency — it is a harmonic event. Dissonance can still exist, but none persists."</div>
+    <p>This is a precise and beautiful description. In musical harmony, a chord is not the absence of tension — a dominant seventh chord contains dissonance that resolves to the tonic. <strong>The most emotionally satisfying music moves through dissonance to resolution; a progression with no tension is not harmonious, it is empty.</strong> The claim that "dissonance can still exist, but none persists" maps onto what attachment research calls a "secure base" — the capacity of a relationship to tolerate conflict, repair, and return to connection. Couples with secure attachment show more conflict, not less — but they repair faster and more completely. The persistent dissonance is the signature of insecure or disorganized attachment: the unresolved fourth that never finds its third.</p>
+  </div>
+</section>
+
+<!-- ══ Q4: TRAUMA AS DISSONANCE ══ -->
+<section class="sec" id="q4">
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 4 · Pages 647 · Trauma and Healing</div>
+  <h2>Can we map trauma as dissonance,<br><em>healing as chordal resolution?</em></h2>
+  <p class="lead">Trauma: nervous system stays locked in high alert (sympathetic arousal) or collapse (parasympathetic freeze). Musically: dissonance = tension, unresolved notes. Resolution = movement to a stable chord. Trauma = stuck unresolved chord (suspended 4th that never resolves to 3rd). Healing = modulating through dissonance, not avoiding it. Return to tonic.</p>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 4a</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — with mechanistic precision</div>
+    <div class="claim-statement">"Trauma: nervous system stays locked in high alert or collapse"</div>
+    <p>This is a textbook description of trauma's neurophysiology. <strong>Peter Levine's Somatic Experiencing</strong> and <strong>Bessel van der Kolk's body-keeps-the-score model</strong> both describe trauma as a freezing of the nervous system's defensive response: the preparatory activation (fight or flight) never completes, never discharges, and becomes chronically encoded in the body's state. In sympathetic lock: chronically elevated cortisol and adrenaline, hypervigilant amygdala, suppressed prefrontal cortex, high beta/gamma dominance. In parasympathetic freeze (dorsal vagal shutdown): dissociation, emotional numbness, collapse of executive function, theta dominance without the restorative quality of healthy theta sleep.</p>
+    <p>The polyvagal framework (Porges) adds a third state — the social engagement system — whose failure (the collapse from ventral vagal regulation into sympathetic mobilization or dorsal vagal shutdown) is the mechanism of trauma's disruption of connection.</p>
+  </div>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 4b</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed as analogy — and as partial mechanism</div>
+    <div class="claim-statement">"Trauma = stuck unresolved chord. Healing = modulating through dissonance, not avoiding it."</div>
+    <p>The suspended chord analogy is more than poetic — it captures something mechanistically important. <strong>A sus4 chord contains a note (the fourth) that creates tension because it is one semitone away from the expected resolution (the third).</strong> The tension is not "bad" — it is the signal that resolution is coming, that motion is happening. When the resolution never arrives, the tension becomes unbearable and then becomes background noise — the ear stops expecting resolution and the chord becomes a closed, static state.</p>
+    <p>This maps precisely onto the neuroscience of PTSD: the nervous system was activated in expectation of resolution (the threat passes, the defense completes, the body returns to baseline). When resolution is prevented — by overwhelm, by helplessness, by the magnitude of the event — the activation freezes at the point of maximum tension. Subsequent experience becomes filtered through this unresolved state. <strong>The treatment implication is exact: healing requires completing the movement, not eliminating the tension. Exposure therapy, EMDR, somatic experiencing — all work by reinstating motion through the dissonance toward resolution, not by suppressing the activation.</strong></p>
+    <p>The stages of grief mapped in the notebook (Dissonance → high frequency noise; Transition → confusion, ambiguity, modulation; Resolution → clarity, acceptance, steady rhythm, root note feeling) accurately describe the phenomenology and the neuroaffective arc of grief processing.</p>
+  </div>
+
+  <div class="panel sage">
+    <div class="ptag">The Song Structure (Page 644) — A Genuine Compositional Map</div>
+    <p>The song structure mapped in the notebook:</p>
+    <div class="song" style="margin-top:.7rem">
+      <div class="song-row hdr" style="font-family:'JetBrains Mono',monospace;font-size:.37rem;letter-spacing:.07em;text-transform:uppercase;color:rgba(240,232,216,.25)">
+        <div>Section</div><div>Hz</div><div>Emotional arc</div>
+      </div>
+      <div class="song-row"><div class="spart">Intro</div><div class="shz">396</div><div class="smood">Grief, stillness — establishing the unresolved state</div></div>
+      <div class="song-row"><div class="spart">Verse 1</div><div class="shz">417</div><div class="smood">Letting go — beginning of movement, motion toward change</div></div>
+      <div class="song-row"><div class="spart">Chorus</div><div class="shz">528</div><div class="smood">Hope, healing — the approach to resolution, partial arrival</div></div>
+      <div class="song-row"><div class="spart">Bridge</div><div class="shz">639</div><div class="smood">Connection — the harmonic expansion, relationship restored</div></div>
+      <div class="song-row"><div class="spart">Final Chorus</div><div class="shz">528</div><div class="smood">Recentered joy — resolution achieved, return to tonic with earned brightness</div></div>
+    </div>
+    <p style="margin-top:.7rem">This is musically sophisticated. The return to 528 in the final chorus rather than staying at 639 creates the sense of <em>embodied resolution</em> — not transcendence beyond the self, but healing <em>within</em> the self, with connection as the bridge rather than the destination. The arc from grief (396) through motion (417) through hope (528) through connection (639) back to recentered self (528) is the structure of psychologically complete grief work. As a compositional blueprint it is elegant and neurologically coherent.</p>
+  </div>
+</section>
+
+<!-- ══ Q5: UNIVERSE AS SONG ══ -->
+<section class="sec" id="q5">
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 5 · Pages 648–649 · Cosmological</div>
+  <h2>What if the Universe is<br><em>a song that sings us into being?</em></h2>
+  <p class="lead">Big Bang created pressure waves — arguably the first "sound" of the universe. The Cosmic Microwave Background has a harmonic signature. Everything vibrates — quarks to galaxies. Universe is symphony in motion. Each person is a phrase in the melody.</p>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 5a</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — and remarkable</div>
+    <div class="claim-statement">"The Big Bang created pressure waves — arguably the first 'sound' of the universe"</div>
+    <p>In the first 380,000 years after the Big Bang, the universe was a hot plasma — a dense medium in which pressure waves (acoustic oscillations) propagated exactly as sound waves propagate in air, at extraordinary scales. These waves — driven by the competition between radiation pressure (pushing outward) and gravity (pulling inward) — oscillated in the plasma until recombination, when the universe became transparent and the waves froze in place. <strong>The Cosmic Microwave Background is the snapshot of these frozen acoustic oscillations.</strong></p>
+    <p>The CMB power spectrum — the plot of temperature fluctuations at different angular scales — shows a series of peaks that are literally <em>the harmonics of these primordial acoustic oscillations</em>. The first peak corresponds to the fundamental mode (the wavelength that had just enough time to compress once before freezing). The second peak is the first overtone. The ratio of peak amplitudes encodes the composition of the universe. <strong>The universe does have a harmonic signature in precisely the sense described — the CMB power spectrum is a cosmic chord.</strong></p>
+  </div>
+
+  <div class="claim confirm">
+    <div class="claim-head">Claim 5b</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
+    <div class="claim-statement">"Everything vibrates — quarks to galaxies"</div>
+    <p>In quantum mechanics, every particle is described by a wave function — a probability amplitude that oscillates. Quarks are bound together by gluons that themselves undergo quantum fluctuations. Nuclei vibrate with quantized energy levels. Molecules vibrate and rotate with vibrational spectra (the basis of infrared spectroscopy — we identify chemicals by their vibrational frequencies). Cells vibrate. Organs have resonant modes. Planets orbit. Galaxies rotate. Galaxy clusters oscillate in their gravitational potentials. <strong>Vibration — oscillation — is the most universal structural feature of matter at every scale of organization.</strong> This is not metaphor; it is the description of how physics works.</p>
+  </div>
+
+  <div class="claim specul">
+    <div class="claim-head">Claim 5c</div>
+    <div class="verdict v-specul"><div class="vdot"></div>Speculative — but philosophically serious</div>
+    <div class="claim-statement">"Each person is a phrase in the melody — born from prior chords, carrying dissonances, motifs connecting to part-lines"</div>
+    <p>As metaphysics: this is not a claim science can adjudicate. It is a model of meaning — a framework for understanding one's existence as continuous with physical reality rather than alien to it. The question "what if the Universe is a song that sings us into being?" is not asking whether quantum mechanics confirms individual cosmic musical destiny. It is asking whether oscillatory emergence (from quantum fields to particles to atoms to molecules to neurons to consciousness) is itself a kind of music — whether the structure of becoming has an aesthetic character.</p>
+    <p>String theory — the dominant framework in theoretical physics for the past 40 years — does literally describe fundamental particles as <em>modes of vibration of one-dimensional strings</em>. Different particles are different "notes" played by the same underlying string. The universe's fundamental ontology may actually be vibrational. <strong>Whether this makes the Universe a "song" depends on whether you need a listener for music to be music.</strong> That question is philosophical, not empirical — and it is one of the most serious questions in the philosophy of mind and consciousness.</p>
+    <p>The hypothesis that each person is "born from prior chords" — that your existence emerges from and carries the history of all prior oscillatory states that produced you — is consistent with everything physics and biology know about causality, heredity, and emergence. Whether that constitutes being <em>sung</em> is a question about the nature of intention in the universe that science cannot currently answer.</p>
+  </div>
+</section>
+
+<!-- ══ THE MODEL ══ -->
+<section class="sec" id="model">
+  <div class="sec-lbl" style="color:var(--amber-lt)">Page 649 · The Research Question · Hypothesis → Method → Model</div>
+  <h2>Frequencies → Emotions:<br><em>building a model</em></h2>
+  <p class="lead">Frequencies → Emotions (Hypothesis). Question: How do these frequencies tie to the emotions? What is the science behind it? Why are there feelings in music? Does it resonate with microtubules in our brain and then evoke emotions? Does it resonate with chemicals in our brain (neurotransmitters)?</p>
+
+  <div class="claim partial">
+    <div class="claim-head">The Microtubule Hypothesis</div>
+    <div class="verdict v-partial"><div class="vdot"></div>Partial — interesting mechanism, overstated claims</div>
+    <div class="claim-statement">"Does frequency resonate with microtubules in our brain and then evoke emotions?"</div>
+    <p>Microtubules are the cytoskeletal elements inside neurons — the structural scaffolding that also serves as the cell's internal transport highway. They have a structural periodicity (they are polymers of tubulin dimers) that gives them characteristic vibrational modes. The Penrose-Hameroff Orch-OR hypothesis (Orchestrated Objective Reduction) proposes that quantum computations in microtubules contribute to consciousness. <strong>If true, external sound frequencies that match microtubule resonant frequencies could in principle influence this process.</strong></p>
+    <p>The current evidence status: microtubule resonance has been measured in isolated preparations. The Orch-OR hypothesis remains controversial — neither confirmed nor definitively disproved. The specific claim that auditory frequencies at the solfeggio values match microtubule resonant frequencies and thereby directly influence consciousness has not been rigorously tested. <strong>It is a plausible mechanism to investigate, not a confirmed pathway.</strong></p>
+  </div>
+
+  <div class="claim confirm">
+    <div class="claim-head">The Neurotransmitter Pathway</div>
+    <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — this is the primary mechanism</div>
+    <div class="claim-statement">"Does frequency resonate with chemicals in our brain (neurotransmitters)?"</div>
+    <p>Yes — and this is where the evidence is strongest and most mechanistically grounded. The pathway from auditory frequency to emotion runs primarily through: (1) <strong>Cochlear transduction</strong> → auditory nerve → (2) <strong>Auditory cortex processing</strong> (tonal quality, rhythm, timbre) → (3) <strong>Limbic system activation</strong> (amygdala, hippocampus, anterior cingulate) with strong projections from auditory cortex → (4) <strong>Dopaminergic release</strong> in nucleus accumbens (pleasure, anticipation, chills) → (5) <strong>Serotonergic and opioid release</strong> (contentment, emotional depth) → (6) <strong>Oxytocin release</strong> during synchronized listening → (7) <strong>Cortisol modulation</strong> (slow, regular music reliably reduces cortisol).</p>
+    <p>The remarkable thing is that music can access this neurochemical system with the same efficacy as many pharmaceutical interventions — without the side effects and with the capacity for co-regulation (because music is shared experience). <strong>The model is real. The mechanism is neurochemical. The specificity of Hz → specific neurotransmitter → specific emotion is an approximation; the general relationship is well-established.</strong></p>
+  </div>
+
+  <div class="panel amber">
+    <div class="ptag">Synthesis — What a Rigorous Model Would Look Like</div>
+    <p>A scientifically defensible version of the frequencies→emotions hypothesis would state: <strong>Auditory stimuli in particular frequency bands, rhythm structures, and harmonic patterns activate distinct neural circuits and produce measurable changes in neurotransmitter release, autonomic tone, and subjective emotional state.</strong> These effects are modulated by individual history, cultural context, and current physiological state. The mapping is probabilistic and context-dependent, not deterministic.</p>
+    <p>The method: an fMRI/EEG hyperscanning study in which participants listen to tones at the solfeggio frequencies in isolation and in musical context, measuring BOLD signal in limbic regions, EEG band power changes, HRV, cortisol, and subjective emotional ratings. Compared against control frequencies and matched musical contexts. This would produce a real, falsifiable frequency-emotion map — one that could confirm, refine, or challenge the specific assignments while preserving the genuine insight that sound physically shapes emotional state.</p>
+    <p>The hypothesis as stated is worth investigating rigorously. The existing popular literature around solfeggio frequencies is not that investigation — it is the intuition awaiting its method. <strong>The notebook identifies the right questions. The model is the next step.</strong></p>
+  </div>
+
+  <div class="comma-box">
+    <div class="cb-label">Comma Framework · The Five Questions as a Single Arc</div>
+    <div class="cb-body">These five questions are not separate — they trace a single movement. Q1 establishes that emotions have oscillatory correlates. Q2 asks what happens when the oscillator loses its reference. Q3 asks whether two oscillators can find each other's frequency. Q4 asks whether the experience of failed resonance (trauma) and its healing (chordal resolution) follow the structure of musical progression. Q5 asks whether this pattern — oscillation, detuning, resonance, resolution — is not merely a metaphor borrowed from physics but the actual deep structure of reality from Big Bang to heartbeat. <strong>The comma in this arc is the moment of resonance itself: the kairos threshold where two oscillations briefly align, where the dissipated energy becomes coordinated motion, where the suspended chord finds its resolution.</strong> That moment is not guaranteed. It has to be found. But the physics says it is always possible — because the frequencies are already there, already vibrating, already waiting for the right alignment to stop dissipating and start singing.</div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--amber-lt);margin-bottom:.4rem">Emotions as Frequency</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(240,232,216,.18);margin-bottom:1rem">Section XV · Musica Universalis · δ = 0.013643</div>
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="biology_of_the_mind.html">Biology of the Mind</a>
+    <a class="fla" href="musica_universalis_v5.html">Theory</a>
+    <a class="fla" href="circadian_clock.html">Circadian Clock</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+
+<script>
+// ── HERO CANVAS — SOUND WAVE PARTICLES ──
+(function(){
+  const c=document.getElementById('hcanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  resize();
+  window.addEventListener('resize',resize);
+
+  // Multiple overlapping sine waves with different frequencies and phases
+  const waves=[
+    {freq:.8,amp:.06,speed:.012,phase:0,col:'rgba(200,146,42,'},
+    {freq:1.3,amp:.035,speed:.019,phase:1.2,col:'rgba(90,158,114,'},
+    {freq:2.1,amp:.022,speed:.028,phase:2.4,col:'rgba(96,144,200,'},
+    {freq:.5,amp:.05,speed:.008,phase:0.7,col:'rgba(200,96,80,'},
+  ];
+
+  // Floating particles
+  const pts=[];
+  for(let i=0;i<120;i++){
+    pts.push({
+      x:Math.random(),y:Math.random(),
+      vx:(Math.random()-.5)*.0003,vy:(Math.random()-.5)*.0003,
+      r:Math.random()*1.5+.4,
+      wave:Math.floor(Math.random()*4),
+      phase:Math.random()*Math.PI*2
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    // Draw wave lines
+    waves.forEach((w,wi)=>{
+      ctx.beginPath();
+      for(let x=0;x<=W;x+=2){
+        const xn=x/W;
+        const y=H/2+Math.sin(xn*w.freq*Math.PI*4+t*w.speed+w.phase)*H*w.amp
+                +Math.sin(xn*w.freq*.7*Math.PI*4+t*w.speed*.6)*H*w.amp*.4;
+        if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle=w.col+'0.12)';ctx.lineWidth=1.2;ctx.stroke();
+    });
+
+    // Draw particles following waves
+    pts.forEach(p=>{
+      const w=waves[p.wave];
+      const xp=p.x*W;
+      const yWave=H/2+Math.sin(p.x*w.freq*Math.PI*4+t*w.speed+w.phase)*H*w.amp;
+      const yOff=(p.y-.5)*H*.15;
+      const yp=yWave+yOff+Math.sin(t*w.speed*2+p.phase)*8;
+
+      // Update position
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=1;if(p.x>1)p.x=0;
+      if(p.y<0)p.y=1;if(p.y>1)p.y=0;
+
+      const alpha=0.12+Math.abs(Math.sin(t*.02+p.phase))*.18;
+      ctx.beginPath();ctx.arc(xp,yp,p.r,0,Math.PI*2);
+      ctx.fillStyle=w.col+alpha+')';ctx.fill();
+    });
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── ACCORDION ──
+function tog(id){
+  const b=document.getElementById('ab-'+id);
+  const tg=document.getElementById('at-'+id);
+  if(!b)return;
+  const o=b.classList.toggle('open');
+  if(tg)tg.textContent=o?'▲':'▼';
+}
+</script>
+</body>
+</html>
