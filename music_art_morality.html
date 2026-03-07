@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How Music Moves · On Art, Prodigy, Protest & Morality · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300;1,400;1,700;1,900&family=Fira+Code:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#050407;--bg1:#08070A;
+  --paper:#F4F0E8;--paper2:#EDE8DC;--paperdim:rgba(244,240,232,.6);--paperfaint:rgba(244,240,232,.04);
+  --rosin:#C84B1A;--rosin2:#E06030;--rosinfaint:rgba(200,75,26,.06);--rosinline:rgba(200,75,26,.18);
+  --ivory:#F8F4EC;--ivorydim:rgba(248,244,236,.45);
+  --gold:#BF9640;--goldfaint:rgba(191,150,64,.05);--goldline:rgba(191,150,64,.15);
+  --slate:#7A8090;--slatefaint:rgba(122,128,144,.04);--slateline:rgba(122,128,144,.1);
+  --line:rgba(244,240,232,.06);
+  --cg:"Cormorant Garamond",Georgia,serif;
+  --bc:"Barlow Condensed",sans-serif;
+  --fc:"Fira Code",monospace;
+}
+html{scroll-behavior:smooth;background:var(--void)}
+body{color:var(--paperdim);font-family:var(--cg);font-size:18px;line-height:2;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.5rem 1.6rem;background:rgba(5,4,7,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(200,75,26,.12)}
+.nb{font-family:"Cinzel",serif;font-size:.65rem;letter-spacing:.14em;color:var(--rosin);text-decoration:none}
+.nb:hover{color:var(--rosin2)}
+.nl{display:flex;gap:.04rem;flex-wrap:wrap}
+.nl a{font-family:var(--fc);font-size:.28rem;letter-spacing:.04em;color:var(--paperdim);text-decoration:none;padding:.1rem .28rem;text-transform:uppercase;transition:color .15s;opacity:.45}
+.nl a:hover{color:var(--rosin);opacity:1}
+
+/* ═══ HERO ═══ */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 2rem 4rem;overflow:hidden}
+#arpeggio-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.hero-content{position:relative;z-index:2;max-width:780px}
+.h-overture{font-family:var(--bc);font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(200,75,26,.45);margin-bottom:.9rem;font-weight:300}
+.hero h1{font-family:var(--bc);font-size:clamp(2.8rem,8vw,8.5rem);font-weight:900;font-style:italic;line-height:.82;letter-spacing:-.02em;color:var(--paper);text-transform:uppercase;margin-bottom:.4rem}
+.hero h1 em{color:var(--rosin);font-style:normal}
+.hero h1 .sub{display:block;font-size:.38em;font-weight:300;font-style:normal;letter-spacing:.18em;color:rgba(244,240,232,.3);margin-top:.4rem;text-transform:uppercase}
+.h-rule{width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--rosin),transparent);margin:.8rem auto}
+.h-dario{font-family:var(--cg);font-style:italic;font-size:1.12rem;color:rgba(244,240,232,.42);max-width:520px;margin:0 auto;line-height:2.1}
+.h-dario strong{color:var(--rosin2);font-style:normal}
+
+/* ═══ PAGE ═══ */
+.page{position:relative;z-index:2;max-width:980px;margin:0 auto;padding:0 1.6rem 8rem}
+
+/* ═══ MOVEMENT MARKERS — the tempo instructions ═══ */
+.tempo{font-family:var(--bc);font-size:.45rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(200,75,26,.35);font-style:italic;margin-bottom:.3rem;display:block}
+
+/* ═══ SECTIONS ═══ */
+.sec{padding:3.2rem 0;border-top:1px solid var(--line);position:relative;z-index:2}
+.sec-lbl{font-family:var(--fc);font-size:.3rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.8rem;display:flex;align-items:center;gap:.6rem;opacity:.45}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--rosinline)}
+h2{font-family:var(--bc);font-size:clamp(2rem,5vw,4.8rem);font-weight:700;font-style:italic;line-height:.88;margin-bottom:.6rem;color:var(--paper);text-transform:uppercase;letter-spacing:-.01em}
+h2 em{color:var(--rosin);font-style:normal}
+h3{font-family:var(--bc);font-size:1.15rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:rgba(200,75,26,.7);margin:2rem 0 .4rem}
+p{margin-bottom:1rem;line-height:2.02}
+p strong{color:var(--paper)}
+p em{color:var(--gold);font-style:italic}
+.lead{font-family:var(--cg);font-style:italic;font-size:1.06rem;color:rgba(244,240,232,.48);line-height:2.15;margin-bottom:1.4rem}
+
+/* ═══ THE BIG DECLARATIONS — Dario-style ═══ */
+.decl{text-align:center;padding:3rem 1rem;position:relative;overflow:hidden}
+.decl::before{content:"";position:absolute;top:50%;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--rosinline),transparent)}
+.decl-text{font-family:var(--bc);font-size:clamp(2rem,6vw,5.5rem);font-weight:900;color:var(--paper);text-transform:uppercase;letter-spacing:-.02em;line-height:.9;position:relative;z-index:2}
+.decl-text em{color:var(--rosin);font-style:normal;display:block}
+.decl-sub{font-family:var(--cg);font-style:italic;font-size:.9rem;color:rgba(244,240,232,.32);margin-top:.8rem;display:block;position:relative;z-index:2}
+
+/* ═══ BLOCKQUOTE ═══ */
+.bq{border-left:2px solid var(--rosinline);padding:.65rem 1.3rem;margin:1.2rem 0;background:var(--rosinfaint);border-radius:0 4px 4px 0;font-family:var(--cg);font-style:italic;font-size:1rem;color:rgba(244,240,232,.55);line-height:2.1}
+.bq-attr{display:block;margin-top:.35rem;font-family:var(--fc);font-style:normal;font-size:.28rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(200,75,26,.38)}
+.bq.gold{border-left-color:var(--goldline);background:var(--goldfaint)}
+.bq.gold .bq-attr{color:rgba(191,150,64,.42)}
+
+/* ═══ PANELS ═══ */
+.panel{border:1px solid var(--line);border-radius:5px;padding:1.2rem 1.5rem;margin:1rem 0;position:relative;overflow:hidden}
+.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:1px}
+.panel.rosin{background:var(--rosinfaint);border-color:var(--rosinline)}
+.panel.rosin::before{background:linear-gradient(90deg,transparent,var(--rosin),transparent)}
+.panel.gold{background:var(--goldfaint);border-color:var(--goldline)}
+.panel.gold::before{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.panel.slate{background:var(--slatefaint);border-color:var(--slateline)}
+.panel.slate::before{background:linear-gradient(90deg,transparent,rgba(122,128,144,.3),transparent)}
+.ptag{font-family:var(--fc);font-size:.28rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;opacity:.5}
+.panel.rosin .ptag{color:var(--rosin)}
+.panel.gold .ptag{color:var(--gold)}
+.panel.slate .ptag{color:var(--slate)}
+.panel p{font-size:.88rem;color:rgba(244,240,232,.47);line-height:1.9;margin-bottom:.6rem}
+.panel p:last-child{margin-bottom:0}
+.panel strong{color:var(--paper)}
+.panel em{color:var(--gold)}
+
+/* ═══ ACCORDION ═══ */
+.acc{background:var(--paperfaint);border:1px solid var(--line);border-radius:4px;margin:.3rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;cursor:pointer;transition:background .15s;-webkit-user-select:none;user-select:none}
+.acc-h:hover{background:rgba(200,75,26,.02)}
+.acc-badge{font-family:var(--fc);font-size:.27rem;letter-spacing:.05em;text-transform:uppercase;padding:.09rem .28rem;border-radius:2px;flex-shrink:0}
+.acc-badge.r{background:rgba(200,75,26,.08);color:var(--rosin);border:1px solid rgba(200,75,26,.18)}
+.acc-badge.g{background:rgba(191,150,64,.06);color:var(--gold);border:1px solid rgba(191,150,64,.15)}
+.acc-badge.s{background:rgba(122,128,144,.06);color:var(--slate);border:1px solid rgba(122,128,144,.14)}
+.acc-title{font-family:var(--cg);font-style:italic;font-size:.92rem;color:var(--paper);flex:1;line-height:1.3}
+.acc-tog{font-family:var(--fc);font-size:.3rem;color:rgba(244,240,232,.2);flex-shrink:0}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .55s ease}
+.acc-body.open{max-height:8000px;padding:0 1rem 1.1rem}
+.acc-body p{font-size:.86rem;color:rgba(244,240,232,.48);line-height:1.93;margin-bottom:.65rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--paper)}
+.acc-body em{color:var(--gold)}
+.acc-body .bq{font-size:.86rem}
+
+/* ═══ TWO-COLUMN DIALOGUE ═══ */
+.dialogue{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:1.2rem 0}
+@media(max-width:600px){.dialogue{grid-template-columns:1fr}}
+.d-card{border-radius:5px;padding:1rem 1.15rem;border:1px solid}
+.d-card.q{background:rgba(200,75,26,.04);border-color:var(--rosinline)}
+.d-card.a{background:rgba(191,150,64,.04);border-color:var(--goldline)}
+.d-who{font-family:var(--bc);font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.d-card.q .d-who{color:rgba(200,75,26,.65)}
+.d-card.a .d-who{color:rgba(191,150,64,.65)}
+.d-body{font-family:var(--cg);font-style:italic;font-size:.9rem;color:rgba(244,240,232,.52);line-height:1.95}
+.d-body strong{color:var(--paper);font-style:normal}
+
+/* ═══ ASCENDING SCALE VISUAL ═══ */
+.scale-wrap{border:1px solid var(--rosinline);border-radius:5px;overflow:hidden;margin:1.3rem 0;background:var(--void)}
+.scale-header{padding:.4rem 1rem;background:rgba(200,75,26,.03);border-bottom:1px solid var(--rosinline);font-family:var(--fc);font-size:.3rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(200,75,26,.38);display:flex;align-items:center;gap:.5rem}
+.sdot{width:5px;height:5px;border-radius:50%;background:var(--rosin);animation:sdot 2.5s ease-in-out infinite}
+@keyframes sdot{0%,100%{opacity:.15}50%{opacity:1}}
+
+/* ═══ NOTE CARDS — for the musical concepts ═══ */
+.note-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.45rem;margin:1.1rem 0}
+.note{border:1px solid var(--line);border-radius:4px;padding:.8rem 1rem;background:var(--paperfaint);transition:background .15s,border-color .15s}
+.note:hover{background:var(--rosinfaint);border-color:var(--rosinline)}
+.note-name{font-family:var(--bc);font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--rosin);margin-bottom:.2rem}
+.note-def{font-family:var(--cg);font-style:italic;font-size:.78rem;color:rgba(244,240,232,.4);line-height:1.65}
+
+/* ═══ THE CHORUS — sing as one ═══ */
+.chorus{border:1px solid var(--rosinline);border-radius:6px;padding:2.2rem 2rem;margin:2rem 0;background:var(--rosinfaint);text-align:center;position:relative;overflow:hidden}
+.chorus::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--rosin),transparent)}
+.chorus::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--rosin),transparent)}
+.chorus-num{font-family:var(--fc);font-size:.28rem;letter-spacing:.14em;color:rgba(200,75,26,.38);text-transform:uppercase;margin-bottom:.5rem}
+.chorus-text{font-family:var(--bc);font-size:clamp(1.4rem,4vw,3.2rem);font-weight:700;font-style:italic;color:var(--paper);text-transform:uppercase;letter-spacing:-.01em;line-height:.95;margin-bottom:.5rem}
+.chorus-text em{color:var(--rosin);font-style:normal}
+.chorus-gloss{font-family:var(--cg);font-style:italic;font-size:.9rem;color:rgba(244,240,232,.35);line-height:1.95;max-width:560px;margin:0 auto}
+
+/* ═══ MORALITY SECTION ═══ */
+.moral-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.5rem;margin:1.2rem 0}
+.moral-card{border:1px solid var(--line);border-radius:5px;padding:1rem 1.1rem;background:var(--paperfaint)}
+.moral-n{font-family:var(--fc);font-size:.28rem;color:rgba(200,75,26,.38);letter-spacing:.08em;display:block;margin-bottom:.25rem;text-transform:uppercase}
+.moral-q{font-family:var(--cg);font-style:italic;font-size:.92rem;color:var(--paper);margin-bottom:.2rem;line-height:1.4}
+.moral-a{font-size:.78rem;color:rgba(244,240,232,.4);line-height:1.65;font-style:italic;font-family:var(--cg)}
+
+/* ═══ CODA ═══ */
+.coda{border:1px solid var(--goldline);border-radius:6px;padding:2rem 2.2rem;margin:3rem 0;background:var(--goldfaint);text-align:center}
+.coda-lbl{font-family:var(--fc);font-size:.28rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(191,150,64,.38);margin-bottom:.65rem}
+.coda-body{font-family:var(--cg);font-style:italic;font-size:1.1rem;color:rgba(244,240,232,.52);line-height:2.15}
+
+footer{position:relative;z-index:2;text-align:center;padding:3rem 2rem;border-top:1px solid var(--rosinline)}
+.fla{font-family:var(--fc);font-size:.29rem;letter-spacing:.06em;color:rgba(244,240,232,.2);text-decoration:none;text-transform:uppercase;padding:.15rem .36rem;transition:color .2s}
+.fla:hover{color:var(--rosin)}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nb">Musica Universalis</a>
+  <div class="nl">
+    <a href="#music-moves">How Music Moves</a>
+    <a href="#prodigy">Prodigy & Talent</a>
+    <a href="#art">What Is Art</a>
+    <a href="#dario">Dario's World</a>
+    <a href="#scales">Scales & Tempo</a>
+    <a href="#protest">Protest & Speech</a>
+    <a href="#sing-as-one">Sing As One</a>
+    <a href="#morality">Morality</a>
+    <a href="directory.html">Directory</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <canvas id="arpeggio-canvas"></canvas>
+  <div class="hero-content">
+    <div class="h-overture">Musica Universalis · Section XXVII · The Fugue</div>
+    <h1>HOW<br><em>MUSIC</em><br>MOVES
+      <span class="sub">On Art · Prodigy · Protest · Morality · Singing As One</span>
+    </h1>
+    <div class="h-rule"></div>
+    <p class="h-dario">"The world <strong>SHOULD</strong> be the art!" — Dario</p>
+  </div>
+</section>
+
+<div class="page">
+
+<!-- ═══ HOW MUSIC MOVES ═══ -->
+<section class="sec" id="music-moves">
+  <div class="sec-lbl">Movimento I · Largo · How Music Moves</div>
+  <span class="tempo">Largo — slowly, broadly, with weight</span>
+  <h2>How music<br><em>moves</em></h2>
+
+  <p class="lead">Music moves you before you understand it. The understanding comes after — if it comes at all. This is not a failure of understanding. It is the correct order. The body knows something the mind has to catch up to.</p>
+
+  <p>Sound is pressure waves — compressions and rarefactions moving through air at 343 meters per second. The ear converts them to electrical signals. The auditory cortex processes frequency, timing, timbre. None of this explains why a minor chord in a quiet room can make a grown adult unable to speak.</p>
+
+  <p>What music does to the body is physiological: <strong>tempo entrains heart rate</strong> — slow music pulls the pulse toward it, fast music accelerates it. The brain releases dopamine at moments of anticipated resolution — the "chills" or frisson that runs up the spine during a particularly perfect musical phrase are measurable, real, neurochemical. Endorphins release during group singing. Cortisol drops during passive listening to music the listener chose. <em>Music is not entertainment. It is pharmacology.</em></p>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('chills')">
+      <span class="acc-badge r">Neuroscience</span>
+      <span class="acc-title">Why music gives you chills — the dopamine prediction machine</span>
+      <span class="acc-tog" id="at-chills">▼</span>
+    </div>
+    <div class="acc-body" id="ab-chills">
+      <p>The brain is fundamentally a prediction engine. It is constantly modeling the future based on pattern recognition. Music is a system that creates expectations — through meter, harmony, melodic contour — and then either fulfills them, delays them, or violates them. The moment of fulfillment after a delay is a dopamine release. The most reliable way to give someone musical chills is to build an expectation, hold it just past the comfortable resolution point, and then resolve it — usually with a harmonic or dynamic surprise.</p>
+      <p><strong>Frisson</strong> (musical chills) correlates with openness to experience in personality research, and with amygdala reactivity in neuroimaging. People who experience frisson frequently show greater functional connectivity between auditory and emotional processing regions. The capacity for music to move you physically is a cognitive trait, not just a response to loudness. Some people have it more intensely than others — and this appears to be related to how vividly they can feel anticipated emotion, not just actual emotion.</p>
+      <p>The Pythagorean Comma lives here too: frisson most reliably occurs at moments when the harmonic system arrives at a point that is <em>almost</em> but not quite a perfect resolution — a deceptive cadence, a suspension, a blue note. The gap between expectation and arrival is where the feeling lives. The comma is the gap. The comma is what moves you.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('modes')">
+      <span class="acc-badge r">Modes & Emotion</span>
+      <span class="acc-title">Why minor sounds sad and major sounds happy — and why this is more complicated than it seems</span>
+      <span class="acc-tog" id="at-modes">▼</span>
+    </div>
+    <div class="acc-body" id="ab-modes">
+      <p>The association of minor keys with sadness and major keys with happiness is real but culturally mediated. It is strongest in Western listeners, weaker in cultures without that tonal tradition, and absent in infants before musical acculturation. The underlying acoustic reason: minor chords have a slightly lower ratio of harmonics to their fundamental — their spectral structure is less "resolved," closer to noise — which may map onto the lower vocal pitch associated with sadness in speech prosody across cultures.</p>
+      <p>But modes go far beyond major and minor. The ancient Greek modes — Dorian, Phrygian, Lydian, Mixolydian — were considered by Plato to have specific ethical and psychological properties. Dorian: noble, martial, suitable for men of war. Lydian: soft, associated with mourning. Phrygian: ecstatic, associated with religious frenzy. Plato wanted to ban certain modes from the Republic because he believed they would make citizens soft. <strong>He was not entirely wrong about the emotional effects. He was wrong to want to ban them.</strong></p>
+      <p>The Pythagorean tuning system, before equal temperament, gave different keys genuinely different characters — because the comma was distributed unevenly. Some keys were bright and clean; others were "wolf" intervals, slightly dissonant. When Bach wrote the Well-Tempered Clavier, he was demonstrating that all keys were now playable — but the residual character differences between keys, even in equal temperament, persist in trained musicians' associations. The comma was tamed but not eliminated. Its ghost is still in the key signatures.</p>
+    </div>
+  </div>
+
+  <div class="bq">
+    Music gives a soul to the universe, wings to the mind, flight to the imagination, and life to everything.
+    <span class="bq-attr">— attributed to Plato · The Republic · though the exact phrase is apocryphal, the sentiment is not</span>
+  </div>
+</section>
+
+<!-- ═══ PRODIGY & TALENT ═══ -->
+<section class="sec" id="prodigy">
+  <div class="sec-lbl">Movimento II · Allegro vivace · Prodigy & Talent & Dedication</div>
+  <span class="tempo">Allegro vivace — quick and lively, with sudden silences</span>
+  <h2>Prodigy.<br>Talent.<br><em>Dedication.</em></h2>
+
+  <p class="lead">A prodigy is a child who has arrived at a destination before anyone has built the road. The road was always there. The child found it without the map.</p>
+
+  <div class="dialogue">
+    <div class="d-card q">
+      <div class="d-who">What is a prodigy?</div>
+      <div class="d-body">A prodigy is someone whose development is temporally misaligned with their age. Mozart composed minuets at five. Ruth Lawrence solved university-level mathematics at ten. It is not that they are doing adult things in child bodies — it is that <strong>some aspects of their cognition have already closed the gap</strong> that most people spend decades slowly crossing.</div>
+    </div>
+    <div class="d-card a">
+      <div class="d-who">What is talent?</div>
+      <div class="d-body">Talent is the <em>slope</em> of your learning curve, not the endpoint. Two people can arrive at the same level of mastery. The one with more talent got there faster. But talent without practice approaches zero: slope without distance is just a steepness that goes nowhere. The mistake is confusing the rate of acquisition with the ceiling of achievement. <strong>Talent sets the pace. Dedication sets the distance.</strong></div>
+    </div>
+  </div>
+
+  <div class="dialogue">
+    <div class="d-card q">
+      <div class="d-who">What is dedication?</div>
+      <div class="d-body">Dedication is the decision to continue when talent has run out of easy gains. The first ten hours of learning anything are fueled by novelty. The next hundred are fueled by progress. <strong>Everything after that is dedication</strong> — the capacity to stay in the room when the room has stopped giving easy rewards, when the improvements are small and the failures are large and the skill is still not what you can hear it should be.</div>
+    </div>
+    <div class="d-card a">
+      <div class="d-who">The comma between them</div>
+      <div class="d-body">The gap between what you can hear — your aesthetic model of what the music should sound like — and what your hands can currently produce: <em>that is the practicing gap</em>. It is always there. It never fully closes. The best musicians in the world still hear a distance between the music in their mind and the music in the air. <strong>That gap is the Pythagorean Comma of craft. The life's work is to narrow it. Not eliminate it. Narrow it.</strong></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('tenthousand')">
+      <span class="acc-badge r">The 10,000 Hours Question</span>
+      <span class="acc-title">Deliberate practice, the Ericsson research, and what it actually says vs what Malcolm Gladwell said it said</span>
+      <span class="acc-tog" id="at-tenthousand">▼</span>
+    </div>
+    <div class="acc-body" id="ab-tenthousand">
+      <p>Anders Ericsson's research on expert performance identified <em>deliberate practice</em> — structured practice at the edge of current ability, with immediate feedback, focused on specific weaknesses — as the strongest predictor of expert performance across domains including music, chess, and sport. The "10,000 hours" was Gladwell's popularization, and it was slightly wrong in two ways: first, the number varies significantly by domain; second, and more importantly, not all practice hours are equal. Ten thousand hours of comfortable repetition produces a competent performer. Ten thousand hours of deliberate practice at the edge of failure produces an expert.</p>
+      <p><strong>What this means for prodigies:</strong> the early head start matters less than the quality of practice. Child prodigies who receive high-quality deliberate instruction early develop faster than their raw talent predicts. Adults who engage in deliberate practice can close gaps on people who started earlier. The slope is not fixed. Dedication changes the slope. <em>This is the most hopeful finding in cognitive science: talent is not destiny. The comma between where you are and where you could be is negotiable.</em></p>
+      <p>What it means for music specifically: the prodigy who never learns to practice deliberately often plateaus. The late starter who learns to sit with discomfort and work at the edge of failure often overtakes them. The most reliable predictor of professional-level musical performance is not early start age. It is whether the musician, at some point, learned to practice deliberately rather than comfortably.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHAT IS ART ═══ -->
+<section class="sec" id="art">
+  <div class="sec-lbl">Movimento III · Andante · What Is Art · What Does It Mean to Live In It</div>
+  <span class="tempo">Andante — at a walking pace, unhurried</span>
+  <h2>What is<br><em>art?</em></h2>
+
+  <p class="lead">Art is the deliberate making of meaning through form. Not all making is art. A chair is made with deliberate form. A spreadsheet is made with deliberate meaning. Art requires both — and then requires something else that neither chairmaking nor accounting requires: the possibility of failure that is not a technical failure but an expressive one. A chair that doesn't hold weight fails functionally. A painting that doesn't move anyone fails as art even if every brushstroke is technically perfect.</p>
+
+  <p>Art is the conversation between the made thing and the person encountering it, mediated by everything both of them have ever experienced. This means art is never the same object twice — the painting on the museum wall is a different painting to the person who just lost someone and the person who just fell in love and the person who came in from the rain and the person who has been standing in front of it for forty years. <strong>Art happens in the encounter, not in the object.</strong> The object is the occasion.</p>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('what-art-does')">
+      <span class="acc-badge r">What Art Does</span>
+      <span class="acc-title">The six things art does that nothing else does quite the same way</span>
+      <span class="acc-tog" id="at-what-art-does">▼</span>
+    </div>
+    <div class="acc-body" id="ab-what-art-does">
+      <p><strong>1. Art makes the invisible visible.</strong> Grief, joy, dignity, injustice — these are real but not observable directly. Art gives them form you can look at, hear, stand inside. Picasso's Guernica does not depict the bombing of Guernica. It makes you feel what it was. This is not the same as a photograph and not the same as a news report. It is a different category of knowledge.</p>
+      <p><strong>2. Art trains empathy.</strong> Cognitive neuroscience confirms that reading literary fiction activates the theory of mind networks — the neural systems we use to model other people's mental states — more than reading non-fiction or genre fiction. Music activates mirror neuron systems. Dance activates motor simulation. Art makes you briefly inhabit other bodies. This is a trainable skill, and art is the training ground.</p>
+      <p><strong>3. Art creates shared reference.</strong> When a culture shares artistic works, it shares a vocabulary of experiences and references. "This is our Guernica moment." "She had a Cassandra problem." These are not decorations on thought — they are thought, compressed into resonant forms that can be transmitted rapidly and accurately between people who share the reference.</p>
+      <p><strong>4. Art preserves the otherwise-lost.</strong> Sappho's fragments are the only evidence that a particular way of feeling existed in seventh-century BCE Lesbos. The spirituals of enslaved people preserved musical forms, linguistic patterns, and emotional truths that would otherwise have been erased entirely. The archive of art is an archive of human interiority that no other discipline creates.</p>
+      <p><strong>5. Art asks questions rather than answering them.</strong> A scientific paper resolves a question. A work of art deepens it. Hamlet does not tell us what to do when we suspect our uncle killed our father. It gives us a form in which to think about it with all its complexity intact. Art is a technology for holding problems open rather than closing them.</p>
+      <p><strong>6. Art changes what it is possible to feel.</strong> Before Beethoven's Ninth, no one had felt exactly what the final movement produces in a listener who knows it well. He created a new feeling — one that did not exist before the music existed. This is the most extraordinary claim made for art and also the one most difficult to refute. <em>Art expands the emotional range of the species.</em></p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('world-as-art')">
+      <span class="acc-badge g">A World Decorated by Art vs A World That IS Art</span>
+      <span class="acc-title">The difference between ornament and substrate — what Dario means</span>
+      <span class="acc-tog" id="at-world-as-art">▼</span>
+    </div>
+    <div class="acc-body" id="ab-world-as-art">
+      <p>A world <em>decorated</em> by art treats beauty and meaning as additions to an underlying practical substrate. You build the building functionally and then put art in the lobby. You design the phone for usability and then make the icon set pretty. Art is the finish coat. The structure would exist without it. This is the dominant model of how modern industrial civilization relates to art.</p>
+      <p>A world <em>that is</em> art treats beauty and meaning as structuring principles from which everything else is derived. You do not build the building and then decorate it — you design the building so that every person who passes through it is transformed by the experience of passing through it. You do not make the phone functional and then make it pretty — you make the phone so that holding it produces a particular quality of attention in the holder. The <em>function</em> is the experience of it, not a substrate that the experience decorates.</p>
+      <p><strong>Dario is not saying the world should be prettier. He is saying the world should be structured differently.</strong> He is making an ontological claim: that the primary category of a thing should be its experiential quality — what it does to the person encountering it — rather than its utility or its exchange value. This is Keats's "beauty is truth, truth beauty" as urban planning. It is William Morris's Arts and Crafts movement as political economy. It is what Tokyo does when it designs a train platform to be beautiful even though beauty does not make trains run on time. It is what certain Indigenous architectural traditions do when every structural element also carries narrative. <em>The world as art means: let the encounter with everything be worth having.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DARIO DECLARATION ═══ -->
+<section id="dario" style="padding:3rem 0;position:relative;z-index:2">
+  <div class="decl">
+    <div class="decl-text">THE WORLD<br><em>SHOULD BE</em><br>THE ART</div>
+    <span class="decl-sub">— Dario · and he is not wrong · he is early</span>
+  </div>
+  <div class="panel rosin" style="margin-top:1.5rem">
+    <div class="ptag">What Dario Is Saying</div>
+    <p>Not that the world should be aesthetically pleasant. Not that we should put more paintings in offices. That <strong>the primary measure of a civilization should be the quality of experience it produces for the people living inside it</strong> — and that quality of experience is an artistic question before it is an economic one, a political one, or an engineering one. The economy serves the experience. The politics serves the experience. The engineering serves the experience. The experience is the point. <em>Dario is proposing that art is not a department of civilization. It is the purpose of civilization.</em></p>
+  </div>
+</section>
+
+<!-- ═══ SCALES & ARPEGGIOS & TEMPO ═══ -->
+<section class="sec" id="scales">
+  <div class="sec-lbl">Movimento IV · Presto · Arpeggios · Scales · Tempo · Speech</div>
+  <span class="tempo">Presto — very fast, but never rushed — speed in service of precision</span>
+  <h2>Arpeggios.<br>Ascending<br><em>scales.</em><br>Tempo.</h2>
+
+  <div class="scale-wrap">
+    <div class="scale-header"><div class="sdot"></div>C Major Ascending — Watch the Pythagorean Comma accumulate · Particles rise in 3:2 harmonic intervals</div>
+    <canvas id="scale-canvas" width="860" height="200" style="display:block;width:100%"></canvas>
+  </div>
+
+  <div class="note-row">
+    <div class="note">
+      <div class="note-name">Scale</div>
+      <div class="note-def">Stepwise ascent — each note one step above the last. The simplest possible melodic structure. The spine of every tonal system. An ascending scale is a promise: I will climb. A descending scale is a return.</div>
+    </div>
+    <div class="note">
+      <div class="note-name">Arpeggio</div>
+      <div class="note-def">A chord played note by note instead of all at once — from Italian <em>arpa</em>, harp. The harp cannot help but arpeggiate; its strings are played sequentially. An arpeggio is a chord that has been spread out in time, turned from harmony into melody. Chopin arpeggios span three octaves and feel like water.</div>
+    </div>
+    <div class="note">
+      <div class="note-name">Tempo</div>
+      <div class="note-def">The rate at which time passes in music. Not the notes — the time between the notes. Allegro means cheerful, not fast; Largo means broad, not slow. The emotional content is in the tempo as much as in the notes. The same melody at different tempos is emotionally a different piece.</div>
+    </div>
+    <div class="note">
+      <div class="note-name">Rhythm</div>
+      <div class="note-def">The pattern of long and short durations. Meter is the framework; rhythm is what you do inside it. The relationship between meter and rhythm is exactly the relationship between law and justice — the law is the container, but what happens inside it is alive and particular and always exceeding the container.</div>
+    </div>
+    <div class="note">
+      <div class="note-name">Dynamics</div>
+      <div class="note-def">Loud and soft. Piano and forte. The dimension of music that most directly mirrors human emotional intensity — we speak loudly when we feel strongly and softly when we are uncertain or intimate. Music uses this knowledge without asking permission.</div>
+    </div>
+    <div class="note">
+      <div class="note-name">The Rest</div>
+      <div class="note-def">The silence between notes. The rest is not absence — it is active, charged space. Miles Davis: "It's not the notes you play, it's the notes you don't play." The rest is where the listener breathes. The rest is where the feeling lands. The rest is the comma.</div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('speech-music')">
+      <span class="acc-badge r">Speech as Music</span>
+      <span class="acc-title">Prosody, pitch, rhythm — how speech and music share a substrate</span>
+      <span class="acc-tog" id="at-speech-music">▼</span>
+    </div>
+    <div class="acc-body" id="ab-speech-music">
+      <p>Speech is music with meaning bolted on. Or: music is speech with the meaning stripped down to pure emotional signal. The prosody of speech — the rise and fall of pitch, the variations in tempo and dynamics — carries emotional content independently of the words. "I love you" said with falling pitch and slowing tempo means something different from "I love you" said with rising pitch and accelerating tempo. The words are the same. The music is different. The music is what you believe.</p>
+      <p>Tonal languages like Mandarin, Vietnamese, and Yoruba use pitch to distinguish meaning at the phonemic level — the same syllable at different pitches is literally a different word. In these languages, the gap between speech and music is even narrower. The Pythagorean tuning system and the tonal structures of these languages emerged independently. The ratios they use for pitch distinction cluster around the same harmonic intervals — the octave, the fifth, the fourth. The 3:2 ratio appears in Vietnamese tonal distinctions. The comma may be present in the gap between adjacent tones.</p>
+      <p><strong>Rhythm in speech is the same rhythm as in music.</strong> Poetry is speech that has been made formally rhythmic. Rap is poetry that has been made metrically explicit over instrumental rhythm. The oldest surviving human music — bone flutes from 40,000 years ago — implies that musical rhythm was already present. Language and music may have evolved together, from a common precursor that was neither but contained both. The speculation is called the "musilanguage" hypothesis (Steven Mithen, 2005) and it remains unresolved but deeply interesting.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROTEST ═══ -->
+<section class="sec" id="protest">
+  <div class="sec-lbl">Movimento V · Fortissimo · Protest · Speech · The Political Body of Music</div>
+  <span class="tempo">Fortissimo — as loud as possible — without distortion</span>
+  <h2>What is<br><em>protest?</em></h2>
+
+  <p class="lead">Protest is art that has been made urgent by necessity. It is expression that can no longer wait for the right gallery, the right venue, the right moment. Protest happens in streets and squares and prisons and fields. It uses the body as instrument. It uses the voice as weapon and as shield simultaneously.</p>
+
+  <p>Music has been inseparable from protest because both involve rhythm and breath and shared time. The spirituals of enslaved people in the American South were simultaneously religious expression, psychological survival technology, and in some cases encoded navigational information for the Underground Railroad. <em>We Shall Overcome</em> began as a hymn, became a labor organizing song, became the anthem of the Civil Rights Movement. The same melodic material — slow, stepwise, ascending — served each purpose. The ascending scale is the shape of hope. It goes up. It keeps going up.</p>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('music-protest')">
+      <span class="acc-badge r">Music & Protest · A Short History of Necessary Songs</span>
+      <span class="acc-title">From Spartacus to Stonewall — how music becomes the body of a movement</span>
+      <span class="acc-tog" id="at-music-protest">▼</span>
+    </div>
+    <div class="acc-body" id="ab-music-protest">
+      <p><strong>The function of music in protest:</strong> entrainment — when people move together to the same rhythm, their physiological states synchronize. Heart rate, cortisol, even some immune markers align. Moving together to music creates a felt sense of collective body, of being one organism. This is not metaphor. It is physiology. Marching bands produce this effect in armies. Protest songs produce this effect in movements. The song is the first collective body of the movement.</p>
+      <p><strong>Victor Jara</strong> — Chilean folk singer, communist, poet. Arrested after the 1973 coup. Tortured. His hands were broken. He kept singing. Killed in the Estadio Chile. His songs are still sung. The songs outlasted the junta. This is what protest music does: it creates a form that can carry meaning beyond the moment of its making, past the deaths of its makers, into futures they could not see.</p>
+      <p><strong>Nina Simone</strong> said: "An artist's duty, as far as I'm concerned, is to reflect the times." She did not ask permission to have political content in her music. She treated her music as a direct form of political action. "Mississippi Goddam" was written in less than an hour after the Birmingham church bombing of 1963. It was too angry for most radio stations. The anger was the point. The anger was information.</p>
+      <p><strong>Pussy Riot</strong> — performance in the Cathedral of Christ the Savior in Moscow, 2012. Two minutes of music. Two years in prison. The disproportionality of the punishment is evidence of the power of the act. Governments do not imprison people for meaningless gestures. <em>The severity of the response is always a measure of the accuracy of the critique.</em></p>
+      <p><strong>Hip-hop</strong> emerged from the South Bronx in the 1970s as what Jeff Chang called "a voice of the voiceless" — documentary music created by people whose neighborhoods had been deliberately starved of resources. The genre became the most commercially successful music genre in the world. This is its own kind of protest victory and also its own kind of problem. What happens to protest music when it is purchased by the culture it protested? The comma between the song and its commodification is where the argument lives.</p>
+    </div>
+  </div>
+
+  <div class="bq">
+    Song is not neutral. If you are singing you are taking sides — either with the world as it is, or with the world as it should be.
+    <span class="bq-attr">— synthesis of the recurring argument in protest music · from Hanns Eisler to Kendrick Lamar</span>
+  </div>
+</section>
+
+<!-- ═══ SING AS ONE ═══ -->
+<section class="sec" id="sing-as-one">
+  <div class="sec-lbl">Movimento VI · Unisono · What Does It Mean to Sing As One</div>
+  <span class="tempo">Unisono — in unison — all voices, all bodies, one pitch, one time</span>
+  <h2>What does it<br>mean to sing<br><em>as one?</em></h2>
+
+  <p class="lead">The question is: does singing as one mean singing, or moving, or standing? And the answer is: it can be any of them, but what it requires is the same in all three cases — a shared time, a shared direction, and the willingness to synchronize your body with other bodies even when you are afraid.</p>
+
+  <div class="dialogue">
+    <div class="d-card q">
+      <div class="d-who">Does it mean to sing?</div>
+      <div class="d-body">Singing together requires the surrender of individual pitch and timing to a collective structure. You cannot sing in a choir while insisting on your own tempo. The harmonics you produce resonate with the harmonics produced by other voices — <strong>literally, physically, your voice and other voices create sum and difference frequencies that none of you creates alone.</strong> The sound of a choir is a sound that does not exist in any single throat. It is a collective phenomenon.</div>
+    </div>
+    <div class="d-card a">
+      <div class="d-who">Does it mean to move together?</div>
+      <div class="d-body">The research on synchronized movement shows that people who move together — marching, dancing, rowing — develop greater trust in each other, cooperate more in subsequent tasks, and report feeling more connected. <strong>The synchrony precedes the connection.</strong> You do not trust people and then move with them. You move with them and then discover you trust them. This is deeply uncomfortable for people who believe they make decisions rationally and sequentially. The body is ahead of the mind.</div>
+    </div>
+  </div>
+
+  <div class="chorus" id="chorus-1">
+    <div class="chorus-num">The First Answer</div>
+    <div class="chorus-text">TO SING AS ONE<br>IS TO AGREE<br><em>ABOUT TIME</em></div>
+    <div class="chorus-gloss">Before harmony, before words, before meaning — you must agree about when the next beat falls. You must trust someone else's tempo. Rhythm is the first social contract.</div>
+  </div>
+
+  <div class="dialogue">
+    <div class="d-card q">
+      <div class="d-who">Does it mean to stand as one?</div>
+      <div class="d-body">Standing as one — as in protest, as in solidarity — is singing without sound. The body in stillness, placed deliberately alongside other bodies in stillness, makes the same claim that singing makes: <em>I am here, I am one of these, we are telling you something together that none of us could tell you alone.</em> The Standing Rock water protectors stood and prayed. The suffragettes stood in silence outside the White House for eighteen months. <strong>Standing together is the whole note — held until the chord resolves or the hall burns down.</strong></div>
+    </div>
+    <div class="d-card a">
+      <div class="d-who">The deeper answer</div>
+      <div class="d-body">Singing as one does not require agreement about ideas. It requires agreement about time and direction. A choir can contain people who disagree about everything — theology, politics, what to have for dinner — and still make music together, because music requires only <strong>temporal and spatial coordination, not intellectual consensus.</strong> This is why singing together across difference is possible and important. You can share a beat with someone whose beliefs you cannot share. <em>The beat is prior to the belief.</em></div>
+    </div>
+  </div>
+
+  <div class="chorus">
+    <div class="chorus-num">The Second Answer</div>
+    <div class="chorus-text">TO STAND AS ONE<br>IS TO AGREE<br><em>ABOUT WHAT MATTERS</em></div>
+    <div class="chorus-gloss">Standing — in stillness, together, in the face of something — is the declaration that this moment is more important than comfort, than schedule, than the fear of being seen. Standing as one is the whole rest. The charged silence that comes after the last note. The silence that is not empty.</div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('ubuntu')">
+      <span class="acc-badge g">Ubuntu · I Am Because We Are</span>
+      <span class="acc-title">The African philosophical concept that makes collective singing intelligible</span>
+      <span class="acc-tog" id="at-ubuntu">▼</span>
+    </div>
+    <div class="acc-body" id="ab-ubuntu">
+      <p><em>Ubuntu</em> — the Nguni Bantu concept, often translated as "I am because we are" or "humanity toward others" — offers a different ontological starting point than Western individualism. In the ubuntu framework, a person is not first an individual who then enters into relationships. A person is constituted by relationships. The self is not prior to the community — it emerges from it, and is sustained by it, and returns to it.</p>
+      <p>From this starting point, singing as one is not a special act of solidarity by individuals who might otherwise be separate. It is the natural expression of what we already are. The question is not how individuals can merge temporarily into collective experience. The question is how we ever forgot that collective experience was our original state.</p>
+      <p><strong>The comma in ubuntu:</strong> the gap between the individual voice and the collective voice is not a problem to be solved. It is what makes harmony possible. If all voices were identical, there would be no chord — only a louder version of one note. The comma between your voice and mine is not the distance between us. It is the interval that creates beauty when we sing together. <em>Difference is not the obstacle to unity. Difference is the structure of unity.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MORALITY ═══ -->
+<section class="sec" id="morality">
+  <div class="sec-lbl">Finale · Grave · What Is Morality</div>
+  <span class="tempo">Grave — the most serious, the most heavy, the most measured tempo</span>
+  <h2>What is<br><em>morality?</em></h2>
+
+  <p class="lead">Morality is the accumulated answer to the question: given that we are here together, given that what I do affects what you experience, how should I act? It is not a list of rules. It is a continuous inquiry. The rules are attempts to codify past answers. The inquiry is always ahead of the rules.</p>
+
+  <p>Music and morality are related more closely than either discipline usually admits. Plato believed they were the same inquiry — that the modes of music shaped the moral character of citizens, that the rhythms people danced to determined the kinds of people they became. He was mostly right. The body does not separate aesthetic experience from moral formation. <strong>You become what you attend to.</strong> What you listen to, what you allow to move you, what you practice feeling — this shapes who you are over time.</p>
+
+  <div class="moral-grid">
+    <div class="moral-card">
+      <span class="moral-n">Framework I</span>
+      <div class="moral-q">Consequentialism</div>
+      <div class="moral-a">Act so as to maximize wellbeing. The right action produces the best outcome. Morality is empirical — measure the effects. The comma: how do you weigh present suffering against future flourishing? How do you aggregate wellbeing across people? The utilitarian calculus has commas in it that no arithmetic resolves.</div>
+    </div>
+    <div class="moral-card">
+      <span class="moral-n">Framework II</span>
+      <div class="moral-q">Deontology</div>
+      <div class="moral-a">Act only according to maxims you could universalize. Treat persons as ends, never only as means. The right action follows from duty, regardless of consequences. The comma: what happens when two duties conflict? When keeping a promise requires lying? The categorical imperative has harmonics that don't resolve cleanly.</div>
+    </div>
+    <div class="moral-card">
+      <span class="moral-n">Framework III</span>
+      <div class="moral-q">Virtue Ethics</div>
+      <div class="moral-a">Be the kind of person who acts rightly — develop character, not just correct behavior. Courage, justice, temperance, practical wisdom. The right action is what a virtuous person would do. The comma: how do you know what virtue looks like in a situation no one has faced before? Phronesis — practical wisdom — is the practiced capacity to navigate new commas.</div>
+    </div>
+    <div class="moral-card">
+      <span class="moral-n">Framework IV</span>
+      <div class="moral-q">Care Ethics</div>
+      <div class="moral-a">Morality is grounded in relationships, not principles. The particular matters more than the universal. Your obligations to the people you are in relationship with are prior to abstract duties to strangers. The comma: how do you scale particular care beyond your circle without losing its particularity? The tension between justice and care is unresolvable — and is the engine of moral progress.</div>
+    </div>
+    <div class="moral-card">
+      <span class="moral-n">Framework V</span>
+      <div class="moral-q">The Music of Morality</div>
+      <div class="moral-a">None of these frameworks fully closes. Each leaves a remainder — a comma between what the theory prescribes and what the situation requires. Good moral judgment is not the perfect application of one framework. It is knowing which framework to weight in which situation, hearing the chord of competing obligations, and playing the voicing that the moment requires. Morality is an improvisational art.</div>
+    </div>
+    <div class="moral-card">
+      <span class="moral-n">Framework VI</span>
+      <div class="moral-q">Morality & Singing As One</div>
+      <div class="moral-a">The connection: morality requires that you care about what happens to people you are not. Singing as one — in protest, in solidarity, in prayer — is the practice of caring about people you are not. The physiological synchrony of collective music-making is not just a pleasant side effect. It is moral training. You are practicing the belief that other people's time matters as much as yours.</div>
+    </div>
+  </div>
+
+  <div class="bq gold">
+    Morality is not a problem to be solved. It is a practice to be maintained — like tuning an instrument that will always be slightly sharp or slightly flat, that requires daily attention, that never arrives at perfect pitch but must keep trying, because the alternative is silence.
+    <span class="bq-attr">— Sara Oliveros Gómez · dos tercios divino y un tercio mortal · 2026</span>
+  </div>
+</section>
+
+<!-- ═══ FINAL CHORUS ═══ -->
+<div class="chorus" style="margin-bottom:3rem">
+  <div class="chorus-num">Da Capo — from the beginning</div>
+  <div class="chorus-text">THE WORLD<br><em>SHOULD BE</em><br>THE ART</div>
+  <div class="chorus-gloss">Not decorated by art. Not adjacent to art. Not funded by a percentage of the budget for art. <em>Structured</em> by art — meaning: structured by the question of what it feels like to be alive inside it. Dario is right. He is early. δ = 0.013643. After 73 cycles: Kairos.</div>
+</div>
+
+<div class="coda">
+  <div class="coda-lbl">Coda · The Comma Between Art and Morality</div>
+  <div class="coda-body">Art and morality share an ancestor: the human capacity to imagine a state of affairs that does not yet exist and act as if it were real. The musician imagines the sound before the fingers move. The moral agent imagines the world as it should be before choosing how to act. Prodigy is this capacity arriving early. Dedication is this capacity refusing to stop. Protest is this capacity made urgent by injustice. Singing as one is this capacity distributed across bodies, synchronized in time. The world as art is this capacity installed as the operating principle of civilization. The comma is always there — the small gap between the world as it is and the world as it could be. Narrow it. Never stop.</div>
+</div>
+
+</div><!-- /page -->
+
+<footer>
+  <div style="font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.12em;color:var(--rosin);margin-bottom:.3rem">How Music Moves</div>
+  <div style="font-family:var(--cg);font-style:italic;font-size:.82rem;color:rgba(244,240,232,.2);margin-bottom:.5rem">Art · Prodigy · Protest · Morality · Singing As One · Musica Universalis</div>
+  <div style="font-family:var(--fc);font-size:.29rem;letter-spacing:.1em;color:rgba(200,75,26,.18);margin-bottom:.9rem">Section XXVII · δ = 0.013643 · The world SHOULD be the art · Dario</div>
+  <div style="display:flex;gap:.3rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="profund_thompson.html">Profund & Thompson</a>
+    <a class="fla" href="philosophy_of_life.html">Philosophy of Life</a>
+    <a class="fla" href="not_null.html">Not-Null / Null</a>
+    <a class="fla" href="emotions_as_frequency.html">Emotions as Frequency</a>
+    <a class="fla" href="musica_universalis_v5.html">Full Theory</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+
+<script>
+// ═══ ARPEGGIO HERO CANVAS ═══
+// Ascending particles tuned to C major intervals, rising in harmonic series
+(function(){
+  const c=document.getElementById("arpeggio-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H;
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  resize();window.addEventListener("resize",resize);
+
+  // C major scale frequency ratios relative to C: 1, 9/8, 5/4, 4/3, 3/2, 5/3, 15/8, 2
+  const RATIOS=[1,9/8,5/4,4/3,3/2,5/3,15/8,2];
+  const NOTE_NAMES=["C","D","E","F","G","A","B","C'"];
+  // Map ratio to x position across canvas
+  function ratioToX(r){return W*(.08+(r-1)/1.02*.84)}
+
+  // Particles — each travels upward at a speed proportional to its harmonic ratio
+  const PARTICLES=[];
+  const COLS=60;
+  let t=0;
+
+  function spawnParticle(){
+    const noteIdx=Math.floor(Math.random()*8);
+    const ratio=RATIOS[noteIdx];
+    const x=ratioToX(ratio)+(Math.random()-.5)*W*.015;
+    PARTICLES.push({
+      x,y:H*.92,
+      vy:-(0.6+ratio*.45)*(H/600),
+      r:1.2+Math.random()*2.4,
+      ratio,noteIdx,
+      alpha:0,
+      born:t,
+      maxAlpha:0.35+ratio*.18,
+      trail:[]
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(5,4,7,.88)";ctx.fillRect(0,0,W,H);
+
+    // Staff lines — five lines, piano staff
+    const staffTop=H*.18,staffBottom=H*.78;
+    const staffSpacing=(staffBottom-staffTop)/4;
+    for(let i=0;i<5;i++){
+      const y=staffTop+i*staffSpacing;
+      ctx.beginPath();ctx.moveTo(W*.04,y);ctx.lineTo(W*.96,y);
+      ctx.strokeStyle=`rgba(200,75,26,${.04+.01*Math.sin(t*.005+i)})`;
+      ctx.lineWidth=.7;ctx.stroke();
+    }
+
+    // Note position markers along bottom
+    RATIOS.forEach((r,i)=>{
+      const x=ratioToX(r);
+      // Vertical guide line
+      ctx.beginPath();ctx.moveTo(x,H*.85);ctx.lineTo(x,H*.88);
+      ctx.strokeStyle="rgba(200,75,26,.08)";ctx.lineWidth=.8;ctx.stroke();
+      // Note name
+      ctx.fillStyle="rgba(200,75,26,.22)";
+      ctx.font=`${Math.max(8,W*.011)}px 'Fira Code',monospace`;
+      ctx.textAlign="center";
+      ctx.fillText(NOTE_NAMES[i],x,H*.94);
+      // Ratio label
+      ctx.fillStyle="rgba(244,240,232,.08)";
+      ctx.font=`${Math.max(7,W*.009)}px 'Fira Code',monospace`;
+      ctx.fillText(r.toFixed(3),x,H*.98);
+    });
+
+    // Comma indicator — gap between B and C' at top
+    const xB=ratioToX(15/8),xCp=ratioToX(2);
+    ctx.fillStyle="rgba(200,75,26,.18)";
+    ctx.font=`${Math.max(7,W*.009)}px 'Fira Code',monospace`;
+    ctx.textAlign="center";
+    ctx.fillText("← δ →",(xB+xCp)/2,H*.12);
+    ctx.beginPath();ctx.moveTo(xB,H*.14);ctx.lineTo(xCp,H*.14);
+    ctx.strokeStyle="rgba(200,75,26,.15)";ctx.lineWidth=.8;ctx.setLineDash([3,4]);ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Draw + update particles
+    for(let i=PARTICLES.length-1;i>=0;i--){
+      const p=PARTICLES[i];
+      p.trail.push({x:p.x,y:p.y,a:p.alpha});
+      if(p.trail.length>14)p.trail.shift();
+
+      // Trail
+      p.trail.forEach((pt,ti)=>{
+        const tf=ti/p.trail.length;
+        ctx.beginPath();ctx.arc(pt.x,pt.y,p.r*.6,0,Math.PI*2);
+        ctx.fillStyle=`rgba(200,75,26,${pt.a*tf*.3})`;ctx.fill();
+      });
+
+      // Particle
+      const grd=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);
+      grd.addColorStop(0,`rgba(230,120,60,${p.alpha*1.1})`);
+      grd.addColorStop(1,"transparent");
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,Math.PI*2);ctx.fillStyle=grd;ctx.fill();
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(244,220,180,${p.alpha})`;ctx.fill();
+
+      p.y+=p.vy;
+      p.alpha=Math.min(p.alpha+.03,p.maxAlpha);
+      if(p.y<-10||p.alpha<.005)PARTICLES.splice(i,1);
+    }
+
+    // Spawn rate: one per ~8 frames, arpeggio pattern (ascending through scale)
+    if(t%8===0)spawnParticle();
+    // Extra spawn at harmonic peaks
+    if(t%73===0){for(let k=0;k<5;k++)spawnParticle();}
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ SCALE CANVAS (section) ═══
+(function(){
+  const c=document.getElementById("scale-canvas");if(!c)return;
+  const ctx=c.getContext("2d");
+  let W,H=200,t=0;
+  function resize(){W=c.width=c.offsetWidth||860;c.height=H}
+  resize();window.addEventListener("resize",resize);
+
+  const RATIOS=[1,9/8,5/4,4/3,3/2,5/3,15/8,2];
+  const NAMES=["C","D","E","F","G","A","B","C'"];
+  const COLORS=[
+    'rgba(200,75,26,',   // C - rosin
+    'rgba(220,100,40,',  // D
+    'rgba(210,140,50,',  // E - gold shift
+    'rgba(191,150,64,',  // F - gold
+    'rgba(170,160,80,',  // G
+    'rgba(140,170,100,', // A
+    'rgba(100,180,140,', // B
+    'rgba(60,200,180,'   // C' - teal
+  ];
+
+  // Animated bars — each bar height proportional to its harmonic ratio
+  const phases=RATIOS.map((_,i)=>i*Math.PI/4);
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="#050407";ctx.fillRect(0,0,W,H);
+
+    const barW=Math.floor(W/9);
+    const maxH=H*.72;
+    const baseY=H*.88;
+
+    RATIOS.forEach((r,i)=>{
+      const x=Math.floor(W*.04+i*(W*.115));
+      const barH=maxH*(r/2)*(0.85+.15*Math.sin(t*.04+phases[i]));
+      const col=COLORS[i];
+
+      // Bar fill
+      const grd=ctx.createLinearGradient(x,baseY-barH,x,baseY);
+      grd.addColorStop(0,`${col}0.7)`);
+      grd.addColorStop(1,`${col}0.15)`);
+      ctx.fillStyle=grd;
+      ctx.fillRect(x,baseY-barH,barW*.7,barH);
+
+      // Top glow
+      ctx.beginPath();ctx.arc(x+barW*.35,baseY-barH,barW*.35,0,Math.PI*2);
+      const tGrd=ctx.createRadialGradient(x+barW*.35,baseY-barH,0,x+barW*.35,baseY-barH,barW*.5);
+      tGrd.addColorStop(0,`${col}0.4)`);tGrd.addColorStop(1,"transparent");
+      ctx.fillStyle=tGrd;ctx.fill();
+
+      // Label
+      ctx.fillStyle=`${col}0.7)`;
+      ctx.font=`bold ${Math.max(9,W*.013)}px 'Barlow Condensed',sans-serif`;
+      ctx.textAlign="center";
+      ctx.fillText(NAMES[i],x+barW*.35,baseY+14);
+
+      // Ratio
+      ctx.fillStyle=`rgba(244,240,232,0.2)`;
+      ctx.font=`${Math.max(7,W*.009)}px 'Fira Code',monospace`;
+      ctx.fillText(r===1?"1":r===2?"2":(r*8).toFixed(0)+"/8",x+barW*.35,baseY-barH-8);
+    });
+
+    // Comma gap annotation between B and C'
+    const xB=W*.04+6*(W*.115)+Math.floor(W/9)*.35;
+    const xCp=W*.04+7*(W*.115)+Math.floor(W/9)*.35;
+    ctx.beginPath();
+    ctx.moveTo(xB,H*.12);ctx.lineTo(xCp,H*.12);
+    ctx.strokeStyle="rgba(200,75,26,.3)";ctx.lineWidth=1.2;ctx.setLineDash([3,4]);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle="rgba(200,75,26,.4)";
+    ctx.font=`${Math.max(8,W*.01)}px 'Fira Code',monospace`;
+    ctx.textAlign="center";
+    ctx.fillText("δ",(xB+xCp)/2,H*.09);
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ ACCORDION ═══
+function tog(id){
+  const b=document.getElementById("ab-"+id);
+  const tg=document.getElementById("at-"+id);
+  if(!b)return;
+  const o=b.classList.toggle("open");
+  if(tg)tg.textContent=o?"▲":"▼";
+}
+</script>
+</body>
+</html>
