@@ -56,6 +56,8 @@ p em{color:var(--amber-lt)}
 .lead{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.12rem;color:rgba(240,232,216,.7);line-height:2;margin-bottom:1.5rem}
 blockquote{border-left:2px solid var(--amber-dim);padding:.5rem 1.1rem;margin:1.3rem 0;background:rgba(200,146,42,.03);border-radius:0 6px 6px 0}
 blockquote p{font-style:italic;color:rgba(240,232,216,.6);margin:0;font-size:.93rem}
+.blockquote{border-left:2px solid rgba(200,146,42,.45);padding:.65rem 1.2rem;margin:1.2rem 0;background:rgba(200,146,42,.03);border-radius:0 4px 4px 0;font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:.98rem;color:rgba(240,232,216,.65);line-height:1.9}
+.bq-attr{display:block;margin-top:.4rem;font-family:'JetBrains Mono',monospace;font-style:normal;font-size:.38rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(200,146,42,.4)}
 
 /* VERDICT BADGES */
 .verdict{display:inline-flex;align-items:center;gap:.4rem;padding:.2rem .7rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem;border:1px solid}
@@ -97,6 +99,12 @@ blockquote p{font-style:italic;color:rgba(240,232,216,.6);margin:0;font-size:.93
 .panel ul{padding-left:1.2rem;margin:.4rem 0}
 .panel li{font-size:.9rem;color:rgba(240,232,216,.58);line-height:1.75;margin-bottom:.3rem}
 .panel li strong{color:var(--cream)}
+.ms-panel{background:rgba(240,232,216,.025);border:1px solid rgba(200,146,42,.12);border-radius:6px;padding:1.15rem 1.35rem;margin:1.1rem 0;position:relative}
+.ms-panel .ptag{font-family:'JetBrains Mono',monospace;font-size:.41rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,232,216,.25);margin-bottom:.5rem}
+.ms-panel p{font-size:.9rem;color:rgba(240,232,216,.58);line-height:1.85;margin-bottom:.6rem}
+.ms-panel p:last-child{margin-bottom:0}
+.ms-panel strong{color:var(--cream)}
+.ms-panel em{color:var(--amber-lt)}
 
 /* SCORE TABLE */
 .score-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin:1.3rem 0}
@@ -184,6 +192,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
     <a href="#q5">Universe</a>
     <a href="#solfeggio">Solfeggio</a>
     <a href="#model">Model</a>
+    <a href="#buddha">The Search</a>
   </div>
 </nav>
 
@@ -193,59 +202,93 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
   <div class="h-eye">Section XV · Emotions · Frequency · Resonance · Musica Universalis</div>
   <h1>Emotions as<br><em>Frequency</em></h1>
   <div class="h-rule"></div>
-  <p class="h-sub">Five questions at the intersection of neuroscience, music theory, and physics — each examined against what the evidence actually says.</p>
+  <p class="h-sub">Five questions at the intersection of neuroscience, music theory, and physics — and the questions that Buddhism and Taoism asked first, two and a half millennia before the instruments existed to measure the answers.</p>
   <div class="h-questions">
-    <span class="hq">Q1 · Emotions = Hz?</span>
-    <span class="hq">Q2 · Inner detuning</span>
-    <span class="hq">Q3 · Love as harmony</span>
-    <span class="hq">Q4 · Trauma as dissonance</span>
-    <span class="hq">Q5 · Universe as song</span>
+    <span class="hq">Emotions = Hz?</span>
+    <span class="hq">Inner detuning</span>
+    <span class="hq">Love as harmony</span>
+    <span class="hq">Trauma as dissonance</span>
+    <span class="hq">Universe as song</span>
   </div>
 </section>
 
-<!-- LEGEND -->
-<section class="sec" id="legend" style="padding:2rem 0 0">
+<!-- BUDDHA OPENING -->
+<section class="sec" id="buddha" style="padding:2.5rem 0 1.5rem">
   <div class="legend">
     <div class="lg-item c"><div class="lg-dot"></div>Confirmed — strong empirical support</div>
     <div class="lg-item p"><div class="lg-dot"></div>Partial — real phenomenon, overstated claims</div>
     <div class="lg-item s"><div class="lg-dot"></div>Speculative — plausible hypothesis, insufficient evidence</div>
     <div class="lg-item d"><div class="lg-dot"></div>Disproved / unsupported as stated</div>
   </div>
+
+  <div class="kairos-box" style="margin-top:1.8rem">
+    <div class="kb-label">The Buddha Was Also Searching</div>
+    <div class="kb-body">Siddhartha Gautama left a palace. He had wealth, beauty, a wife, a son, the protection of a king's walls. He left because he saw suffering — saw that the body ages, that it falls ill, that it dies — and could not unfeel what he had felt. He sat under the Bodhi tree not because he was enlightened but because he <em>refused to stop searching</em>. He was searching for the same thing these five questions search for: the frequency underneath the feeling. The structure underneath the suffering. <strong>The Buddha's first noble truth — that existence is dukkha, which is often translated as "suffering" but more precisely means "unsatisfactoriness," "friction," "out-of-roundness"</strong> — is a frequency description. A wheel that wobbles. A note that does not resolve. He did not call it Hz. But he knew the name of the dissonance. And he spent his life looking for the tuning that resolves it.</div>
+  </div>
+
+  <div class="blockquote" style="margin-top:1.6rem">
+    All conditioned things are impermanent — when one sees this with wisdom, one turns away from suffering.
+    <span class="bq-attr">— Dhammapada, verse 277 · The Buddha</span>
+  </div>
+
+  <div class="blockquote">
+    The Tao that can be told is not the eternal Tao. The name that can be named is not the eternal name. The nameless is the beginning of heaven and earth.
+    <span class="bq-attr">— Tao Te Ching, Chapter 1 · Laozi</span>
+  </div>
+
+  <div class="panel sage" style="margin-top:1rem">
+    <div class="ptag">What Both Traditions Already Knew</div>
+    <p>Buddhism and Taoism arrived at the same insight from different directions. Buddhism through introspection — sitting with experience long enough to watch it change, watching the arising and passing of sensation until the impermanence becomes undeniable. Taoism through observation of the natural world — watching water, watching seasons, watching how the valley receives what the mountain cannot. <strong>Both arrived at the same conclusion: reality is not made of things; it is made of processes. Not nouns — verbs. Not frequencies — frequencing.</strong> Modern neuroscience spent the twentieth century catching up to this. It is still catching up.</p>
+  </div>
 </section>
 
 <!-- ══ Q1: EMOTIONS AS FREQUENCY ══ -->
 <section class="sec" id="q1">
-  <div class="sec-lbl" style="color:var(--amber-lt)">Question 1 · Pages 640–641</div>
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 1 · Emotions as Frequency Signatures</div>
   <h2>Are emotions<br><em>frequency signatures</em>?</h2>
+
+  <div class="blockquote">
+    Just as a candle cannot burn without fire, a person cannot live without a spiritual life. The mind is everything. What you think, you become.
+    <span class="bq-attr">— The Buddha · Dhammapada</span>
+  </div>
+
   <p class="lead">The brain produces electrical waves measurable in Hz. The body responds to auditory vibration. Emotions are linked to nervous system states — all tied to oscillatory behavior. Define emotions as bio-psycho-spiritual resonance, emerging from interaction between system and environmental dissonance.</p>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 1a</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
     <div class="claim-statement">"The brain produces electrical waves (theta, alpha, beta, gamma) in Hz"</div>
-    <p>This is firmly established neuroscience. Electroencephalography (EEG) has measured distinct brainwave bands since Hans Berger in 1929. The exact bands recorded in the notebook are standard clinical categories used in every sleep lab and research hospital in the world. <strong>Delta (0.5–4 Hz): deep sleep, unconscious healing.</strong> <strong>Theta (4–8 Hz): dreaming, deep meditation, memory consolidation, trauma surfacing.</strong> <strong>Alpha (8–12 Hz): calm focus, flow state, relaxed alertness.</strong> <strong>Beta (13–30 Hz): active thinking, stress, anxiety, planning.</strong> <strong>Gamma (30–100+ Hz): higher awareness, perception, insight, cognition — and binding of conscious experience.</strong></p>
-    <p>The link between autonomic nervous system state (fight/flight → high beta; freeze/collapse → low theta; rest/digest → alpha; flow/presence → alpha-theta; insight/unity → gamma) is also well-supported. These are not claims — they are the working vocabulary of clinical neuroscience.</p>
+    <p>This is firmly established neuroscience. Electroencephalography (EEG) has measured distinct brainwave bands since Hans Berger in 1929. <strong>Delta (0.5–4 Hz): deep sleep, unconscious healing.</strong> <strong>Theta (4–8 Hz): dreaming, deep meditation, memory consolidation, trauma surfacing.</strong> <strong>Alpha (8–12 Hz): calm focus, flow state, relaxed alertness.</strong> <strong>Beta (13–30 Hz): active thinking, stress, anxiety, planning.</strong> <strong>Gamma (30–100+ Hz): higher awareness, perception, insight, cognition — and binding of conscious experience.</strong></p>
+    <p>The link between autonomic nervous system state and these bands is well-supported: fight/flight → high beta; freeze/collapse → low theta; rest/digest → alpha; flow/presence → alpha-theta; insight/unity → gamma. These are not claims — they are the working vocabulary of clinical neuroscience.</p>
+    <div class="blockquote" style="margin-top:.9rem">
+      Thousands of candles can be lighted from a single candle, and the life of the candle will not be shortened. Happiness never decreases by being shared.
+      <span class="bq-attr">— The Buddha</span>
+    </div>
+    <p style="margin-top:.6rem">The Buddhist meditator who described consciousness as a river — always flowing, never the same water twice — was describing what EEG would eventually measure: that mind-states are not static objects but dynamic oscillatory patterns, perpetually arising and passing. Gamma synchrony during insight meditation has been measured in long-term practitioners. The monks were not doing metaphysics. They were training their oscillators.</p>
   </div>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 1b</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
     <div class="claim-statement">"The body responds to auditory vibrations: affecting heart rate, breathing, hormonal output"</div>
-    <p>Sound directly influences physiology through multiple pathways. The vagus nerve (the primary rest-and-digest pathway) is physically connected to the inner ear via the stapedius muscle — sound at certain frequencies preferentially activates the social engagement system. This is the basis of Stephen Porges' Polyvagal Theory and his Safe and Sound Protocol therapy.</p>
-    <p><strong>Heart rate:</strong> Slow music with regular rhythm entrains heart rate variability (HRV). <strong>Cortisol:</strong> Music reduces cortisol (stress hormone) in measurable amounts — used clinically before surgery. <strong>Oxytocin:</strong> Singing and synchronized music-making increases oxytocin (bonding hormone). <strong>Dopamine:</strong> Music that produces "chills" releases dopamine in the nucleus accumbens — the same reward circuitry as food and sex. These are all replicable, replicated findings.</p>
+    <p>Sound directly influences physiology through multiple pathways. The vagus nerve is physically connected to the inner ear via the stapedius muscle — sound at certain frequencies preferentially activates the social engagement system. <strong>Heart rate:</strong> Slow music with regular rhythm entrains heart rate variability. <strong>Cortisol:</strong> Music reduces cortisol measurably — used clinically before surgery. <strong>Oxytocin:</strong> Singing and synchronized music-making increases oxytocin. <strong>Dopamine:</strong> Music that produces "chills" releases dopamine in the nucleus accumbens.</p>
   </div>
 
   <div class="claim partial">
     <div class="claim-head">Claim 1c</div>
     <div class="verdict v-partial"><div class="vdot"></div>Partial — the framework is real; the precision is overstated</div>
-    <div class="claim-statement">"Define emotions as bio-psycho-spiritual resonance emerging from system–environment interaction"</div>
-    <p>The first part — that emotions are not purely mental events but whole-body states arising from interaction between internal physiology and environmental context — is strongly supported. This is exactly what the predictive processing framework (Karl Friston), the embodied cognition tradition, and interoceptive theories of emotion (Lisa Feldman Barrett's <em>How Emotions Are Made</em>) all converge on. <strong>Emotions are states of the whole organism, not events in the brain alone.</strong></p>
-    <p>The word "spiritual" adds a layer that science cannot confirm or deny — it names something real about the felt quality of extreme states (awe, grief, ecstasy) that neurological language alone fails to capture. <strong>The framework is good. The precision of assigning exact Hz values to specific emotions is where it becomes an overstatement</strong> — different individuals and different contexts produce different brainwave patterns for the same emotion. The map exists; the legend is approximate.</p>
+    <div class="claim-statement">"Emotions as bio-psycho-spiritual resonance emerging from system–environment interaction"</div>
+    <p>The first part — that emotions are not purely mental events but whole-body states arising from interaction between internal physiology and environmental context — is strongly supported by predictive processing frameworks (Karl Friston), embodied cognition, and interoceptive theories of emotion (Lisa Feldman Barrett's <em>How Emotions Are Made</em>). <strong>Emotions are states of the whole organism, not events in the brain alone.</strong></p>
+    <p>The word "spiritual" adds a layer science cannot confirm or deny — it names something real about the felt quality of extreme states (awe, grief, ecstasy) that neurological language alone fails to capture. The framework is good. The precision of assigning exact Hz values to specific emotions is an overstatement — different individuals and contexts produce different patterns for the same emotion. The map exists; the legend is approximate.</p>
+    <div class="blockquote" style="margin-top:.9rem">
+      Knowing others is wisdom. Knowing yourself is enlightenment. Mastering others requires force. Mastering yourself requires strength.
+      <span class="bq-attr">— Laozi · Tao Te Ching, Chapter 33</span>
+    </div>
   </div>
 
   <div class="kairos-box">
     <div class="kb-label">Comma Framework · Emotions as Threshold Events</div>
-    <div class="kb-body">Emotions are not continuous — they arrive at kairos moments. The body has been building a state (a frequency pattern), and at a certain threshold it becomes <em>named</em>, becomes <em>felt</em>, becomes <em>an emotion rather than background noise</em>. The comma in emotional experience is the moment of recognition — the instant the oscillating system crosses the threshold from subthreshold arousal into conscious emotional state. Grief is not always present; it arrives. So does joy. What precedes them is frequency. What crosses the threshold is meaning. <strong>The notebook's framework correctly identifies the substrate (oscillation, Hz) while the comma is the emergence event — the moment pattern becomes experience.</strong></div>
+    <div class="kb-body">Emotions are not continuous — they arrive at kairos moments. The body has been building a state (a frequency pattern), and at a certain threshold it becomes <em>named</em>, becomes <em>felt</em>, becomes <em>an emotion rather than background noise</em>. The comma in emotional experience is the moment of recognition — the instant the oscillating system crosses the threshold from subthreshold arousal into conscious emotional state. Grief is not always present; it arrives. So does joy. What precedes them is frequency. What crosses the threshold is meaning. <strong>This is what Buddhist mindfulness practice is: training attention to notice the threshold before the emotion fully arrives — to catch the frequency before it names itself.</strong></div>
   </div>
 </section>
 
@@ -253,7 +296,7 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
 <section class="sec" id="solfeggio">
   <div class="sec-lbl" style="color:var(--amber-lt)">Solfeggio Frequencies · The Evidence Map</div>
   <h2>The Solfeggio scale<br><em>and what the evidence says</em></h2>
-  <p class="lead">The notebook maps the solfeggio scale (Do–Re–Mi–Fa–Sol–La–Si) to Hertz values, chakras, and emotional/spiritual qualities. Each pairing requires its own verdict.</p>
+  <p class="lead">The solfeggio scale (Do–Re–Mi–Fa–Sol–La–Si) mapped to Hertz values, chakras, and emotional/spiritual qualities — a framework as ancient in spirit as the yogic energy system, and as modern in form as 1990s frequency therapy. Each pairing requires its own verdict.</p>
 
   <div class="solf-table">
     <div class="solf-row header" style="font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,232,216,.28)">
@@ -303,9 +346,8 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
       <span class="acc-tog" id="at-solf-context">▼</span>
     </div>
     <div class="acc-body" id="ab-solf-context">
-      <p>The Solfeggio frequencies as a system were popularized in the 1990s by Dr. Joseph Puleo and Leonard Horowitz, who claimed to have found them encoded in the Book of Numbers in the Bible via numerology. The original medieval Gregorian chant scale (ut–re–mi–fa–sol–la) used different note names but was <em>not</em> tuned to these specific Hz values — that correspondence is modern and invented. <strong>There is no ancient system that tuned instruments to 396, 417, 528 Hz specifically.</strong></p>
-      <p>The 528 Hz "miracle tone" or "DNA repair frequency" claim originated with Horowitz and is the most commercially promoted. The claim that 528 Hz repairs DNA has been tested: one study (Baati et al., 2012, widely misrepresented) examined effects of certain water preparations — not 528 Hz tones — on DNA. <strong>No peer-reviewed study has demonstrated that listening to 528 Hz audio repairs human DNA.</strong></p>
-      <p>What IS real: these are specific audible frequencies that, like all frequencies in the human hearing range, interact with the auditory system and can produce physiological responses. Music at any frequency can affect mood, autonomic tone, and neurochemistry. The emotional assignments (528 = hope, 396 = grounding) are unfalsifiable as stated — they cannot be disproved because they were never derived from experiment.</p>
+      <p>The Solfeggio frequencies as a system were popularized in the 1990s by Dr. Joseph Puleo and Leonard Horowitz, who claimed to have found them encoded in the Book of Numbers via numerology. The original medieval Gregorian chant scale used different note names but was <em>not</em> tuned to these specific Hz values — that correspondence is modern and invented. <strong>There is no ancient system that tuned instruments to 396, 417, 528 Hz specifically.</strong></p>
+      <p>The 528 Hz "miracle tone" or "DNA repair frequency" claim has been tested: no peer-reviewed study has demonstrated that listening to 528 Hz audio repairs human DNA. What IS real: these are audible frequencies that, like all frequencies in the human hearing range, interact with the auditory system and can produce physiological responses. Music at any frequency can affect mood, autonomic tone, and neurochemistry. The emotional assignments are unfalsifiable as stated — they cannot be disproved because they were never derived from experiment.</p>
     </div>
   </div>
 
@@ -316,184 +358,339 @@ footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);posi
       <span class="acc-tog" id="at-solf-real">▼</span>
     </div>
     <div class="acc-body" id="ab-solf-real">
-      <p><strong>Binaural beats — Partial:</strong> When two slightly different frequencies are played to each ear (e.g., 200 Hz left, 210 Hz right), the brain generates a "beat" at the difference frequency (10 Hz = alpha). EEG studies confirm the brain entrains toward this frequency. Effects on mood, focus, and anxiety reduction are real but modest — comparable to gentle music rather than medication. The brain's ability to be "driven" by an external oscillation (entrainment) is genuine. The specific Hz claimed for specific emotional states are approximate at best.</p>
-      <p><strong>432 Hz vs 440 Hz tuning — Disproved as stated:</strong> Claims that instruments tuned to A=432 Hz produce measurably superior physiological or emotional effects compared to the standard A=440 Hz have not survived controlled blind testing. Musical intervals (the relationships between notes) matter enormously to emotion; absolute pitch reference does not produce measurable emotional differences in controlled studies.</p>
-      <p><strong>Acoustic resonance of the body — Partial:</strong> Different body structures do have resonant frequencies. The chest resonates around 50–60 Hz. Cranial resonance has been measured. Whether external sound at these frequencies produces therapeutic effects is under investigation — some sound therapy (particularly for pain) has genuine mechanistic support. The claim that these specific solfeggio Hz values target specific organs or chakras precisely has no mechanistic support in anatomy.</p>
+      <p><strong>Binaural beats — Partial:</strong> When two slightly different frequencies are played to each ear (e.g., 200 Hz left, 210 Hz right), the brain generates a "beat" at the difference frequency (10 Hz = alpha). EEG studies confirm the brain entrains toward this frequency. Effects on mood, focus, and anxiety reduction are real but modest. The brain's ability to be driven by an external oscillation is genuine. The specific Hz claimed for specific emotional states are approximate at best.</p>
+      <p><strong>432 Hz vs 440 Hz tuning — Disproved as stated:</strong> Claims that instruments tuned to A=432 Hz produce measurably superior effects compared to standard A=440 Hz have not survived controlled blind testing. Musical intervals matter enormously to emotion; absolute pitch reference does not produce measurable emotional differences in controlled studies.</p>
+      <p><strong>Acoustic resonance of the body — Partial:</strong> Different body structures have resonant frequencies. The chest resonates around 50–60 Hz. Cranial resonance has been measured. Some sound therapy (particularly for pain) has genuine mechanistic support. The claim that solfeggio Hz values target specific organs precisely has no mechanistic support in anatomy.</p>
     </div>
   </div>
 
   <div class="panel amber">
-    <div class="ptag">The Comma View · What the Solfeggio Map Gets Right as a Model</div>
-    <p>Even where the specific Hz-to-chakra mapping lacks empirical grounding, the underlying intuition of the solfeggio framework is pointing at something real: that <strong>different frequency ranges of auditory input engage different physiological systems and emotional states</strong>. Sub-bass frequencies (20–80 Hz) engage the body physically, produce felt vibration, are associated with grounding and presence. Mid frequencies (200–2000 Hz) carry speech and social signals — where the vagal system is most active. High frequencies (2000–8000 Hz) carry alertness cues. The emotional qualities assigned to solfeggio bands loosely track these real acoustic-physiological relationships. The map has real terrain beneath it, even if the coordinates are approximate.</p>
-    <p>The notebook asks the right question: <em>How do these frequencies relate to emotion pairing and the Solfeggio frequencies?</em> The answer is that the relationship is real but mediated — it runs through the nervous system's responses to frequency ranges and musical context, not through direct Hz-to-emotion wiring. The instrument of translation is you.</p>
+    <div class="ptag">The Tao View · What the Solfeggio Map Gets Right as a Model</div>
+    <p>The Tao Te Ching says: <em>"The Tao does not force; it flows. The highest good is like water — it benefits all things without striving."</em> The solfeggio framework, at its best, points toward the same truth: that different qualities of vibration carry different qualities of being, and that the body is not a passive receiver but a resonating instrument that meets sound halfway. Even where the specific Hz-to-chakra mapping lacks empirical grounding, the underlying intuition is pointing at something real: that <strong>different frequency ranges engage different physiological systems and emotional states.</strong></p>
+    <p>Sub-bass (20–80 Hz): grounding, felt vibration, presence. Mid frequencies (200–2000 Hz): speech, social signals, where the vagal system is most active. High frequencies (2000–8000 Hz): alertness, vigilance. The emotional qualities assigned to solfeggio bands loosely track these real acoustic-physiological relationships. The map has real terrain beneath it. The coordinates are approximate. The compass is real.</p>
   </div>
 </section>
 
 <!-- ══ Q2: EMOTIONAL DETUNING ══ -->
 <section class="sec" id="q2">
-  <div class="sec-lbl" style="color:var(--amber-lt)">Question 2 · Pages 645 · Emotional Detuning</div>
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 2 · Emotional Detuning · The Second Noble Truth</div>
   <h2>What happens when our<br><em>"inner tuning" is out of sync?</em></h2>
-  <p class="lead">When "inner tuning" is out of sync → MANIA. Neuroscience: dysregulation of brain waves linked to trauma, chronic stress, substance use, genetic/neurochemical factors → depression, PTSD, schizophrenia, probably mania too. Physics: resonance happens when frequencies align; lost energy becomes dissipated, not amplified. ⟹ Emotional detuning. Healing becomes recalibration, not fixing.</p>
+
+  <div class="blockquote">
+    The root of suffering is attachment.
+    <span class="bq-attr">— The Buddha · Second Noble Truth</span>
+  </div>
+  <div class="blockquote">
+    Returning to the root is called stillness. Stillness is called returning to one's destiny.
+    <span class="bq-attr">— Laozi · Tao Te Ching, Chapter 16</span>
+  </div>
+
+  <p class="lead">When inner tuning is out of sync → mania. Neuroscience: dysregulation of brain waves linked to trauma, chronic stress, substance use, genetic/neurochemical factors → depression, PTSD, schizophrenia, mania. Physics: resonance happens when frequencies align; lost energy becomes dissipated, not amplified. Emotional detuning. Healing becomes recalibration, not fixing.</p>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 2a</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
     <div class="claim-statement">"Dysregulation of brain waves is linked to depression, PTSD, schizophrenia, mania"</div>
-    <p>This is textbook clinical neuroscience. In <strong>depression</strong>: elevated frontal alpha asymmetry (right hemisphere more active at rest), increased high-frequency beta in ruminative states, reduced alpha coherence. In <strong>PTSD</strong>: chronically elevated beta and gamma associated with hypervigilance; disrupted theta (preventing memory consolidation during sleep — causing nightmare repetition); reduced default mode network coherence. In <strong>mania</strong>: dramatic reduction of slow waves (especially alpha, which normally gates and suppresses stimulation), explosive increase in gamma and beta — the neural signature of a system without its inhibitory rhythms. In <strong>schizophrenia</strong>: disrupted gamma synchrony specifically in the 40 Hz range — affecting perceptual binding (the reason experiences fragment).</p>
-    <p>The notebook's identification of mania as "suppressed alpha / inability to rest or affect / excessive beta-gamma / racing thoughts / instability across states / rapid shift of confidence–paranoia–grief" is a precise lay description of the EEG and clinical phenomenology of a manic episode. <strong>This mapping is accurate.</strong></p>
+    <p>This is textbook clinical neuroscience. In <strong>depression</strong>: elevated frontal alpha asymmetry, increased high-frequency beta in ruminative states, reduced alpha coherence. In <strong>PTSD</strong>: chronically elevated beta/gamma associated with hypervigilance; disrupted theta preventing memory consolidation during sleep; reduced default mode network coherence. In <strong>mania</strong>: dramatic reduction of slow waves, explosive increase in gamma and beta — a system without its inhibitory rhythms. In <strong>schizophrenia</strong>: disrupted gamma synchrony in the 40 Hz range — affecting perceptual binding.</p>
+    <p>The identification of mania as suppressed alpha, inability to rest, excessive beta-gamma, racing thoughts, rapid shift of confidence–paranoia–grief is a precise lay description of the EEG and clinical phenomenology of a manic episode. <strong>This mapping is accurate.</strong></p>
+    <p>The Buddha's Second Noble Truth — that suffering arises from <em>tanha</em>, craving, grasping — is, at the neurological level, a description of an oscillator that cannot return to rest. Craving is beta without alpha. The grasping mind is the mind that cannot oscillate back to the tonic note. <strong>The Eightfold Path is, among other things, a protocol for restoring oscillatory balance.</strong></p>
   </div>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 2b</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — with important precision</div>
-    <div class="claim-statement">"Resonance: when frequencies align, lost energy is dissipated, not amplified"</div>
-    <p>This is physically correct and the distinction is critical. In resonance, energy is <em>transferred efficiently</em> between oscillators — the driving frequency matches the natural frequency of the receiving system, so input energy becomes motion rather than heat. When frequencies are mismatched (detuned), the energy is <em>dissipated</em>: it produces friction, heat, noise — not coordinated motion. <strong>This is a genuinely beautiful physical analogy for emotional dysregulation.</strong> The dysregulated nervous system is not receiving the frequency of the environment efficiently — it is converting environmental input into heat (activation without direction, arousal without resolution).</p>
-    <p>The constraint: the human nervous system is not a simple harmonic oscillator. Its "natural frequencies" are not fixed — they change with state, with context, with history. The analogy is illuminating; it is not a complete mechanism.</p>
+    <div class="claim-statement">"When frequencies are mismatched, lost energy is dissipated, not amplified"</div>
+    <p>This is physically correct and the distinction is critical. In resonance, energy is <em>transferred efficiently</em> between oscillators — the driving frequency matches the natural frequency of the receiving system, so input energy becomes motion rather than heat. When frequencies are mismatched (detuned), the energy is <em>dissipated</em> — it produces friction, heat, noise, not coordinated motion. <strong>This is a genuinely beautiful physical analogy for emotional dysregulation.</strong> The dysregulated nervous system converts environmental input into heat: activation without direction, arousal without resolution.</p>
+    <div class="blockquote" style="margin-top:.9rem">
+      Act without expectation. Lead without controlling. When you are at peace, the world is at peace.
+      <span class="bq-attr">— Laozi · Tao Te Ching, Chapter 15</span>
+    </div>
+    <p style="margin-top:.6rem">This is wu wei — effortless action — described as a physics of the nervous system. The resonant state is not achieved by force; it is achieved by removing what prevents it. Taoism calls this returning to the uncarved block. Neuroscience calls it vagal tone. They are describing the same rest-state attractor.</p>
   </div>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 2c</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — this reframe has clinical consequences</div>
     <div class="claim-statement">"Healing becomes recalibration, not fixing"</div>
-    <p>This is not merely poetic — it describes a genuine paradigm shift in how treatment-resistant mental illness is approached. The "fixing" model: something is broken, restore it to a prior baseline. The "recalibration" model: the system has settled into a different attractor state; therapy is the process of making other states accessible again, widening the repertoire, restoring flexibility. <strong>This is exactly the framework of neurofeedback, which trains the brain to access non-dominant states; of HRV biofeedback, which trains the vagal system to widen its operational range; of polyvagal-informed therapy, which works by expanding the "window of tolerance" rather than eliminating dysregulation.</strong></p>
-    <p>The phrase "you can't receive love clearly — you distort — you vibrate against your own rhythm" is also clinically precise: attachment research consistently shows that chronic dysregulation disrupts the ability to perceive and respond appropriately to social signals. Fearful-avoidant and disorganized attachment are exactly this: the system distorts incoming relational frequency because its own reference oscillation is unstable.</p>
+    <p>This is not merely poetic — it describes a genuine paradigm shift in how treatment-resistant mental illness is approached. The "fixing" model restores to a prior baseline. The "recalibration" model recognizes that the system has settled into a different attractor state; therapy is the process of making other states accessible again, widening the repertoire, restoring flexibility. <strong>This is the framework of neurofeedback, HRV biofeedback, and polyvagal-informed therapy.</strong></p>
+    <p>The Buddha's Third Noble Truth — that the cessation of suffering is possible — is not a promise that the wound disappears. It is a claim that the oscillator can find a new, stable, non-suffering attractor. The Fourth Noble Truth, the Eightfold Path, is the method: right view, right intention, right speech, right action, right livelihood, right effort, right mindfulness, right concentration. <strong>Eight parameters for recalibrating a dysregulated system.</strong> Not fixing the broken self. Widening the self's frequency range.</p>
+  </div>
+
+  <div class="panel sage">
+    <div class="ptag">What Buddhism Teaches Science About Detuning</div>
+    <p>The Buddhist concept of <em>anatta</em> — no-self — is relevant here in a way that is often missed. If there is no fixed self, there is no fixed "correct" frequency to return to. The dysregulated oscillator is not broken relative to some prior correct state — it is one pattern in an infinite space of possible patterns. <strong>Healing is not recovery of an original signal. It is the discovery that the range of possible signals is wider than the suffering suggests.</strong> The meditator does not try to stop thoughts (stop the oscillations). She watches them arise and pass, learning through direct experience that no pattern is permanent — not even the pattern called "I."</p>
   </div>
 </section>
 
 <!-- ══ Q3: LOVE AS HARMONY ══ -->
 <section class="sec" id="q3">
-  <div class="sec-lbl" style="color:var(--amber-lt)">Question 3 · Page 646 · Love as Harmonic Event</div>
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 3 · Love as Harmonic Event</div>
   <h2>Could love be a<br><em>harmonizing of two bodies' vibrations?</em></h2>
-  <p class="lead">People in love sync heartbeats, brainwaves, breathing rhythms. Quantum entanglement: two particles become linked — actions on one affect the other instantly. → Love is not one frequency; it is a harmonic event. Dissonance can still exist, but none persists.</p>
+
+  <div class="blockquote">
+    If you truly loved yourself, you could never hurt another.
+    <span class="bq-attr">— The Buddha</span>
+  </div>
+  <div class="blockquote">
+    Being deeply loved by someone gives you strength, while loving someone deeply gives you courage.
+    <span class="bq-attr">— Laozi</span>
+  </div>
+
+  <p class="lead">People in love sync heartbeats, brainwaves, breathing rhythms. Love is not one frequency; it is a harmonic event. Dissonance can still exist, but none persists.</p>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 3a</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
     <div class="claim-statement">"People in love sync heartbeats, brainwaves, breathing rhythms"</div>
-    <p>Physiological synchrony between people in close relationships is well-documented and increasingly well-understood mechanistically. <strong>Heart rate:</strong> Couples in close proximity or during eye contact show cardiac synchrony — their heart rate variability patterns correlate. Uri Hasson's lab at Princeton demonstrated that during storytelling, speaker and listener brains "couple" — listener neural activity begins to mirror speaker activity with a short delay, and the degree of coupling predicts comprehension. <strong>Respiratory synchrony:</strong> Partners synchronize breathing during sleep, and during focused communication. <strong>EEG hyperscanning:</strong> Studies measuring two people's brains simultaneously (EEG hyperscanning) show increased inter-brain synchrony in frontal and parietal regions during cooperative tasks and emotional attunement.</p>
+    <p>Physiological synchrony between people in close relationships is well-documented. <strong>Heart rate:</strong> Couples show cardiac synchrony during eye contact and close proximity — their heart rate variability patterns correlate. Uri Hasson's lab at Princeton demonstrated that during storytelling, speaker and listener brains "couple" — listener neural activity begins to mirror speaker activity, and the degree of coupling predicts comprehension. <strong>Respiratory synchrony:</strong> Partners synchronize breathing during sleep and focused communication. <strong>EEG hyperscanning:</strong> Studies show increased inter-brain synchrony in frontal and parietal regions during cooperative tasks and emotional attunement.</p>
     <p>This is not metaphor. The mechanism involves mirror neuron systems, vagal regulation, oxytocin-mediated social attunement, and the predictive processing system's continuous modeling of another person's state. <strong>Attunement is a real neurophysiological phenomenon.</strong></p>
+    <div class="blockquote" style="margin-top:.9rem">
+      He who knows others is wise. He who knows himself is enlightened. He who loves the world as his body may be entrusted with the empire.
+      <span class="bq-attr">— Laozi · Tao Te Ching, Chapter 13</span>
+    </div>
   </div>
 
   <div class="claim disprove">
     <div class="claim-head">Claim 3b</div>
     <div class="verdict v-disprove"><div class="vdot"></div>Disproved as a mechanism for love specifically</div>
-    <div class="claim-statement">"Quantum entanglement — two particles become linked across space — could explain nonlocal consciousness, morphic resonance, minds operating like quantum fields"</div>
-    <p>This is where the science breaks down sharply, and the distinction matters. <strong>Quantum entanglement is real</strong> — it is one of the most confirmed phenomena in modern physics. Two particles can be prepared in correlated quantum states such that measuring one instantly determines the state of the other, regardless of distance. This is not disputed. <strong>What quantum entanglement cannot do: transmit information faster than light. The correlation exists, but neither party can use it to send a message or influence the other's experience.</strong></p>
-    <p>The leap from quantum entanglement to "people in love are quantum entangled" involves crossing multiple scales: quantum effects operate at the subatomic level and are destroyed (decoherence) almost instantly at body temperature in biological tissue. The human brain is far too warm and wet for quantum entanglement to maintain coherence at the scale required for consciousness or emotional connection. <strong>Rupert Sheldrake's "morphic resonance" — shared fields of memory and emotion — is not supported by experimental evidence and has no accepted physical mechanism.</strong> The idea is interesting and unfalsified; it is not confirmed science.</p>
-    <p>The physiological synchrony that is real (heartbeat, breath, brainwave coupling) has entirely sufficient classical explanations: mirror neurons, co-regulation, oxytocin, shared behavioral rhythms. No quantum mechanism is needed to explain why people in love synchronize — and invoking it overstates and distorts a genuinely beautiful set of findings.</p>
+    <div class="claim-statement">"Quantum entanglement — two particles become linked — could explain nonlocal consciousness, morphic resonance, minds operating like quantum fields"</div>
+    <p><strong>Quantum entanglement is real</strong> — one of the most confirmed phenomena in modern physics. Two particles can be prepared in correlated states such that measuring one instantly determines the state of the other, regardless of distance. <strong>What quantum entanglement cannot do: transmit information faster than light, or maintain coherence at body temperature in biological tissue.</strong> The human brain is far too warm and wet for quantum entanglement to maintain coherence at the scale required for consciousness. Rupert Sheldrake's "morphic resonance" is not supported by experimental evidence and has no accepted physical mechanism.</p>
+    <p>The physiological synchrony that is real has entirely sufficient classical explanations: mirror neurons, co-regulation, oxytocin, shared behavioral rhythms. No quantum mechanism is needed — and invoking it overstates a genuinely beautiful set of findings.</p>
   </div>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 3c</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — as a description</div>
     <div class="claim-statement">"Love is not one frequency — it is a harmonic event. Dissonance can still exist, but none persists."</div>
-    <p>This is a precise and beautiful description. In musical harmony, a chord is not the absence of tension — a dominant seventh chord contains dissonance that resolves to the tonic. <strong>The most emotionally satisfying music moves through dissonance to resolution; a progression with no tension is not harmonious, it is empty.</strong> The claim that "dissonance can still exist, but none persists" maps onto what attachment research calls a "secure base" — the capacity of a relationship to tolerate conflict, repair, and return to connection. Couples with secure attachment show more conflict, not less — but they repair faster and more completely. The persistent dissonance is the signature of insecure or disorganized attachment: the unresolved fourth that never finds its third.</p>
+    <p>In musical harmony, a chord is not the absence of tension — a dominant seventh contains dissonance that resolves to the tonic. <strong>The most emotionally satisfying music moves through dissonance to resolution; a progression with no tension is not harmonious, it is empty.</strong> Couples with secure attachment show more conflict, not less — but they repair faster and more completely. The persistent dissonance is the signature of insecure attachment: the unresolved fourth that never finds its third.</p>
+    <div class="blockquote" style="margin-top:.9rem">
+      The love of one's country is a splendid thing. But why should love stop at the border? The heart that loves is always young.
+      <span class="bq-attr">— The Buddha</span>
+    </div>
+    <p style="margin-top:.6rem">Buddhism's concept of <em>metta</em> — loving-kindness — is not personal love but the frequency of love itself, broadcast unconditionally. The metta meditation is a frequency training: you begin by tuning toward yourself, then toward loved ones, then toward strangers, then toward those you find difficult, then toward all beings. <strong>You are training the oscillator to maintain its frequency regardless of who is in the room.</strong> This is not sentiment. It is the hardest technical exercise in the practice.</p>
   </div>
 </section>
 
 <!-- ══ Q4: TRAUMA AS DISSONANCE ══ -->
 <section class="sec" id="q4">
-  <div class="sec-lbl" style="color:var(--amber-lt)">Question 4 · Pages 647 · Trauma and Healing</div>
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 4 · Trauma and Healing</div>
   <h2>Can we map trauma as dissonance,<br><em>healing as chordal resolution?</em></h2>
+
+  <div class="blockquote">
+    Pain is certain. Suffering is optional.
+    <span class="bq-attr">— attributed to the Buddha</span>
+  </div>
+  <div class="blockquote">
+    A man is born gentle and weak. At death he is hard and stiff. Green plants are tender and filled with sap. At death they are withered and dry. Therefore the stiff and unbending is the disciple of death. The gentle and yielding is the disciple of life.
+    <span class="bq-attr">— Laozi · Tao Te Ching, Chapter 76</span>
+  </div>
+
   <p class="lead">Trauma: nervous system stays locked in high alert (sympathetic arousal) or collapse (parasympathetic freeze). Musically: dissonance = tension, unresolved notes. Resolution = movement to a stable chord. Trauma = stuck unresolved chord (suspended 4th that never resolves to 3rd). Healing = modulating through dissonance, not avoiding it. Return to tonic.</p>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 4a</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — with mechanistic precision</div>
     <div class="claim-statement">"Trauma: nervous system stays locked in high alert or collapse"</div>
-    <p>This is a textbook description of trauma's neurophysiology. <strong>Peter Levine's Somatic Experiencing</strong> and <strong>Bessel van der Kolk's body-keeps-the-score model</strong> both describe trauma as a freezing of the nervous system's defensive response: the preparatory activation (fight or flight) never completes, never discharges, and becomes chronically encoded in the body's state. In sympathetic lock: chronically elevated cortisol and adrenaline, hypervigilant amygdala, suppressed prefrontal cortex, high beta/gamma dominance. In parasympathetic freeze (dorsal vagal shutdown): dissociation, emotional numbness, collapse of executive function, theta dominance without the restorative quality of healthy theta sleep.</p>
-    <p>The polyvagal framework (Porges) adds a third state — the social engagement system — whose failure (the collapse from ventral vagal regulation into sympathetic mobilization or dorsal vagal shutdown) is the mechanism of trauma's disruption of connection.</p>
+    <p>This is a textbook description of trauma's neurophysiology. Peter Levine's Somatic Experiencing and Bessel van der Kolk's body-keeps-the-score model describe trauma as a freezing of the nervous system's defensive response: the preparatory activation never completes, never discharges, and becomes chronically encoded in the body's state. In sympathetic lock: chronically elevated cortisol and adrenaline, hypervigilant amygdala, suppressed prefrontal cortex, high beta/gamma dominance. In parasympathetic freeze: dissociation, emotional numbness, collapse of executive function.</p>
+    <p>The Taoist description of rigidity as death — <em>"the stiff and unbending is the disciple of death"</em> — is a precise physiological observation. The traumatized nervous system is the stiff nervous system: it has lost its range of motion, its capacity to flex between states. <strong>Recovery is the restoration of flexibility — not strength, not hardness, but the capacity to bend without breaking, to oscillate without locking.</strong></p>
   </div>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 4b</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed as analogy — and as partial mechanism</div>
     <div class="claim-statement">"Trauma = stuck unresolved chord. Healing = modulating through dissonance, not avoiding it."</div>
-    <p>The suspended chord analogy is more than poetic — it captures something mechanistically important. <strong>A sus4 chord contains a note (the fourth) that creates tension because it is one semitone away from the expected resolution (the third).</strong> The tension is not "bad" — it is the signal that resolution is coming, that motion is happening. When the resolution never arrives, the tension becomes unbearable and then becomes background noise — the ear stops expecting resolution and the chord becomes a closed, static state.</p>
-    <p>This maps precisely onto the neuroscience of PTSD: the nervous system was activated in expectation of resolution (the threat passes, the defense completes, the body returns to baseline). When resolution is prevented — by overwhelm, by helplessness, by the magnitude of the event — the activation freezes at the point of maximum tension. Subsequent experience becomes filtered through this unresolved state. <strong>The treatment implication is exact: healing requires completing the movement, not eliminating the tension. Exposure therapy, EMDR, somatic experiencing — all work by reinstating motion through the dissonance toward resolution, not by suppressing the activation.</strong></p>
-    <p>The stages of grief mapped in the notebook (Dissonance → high frequency noise; Transition → confusion, ambiguity, modulation; Resolution → clarity, acceptance, steady rhythm, root note feeling) accurately describe the phenomenology and the neuroaffective arc of grief processing.</p>
+    <p>A sus4 chord contains a note (the fourth) that creates tension because it is one semitone from its expected resolution (the third). The tension is not "bad" — it is the signal that motion is happening. When the resolution never arrives, the tension freezes and becomes background noise — the ear stops expecting resolution and the chord becomes a closed, static state.</p>
+    <p>This maps precisely onto PTSD: the nervous system was activated in expectation of resolution. When resolution was prevented — by overwhelm, by helplessness — the activation froze at maximum tension. <strong>The treatment implication is exact: healing requires completing the movement, not eliminating the tension. Exposure therapy, EMDR, somatic experiencing — all work by reinstating motion through the dissonance toward resolution.</strong></p>
+    <div class="blockquote" style="margin-top:.9rem">
+      Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.
+      <span class="bq-attr">— The Buddha</span>
+    </div>
+    <p style="margin-top:.6rem">This is the clinical instruction translated into its proper register. Trauma lives in the past (the frozen activation state replays a completed event as if it is still occurring). Anxiety lives in the future (the nervous system pre-activates for a threat that has not yet arrived). The present moment is the only moment in which the suspended chord can move — because movement requires time, and "now" is where time occurs.</p>
+    <p>The stages of healing (Dissonance → high frequency noise; Transition → confusion, ambiguity, modulation; Resolution → clarity, acceptance, steady rhythm, return to root) accurately describe the phenomenology and the neuroaffective arc of grief and trauma processing.</p>
   </div>
 
   <div class="panel sage">
-    <div class="ptag">The Song Structure (Page 644) — A Genuine Compositional Map</div>
-    <p>The song structure mapped in the notebook:</p>
+    <div class="ptag">The Song Structure — A Compositional Map of Healing</div>
+    <p>The arc from grief (396 Hz — root, stillness) through motion (417 Hz — beginning of movement toward change) through hope (528 Hz — approach to resolution) through connection (639 Hz — harmonic expansion, relationship restored) back to recentered self (528 Hz — resolution achieved, return to tonic with earned brightness) is the structure of psychologically complete grief work. The return to 528 rather than staying at 639 creates the sense of <em>embodied resolution</em> — not transcendence beyond the self, but healing <em>within</em> the self, with connection as the bridge rather than the destination.</p>
     <div class="song" style="margin-top:.7rem">
       <div class="song-row hdr" style="font-family:'JetBrains Mono',monospace;font-size:.37rem;letter-spacing:.07em;text-transform:uppercase;color:rgba(240,232,216,.25)">
         <div>Section</div><div>Hz</div><div>Emotional arc</div>
       </div>
       <div class="song-row"><div class="spart">Intro</div><div class="shz">396</div><div class="smood">Grief, stillness — establishing the unresolved state</div></div>
-      <div class="song-row"><div class="spart">Verse 1</div><div class="shz">417</div><div class="smood">Letting go — beginning of movement, motion toward change</div></div>
+      <div class="song-row"><div class="spart">Verse 1</div><div class="shz">417</div><div class="smood">Letting go — beginning of movement toward change</div></div>
       <div class="song-row"><div class="spart">Chorus</div><div class="shz">528</div><div class="smood">Hope, healing — the approach to resolution, partial arrival</div></div>
       <div class="song-row"><div class="spart">Bridge</div><div class="shz">639</div><div class="smood">Connection — the harmonic expansion, relationship restored</div></div>
       <div class="song-row"><div class="spart">Final Chorus</div><div class="shz">528</div><div class="smood">Recentered joy — resolution achieved, return to tonic with earned brightness</div></div>
     </div>
-    <p style="margin-top:.7rem">This is musically sophisticated. The return to 528 in the final chorus rather than staying at 639 creates the sense of <em>embodied resolution</em> — not transcendence beyond the self, but healing <em>within</em> the self, with connection as the bridge rather than the destination. The arc from grief (396) through motion (417) through hope (528) through connection (639) back to recentered self (528) is the structure of psychologically complete grief work. As a compositional blueprint it is elegant and neurologically coherent.</p>
   </div>
 </section>
 
 <!-- ══ Q5: UNIVERSE AS SONG ══ -->
 <section class="sec" id="q5">
-  <div class="sec-lbl" style="color:var(--amber-lt)">Question 5 · Pages 648–649 · Cosmological</div>
+  <div class="sec-lbl" style="color:var(--amber-lt)">Question 5 · Cosmological · The Universe as Song</div>
   <h2>What if the Universe is<br><em>a song that sings us into being?</em></h2>
-  <p class="lead">Big Bang created pressure waves — arguably the first "sound" of the universe. The Cosmic Microwave Background has a harmonic signature. Everything vibrates — quarks to galaxies. Universe is symphony in motion. Each person is a phrase in the melody.</p>
+
+  <div class="blockquote">
+    In the beginning was a vibration so vast it contained everything that would ever be. The Hindus called it Om. The Taoists called it the Tao. The physicists called it a singularity. They were not describing different events.
+    <span class="bq-attr">— Musica Universalis · Meditations on the First Frequency</span>
+  </div>
+  <div class="blockquote">
+    There was something formless and perfect before the universe was born. It is serene. Empty. Solitary. Unchanging. Infinite. Eternally present. It is the mother of the universe.
+    <span class="bq-attr">— Laozi · Tao Te Ching, Chapter 25</span>
+  </div>
+
+  <p class="lead">The Big Bang created pressure waves — arguably the first "sound" of the universe. The Cosmic Microwave Background has a harmonic signature. Everything vibrates — quarks to galaxies. Universe is symphony in motion. Each person is a phrase in the melody.</p>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 5a</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — and remarkable</div>
     <div class="claim-statement">"The Big Bang created pressure waves — arguably the first 'sound' of the universe"</div>
-    <p>In the first 380,000 years after the Big Bang, the universe was a hot plasma — a dense medium in which pressure waves (acoustic oscillations) propagated exactly as sound waves propagate in air, at extraordinary scales. These waves — driven by the competition between radiation pressure (pushing outward) and gravity (pulling inward) — oscillated in the plasma until recombination, when the universe became transparent and the waves froze in place. <strong>The Cosmic Microwave Background is the snapshot of these frozen acoustic oscillations.</strong></p>
-    <p>The CMB power spectrum — the plot of temperature fluctuations at different angular scales — shows a series of peaks that are literally <em>the harmonics of these primordial acoustic oscillations</em>. The first peak corresponds to the fundamental mode (the wavelength that had just enough time to compress once before freezing). The second peak is the first overtone. The ratio of peak amplitudes encodes the composition of the universe. <strong>The universe does have a harmonic signature in precisely the sense described — the CMB power spectrum is a cosmic chord.</strong></p>
+    <p>In the first 380,000 years after the Big Bang, the universe was a hot plasma in which pressure waves propagated exactly as sound waves propagate in air, at extraordinary scales. These waves — driven by the competition between radiation pressure and gravity — oscillated in the plasma until recombination, when the universe became transparent and the waves froze in place. <strong>The Cosmic Microwave Background is the snapshot of these frozen acoustic oscillations.</strong></p>
+    <p>The CMB power spectrum — the plot of temperature fluctuations at different angular scales — shows a series of peaks that are literally <em>the harmonics of these primordial acoustic oscillations</em>. The first peak is the fundamental mode (compressed once before freezing). The second peak is the first overtone. The ratio of peak amplitudes encodes the composition of the universe. <strong>The universe has a harmonic signature — the CMB power spectrum is a cosmic chord.</strong></p>
   </div>
 
   <div class="claim confirm">
     <div class="claim-head">Claim 5b</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed</div>
     <div class="claim-statement">"Everything vibrates — quarks to galaxies"</div>
-    <p>In quantum mechanics, every particle is described by a wave function — a probability amplitude that oscillates. Quarks are bound together by gluons that themselves undergo quantum fluctuations. Nuclei vibrate with quantized energy levels. Molecules vibrate and rotate with vibrational spectra (the basis of infrared spectroscopy — we identify chemicals by their vibrational frequencies). Cells vibrate. Organs have resonant modes. Planets orbit. Galaxies rotate. Galaxy clusters oscillate in their gravitational potentials. <strong>Vibration — oscillation — is the most universal structural feature of matter at every scale of organization.</strong> This is not metaphor; it is the description of how physics works.</p>
+    <p>In quantum mechanics, every particle is described by a wave function — a probability amplitude that oscillates. Quarks vibrate. Nuclei vibrate with quantized energy levels. Molecules vibrate and rotate with vibrational spectra. Cells vibrate. Organs have resonant modes. Planets orbit. Galaxies rotate. Galaxy clusters oscillate in their gravitational potentials. <strong>Vibration — oscillation — is the most universal structural feature of matter at every scale.</strong></p>
+    <div class="blockquote" style="margin-top:.9rem">
+      The Tao that flows through all things — through the ten thousand things — is not diminished by flowing. Like a bellows: empty yet inexhaustibly productive. The more it is used, the more it produces.
+      <span class="bq-attr">— Laozi · Tao Te Ching, Chapter 5</span>
+    </div>
   </div>
 
   <div class="claim specul">
     <div class="claim-head">Claim 5c</div>
     <div class="verdict v-specul"><div class="vdot"></div>Speculative — but philosophically serious</div>
     <div class="claim-statement">"Each person is a phrase in the melody — born from prior chords, carrying dissonances, motifs connecting to part-lines"</div>
-    <p>As metaphysics: this is not a claim science can adjudicate. It is a model of meaning — a framework for understanding one's existence as continuous with physical reality rather than alien to it. The question "what if the Universe is a song that sings us into being?" is not asking whether quantum mechanics confirms individual cosmic musical destiny. It is asking whether oscillatory emergence (from quantum fields to particles to atoms to molecules to neurons to consciousness) is itself a kind of music — whether the structure of becoming has an aesthetic character.</p>
-    <p>String theory — the dominant framework in theoretical physics for the past 40 years — does literally describe fundamental particles as <em>modes of vibration of one-dimensional strings</em>. Different particles are different "notes" played by the same underlying string. The universe's fundamental ontology may actually be vibrational. <strong>Whether this makes the Universe a "song" depends on whether you need a listener for music to be music.</strong> That question is philosophical, not empirical — and it is one of the most serious questions in the philosophy of mind and consciousness.</p>
-    <p>The hypothesis that each person is "born from prior chords" — that your existence emerges from and carries the history of all prior oscillatory states that produced you — is consistent with everything physics and biology know about causality, heredity, and emergence. Whether that constitutes being <em>sung</em> is a question about the nature of intention in the universe that science cannot currently answer.</p>
+    <p>As metaphysics: this is not a claim science can adjudicate — it is a model of meaning. The question "what if the Universe is a song that sings us into being?" asks whether oscillatory emergence (from quantum fields to particles to atoms to molecules to neurons to consciousness) is itself a kind of music — whether the structure of becoming has an aesthetic character.</p>
+    <p>String theory describes fundamental particles as <em>modes of vibration of one-dimensional strings</em>. Different particles are different "notes" played by the same underlying string. The universe's fundamental ontology may be vibrational. <strong>Whether this makes the Universe a "song" depends on whether you need a listener for music to be music.</strong></p>
+    <div class="blockquote" style="margin-top:.9rem">
+      Three things cannot be long hidden: the sun, the moon, and the truth.
+      <span class="bq-attr">— The Buddha</span>
+    </div>
+    <p style="margin-top:.6rem">The Buddha sitting under the Bodhi tree is the image of the universe becoming aware of its own frequency. He was not separate from the cosmos — he was a phrase in its melody pausing long enough to hear the song. <strong>His enlightenment was not the acquisition of new information. It was the cessation of the noise that had been preventing him from hearing what was always already there.</strong> This is what the physicists would call tuning: not creating a signal, but removing the interference.</p>
+    <p>What Buddhism and Taoism both suggest — and what the physics of the CMB confirms at the grandest scale — is that the universe did not begin in silence and then add music. The universe <em>began as music</em>. The acoustic oscillations of the early plasma are the first events we can trace. The silence came later, when the plasma cooled and the waves froze. We live in the silence after the first chord. <strong>Every oscillation in every neuron of every mind that has ever contemplated the question is a harmonic of that first sound.</strong></p>
   </div>
 </section>
 
 <!-- ══ THE MODEL ══ -->
 <section class="sec" id="model">
-  <div class="sec-lbl" style="color:var(--amber-lt)">Page 649 · The Research Question · Hypothesis → Method → Model</div>
+  <div class="sec-lbl" style="color:var(--amber-lt)">The Research Question · Hypothesis → Method → Model</div>
   <h2>Frequencies → Emotions:<br><em>building a model</em></h2>
-  <p class="lead">Frequencies → Emotions (Hypothesis). Question: How do these frequencies tie to the emotions? What is the science behind it? Why are there feelings in music? Does it resonate with microtubules in our brain and then evoke emotions? Does it resonate with chemicals in our brain (neurotransmitters)?</p>
+  <p class="lead">The deeper question beneath all five: what is the actual mechanism by which frequency shapes emotional state? Does it resonate with microtubules in the brain and then evoke emotions? Does it resonate with chemicals in the brain — neurotransmitters? And what did the traditions that asked these questions first — without instruments — discover that we are still trying to measure?</p>
 
   <div class="claim partial">
     <div class="claim-head">The Microtubule Hypothesis</div>
     <div class="verdict v-partial"><div class="vdot"></div>Partial — interesting mechanism, overstated claims</div>
-    <div class="claim-statement">"Does frequency resonate with microtubules in our brain and then evoke emotions?"</div>
-    <p>Microtubules are the cytoskeletal elements inside neurons — the structural scaffolding that also serves as the cell's internal transport highway. They have a structural periodicity (they are polymers of tubulin dimers) that gives them characteristic vibrational modes. The Penrose-Hameroff Orch-OR hypothesis (Orchestrated Objective Reduction) proposes that quantum computations in microtubules contribute to consciousness. <strong>If true, external sound frequencies that match microtubule resonant frequencies could in principle influence this process.</strong></p>
-    <p>The current evidence status: microtubule resonance has been measured in isolated preparations. The Orch-OR hypothesis remains controversial — neither confirmed nor definitively disproved. The specific claim that auditory frequencies at the solfeggio values match microtubule resonant frequencies and thereby directly influence consciousness has not been rigorously tested. <strong>It is a plausible mechanism to investigate, not a confirmed pathway.</strong></p>
+    <div class="claim-statement">"Does frequency resonate with microtubules in the brain and then evoke emotions?"</div>
+    <p>Microtubules are the cytoskeletal elements inside neurons — structural scaffolding and internal transport highways. They have a structural periodicity that gives them characteristic vibrational modes. The Penrose-Hameroff Orch-OR hypothesis proposes that quantum computations in microtubules contribute to consciousness. If true, external frequencies that match microtubule resonant modes could influence this process.</p>
+    <p>The current evidence: microtubule resonance has been measured in isolated preparations. Orch-OR remains controversial — neither confirmed nor definitively disproved. <strong>It is a plausible mechanism to investigate, not a confirmed pathway.</strong></p>
   </div>
 
   <div class="claim confirm">
     <div class="claim-head">The Neurotransmitter Pathway</div>
     <div class="verdict v-confirm"><div class="vdot"></div>Confirmed — this is the primary mechanism</div>
-    <div class="claim-statement">"Does frequency resonate with chemicals in our brain (neurotransmitters)?"</div>
-    <p>Yes — and this is where the evidence is strongest and most mechanistically grounded. The pathway from auditory frequency to emotion runs primarily through: (1) <strong>Cochlear transduction</strong> → auditory nerve → (2) <strong>Auditory cortex processing</strong> (tonal quality, rhythm, timbre) → (3) <strong>Limbic system activation</strong> (amygdala, hippocampus, anterior cingulate) with strong projections from auditory cortex → (4) <strong>Dopaminergic release</strong> in nucleus accumbens (pleasure, anticipation, chills) → (5) <strong>Serotonergic and opioid release</strong> (contentment, emotional depth) → (6) <strong>Oxytocin release</strong> during synchronized listening → (7) <strong>Cortisol modulation</strong> (slow, regular music reliably reduces cortisol).</p>
-    <p>The remarkable thing is that music can access this neurochemical system with the same efficacy as many pharmaceutical interventions — without the side effects and with the capacity for co-regulation (because music is shared experience). <strong>The model is real. The mechanism is neurochemical. The specificity of Hz → specific neurotransmitter → specific emotion is an approximation; the general relationship is well-established.</strong></p>
+    <div class="claim-statement">"Does frequency resonate with chemicals in the brain (neurotransmitters)?"</div>
+    <p>Yes — and this is where the evidence is strongest. The pathway from auditory frequency to emotion runs through: (1) <strong>Cochlear transduction</strong> → auditory nerve → (2) <strong>Auditory cortex</strong> (tonal quality, rhythm, timbre) → (3) <strong>Limbic system</strong> (amygdala, hippocampus, anterior cingulate) → (4) <strong>Dopaminergic release</strong> in nucleus accumbens (pleasure, anticipation, chills) → (5) <strong>Serotonergic and opioid release</strong> (contentment, emotional depth) → (6) <strong>Oxytocin release</strong> during synchronized listening → (7) <strong>Cortisol modulation</strong> (slow, regular music reliably reduces cortisol).</p>
+    <p>Music can access this neurochemical system with the same efficacy as many pharmaceutical interventions — without the side effects, and with the capacity for co-regulation because music is shared experience. <strong>The model is real. The mechanism is neurochemical.</strong></p>
+  </div>
+
+  <div class="blockquote">
+    Thousands of candles can be lit from a single candle. The candle does not care. It only burns.
+    <span class="bq-attr">— Adapted from the Dhammapada</span>
   </div>
 
   <div class="panel amber">
     <div class="ptag">Synthesis — What a Rigorous Model Would Look Like</div>
-    <p>A scientifically defensible version of the frequencies→emotions hypothesis would state: <strong>Auditory stimuli in particular frequency bands, rhythm structures, and harmonic patterns activate distinct neural circuits and produce measurable changes in neurotransmitter release, autonomic tone, and subjective emotional state.</strong> These effects are modulated by individual history, cultural context, and current physiological state. The mapping is probabilistic and context-dependent, not deterministic.</p>
-    <p>The method: an fMRI/EEG hyperscanning study in which participants listen to tones at the solfeggio frequencies in isolation and in musical context, measuring BOLD signal in limbic regions, EEG band power changes, HRV, cortisol, and subjective emotional ratings. Compared against control frequencies and matched musical contexts. This would produce a real, falsifiable frequency-emotion map — one that could confirm, refine, or challenge the specific assignments while preserving the genuine insight that sound physically shapes emotional state.</p>
-    <p>The hypothesis as stated is worth investigating rigorously. The existing popular literature around solfeggio frequencies is not that investigation — it is the intuition awaiting its method. <strong>The notebook identifies the right questions. The model is the next step.</strong></p>
+    <p>A scientifically defensible version of the frequencies→emotions hypothesis: <strong>Auditory stimuli in particular frequency bands, rhythm structures, and harmonic patterns activate distinct neural circuits and produce measurable changes in neurotransmitter release, autonomic tone, and subjective emotional state.</strong> These effects are modulated by individual history, cultural context, and current physiological state. The mapping is probabilistic and context-dependent, not deterministic.</p>
+    <p>The method: an fMRI/EEG hyperscanning study in which participants listen to tones at the solfeggio frequencies in isolation and in musical context, measuring BOLD signal in limbic regions, EEG band power changes, HRV, cortisol, and subjective emotional ratings — compared against control frequencies and matched musical contexts. This would produce a real, falsifiable frequency-emotion map.</p>
+    <p>The intuition is worth investigating rigorously. The existing popular literature around solfeggio frequencies is not that investigation — it is the intuition awaiting its method. <strong>The questions are right. The model is the next step.</strong></p>
   </div>
 
-  <div class="comma-box">
-    <div class="cb-label">Comma Framework · The Five Questions as a Single Arc</div>
-    <div class="cb-body">These five questions are not separate — they trace a single movement. Q1 establishes that emotions have oscillatory correlates. Q2 asks what happens when the oscillator loses its reference. Q3 asks whether two oscillators can find each other's frequency. Q4 asks whether the experience of failed resonance (trauma) and its healing (chordal resolution) follow the structure of musical progression. Q5 asks whether this pattern — oscillation, detuning, resonance, resolution — is not merely a metaphor borrowed from physics but the actual deep structure of reality from Big Bang to heartbeat. <strong>The comma in this arc is the moment of resonance itself: the kairos threshold where two oscillations briefly align, where the dissipated energy becomes coordinated motion, where the suspended chord finds its resolution.</strong> That moment is not guaranteed. It has to be found. But the physics says it is always possible — because the frequencies are already there, already vibrating, already waiting for the right alignment to stop dissipating and start singing.</div>
+  <div class="panel amber">
+    <div class="ptag">Synthesis — What a Rigorous Model Requires</div>
+    <p>Auditory stimuli in particular frequency bands, rhythm structures, and harmonic patterns activate distinct neural circuits and produce measurable changes in neurotransmitter release, autonomic tone, and subjective emotional state. These effects are modulated by individual history, cultural context, and current physiological state. The mapping is probabilistic and context-dependent, not deterministic — but it is real, and it is the same mapping that every contemplative tradition arrived at through introspection alone.</p>
+    <p>The intuition is worth investigating rigorously. The existing popular literature is not that investigation — it is the intuition awaiting its method. <strong>The questions are right. The model is the next step.</strong></p>
+  </div>
+</section>
+
+<!-- ══ THE BUDDHA'S SEARCH ══ -->
+<section class="sec" id="buddha">
+  <div class="sec-lbl" style="color:var(--amber-lt)">What the Traditions Knew First · Buddhism · Taoism · Silence</div>
+  <h2>Even the Buddha<br><em>was searching</em></h2>
+  <p class="lead">The science of frequency and emotion is not new. It was discovered, and rediscovered, in every tradition that ever asked the question: what is this feeling, where does it live in the body, and how does it change? The instruments are new. The inquiry is ancient. And the most important thing the traditions can teach the instruments is this: the answer was never separate from the seeker.</p>
+
+  <div class="blockquote">
+    All conditioned things are impermanent — when one sees this with wisdom, one turns away from suffering.
+    <span class="bq-attr">— Dhammapada, verse 277 · Pāli Canon, c. 3rd century BCE</span>
+  </div>
+
+  <div class="ms-panel" style="border-color:rgba(200,146,42,.15)">
+    <div class="ptag">Siddhartha Gautama — The Original Frequency Experiment</div>
+    <p>Siddhartha did not sit under the Bodhi tree because he was already enlightened. He sat there because he could not stop asking a question. He had left the palace — left warmth, abundance, his wife, his infant son — not because asceticism called to him, but because the frequency of suffering in the world had become <em>louder than the frequency of his comfort</em>, and he could not unhear it. Aging, sickness, death: three encounters that detuned him permanently from the palace frequency and began the search.</p>
+    <p>What he discovered after years of austerity, after nearly starving himself into silence, was not a doctrine. It was a <em>tuning method</em>. The Middle Way — neither indulgence nor deprivation — is a description of optimal arousal: the same physiological principle that governs the Yerkes-Dodson curve, the same oscillatory principle that governs any string instrument. Too loose: no tone. Too tight: snap. <strong>The string that sings is the string held at exactly the right tension.</strong></p>
+    <p>When Siddhartha became the Buddha — the Awakened One — what awakened was not new information. It was a new relationship to frequency. He stopped trying to eliminate feeling and started observing it. He noticed that every sensation arises and passes. Every emotion is a wave. Nothing is a standing wave — nothing persists unchanged. This is not a metaphor borrowed from physics: it is the same physics. The Buddhist doctrine of impermanence (anicca) is the doctrine of non-standing-waves applied to consciousness.</p>
+  </div>
+
+  <div class="blockquote">
+    Peace comes from within. Do not seek it without.
+    <span class="bq-attr">— Attributed to Siddhartha Gautama · The Dhammapada</span>
+  </div>
+
+  <div class="ms-panel" style="border-color:rgba(90,158,114,.18)">
+    <div class="ptag">The Four Noble Truths as a Frequency Diagnosis</div>
+    <p><strong>Dukkha (suffering, unsatisfactoriness):</strong> The fundamental tone of unexamined existence is dissonance. Not because life is bad — because consciousness is wired to resist impermanence, and impermanence is all there is. The suffering is the gap between the frequency we demand and the frequency we receive.</p>
+    <p><strong>Samudāya (the origin of suffering):</strong> Tanha — craving, clinging, aversion. In frequency terms: the attempt to hold a note beyond its natural duration, or to silence a note before it completes. Both distort the wave. The origin of emotional suffering is not the feeling — it is the relationship to the feeling. The clinging to pleasant states, the suppression of unpleasant ones.</p>
+    <p><strong>Nirodha (the cessation of suffering):</strong> The cessation is not silence — it is the end of the distortion. When you stop trying to hold the pleasant notes and stop trying to cut short the difficult ones, what remains is the music as it actually is: impermanent, coherent, meaningful precisely because it moves. <strong>Nirodha is not emotional flatness. It is what EEG researchers call alpha coherence — the calm, integrated, wakeful oscillation of a system that is neither suppressing nor amplifying.</strong></p>
+    <p><strong>Magga (the path):</strong> The Eightfold Path is a training protocol for the nervous system. Right speech, right action, right livelihood are not moral rules — they are descriptions of a life lived in low cortisol, in coherent HRV, in conditions that allow the prefrontal cortex to remain online. Right mindfulness and right concentration are the contemplative equivalents of theta/alpha training: the deliberate cultivation of the oscillatory states that allow clear perception without reactive amplification.</p>
+  </div>
+
+  <div class="blockquote">
+    You yourself must strive. The Buddhas only point the way.
+    <span class="bq-attr">— Dhammapada, verse 276 · Pāli Canon</span>
+  </div>
+
+  <div class="ms-panel" style="border-color:rgba(96,144,200,.18)">
+    <div class="ptag">Laozi and the Tao Te Ching — The Physics of Yielding</div>
+    <p>Laozi — if he was a single person, if he existed as described, if the text attributed to him was written by one hand around the 6th century BCE — was asking the same question from the opposite direction. Not: how do I stop suffering? But: what is the nature of the force that moves everything, and how do I stop fighting it?</p>
+    <p>His answer was water. <em>上善若水</em> (shàng shàn ruò shuǐ) — the highest good is like water. Water benefits all things without striving. It flows to the lowest places, which others disdain. <strong>In frequency terms: water finds resonance. It does not impose its frequency on the vessel — it takes the shape of the vessel and, over time, changes it.</strong> The canyon is not carved by force. It is carved by the frequency of return: water returning, returning, returning to the same place, for ten thousand years.</p>
+    <p>The Tao — the Way, the fundamental principle — is described throughout the Tao Te Ching in terms that are strikingly close to the modern physics of complex systems. It is the attractor: the state toward which a dynamic system moves when it is not being forced. It is the ground state, the minimum energy configuration, the equilibrium that emerges when interference ceases. <em>無為</em> (wúwéi) — non-action, non-forcing — is not passivity. It is the removal of the frequencies that are fighting the system's natural resonance.</p>
+  </div>
+
+  <div class="blockquote">
+    知人者智，自知者明。勝人者有力，自勝者強。<br>
+    <em>Knowing others is wisdom. Knowing yourself is enlightenment. Conquering others requires strength. Conquering yourself requires true power.</em>
+    <span class="bq-attr">— Laozi, Tao Te Ching, Chapter 33 · c. 6th century BCE</span>
+  </div>
+
+  <div class="blockquote">
+    致虛極，守靜篤。<br>
+    <em>Achieve emptiness to the utmost. Hold stillness with complete sincerity. All things arise together — I watch their return.</em>
+    <span class="bq-attr">— Laozi, Tao Te Ching, Chapter 16</span>
+  </div>
+
+  <div class="ms-panel" style="border-color:rgba(200,146,42,.15)">
+    <div class="ptag">What the Traditions Teach the Instruments</div>
+    <p>Modern neuroscience has EEG machines and fMRI scanners and cortisol assays. It can measure what the traditions could only describe. But the traditions had something the instruments still lack: two and a half thousand years of first-person data, recorded not in frequencies but in words, gathered by practitioners who held still long enough to notice what the nervous system actually does when left to its own dynamics.</p>
+    <p>What they found, across independent traditions, across centuries, across radically different cultural frameworks:</p>
+    <ul style="padding-left:1.4rem;margin:.6rem 0">
+      <li style="margin-bottom:.6rem;font-size:.9rem;color:rgba(240,232,216,.58);line-height:1.8"><strong style="color:var(--cream)">Sensation is prior to emotion.</strong> The body registers frequency before the mind names it. Buddhism calls this vedanā — the felt sense of pleasant, unpleasant, or neutral that precedes cognitive labeling. This is identical to what affective neuroscience calls core affect: the low-dimensional valence/arousal state that underlies all emotional experience.</li>
+      <li style="margin-bottom:.6rem;font-size:.9rem;color:rgba(240,232,216,.58);line-height:1.8"><strong style="color:var(--cream)">Observation changes the observed.</strong> Both traditions emphasize that the act of bringing attention to a feeling — without judgment, without clinging or aversion — changes the feeling. This is confirmed neuroscience: mindfulness practice measurably reduces amygdala reactivity and increases prefrontal regulation. The observer is not outside the frequency. The observer is part of the resonance system.</li>
+      <li style="margin-bottom:.6rem;font-size:.9rem;color:rgba(240,232,216,.58);line-height:1.8"><strong style="color:var(--cream)">Resistance amplifies.</strong> Fighting a frequency increases its amplitude. Suppression of an emotion does not reduce the neural activation — it increases it, while reducing the behavioral expression and creating the chronic tension that van der Kolk calls the body that keeps the score. Both traditions describe liberation not as the elimination of difficult feelings but as the removal of the secondary resistance: feel the feeling without fighting the feeling.</li>
+      <li style="margin-bottom:.6rem;font-size:.9rem;color:rgba(240,232,216,.58);line-height:1.8"><strong style="color:var(--cream)">The ground state is available.</strong> Beneath the noise of reactive emotion — beneath the beta amplification, the amygdala hijack, the cortisol cascade — there is a quieter frequency that both traditions describe as always present, never damaged, accessible in principle to anyone who stops generating the interference that obscures it. The Tao. Buddha-nature. Alpha coherence. <strong>The traditions and the instruments are measuring the same thing.</strong></li>
+    </ul>
+  </div>
+
+  <div class="blockquote">
+    The whole moon and the entire sky are reflected in one dewdrop on the grass.
+    <span class="bq-attr">— Dōgen Zenji, Shōbōgenzō · 13th century</span>
+  </div>
+
+  <div class="kairos-box">
+    <div class="kb-label">What to Learn from the Buddha — and from the Search Itself</div>
+    <div class="kb-body">The Buddha was not born enlightened. He was born sensitive — sensitive enough that ordinary suffering could not be unfelt once seen. His search lasted years and took him to extremes he later described as wrong paths. What he found was not a destination. It was a method: <em>sit still enough to observe what the mind actually does, without adding to it or subtracting from it</em>. The teaching is the practice. The practice is the listening. And what you are listening to is precisely what these five questions circle: the oscillatory nature of emotional experience, the possibility of meeting each frequency as it arises without distortion, the radical ordinariness of being a system that vibrates in a universe that vibrates, trying to find its resonance. <strong>The instruments say: frequency is real, emotion is neurochemical, harmony is measurable, the universe has a power spectrum.</strong> The traditions say: you already knew this — you just forgot to sit still long enough to feel it. Both are right. They are measurements of the same signal, from opposite ends of the instrument.</div>
   </div>
 </section>
 

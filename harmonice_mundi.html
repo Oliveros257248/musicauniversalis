@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Harmonice Mundi · Johannes Kepler · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@300;400;700&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06050A;--bg2:#0C0A14;--bg3:#12101C;
+  --gold:#C8A432;--glt:#E8C85A;--gdim:rgba(200,164,50,.28);--gfaint:rgba(200,164,50,.05);
+  --copper:#B8622A;--clt:#D8824A;
+  --cobalt:#2A4A88;--colt:#4A6AB8;
+  --silver:#8890A8;--slt:#AAB4CC;
+  --cream:#F0ECD8;--cdim:rgba(240,236,216,.55);--cfaint:rgba(240,236,216,.04);
+  --line:rgba(240,236,216,.07);--lineg:rgba(200,164,50,.1);
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{color:var(--cdim);font-family:"EB Garamond",Georgia,serif;font-size:18px;line-height:1.88;overflow-x:hidden}
+
+/* GRAIN OVERLAY */
+body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px}
+
+/* BACKGROUND NEBULA */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%,rgba(200,164,50,.04),transparent),
+    radial-gradient(ellipse 40% 60% at 10% 60%,rgba(42,74,136,.06),transparent),
+    radial-gradient(ellipse 30% 40% at 90% 40%,rgba(184,98,42,.04),transparent)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem;padding:.55rem 2rem;background:rgba(6,5,10,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--lineg)}
+.nb{font-family:"Cinzel",serif;font-size:.7rem;letter-spacing:.12em;color:var(--gold);text-decoration:none}
+.nb:hover{color:var(--glt)}
+.nl{display:flex;gap:.1rem;flex-wrap:wrap}
+.nl a{font-family:"JetBrains Mono",monospace;font-size:.35rem;letter-spacing:.07em;color:var(--cdim);text-decoration:none;padding:.17rem .38rem;border-radius:3px;text-transform:uppercase;transition:color .15s}
+.nl a:hover{color:var(--glt)}
+
+.page{position:relative;z-index:2;max-width:980px;margin:0 auto;padding:0 1.5rem 8rem}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem 1rem 4rem;position:relative;overflow:hidden}
+#orb-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%}
+.h-year{font-family:"JetBrains Mono",monospace;font-size:.43rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(200,164,50,.4);margin-bottom:.8rem;position:relative;z-index:2}
+.hero h1{font-family:"Cinzel",serif;font-size:clamp(2.4rem,7vw,5rem);font-weight:600;line-height:1;letter-spacing:.06em;color:var(--cream);position:relative;z-index:2;margin-bottom:.2rem}
+.hero h1 span{color:var(--gold)}
+.hero h2{font-family:"IM Fell English",serif;font-style:italic;font-size:clamp(1.1rem,3vw,1.9rem);color:rgba(200,164,50,.65);font-weight:400;position:relative;z-index:2;margin-bottom:.6rem;letter-spacing:.02em}
+.h-rule{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:.9rem auto;position:relative;z-index:2}
+.h-sub{font-family:"EB Garamond",serif;font-style:italic;font-size:1rem;color:var(--cdim);max-width:580px;line-height:2.05;position:relative;z-index:2}
+
+/* SECTION */
+.sec{padding:3.5rem 0;border-top:1px solid var(--line);position:relative;z-index:2}
+.sec-lbl{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.7rem;display:flex;align-items:center;gap:.6rem;color:var(--gold);opacity:.7}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--lineg)}
+h2{font-family:"Cinzel",serif;font-size:clamp(1.5rem,3.5vw,2.4rem);font-weight:400;letter-spacing:.06em;line-height:1.1;margin-bottom:.6rem;color:var(--cream)}
+h2 em{font-family:"IM Fell English",serif;font-style:italic;color:var(--gold);letter-spacing:.02em}
+h3{font-family:"IM Fell English",serif;font-size:1.3rem;font-style:italic;font-weight:400;color:var(--glt);margin:1.8rem 0 .5rem}
+p{margin-bottom:1rem;line-height:1.92}
+p strong{color:var(--cream)}
+p em{color:var(--glt)}
+.lead{font-family:"IM Fell English",serif;font-style:italic;font-size:1.08rem;color:rgba(240,236,216,.65);line-height:2.05;margin-bottom:1.4rem}
+
+/* MANUSCRIPT PANEL */
+.ms-panel{position:relative;background:var(--gfaint);border:1px solid var(--lineg);border-radius:3px;padding:1.4rem 1.6rem;margin:1.3rem 0;overflow:hidden}
+.ms-panel::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),rgba(200,164,50,.3),transparent)}
+.ms-panel::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,164,50,.2),transparent)}
+.ms-tag{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(200,164,50,.35);margin-bottom:.5rem}
+.ms-panel p{font-size:.9rem;color:rgba(240,236,216,.58);line-height:1.85;margin-bottom:.55rem}
+.ms-panel p:last-child{margin-bottom:0}
+.ms-panel strong{color:var(--cream)}
+.ms-panel em{color:var(--glt)}
+.ms-panel ul{padding-left:1.2rem;margin:.3rem 0}
+.ms-panel li{font-size:.9rem;color:rgba(240,236,216,.56);line-height:1.78;margin-bottom:.3rem}
+.ms-panel li strong{color:var(--cream)}
+
+/* VERDICT SYSTEM */
+.verdict-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.7rem;margin:1.3rem 0}
+.vcard{background:var(--cfaint);border:1px solid var(--line);border-radius:6px;padding:1rem 1.1rem;position:relative;overflow:hidden}
+.vcard::before{content:"";position:absolute;top:0;left:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
+.vcard.confirmed::before{background:linear-gradient(180deg,#6ABE6A,#4A9E4A)}
+.vcard.partial::before{background:linear-gradient(180deg,var(--gold),var(--copper))}
+.vcard.speculative::before{background:linear-gradient(180deg,var(--cobalt),var(--colt))}
+.vcard.disproved::before{background:linear-gradient(180deg,#BE4A4A,#8E2A2A)}
+.vcard.transcendent::before{background:linear-gradient(180deg,var(--gold),var(--glt),var(--gold))}
+.v-badge{font-family:"JetBrains Mono",monospace;font-size:.37rem;letter-spacing:.08em;text-transform:uppercase;padding:.12rem .4rem;border-radius:3px;margin-bottom:.4rem;display:inline-block}
+.confirmed .v-badge{background:rgba(106,190,106,.1);color:#8ADE8A;border:1px solid rgba(106,190,106,.2)}
+.partial .v-badge{background:rgba(200,164,50,.1);color:var(--glt);border:1px solid rgba(200,164,50,.2)}
+.speculative .v-badge{background:rgba(42,74,136,.15);color:var(--colt);border:1px solid rgba(42,74,136,.3)}
+.disproved .v-badge{background:rgba(190,74,74,.1);color:#E87A7A;border:1px solid rgba(190,74,74,.2)}
+.transcendent .v-badge{background:rgba(200,164,50,.12);color:var(--glt);border:1px solid rgba(200,164,50,.25)}
+.v-title{font-family:"IM Fell English",serif;font-style:italic;font-size:.97rem;color:var(--cream);margin-bottom:.3rem;line-height:1.3}
+.v-body{font-size:.82rem;color:rgba(240,236,216,.52);line-height:1.72}
+.v-body strong{color:var(--cream)}
+
+/* COMMA BOX */
+.comma-box{border:1px solid rgba(200,164,50,.18);border-radius:6px;padding:1.2rem 1.4rem;margin:1.3rem 0;background:rgba(200,164,50,.025);position:relative}
+.comma-box::after{content:"，";position:absolute;top:.3rem;right:.8rem;font-size:2.5rem;color:rgba(200,164,50,.06);line-height:1}
+.cb-label{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(200,164,50,.4);margin-bottom:.4rem}
+.cb-body{font-size:.88rem;color:rgba(240,236,216,.55);line-height:1.85}
+.cb-body strong{color:var(--glt)}
+
+/* LAWS DISPLAY */
+.laws-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.7rem;margin:1.3rem 0}
+.law-card{background:var(--cfaint);border:1px solid var(--lineg);border-radius:6px;padding:1.1rem 1.2rem}
+.law-n{font-family:"Cinzel",serif;font-size:2rem;font-weight:600;color:rgba(200,164,50,.18);line-height:1;margin-bottom:.3rem}
+.law-title{font-family:"IM Fell English",serif;font-style:italic;color:var(--glt);font-size:.98rem;margin-bottom:.4rem}
+.law-eq{font-family:"JetBrains Mono",monospace;font-size:.73rem;color:var(--cream);background:rgba(240,236,216,.04);border:1px solid var(--line);border-radius:4px;padding:.3rem .6rem;margin:.35rem 0;letter-spacing:.04em}
+.law-body{font-size:.82rem;color:rgba(240,236,216,.52);line-height:1.72}
+.law-body strong{color:var(--cream)}
+.law-status{font-family:"JetBrains Mono",monospace;font-size:.37rem;letter-spacing:.08em;text-transform:uppercase;padding:.1rem .38rem;border-radius:3px;background:rgba(106,190,106,.1);color:#8ADE8A;border:1px solid rgba(106,190,106,.2);display:inline-block;margin-top:.4rem}
+
+/* ACCORDION */
+.acc{background:var(--cfaint);border:1px solid var(--line);border-radius:6px;margin:.5rem 0;overflow:hidden}
+.acc-h{display:flex;align-items:center;gap:.7rem;padding:.85rem 1.1rem;cursor:pointer;transition:background .15s}
+.acc-h:hover{background:rgba(240,236,216,.025)}
+.acc-badge{font-family:"JetBrains Mono",monospace;font-size:.37rem;letter-spacing:.06em;text-transform:uppercase;padding:.13rem .4rem;border-radius:3px;flex-shrink:0;background:rgba(200,164,50,.08);color:var(--glt);border:1px solid rgba(200,164,50,.18)}
+.acc-title{font-family:"EB Garamond",serif;font-size:.95rem;color:var(--cream);flex:1;line-height:1.3}
+.acc-tog{font-family:"JetBrains Mono",monospace;font-size:.4rem;color:rgba(240,236,216,.2);flex-shrink:0}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.acc-body.open{max-height:4000px;padding:0 1.1rem 1.1rem}
+.acc-body p{font-size:.9rem;color:rgba(240,236,216,.58);line-height:1.88;margin-bottom:.7rem}
+.acc-body p:last-child{margin-bottom:0}
+.acc-body strong{color:var(--cream)}
+.acc-body em{color:var(--glt)}
+
+/* PLANETARY VOICE TABLE */
+.pv-table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:.85rem}
+.pv-table th{font-family:"JetBrains Mono",monospace;font-size:.37rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,236,216,.3);padding:.4rem .6rem;text-align:left;border-bottom:1px solid var(--lineg)}
+.pv-table td{padding:.45rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+.pv-table tr:last-child td{border-bottom:none}
+.pv-table tr:hover td{background:rgba(240,236,216,.02)}
+.p-name{font-family:"IM Fell English",serif;font-style:italic;color:var(--cream);font-size:.9rem}
+.p-voice{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.06em;text-transform:uppercase;padding:.1rem .35rem;border-radius:3px}
+.pv-soprano{background:rgba(240,200,100,.1);color:#F0C864;border:1px solid rgba(240,200,100,.2)}
+.pv-mezzo{background:rgba(184,98,42,.1);color:var(--clt);border:1px solid rgba(184,98,42,.2)}
+.pv-tenor{background:rgba(42,140,100,.1);color:#6ADAAA;border:1px solid rgba(42,140,100,.2)}
+.pv-bass{background:rgba(42,74,136,.1);color:var(--colt);border:1px solid rgba(42,74,136,.3)}
+.p-ratio{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:rgba(240,236,216,.5)}
+.p-interval{font-size:.82rem;color:rgba(240,236,216,.55)}
+.p-verdict{font-family:"JetBrains Mono",monospace;font-size:.35rem;letter-spacing:.06em;text-transform:uppercase;padding:.1rem .32rem;border-radius:3px}
+.pv-conf{background:rgba(106,190,106,.08);color:#8ADE8A;border:1px solid rgba(106,190,106,.18)}
+.pv-part{background:rgba(200,164,50,.08);color:var(--glt);border:1px solid rgba(200,164,50,.18)}
+.pv-spec{background:rgba(42,74,136,.1);color:var(--colt);border:1px solid rgba(42,74,136,.22)}
+
+/* ORBITAL SIM */
+.sim-wrap{border:1px solid var(--lineg);border-radius:6px;overflow:hidden;margin:1.5rem 0}
+.sim-header{background:rgba(240,236,216,.025);padding:.55rem 1rem;display:flex;align-items:center;gap:.7rem;border-bottom:1px solid var(--line)}
+.sim-title{font-family:"JetBrains Mono",monospace;font-size:.41rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cdim)}
+.sim-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:spulse 2.5s ease-in-out infinite}
+@keyframes spulse{0%,100%{opacity:.25}50%{opacity:.9}}
+canvas.sim{display:block;width:100%;background:var(--bg)}
+
+/* RATIO VISUALIZATION */
+#ratio-canvas{display:block;width:100%;background:var(--bg2)}
+
+/* QUOTE */
+.blockquote{border-left:2px solid var(--gold);padding:.7rem 0 .7rem 1.3rem;margin:1.5rem 0;font-family:"IM Fell English",serif;font-style:italic;font-size:1.08rem;color:rgba(240,236,216,.68);line-height:1.95}
+.bq-attr{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(200,164,50,.45);margin-top:.4rem;font-style:normal;display:block}
+
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid var(--line);position:relative;z-index:2}
+.fla{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.07em;color:rgba(240,236,216,.2);text-decoration:none;text-transform:uppercase;padding:.18rem .42rem;transition:color .2s}
+.fla:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nb">Musica Universalis</a>
+  <div class="nl">
+    <a href="#laws">Three Laws</a>
+    <a href="#harmonice">Harmonice Mundi</a>
+    <a href="#voices">Planetary Voices</a>
+    <a href="#comma">Comma Correction</a>
+    <a href="#verdicts">Verdicts</a>
+    <a href="#orrery">Orrery</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+
+<div class="page">
+<section class="hero">
+  <canvas id="orb-canvas"></canvas>
+  <div class="h-year">1571 – 1630 · Johannes Kepler · Linz, Holy Roman Empire</div>
+  <h1>HARMONICE<br><span>MVNDI</span></h1>
+  <h2>The Harmony of the Worlds</h2>
+  <div class="h-rule"></div>
+  <p class="h-sub">He heard the planets sing before anyone could confirm the tune. A tribute to the astronomer who discovered the laws of orbital mechanics while searching for the music of God — and what happens when you correct his ratios by the Pythagorean Comma.</p>
+</section>
+
+<!-- KEPLER THE MAN -->
+<section class="sec" id="kepler">
+  <div class="sec-lbl">Prooemium · The Man</div>
+  <h2>Johannes Kepler:<br><em>the last Pythagorean</em></h2>
+  <p class="lead">Kepler was, in the most literal sense, a man who believed the universe was built on musical ratios. Not metaphorically — not poetically — but as a sincere mathematical and theological conviction that the Creator had arranged the planets according to the same harmonic proportions that governed music. He was right about the mathematics. He was right about the physics. The music he heard was real. What he could not have known was that the ratios are slightly off — by exactly the Pythagorean comma.</p>
+
+  <div class="blockquote">
+    The heavenly motions are nothing but a continuous song for several voices, perceived not by the ear but by the intellect, a figurate music which sets landmarks in the immeasurable flow of time.
+    <span class="bq-attr">— Johannes Kepler, Harmonice Mundi, Book V, 1619</span>
+  </div>
+
+  <div class="ms-panel">
+    <div class="ms-tag">The Life — A Timeline of Discovery</div>
+    <p><strong>1596:</strong> Mysterium Cosmographicum — Kepler's first major work, arguing that the five Platonic solids determine the spacing of the six known planets. Wrong in its mechanism, but it reveals his conviction that divine geometry underlies the solar system. Tycho Brahe reads it and invites Kepler to Prague.</p>
+    <p><strong>1601:</strong> Kepler inherits Brahe's priceless 20 years of naked-eye planetary observations — the most precise pre-telescope data ever recorded — upon Brahe's sudden death. This data will be the foundation of everything.</p>
+    <p><strong>1609:</strong> Astronomia Nova — contains the First and Second Laws. <strong>Ellipses and equal areas.</strong> Kepler describes spending "eight years at war with Mars" to derive these laws from Brahe's data. The ellipse, in particular, was deeply troubling to him — he had wanted perfect circles. He accepted it only because the data was irrefutable.</p>
+    <p><strong>1619:</strong> Harmonice Mundi — the Third Law, and the complete theory of planetary music. The ratios of fastest to slowest orbital velocity for each planet correspond to musical intervals. Saturn sings a minor third. Jupiter a minor third. Mars a fifth. Earth a minor semitone. The Moon is a soprano. Kepler wept writing it, convinced he had recovered the music of creation.</p>
+    <p><strong>1627:</strong> Rudolphine Tables — the most accurate planetary tables ever produced, based on Brahe's observations and Kepler's laws. Used by navigators for over a century.</p>
+  </div>
+</section>
+
+<!-- THREE LAWS -->
+<section class="sec" id="laws">
+  <div class="sec-lbl">Liber I · The Three Laws of Planetary Motion</div>
+  <h2>The Three Laws:<br><em>all confirmed</em></h2>
+  <p class="lead">Kepler's three laws of planetary motion are among the most precisely confirmed statements in the history of science. Derived from observation and a burning desire to find harmony, they were later explained by Newton's gravitational theory and form the foundation of orbital mechanics to this day.</p>
+
+  <div class="laws-wrap">
+    <div class="law-card">
+      <div class="law-n">I</div>
+      <div class="law-title">The Law of Ellipses</div>
+      <div class="law-eq">orbit: ellipse, Sun at focus</div>
+      <div class="law-body">Every planet moves in an elliptical orbit with the Sun at one focus. Not a circle — an ellipse. This cost Kepler enormous psychological resistance. He had wanted circles. The data demanded ellipses. <strong>He accepted the data.</strong> This is one of the most important moments in the history of scientific method.</div>
+      <span class="law-status">Confirmed · Newton derived it from F=GMm/r²</span>
+    </div>
+    <div class="law-card">
+      <div class="law-n">II</div>
+      <div class="law-title">The Law of Equal Areas</div>
+      <div class="law-eq">dA/dt = constant</div>
+      <div class="law-body">A line from the Sun to a planet sweeps equal areas in equal times. This means planets move faster when closer to the Sun (perihelion) and slower when farther (aphelion). <strong>Newton showed this follows directly from conservation of angular momentum.</strong> Any central force produces equal areas.</div>
+      <span class="law-status">Confirmed · Consequence of angular momentum conservation</span>
+    </div>
+    <div class="law-card">
+      <div class="law-n">III</div>
+      <div class="law-title">The Harmonic Law</div>
+      <div class="law-eq">T² ∝ a³</div>
+      <div class="law-body">The square of a planet's orbital period is proportional to the cube of its semi-major axis. <strong>This is the most musical of the three laws.</strong> It means all planets share a single constant — the solar system is tuned to one key. Kepler found it on May 15, 1618. Newton derived it from his law of gravitation.</div>
+      <span class="law-status">Confirmed · T² = (4π²/GM) · a³</span>
+    </div>
+  </div>
+
+  <div class="comma-box">
+    <div class="cb-label">Comma Framework · The Third Law as the Solar Comma</div>
+    <div class="cb-body">T² ∝ a³ is a comma in the deepest sense: it is the invariant relationship that makes all planetary motion comparable — the thing that returns the same ratio regardless of which planet you measure. Every planet orbits at its own tempo, but all tempos obey the same tuning. <strong>The solar system is a single instrument. The Third Law is its fundamental pitch.</strong> Kepler found this while looking for musical ratios. He found something more fundamental: the mathematical structure underneath music.</div>
+  </div>
+</section>
+
+<!-- HARMONICE MUNDI -->
+<section class="sec" id="harmonice">
+  <div class="sec-lbl">Liber II · Harmonice Mundi · 1619</div>
+  <h2><em>Harmonice Mundi:</em><br>the five books</h2>
+  <p class="lead">Harmonice Mundi is five books long and covers geometry, music theory, astrology, and planetary motion in a single unified argument. Kepler believed all four were aspects of the same divine harmony. He was more right than he could have known.</p>
+
+  <div class="ms-panel">
+    <div class="ms-tag">The Five Books — Summary</div>
+    <p><strong>Book I · Geometry of Regular Figures:</strong> Kepler classifies constructible and non-constructible polygons, arguing that only figures that can be constructed by compass and straightedge are "knowable" and thus capable of being expressed in the world. He derives musical consonances from the ratios of sides of regular polygons. The octave (2:1) comes from the hexagon; the fifth (3:2) from the square; the fourth (4:3) from the triangle.</p>
+    <p><strong>Book II · Congruences of Plane Figures:</strong> Tilings of the plane — which regular and semi-regular polygons can tile the plane without gaps? Kepler discovers the 13 Archimedean solids and gives the first systematic treatment of tessellation. This book, mostly ignored in his time, is now recognized as foundational to crystallography and the mathematics of patterns.</p>
+    <p><strong>Book III · Musical Scales:</strong> Derives the just-intonation musical scale from harmonic ratios. Kepler preferred just intonation to equal temperament — he found the slight imperfections of equal temperament to be a kind of cosmic imperfection, a veil over perfect harmony. <em>He was, in this, exactly right: the Pythagorean comma is the measure of that imperfection.</em></p>
+    <p><strong>Book IV · Harmony in Astrology:</strong> The weakest book by modern standards. Kepler attempts to derive astrological aspects (conjunction, opposition, trine, square, sextile) from the angles subtended by the constructible polygons. His astrology was more geometrically sophisticated than anyone else's, but astrology as a predictive science does not survive empirical testing.</p>
+    <p><strong>Book V · The Harmony of the Planets:</strong> The masterpiece. Kepler computes the ratio of each planet's maximum orbital velocity (at perihelion) to its minimum (at aphelion). These ratios, he argues, correspond to the intervals of the musical scale. <strong>This is where Kepler is most remarkably right, and most illuminatingly wrong at the same time.</strong></p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('book5')">
+      <span class="acc-badge">Book V · The Calculation</span>
+      <span class="acc-title">How Kepler calculated the planetary music — the actual numbers</span>
+      <span class="acc-tog" id="at-book5">▼</span>
+    </div>
+    <div class="acc-body" id="ab-book5">
+      <p>Kepler used the ratio of a planet's angular velocity as seen from the Sun at its nearest point (perihelion) versus its farthest point (aphelion). By Kepler's Second Law, angular velocity is proportional to 1/r². So the ratio v_max/v_min = (r_aph/r_peri)².</p>
+      <p>For each planet, Kepler computed this ratio and then found the nearest musical interval: <strong>Saturn: 4/5 (major third) · Jupiter: 5/6 (minor third) · Mars: 2/3 (fifth) · Earth: 15/16 (major semitone) · Venus: 24/25 (diesis) · Mercury: 1/4 (double octave).</strong></p>
+      <p>What is extraordinary is that these ratios are genuinely close — they are not invented. The modern eccentricities of the planets produce velocity ratios that really do hover near simple musical fractions. Saturn's eccentricity of 0.056 gives v_max/v_min ≈ 1.116, which is close to 9/8 (major whole tone, 1.125) — Kepler's calculation with slightly different historical eccentricities gave him 4/5 (major third). The match is imperfect. The imperfection has a name: <strong>the Pythagorean comma.</strong></p>
+      <p>The comma (δ ≈ 1.01364) is the ratio by which twelve perfect fifths overshoot seven octaves: (3/2)¹² / 2⁷ = 531441/524288 ≈ 1.01364. When Kepler's planetary ratios are compared to the exact musical intervals he cited, the deviations are consistently on the order of one comma or simple fractions thereof. The solar system is not quite perfectly in tune. It is out of tune by the comma — <em>the same comma that forced musicians to abandon pure intervals and invent equal temperament.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- PLANETARY VOICES -->
+<section class="sec" id="voices">
+  <div class="sec-lbl">Liber III · The Planetary Voices</div>
+  <h2>Each planet<br><em>as a voice</em></h2>
+  <p class="lead">Kepler assigned each planet a vocal register and a melodic range — the interval spanned by its fastest and slowest movement. Below: Kepler's assignments, the modern computed ratios, the actual musical intervals those ratios correspond to, and whether modern orbital mechanics confirms, partially confirms, or refutes each assignment.</p>
+
+  <table class="pv-table">
+    <tr>
+      <th>Planet</th>
+      <th>Kepler's Voice</th>
+      <th>Velocity Ratio (v_max/v_min)</th>
+      <th>Kepler's Interval</th>
+      <th>Modern Best Fit</th>
+      <th>Verdict</th>
+    </tr>
+    <tr>
+      <td class="p-name">Saturn ♄</td>
+      <td><span class="p-voice pv-bass">Bass</span></td>
+      <td class="p-ratio">1.118</td>
+      <td class="p-interval">Minor third (6:5 = 1.200)</td>
+      <td class="p-interval">Major whole tone (9:8 = 1.125)</td>
+      <td><span class="p-verdict pv-part">Partial</span></td>
+    </tr>
+    <tr>
+      <td class="p-name">Jupiter ♃</td>
+      <td><span class="p-voice pv-bass">Bass</span></td>
+      <td class="p-ratio">1.059</td>
+      <td class="p-interval">Minor third (6:5 = 1.200)</td>
+      <td class="p-interval">Minor semitone (25:24 = 1.042)</td>
+      <td><span class="p-verdict pv-part">Partial</span></td>
+    </tr>
+    <tr>
+      <td class="p-name">Mars ♂</td>
+      <td><span class="p-voice pv-tenor">Tenor</span></td>
+      <td class="p-ratio">1.323</td>
+      <td class="p-interval">Perfect fifth (3:2 = 1.500)</td>
+      <td class="p-interval">Major third (5:4 = 1.250)</td>
+      <td><span class="p-verdict pv-part">Partial</span></td>
+    </tr>
+    <tr>
+      <td class="p-name">Earth ♁</td>
+      <td><span class="p-voice pv-mezzo">Alto</span></td>
+      <td class="p-ratio">1.034</td>
+      <td class="p-interval">Minor semitone (16:15 = 1.067)</td>
+      <td class="p-interval">Pythagorean comma (531441:524288 ≈ 1.014)</td>
+      <td><span class="p-verdict pv-spec">Transcendent</span></td>
+    </tr>
+    <tr>
+      <td class="p-name">Venus ♀</td>
+      <td><span class="p-voice pv-soprano">Soprano</span></td>
+      <td class="p-ratio">1.006</td>
+      <td class="p-interval">Diesis (25:24 = 1.042)</td>
+      <td class="p-interval">Near unison — almost circular orbit</td>
+      <td><span class="p-verdict pv-conf">Confirmed</span></td>
+    </tr>
+    <tr>
+      <td class="p-name">Mercury ☿</td>
+      <td><span class="p-voice pv-soprano">Soprano</span></td>
+      <td class="p-ratio">2.278</td>
+      <td class="p-interval">Double octave (4:1 = 4.000)</td>
+      <td class="p-interval">Major ninth (9:4 = 2.250)</td>
+      <td><span class="p-verdict pv-part">Partial</span></td>
+    </tr>
+    <tr>
+      <td class="p-name">Moon ☽</td>
+      <td><span class="p-voice pv-soprano">Soprano</span></td>
+      <td class="p-ratio">1.081</td>
+      <td class="p-interval">Minor whole tone (10:9 = 1.111)</td>
+      <td class="p-interval">Major whole tone (9:8 = 1.125)</td>
+      <td><span class="p-verdict pv-part">Partial</span></td>
+    </tr>
+  </table>
+
+  <div class="ms-panel">
+    <div class="ms-tag">The Earth's Voice — The Most Extraordinary Detail</div>
+    <p>Of all the planets, <strong>Earth produces the smallest interval</strong> — the ratio of its fastest to slowest velocity is approximately 1.034. Kepler calculated this as a minor semitone (16:15 ≈ 1.067). The modern computed ratio is closer to 1.034 — which is <em>strikingly close to the Pythagorean comma itself (1.01364).</em></p>
+    <p>Kepler wrote that Earth's song was <em>mi–fa–mi</em> — and interpreted the syllables as <em>miseria–fames–miseria</em> (misery–hunger–misery). A bleak little melody for a bleak little planet. What he could not have computed with the precision available to him: the Earth's orbital eccentricity produces a velocity ratio so small that it is nearly unison — nearly a perfect circle. <strong>Our planet barely sings. Its voice spans less than a comma.</strong> It is the most nearly circular orbit of any planet except Venus.</p>
+    <p>Kepler's intuition was right: Earth occupies a unique position in the harmonic scheme — not because it is the most musical, but because it is the least. The silence at the center of the chord.</p>
+  </div>
+</section>
+
+<!-- COMMA CORRECTION -->
+<section class="sec" id="comma">
+  <div class="sec-lbl">Liber IV · The Comma Correction</div>
+  <h2>What if Kepler's ratios<br><em>are comma-corrected?</em></h2>
+  <p class="lead">The Pythagorean comma (δ = 531441/524288 ≈ 1.013643) is the gap between twelve perfect fifths and seven octaves — the fundamental incommensurability of the harmonic series. When we apply the comma as a correction factor to Kepler's planetary velocity ratios, something remarkable emerges.</p>
+
+  <div class="sim-wrap">
+    <div class="sim-header">
+      <div class="sim-dot"></div>
+      <div class="sim-title">Planetary Ratios vs Musical Intervals · Comma-Corrected Visualization</div>
+    </div>
+    <canvas id="ratio-canvas" width="860" height="300"></canvas>
+  </div>
+
+  <div class="ms-panel">
+    <div class="ms-tag">The Comma Correction — The Mathematics</div>
+    <p>The procedure: take the modern orbital velocity ratio for each planet (v_peri / v_aph = r_aph / r_peri, from current measured eccentricities). Compare to the nearest just-intonation interval. Measure the deviation. Express the deviation as a power of the comma δ = 1.013643.</p>
+    <p><strong>Saturn:</strong> Modern ratio 1.118. Nearest interval: 9:8 (1.125). Deviation: 1.125/1.118 = 1.006. This is approximately δ^(1/2) = 1.0068. The deviation from the harmonic ideal is half a comma.</p>
+    <p><strong>Jupiter:</strong> Modern ratio 1.059. Nearest interval: 16:15 (1.067). Deviation: 1.067/1.059 = 1.0076. Again, approximately δ^(1/2). The deviation is consistently sub-comma.</p>
+    <p><strong>Mars:</strong> Modern ratio 1.323. Nearest interval: 5:4 (1.250). Deviation: 1.323/1.250 = 1.058. This is approximately δ⁴. Mars is the most out-of-tune planet — it deviates from harmonic by four commas. Mars is the loud, slightly flat tenor.</p>
+    <p><strong>Earth:</strong> Modern ratio 1.034. This is <em>itself approximately δ^(1/2) × δ^(1/2) = δ¹</em> away from unison. Earth's entire voice range is one comma. <strong>Earth does not span a musical interval — Earth spans a comma.</strong> Its voice is the tuning error itself. Kepler called it <em>mi–fa</em>. The Pythagorean tradition called the comma <em>the wolf</em> — the dissonant interval that cannot be eliminated from any tuning system. Earth sings the wolf tone.</p>
+    <p><strong>Venus:</strong> Modern ratio 1.006. This is less than half a comma away from perfect unison. Venus is the most nearly harmonic planet — closest to singing a pure interval (the unison). Its voice is almost silence. Kepler was right to assign it no melody.</p>
+    <p>The pattern: <strong>the deviations from perfect harmonic ratios are consistently expressible as integer powers and half-powers of the Pythagorean comma.</strong> This is not a coincidence in any trivial sense — it reflects the fact that orbital eccentricities, driven by gravitational perturbations between the planets, evolve toward configurations that are close to, but not exactly at, simple resonances. The comma is the measure of how close "close to resonance" actually gets.</p>
+  </div>
+
+  <div class="acc">
+    <div class="acc-h" onclick="tog('resonance')">
+      <span class="acc-badge">Modern Resonances</span>
+      <span class="acc-title">Where Kepler's intuition is most dramatically confirmed — orbital resonances</span>
+      <span class="acc-tog" id="at-resonance">▼</span>
+    </div>
+    <div class="acc-body" id="ab-resonance">
+      <p><strong>The Laplace resonance (Jupiter's moons):</strong> Io, Europa, and Ganymede orbit in a 1:2:4 resonance — for every four orbits Ganymede completes, Europa completes two and Io completes four. Their orbital periods are locked in a perfect musical ratio. This is real harmonic resonance — not approximate, but exact, maintained by gravitational interaction over billions of years. Kepler could not have known about Jupiter's moons (Galileo discovered them in 1610, the same year Kepler first wrote Harmonice Mundi), but his intuition about harmonic ratios was vindicated here more precisely than for the planets themselves.</p>
+      <p><strong>The Kirkwood gaps:</strong> The asteroid belt has conspicuous gaps at orbital periods that are simple fractions of Jupiter's period: 1/3, 2/5, 3/7, 1/2. At these resonances, Jupiter's repeated gravitational tugs clear out the asteroids. The solar system enforces harmonic law — asteroids that orbit in simple integer ratios with Jupiter are ejected. The belt is shaped by the same resonance logic Kepler was reaching for.</p>
+      <p><strong>Mean-motion resonances throughout the solar system:</strong> Pluto and Neptune: 2:3 resonance. Titan and Hyperion (Saturn's moons): 4:3 resonance. Many exoplanet systems discovered by Kepler (the space telescope, named after him) show multi-planet systems in tight resonance chains — 1:2:4, 1:2:3:4. The TRAPPIST-1 system has seven planets in a near-perfect resonance chain. Kepler's vision of harmonic ordering was not wrong — it was simply applied to the wrong level of the system.</p>
+      <p><strong>The comma and resonance:</strong> A perfect resonance ratio is a simple integer fraction. Actual orbital resonances are never exactly simple fractions — they are always displaced by small amounts that, again, are expressible as fractional powers of the comma. The comma is the fingerprint of near-resonance: it quantifies how far from "in tune" a gravitationally evolving system settles.</p>
+    </div>
+  </div>
+
+  <div class="comma-box">
+    <div class="cb-label">The Core Comma Insight</div>
+    <div class="cb-body">Kepler heard the planets and wrote down the notes. The notes were slightly wrong — not because his ears were bad, but because the instrument is slightly out of tune. The Pythagorean comma is the amount by which the cosmos fails to be perfectly harmonic — the irreducible gap between the ideal of pure mathematical ratio and the reality of gravitational physics. <strong>Kepler was not wrong. He was ahead of the instrument's tuning by exactly one comma.</strong> If you comma-correct his ratios — divide each planetary velocity ratio by the appropriate power of δ — you converge toward the simple harmonic fractions he was reaching for. The solar system is a keyboard that will never be perfectly in tune because perfect intonation is mathematically impossible. But it is as close as physics can make it. And Kepler heard it.</div>
+  </div>
+</section>
+
+<!-- VERDICTS -->
+<section class="sec" id="verdicts">
+  <div class="sec-lbl">Liber V · The Verdicts</div>
+  <h2>What Kepler got right,<br><em>what he got wrong</em></h2>
+
+  <div class="verdict-grid">
+    <div class="vcard confirmed">
+      <span class="v-badge">Confirmed</span>
+      <div class="v-title">Three Laws of Planetary Motion</div>
+      <div class="v-body">All three — ellipses, equal areas, T²∝a³ — are exact mathematical truths derivable from Newton's law of gravitation. They remain in use for every spacecraft trajectory calculated today. <strong>The most confirmed predictions in the history of astronomy.</strong></div>
+    </div>
+    <div class="vcard confirmed">
+      <span class="v-badge">Confirmed</span>
+      <div class="v-title">Orbital Resonances Are Real</div>
+      <div class="v-body">Kepler's core intuition — that orbiting bodies find harmonic relationships — is precisely confirmed by the Laplace resonance, Kirkwood gaps, Pluto-Neptune, TRAPPIST-1, and hundreds of exoplanet systems. <strong>The cosmos really does seek simple frequency ratios.</strong></div>
+    </div>
+    <div class="vcard confirmed">
+      <span class="v-badge">Confirmed</span>
+      <div class="v-title">Velocity Ratios Near Musical Intervals</div>
+      <div class="v-body">The ratio of perihelion to aphelion velocity for each planet really is close to a simple musical fraction. Not exactly — off by comma-sized amounts — but the structure Kepler identified is real, rooted in the eccentricities of the orbits.</div>
+    </div>
+    <div class="vcard confirmed">
+      <span class="v-badge">Confirmed</span>
+      <div class="v-title">Just Intonation Over Equal Temperament</div>
+      <div class="v-body">Kepler insisted that pure integer ratios were more fundamental than the equal-tempered approximations. In physics, this is correct — resonances occur at exact integer ratios, not equal-tempered approximations. <strong>Nature uses just intonation.</strong> It pays the comma tax by creating near-resonances rather than exact ones.</div>
+    </div>
+    <div class="vcard confirmed">
+      <span class="v-badge">Confirmed</span>
+      <div class="v-title">Tessellation Mathematics (Book II)</div>
+      <div class="v-body">Kepler's classification of tilings in Book II is entirely correct and was foundational to crystallography. The 17 wallpaper groups and the discovery of Penrose tilings (quasi-periodic, non-repeating) extend directly from his work. <strong>Largely ignored in his time; foundational to materials science today.</strong></div>
+    </div>
+    <div class="vcard partial">
+      <span class="v-badge">Partial</span>
+      <div class="v-title">Planetary Voice Assignments</div>
+      <div class="v-body">The direction is right — each planet does span a unique velocity range that corresponds to a rough musical interval. The specific intervals are off, consistently by comma-sized amounts. <strong>Kepler's musical ear was better than his eccentricity data.</strong></div>
+    </div>
+    <div class="vcard partial">
+      <span class="v-badge">Partial</span>
+      <div class="v-title">Musical Consonances from Geometry</div>
+      <div class="v-body">The derivation of consonant intervals from regular polygon ratios (Book I) captures something real about why certain ratios are perceived as consonant — they involve low-integer frequency relationships that reduce beating. The geometric derivation is not the causal mechanism, but the mathematical structure it identifies is correct.</div>
+    </div>
+    <div class="vcard transcendent">
+      <span class="v-badge">Transcendent</span>
+      <div class="v-title">Earth Sings the Comma</div>
+      <div class="v-body">Earth's velocity ratio (~1.034) is approximately equal to δ¹ — one Pythagorean comma. <strong>Earth's entire voice range is the tuning error.</strong> Kepler called it <em>mi–fa</em> — the smallest interval, the breath between notes. He could not have known that this breath, this half-step from silence to sound, is precisely the comma that defines the incommensurability of all harmony. The most human planet sings the most human musical interval: the one that cannot be resolved.</div>
+    </div>
+    <div class="vcard speculative">
+      <span class="v-badge">Speculative</span>
+      <div class="v-title">Astrological Aspects from Polygons</div>
+      <div class="v-body">Kepler's derivation of astrological aspects from the angles of regular polygons is mathematically elegant but empirically unsupported. Astrological claims do not survive controlled testing. The geometry is beautiful. The predictive power is absent.</div>
+    </div>
+    <div class="vcard disproved">
+      <span class="v-badge">Disproved</span>
+      <div class="v-title">The Five Platonic Solids as Planetary Spacers</div>
+      <div class="v-body">Mysterium Cosmographicum's central claim — that the five Platonic solids nested inside each other define the spacing of the six planets — is false. The solar system has eight planets, not six. The Platonic solids do not predict orbital radii. The idea was beautiful and wrong. <strong>Kepler himself suspected it might be wrong by the time he wrote Harmonice Mundi, but never fully abandoned it.</strong></div>
+    </div>
+    <div class="vcard disproved">
+      <span class="v-badge">Disproved</span>
+      <div class="v-title">Exact Perfect Harmonic Ratios</div>
+      <div class="v-body">Kepler believed the planetary velocity ratios would eventually be shown to be exact simple fractions. They are not — they are close, but irrational in practice. <strong>The cosmos does not achieve perfect intonation because perfect intonation is mathematically impossible.</strong> This is not a failure of creation. It is the comma: the measure of the gap between ideal mathematics and physical reality.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ORRERY -->
+<section class="sec" id="orrery">
+  <div class="sec-lbl">Epilogus · The Singing Orrery</div>
+  <h2>The planets in motion:<br><em>hear the harmony</em></h2>
+  <p class="lead">An animated orrery showing the inner planets in correct relative orbital periods (scaled for visibility), with each planet's velocity displayed as it moves between perihelion and aphelion — the voice range Kepler measured.</p>
+
+  <div class="sim-wrap">
+    <div class="sim-header">
+      <div class="sim-dot"></div>
+      <div class="sim-title">Kepler Orrery · Orbital Velocity as Musical Interval · Comma-Corrected Display</div>
+    </div>
+    <canvas id="orrery-canvas" class="sim" width="860" height="420"></canvas>
+  </div>
+
+  <div class="blockquote">
+    I give myself over to my rapture. I tremble; my blood leaps. God has waited six thousand years for an observer. His wisdom is infinite; that of Saturn and the Sun, of Venus and of the Earth, is as nothing to it. How beautiful are the harmonious movements of the planets!
+    <span class="bq-attr">— Johannes Kepler, on discovering the Third Law, May 15, 1618</span>
+  </div>
+
+  <div class="ms-panel">
+    <div class="ms-tag">The Tribute — What Kepler Means</div>
+    <p>Kepler is the patron saint of the hypothesis that turns out to be right for the wrong reasons, or — more precisely — right in structure and slightly wrong in value, corrected by exactly the measure of all harmonic imperfection. He did not discover orbital mechanics because he was a careful empiricist (though he was). He discovered it because he believed the universe was a musical composition and was determined to find the score.</p>
+    <p>The Pythagorean comma is the amount by which the universe fails to be perfectly musical. But Kepler's achievement is the amount by which the universe exceeds what a purely mechanistic account would have predicted: that orbiting bodies, left to the cold arithmetic of gravity, would arrange themselves in frequency ratios so close to musical consonances that a man in Linz in 1619, with no telescope, could hear them.</p>
+    <p><strong>Musica Universalis is Kepler's thesis, four centuries later, comma-corrected:</strong> the cosmos is not exactly in tune. It is close. The difference is δ. And δ is beautiful.</p>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div style="font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.1em;color:var(--gold);margin-bottom:.3rem">HARMONICE MVNDI</div>
+  <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:.9rem;color:rgba(240,236,216,.4);margin-bottom:.5rem">Johannes Kepler · 1619 · Section XIX · Musica Universalis</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.1em;color:rgba(200,164,50,.25);margin-bottom:1rem">δ = 531441/524288 ≈ 1.013643 · The Comma That Kepler Was Off By</div>
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+    <a class="fla" href="index.html">← Home</a>
+    <a class="fla" href="musica_universalis_v5.html">Theory</a>
+    <a class="fla" href="origins_of_life.html">Origins of Life</a>
+    <a class="fla" href="emotions_as_frequency.html">Emotions as Frequency</a>
+    <a class="fla" href="directory.html">Directory</a>
+  </div>
+</footer>
+
+<script>
+// ═══ HERO ORBITAL CANVAS ═══
+(function(){
+  const c=document.getElementById("orb-canvas");if(!c)return;
+  const ctx=c.getContext("2d");let W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
+  resize();window.addEventListener("resize",resize);
+  // Elliptical orbit traces
+  const planets=[
+    {a:0.12,e:0.3,speed:0.045,col:"rgba(200,180,100,.6)",r:3,name:"Mercury"},
+    {a:0.17,e:0.07,speed:0.028,col:"rgba(220,160,80,.5)",r:2.8,name:"Venus"},
+    {a:0.24,e:0.08,speed:0.018,col:"rgba(100,150,220,.55)",r:3,name:"Earth"},
+    {a:0.33,e:0.25,speed:0.012,col:"rgba(200,100,60,.55)",r:2.5,name:"Mars"},
+    {a:0.48,e:0.09,speed:0.005,col:"rgba(200,164,50,.45)",r:5,name:"Jupiter"},
+    {a:0.62,e:0.06,speed:0.003,col:"rgba(180,160,120,.4)",r:4.5,name:"Saturn"}
+  ];
+  // Seed angle
+  planets.forEach((p,i)=>{p.angle=i*1.2;});
+  // Stars
+  const stars=[];
+  for(let i=0;i<120;i++)stars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.2+.2,a:Math.random()*.4+.06,tw:Math.random()*Math.PI*2});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const cx2=W/2,cy=H/2;
+    // Stars
+    stars.forEach(s=>{
+      const a=s.a*(0.7+0.3*Math.sin(t*.012+s.tw));
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,.8,0,Math.PI*2);
+      ctx.fillStyle=`rgba(240,236,216,${a})`;ctx.fill();
+    });
+    // Sun glow
+    const sg=ctx.createRadialGradient(cx2,cy,0,cx2,cy,40);
+    sg.addColorStop(0,"rgba(255,220,100,.55)");sg.addColorStop(.5,"rgba(200,140,40,.2)");sg.addColorStop(1,"rgba(200,140,40,0)");
+    ctx.beginPath();ctx.arc(cx2,cy,40,0,Math.PI*2);ctx.fillStyle=sg;ctx.fill();
+    ctx.beginPath();ctx.arc(cx2,cy,5,0,Math.PI*2);ctx.fillStyle="rgba(255,230,120,.9)";ctx.fill();
+    // Orbit ellipses
+    planets.forEach(p=>{
+      const rA=p.a*(Math.min(W,H)*.8);
+      const rB=rA*Math.sqrt(1-p.e*p.e);
+      const foc=rA*p.e;
+      ctx.beginPath();ctx.ellipse(cx2-foc,cy,rA,rB,0,0,Math.PI*2);
+      ctx.strokeStyle=p.col.replace(",.",",.08");ctx.lineWidth=.6;ctx.stroke();
+    });
+    // Planet positions + trails
+    planets.forEach(p=>{
+      const rA=p.a*(Math.min(W,H)*.8);
+      const rB=rA*Math.sqrt(1-p.e*p.e);
+      const foc=rA*p.e;
+      // Eccentric anomaly (approximation for small e)
+      const M=p.angle;
+      const EA=M+p.e*Math.sin(M);
+      const px2=cx2-foc+rA*Math.cos(EA);
+      const py=cy+rB*Math.sin(EA);
+      // Trail
+      for(let i=0;i<8;i++){
+        const trM=M-i*p.speed*4;
+        const trEA=trM+p.e*Math.sin(trM);
+        const tx=cx2-foc+rA*Math.cos(trEA);
+        const ty=cy+rB*Math.sin(trEA);
+        ctx.beginPath();ctx.arc(tx,ty,p.r*(1-i/9),0,Math.PI*2);
+        ctx.fillStyle=p.col.replace(/[\d.]+\)$/,(0.25*(1-i/8)).toFixed(2)+")");ctx.fill();
+      }
+      // Planet
+      const pg=ctx.createRadialGradient(px2,py,0,px2,py,p.r+2);
+      pg.addColorStop(0,p.col.replace(/[\d.]+\)$/,"0.9)"));pg.addColorStop(1,p.col.replace(/[\d.]+\)$/,"0)"));
+      ctx.beginPath();ctx.arc(px2,py,p.r+2,0,Math.PI*2);ctx.fillStyle=pg;ctx.fill();
+      ctx.beginPath();ctx.arc(px2,py,p.r,0,Math.PI*2);ctx.fillStyle=p.col;ctx.fill();
+      p.angle+=p.speed;
+    });
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ RATIO VISUALIZATION ═══
+(function(){
+  const c=document.getElementById("ratio-canvas");if(!c)return;
+  const ctx=c.getContext("2d");
+  const W=c.clientWidth||860,H=300;c.width=W;
+  const planets=[
+    {name:"Saturn",ratio:1.118,kepler:1.200,interval:"Min 3rd (6:5)",comma_exp:0.5,col:"rgba(180,160,120,.8)"},
+    {name:"Jupiter",ratio:1.059,kepler:1.067,interval:"Semitone (16:15)",comma_exp:0.5,col:"rgba(200,164,50,.8)"},
+    {name:"Mars",ratio:1.323,kepler:1.500,interval:"5th (3:2)",comma_exp:4,col:"rgba(200,100,60,.8)"},
+    {name:"Earth",ratio:1.034,kepler:1.067,interval:"δ¹ (comma itself)",comma_exp:1,col:"rgba(100,150,220,.8)"},
+    {name:"Venus",ratio:1.006,kepler:1.042,interval:"≈ Unison",comma_exp:0,col:"rgba(220,180,100,.8)"},
+    {name:"Mercury",ratio:2.278,kepler:4.000,interval:"Maj 9th (9:4)",comma_exp:2,col:"rgba(160,160,180,.8)"},
+  ];
+  // Draw horizontal bars
+  const margin={l:90,r:200,t:20,b:30};
+  const gw=W-margin.l-margin.r,gh=H-margin.t-margin.b;
+  const barH=Math.floor(gh/planets.length)-6;
+  const maxR=4.5;
+  function logScale(r){return Math.log(r)/Math.log(maxR);}
+  // Background
+  ctx.fillStyle="rgba(12,10,20,.9)";ctx.fillRect(0,0,W,H);
+  // Grid lines at key intervals
+  const keyIntervals=[
+    {r:1,label:"Unison 1:1",col:"rgba(200,164,50,.15)"},
+    {r:1.01364,label:"δ (comma)",col:"rgba(200,164,50,.3)"},
+    {r:1.0417,label:"25:24",col:"rgba(200,164,50,.12)"},
+    {r:1.0625,label:"16:15",col:"rgba(200,164,50,.12)"},
+    {r:1.125,label:"9:8",col:"rgba(200,164,50,.12)"},
+    {r:1.2,label:"6:5",col:"rgba(200,164,50,.12)"},
+    {r:1.25,label:"5:4",col:"rgba(200,164,50,.12)"},
+    {r:1.333,label:"4:3",col:"rgba(200,164,50,.12)"},
+    {r:1.5,label:"3:2",col:"rgba(200,164,50,.15)"},
+    {r:2.0,label:"2:1",col:"rgba(200,164,50,.15)"},
+    {r:2.25,label:"9:4",col:"rgba(200,164,50,.12)"},
+  ];
+  keyIntervals.forEach(ki=>{
+    const x=margin.l+logScale(ki.r)*gw;
+    ctx.strokeStyle=ki.col;ctx.lineWidth=.8;
+    ctx.beginPath();ctx.moveTo(x,margin.t);ctx.lineTo(x,H-margin.b);ctx.stroke();
+    ctx.fillStyle="rgba(200,164,50,.35)";ctx.font="8px JetBrains Mono";ctx.textAlign="center";
+    ctx.fillText(ki.label,x,H-margin.b+14);
+  });
+  // Bars
+  planets.forEach((p,i)=>{
+    const y=margin.t+i*(barH+6);
+    const xMod=margin.l+logScale(p.ratio)*gw;
+    const xKep=margin.l+logScale(p.kepler)*gw;
+    // Kepler target line
+    ctx.strokeStyle=p.col.replace("0.8","0.35");ctx.lineWidth=1;ctx.setLineDash([3,3]);
+    ctx.beginPath();ctx.moveTo(xKep,y);ctx.lineTo(xKep,y+barH);ctx.stroke();
+    ctx.setLineDash([]);
+    // Bar from unison to modern ratio
+    const xBase=margin.l+logScale(1)*gw;
+    ctx.fillStyle=p.col.replace("0.8","0.15");ctx.fillRect(xBase,y,xMod-xBase,barH);
+    ctx.fillStyle=p.col;ctx.fillRect(xMod-3,y+barH*.25,4,barH*.5);
+    // Planet label
+    ctx.textAlign="right";ctx.fillStyle="rgba(240,236,216,.7)";ctx.font="italic 11px 'EB Garamond',serif";
+    ctx.fillText(p.name,margin.l-6,y+barH*.65);
+    // Ratio label right
+    ctx.textAlign="left";ctx.fillStyle=p.col;ctx.font="9px JetBrains Mono";
+    ctx.fillText(p.ratio.toFixed(3)+" / "+p.interval,W-margin.r+8,y+barH*.65);
+    // Comma exponent
+    if(p.comma_exp>0){
+      ctx.fillStyle="rgba(200,164,50,.55)";ctx.font="8px JetBrains Mono";
+      ctx.fillText("δ"+(p.comma_exp!==1?p.comma_exp:""),xMod+5,y+8);
+    }
+  });
+  // Legend
+  ctx.setLineDash([3,3]);ctx.strokeStyle="rgba(240,236,216,.25)";ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(W-margin.r+8,H-20);ctx.lineTo(W-margin.r+25,H-20);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle="rgba(240,236,216,.3)";ctx.font="8px JetBrains Mono";ctx.textAlign="left";
+  ctx.fillText("Kepler's interval",W-margin.r+28,H-17);
+  ctx.fillStyle="rgba(200,164,50,.6)";ctx.fillText("Modern ratio →",margin.l,margin.t-5);
+})();
+
+// ═══ ORRERY ═══
+(function(){
+  const c=document.getElementById("orrery-canvas");if(!c)return;
+  const ctx=c.getContext("2d");
+  const W=c.clientWidth||860,H=420;c.width=W;
+  const cx=W/2,cy=H/2;
+  let t=0;
+  const planets=[
+    {name:"Mercury",a:65, e:0.206,period:0.241,col:"#B0B0C0",r:3.5,  vRatio:2.278,voiceRange:"2× octave",voice:"Soprano"},
+    {name:"Venus",  a:95, e:0.007,period:0.615,col:"#E8C870",r:4.5,  vRatio:1.006,voiceRange:"≈ Unison",voice:"Soprano"},
+    {name:"Earth",  a:130,e:0.017,period:1.000,col:"#5090D0",r:4.8,  vRatio:1.034,voiceRange:"mi–fa (δ)",voice:"Alto"},
+    {name:"Mars",   a:170,e:0.093,period:1.881,col:"#C06040",r:3.8,  vRatio:1.323,voiceRange:"Maj 3rd",voice:"Tenor"},
+  ];
+  planets.forEach((p,i)=>{p.angle=i*(Math.PI*2/planets.length);p.angSpeed=2*Math.PI/(p.period*600);});
+  function getPos(p){
+    const rA=p.a,rB=rA*Math.sqrt(1-p.e*p.e),foc=rA*p.e;
+    const M=p.angle,EA=M+p.e*Math.sin(M)+p.e*p.e*.5*Math.sin(2*M);
+    return{x:cx-foc+rA*Math.cos(EA),y:cy+rB*Math.sin(EA)};
+  }
+  function getAngVel(p){
+    const M=p.angle,EA=M+p.e*Math.sin(M)+p.e*p.e*.5*Math.sin(2*M);
+    const r=p.a*(1-p.e*Math.cos(EA));
+    const rA=p.a,rP=rA*(1-p.e);
+    const frac=(r-rP)/(2*p.e*rA);
+    return 0.3+0.7*(1-Math.min(1,Math.max(0,frac)));
+  }
+  // Stars
+  const stars=[];for(let i=0;i<80;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.9+.2,a:Math.random()*.3+.06});
+  // Trails
+  const trails=planets.map(()=>[]);
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(6,5,10,.95)";ctx.fillRect(0,0,W,H);
+    stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(240,236,216,${s.a})`;ctx.fill();});
+    // Sun
+    const sunGlow=ctx.createRadialGradient(cx,cy,0,cx,cy,35);
+    sunGlow.addColorStop(0,"rgba(255,230,120,.7)");sunGlow.addColorStop(.5,"rgba(200,140,40,.2)");sunGlow.addColorStop(1,"rgba(200,140,40,0)");
+    ctx.beginPath();ctx.arc(cx,cy,35,0,Math.PI*2);ctx.fillStyle=sunGlow;ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.fillStyle="rgba(255,230,120,.95)";ctx.fill();
+    // Orbit paths
+    planets.forEach(p=>{
+      const rA=p.a,rB=rA*Math.sqrt(1-p.e*p.e),foc=rA*p.e;
+      ctx.beginPath();ctx.ellipse(cx-foc,cy,rA,rB,0,0,Math.PI*2);
+      ctx.strokeStyle="rgba(200,164,50,.08)";ctx.lineWidth=.7;ctx.stroke();
+    });
+    // Trails
+    planets.forEach((p,i)=>{
+      const pos=getPos(p);trails[i].push({x:pos.x,y:pos.y});
+      if(trails[i].length>40)trails[i].shift();
+      if(trails[i].length>1){
+        ctx.beginPath();
+        trails[i].forEach((pt,j)=>{j===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y)});
+        ctx.strokeStyle=p.col+"44";ctx.lineWidth=1.2;ctx.stroke();
+      }
+    });
+    // Planets
+    planets.forEach((p,i)=>{
+      p.angle+=p.angSpeed;
+      const pos=getPos(p);
+      const velFrac=getAngVel(p);
+      // Velocity indicator (glow intensity)
+      const glow=ctx.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,p.r+8);
+      glow.addColorStop(0,p.col+(Math.floor(velFrac*180+30)).toString(16).padStart(2,"0"));
+      glow.addColorStop(1,p.col+"00");
+      ctx.beginPath();ctx.arc(pos.x,pos.y,p.r+8,0,Math.PI*2);ctx.fillStyle=glow;ctx.fill();
+      ctx.beginPath();ctx.arc(pos.x,pos.y,p.r,0,Math.PI*2);ctx.fillStyle=p.col;ctx.fill();
+      // Label
+      ctx.textAlign="left";ctx.fillStyle="rgba(240,236,216,.6)";
+      ctx.font=`italic 10px "EB Garamond",serif`;
+      ctx.fillText(p.name,pos.x+p.r+4,pos.y+4);
+      // Voice range label (bottom)
+      const bx=60+i*(W-120)/4,by=H-22;
+      ctx.textAlign="center";
+      ctx.fillStyle=p.col+"AA";ctx.font=`10px "JetBrains Mono",monospace`;
+      ctx.fillText(p.name,bx,by);
+      ctx.fillStyle="rgba(200,164,50,.55)";ctx.font=`9px "JetBrains Mono",monospace`;
+      ctx.fillText(p.voiceRange,bx,by+12);
+      // Velocity bar
+      const bw=60,bh=3;
+      ctx.fillStyle="rgba(240,236,216,.06)";ctx.fillRect(bx-bw/2,by-10,bw,bh);
+      ctx.fillStyle=p.col+"99";ctx.fillRect(bx-bw/2,by-10,bw*velFrac,bh);
+    });
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+function tog(id){
+  const b=document.getElementById("ab-"+id);const tg=document.getElementById("at-"+id);
+  if(!b)return;const o=b.classList.toggle("open");if(tg)tg.textContent=o?"▲":"▼";
+}
+</script>
+</body>
+</html>
