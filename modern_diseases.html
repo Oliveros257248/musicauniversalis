@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modern Diseases & The Comma · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=JetBrains+Mono:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#020408;--ink:#04080F;
+  --ice:rgba(210,228,255,.88);--dim:rgba(210,228,255,.38);--faint:rgba(210,228,255,.025);--line:rgba(210,228,255,.06);
+  --gold:#E8C96A;--blue:#7AB8F5;
+  /* Disease color signatures */
+  --alz:#E8A46A;    /* amber — amyloid plaques, autumn decay */
+  --park:#A8D4A0;   /* sage green — dopamine, movement, garden */
+  --bip:#C97EEC;    /* violet — the oscillation */
+  --schz:#7EECD4;   /* teal — fragmented signal */
+  --aut:#F5D06A;    /* warm gold — pattern, spectrum, sun */
+  --canc:#FF7A7A;   /* red — division, proliferation */
+}
+html{scroll-behavior:smooth;background:var(--void)}
+body{color:var(--ice);font-family:"Libre Baskerville",serif;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.014;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:150px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;background:rgba(2,4,8,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-back{font-family:"JetBrains Mono",monospace;font-size:.52rem;letter-spacing:.18em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.nav-back:hover{color:var(--blue)}
+.nav-label{font-family:"JetBrains Mono",monospace;font-size:.49rem;letter-spacing:.18em;color:rgba(210,228,255,.15);text-transform:uppercase}
+.page{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 1.5rem 8rem}
+
+/* HERO */
+header{padding:7.5rem 0 3rem}
+.h-rule{height:3px;background:linear-gradient(90deg,var(--alz),var(--park),var(--bip),var(--schz),var(--aut),var(--canc));margin-bottom:1.5rem;width:100%;max-width:360px}
+.h-pre{font-family:"JetBrains Mono",monospace;font-size:.46rem;letter-spacing:.38em;color:rgba(210,228,255,.3);margin-bottom:1rem;text-transform:uppercase}
+h1{font-family:"Playfair Display",serif;font-size:clamp(2.8rem,7vw,5.2rem);font-weight:900;color:var(--ice);line-height:.9;letter-spacing:-.025em;margin-bottom:.5rem}
+h1 em{font-style:italic;color:var(--blue);font-weight:400}
+h1 .sub{display:block;font-size:.42em;font-style:italic;font-weight:400;color:rgba(210,228,255,.35);letter-spacing:.03em;margin-top:.5em}
+.h-deck{font-family:"Playfair Display",serif;font-size:clamp(.9rem,2.2vw,1.18rem);font-style:italic;color:var(--dim);line-height:1.75;max-width:720px;margin:1.2rem 0 2rem;font-weight:400}
+.h-byline{font-family:"JetBrains Mono",monospace;font-size:.43rem;letter-spacing:.18em;color:rgba(210,228,255,.15);text-transform:uppercase}
+
+/* DISEASE SELECTOR TABS */
+.disease-nav{display:flex;gap:.5rem;flex-wrap:wrap;margin:2rem 0;position:relative;z-index:2}
+.d-tab{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;border-radius:20px;border:1px solid var(--line);cursor:pointer;background:transparent;color:var(--dim);transition:all .18s}
+.d-tab:hover{color:var(--ice)}
+.d-tab[data-d="alz"]{border-color:rgba(232,164,106,.25)}.d-tab[data-d="alz"]:hover,.d-tab[data-d="alz"].act{background:rgba(232,164,106,.12);border-color:var(--alz);color:var(--alz)}
+.d-tab[data-d="park"]{border-color:rgba(168,212,160,.25)}.d-tab[data-d="park"]:hover,.d-tab[data-d="park"].act{background:rgba(168,212,160,.12);border-color:var(--park);color:var(--park)}
+.d-tab[data-d="bip"]{border-color:rgba(201,126,236,.25)}.d-tab[data-d="bip"]:hover,.d-tab[data-d="bip"].act{background:rgba(201,126,236,.1);border-color:var(--bip);color:var(--bip)}
+.d-tab[data-d="schz"]{border-color:rgba(126,236,212,.25)}.d-tab[data-d="schz"]:hover,.d-tab[data-d="schz"].act{background:rgba(126,236,212,.08);border-color:var(--schz);color:var(--schz)}
+.d-tab[data-d="aut"]{border-color:rgba(245,208,106,.25)}.d-tab[data-d="aut"]:hover,.d-tab[data-d="aut"].act{background:rgba(245,208,106,.1);border-color:var(--aut);color:var(--aut)}
+.d-tab[data-d="canc"]{border-color:rgba(255,122,122,.25)}.d-tab[data-d="canc"]:hover,.d-tab[data-d="canc"].act{background:rgba(255,122,122,.08);border-color:var(--canc);color:var(--canc)}
+
+/* SECTION STRUCTURE */
+.section{margin:4.5rem 0 0}
+.sr{height:1px;margin-bottom:.7rem}
+.sp{font-family:"JetBrains Mono",monospace;font-size:.42rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.55rem;color:rgba(210,228,255,.35)}
+h2{font-family:"Playfair Display",serif;font-size:clamp(1.65rem,4.5vw,2.75rem);font-weight:700;margin-bottom:1.2rem;line-height:1.05;letter-spacing:-.015em}
+h2 em{font-style:italic;font-weight:400}
+.bt{font-size:.9rem;line-height:2;color:rgba(210,228,255,.6);margin-bottom:1.1rem}
+.bt strong{color:var(--ice)}.bt em{font-style:italic}
+
+/* DISEASE CARDS */
+.disease-block{margin:3rem 0;padding:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}
+.disease-block.vis{opacity:1;transform:translateY(0)}
+.db-header{padding:1.4rem 1.8rem 1.1rem;border-bottom:1px solid var(--line)}
+.db-color-bar{height:3px;border-radius:2px;margin-bottom:1rem}
+.db-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.db-title{font-family:"Playfair Display",serif;font-size:1.4rem;font-weight:700;letter-spacing:-.01em}
+.db-latin{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:.2rem}
+.db-stat{text-align:right;flex-shrink:0}
+.db-stat-n{font-family:"JetBrains Mono",monospace;font-size:1.2rem;letter-spacing:-.02em;display:block}
+.db-stat-l{font-family:"JetBrains Mono",monospace;font-size:.36rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.db-body{padding:1.4rem 1.8rem}
+
+/* FOUR-COLUMN INFO GRID */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:1.5rem 0}
+.ig-cell{background:var(--ink);padding:1.1rem 1.2rem}
+.ig-label{font-family:"JetBrains Mono",monospace;font-size:.37rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:.4rem}
+.ig-val{font-size:.82rem;line-height:1.65;color:rgba(210,228,255,.65)}
+.ig-val strong{color:var(--ice)}
+
+/* COMMA CALLOUT */
+.comma-call{margin:1.5rem 0;padding:1.3rem 1.6rem;border-radius:4px;position:relative;overflow:hidden}
+.comma-call::before{content:"δ";position:absolute;right:.8rem;top:-.5rem;font-family:"Playfair Display",serif;font-size:5rem;font-weight:900;opacity:.06;pointer-events:none;line-height:1}
+.cc-label{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.5rem;opacity:.6}
+.cc-text{font-size:.86rem;line-height:1.85;color:rgba(210,228,255,.7)}
+.cc-text strong{color:var(--ice)}
+
+/* RESEARCH PILLS */
+.research-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin:1.5rem 0}
+.r-card{padding:1.1rem 1.3rem;border:1px solid var(--line);border-radius:6px;background:var(--faint);transition:border-color .18s}
+.r-card-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.r-icon{font-size:1.1rem}
+.r-title{font-family:"Playfair Display",serif;font-size:.88rem;font-weight:700;color:var(--ice)}
+.r-date{font-family:"JetBrains Mono",monospace;font-size:.35rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:.3rem}
+.r-text{font-size:.77rem;color:rgba(210,228,255,.45);line-height:1.7}
+.r-badge{display:inline-block;margin-top:.5rem;font-family:"JetBrains Mono",monospace;font-size:.34rem;letter-spacing:.08em;padding:.1rem .4rem;border-radius:10px;text-transform:uppercase}
+.rb-green{background:rgba(107,175,122,.1);color:var(--park);border:1px solid rgba(107,175,122,.2)}
+.rb-orange{background:rgba(232,164,106,.1);color:var(--alz);border:1px solid rgba(232,164,106,.2)}
+.rb-purple{background:rgba(201,126,236,.08);color:var(--bip);border:1px solid rgba(201,126,236,.15)}
+.rb-teal{background:rgba(126,236,212,.07);color:var(--schz);border:1px solid rgba(126,236,212,.12)}
+.rb-gold{background:rgba(245,208,106,.08);color:var(--aut);border:1px solid rgba(245,208,106,.15)}
+.rb-red{background:rgba(255,122,122,.07);color:var(--canc);border:1px solid rgba(255,122,122,.12)}
+.rb-blue{background:rgba(122,184,245,.07);color:var(--blue);border:1px solid rgba(122,184,245,.12)}
+
+/* OBSTACLE BARS */
+.obstacle{margin:.6rem 0;display:flex;align-items:center;gap:.8rem;font-size:.79rem;color:rgba(210,228,255,.5)}
+.ob-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.ob-text{line-height:1.6}
+.ob-text strong{color:rgba(210,228,255,.8)}
+
+/* PULL QUOTES */
+.pull{margin:1.8rem 0;padding:1.2rem 1.5rem;position:relative}
+.pull::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:1px}
+.pt{font-family:"Playfair Display",serif;font-size:.98rem;font-style:italic;line-height:1.75;margin-bottom:.4rem;color:rgba(210,228,255,.75)}
+.ps{font-family:"JetBrains Mono",monospace;font-size:.38rem;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+
+/* GRAND COMMA SYNTHESIS */
+.synthesis{margin:3rem 0;padding:2rem 2.2rem;border:1px solid rgba(232,201,106,.12);border-radius:4px;background:rgba(232,201,106,.018)}
+.syn-label{font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(232,201,106,.38);margin-bottom:.8rem}
+.syn-text{font-size:.88rem;line-height:2.05;color:rgba(210,228,255,.6)}
+.syn-text strong{color:var(--gold)}
+
+/* GLOBAL STATS ROW */
+.gstat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:2rem 0}
+.gs{background:var(--ink);padding:1rem 1.1rem}
+.gs-n{font-family:"JetBrains Mono",monospace;font-size:1.2rem;display:block;margin-bottom:.15rem;letter-spacing:-.01em}
+.gs-l{font-family:"JetBrains Mono",monospace;font-size:.36rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;display:block;margin-bottom:.15rem}
+.gs-d{font-size:.7rem;color:rgba(210,228,255,.28);line-height:1.5}
+
+.divl{margin:4rem 0;height:1px;background:rgba(210,228,255,.04)}
+.fn{font-family:"JetBrains Mono",monospace;font-size:.42rem;letter-spacing:.04em;color:rgba(210,228,255,.16);line-height:2;margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(210,228,255,.04)}
+footer{position:relative;z-index:1;text-align:center;padding:2.5rem 2rem;border-top:1px solid var(--line)}
+.fl{font-family:"JetBrains Mono",monospace;font-size:.46rem;letter-spacing:.13em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color .2s;margin:0 .5rem}
+.fl:hover{color:var(--blue)}
+.fd{font-family:"JetBrains Mono",monospace;font-size:.47rem;letter-spacing:.15em;color:rgba(210,228,255,.1);margin-bottom:.8rem}
+@media(max-width:640px){.db-top{flex-direction:column}.db-stat{text-align:left}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<nav>
+  <a href="index.html" class="nav-back">← Main Frequency</a>
+  <span class="nav-label">Health · Modern Diseases · The Comma Framework</span>
+</nav>
+<div class="page">
+
+<header>
+  <div class="h-rule"></div>
+  <div class="h-pre">Musica Universalis · Health · Modern Disease & The Comma</div>
+  <h1><em>When the Signal</em><br><strong>Breaks</strong><br><span class="sub">Alzheimer's · Parkinson's · Bipolar · Schizophrenia · Autism · Cancer</span></h1>
+  <p class="h-deck">What happens when biological systems lose the comma — the built-in gap that allows recovery, oscillation, and self-correction? Six conditions through the lens of the Pythagorean comma framework: where the resonance fails, what the frontier research is finding, and what obstacles remain between where we are and where we need to be.</p>
+  <div class="h-byline">Musica Universalis · Health · δ = 0.013643 · The boundary between system and disease</div>
+</header>
+
+<!-- GLOBAL BURDEN -->
+<div class="gstat-row">
+  <div class="gs"><span class="gs-n" style="color:var(--alz)">55M</span><span class="gs-l">Alzheimer's / Dementia</span><div class="gs-d">Worldwide. ~10M new cases/year. $1.3T annual cost. Projected 139M by 2050.</div></div>
+  <div class="gs"><span class="gs-n" style="color:var(--park)">10M</span><span class="gs-l">Parkinson's Disease</span><div class="gs-d">Fastest growing neurological disorder globally. Doubled since 1990.</div></div>
+  <div class="gs"><span class="gs-n" style="color:var(--bip)">40M</span><span class="gs-l">Bipolar Disorder</span><div class="gs-d">Worldwide. Average 9.5 years between first symptoms and correct diagnosis.</div></div>
+  <div class="gs"><span class="gs-n" style="color:var(--schz)">24M</span><span class="gs-l">Schizophrenia</span><div class="gs-d">Worldwide. 20M with psychosis spectrum. Life expectancy 14–20 years shorter.</div></div>
+  <div class="gs"><span class="gs-n" style="color:var(--aut)">1 in 36</span><span class="gs-l">Autism Spectrum</span><div class="gs-d">US rate (2020 CDC). Up from 1 in 150 (2000). Rate of diagnosis change still debated.</div></div>
+  <div class="gs"><span class="gs-n" style="color:var(--canc)">20M</span><span class="gs-l">New Cancer Cases/Year</span><div class="gs-d">Globally, 2022. 10M deaths/year. 2nd leading cause of death worldwide.</div></div>
+</div>
+
+<!-- DISEASE SELECTOR -->
+<div class="disease-nav" id="disease-nav">
+  <button class="d-tab act" data-d="alz" onclick="scrollTo('alz-block')">Alzheimer's</button>
+  <button class="d-tab" data-d="park" onclick="scrollTo('park-block')">Parkinson's</button>
+  <button class="d-tab" data-d="bip" onclick="scrollTo('bip-block')">Bipolar</button>
+  <button class="d-tab" data-d="schz" onclick="scrollTo('schz-block')">Schizophrenia</button>
+  <button class="d-tab" data-d="aut" onclick="scrollTo('aut-block')">Autism</button>
+  <button class="d-tab" data-d="canc" onclick="scrollTo('canc-block')">Cancer</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- ALZHEIMER'S -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="disease-block" id="alz-block" style="border-color:rgba(232,164,106,.15)">
+  <div class="db-header">
+    <div class="db-color-bar" style="background:linear-gradient(90deg,var(--alz),rgba(232,164,106,.1))"></div>
+    <div class="db-top">
+      <div>
+        <div class="db-title" style="color:var(--alz)">Alzheimer's Disease</div>
+        <div class="db-latin">Morbus Alzheimer · Discovered: Alois Alzheimer, 1906 · First described in Auguste Deter, age 51</div>
+      </div>
+      <div class="db-stat">
+        <span class="db-stat-n" style="color:var(--alz)">55M</span>
+        <span class="db-stat-l">affected worldwide</span>
+      </div>
+    </div>
+  </div>
+  <div class="db-body">
+    <p class="bt">Alzheimer's is a progressive neurodegenerative disease characterized by the accumulation of amyloid-beta plaques and tau protein tangles in the brain, leading to synaptic death, neuroinflammation, and the systematic destruction of memory, language, reasoning, and eventually all autonomous function. <strong>It is the most common cause of dementia and one of the greatest unmet medical challenges in history.</strong> For decades, virtually every clinical trial failed.</p>
+
+    <div class="info-grid">
+      <div class="ig-cell"><div class="ig-label">What Goes Wrong</div><div class="ig-val">Amyloid-beta peptides misfold and aggregate into plaques. Tau proteins form neurofibrillary tangles inside neurons. These trigger chronic neuroinflammation (activated microglia). Synapses fail. Neurons die. <strong>The hippocampus and entorhinal cortex are first hit — hence memory loss first.</strong></div></div>
+      <div class="ig-cell"><div class="ig-label">The Amyloid Controversy</div><div class="ig-val">The "amyloid cascade hypothesis" (1991) dominated research for 30 years and ~$40B in drug development. Most amyloid-clearing drugs showed no clinical benefit even when successfully clearing plaques. <strong>The field is rethinking whether amyloid causes disease or is a downstream symptom.</strong> 2022 scandal: a foundational 2006 paper fabricated key amyloid images.</div></div>
+      <div class="ig-cell"><div class="ig-label">Risk Factors</div><div class="ig-val">Age (exponential after 65), <strong>APOE4 gene variant</strong> (3–8× risk increase), cardiovascular disease, diabetes, hearing loss, social isolation, poor sleep, low education. <strong>40% of dementia cases may be preventable through lifestyle modification</strong> (Lancet Commission 2020).</div></div>
+      <div class="ig-cell"><div class="ig-label">Timeline</div><div class="ig-val">Amyloid deposits begin <strong>15–20 years before symptoms</strong>. The disease has a long silent phase — the brain compensates through neuroplasticity until reserves are exhausted. By the time diagnosis occurs, significant neuronal loss has already happened.</div></div>
+    </div>
+
+    <div class="comma-call" style="background:rgba(232,164,106,.025);border:1px solid rgba(232,164,106,.1)">
+      <div class="cc-label" style="color:rgba(232,164,106,.55)">The Pythagorean Comma of Alzheimer's</div>
+      <div class="cc-text">The healthy brain operates through precisely regulated oscillatory cycles — gamma waves (30–100 Hz) coordinate memory consolidation, hippocampal theta rhythms (4–8 Hz) bind spatial information, sleep spindles during slow-wave sleep clear metabolic waste including amyloid-beta via the glymphatic system. <strong>Alzheimer's is, at its electrophysiological core, the progressive loss of these oscillatory resonances.</strong> The gamma frequency is disrupted first. The system's ability to close its loops — to return to baseline after each memory encoding cycle — degrades. The comma, the built-in non-closure that allows the next cycle to begin fresh, cannot be maintained. The system accumulates debt with each cycle, exactly as the Pythagorean comma accumulates across the circle of fifths. <strong>Each cycle closes slightly less cleanly than the last. Over 15–20 years, the debt is called.</strong></div>
+    </div>
+
+    <h2 style="font-size:1.3rem;color:var(--alz);margin-top:1.8rem">Frontier Research</h2>
+    <div class="research-grid">
+      <div class="r-card" style="border-color:rgba(232,164,106,.12)">
+        <div class="r-card-top"><div class="r-icon">⚡</div><div class="r-title">40 Hz Gamma Entrainment</div></div>
+        <div class="r-date">MIT · Li-Huei Tsai lab · 2016–2025</div>
+        <div class="r-text">Flickering light and sound at 40 Hz (the gamma frequency) entrains neural oscillations, reduces amyloid and tau, activates microglia to clear plaques, and improves cognition in mouse models. Phase II human trials (OVERTURE) ongoing 2024–2025. Non-invasive. <strong>If it works in humans, it is a paradigm shift.</strong></div>
+        <span class="r-badge rb-orange">Phase II Trials</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(232,164,106,.12)">
+        <div class="r-card-top"><div class="r-icon">💉</div><div class="r-title">Lecanemab & Donanemab</div></div>
+        <div class="r-date">Eisai/Biogen & Eli Lilly · FDA Approved 2023</div>
+        <div class="r-text">First amyloid-clearing antibodies to show statistically significant slowing of cognitive decline (~27–35%). Modest effect. Side effects include ARIA (brain swelling/bleeding). <strong>First drugs to confirm the amyloid hypothesis is at least partly correct.</strong> Debate continues on clinical meaningfulness.</div>
+        <span class="r-badge rb-orange">FDA Approved</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(232,164,106,.12)">
+        <div class="r-card-top"><div class="r-icon">😴</div><div class="r-title">Glymphatic System & Sleep</div></div>
+        <div class="r-date">Nedergaard lab · Rochester · 2013–present</div>
+        <div class="r-text">The glymphatic system — a waste-clearance network in the brain that operates almost exclusively during deep sleep — flushes amyloid-beta and tau. Chronic sleep deprivation dramatically accelerates amyloid accumulation. <strong>Sleep quality may be the most modifiable Alzheimer's risk factor.</strong></div>
+        <span class="r-badge rb-orange">Strong Evidence</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(232,164,106,.12)">
+        <div class="r-card-top"><div class="r-icon">🧬</div><div class="r-title">Blood-Based Biomarkers</div></div>
+        <div class="r-date">Multiple labs · 2020–2025</div>
+        <div class="r-text">Plasma p-tau217 and amyloid ratio tests can now detect Alzheimer's pathology 15–20 years before symptoms with ~90% accuracy — replacing expensive PET scans and lumbar punctures. This changes the diagnosis window entirely. <strong>Identifying disease in the silent phase opens a new treatment window.</strong></div>
+        <span class="r-badge rb-orange">Diagnostic Revolution</span>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.1rem;color:rgba(232,164,106,.6);margin-top:1.5rem;margin-bottom:.6rem">Obstacles Remaining</h2>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--alz)"></div><div class="ob-text"><strong>Blood-brain barrier:</strong> Most drugs cannot cross it at therapeutic doses. Lecanemab requires monthly IV infusions. Ultrasound-assisted BBB opening is in early trials.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--alz)"></div><div class="ob-text"><strong>Treatment timing:</strong> All successful interventions in animal models fail when given after substantial neuronal loss. The question is whether human detection can now be early enough.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--alz)"></div><div class="ob-text"><strong>Heterogeneity:</strong> "Alzheimer's" may be 5+ distinct diseases with different molecular drivers. Treatments that work for APOE4 carriers may not work for non-carriers.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--alz)"></div><div class="ob-text"><strong>Cost and access:</strong> Lecanemab costs ~$26,500/year and requires IV infusions plus monitoring MRIs. Not accessible in most of the world.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PARKINSON'S -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="disease-block" id="park-block" style="border-color:rgba(168,212,160,.12)">
+  <div class="db-header">
+    <div class="db-color-bar" style="background:linear-gradient(90deg,var(--park),rgba(168,212,160,.1))"></div>
+    <div class="db-top">
+      <div>
+        <div class="db-title" style="color:var(--park)">Parkinson's Disease</div>
+        <div class="db-latin">Paralysis Agitans · Described: James Parkinson, 1817 · "An Essay on the Shaking Palsy"</div>
+      </div>
+      <div class="db-stat">
+        <span class="db-stat-n" style="color:var(--park)">10M</span>
+        <span class="db-stat-l">affected worldwide</span>
+      </div>
+    </div>
+  </div>
+  <div class="db-body">
+    <p class="bt">Parkinson's is a progressive neurodegenerative disease caused by the selective death of dopaminergic neurons in the substantia nigra — a small structure deep in the brainstem that produces dopamine for the basal ganglia motor control circuit. Without dopamine, the brain cannot initiate and smooth voluntary movement. <strong>The result: tremor at rest, rigidity, bradykinesia (slowness), and postural instability.</strong> Non-motor symptoms — depression, cognitive decline, anosmia, autonomic dysfunction — often precede motor symptoms by years.</p>
+
+    <div class="info-grid">
+      <div class="ig-cell"><div class="ig-label">Core Biology</div><div class="ig-val">Alpha-synuclein protein misfolds and aggregates into Lewy bodies inside neurons. These spread through the nervous system (Braak staging — gut to brainstem to cortex). By the time motor symptoms appear, <strong>60–80% of substantia nigra dopamine neurons are already dead.</strong></div></div>
+      <div class="ig-cell"><div class="ig-label">Gut-Brain Axis</div><div class="ig-val">Compelling evidence that Parkinson's may begin in the gut — alpha-synuclein pathology found in enteric nervous system years before brain involvement. <strong>Vagotomy (severing the vagus nerve) appears to reduce PD risk by ~40%.</strong> The gut microbiome is a major research target.</div></div>
+      <div class="ig-cell"><div class="ig-label">Genetic Forms</div><div class="ig-val">LRRK2, PINK1, Parkin, SNCA, GBA mutations account for ~10–15% of cases. GBA (glucocerebrosidase) is the most common genetic risk factor — found in ~5–10% of PD patients. <strong>GBA mutation carriers have 5–10× higher risk.</strong> Jewish Ashkenazi and North African Berber populations have higher GBA prevalence.</div></div>
+      <div class="ig-cell"><div class="ig-label">Environment</div><div class="ig-val">Pesticide exposure (particularly rotenone and paraquat) strongly associated — paraquat is banned in 32 countries but still legal in the US. Traumatic brain injury, manganese exposure, rural well water. <strong>Parkinson's incidence has doubled since 1990</strong> — environmental factors are implicated.</div></div>
+    </div>
+
+    <div class="comma-call" style="background:rgba(168,212,160,.02);border:1px solid rgba(168,212,160,.1)">
+      <div class="cc-label" style="color:rgba(168,212,160,.55)">The Pythagorean Comma of Parkinson's</div>
+      <div class="cc-text">Voluntary movement is generated by oscillating circuits between the basal ganglia, thalamus, and cortex. In healthy movement, the dopaminergic signal from the substantia nigra modulates these loops — providing the precise detuning that prevents the circuit from locking into rigid, pathological synchrony. <strong>Parkinson's is, neurophysiologically, the loss of this detuning function.</strong> Without dopamine's modulatory effect, the basal ganglia-thalamo-cortical loop locks into pathological beta oscillations (13–30 Hz) — the system cannot release, cannot move, cannot maintain the controlled non-closure that healthy movement requires. The tremor at rest is the locked loop trying to free itself. The comma — the slight offset that allows movement to proceed — has been removed, and the system rings.</div>
+    </div>
+
+    <h2 style="font-size:1.3rem;color:var(--park);margin-top:1.8rem">Frontier Research</h2>
+    <div class="research-grid">
+      <div class="r-card" style="border-color:rgba(168,212,160,.1)">
+        <div class="r-card-top"><div class="r-icon">🔌</div><div class="r-title">Adaptive Deep Brain Stimulation</div></div>
+        <div class="r-date">Stanford · UoF Bordeaux · 2022–2025</div>
+        <div class="r-text">Next-generation DBS that reads beta-band oscillations in real time and adjusts stimulation accordingly — rather than delivering constant current. Reduces side effects dramatically. <strong>Closed-loop neural control: the implant listens before it speaks.</strong> First successful adaptive DBS in ambulatory patients, 2024.</div>
+        <span class="r-badge rb-green">Clinical Stage</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(168,212,160,.1)">
+        <div class="r-card-top"><div class="r-icon">🧫</div><div class="r-title">GBA-Targeted Therapy</div></div>
+        <div class="r-date">Sanofi · Denali Therapeutics · 2023–2025</div>
+        <div class="r-text">GBA enzyme replacement and small-molecule chaperones are in Phase II/III trials. GBA mutations cause alpha-synuclein to accumulate — correcting GBA function may slow or halt progression for ~10% of patients. <strong>First genotype-targeted Parkinson's therapy.</strong></div>
+        <span class="r-badge rb-green">Phase II/III</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(168,212,160,.1)">
+        <div class="r-card-top"><div class="r-icon">🌿</div><div class="r-title">Gut Microbiome Interventions</div></div>
+        <div class="r-date">Multiple labs · 2021–present</div>
+        <div class="r-text">Fecal microbiota transplantation has shown significant motor improvement in small PD trials. Specific bacterial species (particularly short-chain fatty acid producers) correlate inversely with PD severity. <strong>The gut-brain axis may be a therapeutic highway.</strong></div>
+        <span class="r-badge rb-green">Early Trials</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(168,212,160,.1)">
+        <div class="r-card-top"><div class="r-icon">💊</div><div class="r-title">LRRK2 Inhibitors</div></div>
+        <div class="r-date">Denali · Biogen · DNL201/BIIB122 · 2024</div>
+        <div class="r-text">LRRK2 (leucine-rich repeat kinase 2) inhibitors target the most common inherited PD mutation. Phase I/II results show excellent CNS penetration and reduction in biomarkers. <strong>First precision-medicine PD therapy entering Phase III.</strong> Potential prevention for LRRK2 carriers before symptom onset.</div>
+        <span class="r-badge rb-green">Phase III Upcoming</span>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.1rem;color:rgba(168,212,160,.5);margin-top:1.5rem;margin-bottom:.6rem">Obstacles Remaining</h2>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--park)"></div><div class="ob-text"><strong>Neuronal replacement:</strong> Dead substantia nigra neurons cannot be replaced by current methods. Stem cell transplantation trials have restarted (STEM-PD trial, UK, 2023) but cell survival and integration remain difficult.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--park)"></div><div class="ob-text"><strong>Biomarkers for early detection:</strong> No approved blood or CSF test to detect PD before symptoms. Alpha-synuclein seed amplification assay (SAA) is promising but not yet clinical. The 15-year silent phase is currently invisible.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--park)"></div><div class="ob-text"><strong>Non-motor symptoms:</strong> Depression, cognitive decline, autonomic dysfunction — often more disabling than motor symptoms — are poorly treated by all existing therapies.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- BIPOLAR -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="disease-block" id="bip-block" style="border-color:rgba(201,126,236,.12)">
+  <div class="db-header">
+    <div class="db-color-bar" style="background:linear-gradient(90deg,var(--bip),rgba(201,126,236,.1))"></div>
+    <div class="db-top">
+      <div>
+        <div class="db-title" style="color:var(--bip)">Bipolar Disorder</div>
+        <div class="db-latin">Previously: Manic-Depressive Illness · Type I (full mania) · Type II (hypomania + depression) · Cyclothymia</div>
+      </div>
+      <div class="db-stat">
+        <span class="db-stat-n" style="color:var(--bip)">40M</span>
+        <span class="db-stat-l">affected worldwide</span>
+      </div>
+    </div>
+  </div>
+  <div class="db-body">
+    <p class="bt">Bipolar disorder is a chronic mood disorder characterized by episodic swings between mania (elevated mood, decreased need for sleep, grandiosity, impulsivity, racing thoughts) and depression (profound low mood, anhedonia, fatigue, suicidality). <strong>It is among the top ten leading causes of disability worldwide.</strong> Average time between first symptoms and correct diagnosis: 9.5 years — during which most patients receive incorrect treatment, often antidepressants alone, which can trigger manic episodes.</p>
+
+    <div class="info-grid">
+      <div class="ig-cell"><div class="ig-label">Neurobiology</div><div class="ig-val">Circadian rhythm disruption, mitochondrial dysfunction, glutamate/GABA imbalance, dopamine dysregulation, and inflammatory pathways are all implicated. <strong>No single biomarker exists.</strong> Highly polygenic: hundreds of genetic variants each contributing small risk. Heritability ~70–90%.</div></div>
+      <div class="ig-cell"><div class="ig-label">The Circadian Core</div><div class="ig-val">CLOCK gene variants, disrupted sleep-wake cycles, and abnormal melatonin secretion are among the most replicated findings. <strong>Sleep deprivation reliably triggers manic episodes.</strong> Chronotherapy (manipulating sleep timing) has robust evidence. The disorder may be fundamentally a circadian rhythm disorder.</div></div>
+      <div class="ig-cell"><div class="ig-label">Current Treatments</div><div class="ig-val">Lithium (most effective mood stabilizer — discovered 1949, mechanism still not fully understood), valproate, lamotrigine, quetiapine. <strong>Lithium reduces suicide risk by 60–80%</strong> — more than any other psychotropic drug — but requires blood monitoring and has kidney side effects over decades.</div></div>
+      <div class="ig-cell"><div class="ig-label">Misdiagnosis Crisis</div><div class="ig-val">Bipolar II is most commonly misdiagnosed as unipolar depression. Antidepressants without mood stabilizers can destabilize the cycle. <strong>An estimated 40% of patients with bipolar disorder have received antidepressants without mood stabilizers</strong>, potentially worsening long-term course.</div></div>
+    </div>
+
+    <div class="comma-call" style="background:rgba(201,126,236,.02);border:1px solid rgba(201,126,236,.1)">
+      <div class="cc-label" style="color:rgba(201,126,236,.55)">The Pythagorean Comma of Bipolar Disorder</div>
+      <div class="cc-text">The healthy mood system oscillates within a bounded range — rising with opportunity and challenge, falling with loss and rest, but always returning toward a stable baseline. This is the biological equivalent of equal temperament: a slight, tolerable imperfection that allows the system to function across all registers without drifting catastrophically in either direction. <strong>Bipolar disorder is the loss of this self-correcting property.</strong> The oscillation escapes its bounds. A mania is a system that has crossed the threshold of the comma — that has accumulated so much upward drift that the feedback mechanisms that should return it to baseline are overwhelmed. The depression that follows is not simply low mood; it is the system overcorrecting, swinging through the center and past it in the opposite direction. <strong>Lithium works, at a molecular level, by restoring the inositol phosphatase cycle — a biological loop that closes slightly imperfectly, that requires the tiny gap to function. It reinstates the comma.</strong></div>
+    </div>
+
+    <h2 style="font-size:1.3rem;color:var(--bip);margin-top:1.8rem">Frontier Research</h2>
+    <div class="research-grid">
+      <div class="r-card" style="border-color:rgba(201,126,236,.1)">
+        <div class="r-card-top"><div class="r-icon">🌙</div><div class="r-title">Chronotherapy Protocols</div></div>
+        <div class="r-date">Multiple centers · 2020–2025</div>
+        <div class="r-text">Triple chronotherapy (sleep deprivation + light therapy + sleep phase advance) produces rapid antidepressant effects within days in bipolar depression — without triggering mania when combined with lithium. <strong>Non-pharmacological, fast-acting, and targeting the circadian core.</strong> Under-utilized despite strong evidence.</div>
+        <span class="r-badge rb-purple">Strong Evidence</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(201,126,236,.1)">
+        <div class="r-card-top"><div class="r-icon">🔬</div><div class="r-title">Ketamine for Bipolar Depression</div></div>
+        <div class="r-date">NIMH · Stanford · 2023–2025</div>
+        <div class="r-text">Ketamine (NMDA receptor antagonist) produces rapid antidepressant effects within hours. Concern about triggering mania has been overstated in recent studies when given with mood stabilizers. Lanicemine and other next-gen NMDA modulators in Phase II. <strong>May finally offer rapid-acting options for bipolar depression.</strong></div>
+        <span class="r-badge rb-purple">Phase II</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(201,126,236,.1)">
+        <div class="r-card-top"><div class="r-icon">🧬</div><div class="r-title">Mitochondrial Targets</div></div>
+        <div class="r-date">McLean Hospital · 2022–present</div>
+        <div class="r-text">Mitochondrial dysfunction — reduced complex I activity, impaired oxidative phosphorylation — is among the most replicated biological findings in bipolar disorder. N-acetylcysteine (NAC) and mitochondrially-targeted antioxidants in Phase II. <strong>Mitochondria as the site of mood regulation: a new framework.</strong></div>
+        <span class="r-badge rb-purple">Phase II</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(201,126,236,.1)">
+        <div class="r-card-top"><div class="r-icon">📱</div><div class="r-title">Digital Biomarkers</div></div>
+        <div class="r-date">Multiple companies · 2022–2025</div>
+        <div class="r-text">Smartphone accelerometry, keyboard dynamics, voice analysis, and sleep tracking can detect early-phase transitions between mood states before patients are aware. <strong>Studies show 2–5 day advance warning of manic/depressive episodes.</strong> Potential to intervene before the threshold is crossed.</div>
+        <span class="r-badge rb-purple">Emerging</span>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.1rem;color:rgba(201,126,236,.5);margin-top:1.5rem;margin-bottom:.6rem">Obstacles Remaining</h2>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--bip)"></div><div class="ob-text"><strong>Diagnostic delay:</strong> The 9.5-year gap between symptoms and correct diagnosis is largely unchanged in 20 years. No objective biomarker test exists; diagnosis relies entirely on clinical interview.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--bip)"></div><div class="ob-text"><strong>Lithium alternatives:</strong> Lithium remains the most effective mood stabilizer but is underused due to side effect concerns and monitoring requirements. Many patients cycle through alternatives with inferior efficacy.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--bip)"></div><div class="ob-text"><strong>Bipolar II recognition:</strong> Hypomania is often experienced as a positive state — patients may not report it, and clinicians may not identify it. Bipolar II remains dramatically underdiagnosed.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SCHIZOPHRENIA -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="disease-block" id="schz-block" style="border-color:rgba(126,236,212,.1)">
+  <div class="db-header">
+    <div class="db-color-bar" style="background:linear-gradient(90deg,var(--schz),rgba(126,236,212,.08))"></div>
+    <div class="db-top">
+      <div>
+        <div class="db-title" style="color:var(--schz)">Schizophrenia</div>
+        <div class="db-latin">Spectrum of psychotic disorders · First described: Emil Kraepelin 1896 (dementia praecox) · Named: Eugen Bleuler 1911</div>
+      </div>
+      <div class="db-stat">
+        <span class="db-stat-n" style="color:var(--schz)">24M</span>
+        <span class="db-stat-l">affected worldwide</span>
+      </div>
+    </div>
+  </div>
+  <div class="db-body">
+    <p class="bt">Schizophrenia is a chronic psychotic disorder involving positive symptoms (hallucinations, delusions, disorganized thought), negative symptoms (flat affect, avolition, alogia, anhedonia), and cognitive symptoms (impaired working memory, executive function, attention). <strong>It is one of the most disabling conditions in medicine, and one of the most misunderstood.</strong> The popular image — violent, unpredictable — is statistically wrong; people with schizophrenia are more often victims than perpetrators of violence. The average life expectancy is 14–20 years shorter, primarily due to cardiovascular disease and suicide.</p>
+
+    <div class="info-grid">
+      <div class="ig-cell"><div class="ig-label">Neurobiology</div><div class="ig-val">Dopamine hypothesis (excess D2 signaling in mesolimbic pathway = positive symptoms), glutamate/NMDA receptor hypofunction (= cognitive symptoms, negative symptoms). <strong>Thalamic filtering failure:</strong> the thalamus normally gates sensory information — in schizophrenia this gate is dysregulated, flooding the cortex with unfiltered signals. This is the neural correlate of hallucinations.</div></div>
+      <div class="ig-cell"><div class="ig-label">Genetics</div><div class="ig-val">Heritability 70–80%. >100 genetic loci associated, including copy number variants (22q11.2 deletion — 30× risk increase). No single gene. <strong>C4A complement gene variant</strong> (2016, Broad Institute) — excessive synaptic pruning during adolescence — one of the most important mechanistic discoveries in schizophrenia genetics.</div></div>
+      <div class="ig-cell"><div class="ig-label">The Pruning Hypothesis</div><div class="ig-val">Adolescent synaptic pruning — the brain's normal process of eliminating excess synaptic connections — appears to be excessive in schizophrenia. C4A complement protein tags synapses for elimination. <strong>Over-pruning of prefrontal cortex connections during adolescence may cause the cognitive deficits and symptom onset in early adulthood.</strong></div></div>
+      <div class="ig-cell"><div class="ig-label">Current Treatments</div><div class="ig-val">All approved antipsychotics target D2 dopamine receptors. They treat positive symptoms moderately well and do almost nothing for negative and cognitive symptoms — which are often the most disabling. <strong>Not a single new mechanism of action approved since clozapine in 1989.</strong> Xanomeline-trospium (KarXT) — FDA approved 2024 — is the first with a new mechanism (muscarinic agonism) in 35 years.</div></div>
+    </div>
+
+    <div class="comma-call" style="background:rgba(126,236,212,.015);border:1px solid rgba(126,236,212,.08)">
+      <div class="cc-label" style="color:rgba(126,236,212,.5)">The Pythagorean Comma of Schizophrenia</div>
+      <div class="cc-text">The brain constructs reality by predicting what it expects to receive, comparing this prediction against actual sensory input, and generating a perception that is an optimal combination of expectation and sensation — a process called predictive coding. The comma in this system is the <strong>prediction error signal</strong>: the small, managed discrepancy between prediction and reality that drives learning, attention, and the continuous updating of the world model. In schizophrenia, the precision-weighting of this error signal is catastrophically dysregulated. <strong>Sensory noise is assigned too much weight; internal predictions are dismissed. The system cannot distinguish signal from noise because the gap between them — the comma — has been removed.</strong> Hallucinations are internally-generated predictions that, lacking the corrective feedback of a properly weighted prediction error, are treated as externally real. Delusions are the belief system that forms to explain why internal signals feel external. The comma of reality — the small, managed gap between self and world — has collapsed.</div>
+    </div>
+
+    <h2 style="font-size:1.3rem;color:var(--schz);margin-top:1.8rem">Frontier Research</h2>
+    <div class="research-grid">
+      <div class="r-card" style="border-color:rgba(126,236,212,.08)">
+        <div class="r-card-top"><div class="r-icon">🆕</div><div class="r-title">KarXT (Xanomeline-Trospium)</div></div>
+        <div class="r-date">Karuna / BMS · FDA Approved Sept 2024</div>
+        <div class="r-text">First antipsychotic with a genuinely new mechanism in 35 years. Muscarinic receptor agonist (M1/M4) rather than D2 blocker. Shows efficacy for positive symptoms <strong>and promising signals for cognitive symptoms</strong> — the unmet need. No weight gain or metabolic side effects. Potentially transformative if cognitive benefits confirmed in longer trials.</div>
+        <span class="r-badge rb-teal">FDA Approved 2024</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(126,236,212,.08)">
+        <div class="r-card-top"><div class="r-icon">🧬</div><div class="r-title">Complement C4A Targeting</div></div>
+        <div class="r-date">Broad Institute · Harvard · 2016–present</div>
+        <div class="r-text">If C4A-mediated synaptic over-pruning causes schizophrenia in a subset of patients, blocking C4A during the critical window (adolescence) might prevent disease onset. <strong>A true preventive intervention — not treatment of symptoms, but prevention of the underlying mechanism.</strong> Pre-clinical stage, but intellectually the most exciting hypothesis in the field.</div>
+        <span class="r-badge rb-teal">Pre-Clinical</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(126,236,212,.08)">
+        <div class="r-card-top"><div class="r-icon">⚡</div><div class="r-title">tDCS / TMS for Cognitive Symptoms</div></div>
+        <div class="r-date">Multiple sites · 2022–2025</div>
+        <div class="r-text">Transcranial direct current stimulation and transcranial magnetic stimulation targeting dorsolateral prefrontal cortex show improvement in working memory and negative symptoms in early trials. <strong>Targeted to the circuits that are actually deficient</strong> — unlike D2 blockers, which don't reach these circuits. Meta-analyses now show consistent moderate effects.</div>
+        <span class="r-badge rb-teal">Emerging Evidence</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(126,236,212,.08)">
+        <div class="r-card-top"><div class="r-icon">🏥</div><div class="r-title">Early Psychosis Programs</div></div>
+        <div class="r-date">RAISE / OnTrackNY / NAVIGATE · US-wide</div>
+        <div class="r-text">Coordinated specialty care (CSC) programs that intervene in the first episode of psychosis with low-dose antipsychotics, family education, supported employment/education, and psychotherapy. <strong>NIMH RAISE trial: 2-year outcomes dramatically better than treatment-as-usual.</strong> This is currently the strongest evidence-based intervention in schizophrenia.</div>
+        <span class="r-badge rb-teal">Strong Evidence</span>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.1rem;color:rgba(126,236,212,.45);margin-top:1.5rem;margin-bottom:.6rem">Obstacles Remaining</h2>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--schz)"></div><div class="ob-text"><strong>Negative and cognitive symptoms:</strong> All existing dopamine-based antipsychotics leave these largely untreated. They are often more disabling than positive symptoms. KarXT is the first meaningful hope.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--schz)"></div><div class="ob-text"><strong>Metabolic side effects:</strong> Most antipsychotics cause weight gain (olanzapine: +10kg average), diabetes, and dyslipidemia — directly contributing to the 15-year shorter life expectancy.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--schz)"></div><div class="ob-text"><strong>Treatment resistance:</strong> ~30% of patients do not respond to standard antipsychotics. Clozapine (only proven treatment for resistant cases) requires weekly blood monitoring and has serious side effects — leading to chronic underuse.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- AUTISM -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="disease-block" id="aut-block" style="border-color:rgba(245,208,106,.1)">
+  <div class="db-header">
+    <div class="db-color-bar" style="background:linear-gradient(90deg,var(--aut),rgba(245,208,106,.08))"></div>
+    <div class="db-top">
+      <div>
+        <div class="db-title" style="color:var(--aut)">Autism Spectrum Condition</div>
+        <div class="db-latin">ASD · Described: Leo Kanner 1943 (US), Hans Asperger 1944 (Vienna) · "On the autistic psychopathies in childhood"</div>
+      </div>
+      <div class="db-stat">
+        <span class="db-stat-n" style="color:var(--aut)">1 in 36</span>
+        <span class="db-stat-l">US children (CDC 2020)</span>
+      </div>
+    </div>
+  </div>
+  <div class="db-body">
+    <p class="bt">Autism spectrum condition (the term increasingly preferred by autistic self-advocates over "disorder") encompasses a wide range of presentations characterized by differences in social communication, restricted/repetitive behaviors and interests, and sensory processing differences. <strong>It is not a single condition — it is a spectrum of hundreds of distinct genetic and neurological presentations that share surface similarities.</strong> The debate about whether autism is primarily a disability, a difference, or both is live, contested, and politically important. This page tries to present both the medical and neurodiversity perspectives honestly.</p>
+
+    <div class="info-grid">
+      <div class="ig-cell"><div class="ig-label">What We Know</div><div class="ig-val">Highly heritable (~80%). ~1,000 genes associated. Prenatal brain development differences — altered neuronal migration, cortical organization, synaptic protein expression. <strong>Excitatory/inhibitory (E/I) balance is disrupted:</strong> too much excitation relative to inhibition in many circuits. This underlies sensory hypersensitivity, anxiety, and social processing differences.</div></div>
+      <div class="ig-cell"><div class="ig-label">The Diagnosis Shift</div><div class="ig-val">The rise from 1 in 150 (2000) to 1 in 36 (2020) is primarily diagnostic — broader criteria, better recognition, increased awareness. <strong>Late-identified adults are a major underrecognized population, particularly women</strong>, who often "mask" (suppress autistic traits to fit in), at significant psychological cost.</div></div>
+      <div class="ig-cell"><div class="ig-label">Neurodiversity Perspective</div><div class="ig-val">Many autistic people and advocates argue that autism is a cognitive style — not a disease — and that the goal should be reducing disabling environmental barriers and supporting autistic wellbeing, not eliminating autism. <strong>The scientific and ethical questions about research direction are live and important.</strong> Autistic voices belong in decisions about autism research priorities.</div></div>
+      <div class="ig-cell"><div class="ig-label">Co-occurrences</div><div class="ig-val">ADHD (50–70% co-occurrence), anxiety (40–50%), depression (25–50%), GI problems (40–70%), sleep disorders (50–80%), epilepsy (20–30%). <strong>These co-occurring conditions, not autism itself, often cause the greatest suffering</strong> — and are often undertreated because the autism diagnosis dominates clinical attention.</div></div>
+    </div>
+
+    <div class="comma-call" style="background:rgba(245,208,106,.015);border:1px solid rgba(245,208,106,.08)">
+      <div class="cc-label" style="color:rgba(245,208,106,.5)">The Pythagorean Comma of Autism</div>
+      <div class="cc-text">The E/I (excitatory/inhibitory) balance in neural circuits is the most fundamental regulatory relationship in the brain. It is not a 1:1 balance — it is a carefully maintained imperfect ratio. The brain must be slightly more excitable than fully inhibited to be responsive, but slightly more inhibited than fully unconstrained to be organized. <strong>This is the neural comma: the managed asymmetry that allows flexible, adaptive response without chaos.</strong> In many autistic presentations, this E/I ratio is shifted toward excess excitation — leading to heightened sensory sensitivity, strong pattern recognition, and intense focused engagement with specific systems. This is not noise, and it is not simply deficit: <strong>it is a different tuning of the same fundamental system.</strong> The autistic brain may be tuned to a different interval — one that hears patterns others miss, but requires different acoustics to function well. The comma is not gone — it is placed differently. The question is not whether to normalize it, but how to build environments that allow it to resonate.</div>
+    </div>
+
+    <h2 style="font-size:1.3rem;color:var(--aut);margin-top:1.8rem">Frontier Research</h2>
+    <div class="research-grid">
+      <div class="r-card" style="border-color:rgba(245,208,106,.08)">
+        <div class="r-card-top"><div class="r-icon">⚖️</div><div class="r-title">E/I Balance Restoration</div></div>
+        <div class="r-date">Multiple labs · 2020–2025</div>
+        <div class="r-text">Low-dose arbaclofen (GABA-B agonist), bumetanide (NKCC1 inhibitor), and other agents targeting E/I balance. Early trials show improvements in social communication in subgroups. <strong>Not "curing autism" — targeting specific co-occurring symptoms that cause distress.</strong> The distinction matters ethically.</div>
+        <span class="r-badge rb-gold">Phase II</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(245,208,106,.08)">
+        <div class="r-card-top"><div class="r-icon">🔍</div><div class="r-title">Genetic Subtyping</div></div>
+        <div class="r-date">SPARK / MSSNG / AutDB · Ongoing</div>
+        <div class="r-text">Identifying the hundreds of distinct genetic etiologies within the autism spectrum may enable targeted treatments for specific subtypes. SPARK (>50,000 participants) is the largest autism genetics study in history. <strong>Fragile X, Phelan-McDermid (SHANK3), Angelman syndrome</strong> — each a distinct biology, requiring distinct approaches.</div>
+        <span class="r-badge rb-gold">Large-Scale</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(245,208,106,.08)">
+        <div class="r-card-top"><div class="r-icon">🌐</div><div class="r-title">Participatory / Autistic-Led Research</div></div>
+        <div class="r-date">AASPIRE · Autscape · 2020–present</div>
+        <div class="r-text">Research programs co-designed and led by autistic people, focusing on quality of life, mental health, sensory needs, and systemic barriers rather than symptom reduction. <strong>The most consistent finding: mental health outcomes are far better with identity-affirming support vs. compliance-based approaches.</strong></div>
+        <span class="r-badge rb-gold">Paradigm Shift</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(245,208,106,.08)">
+        <div class="r-card-top"><div class="r-icon">🏫</div><div class="r-title">Masking Research & Late Diagnosis</div></div>
+        <div class="r-date">UK · Australia · 2019–2025</div>
+        <div class="r-text">Systematic research on "camouflaging" (the effort to suppress autistic traits in social situations) shows it is associated with increased depression, anxiety, burnout, and suicidality — especially in autistic women. <strong>Late-diagnosed adults, particularly women, show dramatic quality-of-life improvement after diagnosis and appropriate support.</strong></div>
+        <span class="r-badge rb-gold">Strong Evidence</span>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.1rem;color:rgba(245,208,106,.45);margin-top:1.5rem;margin-bottom:.6rem">Obstacles Remaining</h2>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--aut)"></div><div class="ob-text"><strong>Ethical direction:</strong> Fundamental tension between biomedical (reduce autistic traits) and neurodiversity (reduce barriers, improve wellbeing) paradigms. Research funding has historically overwhelmingly targeted the former. Autistic communities' research priorities differ significantly from non-autistic researchers' priorities.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--aut)"></div><div class="ob-text"><strong>Heterogeneity:</strong> Trying to treat "autism" as a single condition is like trying to treat "fever" as a single disease. Progress requires stratifying by underlying biology — which requires genetic testing at a scale the field is only beginning.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--aut)"></div><div class="ob-text"><strong>Adult services:</strong> The vast majority of autism support services and research focus on children. Autistic adults face dramatic service cliffs at 18 and are significantly underserved.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- CANCER -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="disease-block" id="canc-block" style="border-color:rgba(255,122,122,.1)">
+  <div class="db-header">
+    <div class="db-color-bar" style="background:linear-gradient(90deg,var(--canc),rgba(255,122,122,.08))"></div>
+    <div class="db-top">
+      <div>
+        <div class="db-title" style="color:var(--canc)">Cancer</div>
+        <div class="db-latin">Malignant neoplasm · 100+ distinct diseases · The body's own cells, unbound from the constraints of the organism</div>
+      </div>
+      <div class="db-stat">
+        <span class="db-stat-n" style="color:var(--canc)">20M</span>
+        <span class="db-stat-l">new cases/year globally</span>
+      </div>
+    </div>
+  </div>
+  <div class="db-body">
+    <p class="bt">Cancer is not one disease. It is the general condition in which a cell escapes the regulatory constraints that govern normal tissue behavior — accumulating mutations that confer uncontrolled growth, resistance to cell death, ability to invade surrounding tissue, and eventually to metastasize to distant sites. <strong>It is, in a profound sense, the cell pursuing its own survival at the expense of the organism.</strong> The fundamental paradox of cancer biology: cancer cells are not alien invaders — they are the organism's own cells, freed from the social contract of multicellularity.</p>
+
+    <div class="info-grid">
+      <div class="ig-cell"><div class="ig-label">The Hallmarks</div><div class="ig-val">Hanahan &amp; Weinberg (2000, 2011): sustained proliferative signaling, evasion of growth suppressors, resistance to cell death, replicative immortality, angiogenesis induction, invasion/metastasis, metabolic reprogramming, immune evasion. <strong>Cancer requires the acquisition of approximately 6–10 hallmarks</strong>, each an escape from a specific cellular regulatory system.</div></div>
+      <div class="ig-cell"><div class="ig-label">Immunotherapy Revolution</div><div class="ig-val">Checkpoint inhibitors (anti-PD-1, anti-CTLA-4) release the immune system's brakes on T-cell activity against tumor cells. 20–30% of patients with certain cancers (melanoma, NSCLC) achieve durable long-term remissions — previously impossible. <strong>Some patients with stage IV melanoma are alive 10+ years later.</strong> Nobel Prize 2018 (Allison, Honjo).</div></div>
+      <div class="ig-cell"><div class="ig-label">Precision Oncology</div><div class="ig-val">Matching targeted drugs to specific mutations rather than treating by tumor location. EGFR inhibitors for lung cancer with EGFR mutations. BCR-ABL inhibitors (imatinib) converted CML from uniformly fatal to a manageable chronic condition. <strong>The era of "one size fits all" chemotherapy is ending.</strong> Tumor molecular profiling is standard of care at major centers.</div></div>
+      <div class="ig-cell"><div class="ig-label">What Still Kills</div><div class="ig-val">Metastatic disease accounts for ~90% of cancer deaths. Resistance — initially sensitive tumors eventually develop resistance to every targeted therapy. Pancreatic, brain (GBM), and esophageal cancers remain nearly unchanged in outcome over 30 years. <strong>Liquid biopsy (ctDNA) for early detection is the most promising general advance.</strong></div></div>
+    </div>
+
+    <div class="comma-call" style="background:rgba(255,122,122,.015);border:1px solid rgba(255,122,122,.08)">
+      <div class="cc-label" style="color:rgba(255,122,122,.5)">The Pythagorean Comma of Cancer</div>
+      <div class="cc-text">Healthy cell division is governed by a system of checkpoints — G1/S, G2/M, spindle assembly checkpoint — that pause the cell cycle and allow error-correction before each commitment to division. <strong>The checkpoint system is, structurally, the comma of cell division: the built-in pause, the managed non-closure, the gap between one cycle and the next that allows quality control.</strong> In cancer, the checkpoints are progressively disabled. TP53 (the "guardian of the genome") is mutated in >50% of all cancers — it is the gene that activates G1 arrest when DNA damage is detected. When p53 is silenced, the comma is removed. The cell proceeds through division without the quality-control pause. Mutations accumulate. Each cycle closes less cleanly than the last. <strong>Cancer is, literally, a cell that has learned to ignore the comma — to cycle without the gap, without the pause, without the self-correction that the gap provides.</strong> Every successful cancer therapy must restore some version of the checkpoint — must reintroduce the comma into a system that has evolved to eliminate it.</div>
+    </div>
+
+    <h2 style="font-size:1.3rem;color:var(--canc);margin-top:1.8rem">Frontier Research</h2>
+    <div class="research-grid">
+      <div class="r-card" style="border-color:rgba(255,122,122,.08)">
+        <div class="r-card-top"><div class="r-icon">🎯</div><div class="r-title">CAR-T Cell Therapy</div></div>
+        <div class="r-date">Penn · MSK · FDA Approved for B-cell malignancies</div>
+        <div class="r-text">Patient T-cells genetically engineered to recognize and kill cancer cells. Produces complete remissions in >80% of certain leukemias and lymphomas — diseases that were previously uniformly fatal. <strong>Now expanding to solid tumors.</strong> Claudin-18.2, HER2, EGFR targeting in trials. Cost (~$400–500K/infusion) and manufacturing time remain barriers.</div>
+        <span class="r-badge rb-red">Approved + Expanding</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(255,122,122,.08)">
+        <div class="r-card-top"><div class="r-icon">💉</div><div class="r-title">Personalized mRNA Cancer Vaccines</div></div>
+        <div class="r-date">Moderna / Merck · Phase III · 2023–2025</div>
+        <div class="r-text">mRNA vaccines encoding the patient's specific tumor neoantigens, combined with pembrolizumab (anti-PD-1), reduced melanoma recurrence by 44% in Phase IIb (2023). Now in Phase III. <strong>The same mRNA technology that produced COVID vaccines, applied to teaching the immune system to recognize each patient's unique cancer mutations.</strong></div>
+        <span class="r-badge rb-red">Phase III</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(255,122,122,.08)">
+        <div class="r-card-top"><div class="r-icon">🩸</div><div class="r-title">Liquid Biopsy / ctDNA</div></div>
+        <div class="r-date">Grail / Guardant / Multiple · 2022–2025</div>
+        <div class="r-text">Blood tests detecting circulating tumor DNA can identify cancer (multiple types simultaneously) years before symptoms — the PATHFINDER trial detected 1.4% cancer prevalence in asymptomatic adults ≥50. <strong>Multi-cancer early detection (MCED) — catching cancer in Stage I when it is largely curable — could transform mortality at population scale.</strong></div>
+        <span class="r-badge rb-red">Clinical Stage</span>
+      </div>
+      <div class="r-card" style="border-color:rgba(255,122,122,.08)">
+        <div class="r-card-top"><div class="r-icon">🧬</div><div class="r-title">Synthetic Lethality</div></div>
+        <div class="r-date">PARP inhibitors · BRCA1/2 cancers</div>
+        <div class="r-text">Exploiting cancer cells' DNA repair deficiencies: PARP inhibitors kill BRCA-mutated cancer cells by blocking a backup repair pathway — the cancer cell, already missing one pathway, cannot survive the second loss. <strong>The cancer's mutation becomes its vulnerability.</strong> Olaparib, rucaparib: major advances in ovarian and breast cancer. Expanding to prostate, pancreatic, lung cancers.</div>
+        <span class="r-badge rb-red">Approved + Expanding</span>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.1rem;color:rgba(255,122,122,.45);margin-top:1.5rem;margin-bottom:.6rem">Obstacles Remaining</h2>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--canc)"></div><div class="ob-text"><strong>Metastasis:</strong> The biology of metastatic colonization remains poorly understood. Most cancer deaths are from metastases, not primary tumors. No approved therapy specifically targets the metastatic process itself.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--canc)"></div><div class="ob-text"><strong>Resistance evolution:</strong> Tumors under treatment pressure rapidly evolve resistance. Acquired resistance to immunotherapy, targeted therapy, and CAR-T cells all occur. Preventing resistance requires combination strategies that may be too toxic.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--canc)"></div><div class="ob-text"><strong>Intractable cancers:</strong> Glioblastoma multiforme (GBM) median survival ~15 months, unchanged in 20 years. Pancreatic cancer 5-year survival ~12%. These are the frontier — and they are very hard.</div></div>
+    <div class="obstacle"><div class="ob-dot" style="background:var(--canc)"></div><div class="ob-text"><strong>Access equity:</strong> CAR-T at $400K, personalized vaccines, liquid biopsy — these advances are emerging predominantly in wealthy healthcare systems. The global cancer burden falls disproportionately on low-income countries where none of this is available.</div></div>
+  </div>
+</div>
+
+<div class="divl"></div>
+
+<!-- GRAND SYNTHESIS -->
+<div class="section">
+  <div class="sr" style="background:rgba(232,201,106,.15)"></div>
+  <p class="sp">Section VII · The Grand Pattern</p>
+  <h2 style="color:var(--gold)"><em>The comma across</em><br><strong>all six conditions</strong></h2>
+
+  <div class="synthesis">
+    <div class="syn-label">The Pythagorean Comma of Disease · Grand Synthesis</div>
+    <div class="syn-text">
+      What these six conditions share — across their wildly different scales, mechanisms, and presentations — is a common structural pattern: <strong>the loss of a managed, productive non-closure in a critical biological system.</strong>
+      <br><br>
+      The healthy brain maintains gamma oscillations that close the memory-encoding loop with a precise, renewable gap. <strong>Alzheimer's</strong> is the progressive loss of this gap — the system accumulates uncleared debt until it collapses.
+      <br><br>
+      The healthy motor system maintains a dopaminergic modulation that keeps the basal ganglia loop from locking. <strong>Parkinson's</strong> is the loss of that detuning function — the loop locks in pathological synchrony, the movement system rings but cannot move.
+      <br><br>
+      The healthy mood system oscillates within its bounds because it carries a self-correcting feedback. <strong>Bipolar disorder</strong> is the loss of that self-correction — the oscillation escapes in both directions, and the system cannot find its way back.
+      <br><br>
+      The healthy brain maintains a managed gap between prediction and perception — the prediction error that drives learning. <strong>Schizophrenia</strong> is the collapse of that gap — internal and external signals can no longer be distinguished, the comma of reality dissolves.
+      <br><br>
+      The healthy neural circuit maintains a precise excitatory/inhibitory ratio — not balance, but a productive asymmetry. <strong>Autism</strong> is a different tuning of that ratio — not absence of the comma, but a different placement of it, requiring different acoustics.
+      <br><br>
+      The healthy cell maintains checkpoint pauses — the gap between each cycle of division that allows quality control. <strong>Cancer</strong> is the progressive elimination of those pauses — the cell learns to cycle without the comma, accumulating errors, eventually escaping the organism entirely.
+      <br><br>
+      <strong>The frontier of medicine, in all six cases, is learning to restore or accommodate the comma: gamma entrainment for Alzheimer's. Adaptive DBS for Parkinson's. Chronotherapy for bipolar. Predictive-coding models for schizophrenia. E/I balance research for autism. Checkpoint restoration for cancer.</strong> The instruments are different. The music is the same. The gap that allows recovery, oscillation, and self-correction — the δ — is what we are always trying to protect.
+    </div>
+  </div>
+
+  <div class="pull" style="border:none">
+    <div class="pull::before" style="background:var(--gold)"></div>
+    <div class="pt" style="color:var(--gold);border-left:3px solid var(--gold);padding-left:1.5rem">"Biology does not work through perfect efficiency. The organism is not a perfectly tuned instrument. It is an instrument that works because of its imperfections — because the slight non-closure of every cycle is what allows the next cycle to begin. Disease is not the presence of the gap. Disease is the loss of it."</div>
+    <div class="ps" style="padding-left:1.5rem">Musica Universalis · Project Orpheus · The Comma of Biology</div>
+  </div>
+</div>
+
+<div class="fn">
+  Alzheimer's: Jack et al., Lancet (2018) NIA-AA research framework · Lecanemab: van Dyck et al., NEJM (2023) · 40Hz entrainment: Iaccarino et al., Nature (2016); Martorell et al., Cell (2019) · Glymphatic system: Nedergaard et al., Science (2013) · Blood biomarkers: Palmqvist et al., JAMA (2021) · Amyloid fabrication: Lesné et al., Nature (2006) / retraction investigation 2022 ·
+  Parkinson's: GBA therapy: Sardi et al. (2017) · Gut-brain: Killinger et al., JCI (2019) · Adaptive DBS: Little et al., Annals of Neurology (2013); Provenza et al. (2024) · LRRK2: Jennings et al., NEJM Evidence (2022) ·
+  Bipolar: Chronotherapy: Benedetti et al. (2019) · Lithium suicidality: Cipriani et al., Lancet (2013) · Mitochondria: Stork & Renshaw (2005); Brown et al., Bipolar Disorders (2014) · Digital biomarkers: Faurholt-Jepsen et al. (2019) ·
+  Schizophrenia: C4A pruning: Sekar et al., Nature (2016) · KarXT: Brannan et al., NEJM (2021); FDA approval Sept 2024 · RAISE trial: Kane et al., AJP (2016) · E/I predictive coding: Adams et al., Brain (2013) ·
+  Autism: E/I balance: Rubenstein & Merzenich (2003) · SPARK study: Feliciano et al. (2018) · Masking: Hull et al., Autism (2017); Cage et al. (2018) · Late diagnosis: Leedham et al. (2020) ·
+  Cancer: Hallmarks: Hanahan & Weinberg, Cell (2000, 2011) · CAR-T: Maude et al., NEJM (2018) · mRNA vaccine: Khattak et al., NEJM (2023) Phase IIb · Liquid biopsy: Schrag et al., PATHFINDER (2023) · PARP inhibitors: Fong et al. (2009) · Checkpoint immunotherapy: Topalian et al. (2012); Hodi et al. (2010); Nobel Prize 2018
+</div>
+</div>
+
+<footer>
+  <div class="fd">Musica Universalis · Project Orpheus · Modern Diseases · The Comma of Biology</div>
+  <a href="index.html" class="fl">← Main Frequency</a>
+  <a href="directory.html" class="fl">Directory</a>
+  <a href="circadian_clock.html" class="fl">Circadian Clock</a>
+  <a href="drugs_and_healing.html" class="fl">Pharmacopoeia</a>
+  <a href="self_healing.html" class="fl">Self-Healing</a>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════
+// BACKGROUND — neural network particle field
+// ══════════════════════════════════════════════════════
+const bgC = document.getElementById('bg');
+const bgCtx = bgC.getContext('2d');
+let nodes = [], edges = [];
+const NODE_COUNT = 60;
+
+function bgResize(){ bgC.width = innerWidth; bgC.height = innerHeight; initNodes(); }
+
+function initNodes(){
+  nodes = [];
+  edges = [];
+  for(let i = 0; i < NODE_COUNT; i++){
+    nodes.push({
+      x: Math.random() * bgC.width,
+      y: Math.random() * bgC.height,
+      vx: (Math.random() - .5) * .18,
+      vy: (Math.random() - .5) * .12,
+      r: Math.random() * 1.2 + .3,
+      pulse: Math.random() * Math.PI * 2,
+      pspeed: Math.random() * .02 + .005,
+      col: ['210,228,255','232,164,106','168,212,160','201,126,236','126,236,212','245,208,106','255,122,122'][Math.floor(Math.random() * 7)]
+    });
+  }
+}
+
+function bgDraw(){
+  bgCtx.clearRect(0, 0, bgC.width, bgC.height);
+  const grd = bgCtx.createRadialGradient(bgC.width*.5, bgC.height*.4, 0, bgC.width*.5, bgC.height*.4, bgC.height * 1.2);
+  grd.addColorStop(0, 'rgba(4,8,20,.7)');
+  grd.addColorStop(.5, 'rgba(2,4,12,.9)');
+  grd.addColorStop(1, 'rgba(1,2,8,1)');
+  bgCtx.fillStyle = grd;
+  bgCtx.fillRect(0, 0, bgC.width, bgC.height);
+
+  // Update
+  nodes.forEach(n => {
+    n.x += n.vx; n.y += n.vy;
+    n.pulse += n.pspeed;
+    if(n.x < 0) n.x = bgC.width;
+    if(n.x > bgC.width) n.x = 0;
+    if(n.y < 0) n.y = bgC.height;
+    if(n.y > bgC.height) n.y = 0;
+  });
+
+  // Draw edges (connections within 130px)
+  const CONN_DIST = 130;
+  for(let i = 0; i < nodes.length; i++){
+    for(let j = i + 1; j < nodes.length; j++){
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if(d < CONN_DIST){
+        const alpha = (1 - d / CONN_DIST) * 0.045;
+        bgCtx.beginPath();
+        bgCtx.moveTo(nodes[i].x, nodes[i].y);
+        bgCtx.lineTo(nodes[j].x, nodes[j].y);
+        bgCtx.strokeStyle = 'rgba(210,228,255,' + alpha + ')';
+        bgCtx.lineWidth = .5;
+        bgCtx.stroke();
+      }
+    }
+  }
+
+  // Draw nodes
+  nodes.forEach(n => {
+    const pulse = .3 + .7 * Math.sin(n.pulse);
+    bgCtx.beginPath();
+    bgCtx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    bgCtx.fillStyle = 'rgba(' + n.col + ',' + (pulse * 0.15) + ')';
+    bgCtx.fill();
+  });
+
+  requestAnimationFrame(bgDraw);
+}
+window.addEventListener('resize', bgResize);
+bgResize();
+bgDraw();
+
+// ══════════════════════════════════════════════════════
+// DISEASE TAB SCROLL
+// ══════════════════════════════════════════════════════
+function scrollTo(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const y = el.getBoundingClientRect().top + window.scrollY - 80;
+  window.scrollTo({top: y, behavior: 'smooth'});
+  // Update active tab
+  const d = id.replace('-block','');
+  document.querySelectorAll('.d-tab').forEach(t => t.classList.remove('act'));
+  const tab = document.querySelector('[data-d="' + d + '"]');
+  if(tab) tab.classList.add('act');
+}
+
+// Update active tab on scroll
+const blockIds = ['alz','park','bip','schz','aut','canc'];
+const scrollSpy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      const d = e.target.id.replace('-block','');
+      document.querySelectorAll('.d-tab').forEach(t => t.classList.remove('act'));
+      const tab = document.querySelector('[data-d="' + d + '"]');
+      if(tab) tab.classList.add('act');
+    }
+  });
+}, {threshold: .25, rootMargin: '-10% 0px -60% 0px'});
+blockIds.forEach(d => {
+  const el = document.getElementById(d + '-block');
+  if(el) scrollSpy.observe(el);
+});
+
+// ══════════════════════════════════════════════════════
+// SCROLL REVEAL
+// ══════════════════════════════════════════════════════
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('vis');
+  });
+}, {threshold: .06});
+document.querySelectorAll('.disease-block, .gs').forEach(el => obs.observe(el));
+
+// Stagger gstat boxes
+document.querySelectorAll('.gs').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  el.style.transition = 'opacity .4s ' + (i * 70) + 'ms, transform .4s ' + (i * 70) + 'ms';
+  el.classList.add('vis');
+  // Trigger after a tick
+  setTimeout(() => obs.observe(el), 10);
+});
+</script>
+</body>
+</html>

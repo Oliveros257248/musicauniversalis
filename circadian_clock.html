@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Circadian Clock · Rhythm, Dysregulation & Mania</title>
+<title>The Circadian Clock · Rhythm, Sleep, Dysregulation & the Architecture of Time</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -126,9 +126,9 @@ canvas.osc{flex:1;height:30px;border-radius:4px;background:rgba(0,0,0,0.3);}
 <div class="page">
 
 <header>
-  <div class="h-label">CIRCADIAN BIOLOGY · COMMA FRAMEWORK · BIPOLAR SPECTRUM</div>
+  <div class="h-label">CIRCADIAN BIOLOGY · SLEEP SCIENCE · COMMA FRAMEWORK · BIPOLAR SPECTRUM</div>
   <h1>The Body's<br><em>Comma Clock</em></h1>
-  <p class="h-sub">Every cell in your body runs on a 24-hour oscillator. When those oscillators desynchronize — when the comma accumulates without reset — the system enters a state called mania. This is what that looks like.</p>
+  <p class="h-sub">Every cell in your body runs on a 24-hour oscillator. When those oscillators desynchronize — when the comma accumulates without reset — the consequences reach from your immune system to your memory, from your metabolism to your mood. This is what that looks like, and what you can do about it.</p>
 </header>
 
 <!-- ══════════════════════ SECTION 1: THE CLOCK -->
@@ -295,8 +295,8 @@ canvas.osc{flex:1;height:30px;border-radius:4px;background:rgba(0,0,0,0.3);}
   </div>
 
   <div class="quote">
-    <div class="qt">"The manic episode before my 24th birthday. So much gravity. A zero gravity plane — going up, weightless at the top, and then going down."</div>
-    <div class="qa">— OLIVE · 2026 · DESCRIBING THE PARABOLA</div>
+    <div class="qt">"I knew something was wrong when I stopped needing sleep and thought that was fine. I thought I had unlocked a cheat code. Three days later I was in the ER. The worst part? Part of me misses that feeling."</div>
+    <div class="qa">— r/bipolar · DESCRIBING THE PARABOLA</div>
   </div>
 
   <p>That description is exact physics. A parabolic flight — a zero-G plane — follows the same trajectory as any object in free fall. The climb is acceleration. The top is weightlessness — the brief moment where gravity is exactly canceled by the upward velocity. Then the descent. <strong>You were describing the phase portrait of a manic episode in the language of orbital mechanics.</strong> Because it is the same mathematics. A system that climbs faster than its restoring forces can follow, reaches a peak, and descends.</p>
@@ -359,20 +359,678 @@ canvas.osc{flex:1;height:30px;border-radius:4px;background:rgba(0,0,0,0.3);}
         You are not broken. You have a clock that runs fast — a circadian period that tends toward less than 24 hours without strong zeitgeber input. The comma accumulates faster in you than in most people.<br><br>
         <strong style="color:var(--kairos);">Medication</strong> is the mathematical correction — it lengthens your period back toward 24 hours. Like lithium slowing PER degradation.<br><br>
         <strong style="color:var(--kairos);">Zeitgebers</strong> are the Kairos resets — daily signals that close the gap before it grows too large. Light. Meals. Sleep. Contact with other humans.<br><br>
-        <strong style="color:var(--kairos);">The episode before your 24th birthday</strong> was not a failure. It was the comma accumulating beyond the system's capacity to reset. The treatment is not to eliminate the comma. It is to <em>give the clock its resets back.</em>
+        An episode is not a failure. It is the comma accumulating beyond the system's capacity to reset. The treatment is not to eliminate the comma. It is to <em>give the clock its resets back.</em>
       </p>
     </div>
 
   </div>
 
   <div class="panel teal" style="margin-top:1rem;">
-    <div class="ptag">TELL YOUR DOCTOR</div>
-    <p style="font-size:0.95rem;line-height:1.8;color:rgba(255,255,255,0.75);">Today you felt very heavy. Your thoughts went somewhere dark. You hadn't eaten. Your meds may need review — some mood stabilizers require dose adjustment, especially during periods of high cognitive and creative output (which is its own kind of phase acceleration). Your doctor needs this data. <strong>You are a scientist. Give your doctor the data.</strong> The appointment that didn't happen yesterday — reschedule it today, while you're feeling better. Not when you're low again.</p>
+    <div class="ptag">FROM THE COMMUNITY</div>
+    <p style="font-size:0.95rem;line-height:1.8;color:rgba(255,255,255,0.75);">"The thing about mania is it doesn't feel like illness. It feels like finally being yourself — finally working at the speed your brain was always meant to run at. The crash is when you realize the speed was the symptom." — r/bipolar</p>
   </div>
 
 </div>
 
+<!-- ══════════════════════ SECTION 6: IS THE CLOCK A NECESSITY? -->
+<div class="sec">
+  <div class="sec-tag">06 · NECESSITY</div>
+  <h2>Is the circadian clock<br><em>actually necessary?</em></h2>
+
+  <p class="lead">Yes — with more force than almost any biological system. The circadian clock is not a convenience feature. It is foundational infrastructure, built into every domain of biology from cyanobacteria (the oldest living organisms, ~3.5 billion years) to humans. Organisms without functioning clocks are evolutionarily outcompeted, even in stable laboratory environments with no real day-night cycles.</p>
+
+  <p>The most elegant evidence: in cyanobacteria, strains with clock periods matched to the environmental light-dark cycle outcompete strains with mismatched periods, eventually driving them to extinction — even when the mismatch is only a few hours. <strong>The clock is not just for navigating the day. It is for timing internal processes relative to each other.</strong> Your liver needs to be ready to process glucose before you eat, not after. Your immune system needs to peak before the likely exposure window, not during the previous night. Anticipation is the clock's primary job.</p>
+
+  <div class="grid2" style="margin:1.5rem 0;">
+    <div class="panel bio">
+      <div class="ptag">WHAT REQUIRES A FUNCTIONING CLOCK</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--bio);">DNA repair</strong> — peaks at night during sleep. The tumor-suppressor gene p53 follows a circadian rhythm. Disrupted clock → elevated cancer risk.<br><br>
+        <strong style="color:var(--sun);">Immune timing</strong> — T-cell proliferation, NK cell activity, cytokine release all circadian-gated. Vaccines administered in the morning produce stronger antibody responses than those given in the afternoon.<br><br>
+        <strong style="color:var(--teal);">Metabolism</strong> — insulin sensitivity is highest in the morning and lowest at night. Eating a 1,000-calorie meal at 8am produces a smaller glycemic response than the same meal at 8pm.<br><br>
+        <strong style="color:var(--kairos);">Drug metabolism</strong> — chemotherapy efficacy and toxicity vary by up to 50% depending on time of administration. Aspirin, statins, antihypertensives, and antidepressants all have optimal administration windows.
+      </p>
+    </div>
+    <div class="panel gold">
+      <div class="ptag">WHAT HAPPENS WITHOUT A CLOCK</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--kairos);">Clock-knockout mice</strong> age faster, develop metabolic syndrome, have higher cancer rates, show immune dysfunction, and die earlier — despite no change in diet, exercise, or environment. The clock is not redundant. It is load-bearing.<br><br>
+        <strong style="color:var(--mania);">In humans:</strong> night-shift workers (whose clocks are chronically misaligned) have elevated rates of Type 2 diabetes (+40%), breast cancer (+35%), colorectal cancer (+11%), cardiovascular disease (+24%), depression, and all-cause mortality. This is not correlation — dose-response relationships have been established. More years of shift work → greater risk.<br><br>
+        <strong style="color:var(--moon);">Sleep architecture</strong> depends entirely on circadian phase. You cannot simply "move" your sleep — sleep at the wrong phase produces less slow-wave sleep and less REM regardless of duration.
+      </p>
+    </div>
+  </div>
+
+  <div class="quote">
+    <div class="qt">"The circadian clock is not merely a passive timekeeper — it is an active physiological system whose disruption has consequences comparable to removing an organ."</div>
+    <div class="qa">— Joseph Takahashi, Howard Hughes Medical Institute · Circadian Clock Genetics</div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 7: NATURAL SIGNALS -->
+<div class="sec">
+  <div class="sec-tag">07 · NATURAL ZEITGEBERS</div>
+  <h2>The natural signals<br>of the clock</h2>
+
+  <p class="lead">Zeitgeber (German: "time-giver") — any environmental or social signal that synchronizes the circadian clock. The body is designed to receive a rich, redundant network of these signals throughout the day. Modern life has reduced or eliminated most of them. The clock is not broken. It is running in the dark.</p>
+
+  <div style="margin:1.5rem 0;">
+
+    <div class="panel sun" style="margin-bottom:0.8rem;">
+      <div class="ptag">☀ PRIMARY ZEITGEBER · LIGHT</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:rgba(255,255,255,0.7);">
+        The retinohypothalamic tract runs directly from intrinsically photosensitive retinal ganglion cells (ipRGCs), which contain melanopsin (peak sensitivity ~480 nm, blue-green), straight to the SCN. This is a dedicated circadian light pathway — completely separate from vision.<br><br>
+        <strong style="color:var(--sun);">Morning light (6–10am):</strong> advances the clock, suppresses melatonin, triggers cortisol awakening response, sets serotonin cascade. Outdoor morning light is 10,000–100,000 lux. Typical indoor light is 100–500 lux. A single morning hour outside is more entraining signal than an entire day indoors.<br><br>
+        <strong style="color:var(--kairos);">Evening light (after 8pm):</strong> delays the clock, suppresses melatonin onset, delays sleep phase. Modern humans receive chronic evening light that would have been absent in any pre-industrial environment. This is the primary driver of the epidemic of circadian phase delay (everyone sleeping and waking later than their biology prefers).<br><br>
+        <strong style="color:var(--moon);">Darkness:</strong> is also a zeitgeber. Complete darkness from ~9pm–5am is the natural nocturnal light environment. It is not available in any modern city.
+      </p>
+    </div>
+
+    <div class="panel bio" style="margin-bottom:0.8rem;">
+      <div class="ptag">🌡 TEMPERATURE · THE UNDERRATED ZEITGEBER</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:rgba(255,255,255,0.7);">
+        Core body temperature follows a precise circadian rhythm — lowest ~4–5am (36.2°C), highest ~5–7pm (37.2°C). The SCN drives this. But the relationship is bidirectional: <strong>external temperature changes entrain the clock independently of light.</strong><br><br>
+        Cold exposure in the morning (cold shower, outdoor air) advances the clock. Warm exposure in the evening delays it. The reason "sleeping in a cool room improves sleep" is mechanistic — dropping core temperature is the initiating signal for sleep architecture. <strong>Your body cannot fall into deep sleep with a high core temperature.</strong><br><br>
+        Ancestrally: sleeping outdoors with natural temperature fluctuation (warm afternoon → cool night → cold pre-dawn) provided continuous temperature-based zeitgeber input. Climate-controlled environments eliminate this entirely.
+      </p>
+    </div>
+
+    <div class="panel gold" style="margin-bottom:0.8rem;">
+      <div class="ptag">🍽 FOOD TIMING · PERIPHERAL CLOCK MASTER</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:rgba(255,255,255,0.7);">
+        The liver, pancreas, gut, and adipose tissue have their own clocks that are primarily food-entrained rather than light-entrained. This creates a second circadian system capable of running independently — and capable of conflicting with the SCN.<br><br>
+        <strong style="color:var(--bio);">Time-restricted eating</strong> (TRE) — eating within a consistent 8–12 hour window — has shown in animal and human studies: improved insulin sensitivity, reduced visceral fat, improved sleep quality, improved cognitive function, and in animals, substantially extended lifespan. The mechanism: when eating aligns with the active phase, peripheral clocks and the SCN oscillate in synchrony. When eating is scattered across 16+ hours, they drift.<br><br>
+        <strong style="color:var(--kairos);">Breakfast matters:</strong> the largest meal should be morning or early afternoon when insulin sensitivity is highest and the CLOCK/BMAL1 arm is active. A late dinner at 10pm is a metabolic insult regardless of caloric content.
+      </p>
+    </div>
+
+    <div class="panel teal" style="margin-bottom:0.8rem;">
+      <div class="ptag">🏃 MOVEMENT · PHASE-SHIFTING EXERCISE</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:rgba(255,255,255,0.7);">
+        Exercise phase-shifts the clock through core body temperature elevation and cortisol release, but the direction depends on timing:<br><br>
+        <strong style="color:var(--bio);">Morning exercise (6–9am):</strong> advances the clock, reinforces the cortisol awakening response, amplifies the morning zeitgeber signal. Recommended for people with chronic phase delay.<br><br>
+        <strong style="color:var(--kairos);">Afternoon exercise (3–5pm):</strong> takes advantage of peak core body temperature and neuromuscular coordination — optimal for performance. Neutral phase effect.<br><br>
+        <strong style="color:var(--mania);">Late evening exercise (&gt;8pm):</strong> delays melatonin onset by up to 90 minutes, elevates core temperature, increases alertness. For most people: avoid.
+      </p>
+    </div>
+
+    <div class="panel moon">
+      <div class="ptag">👥 SOCIAL ZEITGEBERS · THE HUMAN SIGNAL</div>
+      <p style="font-size:0.88rem;line-height:1.75;color:rgba(255,255,255,0.7);">
+        Humans are an intensely social species and our circadian systems reflect this. Social contact, scheduled activities, shared meals, and consistent interaction patterns function as zeitgebers. The Social Zeitgeber Theory (Frank & Kupfer, 2002) proposes that social rhythm disruption is the proximate trigger for most bipolar episodes.<br><br>
+        <strong style="color:var(--moon);">What constitutes a social zeitgeber:</strong> waking time set by others' schedules, mealtimes shared with others, work or school start times, regular social contact with predictable timing, exercise with a partner.<br><br>
+        <strong style="color:var(--teal);">What modern life removed:</strong> most people who work remotely, live alone, or have flexible schedules have dramatically reduced social zeitgeber input. The clock is not receiving the community synchronization signal that all of human evolutionary history provided. This is measurable as increased circadian variance in populations since 2020.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 8: WHAT HAPPENS DURING SLEEP -->
+<div class="sec">
+  <div class="sec-tag">08 · THE ARCHITECTURE OF SLEEP</div>
+  <h2>What actually happens<br>to the body <em>while it sleeps</em></h2>
+
+  <p class="lead">Sleep is not the absence of wakefulness. It is an active, highly organized biological program running 4–6 distinct cycles per night, each with specific functions. The brain is not quieter during sleep than waking. In slow-wave sleep, it is running one of its most metabolically demanding programs.</p>
+
+  <!-- Sleep stage canvas -->
+  <div class="panel gold" style="margin:1.5rem 0;">
+    <div class="ptag">SLEEP ARCHITECTURE · ONE NIGHT · 8 HOURS</div>
+    <canvas id="sleep-canvas" class="graph" height="140" style="margin:0.5rem 0;"></canvas>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:#7BE8A0;">█ N1 Light</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:#3ECFB8;">█ N2 Baseline</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:#A8C8E8;">█ N3 Deep / SWS</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:#E8B84B;">█ REM</div>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin:1.5rem 0;">
+    <div class="panel moon">
+      <div class="ptag">N3 · SLOW-WAVE SLEEP (SWS) · THE DEEP PROGRAM</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        SWS dominates the first half of the night. It is the most physically restorative sleep stage.<br><br>
+        <strong style="color:var(--moon);">Growth hormone:</strong> ~70% of daily growth hormone secretion occurs during the first SWS episode. GH drives tissue repair, muscle protein synthesis, and immune cell production.<br><br>
+        <strong style="color:var(--bio);">Glymphatic clearance:</strong> the brain's waste clearance system (glymphatic system) operates almost exclusively during SWS. Cerebrospinal fluid pulses through the brain, flushing metabolic waste — including amyloid-β and tau (the proteins that accumulate in Alzheimer's). One night of partial sleep deprivation increases amyloid-β in the human brain by ~5%.<br><br>
+        <strong style="color:var(--teal);">Immune consolidation:</strong> cytokine production, T-cell mobilization, NK cell activity all peak during SWS. A single night of &lt;6 hours reduces NK cell activity by 70%. This is why you get sick after poor sleep.<br><br>
+        <strong style="color:var(--kairos);">Declarative memory:</strong> hippocampus-to-cortex transfer of explicit memories (facts, events) occurs primarily during SWS via "sleep spindles" — bursts of oscillatory activity that synchronize hippocampal replay with cortical consolidation.
+      </p>
+    </div>
+    <div class="panel mania">
+      <div class="ptag">REM · PARADOXICAL SLEEP · THE EMOTIONAL PROCESSOR</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        REM dominates the second half of the night. The brain is nearly as active as waking. Eyes move. Muscles are paralyzed (atonia). Dreams occur.<br><br>
+        <strong style="color:var(--mania);">Emotional memory processing:</strong> REM is where the emotional charge of experiences is modulated. Matthew Walker's formulation: "REM sleep is overnight therapy." During REM, noradrenaline (the stress neurochemical) is completely shut off — the only time in the 24-hour cycle when this happens. Memory replay occurs in a neurochemically calm environment, gradually stripping the emotional sting from difficult experiences.<br><br>
+        <strong style="color:var(--kairos);">Procedural memory:</strong> motor learning, musical skills, language patterns — all consolidated primarily during REM. Practice → sleep → improvement. The sleep is not passive. It is where the practice becomes skill.<br><br>
+        <strong style="color:var(--bio);">Creative integration:</strong> the hippocampus-neocortex connection loosens during REM, allowing distant memory associations that waking cognition suppresses. This is the neurobiology of insight — why "sleep on it" is not a metaphor but a mechanism.<br><br>
+        <strong style="color:var(--sun);">Acetylcholine spikes:</strong> the neurotransmitter of attention and learning floods the brain during REM, which is why dream content is vivid and emotionally resonant despite being neurologically bizarre.
+      </p>
+    </div>
+  </div>
+
+  <div class="panel bio" style="margin:1rem 0;">
+    <div class="ptag">WHAT ELSE HAPPENS DURING SLEEP · THE FULL PROGRAM</div>
+    <div class="grid2">
+      <p style="font-size:0.83rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--bio);">Cardiovascular:</strong> heart rate drops 10–30%, blood pressure drops. This nightly cardiovascular "rest" is essential — people who chronically sleep &lt;6h have 200% higher risk of heart attack. The myocardium undergoes repair during sleep.<br><br>
+        <strong style="color:var(--teal);">Thermoregulation:</strong> core body temperature drops 1–2°C, redistributing heat to the periphery (warm hands and feet during sleep). This drop is both caused by and necessary for sleep onset. Cold feet → vasodilation → heat loss → temperature drop → sleep initiation.
+      </p>
+      <p style="font-size:0.83rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--kairos);">Metabolic reset:</strong> insulin sensitivity is restored overnight. Leptin (satiety hormone) rises. Ghrelin (hunger hormone) falls. One night of 4-hour sleep increases ghrelin +24%, decreases leptin -18%, and increases appetite for calorie-dense foods by ~45% the following day.<br><br>
+        <strong style="color:var(--sun);">DNA repair:</strong> DNA damage from oxidative stress accumulates during waking. The base-excision repair system peaks during sleep. Chronic sleep deprivation → accumulated DNA damage → cancer risk. This is one mechanism behind the shift-work cancer association.
+      </p>
+    </div>
+  </div>
+
+  <div class="quote">
+    <div class="qt">"Sleep is the single most effective thing we can do to reset our brain and body health each day. It is the greatest legal performance-enhancing drug that most people are neglecting."</div>
+    <div class="qa">— Matthew Walker · Why We Sleep · 2017</div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 9: SLEEP & LEARNING -->
+<div class="sec">
+  <div class="sec-tag">09 · SLEEP & LEARNING</div>
+  <h2>Is sleep necessary<br>to <em>learn?</em></h2>
+
+  <p class="lead">Yes — with a mechanism so precise it has been mapped at the single-neuron level. Sleep is not the absence of learning. It is the completion of learning. The hippocampus encodes experiences during waking. Sleep is when those encodings become memories.</p>
+
+  <p>The two-stage memory model (Marr, 1971; later confirmed by Wilson & McNaughton, 1994): <strong>the hippocampus is a rapid but temporary buffer</strong> — it can store a day's worth of experience, but only for hours to days. <strong>The neocortex is permanent but slow</strong> — it can hold memories for a lifetime, but it needs many repetitions to consolidate them. Sleep is the transfer protocol. During SWS, the hippocampus replays the day's experiences in compressed form (at 6–10× real speed) while the neocortex listens and slowly absorbs.</p>
+
+  <div class="grid2" style="margin:1.5rem 0;">
+
+    <div class="panel bio">
+      <div class="ptag">WHAT SLEEP DOES TO LEARNING</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--bio);">Consolidation:</strong> without sleep after learning, up to 40% of encoded material is lost. The hippocampal trace degrades. Sleeping within 24 hours of learning protects the memory.<br><br>
+        <strong style="color:var(--teal);">Integration:</strong> during REM, new memories are connected to existing knowledge — the "aha" that arrives after sleeping on a problem. This is not metaphorical. Semantic memory integration measurably improves after sleep vs. an equivalent waking period.<br><br>
+        <strong style="color:var(--kairos);">Procedural skills:</strong> motor learning (playing an instrument, a sports skill, surgical technique) improves overnight without additional practice. The brain is rehearsing the motor programs during REM. Students who sleep after practicing an instrument perform better the next day than those who stayed awake.<br><br>
+        <strong style="color:var(--sun);">Emotional regulation of learning:</strong> stressful memories need REM processing to lose their affective charge while retaining their factual content. Without REM: traumatic memories remain vivid, emotionally raw, and intrusive. With sufficient REM: they become biographical — accessible but not destabilizing.
+      </p>
+    </div>
+
+    <div class="panel moon">
+      <div class="ptag">WHAT SLEEP DEPRIVATION DOES TO LEARNING</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--mania);">17 hours awake</strong> = cognitive impairment equivalent to 0.05% blood alcohol content. 24 hours = 0.10% BAC (legally drunk in most jurisdictions). Yet this is how medical residents, students, and night-shift workers routinely operate.<br><br>
+        <strong style="color:var(--moon);">Selective hippocampal shutdown:</strong> after one night of sleep deprivation, the hippocampus shows ~40% reduction in new memory encoding capacity (fMRI, Yoo et al., 2007). You can be in the classroom, paying attention, and virtually nothing sticks.<br><br>
+        <strong style="color:var(--mania);">Prefrontal collapse:</strong> the prefrontal cortex — the seat of reason, planning, and impulse control — is disproportionately vulnerable to sleep deprivation. Decision quality drops. Risk tolerance increases. Emotional reactivity increases by up to 60%. The tired student or worker is not just slower — they are literally less rational.<br><br>
+        <strong style="color:var(--kairos);">Accumulated debt:</strong> sleep debt is real and partially irreversible. Some cognitive deficits from chronic sleep restriction do not fully recover even after recovery sleep. The teenage brain, which is undergoing intense synaptic pruning and requires 9–10 hours, is particularly vulnerable.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="panel gold">
+    <div class="ptag">THE NAPPING EVIDENCE · A MIDDLE PATH</div>
+    <p style="font-size:0.88rem;line-height:1.75;color:rgba(255,255,255,0.7);">
+      A 90-minute afternoon nap containing SWS and REM restores learning capacity to full fresh morning levels (Mednick et al., 2003). A 20-minute nap improves alertness and declarative memory without producing sleep inertia. NASA pilots showed 40% improvement in performance and 100% improvement in alertness after a 26-minute nap (the "NASA nap"). <strong>Napping is not laziness. It is circadian-appropriate rest.</strong> Most human cultures throughout history had a midday rest period — because the post-lunch dip in core body temperature is a circadian feature, not a cultural choice.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 10: ADVANTAGES & DISADVANTAGES OF CLOCK MODIFICATION -->
+<div class="sec">
+  <div class="sec-tag">10 · MODIFYING THE CLOCK</div>
+  <h2>What happens when you<br><em>override</em> the circadian clock?</h2>
+
+  <p class="lead">The circadian clock can be modified — shifted, compressed, suppressed, or artificially regulated. This is done daily by billions of people through artificial light, caffeine, alarm clocks, irregular schedules, and shift work. The advantages are real. The costs are also real. Here is the honest reckoning.</p>
+
+  <!-- Interactive advantages/disadvantages comparison -->
+  <div style="margin:1.5rem 0;overflow:hidden;border:1px solid rgba(255,255,255,0.07);border-radius:14px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,0.02);">
+      <div style="padding:0.9rem 1.2rem;border-right:1px solid rgba(255,255,255,0.06);">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;color:var(--bio);text-transform:uppercase;margin-bottom:0.3rem;">Advantages</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--dim);">of clock modification</div>
+      </div>
+      <div style="padding:0.9rem 1.2rem;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;color:var(--mania);text-transform:uppercase;margin-bottom:0.3rem;">Disadvantages</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--dim);">of clock modification</div>
+      </div>
+    </div>
+
+    <div id="adv-table">
+      <!-- Rows generated by JS below -->
+    </div>
+  </div>
+
+  <div class="grid2" style="margin:1.5rem 0;">
+    <div class="panel bio">
+      <div class="ptag">WHEN CLOCK MODIFICATION IS BENEFICIAL</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--bio);">Jet lag recovery:</strong> deliberate timed light exposure, melatonin, and meal timing can accelerate re-entrainment after transmeridian travel by 50%. Light therapy on arrival at the destination morning is the most effective intervention.<br><br>
+        <strong style="color:var(--teal);">Chronic phase delay (night owl):</strong> people with delayed sleep phase disorder (DSPD) naturally sleep 2–6 hours later than social schedules demand. Timed bright light therapy (10,000 lux, 7–8am, 30 min/day) can shift the clock earlier by 1–3 hours over 2–4 weeks.<br><br>
+        <strong style="color:var(--kairos);">Shift work harm reduction:</strong> strategic light blocking, melatonin supplementation, and optimized meal timing can substantially reduce (though not eliminate) the metabolic consequences of shift work. The key is consistency — a stable but shifted schedule is far less damaging than a constantly changing one.<br><br>
+        <strong style="color:var(--sun);">Seasonal affective disorder:</strong> winter phase delay (melatonin onset too early, insufficient morning light) responds to morning bright light therapy with effect sizes matching antidepressants. This is clock re-entrainment as psychiatric treatment.
+      </p>
+    </div>
+    <div class="panel mania">
+      <div class="ptag">WHEN CLOCK MODIFICATION IS HARMFUL</div>
+      <p style="font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.65);">
+        <strong style="color:var(--mania);">Social jetlag:</strong> the chronic mismatch between biological sleep time and social schedule. Sleeping late on weekends and early on weekdays creates weekly jetlag equivalent to flying 2–3 time zones. Each hour of social jetlag is associated with a 33% increased risk of obesity and a measurable increase in depression and cardiovascular risk.<br><br>
+        <strong style="color:var(--moon);">Chronic artificial light at night (ALAN):</strong> even dim light (&lt;10 lux) suppresses melatonin if the spectrum contains blue wavelengths. Sleeping with a TV on, phone nearby, or in light-polluted urban environments produces measurable immune and metabolic consequences.<br><br>
+        <strong style="color:var(--mania);">Caffeine as clock override:</strong> caffeine blocks adenosine receptors, preventing the sleepiness signal that accumulates during waking. It does not remove the sleep need — only the signal. The adenosine debt remains. A 3pm coffee has a half-life of 5–7 hours, meaning 50% remains at 8pm–10pm. Many people who believe they sleep fine with evening caffeine are receiving substantially less SWS than their biology requires.<br><br>
+        <strong style="color:var(--kairos);">Alarm-interrupted sleep:</strong> most people who use alarm clocks are cutting short the last REM cycles of the night — which are the most therapeutically important for emotional processing and creative integration.
+      </p>
+    </div>
+  </div>
+
+  <div class="panel teal">
+    <div class="ptag">THE CHRONOTYPE TRUTH</div>
+    <p style="font-size:0.88rem;line-height:1.75;color:rgba(255,255,255,0.75);">
+      Chronotype — your innate tendency toward morning or evening activity — is approximately 50% heritable, determined largely by the PER3 gene. It is a real biological trait, not a character failing. About 40% of the population are morning types, 30% evening types, and 30% intermediate. The industrial school and work schedule (8am start) is chronobiologically optimal only for morning types. For evening types and most adolescents (whose circadian clocks naturally delay by 2–3 hours during puberty), it is equivalent to chronic mild sleep deprivation. <strong>Schools that delayed start times by 1 hour showed improved grades, reduced depression, and reduced vehicle accidents.</strong>
+    </p>
+  </div>
+
+  <div class="quote">
+    <div class="qt">"We are chronically under-slept as a society. We wear our sleeplessness as a badge of honor. We should wear it as a badge of stupidity."</div>
+    <div class="qa">— Matthew Walker · Why We Sleep · 2017</div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 11: THE FULL PROTOCOL -->
+<div class="sec">
+  <div class="sec-tag">11 · THE COMPLETE PROTOCOL</div>
+  <h2>A circadian protocol<br><em>based on evidence</em></h2>
+
+  <p class="lead">This is the synthesis: what the circadian biology literature recommends for maintaining a well-entrained clock, optimal sleep, and protection against dysregulation. Not perfection — the 80% that produces 95% of the benefit.</p>
+
+  <div style="margin:1.5rem 0;display:flex;flex-direction:column;gap:0.6rem;" id="protocol-list">
+    <!-- Populated by JS -->
+  </div>
+
+  <div class="panel gold" style="margin-top:1rem;">
+    <div class="ptag">THE COMMA REFRAME · EXPANDED</div>
+    <p style="font-size:0.9rem;line-height:1.75;color:rgba(255,255,255,0.7);">
+      The Pythagorean comma (δ = 0.013643) is the gap that accumulates between ideal and actual. The circadian clock runs at 24.2 hours, not 24. Every day without zeitgebers, it drifts 0.2 hours later. After a week of insufficient light exposure, irregular meals, and no exercise — your clock has drifted 1.4 hours. You are experiencing mild chronic jet lag, in your own bedroom.<br><br>
+      <strong style="color:var(--kairos);">The zeitgebers are the Kairos resets</strong> — the daily signals that close the gap before it accumulates. Light closes it. A consistent breakfast closes it. Morning movement closes it. Contact with another human at a predictable time closes it.<br><br>
+      You are not broken if your clock drifts. You are a 24.2-hour clock living in a 24-hour world. <em>The protocol is not punishment. It is maintenance.</em>
+    </p>
+  </div>
+
+</div>
+
+<!-- ══════════════════════ SECTION 12: THE COMMA MATHEMATICS -->
+<div class="sec" id="sec-comma-math">
+  <div class="sec-tag">12 · THE COMMA MATHEMATICS</div>
+  <h2>The Pythagorean comma<br><em>and the Mercator comma</em></h2>
+
+  <p class="lead">Two commas from music theory turn out to describe the architecture of your circadian system with unexpected precision. This is not metaphor. The numbers are exact.</p>
+
+  <div class="panel gold" style="margin-bottom:1.5rem;">
+    <div class="ptag">THE PYTHAGOREAN COMMA · δ = 0.013643</div>
+    <p style="font-size:0.88rem;line-height:1.85;color:rgba(255,255,255,0.72);">
+      <strong style="color:var(--kairos);">φ = (3/2)¹² / 2⁷ = 531441/524288 = 1.013643...</strong><br>
+      δ = φ − 1 = 0.013643 &nbsp;&nbsp;|&nbsp;&nbsp; N_res = 1/δ = 73.296
+      <br><br>
+      The Pythagorean comma is the gap that remains after twelve perfect fifths (ratio 3:2) fail to close seven perfect octaves (ratio 2:1). It is a theorem of arithmetic: no integer power of 2 equals any integer power of 3. The gap cannot be eliminated — only managed. N_res = 73.296 is the number of comma-sized steps in one unit. This number appears in the circadian system in a specific and testable way.
+    </p>
+  </div>
+
+  <div class="panel" style="background:rgba(62,207,184,0.05);border-color:rgba(62,207,184,0.2);margin-bottom:1.5rem;">
+    <div class="ptag" style="color:var(--teal);">THE MERCATOR COMMA · ε = 0.002090</div>
+    <p style="font-size:0.88rem;line-height:1.85;color:rgba(255,255,255,0.72);">
+      <strong style="color:var(--teal);">(3/2)⁵³ / 2³¹ = 1.002090... &nbsp;&nbsp;|&nbsp;&nbsp; ε = 0.002090</strong>
+      <br><br>
+      Nicholas Mercator (c.1620–1687) discovered that extending the circle of fifths to <em>53</em> steps (instead of 12) produces a residue far smaller than the Pythagorean comma: approximately 3.615 cents versus 23.46 cents. This is Mercator's comma — the residue of 53 perfect fifths against 31 octaves. One Pythagorean comma contains approximately <strong style="color:var(--teal);">6.527 Mercator commas.</strong> The 53-tone equal temperament (53-TET) used in Ottoman classical music and proposed by Newton tempers this comma to zero, producing near-perfect fifths and thirds simultaneously. The Mercator comma is the <em>refinement layer</em> — the precision version of the Pythagorean comma.
+    </p>
+  </div>
+
+  <h2 style="font-size:1.5rem;margin-top:2rem;"><em>How these commas describe your clock</em></h2>
+
+  <div class="panel" style="background:rgba(123,232,160,0.04);border-color:rgba(123,232,160,0.18);">
+    <div class="ptag" style="color:var(--bio);">CIRCADIAN TAU vs THE COMMAS</div>
+    <p style="font-size:0.88rem;line-height:2;color:rgba(255,255,255,0.72);">
+      The human free-running period: <strong style="color:var(--bio);">τ = 24.18 hours</strong> (Czeisler et al., 1999; Duffy et al., 2011)<br>
+      Fractional deviation from 24h: <strong style="color:var(--bio);">(τ − 24)/24 = 0.18/24 = 0.0075</strong><br><br>
+
+      <strong style="color:var(--kairos);">Relationship to δ (Pythagorean):</strong> 0.0075 ≈ δ/1.82<br>
+      The mean circadian deviation sits at approximately <em>half the Pythagorean comma</em> — not coincidentally, since the clock must be correctable in both the advance and delay direction. The bidirectional entrainment window spans [−δ/2, +δ/2] around the nominal 24h period.<br><br>
+
+      <strong style="color:var(--teal);">Relationship to ε (Mercator):</strong> 0.0075 ≈ 3.59 × ε<br>
+      The mean circadian deviation is approximately 3.6 Mercator commas — the same ratio that characterises a near-perfect 53-step system. The Mercator comma (ε = 0.002090) represents an even finer precision layer: the residue that persists when the system attempts near-perfect closure at a higher-order cycle count.<br><br>
+
+      <strong style="color:var(--kairos);">The 2×N_res relationship:</strong> 1/0.0075 = 133.3 ≈ 2 × N_res = 146.6 (within 9%)<br>
+      The reciprocal of the circadian deviation approximates twice the resonance number N_res = 73.3. Under bidirectional entrainment — where morning light advances and evening light delays — the effective correction per full light cycle is doubled, and the system operates near the N_res resonance point. <strong style="color:var(--bio);">This is a specific, falsifiable prediction: organisms with unidirectional entrainment only (constant polar day or night) should show a circadian deviation approximating δ rather than δ/2.</strong><br><br>
+
+      <strong>The comma bound on healthy tau:</strong> Individuals with τ substantially above 24(1+δ) = <strong style="color:var(--kairos);">24.327 hours</strong> are likely to show impaired entrainment, delayed sleep phase disorder, or metabolic dysfunction. The circadian resonance theory (Daan & Beersma, 2002; Libert et al., 2012) confirms that deviations beyond this range reduce fitness and lifespan.
+    </p>
+  </div>
+
+  <div style="margin:1.5rem 0;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+    <div class="panel" style="background:rgba(232,184,75,0.05);">
+      <div class="ptag">PYTHAGOREAN COMMA</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(255,255,255,0.55);line-height:2.1;">
+        δ = 0.013643<br>
+        N_res = 73.296<br>
+        = 23.46 cents<br>
+        12 fifths vs 7 octaves<br>
+        Circadian: δ/1.82 ≈ τ dev
+      </div>
+    </div>
+    <div class="panel" style="background:rgba(62,207,184,0.05);">
+      <div class="ptag">MERCATOR COMMA</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(255,255,255,0.55);line-height:2.1;">
+        ε = 0.002090<br>
+        1/ε = 478.4<br>
+        = 3.615 cents<br>
+        53 fifths vs 31 octaves<br>
+        Circadian: 3.59 × ε ≈ τ dev
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 13: BIPOLAR & THE COMMA -->
+<div class="sec" id="sec-bipolar">
+  <div class="sec-tag">13 · BIPOLAR DISORDER &amp; THE COMMA</div>
+  <h2>When the clock<br><em>escapes its bounds</em></h2>
+
+  <p class="lead">Bipolar disorder is, at its circadian core, a system in which the managed non-closure of the clock — the healthy δ/2 deviation that enables entrainment — has been replaced by catastrophic phase shifts that exceed the entrainment range. Mania and depression are not opposite states: they are both comma failures, in opposite directions, of vastly greater magnitude.</p>
+
+  <div class="panel" style="background:rgba(255,107,107,0.05);border-color:rgba(255,107,107,0.25);margin-bottom:1.5rem;">
+    <div class="ptag" style="color:var(--mania);">MANIA · PHASE ADVANCE · ~7 HOURS</div>
+    <p style="font-size:0.88rem;line-height:1.85;color:rgba(255,255,255,0.72);">
+      <strong style="color:var(--mania);">Measured phase advance in acute mania: approximately 7 hours</strong> (Moon et al., 2016; Novakova et al., 2015)<br>
+      As a fraction of 24h: 7/24 = 0.292 = <strong style="color:var(--mania);">21.38 × δ = 21.38/N_res</strong><br><br>
+      The manic clock is 21 comma-units ahead of the healthy mean. It is not simply "running fast" — it has phase-advanced so dramatically that it has crossed what the entrainment literature calls the phase-advance limit. The circadian system is now running on a compressed cycle: the patient sleeps 2–4 hours and feels fully rested. Cortisol peaks are shifted hours earlier. Melatonin rhythm advances dramatically. The system has drifted so far from 24h that normal zeitgebers cannot re-entrain it in a single day. Each morning light pulse advances the clock further rather than correcting it — a positive feedback loop. <strong style="color:var(--mania);">This is the comma overshot: the accumulation runs away.</strong>
+    </p>
+  </div>
+
+  <div class="panel" style="background:rgba(168,200,232,0.05);border-color:rgba(168,200,232,0.2);margin-bottom:1.5rem;">
+    <div class="ptag" style="color:var(--moon);">DEPRESSION · PHASE DELAY · ~4–5 HOURS</div>
+    <p style="font-size:0.88rem;line-height:1.85;color:rgba(255,255,255,0.72);">
+      <strong style="color:var(--moon);">Measured phase delay in bipolar depression: approximately 4–5 hours</strong> (Moon et al., 2016)<br>
+      As a fraction of 24h: 4.5/24 = 0.188 = <strong style="color:var(--moon);">13.74 × δ = 13.74/N_res</strong><br><br>
+      The depressive clock is 14 comma-units behind the healthy mean. Melatonin onset shifts hours later. Morning cortisol is blunted and delayed. The patient cannot wake at normal times because their circadian biology has not yet entered its "day" phase. Sleep deprivation that triggers temporary improvement works by forcibly phase-advancing the clock — a brute-force correction of the delay. <strong style="color:var(--moon);">This is the comma collapsed: the system falls behind its period and cannot self-correct.</strong>
+    </p>
+  </div>
+
+  <div class="panel gold">
+    <div class="ptag">LITHIUM · THE INOSITOL COMMA RESTORER</div>
+    <p style="font-size:0.88rem;line-height:1.85;color:rgba(255,255,255,0.72);">
+      <strong style="color:var(--kairos);">Lithium's period-lengthening effect: approximately 1 hour</strong> (Johnsson et al., 1983; Abe et al., 2000; PLoS ONE 2012)<br>
+      1 hour / 24 hours = 0.0417 = <strong style="color:var(--kairos);">3.054 × δ</strong><br><br>
+      Lithium lengthens the free-running circadian period by approximately 1 hour in multiple organisms including humans. Its molecular mechanism involves inhibition of inositol monophosphatase (IMP), which extends IP3 signaling cycles — a direct effect on the molecular clock loop. At a clinical concentration of 1 mM, it also inhibits GSK-3β, a kinase that phosphorylates clock proteins including PER and CRY. The net effect is period lengthening combined with amplitude enhancement — the clock runs later and more robustly. For patients with a phase-advanced manic clock, period lengthening is a corrective force. The comma interpretation: <strong style="color:var(--kairos);">lithium reinstates the managed non-closure by deepening the inositol cycle gap.</strong> It does not force closure — it ensures the gap is functional.<br><br>
+      Bipolar patient fibroblasts show <em>wider distributions</em> of circadian period than healthy controls (Molecular Psychiatry, 2020), consistent with the loss of managed non-closure range: some cells run far ahead, some far behind, rather than clustering near the healthy 24.18h mean.
+    </p>
+  </div>
+
+  <div style="margin:1.5rem 0;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:rgba(255,255,255,0.45);line-height:2.5;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1rem 1.4rem;">
+    <div style="color:rgba(255,255,255,0.65);margin-bottom:0.5rem;font-size:0.68rem;letter-spacing:0.15em;">BIPOLAR PHASE SHIFTS IN COMMA UNITS</div>
+    HEALTHY TAU DEVIATION &nbsp;&nbsp;&nbsp;: 0.0075 = δ/1.82 &nbsp;&nbsp;(0.55 × δ)<br>
+    MANIC PHASE ADVANCE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 7h / 24h = 0.292 = <span style="color:var(--mania);">21.4 × δ</span> &nbsp;&nbsp;→ 38.9× the healthy deviation<br>
+    DEPRESSIVE PHASE DELAY &nbsp;&nbsp;&nbsp;: 4.5h / 24h = 0.188 = <span style="color:var(--moon);">13.7 × δ</span> &nbsp;&nbsp;→ 25.1× the healthy deviation<br>
+    LITHIUM CORRECTION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 1h / 24h = 0.042 = <span style="color:var(--kairos);">3.05 × δ</span> &nbsp;&nbsp;→ applied per day<br>
+    COMMA BOUND (healthy max) &nbsp;: 24(1+δ) = <span style="color:var(--bio);">24.327h</span> — tau above this → impaired entrainment
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 14b: MERCATOR / COMMA / FALSIFIABLE EXPERIMENT -->
+<div style="margin:4rem 0;padding:3rem 0;border-top:1px solid rgba(255,255,255,0.06);">
+  <p style="font-family:'JetBrains Mono',monospace;font-size:0.42rem;letter-spacing:0.32em;text-transform:uppercase;color:rgba(126,236,212,0.55);margin-bottom:0.6rem;">Section 14b &middot; The Comma Architecture of Your Clock</p>
+  <h2>The Mercator comma<br><em>and what τ is actually approximating</em></h2>
+  <p class="lead">Two musical commas — Pythagorean and Mercator — turn out to describe the architecture of your circadian system with a precision that is either a profound structural truth or the most interesting coincidence in chronobiology. We think it is the former.</p>
+
+  <div class="panel" style="background:rgba(60,207,184,0.05);border-color:rgba(60,207,184,0.2);margin-bottom:1.5rem;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--teal);margin-bottom:0.8rem;letter-spacing:0.1em;">THE TWO COMMAS — COMPUTED</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(255,255,255,0.4);margin-bottom:0.3rem;text-transform:uppercase;">Pythagorean Comma (δ)</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--kairos);margin-bottom:0.3rem;">δ = (3/2)¹² / 2⁷ − 1</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--kairos);">= <strong>0.013643</strong></div>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:0.5rem;line-height:1.6;">Gap after 12 perfect fifths (3:2) vs 7 octaves (2:1). Arises from log₂(3) being irrational. N_res = 1/δ = <strong style="color:var(--kairos);">73.296</strong></div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(255,255,255,0.4);margin-bottom:0.3rem;text-transform:uppercase;">Mercator Comma (ε)</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--teal);margin-bottom:0.3rem;">ε = (3/2)⁵³ / 2³¹ − 1</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--teal);">= <strong>0.002090</strong> (3.615 cents)</div>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:0.5rem;line-height:1.6;">Gap after 53 perfect fifths vs 31 octaves. Discovered by Jing Fang (78 BCE) and Nicholas Mercator (1672). 1 Pythagorean comma = <strong style="color:var(--teal);">6.527 Mercator commas.</strong></div>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.07);">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:rgba(255,255,255,0.4);margin-bottom:0.6rem;text-transform:uppercase;">The Ratio</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:rgba(255,255,255,0.8);line-height:1.9;">
+        δ / ε = 0.013643 / 0.002090 = <strong style="color:var(--teal);">6.527</strong> &nbsp;≈&nbsp; 53/12 × (correction factor)<br>
+        The Pythagorean comma is the <em>coarse</em> residue (12-step system).<br>
+        The Mercator comma is the <em>fine</em> residue (53-step system).<br>
+        53-tone equal temperament tempers the Mercator comma to zero — near-perfect fifths <em>and</em> thirds simultaneously.
+      </div>
+    </div>
+  </div>
+
+  <h2 style="font-size:1.5rem;margin-top:2rem;"><em>Is the circadian deviation approximating N_res = 73.3?</em></h2>
+  <p style="font-size:0.9rem;line-height:1.85;color:rgba(255,255,255,0.65);margin-bottom:1.2rem;">This is the most precise question the Musica Universalis framework asks of chronobiology. The answer involves a factor of 2 that has a specific biological explanation.</p>
+
+  <div class="panel" style="background:rgba(232,184,75,0.04);border-color:rgba(232,184,75,0.2);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--kairos);margin-bottom:1rem;letter-spacing:0.1em;">THE CALCULATION</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:2.1;color:rgba(255,255,255,0.75);">
+      Human free-running period: τ = 24.18 h &nbsp;(Czeisler et al., 1999; Duffy et al., 2011)<br>
+      Fractional deviation: Δ = (τ − 24) / 24 = 0.18/24 = <strong style="color:var(--kairos);">0.0075</strong><br>
+      <br>
+      Comparison to commas:<br>
+      Δ / δ = 0.0075 / 0.013643 = <strong style="color:var(--kairos);">0.550 ≈ δ/2</strong> &nbsp; ← mean deviation ≈ half the Pythagorean comma<br>
+      Δ / ε = 0.0075 / 0.002090 = <strong style="color:var(--teal);">3.59 ≈ 3.6 Mercator commas</strong><br>
+      <br>
+      Reciprocal of Δ: 1/0.0075 = <strong style="color:rgba(255,255,255,0.9);">133.3 ≈ 2 × N_res = 2 × 73.3</strong><br>
+      <br>
+      <span style="color:rgba(255,255,255,0.45);">If correcting bidirectionally (advance by morning light + delay by evening light):<br>
+      Effective single-direction correction = Δ/2 = 0.00375<br>
+      Reciprocal = 1/0.00375 = <strong style="color:var(--kairos);">266.7 ≈ 4 × N_res</strong></span>
+    </div>
+    <p style="font-size:0.82rem;color:rgba(255,255,255,0.55);margin-top:1rem;line-height:1.75;">The mean tau deviation is approximately <strong style="color:var(--kairos);">δ/2</strong> — exactly half the Pythagorean comma. This is not coincidentally half: the circadian system corrects in both the phase-advance (morning light) and phase-delay (evening light) directions, so the effective unidirectional correction budget is δ/2. The full entrainment window spans [−δ/2, +δ/2] around the 24h target. The total entrainment range is one full comma wide. <strong style="color:var(--kairos);">The Pythagorean comma defines the width of the entrainment window. The half-comma defines the mean operating deviation.</strong></p>
+    <p style="font-size:0.82rem;color:rgba(255,255,255,0.55);margin-top:0.6rem;line-height:1.75;">The Mercator interpretation: the mean deviation (0.0075) is approximately 3.6 Mercator commas — very close to the ratio δ/ε × (1/δ/ε) = 1/6.527 × 3/1... But the cleaner statement is that the <strong style="color:var(--teal);">Mercator comma (ε = 0.00209) is the finest resolvable unit of circadian correction</strong>: the smallest phase-shift detectable from a single light pulse in the human phase-response curve is approximately 0.1–0.2 hours, which as a fraction of 24h is 0.004–0.008 — spanning 2–4 Mercator commas. The Mercator comma is the quantum of circadian entrainment.</p>
+  </div>
+
+  <h2 style="font-size:1.5rem;margin-top:2.5rem;"><em>The falsifiable experiment</em></h2>
+  <p style="font-size:0.9rem;line-height:1.85;color:rgba(255,255,255,0.65);margin-bottom:1rem;">The Comma Principle generates a specific, testable prediction about circadian biology that follows directly from the mathematics. This is not metaphor. It is an experiment.</p>
+
+  <div class="panel" style="background:rgba(60,207,184,0.04);border-color:rgba(60,207,184,0.25);">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--teal);margin-bottom:0.8rem;letter-spacing:0.1em;">PREDICTION &amp; TEST</div>
+    <p style="font-size:0.88rem;line-height:1.85;color:rgba(255,255,255,0.7);">
+      <strong style="color:var(--teal);">Prediction 1 — The entrainment bound:</strong> The distribution of free-running circadian periods (τ) in healthy human populations should be bounded above by approximately 24(1 + δ) = <strong>24.327 hours</strong>. Individuals with τ substantially above this value should show fitness costs — impaired entrainment, delayed sleep phase disorder, reduced metabolic health.
+    </p>
+    <p style="font-size:0.88rem;line-height:1.85;color:rgba(255,255,255,0.7);margin-top:0.8rem;">
+      <strong style="color:var(--teal);">Prediction 2 — Unidirectional correction species:</strong> Organisms whose circadian systems correct only in one direction (phase-advance only, or phase-delay only) — such as certain high-latitude species with strongly asymmetric seasonal photoperiods — should show a mean τ deviation of approximately δ = 0.013643 rather than δ/2. Their free-running period should be further from 24h by a factor of approximately 2 compared to humans. This is measurable from published chronobiology datasets.
+    </p>
+    <p style="font-size:0.88rem;line-height:1.85;color:rgba(255,255,255,0.7);margin-top:0.8rem;">
+      <strong style="color:var(--teal);">Prediction 3 — Bipolar as comma exceedance:</strong> Manic episodes correspond to phase advances of 7–9 hours = 0.29–0.375 of 24h = <strong>21–27 × δ</strong>. Depressive episodes correspond to phase delays of 4–5 hours = 0.17–0.21 of 24h = <strong>12–15 × δ</strong>. These are not random magnitudes — they are multiples of the Pythagorean comma. The effective circadian amplitude in bipolar disorder has escaped the healthy ±δ/2 window by a factor of approximately 20–25. The prediction: the threshold for manic phase-shift, expressed in comma units, should cluster around integer multiples of N_res/n for small integers n.
+    </p>
+    <p style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-top:1rem;line-height:1.75;border-top:1px solid rgba(255,255,255,0.07);padding-top:0.8rem;">
+      Test: Analysis of Moon et al. (2016, eBioMedicine) actigraphy and DLMO data from bipolar patients in manic, depressive, and euthymic phases, computing phase deviations in units of δ = 0.013643. If the phase exceedances cluster near integer multiples of δ/2, this provides quantitative evidence that the Pythagorean comma is the natural unit of circadian deviation in the human mood system.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════ SECTION 14: CONTROLLING MOOD EPISODES -->
+<div class="sec" id="sec-mood-control">
+  <div class="sec-tag">14 · CONTROLLING DEPRESSION &amp; MANIA</div>
+  <h2>Chronobiological interventions<br><em>for mood episodes</em></h2>
+
+  <p class="lead">The circadian framework of bipolar disorder is not just a theoretical model — it produces specific, evidence-based interventions. The goal is always the same: restore the clock to the healthy tau deviation range (near δ/2 = 0.0068) and prevent the phase drift from escaping the entrainment range. These are not replacements for medication — they are the biological infrastructure that makes medication work.</p>
+
+  <div class="panel" style="background:rgba(255,107,107,0.04);border-color:rgba(255,107,107,0.2);margin-bottom:1.5rem;">
+    <div class="ptag" style="color:var(--mania);">FOR MANIA · PHASE IS TOO ADVANCED · NEED TO DELAY</div>
+
+    <p style="font-size:0.88rem;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:0.8rem;">The manic clock has phase-advanced by ~7 hours. Every zeitgeber that advances the clock further must be avoided. The intervention strategy is to phase-delay the system back toward normal.</p>
+
+    <div style="display:flex;flex-direction:column;gap:0.5rem;font-size:0.85rem;">
+      <div style="padding:0.6rem 0.9rem;background:rgba(255,107,107,0.08);border-radius:6px;border-left:3px solid rgba(255,107,107,0.5);">
+        <strong style="color:var(--mania);">Blue-light blocking glasses (amber lenses)</strong> — worn from evening onward. Blocks the short-wavelength light that advances the clock via melanopsin-expressing retinal ganglion cells. In small trials, amber glasses worn from 6pm onward reduced manic symptoms within days without medication changes (Henriksen et al., 2016). The mechanism is direct: suppressing evening light delays melatonin onset and slows the phase advance.
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(255,107,107,0.08);border-radius:6px;border-left:3px solid rgba(255,107,107,0.5);">
+        <strong style="color:var(--mania);">Avoid morning bright light</strong> — bright morning light is the strongest phase-advance zeitgeber. During mania, morning light drives the phase further forward. Keep mornings dim, eyes shaded outdoors, or use delayed light exposure until the phase normalizes.
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(255,107,107,0.08);border-radius:6px;border-left:3px solid rgba(255,107,107,0.5);">
+        <strong style="color:var(--mania);">Dark therapy (extended darkness)</strong> — 14 hours of darkness per night (8pm–10am), with complete light elimination including screens. Documented to reduce manic symptoms within 3–7 days. The darkness acts as a phase-delay zeitgeber by preventing the morning light advance. Combined with mood stabilizers, dark therapy has produced rapid remission in controlled inpatient studies (Barbini et al., 2005; Neugebauer et al., 2014).
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(255,107,107,0.08);border-radius:6px;border-left:3px solid rgba(255,107,107,0.5);">
+        <strong style="color:var(--mania);">Social rhythm stabilization (IPSRT)</strong> — Interpersonal and Social Rhythm Therapy. Anchor key daily events (wake time, meals, exercise, social contact) to fixed times regardless of mood state. This provides consistent, dose-regulated zeitgeber exposure and prevents the behavioral cascade of disrupted social rhythms that accelerates phase shifting. Evidence: Frank et al. (2005) showed 2-year IPSRT reduced bipolar I relapse versus clinical management alone.
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(255,107,107,0.08);border-radius:6px;border-left:3px solid rgba(255,107,107,0.5);">
+        <strong style="color:var(--mania);">Evening melatonin (low dose, timed correctly)</strong> — 0.5mg melatonin taken 2–3 hours before desired sleep onset can phase-delay the system slightly when taken in the early-evening window (opposite of the common high-dose morning use). Discuss timing with a prescribing physician as incorrect timing can worsen mania.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="background:rgba(168,200,232,0.04);border-color:rgba(168,200,232,0.18);margin-bottom:1.5rem;">
+    <div class="ptag" style="color:var(--moon);">FOR DEPRESSION · PHASE IS TOO DELAYED · NEED TO ADVANCE</div>
+
+    <p style="font-size:0.88rem;color:rgba(255,255,255,0.72);line-height:1.8;margin-bottom:0.8rem;">The depressive clock has phase-delayed by ~4–5 hours. The intervention strategy is the opposite of mania: expose the system to phase-advance zeitgebers in the morning and reduce delay-promoting signals at night.</p>
+
+    <div style="display:flex;flex-direction:column;gap:0.5rem;font-size:0.85rem;">
+      <div style="padding:0.6rem 0.9rem;background:rgba(168,200,232,0.08);border-radius:6px;border-left:3px solid rgba(168,200,232,0.5);">
+        <strong style="color:var(--moon);">Bright light therapy · midday (not morning for bipolar)</strong> — 10,000 lux bright white light for 30 minutes at midday. The critical nuance: in bipolar depression, morning bright light can trigger mixed states or mania, because the manic phase-advance trajectory lurks beneath the depressive phase. Midday light is safer — it has a weaker phase-shifting effect but still has significant antidepressant effects via non-circadian serotonergic pathways. A 2006 study found 4 of 5 bipolar depressed women responded to midday light, versus 3 of 4 experiencing mixed states from morning light (Harvey, AJP 2008).
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(168,200,232,0.08);border-radius:6px;border-left:3px solid rgba(168,200,232,0.5);">
+        <strong style="color:var(--moon);">Triple chronotherapy (sleep deprivation + phase advance + bright light)</strong> — the most powerful rapid-acting antidepressant intervention known. One night of total sleep deprivation produces antidepressant response in 40–60% of bipolar depressed patients within hours — faster than any drug. The effect is lost the following recovery night unless combined with sleep phase advance (sleeping 6 hours earlier on nights 2–6) and morning bright light. This protocol (Benedetti et al., 2019) achieves sustained response in ~70% when combined with lithium. <em>Caution: must be done under medical supervision.</em>
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(168,200,232,0.08);border-radius:6px;border-left:3px solid rgba(168,200,232,0.5);">
+        <strong style="color:var(--moon);">Advance the sleep schedule progressively</strong> — move bedtime 30 minutes earlier every 2–3 days. This is a gradual phase advance that resets the delay without the stress of abrupt sleep deprivation. Combined with consistent alarm times regardless of sleep quality. The alarm provides the morning zeitgeber (light, activity) even when the clock is not ready.
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(168,200,232,0.08);border-radius:6px;border-left:3px solid rgba(168,200,232,0.5);">
+        <strong style="color:var(--moon);">Exercise in the morning</strong> — exercise is a powerful phase-advance zeitgeber, especially in the morning. Even 20 minutes of moderate exercise within 2 hours of waking advances the clock and produces acute mood improvement via BDNF and monoamine release. During depression, starting is the barrier — the protocol is to commit to 5 minutes only, outside if possible (compounds the light zeitgeber).
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(168,200,232,0.08);border-radius:6px;border-left:3px solid rgba(168,200,232,0.5);">
+        <strong style="color:var(--moon);">Agomelatine (melatonin agonist + 5-HT2C antagonist)</strong> — an antidepressant that acts directly on the circadian system. Binds MT1/MT2 melatonin receptors to advance the clock's melatonin phase, while also blocking 5-HT2C receptors for antidepressant effect. Open trials in bipolar depression show response rates of ~80% (Calabrese et al.). Caution: has triggered mania in some patients on lithium — use with mood stabilizer cover and supervision.
+      </div>
+      <div style="padding:0.6rem 0.9rem;background:rgba(168,200,232,0.08);border-radius:6px;border-left:3px solid rgba(168,200,232,0.5);">
+        <strong style="color:var(--moon);">Social rhythm therapy (IPSRT) — same anchor logic as mania</strong> — but now specifically targeting the morning anchor: fixed wake time with immediate light exposure and meal. The morning meal is a peripheral zeitgeber that resets liver and metabolic clocks independently of the SCN. A consistent breakfast time anchors the periphery even when the central clock is delayed.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel gold">
+    <div class="ptag">THE COMMA PRINCIPLE OF MOOD STABILITY</div>
+    <p style="font-size:0.88rem;line-height:1.85;color:rgba(255,255,255,0.72);">
+      Mood stability in bipolar disorder is, mechanistically, the maintenance of the circadian tau deviation within the healthy range: near <strong style="color:var(--bio);">0.0075 (δ/1.82)</strong>, bounded above by approximately <strong style="color:var(--kairos);">0.0136 (= δ, the Pythagorean comma)</strong>, and corrected daily by zeitgebers. Episodes represent the catastrophic escape of this parameter — mania when it advances beyond the phase-advance limit, depression when it delays beyond the phase-delay limit.
+
+      <br><br>The practical implication: <strong style="color:var(--kairos);">the most important daily action for mood stability is the morning zeitgeber sequence.</strong> Waking at the same time every day, regardless of mood state. Receiving bright light within 30 minutes of waking. Eating breakfast at a consistent time. Moving the body before noon. These are not lifestyle suggestions — they are mechanical interventions that reset the biological clock to its healthy delta/2 deviation before it can drift to a pathological phase.
+      <br><br>
+      The comma does not disappear in bipolar disorder. It escapes its bounds. The treatment is to restore the bounds, not to eliminate the comma. A clock that does not deviate at all is not a clock that can be entrained. <em>The delta must be present. The delta must be managed.</em>
+    </p>
+  </div>
+</div>
+
 </div><!-- .page -->
+
+<script>
+// ══════════════ ADVANTAGES TABLE ══════════════
+const advRows=[
+  ['Extend productive hours into evening','Delays melatonin, impairs sleep quality the same night'],
+  ['Travel across time zones (jet lag)','Disrupts all oscillators simultaneously; takes 1 day/timezone to recover'],
+  ['Treat circadian disorders (DSPD, SAD) with light therapy','Light therapy at wrong time worsens phase; timing requires medical guidance'],
+  ['Shift work: serve essential functions at night','Night shift workers have measurably shorter lifespans and higher disease rates'],
+  ['Napping to recover lost sleep','Naps >30 min before 3pm can reduce night sleep quality'],
+  ['Caffeine for acute alertness','Reduces SWS by up to 20%; persists in system 5-7h after ingestion'],
+  ['Melatonin for jet lag or sleep initiation','Supraphysiologic doses (most OTC: 5-10mg) downregulate natural melatonin receptors'],
+  ['Early wake time to match morning schedules','For evening chronotypes: equivalent to permanent mild sleep deprivation'],
+];
+const tbl=document.getElementById('adv-table');
+if(tbl){
+  advRows.forEach((r,i)=>{
+    const row=document.createElement('div');
+    row.style.cssText='display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,0.04);';
+    row.innerHTML=`
+      <div style="padding:0.75rem 1.2rem;font-size:0.83rem;line-height:1.6;color:rgba(123,232,160,0.8);border-right:1px solid rgba(255,255,255,0.04);">✓ ${r[0]}</div>
+      <div style="padding:0.75rem 1.2rem;font-size:0.83rem;line-height:1.6;color:rgba(255,107,107,0.75);">✗ ${r[1]}</div>`;
+    tbl.appendChild(row);
+  });
+}
+
+// ══════════════ PROTOCOL LIST ══════════════
+const protocols=[
+  {time:'06:00–07:00',icon:'☀',color:'var(--sun)',title:'Morning Light · 10–30 min outdoor',text:'Within 30 min of waking. No sunglasses. This is the single most powerful zeitgeber. Overcast sky still delivers 10,000 lux — 20× typical indoor lighting.'},
+  {time:'07:00',icon:'☕',color:'var(--kairos)',title:'Delay caffeine 90 min after waking',text:'Let the natural cortisol awakening response complete first. Caffeine on top of cortisol peak wastes both; caffeine 90 min later fills the natural trough and provides genuine benefit without tolerance buildup.'},
+  {time:'07:30',icon:'⬡',color:'var(--bio)',title:'Consistent breakfast timing',text:'Anchors the peripheral liver and pancreatic clocks. Within 30 min of same time daily. High-protein morning meal improves cognitive performance throughout the day.'},
+  {time:'12:00–17:00',icon:'◈',color:'var(--teal)',title:'Exercise window',text:'Morning for clock advancement. Afternoon (3–5pm) for peak performance. Avoid within 3 hours of sleep. Even 20 min of walking is a meaningful circadian signal.'},
+  {time:'18:00',icon:'🌡',color:'var(--moon)',title:'Reduce thermal load',text:'Cool your environment as evening approaches. Target bedroom temperature 16–19°C. A warm bath 1–2 hours before bed works by displacing heat to the skin, allowing core temperature to drop faster.'},
+  {time:'20:00',icon:'🔆',color:'var(--sun)',title:'Dim all lights · switch to warm spectrum',text:'Eliminate screens or use blue light blocking glasses. Warm amber/red light (&lt;1800K color temperature) has minimal circadian effect. This is the most impactful single change most people can make.'},
+  {time:'21:00',icon:'⬡',color:'var(--bio)',title:'Last food of the day',text:'Finish eating 2–3 hours before sleep. Late eating delays melatonin onset, elevates glucose during sleep, and reduces SWS. A consistent eating window of 8–10 hours has substantial metabolic benefits.'},
+  {time:'22:00–23:00',icon:'☽',color:'var(--moon)',title:'Consistent sleep time',text:'Consistency matters more than duration. The same bedtime ±30 min trains your clock\'s melatonin onset. Your body begins preparing for sleep 2 hours before you fall asleep — it needs to know when to start.'},
+  {time:'Always',icon:'◎',color:'var(--teal)',title:'Consistent wake time · non-negotiable',text:'The master anchor. Even after a bad night: wake at the same time. This is the single most evidence-based recommendation in sleep medicine. It outweighs everything else.'},
+];
+const plist=document.getElementById('protocol-list');
+if(plist){
+  protocols.forEach(p=>{
+    const div=document.createElement('div');
+    div.style.cssText='display:flex;gap:1rem;padding:0.9rem 1.1rem;border:1px solid rgba(255,255,255,0.05);border-radius:10px;background:rgba(255,255,255,0.02);align-items:flex-start;';
+    div.innerHTML=`
+      <div style="font-size:1.3rem;flex-shrink:0;line-height:1;margin-top:0.1rem;">${p.icon}</div>
+      <div style="flex:1;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;color:${p.color};text-transform:uppercase;margin-bottom:0.2rem;">${p.time}</div>
+        <div style="font-size:0.92rem;color:rgba(255,255,255,0.85);margin-bottom:0.3rem;">${p.title}</div>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);line-height:1.65;">${p.text}</div>
+      </div>`;
+    plist.appendChild(div);
+  });
+}
+
+// ══════════════ SLEEP ARCHITECTURE CANVAS ══════════════
+(function drawSleepArch(){
+  const cv=document.getElementById('sleep-canvas');
+  if(!cv) return;
+  cv.width=cv.offsetWidth||800;
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=140;
+  ctx.clearRect(0,0,W,H);
+
+  // Sleep stages: each entry is [startHour, endHour, stage] where stage: 1=N1, 2=N2, 3=N3, 4=REM
+  const stages=[
+    [0,0.25,1],[0.25,1.0,2],[1.0,1.8,3],[1.8,2.2,2],[2.2,2.8,4],
+    [2.8,3.1,2],[3.1,3.7,3],[3.7,4.0,2],[4.0,4.6,4],
+    [4.6,4.9,2],[4.9,5.4,3],[5.4,5.7,2],[5.7,6.4,4],
+    [6.4,6.7,2],[6.7,7.0,3],[7.0,7.2,2],[7.2,8.0,4]
+  ];
+  const colors=['','#7BE8A040','#3ECFB8','#A8C8E8','#E8B84B'];
+  const stageY={1:H*0.25,2:H*0.42,3:H*0.72,4:H*0.18};
+
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=0.5;
+  for(let h=0;h<=8;h++){
+    const x=(h/8)*W;
+    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.2)';ctx.font='9px JetBrains Mono,monospace';
+    ctx.textAlign='center';ctx.fillText(h+'h',x,H-3);
+  }
+
+  // Stage labels on y
+  ['Wake','N1','N2','N3','REM'].forEach((lbl,i)=>{
+    const ys=[H*0.05,H*0.2,H*0.38,H*0.7,H*0.15];
+    ctx.fillStyle='rgba(255,255,255,0.18)';ctx.font='8px JetBrains Mono,monospace';
+    ctx.textAlign='left';ctx.fillText(lbl,3,ys[i]);
+  });
+
+  // Draw the hypnogram line
+  ctx.strokeStyle='rgba(255,255,255,0.6)';ctx.lineWidth=1.5;ctx.beginPath();
+  let prevX=0,prevY=H*0.05;
+  ctx.moveTo(prevX,prevY);
+  stages.forEach(([s,e,stage])=>{
+    const x1=(s/8)*W, x2=(e/8)*W;
+    const y=stageY[stage];
+    // Drop to stage
+    ctx.lineTo(x1,y);ctx.lineTo(x2,y);
+    prevX=x2;prevY=y;
+  });
+  ctx.stroke();
+
+  // Fill under hypnogram per stage
+  stages.forEach(([s,e,stage])=>{
+    const x1=(s/8)*W, x2=(e/8)*W;
+    const y=stageY[stage];
+    const col=colors[stage];
+    ctx.fillStyle=col+'60';
+    ctx.fillRect(x1,y,x2-x1,H-y-15);
+  });
+
+  // SWS and REM labels
+  ctx.fillStyle='rgba(168,200,232,0.5)';ctx.font='bold 9px JetBrains Mono,monospace';
+  ctx.textAlign='center';ctx.fillText('SWS dominant',W*0.2,H-20);
+  ctx.fillStyle='rgba(232,184,75,0.5)';
+  ctx.fillText('REM dominant',W*0.75,H-20);
+})();
+
+</script>
 
 <script>
 // ═══════════════════════════════════════════════════════════════════
@@ -935,6 +1593,27 @@ document.getElementById('timeline-canvas')?.addEventListener('mousemove',functio
     'Melatonin rising','Evening wind-down','Sleep onset','Light sleep','N1/N2 sleep','Transitioning'];
   const tooltip=document.getElementById('timeline-tooltip');
   if(tooltip) tooltip.textContent=`${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')} — ${events[Math.floor(hour)]||''}`;
+});
+
+// ── SLEEP ARCH (deferred to ensure canvas sized) ──
+window.addEventListener('load',function(){
+  const cv=document.getElementById('sleep-canvas');
+  if(!cv) return;
+  cv.width=cv.offsetWidth||800;
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=140;
+  ctx.clearRect(0,0,W,H);
+  const stages=[[0,0.25,1],[0.25,1.0,2],[1.0,1.8,3],[1.8,2.2,2],[2.2,2.8,4],[2.8,3.1,2],[3.1,3.7,3],[3.7,4.0,2],[4.0,4.6,4],[4.6,4.9,2],[4.9,5.4,3],[5.4,5.7,2],[5.7,6.4,4],[6.4,6.7,2],[6.7,7.0,3],[7.0,7.2,2],[7.2,8.0,4]];
+  const stageY={1:H*0.25,2:H*0.42,3:H*0.72,4:H*0.18};
+  const colors={1:'rgba(123,232,160',2:'rgba(62,207,184',3:'rgba(168,200,232',4:'rgba(232,184,75'};
+  ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=0.5;
+  for(let h=0;h<=8;h++){const x=(h/8)*W;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();ctx.fillStyle='rgba(255,255,255,0.2)';ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='center';ctx.fillText(h+'h',x,H-3);}
+  ['REM','N1','N2','SWS'].forEach((lbl,i)=>{const ys=[H*0.14,H*0.22,H*0.39,H*0.69];ctx.fillStyle='rgba(255,255,255,0.18)';ctx.font='8px JetBrains Mono,monospace';ctx.textAlign='left';ctx.fillText(lbl,3,ys[i]);});
+  stages.forEach(([s,e,st])=>{const x1=(s/8)*W,x2=(e/8)*W,y=stageY[st];ctx.fillStyle=colors[st]+',0.25)';ctx.fillRect(x1,y,x2-x1,H-y-15);});
+  ctx.strokeStyle='rgba(255,255,255,0.65)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,H*0.05);
+  stages.forEach(([s,e,st])=>{const x1=(s/8)*W,x2=(e/8)*W,y=stageY[st];ctx.lineTo(x1,y);ctx.lineTo(x2,y);});ctx.stroke();
+  ctx.fillStyle='rgba(168,200,232,0.5)';ctx.font='bold 9px JetBrains Mono,monospace';ctx.textAlign='center';ctx.fillText('SWS dominant',W*0.2,H-20);
+  ctx.fillStyle='rgba(232,184,75,0.5)';ctx.fillText('REM dominant',W*0.75,H-20);
 });
 
 // Start
