@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Poisson–Binomial Generalisation | Research Study</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg:     #07090c;
+    --panel:  #0d1017;
+    --edge:   #181e28;
+    --dim:    #2a3040;
+    --mid:    #58647a;
+    --text:   #c0cad8;
+    --gold:   #e8c97a;
+    --teal:   #6ecfcf;
+    --rose:   #d4789a;
+    --sage:   #8ecf7c;
+    --lav:    #a07ecf;
+    --mist:   #7eaacf;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 48px 24px 80px;
+  }
+
+  .page { max-width: 900px; margin: 0 auto; }
+
+  /* ── Typography ── */
+  h1 { font-size: 2rem; font-weight: 400; letter-spacing: 0.03em;
+       background: linear-gradient(120deg, var(--gold), #fff8e8 50%, var(--teal));
+       -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  h2 { font-size: 1.1rem; font-weight: 500; color: var(--gold);
+       letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+  h3 { font-size: 0.95rem; color: var(--teal); letter-spacing: 0.1em;
+       text-transform: uppercase; margin-bottom: 8px; }
+  p  { color: var(--mid); margin-bottom: 12px; }
+  sub, sup { font-size: 0.72em; }
+
+  /* ── Layout ── */
+  .header { text-align: center; margin-bottom: 52px; }
+  .header .sub { font-style: italic; color: var(--mid); font-size: 0.95rem; margin-top: 8px; }
+  .header .meta { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+                  letter-spacing: 0.4em; color: var(--dim); margin-bottom: 16px; }
+
+  section { margin-bottom: 52px; }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--edge);
+    border-radius: 14px;
+    padding: 24px 22px 20px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 40px #00000066;
+  }
+  .card.gold  { border-top: 2px solid var(--gold); }
+  .card.teal  { border-top: 2px solid var(--teal); }
+  .card.rose  { border-top: 2px solid var(--rose); }
+  .card.sage  { border-top: 2px solid var(--sage); }
+  .card.lav   { border-top: 2px solid var(--lav);  }
+  .card.mist  { border-top: 2px solid var(--mist); }
+
+  .card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.3em;
+    color: var(--dim); margin-bottom: 4px;
+  }
+  .card-title { font-size: 0.85rem; letter-spacing: 0.12em; margin-bottom: 6px; }
+  .card-sub   { font-size: 0.82rem; color: var(--mid); margin-bottom: 16px; line-height: 1.6; }
+
+  /* ── Equations ── */
+  .eq-box {
+    background: #0a0c10;
+    border: 1px solid var(--edge);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 2.2;
+    overflow-x: auto;
+  }
+  .eq-label { font-size: 0.65rem; color: var(--dim); letter-spacing: 0.2em;
+              margin-bottom: 6px; }
+  .eq       { color: var(--gold); font-size: 1rem; }
+  .eq-note  { color: var(--mid); font-size: 0.75rem; }
+
+  /* ── Phi strip ── */
+  .phi-strip { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0; }
+  .phi-chip  {
+    border-radius: 24px; padding: 7px 16px; font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Tables ── */
+  .tbl-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--edge); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead tr { background: #0a0c10; }
+  th { padding: 9px 14px; font-family: 'JetBrains Mono', monospace;
+       font-size: 0.65rem; letter-spacing: 0.1em; color: var(--mid);
+       border-bottom: 1px solid var(--edge); text-align: right; white-space: nowrap; }
+  th.left { text-align: left; }
+  td { padding: 8px 14px; border-bottom: 1px solid #141820;
+       text-align: right; font-family: 'JetBrains Mono', monospace;
+       font-size: 0.78rem; white-space: nowrap; }
+  td.left { text-align: left; font-family: 'EB Garamond', serif; font-size: 0.88rem; }
+  tr:nth-child(even) { background: rgba(255,255,255,0.018); }
+
+  .c-gold { color: var(--gold); }
+  .c-teal { color: var(--teal); }
+  .c-rose { color: var(--rose); }
+  .c-sage { color: var(--sage); }
+  .c-mist { color: var(--mist); }
+  .c-mid  { color: var(--mid);  }
+  .c-text { color: var(--text); }
+
+  /* ── Charts ── */
+  .chart-wrap { position: relative; height: 280px; margin: 4px 0 8px; }
+  .chart-wrap-sm { position: relative; height: 220px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:600px){ .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Legend ── */
+  .legend { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+  .leg-item { display: inline-flex; align-items: center; gap: 6px;
+              margin-right: 12px; font-size: 0.75rem; color: var(--mid); }
+  .leg-line { width: 22px; height: 2px; border-radius: 2px; }
+  .leg-dash { background: repeating-linear-gradient(90deg, currentColor 0, currentColor 5px, transparent 5px, transparent 8px); }
+
+  /* ── Annotation grid ── */
+  .ann-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-top: 12px; }
+  .ann-cell { background: rgba(42,48,64,0.5); border-radius: 6px;
+              padding: 5px 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; }
+  .ann-cell.green { border-left: 2px solid var(--sage); }
+  .ann-cell.gold  { border-left: 2px solid var(--gold); }
+  .ann-cell.rose  { border-left: 2px solid var(--rose); }
+
+  /* ── Analysis ── */
+  .analysis {
+    background: var(--panel); border: 1px solid var(--edge);
+    border-top: 2px solid var(--rose); border-radius: 12px; padding: 22px 22px;
+  }
+  .analysis p { color: var(--text); font-size: 0.95rem; line-height: 1.85; margin-bottom: 14px; }
+  .analysis p:last-child { margin-bottom: 0; }
+  .highlight { color: var(--sage); }
+  .hl-gold   { color: var(--gold); }
+  .hl-teal   { color: var(--teal); }
+
+  /* ── Code block ── */
+  .code-block {
+    background: #0a0c10; border: 1px solid var(--edge); border-radius: 10px;
+    padding: 18px 20px; font-family: 'JetBrains Mono', monospace; font-size: 0.76rem;
+    line-height: 1.9; overflow-x: auto; color: var(--text);
+  }
+  .kw { color: var(--rose); }
+  .fn { color: var(--teal); }
+  .nm { color: var(--gold); }
+  .cm { color: var(--dim);  }
+
+  hr { border: none; border-top: 1px solid var(--edge); margin: 40px 0; }
+
+  footer { text-align: center; color: var(--dim);
+           font-family: 'JetBrains Mono', monospace;
+           font-size: 0.65rem; letter-spacing: 0.2em; margin-top: 16px; }
+
+.edu-gloss{background:rgba(13,16,23,.95);border:1px solid rgba(180,200,240,.1);border-left:3px solid #7ecfcf;padding:20px 24px;margin:32px 0}
+.eg-head{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:#7ecfcf;margin-bottom:14px}
+.eg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0;border-top:1px solid rgba(180,200,240,.07)}
+.eg-item{padding:9px 0;border-bottom:1px solid rgba(180,200,240,.07)}
+.eg-term{font-family:'JetBrains Mono',monospace;font-size:10px;color:#c8a84b;margin-bottom:3px}
+.eg-def{font-size:12.5px;color:rgba(200,215,240,.6);line-height:1.72}
+.edu-callout{background:rgba(100,180,180,.04);border:1px solid rgba(100,180,180,.18);border-left:3px solid #7ecfcf;padding:14px 18px;margin:14px 0;font-size:13px;color:rgba(200,215,240,.65);line-height:1.82}
+.edu-callout .ch{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#7ecfcf;margin-bottom:8px}
+.edu-callout strong{color:rgba(220,232,255,.9)}
+.cf-flag{display:inline-flex;align-items:center;gap:6px;background:rgba(200,168,75,.07);border:1px solid rgba(200,168,75,.25);border-radius:4px;padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.09em;color:rgba(200,168,75,.8);margin:6px 0}
+.ref-panel{background:rgba(13,16,23,.95);border:1px solid rgba(180,200,240,.1);border-left:3px solid #c8a84b;padding:22px 26px;margin:48px 0 24px}
+.ref-panel-head{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:#c8a84b;margin-bottom:14px}
+.ref-list{list-style:none;padding:0;margin:0;font-size:12.5px;color:rgba(200,215,240,.6);line-height:1.82}
+.ref-list li{padding:6px 0;border-bottom:1px solid rgba(180,200,240,.07)}
+.ref-list li:last-child{border-bottom:none}
+.rn{font-family:'JetBrains Mono',monospace;color:#c8a84b;margin-right:8px}
+.rapa{font-size:11px;color:rgba(158,200,245,.38);padding-left:20px;display:block;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ HEADER ══════════════════════════════════════════════ -->
+  <div class="header">
+    <div class="meta">POISSON · BINOMIAL · GENERALIZED · RESEARCH SUPPLEMENT</div>
+    <h1>Generalised Poisson–Binomial<br>State Probability Analysis</h1>
+    <p class="sub">Sequential Poisson processes · fractional states via Γ(n) · three Φ definitions<br>
+       M = 100 molecules · τ = 10 · t variable</p>
+  </div>
+
+  <!-- ══ SECTION 1: BACKGROUND ══════════════════════════════ -->
+  
+<div class="edu-gloss" style="max-width:860px;margin:32px auto">
+  <div class="eg-head">Key Terms &middot; Probability &amp; Statistics Glossary</div>
+  <div class="eg-grid">
+    <div class="eg-item"><div class="eg-term">Poisson Distribution</div><div class="eg-def">Models the number of events occurring in a fixed interval when events happen independently at a constant average rate lambda. Formula: P(n) = lambda^n * e^(-lambda) / n!. Named after Simeon Poisson (1837). As t grows small relative to the time constant, the binomial distribution converges to Poisson.</div></div>
+    <div class="eg-item"><div class="eg-term">Binomial Distribution</div><div class="eg-def">Models the number of successes in M independent yes/no trials each with probability p. Formula: P(n) = C(M,n) * p^n * (1-p)^(M-n). Here M = 100 molecules, each converting independently with probability p = 1 - e^(-t/Mτ).</div></div>
+    <div class="eg-item"><div class="eg-term">Gamma Function: Γ(n)</div><div class="eg-def">Generalizes factorial to non-integer values: Γ(n+1) = n! for integers, but also defined for real n. Γ(0.5) = sqrt(pi). Allows the distributions to be evaluated at fractional state values (like n = 1.013643 or n = 3.013643), which is what the Phi perturbations produce on this page.</div></div>
+    <div class="eg-item"><div class="eg-term">Law of Rare Events</div><div class="eg-def">When M is large and p is small but Mp is finite, the binomial distribution converges to Poisson with lambda = Mp. Mathematically: C(M,n) * p^n ≈ (Mp)^n / n! as p → 0, M → infinity. Demonstrated in Chart 1: ratio R = P_Poisson / P_Binomial → 1 at t ≈ 20.</div></div>
+    <div class="eg-item"><div class="eg-term">Sequential Poisson Process</div><div class="eg-def">A chain of Poisson steps: A → B → C → ... where each conversion takes an average waiting time τ. The probability of being in state D (three steps forward) at time t is a Poisson distribution with parameter λ = t/τ evaluated at n = 3. Generalizing to real n via Γ(n+1) replaces the factorial.</div></div>
+    <div class="eg-item"><div class="eg-term">Φ (Phi) Perturbation</div><div class="eg-def">On this page, Phi = (3/2)^12 / 2^7 = 1.013643 (the Pythagorean comma ratio). Used as a perturbation: alpha = Phi - 1 = +0.013643, beta = -alpha = -0.013643. Applied to state n=3 to generate n = 3.013643 (P1) and n = 2.986357 (P2). <em>See CF flag below for the interpretive note.</em></div></div>
+    <div class="eg-item"><div class="eg-term">Lanczos Approximation</div><div class="eg-def">A numerical method for computing Γ(n) to arbitrary precision for real n. Used in the JavaScript implementation on this page to evaluate the generalized Poisson/Binomial formulas at non-integer states. Accurate to 15 significant figures for most inputs.</div></div>
+    <div class="eg-item"><div class="eg-term">Perturbation Analysis</div><div class="eg-def">Studying how a small change to a parameter (here, a change of alpha = 0.013643 in the state index n) affects the output. If the ratio P(n+alpha)/P(n) is close to 1, the system is insensitive to this perturbation. Chart 4 shows this sensitivity as a function of time.</div></div>
+  </div>
+</div>
+<section>
+    <h2>1 · Background & Problem Statement</h2>
+
+    <div class="card teal">
+      <div class="card-label">PART A</div>
+      <div class="card-title c-teal">Sequential Poisson Process</div>
+      <div class="card-sub">
+        A → B → C → … → N with average waiting time τ between steps. Starting at t=0,
+        what is the probability of observing the system in state D (three forward steps) at time t?
+      </div>
+      <div class="eq-box">
+        <div class="eq-label">POISSON: GENERALISED TO REAL n VIA GAMMA FUNCTION</div>
+        <div class="eq">P<sub>Poisson</sub>(n, t) = [(t/τ)ⁿ / Γ(n+1)] · e<sup>−t/τ</sup></div>
+        <div class="eq-note">For integer n=3 (state D): Γ(4) = 3! = 6</div>
+      </div>
+    </div>
+
+    <div class="card gold">
+      <div class="card-label">PART B</div>
+      <div class="card-title c-gold">M Independent Molecules</div>
+      <div class="card-sub">
+        M molecules A<sub>1</sub>…A<sub>M</sub> each independently convert to B with time constant Mτ.
+        Starting with all in state A at t=0, probability of exactly n in state B at time t?
+      </div>
+      <div class="eq-box">
+        <div class="eq-label">BINOMIAL: GENERALISED TO REAL n VIA GAMMA FUNCTION</div>
+        <div class="eq">P<sub>Binomial</sub>(n, t) = [Γ(M+1) / (Γ(n+1)·Γ(M−n+1))] · p<sup>n</sup> · (1−p)<sup>M−n</sup></div>
+        <div class="eq-note">where  p = 1 − e<sup>−t/(Mτ)</sup>  (single-molecule conversion probability)</div>
+      </div>
+    </div>
+
+    <div class="card rose">
+      <div class="card-label">PART C</div>
+      <div class="card-title c-rose">Convergence in the t ≪ Mτ Limit</div>
+      <div class="card-sub">
+        Show that as t ≪ Mτ, P<sub>Binomial</sub> → P<sub>Poisson</sub>.
+        The law of rare events: each molecule converts rarely (p ≈ t/Mτ ≪ 1),
+        but collectively they produce a finite Poisson rate λ = Mp = t/τ.
+      </div>
+      <div class="eq-box">
+        <div class="eq-label">KEY APPROXIMATIONS (t ≪ Mτ)</div>
+        <div class="eq">p ≈ t/(Mτ) &nbsp;·&nbsp; C(M,n) ≈ Mⁿ/n! &nbsp;·&nbsp; (1−p)<sup>M</sup> ≈ e<sup>−t/τ</sup></div>
+        <div class="eq-note">→  P<sub>Binomial</sub> ≈ (t/τ)ⁿ/n! · e<sup>−t/τ</sup> = P<sub>Poisson</sub>  ✓</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ══ SECTION 2: PHI DEFINITIONS ═════════════════════════ -->
+  <section>
+    <h2>2 · The Three Φ Definitions</h2>
+    <div class="cf-flag">&#9872; COMMA FRAMEWORK ARTICULATION &middot; The choice of Phi = 0.013643 as a perturbation is mathematically valid but the reason for choosing this specific value is interpretive, not derived from probability theory.</div>
+    <div class="edu-callout">
+      <div class="ch">Why these three values of Phi?</div>
+      The standard mathematical approach would choose an arbitrary small epsilon for perturbation analysis. This study uses three specific values that come from the <strong>Pythagorean comma</strong> framework: Phi = (3/2)^12 / 2^7 = 1.013643 (the exact comma ratio), and two related values constructed from (3/5) ratios. The perturbation alpha = 0.013643 is genuinely tiny, comparable to rounding errors in floating-point arithmetic, which is why P1 and P2 track so closely to the n=3 baseline. The mathematical analysis (convergence, law of rare events, Gamma function generalization) is entirely standard and correct regardless of which perturbation value is chosen. The choice of <em>this</em> value is a comma framework observation, not a mathematical necessity.
+    </div>
+    <p>Three values of Φ are used to define perturbation parameters α = Φ−1 and β = −α,
+       generating four n-scenarios: n=3 (baseline), n=Φ, n=3+α (P₁), n=3+β (P₂).</p>
+
+    <div class="phi-strip">
+      <div class="phi-chip" style="background:rgba(232,201,122,0.1);border:1px solid rgba(232,201,122,0.3);">
+        <span class="c-gold">Φ</span> <span class="c-mid">= (3/2)¹²/2⁷ =</span>
+        <span class="c-text"> 1.013643</span>
+        <span class="c-mid"> · α =</span> <span class="c-teal">+0.013643</span>
+      </div>
+      <div class="phi-chip" style="background:rgba(110,207,207,0.1);border:1px solid rgba(110,207,207,0.3);">
+        <span class="c-teal">ø</span> <span class="c-mid">= (3/5)²/2³ =</span>
+        <span class="c-text"> 0.045000</span>
+        <span class="c-mid"> · α =</span> <span class="c-rose">−0.955000</span>
+      </div>
+      <div class="phi-chip" style="background:rgba(212,120,154,0.1);border:1px solid rgba(212,120,154,0.3);">
+        <span class="c-rose">ø₂</span> <span class="c-mid">= (3/5)⁵/2³ =</span>
+        <span class="c-text"> 0.009720</span>
+        <span class="c-mid"> · α =</span> <span class="c-rose">−0.990280</span>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Definition</th>
+            <th>Φ value</th>
+            <th>α = Φ−1</th>
+            <th>β = −α</th>
+            <th>n = 3+α (P₁)</th>
+            <th>n = 3+β (P₂)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left c-gold">Φ = (3/2)¹²/2⁷</td>
+            <td class="c-text">1.013643</td>
+            <td class="c-teal">+0.013643</td>
+            <td class="c-rose">−0.013643</td>
+            <td>3.013643</td>
+            <td>2.986357</td>
+          </tr>
+          <tr>
+            <td class="left c-teal">ø = (3/5)²/2³</td>
+            <td class="c-text">0.045000</td>
+            <td class="c-rose">−0.955000</td>
+            <td class="c-teal">+0.955000</td>
+            <td>2.045000</td>
+            <td>3.955000</td>
+          </tr>
+          <tr>
+            <td class="left c-rose">ø₂ = (3/5)⁵/2³</td>
+            <td class="c-text">0.009720</td>
+            <td class="c-rose">−0.990280</td>
+            <td class="c-teal">+0.990280</td>
+            <td>2.009720</td>
+            <td>3.990280</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ══ SECTION 3: CHARTS ═══════════════════════════════════ -->
+  <section>
+    <h2>3 · Charts</h2>
+
+    <!-- Chart 1 -->
+    <div class="card teal">
+      <div class="card-label">CHART 1</div>
+      <div class="card-title c-teal">Convergence: Poisson/Binomial Ratio vs Time</div>
+      <div class="card-sub">
+        R(t) = P<sub>Poisson</sub>/P<sub>Binomial</sub> for n=3, M=100, τ=10.
+        Fitted trend: <span class="c-gold" style="font-family:monospace">R(u) = 1.137·e<sup>−1.361u</sup> − 0.107</span>
+        where u = t/(Mτ). Ratio = 1.000 at t ≈ 20.
+      </div>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-line" style="background:var(--teal)"></span>Actual ratio</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--gold)"></span>Trend fit</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--sage)"></span>R = 1.000</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chart1"></canvas></div>
+      <div class="ann-grid">
+        <div class="ann-cell gold"><span class="c-mid">t=5 </span> <span class="c-gold">1.023</span></div>
+        <div class="ann-cell gold"><span class="c-mid">t=10 </span><span class="c-gold">1.015</span></div>
+        <div class="ann-cell green"><span class="c-mid">t=20 </span><span class="c-sage">1.000</span></div>
+        <div class="ann-cell gold"><span class="c-mid">t=30 </span><span class="c-gold">0.985</span></div>
+        <div class="ann-cell rose"><span class="c-mid">t=50 </span><span class="c-rose">0.956</span></div>
+        <div class="ann-cell rose"><span class="c-mid">t=75 </span><span class="c-rose">0.920</span></div>
+        <div class="ann-cell rose"><span class="c-mid">t=100</span><span class="c-rose">0.886</span></div>
+        <div class="ann-cell rose"><span class="c-mid">t=200</span><span class="c-rose">0.760</span></div>
+      </div>
+    </div>
+
+    <!-- Chart 2 -->
+    <div class="card gold">
+      <div class="card-label">CHART 2</div>
+      <div class="card-title c-gold">Φ = (3/2)¹²/2⁷ ≈ 1.014 · α ≈ +0.014</div>
+      <div class="card-sub">
+        All four scenarios cluster tightly (α is tiny so P₁ and P₂ are nearly
+        indistinguishable from n=3. The Φ curve (n≈1.01) peaks early and decays fast.
+      </div>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-line" style="background:#38404e"></span>n=3 baseline</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--gold)"></span>n=Φ</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--sage)"></span>n=3+α (P₁)</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--rose)"></span>n=3+β (P₂)</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--mist);opacity:0.6"></span>Binom n=3</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chart2"></canvas></div>
+    </div>
+
+    <!-- Chart 3 -->
+    <div class="card teal">
+      <div class="card-label">CHART 3</div>
+      <div class="card-title c-teal">ø = (3/5)²/2³ ≈ 0.045 · α ≈ −0.955</div>
+      <div class="card-sub">
+        Large negative α pushes P₁ to n≈2.05 and P₂ to n≈3.95. The curves visibly
+        separate. The ø curve (n≈0.045) spikes sharply at small t.
+      </div>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-line" style="background:#38404e"></span>n=3 baseline</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--teal)"></span>n=ø</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--sage)"></span>n=3+α (P₁)</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--rose)"></span>n=3+β (P₂)</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--mist);opacity:0.6"></span>Binom n=3</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chart3"></canvas></div>
+    </div>
+
+    <!-- Chart 4 -->
+    <div class="card rose">
+      <div class="card-label">CHART 4</div>
+      <div class="card-title c-rose">ø₂ = (3/5)⁵/2³ ≈ 0.010 · α ≈ −0.990</div>
+      <div class="card-sub">
+        α closest to −1 of all three cases. P₁ ≈ n=2.01 and P₂ ≈ n=3.99, nearly
+        integer steps apart, maximum separation. The ø₂ curve is an extreme spike near n≈0.
+      </div>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-line" style="background:#38404e"></span>n=3 baseline</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--rose)"></span>n=ø₂</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--sage)"></span>n=3+α (P₁)</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--lav)"></span>n=3+β (P₂)</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--mist);opacity:0.6"></span>Binom n=3</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chart4"></canvas></div>
+    </div>
+
+    <!-- Chart 5 -->
+    <div class="card sage">
+      <div class="card-label">CHART 5</div>
+      <div class="card-title c-sage">Snapshot Bars: Poisson P at t = 20 (convergence sweet spot)</div>
+      <div class="card-sub">
+        All four n-scenarios for each Φ definition, frozen at t=20 where ratio ≈ 1.000.
+        For Φ all bars are nearly equal. For ø/ø₂, P₂ (n≈4) is tallest.
+      </div>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-line" style="background:#38404e"></span>n=3</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--gold)"></span>n=Φ</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--sage)"></span>n=3+α</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--rose)"></span>n=3+β</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chart5"></canvas></div>
+    </div>
+
+    <!-- Chart 6 -->
+    <div class="card lav">
+      <div class="card-label">CHART 6</div>
+      <div class="card-title" style="color:var(--lav)">Continuous n: P(n) at fixed t = 10 and t = 50</div>
+      <div class="card-sub">
+        The full Gamma-generalised Poisson curve as n varies continuously.
+        Vertical markers show integer n=3 (gold) and each Φ position.
+        At t=10 (λ=1) the mode is near n=1; at t=50 (λ=5) near n=4–5.
+      </div>
+      <div class="two-col">
+        <div>
+          <div style="font-size:0.75rem;color:var(--mist);margin-bottom:6px">t = 10  (λ = 1)</div>
+          <div class="chart-wrap-sm"><canvas id="chart6a"></canvas></div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem;color:var(--rose);margin-bottom:6px">t = 50  (λ = 5)</div>
+          <div class="chart-wrap-sm"><canvas id="chart6b"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 7 -->
+    <div class="card mist">
+      <div class="card-label">CHART 7</div>
+      <div class="card-title c-mist">Poisson vs Binomial Overlay, n=3 over full time range</div>
+      <div class="card-sub">
+        Both curves nearly superimposed at small t, diverging progressively.
+        Binomial sits above Poisson for t &gt; 20 as molecule pool depletion effects emerge.
+      </div>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-line" style="background:var(--gold)"></span>Poisson</span>
+        <span class="leg-item"><span class="leg-line" style="background:var(--mist)"></span>Binomial</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chart7"></canvas></div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ══ SECTION 4: NUMERICAL RESULTS ═══════════════════════ -->
+  <section>
+    <h2>4 · Numerical Results Table</h2>
+    <p>Poisson and Binomial probabilities at key time points for all three Φ definitions and four scenarios.</p>
+
+    <div class="tbl-wrap" style="margin-bottom:20px">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">Φ def</th>
+            <th class="left">Scenario</th>
+            <th>n</th>
+            <th class="c-gold">Poisson P (t=20)</th>
+            <th class="c-teal">Binomial P (t=20)</th>
+            <th class="c-gold">Poisson P (t=50)</th>
+            <th class="c-teal">Binomial P (t=50)</th>
+            <th>Ratio (t=50)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="left c-gold" rowspan="4">Φ=(3/2)¹²/2⁷</td>
+            <td class="left">n = 3</td><td>3.00000</td>
+            <td class="c-gold">1.804×10⁻¹</td><td class="c-teal">1.804×10⁻¹</td>
+            <td class="c-gold">1.404×10⁻¹</td><td class="c-teal">1.468×10⁻¹</td><td class="c-mid">0.9559</td></tr>
+          <tr><td class="left">n = Φ</td><td>1.01364</td>
+            <td class="c-gold">2.717×10⁻¹</td><td class="c-teal">2.744×10⁻¹</td>
+            <td class="c-gold">3.424×10⁻²</td><td class="c-teal">3.512×10⁻²</td><td class="c-mid">0.9749</td></tr>
+          <tr><td class="left c-sage">n = 3+α (P₁)</td><td>3.01364</td>
+            <td class="c-gold">1.791×10⁻¹</td><td class="c-teal">1.790×10⁻¹</td>
+            <td class="c-gold">1.410×10⁻¹</td><td class="c-teal">1.475×10⁻¹</td><td class="c-mid">0.9559</td></tr>
+          <tr><td class="left c-rose">n = 3+β (P₂)</td><td>2.98636</td>
+            <td class="c-gold">1.818×10⁻¹</td><td class="c-teal">1.818×10⁻¹</td>
+            <td class="c-gold">1.397×10⁻¹</td><td class="c-teal">1.461×10⁻¹</td><td class="c-mid">0.9559</td></tr>
+
+          <tr><td class="left c-teal" rowspan="4">ø=(3/5)²/2³</td>
+            <td class="left">n = 3</td><td>3.00000</td>
+            <td class="c-gold">1.804×10⁻¹</td><td class="c-teal">1.804×10⁻¹</td>
+            <td class="c-gold">1.404×10⁻¹</td><td class="c-teal">1.468×10⁻¹</td><td class="c-mid">0.9559</td></tr>
+          <tr><td class="left">n = ø</td><td>0.04500</td>
+            <td class="c-gold">1.431×10⁻¹</td><td class="c-teal">1.432×10⁻¹</td>
+            <td class="c-gold">7.423×10⁻³</td><td class="c-teal">7.433×10⁻³</td><td class="c-mid">0.9987</td></tr>
+          <tr><td class="left c-sage">n = 3+α (P₁)</td><td>2.04500</td>
+            <td class="c-gold">2.678×10⁻¹</td><td class="c-teal">2.704×10⁻¹</td>
+            <td class="c-gold">8.683×10⁻²</td><td class="c-teal">9.043×10⁻²</td><td class="c-mid">0.9602</td></tr>
+          <tr><td class="left c-rose">n = 3+β (P₂)</td><td>3.95500</td>
+            <td class="c-gold">9.356×10⁻²</td><td class="c-teal">9.176×10⁻²</td>
+            <td class="c-gold">1.746×10⁻¹</td><td class="c-teal">1.818×10⁻¹</td><td class="c-mid">0.9606</td></tr>
+
+          <tr><td class="left c-rose" rowspan="4">ø₂=(3/5)⁵/2³</td>
+            <td class="left">n = 3</td><td>3.00000</td>
+            <td class="c-gold">1.804×10⁻¹</td><td class="c-teal">1.804×10⁻¹</td>
+            <td class="c-gold">1.404×10⁻¹</td><td class="c-teal">1.468×10⁻¹</td><td class="c-mid">0.9559</td></tr>
+          <tr><td class="left">n = ø₂</td><td>0.00972</td>
+            <td class="c-gold">1.370×10⁻¹</td><td class="c-teal">1.370×10⁻¹</td>
+            <td class="c-gold">6.882×10⁻³</td><td class="c-teal">6.884×10⁻³</td><td class="c-mid">0.9997</td></tr>
+          <tr><td class="left c-sage">n = 3+α (P₁)</td><td>2.00972</td>
+            <td class="c-gold">2.701×10⁻¹</td><td class="c-teal">2.728×10⁻¹</td>
+            <td class="c-gold">8.479×10⁻²</td><td class="c-teal">8.827×10⁻²</td><td class="c-mid">0.9605</td></tr>
+          <tr><td class="left c-rose">n = 3+β (P₂)</td><td>3.99028</td>
+            <td class="c-gold">9.094×10⁻²</td><td class="c-teal">8.910×10⁻²</td>
+            <td class="c-gold">1.753×10⁻¹</td><td class="c-teal">1.824×10⁻¹</td><td class="c-mid">0.9610</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ══ SECTION 5: ANALYSIS ═════════════════════════════════ -->
+  <section>
+    <h2>5 · Analysis of Part (c) & Results</h2>
+    <div class="analysis">
+      <p>Part (c) states that when t ≪ Mτ, the Binomial answer from part (b) reduces exactly
+      to the Poisson answer from part (a). The mechanism is the law of rare events; each of
+      the M molecules has a tiny individual conversion probability p ≈ t/Mτ, but collectively
+      they produce a finite expected count Mp ≈ t/τ, which is precisely the Poisson rate.
+      Chart 1 confirms this precisely: the ratio R = P<sub>Poisson</sub>/P<sub>Binomial</sub>
+      hits <span class="highlight">1.000 at t ≈ 20</span> and stays within 5% for t &lt; 50.
+      The fitted trend line <span class="hl-gold">R(u) = 1.137·e<sup>−1.361u</sup> − 0.107</span>
+      quantifies how fast the equivalence breaks down as u = t/Mτ grows,
+      degrading faster than linearly once u exceeds ~0.05.</p>
+
+      <p>The three Φ definitions reinforce this. For
+      <span class="hl-gold">Φ ≈ 1.014</span> (α tiny), all scenarios collapse onto each
+      other; the equivalence is robust to small perturbations in n. For
+      <span class="c-rose">ø and ø₂</span> (α ≈ −1), P₁ and P₂ probe n ≈ 2 and n ≈ 4,
+      yet the Poisson/Binomial ratio stays similarly ~0.96 at t = 50 for both, meaning
+      the convergence quality is largely independent of which state you are near.
+      The approximation breaks down for the same physical reason in all cases: at large t
+      the A pool depletes, suppressing further conversions in the Binomial but not in
+      the memoryless Poisson.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- ══ SECTION 6: CODE ═════════════════════════════════════ -->
+  <section>
+    <h2>6 · Core Equations & Code</h2>
+
+    <div class="card gold">
+      <div class="card-label">GAMMA FUNCTION: LANCZOS APPROXIMATION</div>
+      <div class="code-block">
+<span class="kw">function</span> <span class="fn">gamma</span>(z) {<br>
+&nbsp;&nbsp;<span class="kw">if</span> (z &lt; 0.5) <span class="kw">return</span> Math.PI / (Math.sin(Math.PI * z) * <span class="fn">gamma</span>(1 - z));<br>
+&nbsp;&nbsp;z -= 1;<br>
+&nbsp;&nbsp;<span class="kw">const</span> <span class="nm">c</span> = [0.99999999999980993, 676.5203681218851, ...];<br>
+&nbsp;&nbsp;<span class="kw">let</span> x = c[0];<br>
+&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">let</span> i = 1; i &lt; 9; i++) x += c[i] / (z + i);<br>
+&nbsp;&nbsp;<span class="kw">const</span> t = z + 7.5;<br>
+&nbsp;&nbsp;<span class="kw">return</span> Math.sqrt(2π) · t<sup>z+0.5</sup> · e<sup>−t</sup> · x;<br>
+}
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card teal">
+        <div class="card-label">POISSON P(n, t)</div>
+        <div class="code-block" style="font-size:0.74rem">
+<span class="kw">const</span> <span class="fn">pois</span> = (n, t, τ) =><br>
+&nbsp;&nbsp;(t/τ)<sup>n</sup> / <span class="fn">Γ</span>(n+1) · e<sup>−t/τ</sup>
+        </div>
+      </div>
+      <div class="card gold">
+        <div class="card-label">BINOMIAL P(n, t)</div>
+        <div class="code-block" style="font-size:0.74rem">
+<span class="kw">const</span> <span class="fn">bino</span> = (n, M, t, τ) =><br>
+&nbsp;&nbsp;<span class="fn">Γ</span>(M+1)/(<span class="fn">Γ</span>(n+1)·<span class="fn">Γ</span>(M−n+1))<br>
+&nbsp;&nbsp;· p<sup>n</sup> · (1−p)<sup>M−n</sup><br>
+&nbsp;&nbsp;<span class="cm">// p = 1 − e<sup>−t/(Mτ)</sup></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card rose">
+      <div class="card-label">TREND LINE: FITTED TO CHART 1</div>
+      <div class="eq-box">
+        <div class="eq-label">EXPONENTIAL FIT  ·  R² ≈ 1.000</div>
+        <div class="eq">R(u) = 1.137 · e<sup>−1.361u</sup> − 0.107 &nbsp;&nbsp; where u = t/(Mτ)</div>
+        <div class="eq-note" style="margin-top:8px">
+          Fit form: R = a·e<sup>−bu</sup> + c &nbsp;·&nbsp; a = 1.13739 &nbsp;·&nbsp; b = 1.36078 &nbsp;·&nbsp; c = −0.10665
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    M = 100 · τ = 10 · Γ(n) via Lanczos approximation · Generalised to real n
+  </footer>
+</div>
+
+<!-- ══ CHART SCRIPTS ════════════════════════════════════════ -->
+<script>
+/* ── Gamma (Lanczos) ── */
+function gamma(z) {
+  if (z < 0.5) return Math.PI / (Math.sin(Math.PI * z) * gamma(1 - z));
+  z -= 1;
+  const c = [0.99999999999980993,676.5203681218851,-1259.1392167224028,
+    771.32342877765313,-176.61502916214059,12.507343278686905,
+    -0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+  let x = c[0];
+  for (let i = 1; i < 9; i++) x += c[i] / (z + i);
+  const t = z + 7.5;
+  return Math.sqrt(2*Math.PI)*Math.pow(t,z+0.5)*Math.exp(-t)*x;
+}
+const pois = (n,t,tau) => n<0?NaN:(Math.pow(t/tau,n)/gamma(n+1))*Math.exp(-t/tau);
+const bino = (n,M,t,tau) => {
+  if(n<0||M-n<0)return NaN;
+  const p=1-Math.exp(-t/(M*tau)),q=Math.exp(-t/(M*tau));
+  return(gamma(M+1)/(gamma(n+1)*gamma(M-n+1)))*Math.pow(p,n)*Math.pow(q,M-n);
+};
+
+const M=100,TAU=10;
+const PHI_A=(3/2)**12/2**7, PHI_B=(3/5)**2/2**3, PHI_B2=(3/5)**5/2**3;
+const tArr=Array.from({length:100},(_,i)=>2+i*2);
+const nArr=Array.from({length:150},(_,i)=>0.05+i*0.065);
+
+/* shared chart defaults */
+const DEF = {
+  responsive:true, maintainAspectRatio:false,
+  animation:{duration:0},
+  plugins:{ legend:{display:false}, tooltip:{
+    backgroundColor:'#0d1017', borderColor:'#181e28', borderWidth:1,
+    titleColor:'#58647a', bodyColor:'#c0cad8',
+    titleFont:{family:'JetBrains Mono,monospace',size:10},
+    bodyFont:{family:'JetBrains Mono,monospace',size:10},
+  }},
+  scales:{
+    x:{ grid:{color:'#2a304033'}, ticks:{color:'#58647a',font:{family:'monospace',size:9}} },
+    y:{ grid:{color:'#2a304033'}, ticks:{color:'#58647a',font:{family:'monospace',size:9}} },
+  }
+};
+
+/* ── CHART 1, convergence ── */
+(()=>{
+  const trend = u => 1.13739*Math.exp(-1.36078*u)-0.10665;
+  const labels=tArr;
+  const ratio=tArr.map(t=>+(pois(3,t,TAU)/bino(3,M,t,TAU)).toFixed(5));
+  const fit=tArr.map(t=>+trend(t/(M*TAU)).toFixed(5));
+  const ref=tArr.map(()=>1);
+  new Chart(document.getElementById('chart1'),{type:'line',
+    data:{labels,datasets:[
+      {label:'Actual ratio',data:ratio,borderColor:'#6ecfcf',borderWidth:2.5,pointRadius:0,tension:0.3},
+      {label:'Trend fit',   data:fit,  borderColor:'#e8c97a',borderWidth:1.5,pointRadius:0,borderDash:[7,4],tension:0.3},
+      {label:'R=1.000',     data:ref,  borderColor:'#8ecf7c',borderWidth:1,  pointRadius:0,borderDash:[4,5]},
+    ]},options:{...DEF,scales:{
+      x:{...DEF.scales.x,title:{display:true,text:'t',color:'#58647a',font:{size:10}}},
+      y:{...DEF.scales.y,min:0.65,max:1.12,title:{display:true,text:'R(t)',color:'#58647a',font:{size:10}}},
+    }}
+  });
+})();
+
+/* ── time sweep helper ── */
+function makeTimeSweep(canvasId, phi, phiColor, p2Color){
+  const a=phi-1;
+  const labels=tArr;
+  new Chart(document.getElementById(canvasId),{type:'line',
+    data:{labels,datasets:[
+      {label:'n=3',   data:tArr.map(t=>pois(3,   t,TAU)),borderColor:'#38404e',borderWidth:1.5,pointRadius:0,tension:0.3},
+      {label:'n=Φ',   data:tArr.map(t=>pois(phi, t,TAU)),borderColor:phiColor, borderWidth:3,  pointRadius:0,tension:0.3},
+      {label:'n=3+α', data:tArr.map(t=>pois(3+a, t,TAU)),borderColor:'#8ecf7c',borderWidth:2,  pointRadius:0,tension:0.3},
+      {label:'n=3+β', data:tArr.map(t=>pois(3-a, t,TAU)),borderColor:p2Color,  borderWidth:2,  pointRadius:0,tension:0.3},
+      {label:'Binom', data:tArr.map(t=>bino(3,M, t,TAU)),borderColor:'#7eaacf',borderWidth:1.5,pointRadius:0,borderDash:[6,3],tension:0.3},
+    ]},options:{...DEF,scales:{
+      x:{...DEF.scales.x,title:{display:true,text:'t',color:'#58647a',font:{size:10}}},
+      y:{...DEF.scales.y,title:{display:true,text:'P',color:'#58647a',font:{size:10}}},
+    }}
+  });
+}
+makeTimeSweep('chart2',PHI_A, '#e8c97a','#d4789a');
+makeTimeSweep('chart3',PHI_B, '#6ecfcf','#d4789a');
+makeTimeSweep('chart4',PHI_B2,'#d4789a','#a07ecf');
+
+/* ── CHART 5, snapshot bars ── */
+(()=>{
+  const t=20;
+  const phis=[{sym:'Φ',phi:PHI_A},{sym:'ø',phi:PHI_B},{sym:'ø₂',phi:PHI_B2}];
+  const labels=phis.map(p=>p.sym);
+  const mk=(fn)=>phis.map(({phi})=>+fn(phi).toFixed(5));
+  new Chart(document.getElementById('chart5'),{type:'bar',
+    data:{labels,datasets:[
+      {label:'n=3',   data:mk(()=>pois(3,t,TAU)),       backgroundColor:'#2a3040cc',borderRadius:4},
+      {label:'n=Φ',   data:mk(phi=>pois(phi,t,TAU)),    backgroundColor:'#e8c97acc',borderRadius:4},
+      {label:'n=3+α', data:mk(phi=>pois(3+(phi-1),t,TAU)),backgroundColor:'#8ecf7ccc',borderRadius:4},
+      {label:'n=3+β', data:mk(phi=>pois(3-(phi-1),t,TAU)),backgroundColor:'#d4789acc',borderRadius:4},
+    ]},options:{...DEF,scales:{
+      x:{...DEF.scales.x},
+      y:{...DEF.scales.y,title:{display:true,text:'Poisson P',color:'#58647a',font:{size:10}}},
+    }}
+  });
+})();
+
+/* ── CHART 6, continuous n ── */
+function makeContinuousN(canvasId, tFix, col){
+  const labels=nArr.map(n=>+n.toFixed(2));
+  const data=nArr.map(n=>pois(n,tFix,TAU));
+  new Chart(document.getElementById(canvasId),{type:'line',
+    data:{labels,datasets:[{
+      label:'P(n)',data,borderColor:col,borderWidth:2.5,pointRadius:0,tension:0.3,
+      fill:true,backgroundColor:col+'22',
+    }]},
+    options:{...DEF,scales:{
+      x:{...DEF.scales.x,title:{display:true,text:'n',color:'#58647a',font:{size:10}},
+         ticks:{maxTicksLimit:10}},
+      y:{...DEF.scales.y,title:{display:true,text:'P',color:'#58647a',font:{size:10}}},
+    }}
+  });
+}
+makeContinuousN('chart6a',10,'#7eaacf');
+makeContinuousN('chart6b',50,'#d4789a');
+
+/* ── CHART 7, Poisson vs Binomial ── */
+(()=>{
+  const labels=tArr;
+  new Chart(document.getElementById('chart7'),{type:'line',
+    data:{labels,datasets:[
+      {label:'Poisson', data:tArr.map(t=>pois(3,t,TAU)),borderColor:'#e8c97a',borderWidth:2.5,pointRadius:0,tension:0.3},
+      {label:'Binomial',data:tArr.map(t=>bino(3,M,t,TAU)),borderColor:'#7eaacf',borderWidth:2,pointRadius:0,borderDash:[6,3],tension:0.3},
+    ]},options:{...DEF,scales:{
+      x:{...DEF.scales.x,title:{display:true,text:'t',color:'#58647a',font:{size:10}}},
+      y:{...DEF.scales.y,title:{display:true,text:'P',color:'#58647a',font:{size:10}}},
+    }}
+  });
+})();
+</script>
+
+<div class="ref-panel" style="max-width:860px;margin:48px auto 24px">
+  <div class="ref-panel-head">References &middot; APA 7th ed. (Primary) &middot; ACS Format (Secondary)</div>
+  <p style="font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(200,215,240,.35);letter-spacing:.08em;margin-bottom:14px;">The mathematical content (Poisson, Binomial, Gamma, law of rare events) is standard probability theory. References [1-4] cover this. The choice of Phi = 0.013643 as the perturbation value is a comma framework observation; see the Musica Universalis site for that context.</p>
+  <ul class="ref-list">
+    <li><span class="rn">[1]</span>Poisson, S. D. (1837). <em>Recherches sur la probabilite des jugements en matiere criminelle et en matiere civile.</em> Bachelier. [The foundational text establishing the Poisson distribution.]<span class="rapa">ACS: Poisson, S. D. <em>Recherches sur la probabilite des jugements</em>; Bachelier: Paris, 1837.</span></li>
+    <li><span class="rn">[2]</span>Feller, W. (1968). <em>An introduction to probability theory and its applications</em> (3rd ed., Vol. 1). John Wiley &amp; Sons. [Law of rare events: pp. 153-157. Poisson-Binomial convergence: Chapter 6.]<span class="rapa">ACS: Feller, W. <em>An Introduction to Probability Theory and Its Applications</em>, 3rd ed.; John Wiley &amp; Sons: New York, 1968; Vol. 1.</span></li>
+    <li><span class="rn">[3]</span>Lanczos, C. (1964). A precision approximation of the gamma function. <em>Journal of the Society for Industrial and Applied Mathematics, Series B: Numerical Analysis, 1</em>(1), 86-96. https://doi.org/10.1137/0701008 [Gamma function numerical method used in this implementation.]<span class="rapa">ACS: Lanczos, C. <em>J. Soc. Ind. Appl. Math. Ser. B Numer. Anal.</em> <strong>1964</strong>, <em>1</em> (1), 86-96. DOI: 10.1137/0701008</span></li>
+    <li><span class="rn">[4]</span>Stirzaker, D. (2003). <em>Elementary probability</em> (2nd ed.). Cambridge University Press. [Accessible treatment of Poisson processes and Binomial-Poisson convergence.]<span class="rapa">ACS: Stirzaker, D. <em>Elementary Probability</em>, 2nd ed.; Cambridge University Press: Cambridge, 2003.</span></li>
+    <li><span class="rn">[5]</span>Barbour, J. M. (1951). <em>Tuning and temperament: A historical survey.</em> Michigan State College Press. [Pythagorean comma: delta = 0.013643, derivation from (3/2)^12 / 2^7.]<span class="rapa">ACS: Barbour, J. M. <em>Tuning and Temperament: A Historical Survey</em>; Michigan State College Press: East Lansing, MI, 1951.</span></li>
+    <li><span class="rn">[6]</span>Oliveros Gomez, S. (2026). Pythagorean comma as a perturbation parameter in generalized Poisson-Binomial distributions. <em>Unpublished analysis.</em> Musica Universalis project, Bogota, Colombia.<span class="rapa">ACS: Oliveros Gomez, S. Pythagorean Comma as Perturbation Parameter in Generalized Poisson-Binomial Distributions. Unpublished analysis, 2026.</span></li>
+  </ul>
+</div>
+</body>
+</html>
