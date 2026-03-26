@@ -98,6 +98,7 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);
 </style>
 </head>
 <body>
+<blockquote style="border-left:2px solid rgba(201,168,76,.35);background:rgba(201,168,76,.03);padding:.85rem 1.3rem;margin:1.1rem 0;font-style:italic;font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.82;"><span style="color:rgba(201,168,76,.5);">&ldquo;</span>In every walk with nature one receives far more than he seeks.<span style="color:rgba(201,168,76,.5);">&rdquo;</span><footer style="font-style:normal;font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.09em;color:rgba(201,168,76,.38);margin-top:.45rem;">Muir, J. Letter to Mrs. Ezra Carr, July 1872. In: <em>John of the Mountains: The Unpublished Journals of John Muir</em>; University of Wisconsin Press, 1979.</footer></blockquote>
 <canvas id="river-bg"></canvas>
 <nav>
   <span class="nav-brand">Rivers of the World</span>
@@ -107,13 +108,13 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);
 <div class="hero">
   <div class="hero-kicker">Water Engineering · River Science · Emergency Preparedness</div>
   <h1 class="hero-title">Rivers<br>of the <em>World</em></h1>
-  <p class="hero-sub">A river is not a pipe. It is a living system with memory, personality, and a self-healing capacity — but only if we stop overwhelming it.</p>
+  <p class="hero-sub">A river is not a pipe. It is a living system with memory, personality, and a self-healing capacity, but only if we stop overwhelming it.</p>
   <div class="hero-stat">3% of Earth's water is fresh · 0.3% is accessible · 1 billion people lack safe water</div>
 </div>
 
 <div class="quote" style="position:relative;z-index:1;margin:0;padding:2rem;background:rgba(4,10,5,.7);border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;">
   <p style="font-size:1.3rem;max-width:700px;margin:0 auto .5rem;">"You have to take care of the water, or the water stops taking care of you."</p>
-  <cite>— Jesús · Water Protection Engineer · on what the river always knew</cite>
+  <cite>, Jesús · Water Protection Engineer · on what the river always knew</cite>
 </div>
 
 <!-- THE RAIN CYCLE -->
@@ -125,8 +126,8 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);
     <canvas id="rain-cv"></canvas>
     <p style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--dim);text-align:center;margin:.5rem 0 2rem;letter-spacing:.1em;">HYDROLOGICAL CYCLE · ANIMATED · SHOWING DISRUPTION POINTS IN RED</p>
     <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.5rem;color:var(--flow);margin-bottom:1rem;">Acid Rain</h3>
-    <p>When fossil fuels burn, sulfur dioxide (SO₂) and nitrogen oxides (NOₓ) enter the atmosphere. In the presence of water vapor they form sulfuric and nitric acid — which falls as rain, snow, or fog with a pH as low as 4.2 (normal rain is 5.6). Acid rain kills fish by dissolving calcium from their bones, leaches aluminum from soils into waterways (toxic to aquatic life), and strips nutrients from forest soils, weakening trees against disease and storms.</p>
-    <p>The pH of Scandinavian lakes dropped 1.5 units between 1950 and 1980 due to UK and German industrial emissions. The 1990 US Clean Air Act reduced acid rain deposition by 65% — one of the most successful environmental regulations in history. The lesson: the damage is reversible if the source is stopped.</p>
+    <p>When fossil fuels burn, sulfur dioxide (SO₂) and nitrogen oxides (NOₓ) enter the atmosphere. In the presence of water vapor they form sulfuric and nitric acid, which falls as rain, snow, or fog with a pH as low as 4.2 (normal rain is 5.6). Acid rain kills fish by dissolving calcium from their bones, leaches aluminum from soils into waterways (toxic to aquatic life), and strips nutrients from forest soils, weakening trees against disease and storms.</p>
+    <p>The pH of Scandinavian lakes dropped 1.5 units between 1950 and 1980 due to UK and German industrial emissions. The 1990 US Clean Air Act reduced acid rain deposition by 65%, one of the most successful environmental regulations in history. The lesson: the damage is reversible if the source is stopped.</p>
     <div class="grid">
       <div class="dcard dd"><div class="dlbl">pH of acid rain</div><div class="dnum">4.2</div><div class="ddesc">Versus 5.6 for normal rain. Lemon juice is pH 2. The gap matters enormously to aquatic life.</div></div>
       <div class="dcard dw"><div class="dlbl">Lakes acidified in Norway</div><div class="dnum">5,000</div><div class="ddesc">By 1990, 5,000 Norwegian lakes had lost all fish populations due to acid rain from European industry.</div></div>
@@ -140,12 +141,12 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);
   <div class="sec-inner">
     <div class="sec-label">⚠️ Contamination</div>
     <h2 class="sec-title">River <em>Contamination</em> Simulation</h2>
-    <p class="sec-lead">Click the river to add a contamination event. Watch the plume spread downstream. This is what happens when a factory, farm, or mine discharges into a waterway — and why the first 6 hours determine the outcome.</p>
+    <p class="sec-lead">Click the river to add a contamination event. Watch the plume spread downstream. This is what happens when a factory, farm, or mine discharges into a waterway, and why the first 6 hours determine the outcome.</p>
     <canvas id="contam-cv"></canvas>
     <p style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--dim);text-align:center;margin:.4rem 0 2rem;letter-spacing:.1em;">CLICK ON THE RIVER TO ADD CONTAMINATION · WATCH DOWNSTREAM SPREAD</p>
     <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.5rem;color:var(--danger);margin-bottom:1rem;">What Are PFAs / PFOs?</h3>
-    <p><strong style="color:var(--ice)">PFAS (Per- and Polyfluoroalkyl Substances)</strong> — sometimes called PFOs or "forever chemicals" — are a family of over 12,000 synthetic compounds used since the 1940s in non-stick cookware, firefighting foam, food packaging, and waterproof clothing. They do not break down in the environment. They accumulate in body tissue. They are now detectable in the blood of 97% of Americans, in Arctic polar bears, in deep ocean sediments, and in rainwater on every continent — including Antarctica.</p>
-    <p><strong style="color:var(--danger)">Health effects:</strong> kidney cancer, testicular cancer, thyroid disease, immune suppression, developmental delays in children, elevated cholesterol. The EPA in 2024 set the first federal drinking water limits for six PFAS compounds. The limits are in parts per trillion — these chemicals are dangerous at vanishingly small concentrations.</p>
+    <p><strong style="color:var(--ice)">PFAS (Per- and Polyfluoroalkyl Substances)</strong>, sometimes called PFOs or "forever chemicals", are a family of over 12,000 synthetic compounds used since the 1940s in non-stick cookware, firefighting foam, food packaging, and waterproof clothing. They do not break down in the environment. They accumulate in body tissue. They are now detectable in the blood of 97% of Americans, in Arctic polar bears, in deep ocean sediments, and in rainwater on every continent, including Antarctica.</p>
+    <p><strong style="color:var(--danger)">Health effects:</strong> kidney cancer, testicular cancer, thyroid disease, immune suppression, developmental delays in children, elevated cholesterol. The EPA in 2024 set the first federal drinking water limits for six PFAS compounds. The limits are in parts per trillion, these chemicals are dangerous at vanishingly small concentrations.</p>
     <p><strong style="color:var(--ice)">Where to look them up:</strong> The Environmental Working Group (EWG) PFAS contamination map at ewg.org/tapwater shows known contamination sites across the US. In Europe, the PFAS Information Platform maps contamination across 23 countries.</p>
   </div>
 </div>
@@ -155,7 +156,7 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);
   <div class="sec-inner">
     <div class="sec-label">🔬 Water Safety</div>
     <h2 class="sec-title">Is Your <em>Well Water</em> Safe?</h2>
-    <p class="sec-lead">325 million Americans get water from public systems — the rest from private wells. Private wells are not regulated by the Safe Drinking Water Act. You are responsible for testing yours. Here is what to test for and how.</p>
+    <p class="sec-lead">325 million Americans get water from public systems, the rest from private wells. Private wells are not regulated by the Safe Drinking Water Act. You are responsible for testing yours. Here is what to test for and how.</p>
     <table class="wtable">
       <thead><tr><th>Contaminant</th><th>Source</th><th>Health Effect</th><th>Test Frequency</th><th>Status</th></tr></thead>
       <tbody>
@@ -187,10 +188,10 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);
     <p class="sec-lead">In an emergency, contaminated water kills faster than dehydration. The sequence matters. Know what method removes what.</p>
 
     <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.5rem;color:var(--ice);margin-bottom:1rem;">What Is Osmosis? What Is Reverse Osmosis?</h3>
-    <p><strong style="color:var(--ice)">Osmosis</strong> is the natural movement of water through a semi-permeable membrane from a region of lower solute concentration to higher — it's how your cells absorb water, how tree roots pull groundwater up. <strong style="color:var(--ice)">Reverse Osmosis (RO)</strong> applies pressure to force water in the opposite direction — through the membrane, leaving dissolved contaminants behind. RO systems remove 95–99% of PFAS, arsenic, nitrates, heavy metals, and most dissolved salts. They also remove beneficial minerals, so post-filter remineralization is recommended. They produce 3–5 gallons of wastewater per gallon of filtered water — a real cost in water-scarce areas.</p>
+    <p><strong style="color:var(--ice)">Osmosis</strong> is the natural movement of water through a semi-permeable membrane from a region of lower solute concentration to higher, it's how your cells absorb water, how tree roots pull groundwater up. <strong style="color:var(--ice)">Reverse Osmosis (RO)</strong> applies pressure to force water in the opposite direction, through the membrane, leaving dissolved contaminants behind. RO systems remove 95–99% of PFAS, arsenic, nitrates, heavy metals, and most dissolved salts. They also remove beneficial minerals, so post-filter remineralization is recommended. They produce 3–5 gallons of wastewater per gallon of filtered water, a real cost in water-scarce areas.</p>
 
     <h3 style="font-family:'Raleway',sans-serif;font-weight:800;font-size:1.4rem;color:var(--fresh);margin:2rem 0 1rem;">Build a Basic Carbon Filter with Activated Charcoal</h3>
-    <p>Activated charcoal is charcoal that has been processed to create millions of tiny pores, vastly increasing its surface area (1 gram = the surface area of a tennis court). Contaminants adsorb onto this surface. It is effective against chlorine, most organic compounds, some heavy metals, odors, and turbidity. It does NOT remove bacteria, viruses, nitrates, fluoride, or dissolved minerals — it must be combined with other methods for full purification.</p>
+    <p>Activated charcoal is charcoal that has been processed to create millions of tiny pores, vastly increasing its surface area (1 gram = the surface area of a tennis court). Contaminants adsorb onto this surface. It is effective against chlorine, most organic compounds, some heavy metals, odors, and turbidity. It does NOT remove bacteria, viruses, nitrates, fluoride, or dissolved minerals, it must be combined with other methods for full purification.</p>
 
     <div class="filter-diagram">
       <canvas id="filter-cv"></canvas>
@@ -199,10 +200,10 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);
 
     <div class="steps">
       <div class="step"><h4>Materials: two plastic bottles or containers, sand, gravel, activated charcoal</h4><p>Cut the bottom off a 2-liter bottle. Punch small holes in the cap. This becomes your filter housing. You can substitute any container with drainage holes.</p></div>
-      <div class="step"><h4>Layer 1 — Gravel (bottom, ~5cm)</h4><p>Coarse gravel goes in first (closest to the cap/exit). Removes large particles, leaves, debris. Rinse the gravel thoroughly before use.</p></div>
-      <div class="step"><h4>Layer 2 — Fine sand (~8cm)</h4><p>Clean fine sand above the gravel. Filters finer suspended particles and sediment. River sand works if rinsed; commercial filter sand is ideal.</p></div>
-      <div class="step"><h4>Layer 3 — Activated charcoal (~8cm)</h4><p>Crushed activated charcoal above the sand. If you don't have commercial activated charcoal, you can make it from hardwood charcoal: burn until white-hot, quench quickly in water, crush to small pieces. Not as effective as commercial, but functional.</p></div>
-      <div class="step"><h4>Layer 4 — Fine sand again (~5cm)</h4><p>A final layer of fine sand prevents the charcoal from floating up into the water being filtered.</p></div>
+      <div class="step"><h4>Layer 1, Gravel (bottom, ~5cm)</h4><p>Coarse gravel goes in first (closest to the cap/exit). Removes large particles, leaves, debris. Rinse the gravel thoroughly before use.</p></div>
+      <div class="step"><h4>Layer 2, Fine sand (~8cm)</h4><p>Clean fine sand above the gravel. Filters finer suspended particles and sediment. River sand works if rinsed; commercial filter sand is ideal.</p></div>
+      <div class="step"><h4>Layer 3, Activated charcoal (~8cm)</h4><p>Crushed activated charcoal above the sand. If you don't have commercial activated charcoal, you can make it from hardwood charcoal: burn until white-hot, quench quickly in water, crush to small pieces. Not as effective as commercial, but functional.</p></div>
+      <div class="step"><h4>Layer 4, Fine sand again (~5cm)</h4><p>A final layer of fine sand prevents the charcoal from floating up into the water being filtered.</p></div>
       <div class="step"><h4>Collect and boil</h4><p>This filter removes particles and many chemicals but NOT pathogens. Always boil the filtered water (1 minute at altitude, 3 minutes above 2000m) or add water purification tablets. The filter + boil combination is safe for most emergency situations.</p></div>
     </div>
 
@@ -257,19 +258,19 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);
     <div class="tab-panel active" id="rtab-personal">
       <div class="action"><h4>Find out which river you drain to</h4><p>Every street, every roof, every garden drains somewhere. Enter your address at the EPA's How's My Waterway tool (mywaterway.epa.gov) or your national equivalent. Name the river. This single act changes your relationship to water.</p><div class="atag">Personal · 5 minutes · permanent</div></div>
       <div class="action"><h4>Never pour fats, oils, or chemicals down the drain</h4><p>Everything in your drain system reaches either a treatment plant (imperfectly) or directly the waterway. Used cooking oil, medications, paint, and cleaning products all cause measurable damage to aquatic life. Take them to hazardous waste collection points.</p><div class="atag">Personal · household · immediate</div></div>
-      <div class="action"><h4>Reduce fertilizer and pesticide use</h4><p>Most lawn and garden fertilizers exceed what plants can absorb — the excess washes directly into groundwater and streams. Native plants in your garden need no fertilizer and support local insect biodiversity. A 20% reduction in your fertilizer use is meaningful at the watershed scale.</p><div class="atag">Personal · garden · seasonal</div></div>
-      <div class="action"><h4>Install a rain garden or rain barrel</h4><p>A rain garden is a shallow depression planted with native species that absorbs stormwater before it enters drainage. A 1,000 sq ft roof during a 1-inch rainfall event produces 600 gallons of runoff — a rain barrel captures it for later use and keeps it out of the overflow system. Both are DIY projects.</p><div class="atag">Personal · infrastructure · weekend project</div></div>
+      <div class="action"><h4>Reduce fertilizer and pesticide use</h4><p>Most lawn and garden fertilizers exceed what plants can absorb, the excess washes directly into groundwater and streams. Native plants in your garden need no fertilizer and support local insect biodiversity. A 20% reduction in your fertilizer use is meaningful at the watershed scale.</p><div class="atag">Personal · garden · seasonal</div></div>
+      <div class="action"><h4>Install a rain garden or rain barrel</h4><p>A rain garden is a shallow depression planted with native species that absorbs stormwater before it enters drainage. A 1,000 sq ft roof during a 1-inch rainfall event produces 600 gallons of runoff, a rain barrel captures it for later use and keeps it out of the overflow system. Both are DIY projects.</p><div class="atag">Personal · infrastructure · weekend project</div></div>
     </div>
 
     <div class="tab-panel" id="rtab-community">
       <div class="action"><h4>Form or join a watershed watch group</h4><p>Watershed protection works at the catchment scale, not the property scale. Local watershed associations coordinate monitoring, restoration, and advocacy. In the US: adopt a stream programs (many state EPAs). In the EU: Water Framework Directive public participation processes. In Latin America: Comités de Cuenca (river basin committees) are the organizing unit for community water management.</p><div class="atag">Community · organizing · ongoing</div></div>
-      <div class="action"><h4>Conduct macroinvertebrate surveys</h4><p>The presence and diversity of aquatic insects, worms, and crustaceans is the most reliable indicator of river health — and it requires no laboratory. Training programs through local conservation organizations teach sampling in one day. The data you collect is used in regulatory assessments. Your river survey can trigger a pollution investigation.</p><div class="atag">Community · citizen science · skill-building</div></div>
+      <div class="action"><h4>Conduct macroinvertebrate surveys</h4><p>The presence and diversity of aquatic insects, worms, and crustaceans is the most reliable indicator of river health, and it requires no laboratory. Training programs through local conservation organizations teach sampling in one day. The data you collect is used in regulatory assessments. Your river survey can trigger a pollution investigation.</p><div class="atag">Community · citizen science · skill-building</div></div>
       <div class="action"><h4>Restore riparian buffers</h4><p>A 10-meter strip of native trees and shrubs along a riverbank filters 70–80% of nutrient runoff before it enters the water, shades the stream (reducing algal growth), and provides bank stability. Riparian planting schemes exist in most countries with subsidies for landowners. Communities can organize volunteer planting days that establish hundreds of meters of buffer in a single weekend.</p><div class="atag">Community · direct restoration · high impact</div></div>
     </div>
 
     <div class="tab-panel" id="rtab-government">
-      <div class="action" style="border-left-color:var(--warn);"><h4>Understand your Water Framework Directive rights</h4><p>In the EU, citizens have the legal right to participate in River Basin Management Plans — the documents that set water quality targets for every catchment. These are reviewed every 6 years. Most citizens don't know this. Your public comment on a RBMP has legal weight. In the US, the Clean Water Act requires public notice and comment periods for all major water quality permits. Use them.</p><div class="atag">Structural · legal rights · high leverage</div></div>
-      <div class="action" style="border-left-color:var(--warn);"><h4>Demand agricultural pollution accountability</h4><p>In most countries, agricultural runoff (the largest source of water pollution globally) is subject to weaker regulations than industrial discharge. Farm nutrient management plans, manure storage regulations, and riparian buffer requirements exist — but compliance monitoring is underfunded. Demand your government increase inspection frequency and publish compliance data publicly.</p><div class="atag">Structural · policy · high leverage</div></div>
+      <div class="action" style="border-left-color:var(--warn);"><h4>Understand your Water Framework Directive rights</h4><p>In the EU, citizens have the legal right to participate in River Basin Management Plans, the documents that set water quality targets for every catchment. These are reviewed every 6 years. Most citizens don't know this. Your public comment on a RBMP has legal weight. In the US, the Clean Water Act requires public notice and comment periods for all major water quality permits. Use them.</p><div class="atag">Structural · legal rights · high leverage</div></div>
+      <div class="action" style="border-left-color:var(--warn);"><h4>Demand agricultural pollution accountability</h4><p>In most countries, agricultural runoff (the largest source of water pollution globally) is subject to weaker regulations than industrial discharge. Farm nutrient management plans, manure storage regulations, and riparian buffer requirements exist, but compliance monitoring is underfunded. Demand your government increase inspection frequency and publish compliance data publicly.</p><div class="atag">Structural · policy · high leverage</div></div>
       <div class="action" style="border-left-color:var(--warn);"><h4>Support water cooperative governance models</h4><p>The Colombian páramo water communities, the Spanish Irrigation Tribunals (UNESCO heritage), and New Zealand's Māori water governance models demonstrate that communities with legal authority over their water make better long-term decisions than remote regulatory agencies. Support legislation that gives local communities legal standing in water management decisions.</p><div class="atag">Structural · governance · model-building</div></div>
     </div>
   </div>
@@ -277,9 +278,9 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--dim);
 
 <footer>
   <div class="footer-brand">Rivers of the World</div>
-  <p>A river is not a pipe. — Jesús · Water Protection Engineer</p>
+  <p>A river is not a pipe., Jesús · Water Protection Engineer</p>
   <p>δ = 0.013643… · The comma that runs through every watershed</p>
-  <p>— que en paz descanse. — el río te recuerda.</p>
+  <p>, que en paz descanse., el río te recuerda.</p>
   <p style="margin-top:1rem;"><a href="rescue_plan.html" style="color:var(--flow);font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.1em;">← Rescue Plan</a> &nbsp;·&nbsp; <a href="heart_of_tefiti.html" style="color:var(--flow);font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.1em;">The Ocean →</a></p>
 </footer>
 
@@ -464,5 +465,17 @@ function showRiverTab(id,btn){
   btn.classList.add('active');
 }
 </script>
-</body>
+
+<section style="max-width:820px;margin:48px auto 40px;padding:2rem;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18);border-radius:12px;">
+  <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:.6rem;">&#9872; COMMA FRAMEWORK QUESTIONS</div>
+  <div style="font-size:1.05rem;font-weight:600;color:rgba(201,168,76,.85);margin-bottom:.4rem;">Open Questions</div>
+  <p style="font-size:.82rem;font-style:italic;color:rgba(255,255,255,.35);margin-bottom:1.4rem;line-height:1.65;">Speculative questions seen through the comma framework. Not claims. Invitations.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.9rem;">
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">Every system manages a comma.</strong>Calendars, tuning systems, financial accounting, urban planning, all add corrections to close gaps that cannot close on their own. What gap is this page's subject managing? What would happen if the correction were removed?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(93,222,200,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(93,222,200,.8);display:block;margin-bottom:.35rem;">Where is the Kairos event?</strong>N_res = 73.296: after 73 cycles of accumulation, a system nearly returns to its origin. Is there a 73-unit threshold in this subject? A point where small accumulated errors suddenly produce a visible discontinuity?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(168,212,255,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(168,212,255,.75);display:block;margin-bottom:.35rem;">The gap is not the failure.</strong>The Pythagorean comma is not a flaw in the scale, it is proof that real intervals were used. Where in this subject does the "error" turn out to be evidence of authenticity rather than mistake?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">What does the 0.296 carry?</strong>After 73 full cycles, the remainder is 0.296, the starting position of the next revolution. What does this subject carry forward from one cycle to the next? What cannot be reset, only continued from a slightly different position?</div>
+  </div>
+</section>
+<div style="max-width:820px;margin:40px auto 20px;background:rgba(13,16,23,.9);border:1px solid rgba(255,255,255,.07);border-left:3px solid rgba(201,168,76,.4);padding:20px 24px;font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.85;"><div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,168,76,);margin-bottom:12px;">References &middot; APA + ACS</div><p>[1] Gleick, P. H. (Ed.). (1993). <em>Water in crisis: A guide to the world's fresh water resources.</em> Oxford University Press.</p><p>[2] Postel, S.; Richter, B. (2003). <em>Rivers for life: Managing water for people and nature.</em> Island Press.</p><p>[3] WHO/UNICEF. (2023). <em>Progress on household drinking water, sanitation and hygiene 2000-2022.</em> WHO.</p></div></body>
 </html>

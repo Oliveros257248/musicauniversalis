@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reading the Heavens · A Guide to the Sky</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --vellum:   #0A0C0F;
+  --vellum2:  #0E1118;
+  --vellum3:  #131822;
+  --ink:      #C8BFA0;
+  --inkdim:   rgba(200,191,160,.55);
+  --inkfaint: rgba(200,191,160,.08);
+  --line:     rgba(200,191,160,.1);
+  --brass:    #B8893A;
+  --brasslt:  #D4AA60;
+  --brassdim: rgba(184,137,58,.35);
+  --copper:   #C06830;
+  --azure:    #4A80B8;
+  --azurelt:  #6AA0D8;
+  --sage:     #5A8A68;
+  --fd: 'Cinzel', serif;
+  --fi: 'IM Fell English', serif;
+  --fb: 'Crimson Pro', Georgia, serif;
+  --fm: 'JetBrains Mono', monospace;
+}
+
+html{scroll-behavior:smooth;background:var(--vellum)}
+body{font-family:var(--fb);font-size:18px;line-height:1.88;color:var(--inkdim);overflow-x:hidden}
+
+/* grain overlay */
+body::after{
+  content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.35;
+}
+
+/* ambient glow */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -5%, rgba(184,137,58,.07), transparent),
+    radial-gradient(ellipse 40% 60% at 5% 60%,  rgba(74,128,184,.05), transparent),
+    radial-gradient(ellipse 50% 40% at 95% 80%, rgba(192,104,48,.04), transparent);
+}
+
+:focus-visible{outline:2px solid var(--brasslt);outline-offset:3px;border-radius:2px}
+.skip{position:absolute;top:-100%;left:1rem;background:var(--brasslt);color:var(--vellum);padding:.4rem 1rem;font-family:var(--fm);font-size:.7rem;font-weight:700;border-radius:0 0 5px 5px;text-decoration:none;z-index:9999;transition:top .15s}
+.skip:focus{top:0}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:.4rem;padding:.6rem 2rem;
+  background:rgba(10,12,15,.97);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(184,137,58,.12);
+}
+.nav-brand{font-family:var(--fd);font-size:.85rem;letter-spacing:.12em;color:var(--brasslt)}
+.nav-links{display:flex;gap:.1rem;flex-wrap:wrap}
+.nav-links a{
+  font-family:var(--fm);font-size:.38rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--inkdim);text-decoration:none;padding:.2rem .45rem;border-radius:3px;transition:color .15s;
+}
+.nav-links a:hover{color:var(--brasslt)}
+
+/* ── LAYOUT ── */
+.page{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:0 2rem 10rem}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:8rem 0 5rem;
+  border-bottom:1px solid var(--line);
+}
+.hero-eye{
+  font-family:var(--fm);font-size:.42rem;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--brassdim);margin-bottom:1.4rem;
+}
+.hero-title{
+  font-family:var(--fd);font-weight:400;
+  font-size:clamp(2.4rem,8vw,6rem);
+  line-height:.95;letter-spacing:.04em;color:var(--ink);
+  margin-bottom:1rem;
+}
+.hero-title em{color:var(--brasslt);font-style:normal}
+.hero-rule{width:80px;height:1px;background:linear-gradient(90deg,var(--brass),transparent);margin:1.4rem 0}
+.hero-sub{
+  font-family:var(--fi);font-style:italic;
+  font-size:clamp(1rem,2.5vw,1.3rem);
+  color:rgba(200,191,160,.5);max-width:580px;line-height:2;
+}
+.hero-sub strong{color:var(--ink);font-style:normal;font-family:var(--fb);font-weight:500}
+
+/* ── SECTIONS ── */
+.sec{padding:5rem 0;border-top:1px solid var(--line)}
+.sec-label{
+  font-family:var(--fm);font-size:.42rem;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(200,191,160,.2);margin-bottom:.8rem;
+  display:flex;align-items:center;gap:.7rem;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--line);max-width:120px}
+.sec-label.brass{color:var(--brassdim)}
+.sec-label.azure{color:rgba(74,128,184,.45)}
+
+h2{
+  font-family:var(--fd);font-weight:400;
+  font-size:clamp(1.6rem,4vw,3rem);
+  line-height:1.1;letter-spacing:.05em;color:var(--ink);
+  margin-bottom:1.2rem;
+}
+h2 em{color:var(--brasslt);font-style:normal}
+h3{font-family:var(--fd);font-size:1.1rem;font-weight:600;letter-spacing:.08em;color:var(--ink);margin:2.2rem 0 .65rem}
+h4{font-family:var(--fm);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brassdim);margin:1.4rem 0 .45rem}
+
+p{margin-bottom:1rem;line-height:1.88}
+p strong{color:var(--ink)}
+p em{color:var(--brasslt)}
+
+.lead{
+  font-family:var(--fi);font-style:italic;font-size:1.08rem;
+  color:rgba(200,191,160,.62);line-height:2;margin-bottom:1.5rem;
+}
+
+blockquote{
+  border-left:2px solid var(--brass);padding:.7rem 1.3rem;
+  margin:1.8rem 0;background:rgba(184,137,58,.04);border-radius:0 7px 7px 0;
+}
+blockquote p{font-family:var(--fi);font-style:italic;font-size:1rem;color:rgba(200,191,160,.65);margin:0}
+blockquote cite{font-family:var(--fm);font-size:.4rem;letter-spacing:.08em;color:var(--brassdim);font-style:normal;display:block;margin-top:.4rem}
+
+/* ── SKY CANVAS SECTION ── */
+.sky-section{
+  padding:4rem 0;border-top:1px solid var(--line);
+}
+.sky-toolbar{
+  display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
+  margin-bottom:1rem;padding:.7rem 1rem;
+  background:rgba(200,191,160,.03);border:1px solid var(--line);
+  border-radius:8px 8px 0 0;
+}
+.tool-btn{
+  font-family:var(--fm);font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.3rem .75rem;border-radius:4px;border:1px solid var(--line);
+  background:transparent;color:var(--inkdim);cursor:pointer;transition:all .15s;
+}
+.tool-btn:hover{border-color:var(--brass);color:var(--brasslt)}
+.tool-btn.active{background:rgba(184,137,58,.15);border-color:var(--brass);color:var(--brasslt)}
+.tool-sep{width:1px;height:18px;background:var(--line);flex-shrink:0}
+.sky-color-row{display:flex;gap:.4rem;align-items:center}
+.sky-color{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .15s;flex-shrink:0}
+.sky-color:hover,.sky-color.active{border-color:var(--ink)}
+.sky-size{font-family:var(--fm);font-size:.4rem;letter-spacing:.1em;color:var(--inkdim);display:flex;align-items:center;gap:.4rem}
+.sky-size input{width:60px;accent-color:var(--brass)}
+.sky-label-input{
+  font-family:var(--fi);font-style:italic;font-size:.85rem;
+  background:rgba(200,191,160,.05);border:1px solid var(--line);
+  color:var(--ink);padding:.2rem .6rem;border-radius:4px;flex:1;min-width:140px;
+  outline:none;transition:border-color .15s;
+}
+.sky-label-input:focus{border-color:var(--brass)}
+.sky-label-input::placeholder{color:rgba(200,191,160,.25);font-style:italic}
+
+#sky-canvas{
+  display:block;width:100%;border:1px solid var(--line);
+  border-top:none;border-radius:0 0 8px 8px;cursor:crosshair;
+  background:#04060A;
+}
+.sky-hint{
+  font-family:var(--fm);font-size:.38rem;letter-spacing:.09em;
+  color:rgba(200,191,160,.2);margin-top:.5rem;text-align:center;
+}
+
+/* ── CONSTELLATION TABLE ── */
+.const-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--line);margin:1.5rem 0}
+.const-cell{
+  background:var(--vellum2);padding:1.2rem 1.1rem;transition:background .15s;cursor:default;
+}
+.const-cell:hover{background:var(--vellum3)}
+.cc-symbol{font-size:1.5rem;margin-bottom:.3rem;line-height:1}
+.cc-name{font-family:var(--fd);font-size:.8rem;letter-spacing:.08em;color:var(--ink);margin-bottom:.15rem}
+.cc-latin{font-family:var(--fi);font-style:italic;font-size:.78rem;color:rgba(200,191,160,.3);margin-bottom:.45rem}
+.cc-body{font-size:.78rem;color:rgba(200,191,160,.45);line-height:1.6}
+
+/* ── PLANET TABLE ── */
+.planet-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.88rem}
+.planet-table th{
+  font-family:var(--fm);font-size:.38rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(200,191,160,.2);padding:.5rem .7rem;text-align:left;border-bottom:1px solid var(--line);
+}
+.planet-table td{padding:.65rem .7rem;border-bottom:1px solid rgba(200,191,160,.04);vertical-align:top;line-height:1.6}
+.planet-table td:first-child{font-size:1.3rem;width:36px}
+.planet-table td:nth-child(2){font-family:var(--fd);font-size:.75rem;letter-spacing:.08em;color:var(--ink);white-space:nowrap}
+.planet-table td:nth-child(3){color:var(--brasslt);font-family:var(--fi);font-style:italic;font-size:.82rem;white-space:nowrap}
+.planet-table td:nth-child(4){color:rgba(200,191,160,.5);font-size:.82rem}
+.planet-table tr:hover td{background:rgba(200,191,160,.02)}
+
+/* ── DUAL TRACK ── */
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--line);margin:1.5rem 0}
+@media(max-width:640px){.dual{grid-template-columns:1fr}}
+.dual-col{background:var(--vellum2);padding:1.6rem 1.5rem}
+.dual-col.science{border-top:2px solid var(--azure)}
+.dual-col.myth{border-top:2px solid var(--brass)}
+.dual-head{font-family:var(--fm);font-size:.42rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.8rem}
+.dual-head.s{color:rgba(74,128,184,.6)}
+.dual-head.m{color:var(--brassdim)}
+.dual-col p{font-size:.86rem;line-height:1.8;color:rgba(200,191,160,.55);margin-bottom:.6rem}
+.dual-col p:last-child{margin-bottom:0}
+.dual-col strong{color:var(--ink)}
+.dual-col em{color:var(--brasslt)}
+
+/* ── HOW TO READ PANEL ── */
+.how-panel{
+  background:rgba(200,191,160,.02);border:1px solid var(--line);
+  border-radius:10px;padding:1.8rem 2rem;margin:1.5rem 0;
+  position:relative;overflow:hidden;
+}
+.how-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--brass),transparent);
+}
+.how-step{display:flex;gap:1rem;padding:.85rem 0;border-bottom:1px solid rgba(200,191,160,.05);align-items:flex-start}
+.how-step:last-child{border-bottom:none}
+.hs-num{
+  font-family:var(--fd);font-size:1.8rem;font-weight:400;
+  color:rgba(184,137,58,.18);flex-shrink:0;width:2.2rem;line-height:1;
+}
+.hs-title{font-family:var(--fd);font-size:.82rem;letter-spacing:.08em;color:var(--ink);margin-bottom:.25rem}
+.hs-body{font-size:.85rem;color:rgba(200,191,160,.5);line-height:1.72}
+.hs-body strong{color:var(--ink)}
+.hs-body em{color:var(--brasslt)}
+
+/* ── VERDICT ── */
+.verdict{
+  background:rgba(184,137,58,.05);border:1px solid rgba(184,137,58,.18);
+  border-radius:10px;padding:2rem 2.2rem;margin:1.5rem 0;
+}
+.verdict-tag{font-family:var(--fm);font-size:.42rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brassdim);margin-bottom:.8rem}
+.verdict p{font-family:var(--fi);font-style:italic;font-size:1.02rem;color:rgba(200,191,160,.65);line-height:1.95;margin-bottom:.7rem}
+.verdict p:last-child{margin-bottom:0}
+.verdict strong{color:var(--ink);font-style:normal;font-family:var(--fb)}
+
+/* ── ENDING ── */
+.ending{text-align:center;padding:5rem 2rem;border-top:1px solid var(--line)}
+.ending-ratio{font-family:var(--fd);font-size:clamp(1.5rem,5vw,3.5rem);color:rgba(184,137,58,.12);letter-spacing:.1em;margin-bottom:1.5rem}
+.ending-line{font-family:var(--fi);font-style:italic;font-size:1.1rem;color:rgba(200,191,160,.28);line-height:2;max-width:420px;margin:0 auto}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:2.5rem;border-top:1px solid var(--line);position:relative;z-index:2}
+.flink{font-family:var(--fm);font-size:.4rem;letter-spacing:.09em;text-transform:uppercase;color:rgba(200,191,160,.18);text-decoration:none;padding:.2rem .45rem;transition:color .15s}
+.flink:hover{color:var(--brasslt)}
+
+@media(max-width:600px){
+  nav{padding:.6rem 1rem}.nav-links{display:none}
+  .page{padding:0 1.2rem 8rem}
+  .how-panel{padding:1.2rem 1.2rem}
+  .const-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<blockquote style="border-left:2px solid rgba(201,168,76,.35);background:rgba(201,168,76,.03);padding:.85rem 1.3rem;margin:1.1rem 0;font-style:italic;font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.82;"><span style="color:rgba(201,168,76,.5);">&ldquo;</span>The sky is not less beautiful to the person who has some astronomical knowledge.<span style="color:rgba(201,168,76,.5);">&rdquo;</span><footer style="font-style:normal;font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.09em;color:rgba(201,168,76,.38);margin-top:.45rem;">Sagan, C. <em>The Pale Blue Dot: A Vision of the Human Future in Space.</em> Random House, 1994. p. 52. (Paraphrased from the original.)</footer></blockquote>
+<a href="#main-content" class="skip">Skip to content</a>
+
+<nav aria-label="Site navigation">
+  <span class="nav-brand">Musica Universalis</span>
+  <div class="nav-links">
+    <a href="#sky">Draw the Sky</a>
+    <a href="#read">How to Read</a>
+    <a href="#signs">The Signs</a>
+    <a href="#planets">Planets</a>
+    <a href="#verdict">Is It Real?</a>
+    <a href="home.html">Home</a>
+    <a href="directory.html">Directory</a>
+  </div>
+</nav>
+
+<div class="page" id="main-content">
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <p class="hero-eye">Musica Universalis · Section XV · Reading the Heavens</p>
+  <h1 class="hero-title">READING<br>THE <em>HEAVENS</em></h1>
+  <div class="hero-rule" aria-hidden="true"></div>
+  <p class="hero-sub">
+    The sky is the oldest book. Every civilisation that ever existed looked up and asked the same question:
+    <strong>what does it mean?</strong> This is both an astronomy guide and a mythology guide,
+    because both answers are true, and they are true in different ways.
+  </p>
+</section>
+
+<!-- ══ I. DRAW THE SKY ══ -->
+<section class="sky-section reveal" id="sky" aria-labelledby="sky-h2">
+  <div class="sec-label brass">I · Your Personal Observatory · Draw & Name the Sky</div>
+  <h2 id="sky-h2"><em>DRAW</em> YOUR SKY</h2>
+  <p class="lead">Click to place stars. Connect them into constellations. Type names directly onto the canvas. This is exactly what humans have been doing for forty thousand years.</p>
+
+  <div class="sky-toolbar" role="toolbar" aria-label="Drawing tools">
+    <button class="tool-btn active" id="btn-star" title="Place a star (click on canvas)">★ Star</button>
+    <button class="tool-btn" id="btn-line" title="Draw constellation lines (click two stars)">⟋ Line</button>
+    <button class="tool-btn" id="btn-text" title="Place text label (click canvas, then type)">✦ Label</button>
+    <button class="tool-btn" id="btn-erase" title="Erase (click a star or line)">◌ Erase</button>
+    <div class="tool-sep" aria-hidden="true"></div>
+    <div class="sky-color-row" role="group" aria-label="Star colors">
+      <div class="sky-color active" style="background:#D4AA60" data-color="#D4AA60" title="Gold, Sun-type"></div>
+      <div class="sky-color" style="background:#B0C8E8" data-color="#B0C8E8" title="Blue-white, hot star"></div>
+      <div class="sky-color" style="background:#FFFFFF" data-color="#FFFFFF" title="White, Sirius type"></div>
+      <div class="sky-color" style="background:#E88060" data-color="#E88060" title="Red, cool giant"></div>
+      <div class="sky-color" style="background:#90D8A0" data-color="#90D8A0" title="Green, mark"></div>
+    </div>
+    <div class="tool-sep" aria-hidden="true"></div>
+    <div class="sky-size">
+      <label for="star-size">Size</label>
+      <input type="range" id="star-size" min="2" max="12" value="4">
+    </div>
+    <div class="tool-sep" aria-hidden="true"></div>
+    <input class="sky-label-input" id="label-text" type="text" placeholder="Name your star or constellation…" maxlength="40">
+    <div class="tool-sep" aria-hidden="true"></div>
+    <button class="tool-btn" id="btn-clear" title="Clear canvas">✕ Clear</button>
+    <button class="tool-btn" id="btn-save" title="Save canvas as PNG">↓ Save</button>
+  </div>
+
+  <canvas id="sky-canvas" height="500" aria-label="Interactive sky drawing canvas, click to place stars, draw lines, add labels"></canvas>
+  <p class="sky-hint">★ Click, place star &nbsp;|&nbsp; ⟋ Line mode, click two stars to connect &nbsp;|&nbsp; ✦ Label, click position then type label text above &nbsp;|&nbsp; Scroll to zoom</p>
+</section>
+
+<!-- ══ II. HOW TO READ ══ -->
+<section class="sec reveal" id="read" aria-labelledby="read-h2">
+  <div class="sec-label brass">II · How to Actually Read the Sky</div>
+  <h2 id="read-h2">HOW TO<br><em>READ IT</em></h2>
+  <p class="lead">Reading the sky is a skill that has two levels: the astronomical (what is actually there and moving) and the astrological (what humans have decided it means). Both require learning a grammar.</p>
+
+  <div class="how-panel">
+    <div class="how-step">
+      <div class="hs-num">I</div>
+      <div>
+        <div class="hs-title">Find Your Cardinal Directions</div>
+        <p class="hs-body">Stand outside at night. <strong>Find the North Star (Polaris)</strong>, it is always due north, always at the same altitude as your latitude. In the northern hemisphere: find the Big Dipper (Ursa Major), draw a line through the two stars at the end of its "cup," extend it five times, that is Polaris. It does not rise or set. Everything else rotates around it. <em>This is the axis of the visible sky.</em> Once you have north, east is to your right when facing north, west to your left.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">II</div>
+      <div>
+        <div class="hs-title">Understand the Ecliptic</div>
+        <p class="hs-body">The <em>ecliptic</em> is the apparent path of the Sun across the sky over a year, and the path the Moon and planets follow closely. The twelve zodiac constellations lie along the ecliptic. <strong>The Sun, Moon, Mercury, Venus, Mars, Jupiter, and Saturn are always somewhere on or near this band.</strong> If you can identify the ecliptic (it arcs from east to west at an angle depending on your latitude), you know where to look for every planet.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">III</div>
+      <div>
+        <div class="hs-title">Learn the Magnitude Scale</div>
+        <p class="hs-body">Star brightness is measured in <em>magnitude</em>, a backwards system inherited from ancient Greece. <strong>Lower numbers are brighter.</strong> The brightest star in the night sky, Sirius, is magnitude −1.46. The faintest stars visible to the naked eye are about magnitude +6. Venus can reach −4.9. The full Moon is −12.7. The Sun is −26.7. Knowing magnitudes tells you what you are actually looking at when something is unexpectedly bright.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">IV</div>
+      <div>
+        <div class="hs-title">Identify Planets vs Stars</div>
+        <p class="hs-body">The single most useful observational rule: <strong>stars twinkle, planets do not.</strong> Stars are so far away they are point sources, atmospheric turbulence scatters their light into the twinkling you see. Planets show a disc (even a tiny one), averaging over that disc smooths out the turbulence. Also: planets are always on or near the ecliptic, and they change position relative to background stars over days and weeks. Ancient astronomers called them <em>planetes</em>, wanderers, for exactly this reason.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">V</div>
+      <div>
+        <div class="hs-title">Read the Season From the Sky</div>
+        <p class="hs-body">The constellations visible at midnight tell you the season. <strong>Orion dominates the winter sky in the Northern Hemisphere</strong> (rising in the east in December, setting in the west by March). Scorpius rules summer, opposite Orion in the sky, which is why the myth says they can never occupy the sky simultaneously. <em>The Pythagorean comma paper connects to this directly</em>: the angular motion of stars and planets encodes the same 3:2 ratios that generate the comma. The sky is a musical system made visible.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">VI</div>
+      <div>
+        <div class="hs-title">Find the Zodiac Constellations</div>
+        <p class="hs-body">The twelve zodiac constellations are unevenly sized, Virgo is enormous, Aries is tiny. The Sun spends about 45 days in Virgo and only 7 in Scorpius. <strong>Ophiuchus, the serpent bearer, is technically a thirteenth zodiac constellation</strong> that the Sun passes through for about 19 days, but astrology has always used 12 divisions for mathematical elegance. This is not a conspiracy. It is the compromise of the comma: distribute the imperfection evenly, make the system usable.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">VII</div>
+      <div>
+        <div class="hs-title">Track the Moon's Phases</div>
+        <p class="hs-body">The Moon completes one full cycle in <em>29.5 days</em> (synodic month). New Moon: invisible, rises and sets with the Sun. Waxing crescent: visible in the west just after sunset. First quarter: rises at noon, sets at midnight. Full Moon: rises at sunset, sets at sunrise, visible all night. Third quarter: rises at midnight, visible in the morning. <strong>The Moon's phase tells you when it will rise and set.</strong> A full Moon in the east at sunset, always. A new Moon, nowhere at night.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ III. THE ZODIAC SIGNS ══ -->
+<section class="sec reveal" id="signs" aria-labelledby="signs-h2">
+  <div class="sec-label brass">III · The Twelve Signs · Astronomy & Mythology Together</div>
+  <h2 id="signs-h2">THE <em>TWELVE</em><br>SIGNS</h2>
+  <p class="lead">Each sign is simultaneously a real constellation on the ecliptic and a mythological character with a long interpretive history. Both are true at once. Here is the full portrait of each.</p>
+
+  <div class="const-grid" role="list">
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♈</div>
+      <div class="cc-name">ARIES</div>
+      <div class="cc-latin">The Ram · Mar 21 – Apr 19</div>
+      <p class="cc-body">A dim constellation, the Golden Fleece Ram of Greek myth. The Sun was here at the vernal equinox for ancient Greeks (it has since precessed into Pisces). In astrology: initiative, fire, the self.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♉</div>
+      <div class="cc-name">TAURUS</div>
+      <div class="cc-latin">The Bull · Apr 20 – May 20</div>
+      <p class="cc-body">Contains the Pleiades and the bright star Aldebaran. The Pleiades (Seven Sisters) were used for agricultural calendars across virtually every culture on Earth, a testament to the universality of sky-reading. In astrology: persistence, beauty, earth.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♊</div>
+      <div class="cc-name">GEMINI</div>
+      <div class="cc-latin">The Twins · May 21 – Jun 20</div>
+      <p class="cc-body">Castor and Pollux, the mortal and immortal twins who share their fate. Their brightest stars bear the same names. Castor is actually a six-star system. In astrology: duality, communication, the mercurial mind. The comma lives here.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♋</div>
+      <div class="cc-name">CANCER</div>
+      <div class="cc-latin">The Crab · Jun 21 – Jul 22</div>
+      <p class="cc-body">The faintest zodiac constellation, but contains the Beehive Cluster (M44), visible to the naked eye as a soft glow. The Sun is here at the summer solstice. In astrology: home, feeling, the tides of emotion.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♌</div>
+      <div class="cc-name">LEO</div>
+      <div class="cc-latin">The Lion · Jul 23 – Aug 22</div>
+      <p class="cc-body">One of the few constellations that actually resembles what it's named, the backwards question mark (the Sickle) forms the lion's head and mane. Regulus, its brightest star, lies almost exactly on the ecliptic. In astrology: radiance, authority, the heart.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♍</div>
+      <div class="cc-name">VIRGO</div>
+      <div class="cc-latin">The Maiden · Aug 23 – Sep 22</div>
+      <p class="cc-body">The largest zodiac constellation. Spica, its brightest star, helped Hipparchus discover the precession of the equinoxes in 127 BCE. Virgo contains the Virgo Cluster, thousands of galaxies. In astrology: discernment, craft, service.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♎</div>
+      <div class="cc-name">LIBRA</div>
+      <div class="cc-latin">The Scales · Sep 23 – Oct 22</div>
+      <p class="cc-body">Originally the claws of Scorpius, its stars still bear Arabic names meaning "northern claw" and "southern claw." Was separated into Libra during Roman times, symbolising the scales of justice at the autumnal equinox. In astrology: balance, relationship, justice.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♏</div>
+      <div class="cc-name">SCORPIUS</div>
+      <div class="cc-latin">The Scorpion · Oct 23 – Nov 21</div>
+      <p class="cc-body">One of the most visually stunning constellations, a true scorpion shape with the red supergiant Antares ("rival of Mars") at its heart. Opposite Orion in the sky, they never rise simultaneously. The great rival. In astrology: depth, transformation, the hidden.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♐</div>
+      <div class="cc-name">SAGITTARIUS</div>
+      <div class="cc-latin">The Archer · Nov 22 – Dec 21</div>
+      <p class="cc-body">Points toward the galactic centre, the Milky Way is thickest here. The Teapot asterism is easy to spot. The galactic centre itself (Sagittarius A*) is the supermassive black hole at the heart of our galaxy. In astrology: expansion, philosophy, the quest for meaning.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♑</div>
+      <div class="cc-name">CAPRICORNUS</div>
+      <div class="cc-latin">The Sea-Goat · Dec 22 – Jan 19</div>
+      <p class="cc-body">One of the oldest constellations, the Babylonians called it the "goat-fish" over 3,000 years ago. Faint but ancient. The solstice was here when the Tropic of Capricorn was named. In astrology: structure, ambition, time, the long climb.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♒</div>
+      <div class="cc-name">AQUARIUS</div>
+      <div class="cc-latin">The Water Bearer · Jan 20 – Feb 18</div>
+      <p class="cc-body">The age of Aquarius refers to when the vernal equinox precesses into this constellation, a ~2,150 year cycle. We are approaching but not yet in it. Contains the beautiful Helix Nebula, a dying star's last exhalation. In astrology: collective, innovation, the future.</p>
+    </article>
+    <article class="const-cell" role="listitem">
+      <div class="cc-symbol">♓</div>
+      <div class="cc-name">PISCES</div>
+      <div class="cc-latin">The Fish · Feb 19 – Mar 20</div>
+      <p class="cc-body">The vernal equinox is here now, the "First Point of Aries" has precessed into Pisces due to the 26,000-year wobble of Earth's axis. Dim constellation, but currently host to the astronomical origin point. In astrology: dissolution, mysticism, the threshold between worlds.</p>
+    </article>
+  </div>
+
+  <div class="dual">
+    <div class="dual-col science">
+      <div class="dual-head s">What Precession Actually Is</div>
+      <p>Earth wobbles on its axis like a spinning top, one complete wobble takes about <strong>25,772 years</strong>. This means the vernal equinox point (where the Sun is on March 20) moves backwards through the zodiac at about 1 degree every 72 years.</p>
+      <p>Result: the astrological signs are now roughly one full sign behind the actual constellations. When astrology says "Aries season," the Sun is actually in Pisces. The entire system has drifted by almost 30 degrees since it was calibrated in ancient Babylon.</p>
+      <p>This is not a secret, it is called the <strong>precession of the equinoxes</strong>, discovered by Hipparchus in 127 BCE. Western astrology chose to freeze its coordinate system at the ancient equinox point rather than track the actual constellations. The signs became symbolic sectors, not star groups.</p>
+    </div>
+    <div class="dual-col myth">
+      <div class="dual-head m">What the Signs Mean in Mythology</div>
+      <p>The signs were not invented as character descriptions. They were <em>seasonal markers</em>, each one represented a time of year and the agricultural and atmospheric qualities of that period. Aries in spring, Taurus at planting, Cancer at summer heat.</p>
+      <p>Over centuries, these qualities were projected onto people born during each season. Whether this represents something real about how season-of-birth affects development (some studies suggest modest correlations, mostly through social mechanisms) or is purely symbolic <em>is the open question astrology has never definitively answered.</em></p>
+      <p>What is undeniable: the twelve signs constitute one of the most durable symbolic systems in human history, still in active use in every culture on Earth. The question is not whether the symbols have power. It is <em>what kind of power they have.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ IV. THE PLANETS ══ -->
+<section class="sec reveal" id="planets" aria-labelledby="planets-h2">
+  <div class="sec-label brass">IV · The Seven Classical Planets · What They Are & What They Meant</div>
+  <h2 id="planets-h2">THE <em>PLANETS</em></h2>
+  <p class="lead">The classical astrological planets are the seven objects visible to the naked eye that move against the fixed stars. Their physical nature and their mythological character are both worth knowing.</p>
+
+  <table class="planet-table" aria-label="Classical planets, astronomical and astrological properties">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Planet</th>
+        <th>Astro meaning</th>
+        <th>Astronomy, what it actually is</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>☉</td>
+        <td>The Sun</td>
+        <td>Self, will, identity, the ego</td>
+        <td>A G-type main-sequence star, 4.6 billion years old, 1.4 million km diameter. The dominant mass of the solar system. It fuses 600 million tonnes of hydrogen per second. Your "sun sign" is the constellation the Sun appeared to be in front of on your birth date, though due to precession, the actual constellation is now one sign earlier.</td>
+      </tr>
+      <tr>
+        <td>☽</td>
+        <td>The Moon</td>
+        <td>Emotion, instinct, memory, the mother</td>
+        <td>A rocky body 3,475 km across, tidally locked so the same face always points Earth-ward. Formed from the debris of a Mars-sized collision 4.5 billion years ago. It genuinely affects Earth, tides, animal behaviour, some plant growth cycles. Its 29.5-day cycle is the origin of the month. Of all the astrological influences, lunar effects have the most documented physical basis.</td>
+      </tr>
+      <tr>
+        <td>☿</td>
+        <td>Mercury</td>
+        <td>Communication, thought, travel, the mind</td>
+        <td>The smallest planet, closest to the Sun. Visible near the horizon just after sunset or before sunrise, hence the messenger of the gods. Retrograde motion (Mercury "goes retrograde") is a real, predictable optical illusion, Earth overtakes Mercury in its faster orbit, making it appear to move backwards. It happens 3 times a year for about 3 weeks. It is not caused by Mercury actually stopping.</td>
+      </tr>
+      <tr>
+        <td>♀</td>
+        <td>Venus</td>
+        <td>Love, beauty, pleasure, relationship</td>
+        <td>The brightest object in the sky after Sun and Moon (magnitude −4.9). Named for beauty, but a hellscape of 465°C surface temperatures and sulphuric acid clouds. Rotates backwards. From Earth, Venus shows phases like the Moon, Galileo's observation of this was one of the proofs of heliocentrism. Kepler assigned it a semitone interval (46.9 cents), the tightest, most dissonant step.</td>
+      </tr>
+      <tr>
+        <td>♂</td>
+        <td>Mars</td>
+        <td>Action, desire, conflict, drive</td>
+        <td>Visibly red due to iron oxide on its surface. Has the largest volcano (Olympus Mons, 22 km high) and the longest canyon (Valles Marineris, 4,000 km) in the solar system. Its retrograde periods (when it appears to move backwards) particularly fascinated ancient astronomers. Kepler assigned it a minor sixth, a wide, open, dramatic interval.</td>
+      </tr>
+      <tr>
+        <td>♃</td>
+        <td>Jupiter</td>
+        <td>Expansion, philosophy, luck, abundance</td>
+        <td>The largest planet, 1,300 Earths could fit inside it. Has at least 95 known moons; the four Galilean moons (Io, Europa, Ganymede, Callisto) are visible through binoculars. Kepler's assignment of a minor third to Jupiter was his most accurate prediction, modern orbital data gives only +19 cents deviation. The Great Red Spot is a storm that has lasted at least 350 years.</td>
+      </tr>
+      <tr>
+        <td>♄</td>
+        <td>Saturn</td>
+        <td>Structure, limits, time, discipline</td>
+        <td>Its rings are made of ice and rock, mostly 10–20 metres thick but spanning 280,000 km. Saturn's density is less than water, it would float. Kepler's major third assignment was his second most accurate. The "Saturn return" at ~29.5 years (when Saturn completes its orbit) coincides with the traditional end of youth, not supernaturally, but because 29.5 years is a psychologically significant threshold regardless of Saturn's position.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <blockquote>
+    <p>The exponent 3/2 in Kepler's Third Law, T proportional to a to the power 3/2, is the frequency ratio of the perfect fifth. Kepler was searching for the musical proportion that connected the planets, and the fifth ratio is embedded in the result. The planets do not merely resemble music. They are structured by the same mathematics.</p>
+    <cite>Sara Oliveros Gómez · The Pythagorean Comma as Universal Commensurability Deficit · Stanford HCP MS / Georgia Tech BS · 2026</cite>
+  </blockquote>
+</section>
+
+<!-- ══ V. IS IT REAL? ══ -->
+<section class="sec reveal" id="verdict" aria-labelledby="verdict-h2">
+  <div class="sec-label brass">V · Is Astrology Real? · The Honest Answer</div>
+  <h2 id="verdict-h2">IS IT <em>REAL?</em></h2>
+  <p class="lead">This is the question everyone is actually asking. The honest answer requires two separate questions, because "real" means two different things depending on what you are asking about.</p>
+
+  <div class="dual">
+    <div class="dual-col science">
+      <div class="dual-head s">What the Science Says</div>
+      <p>As a predictive system for individual personality and events, astrology has <strong>not passed controlled testing.</strong> The most rigorous study, Shawn Carlson's double-blind test published in Nature (1985), found that professional astrologers could not match birth charts to personality profiles above chance level. The astrologers themselves agreed the conditions were fair beforehand.</p>
+      <p>Season-of-birth effects on personality do exist, but they are small (effect sizes around 0.1–0.2) and are better explained by school cohort effects, seasonal infection exposure, and vitamin D levels than by planetary position.</p>
+      <p><strong>Mercury retrograde does not cause communication failures.</strong> Studies of postal and digital system errors show no statistically significant increase during retrograde periods. The pattern is confirmation bias, we notice the failures that occur during retrograde and forget the ones that don't.</p>
+      <p>The gravitational influence of planets on a human body at birth is measurably smaller than the gravitational influence of the obstetrician standing beside the mother.</p>
+    </div>
+    <div class="dual-col myth">
+      <div class="dual-head m">What Mythology & Psychology Say</div>
+      <p>Astrology is one of the oldest recorded symbolic systems in human history, attested in Babylon by 1800 BCE. It has been used continuously for nearly four thousand years by intelligent people in every culture. This does not make it true. It makes it <em>worth understanding.</em></p>
+      <p>Carl Jung found astrological archetypes useful as a psychological vocabulary, not because the planets cause personality, but because <strong>the twelve archetypal patterns (solar will, lunar feeling, mercurial thought, etc.) describe real structures of human experience</strong> that are genuinely useful for self-reflection.</p>
+      <p>The Pythagorean comma paper demonstrates something remarkable: the same 3:2 ratio mathematics that generates the musical comma also appears in planetary orbital mechanics, molecular bond alternation, and quantum Berry phases. <em>The planets are connected to the same mathematical structures that underlie harmony.</em> Not because astrology is true, but because the universe is structured by recurrent mathematical patterns, and Kepler found the right ones.</p>
+      <p><strong>The sky is real. The patterns are real. The meaning is something humans make</strong>, and making meaning from patterns is not a failure of rationality. It is what humans are for.</p>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-tag">The Verdict · Both and Neither</div>
+    <p>Astrology as a <em>predictive system</em>, a tool for knowing what will happen to you, is not supported by evidence. The planets do not determine your personality or your future.</p>
+    <p>Astrology as a <em>symbolic grammar</em>, a set of archetypes for thinking about time, self, and relationship, is as real as any other language. Languages are not true or false. They are useful or not useful for the things you need to say.</p>
+    <p>The sky itself is entirely, overwhelmingly, undeniably <strong>real</strong>, and it is structured by mathematics so deep that the same ratio that prevents the musical scale from closing also appears in the exponent of Kepler's Third Law and in the bond lengths of quantum molecules. Whether that is astrology or physics depends entirely on which instrument you use to listen.</p>
+    <p><em>The frequency outlasts the instrument. The comma persists. The sky keeps turning. And every human being who has ever stood outside at night and looked up has felt, correctly, that they were looking at something that mattered.</em></p>
+  </div>
+
+  <h3>A Brief Reading Method, If You Want to Try</h3>
+  <div class="how-panel">
+    <div class="how-step">
+      <div class="hs-num">①</div>
+      <div>
+        <div class="hs-title">Find Your Three Signs</div>
+        <p class="hs-body">Modern astrology uses three primary placements. <strong>Sun sign</strong> (your birthday), the constellation the Sun was in, symbolising conscious identity and will. <strong>Moon sign</strong> (requires birth time and location), the constellation the Moon was in, symbolising emotional patterns and instinct. <strong>Rising sign / Ascendant</strong> (requires exact birth time), the constellation rising on the eastern horizon at your birth, symbolising how you appear to others. The three together give a more complex portrait than the Sun sign alone.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">②</div>
+      <div>
+        <div class="hs-title">Read the Houses</div>
+        <p class="hs-body">The birth chart divides the sky into twelve "houses", sectors representing different life domains (self, money, communication, home, creativity, health, relationship, death/transformation, philosophy, career, community, hidden self). Where each planet falls in these houses describes what area of life its energy expresses in. <em>This is the mapping system, the grid onto which the symbols are projected.</em></p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">③</div>
+      <div>
+        <div class="hs-title">Notice the Aspects</div>
+        <p class="hs-body">Aspects are the angular relationships between planets in the chart, measured in degrees. <strong>Conjunction (0°):</strong> two planets in the same position, energies blending. <strong>Opposition (180°):</strong> tension, awareness of the other. <strong>Trine (120°):</strong> harmony, ease. <strong>Square (90°):</strong> friction, challenge, motivation. <strong>Sextile (60°):</strong> opportunity. These are derived from the same musical interval ratios, the trine from the third, the square from the fourth. <em>The geometry is the grammar.</em></p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">④</div>
+      <div>
+        <div class="hs-title">Use It as a Mirror, Not a Map</div>
+        <p class="hs-body">The most honest use of astrology: <strong>as a set of questions, not answers.</strong> If your chart says you have "Mars in the 7th house" (Mars energy in the relationship sector), the useful question is not "what will this do to my relationships?" but "where do I bring drive and conflict into my relationships, and is that working for me?" The chart as mirror. The chart as invitation to reflection. The chart not as destiny, but as <em>one more instrument for hearing what is already playing.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ENDING ══ -->
+<div class="ending reveal">
+  <div class="ending-ratio">531441 / 524288</div>
+  <p class="ending-line">
+    The sky is not a message addressed to you.<br>
+    But you are made of the same mathematics as the sky.<br>
+    The ratio that prevents the octave from closing<br>
+    is the ratio in the exponent of Kepler's Third Law<br>
+    is the ratio in the bond lengths of quantum molecules.<br><br>
+    <em>The comma is universal. You are inside it.</em><br>
+    That is not astrology.<br>
+    That is not nothing.
+  </p>
+</div>
+
+</div><!-- /page -->
+
+<footer>
+  <div style="font-family:var(--fd);font-size:.8rem;letter-spacing:.1em;color:rgba(184,137,58,.25);margin-bottom:.5rem">MUSICA UNIVERSALIS</div>
+  <nav style="display:flex;gap:.3rem;flex-wrap:wrap;justify-content:center">
+    <a class="flink" href="home.html">Home</a>
+    <a class="flink" href="index.html">Stars & Chasers</a>
+    <a class="flink" href="sirius_death.html">Death of Sirius</a>
+    <a class="flink" href="sophias_search.html">Sophia's Search</a>
+    <a class="flink" href="davids_kingdom.html">David's Kingdom</a>
+    <a class="flink" href="directory.html">Directory</a>
+  </nav>
+</footer>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+// ── GLOBAL STARFIELD ─────────────────────────────
+(function(){
+  const bg = document.createElement('canvas');
+  bg.style.cssText='position:fixed;inset:0;z-index:0;pointer-events:none';
+  document.body.prepend(bg);
+  const ctx=bg.getContext('2d');
+  let W,H,t=0,stars=[];
+  function resize(){W=bg.width=window.innerWidth;H=bg.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<180;i++)stars.push({
+    x:Math.random(),y:Math.random(),
+    r:Math.random()*.9+.1,
+    a:Math.random()*.07+.01,
+    sp:Math.random()*.003+.0008,
+    ph:Math.random()*Math.PI*2,
+    col:Math.random()>.75?'184,137,58':Math.random()>.5?'74,128,184':'200,191,160'
+  });
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      const a=s.a*(.4+.6*Math.sin(t*s.sp+s.ph));
+      ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${s.col},${a})`;ctx.fill();
+    });
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── INTERACTIVE SKY CANVAS ───────────────────────
+(function(){
+  const canvas = document.getElementById('sky-canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Resize canvas to fill its CSS width
+  function resizeCanvas(){
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = 500;
+    redraw();
+  }
+
+  // State
+  let tool = 'star';
+  let currentColor = '#D4AA60';
+  let currentSize = 4;
+  let stars = [];      // {x,y,r,color,name}
+  let lines = [];      // {a,b} indices into stars
+  let labels = [];     // {x,y,text,color}
+  let lineStart = null; // index of first star in line mode
+  let pendingLabel = null; // {x,y} for label placement
+  let selectedStar = null; // highlight for line mode
+
+  // ── Background: deep sky with faint stars ──
+  function drawBackground(){
+    ctx.fillStyle='#04060A';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    // faint background stars
+    for(let i=0;i<200;i++){
+      const bx=(Math.sin(i*137.508)*0.5+0.5)*canvas.width;
+      const by=(Math.cos(i*97.333)*0.5+0.5)*canvas.height;
+      const ba=0.04+0.06*(Math.sin(i)*0.5+0.5);
+      ctx.beginPath();ctx.arc(bx,by,0.5+Math.sin(i)*0.3,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,191,160,${ba})`;ctx.fill();
+    }
+    // Milky Way haze
+    const mg=ctx.createLinearGradient(0,canvas.height,canvas.width,0);
+    mg.addColorStop(0,'rgba(40,50,80,0)');
+    mg.addColorStop(.4,'rgba(40,50,80,0.08)');
+    mg.addColorStop(.6,'rgba(40,50,80,0.06)');
+    mg.addColorStop(1,'rgba(40,50,80,0)');
+    ctx.fillStyle=mg;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+  }
+
+  function drawLines(){
+    lines.forEach(l=>{
+      const a=stars[l.a],b=stars[l.b];
+      if(!a||!b)return;
+      ctx.beginPath();
+      ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+      ctx.strokeStyle='rgba(200,191,160,0.2)';
+      ctx.lineWidth=1;ctx.stroke();
+    });
+  }
+
+  function drawStars(){
+    stars.forEach((s,i)=>{
+      if(!s)return;
+      // glow
+      const g=ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*4);
+      const col=hexToRgb(s.color);
+      g.addColorStop(0,`rgba(${col},0.35)`);
+      g.addColorStop(1,`rgba(${col},0)`);
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r*4,0,Math.PI*2);
+      ctx.fillStyle=g;ctx.fill();
+      // core
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=s.color;ctx.fill();
+      // highlight in line mode
+      if(tool==='line' && i===lineStart){
+        ctx.beginPath();ctx.arc(s.x,s.y,s.r+4,0,Math.PI*2);
+        ctx.strokeStyle='rgba(212,170,96,0.6)';ctx.lineWidth=1.5;ctx.stroke();
+      }
+      // star name
+      if(s.name){
+        ctx.font=`italic 11px 'Crimson Pro', serif`;
+        ctx.fillStyle='rgba(200,191,160,0.55)';
+        ctx.fillText(s.name,s.x+s.r+3,s.y-s.r-2);
+      }
+    });
+  }
+
+  function drawLabels(){
+    labels.forEach(l=>{
+      if(!l)return;
+      ctx.font=`italic 13px 'Crimson Pro', serif`;
+      ctx.fillStyle=l.color||'rgba(200,191,160,0.7)';
+      ctx.fillText(l.text,l.x,l.y);
+    });
+  }
+
+  function redraw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawBackground();
+    drawLines();
+    drawStars();
+    drawLabels();
+  }
+
+  function hexToRgb(hex){
+    const r=parseInt(hex.slice(1,3),16);
+    const g=parseInt(hex.slice(3,5),16);
+    const b=parseInt(hex.slice(5,7),16);
+    return `${r},${g},${b}`;
+  }
+
+  function getPos(e){
+    const rect=canvas.getBoundingClientRect();
+    const touch=e.touches?e.touches[0]:e;
+    return{
+      x:(touch.clientX-rect.left)*(canvas.width/rect.width),
+      y:(touch.clientY-rect.top)*(canvas.height/rect.height)
+    };
+  }
+
+  function nearestStar(x,y,radius=20){
+    let best=null,bestD=Infinity;
+    stars.forEach((s,i)=>{
+      if(!s)return;
+      const d=Math.hypot(s.x-x,s.y-y);
+      if(d<radius&&d<bestD){bestD=d;best=i}
+    });
+    return best;
+  }
+
+  canvas.addEventListener('click',function(e){
+    const {x,y}=getPos(e);
+    if(tool==='star'){
+      const lbl=document.getElementById('label-text').value.trim();
+      stars.push({x,y,r:currentSize,color:currentColor,name:lbl});
+      redraw();
+    } else if(tool==='line'){
+      const idx=nearestStar(x,y);
+      if(idx===null){
+        // place new star at click if none nearby
+        stars.push({x,y,r:currentSize,color:currentColor,name:''});
+        if(lineStart!==null){
+          lines.push({a:lineStart,b:stars.length-1});
+          lineStart=null;
+        } else {
+          lineStart=stars.length-1;
+        }
+      } else {
+        if(lineStart===null){
+          lineStart=idx;
+        } else {
+          if(lineStart!==idx){
+            lines.push({a:lineStart,b:idx});
+          }
+          lineStart=null;
+        }
+      }
+      redraw();
+    } else if(tool==='text'){
+      const lbl=document.getElementById('label-text').value.trim();
+      if(lbl){
+        labels.push({x,y,text:lbl,color:currentColor});
+      }
+      redraw();
+    } else if(tool==='erase'){
+      // erase nearest star or label
+      const idx=nearestStar(x,y,25);
+      if(idx!==null){
+        // remove lines involving this star
+        for(let i=lines.length-1;i>=0;i--){
+          if(lines[i].a===idx||lines[i].b===idx) lines.splice(i,1);
+        }
+        stars.splice(idx,1);
+        // remap line indices
+        lines=lines.map(l=>({
+          a:l.a>idx?l.a-1:l.a,
+          b:l.b>idx?l.b-1:l.b
+        }));
+        if(lineStart!==null&&lineStart>=stars.length)lineStart=null;
+      } else {
+        // erase nearest label
+        let bi=null,bd=Infinity;
+        labels.forEach((l,i)=>{
+          if(!l)return;
+          const d=Math.hypot(l.x-x,l.y-y);
+          if(d<40&&d<bd){bd=d;bi=i;}
+        });
+        if(bi!==null)labels.splice(bi,1);
+      }
+      redraw();
+    }
+  });
+
+  // Tool buttons
+  document.querySelectorAll('.tool-btn[id^=btn-]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const t=btn.id.replace('btn-','');
+      if(t==='clear'){
+        if(confirm('Clear the entire sky?')){
+          stars=[];lines=[];labels=[];lineStart=null;redraw();
+        }
+        return;
+      }
+      if(t==='save'){
+        const a=document.createElement('a');
+        a.download='my-sky.png';
+        a.href=canvas.toDataURL();
+        a.click();
+        return;
+      }
+      tool=t;
+      lineStart=null;
+      document.querySelectorAll('.tool-btn[id^=btn-]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Color pickers
+  document.querySelectorAll('.sky-color').forEach(el=>{
+    el.addEventListener('click',()=>{
+      document.querySelectorAll('.sky-color').forEach(e=>e.classList.remove('active'));
+      el.classList.add('active');
+      currentColor=el.dataset.color;
+    });
+  });
+
+  // Size slider
+  document.getElementById('star-size').addEventListener('input',function(){
+    currentSize=parseInt(this.value);
+  });
+
+  // Initial setup
+  window.addEventListener('load',()=>{
+    resizeCanvas();
+    // Seed with some default stars to orient the user
+    const cx=canvas.width,cy=canvas.height;
+    // Orion's Belt suggestion
+    const seed=[
+      {x:cx*.35,y:cy*.45,r:4,color:'#B0C8E8',name:'Alnitak'},
+      {x:cx*.40,y:cy*.43,r:4,color:'#B0C8E8',name:'Alnilam'},
+      {x:cx*.45,y:cy*.41,r:4,color:'#B0C8E8',name:'Mintaka'},
+      {x:cx*.30,y:cy*.32,r:6,color:'#E88060',name:'Betelgeuse'},
+      {x:cx*.50,y:cy*.60,r:5,color:'#B0C8E8',name:'Rigel'},
+      {x:cx*.70,y:cy*.30,r:7,color:'#FFFFFF',name:'Sirius'},
+    ];
+    seed.forEach(s=>stars.push(s));
+    // Belt lines
+    lines.push({a:0,b:1},{a:1,b:2});
+    // Label
+    labels.push({x:cx*.28,y:cy*.72,text:"Orion's Belt, delete me and draw your own sky",color:'rgba(200,191,160,0.3)'});
+    redraw();
+  });
+  window.addEventListener('resize',resizeCanvas);
+})();
+
+// ── REVEAL ──────────────────────────────────────
+const io=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')});
+},{threshold:.05});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+<section style="max-width:820px;margin:48px auto 40px;padding:2rem;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18);border-radius:12px;">
+  <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:.6rem;">&#9872; COMMA FRAMEWORK QUESTIONS</div>
+  <div style="font-size:1.05rem;font-weight:600;color:rgba(201,168,76,.85);margin-bottom:.4rem;">Open Questions</div>
+  <p style="font-size:.82rem;font-style:italic;color:rgba(255,255,255,.35);margin-bottom:1.4rem;line-height:1.65;">Speculative questions seen through the comma framework. Not claims. Invitations.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.9rem;">
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">Every system manages a comma.</strong>Calendars, tuning systems, financial accounting, urban planning, all add corrections to close gaps that cannot close on their own. What gap is this page's subject managing? What would happen if the correction were removed?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(93,222,200,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(93,222,200,.8);display:block;margin-bottom:.35rem;">Where is the Kairos event?</strong>N_res = 73.296: after 73 cycles of accumulation, a system nearly returns to its origin. Is there a 73-unit threshold in this subject? A point where small accumulated errors suddenly produce a visible discontinuity?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(168,212,255,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(168,212,255,.75);display:block;margin-bottom:.35rem;">The gap is not the failure.</strong>The Pythagorean comma is not a flaw in the scale, it is proof that real intervals were used. Where in this subject does the "error" turn out to be evidence of authenticity rather than mistake?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">What does the 0.296 carry?</strong>After 73 full cycles, the remainder is 0.296, the starting position of the next revolution. What does this subject carry forward from one cycle to the next? What cannot be reset, only continued from a slightly different position?</div>
+  </div>
+</section>
+<div style="max-width:820px;margin:40px auto 20px;background:rgba(13,16,23,.9);border:1px solid rgba(255,255,255,.07);border-left:3px solid rgba(201,168,76,.4);padding:20px 24px;font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.85;"><div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,168,76,);margin-bottom:12px;">References &middot; APA + ACS</div><p>[1] Ptolemy, C. (c. 150 CE / 1940). <em>Tetrabiblos</em> (trans. Robbins). Harvard University Press. (Loeb Classical Library.) [Foundation text of Western astrology]</p><p>[2] Campion, N. (2008). <em>A history of Western astrology, Vol. 1: The ancient and classical worlds.</em> Continuum.</p><p>[3] Note: Astrology is not a predictive science in the empirical sense. Claims about prediction are not supported by controlled studies (Dean, G. et al., 2022, <em>AinO</em>). The comma framework perspective treats the natal chart as a phase-accumulation snapshot, not a causal mechanism.</p><p>[4] Barbour, J. M. (1951). <em>Tuning and temperament.</em> Michigan State College Press.</p></div></body>
+</html>

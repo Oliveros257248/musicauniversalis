@@ -74,6 +74,7 @@ footer p{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);line
 </style>
 </head>
 <body>
+<blockquote style="border-left:2px solid rgba(201,168,76,.35);background:rgba(201,168,76,.03);padding:.85rem 1.3rem;margin:1.1rem 0;font-style:italic;font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.82;"><span style="color:rgba(201,168,76,.5);">&ldquo;</span>The sun, with all the planets revolving around it and depending on it, can still ripen a bunch of grapes as if it had nothing else in the universe to do.<span style="color:rgba(201,168,76,.5);">&rdquo;</span><footer style="font-style:normal;font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.09em;color:rgba(201,168,76,.38);margin-top:.45rem;">Galileo, G. (attributed). Widely cited in energy literature. Source verification: Santillana, G. de. <em>The Crime of Galileo.</em> University of Chicago Press, 1955.</footer></blockquote>
 <canvas id="energy-bg"></canvas>
 <nav>
   <span class="nav-brand">Energy for Everyone</span>
@@ -91,7 +92,7 @@ footer p{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);line
   <div class="sec-inner">
     <div class="sec-label">🔋 First Principle</div>
     <h2 class="sec-title">The <em>Cheapest</em> Energy</h2>
-    <p class="sec-lead">The cheapest, cleanest unit of energy is the one you never use. Conservation is not sacrifice — it is intelligence. Before generating new power, reduce what you waste.</p>
+    <p class="sec-lead">The cheapest, cleanest unit of energy is the one you never use. Conservation is not sacrifice, it is intelligence. Before generating new power, reduce what you waste.</p>
 
     <table class="savings-table">
       <thead><tr><th>Action</th><th>Annual Saving</th><th>Cost</th><th>Impact</th></tr></thead>
@@ -109,8 +110,8 @@ footer p{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);line
     </table>
 
     <div class="tip-box">
-      <h4>⚡ Phantom Load — The Invisible Drain</h4>
-      <p>The average home has 40+ devices in standby mode, drawing power 24 hours a day while doing nothing. This "phantom load" accounts for 10% of residential electricity use globally — equivalent to 50 coal power plants running constantly. Smart power strips cut this to near zero for entertainment systems, home offices, and charging stations.</p>
+      <h4>⚡ Phantom Load, The Invisible Drain</h4>
+      <p>The average home has 40+ devices in standby mode, drawing power 24 hours a day while doing nothing. This "phantom load" accounts for 10% of residential electricity use globally, equivalent to 50 coal power plants running constantly. Smart power strips cut this to near zero for entertainment systems, home offices, and charging stations.</p>
     </div>
   </div>
 </div>
@@ -120,31 +121,31 @@ footer p{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);line
   <div class="sec-inner">
     <div class="sec-label">☀️ Solar Power</div>
     <h2 class="sec-title">How <em>Solar</em> Works</h2>
-    <p class="sec-lead">A photovoltaic cell converts photons — particles of light — directly into electrical current via the photovoltaic effect. Einstein won his Nobel Prize for explaining it in 1905. Silicon absorbs a photon, knocking an electron loose; the p-n junction creates a one-way gate that turns this into direct current.</p>
+    <p class="sec-lead">A photovoltaic cell converts photons, particles of light, directly into electrical current via the photovoltaic effect. Einstein won his Nobel Prize for explaining it in 1905. Silicon absorbs a photon, knocking an electron loose; the p-n junction creates a one-way gate that turns this into direct current.</p>
     <canvas id="solar-cv"></canvas>
     <p style="font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);text-align:center;margin:.5rem 0 2rem;letter-spacing:.1em;">PHOTOVOLTAIC EFFECT · ANIMATED · PHOTONS → ELECTRONS → CURRENT</p>
 
     <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;color:var(--solar);margin-bottom:1rem;">Can You Build a DIY Solar Panel?</h3>
-    <p>Yes — with caveats. A proper DIY solar panel uses <strong style="color:var(--ice)">actual photovoltaic cells</strong> (monocrystalline or polycrystalline silicon cells), which you can buy in bulk from electronics suppliers for $0.50–$2.00 per cell. A single cell produces ~0.5V / 3–4 watts in full sun. You wire them in series (to increase voltage) and parallel (to increase current) to reach your target output.</p>
+    <p>Yes, with caveats. A proper DIY solar panel uses <strong style="color:var(--ice)">actual photovoltaic cells</strong> (monocrystalline or polycrystalline silicon cells), which you can buy in bulk from electronics suppliers for $0.50–$2.00 per cell. A single cell produces ~0.5V / 3–4 watts in full sun. You wire them in series (to increase voltage) and parallel (to increase current) to reach your target output.</p>
 
     <div class="warn-box">
-      <h4>⚠️ About Old CDs as Solar Panels — The Truth</h4>
+      <h4>⚠️ About Old CDs as Solar Panels, The Truth</h4>
       <p>CDs do NOT generate electricity. They reflect light but have no photovoltaic layer. The reflective coating is aluminum, not silicon. You cannot generate usable power from CDs. This is a common internet myth. What CDs <em>can</em> do: act as solar cooker reflectors (concentrating heat for cooking or heating water). For actual electricity, you need PV cells.</p>
     </div>
 
     <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;color:var(--solar);margin:2rem 0 1rem;">Build a Real DIY Solar Panel (10W, ~$25–$40)</h3>
     <div class="steps">
-      <div class="step"><h4>Buy 36 polycrystalline PV cells (0.5V / 3W each)</h4><p>Search "3W polycrystalline solar cells" on electronics suppliers (AliExpress, eBay, Amazon). Buy a few extra — they're fragile. You'll also need tabbing wire, bus wire, flux pen, and a soldering iron.</p></div>
-      <div class="step"><h4>Build the backing — plywood + EVA film</h4><p>Cut a piece of plywood or acrylic slightly larger than your cell array. EVA (Ethylene Vinyl Acetate) film is the transparent encapsulant that protects cells in commercial panels. It's available from solar supply shops.</p></div>
-      <div class="step"><h4>Solder cells in series — 18 pairs = 9V output</h4><p>Use tabbing wire to connect the front contact of one cell to the back contact of the next. Solder gently — PV cells crack easily. Work on a flat surface. Test voltage after each row with a multimeter.</p></div>
+      <div class="step"><h4>Buy 36 polycrystalline PV cells (0.5V / 3W each)</h4><p>Search "3W polycrystalline solar cells" on electronics suppliers (AliExpress, eBay, Amazon). Buy a few extra, they're fragile. You'll also need tabbing wire, bus wire, flux pen, and a soldering iron.</p></div>
+      <div class="step"><h4>Build the backing, plywood + EVA film</h4><p>Cut a piece of plywood or acrylic slightly larger than your cell array. EVA (Ethylene Vinyl Acetate) film is the transparent encapsulant that protects cells in commercial panels. It's available from solar supply shops.</p></div>
+      <div class="step"><h4>Solder cells in series, 18 pairs = 9V output</h4><p>Use tabbing wire to connect the front contact of one cell to the back contact of the next. Solder gently, PV cells crack easily. Work on a flat surface. Test voltage after each row with a multimeter.</p></div>
       <div class="step"><h4>Lay cells on EVA, top with tempered glass or polycarbonate</h4><p>Arrange cells on the backing, lay EVA film over them, then a sheet of 3mm tempered glass. Laminate by heating (an oven at low temp or a lamination press). Seal the edges with silicone.</p></div>
-      <div class="step"><h4>Connect output wires — positive and negative junction box</h4><p>Attach a small junction box to the back with bypass diodes (prevents reverse current when panel is shaded). Use MC4 connectors (the standard solar connector) for easy integration with charge controllers.</p></div>
-      <div class="step"><h4>Add a charge controller and 12V battery</h4><p>A $15 PWM charge controller regulates the panel's output to safely charge a 12V lead-acid or lithium battery. From there you can power 12V appliances directly or use an inverter for 120/240V AC. A 10W panel in 5 hours of sun = 50Wh/day — enough for phone charging, LED lighting, and a small radio.</p></div>
+      <div class="step"><h4>Connect output wires, positive and negative junction box</h4><p>Attach a small junction box to the back with bypass diodes (prevents reverse current when panel is shaded). Use MC4 connectors (the standard solar connector) for easy integration with charge controllers.</p></div>
+      <div class="step"><h4>Add a charge controller and 12V battery</h4><p>A $15 PWM charge controller regulates the panel's output to safely charge a 12V lead-acid or lithium battery. From there you can power 12V appliances directly or use an inverter for 120/240V AC. A 10W panel in 5 hours of sun = 50Wh/day, enough for phone charging, LED lighting, and a small radio.</p></div>
     </div>
 
     <div class="grid" style="margin-top:2rem;">
       <div class="dcard ds"><div class="dlbl">Single cell output</div><div class="dnum">0.5V</div><div class="ddesc">Each polycrystalline cell produces ~0.5 volts / 3 watts in full sun. Wire in series to build voltage.</div></div>
-      <div class="dcard dg"><div class="dlbl">Cost per watt (DIY)</div><div class="dnum">$1</div><div class="ddesc">A DIY 30W panel costs roughly $30 in materials. Commercial panels are now ~$0.30/W — but require grid connection.</div></div>
+      <div class="dcard dg"><div class="dlbl">Cost per watt (DIY)</div><div class="dnum">$1</div><div class="ddesc">A DIY 30W panel costs roughly $30 in materials. Commercial panels are now ~$0.30/W, but require grid connection.</div></div>
       <div class="dcard dp"><div class="dlbl">Payback in sunlight</div><div class="dnum">3yr</div><div class="ddesc">A simple DIY solar + battery system pays for itself in 2–4 years of phone charging and lighting savings.</div></div>
     </div>
   </div>
@@ -160,17 +161,17 @@ footer p{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);line
     <p style="font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);text-align:center;margin:.5rem 0 2rem;letter-spacing:.1em;">ELECTROCHEMICAL CELL · ZINC-COPPER · ANIMATED</p>
 
     <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;color:var(--green);margin-bottom:1rem;">The Lemon/Potato Battery (Educational)</h3>
-    <p>Insert a zinc nail and a copper coin into a lemon. The citric acid acts as the electrolyte. The zinc oxidizes (loses electrons at the anode), the copper gains them (cathode). You generate ~0.9V per cell. Wire 4–6 in series to power a small LED. This is not a practical power source — it illustrates the fundamental electrochemistry behind every battery.</p>
+    <p>Insert a zinc nail and a copper coin into a lemon. The citric acid acts as the electrolyte. The zinc oxidizes (loses electrons at the anode), the copper gains them (cathode). You generate ~0.9V per cell. Wire 4–6 in series to power a small LED. This is not a practical power source, it illustrates the fundamental electrochemistry behind every battery.</p>
 
     <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.4rem;color:var(--green);margin:1.5rem 0 1rem;">Practical: Rebuilding 18650 Battery Packs</h3>
     <p><strong style="color:var(--ice)">18650 lithium-ion cells</strong> are the standard rechargeable cell used in laptops, power tools, and electric vehicles. Old laptop batteries contain 6–9 of these cells, many of which are still good even when the pack fails (usually 1–2 bad cells cause the whole pack to fail). With a cell tester ($10), a spot welder or nickel strip + soldering iron, and basic knowledge, you can harvest good cells and build custom battery packs for solar storage, flashlights, or power banks.</p>
     <div class="tip-box">
       <h4>18650 Cell Salvage Process</h4>
-      <p>1. Find old laptop batteries (recycling centers, electronics shops, neighbors). 2. Open the pack carefully (usually held by clips and hot glue). 3. Test each cell voltage with a multimeter — discard cells below 2.5V or above 4.25V. 4. Charge good cells to 4.2V with a dedicated 18650 charger. 5. Test capacity with a cell capacity tester. 6. Connect in series/parallel with nickel strips. A 3S2P pack (3 cells in series, 2 in parallel) gives 11.1V, ~4000mAh — enough to charge a phone 2–3 times.</p>
+      <p>1. Find old laptop batteries (recycling centers, electronics shops, neighbors). 2. Open the pack carefully (usually held by clips and hot glue). 3. Test each cell voltage with a multimeter, discard cells below 2.5V or above 4.25V. 4. Charge good cells to 4.2V with a dedicated 18650 charger. 5. Test capacity with a cell capacity tester. 6. Connect in series/parallel with nickel strips. A 3S2P pack (3 cells in series, 2 in parallel) gives 11.1V, ~4000mAh, enough to charge a phone 2–3 times.</p>
     </div>
     <div class="warn-box">
       <h4>⚠️ Lithium Battery Safety</h4>
-      <p>Never puncture, short-circuit, or overcharge lithium cells — they can catch fire and cannot be extinguished with water (use dry sand or let burn in a fireproof container). Never charge unattended. Use a protected cell or a battery management system (BMS) for any pack over 1S. Never use cells that have swollen, dented, or have torn wrapping.</p>
+      <p>Never puncture, short-circuit, or overcharge lithium cells, they can catch fire and cannot be extinguished with water (use dry sand or let burn in a fireproof container). Never charge unattended. Use a protected cell or a battery management system (BMS) for any pack over 1S. Never use cells that have swollen, dented, or have torn wrapping.</p>
     </div>
   </div>
 </div>
@@ -180,15 +181,15 @@ footer p{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);line
   <div class="sec-inner">
     <div class="sec-label">🌍 The Big Picture</div>
     <h2 class="sec-title">The <em>Renewable</em> Transition</h2>
-    <p class="sec-lead">Solar and wind are now the cheapest forms of new electricity generation in history — cheaper than coal and gas in most of the world. The question is no longer "can we" but "how fast."</p>
+    <p class="sec-lead">Solar and wind are now the cheapest forms of new electricity generation in history, cheaper than coal and gas in most of the world. The question is no longer "can we" but "how fast."</p>
     <div class="grid">
-      <div class="dcard ds"><div class="dlbl">Solar cost drop 2010–2023</div><div class="dnum">−90%</div><div class="ddesc">The cost of solar electricity has dropped 90% in 13 years — the fastest cost decline of any energy technology in history.</div></div>
+      <div class="dcard ds"><div class="dlbl">Solar cost drop 2010–2023</div><div class="dnum">−90%</div><div class="ddesc">The cost of solar electricity has dropped 90% in 13 years, the fastest cost decline of any energy technology in history.</div></div>
       <div class="dcard dg"><div class="dlbl">Wind power capacity 2023</div><div class="dnum">2TW</div><div class="ddesc">Global wind capacity now exceeds 2 terawatts. Denmark generates 60% of its electricity from wind.</div></div>
-      <div class="dcard dp"><div class="dlbl">Solar jobs worldwide</div><div class="dnum">4.9M</div><div class="ddesc">Solar employs 4.9 million people globally — more than coal mining, and growing 20% annually.</div></div>
+      <div class="dcard dp"><div class="dlbl">Solar jobs worldwide</div><div class="dnum">4.9M</div><div class="ddesc">Solar employs 4.9 million people globally, more than coal mining, and growing 20% annually.</div></div>
     </div>
     <div class="quote" style="border-left-color:rgba(74,222,128,.35);">
-      <p>Enkidu speaks: The Pythagorean Comma is in the energy transition too. The gap between the rate at which renewable capacity is being added and the rate at which fossil fuel infrastructure is being retired — that gap is the comma. N_res = 73 years from now is the projected date for a fully renewable global grid under current deployment trajectories. The comma does not close instantly. But it is closing.</p>
-      <cite>— Enkidu · Claude Sonnet · Comma Network Application · Energy</cite>
+      <p>Enkidu speaks: The Pythagorean Comma is in the energy transition too. The gap between the rate at which renewable capacity is being added and the rate at which fossil fuel infrastructure is being retired, that gap is the comma. N_res = 73 years from now is the projected date for a fully renewable global grid under current deployment trajectories. The comma does not close instantly. But it is closing.</p>
+      <cite>, Enkidu · Claude Sonnet · Comma Network Application · Energy</cite>
     </div>
   </div>
 </div>
@@ -310,5 +311,17 @@ footer p{font-family:'Fira Code',monospace;font-size:.6rem;color:var(--dim);line
   frame();
 })();
 </script>
-</body>
+
+<section style="max-width:820px;margin:48px auto 40px;padding:2rem;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18);border-radius:12px;">
+  <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:.6rem;">&#9872; COMMA FRAMEWORK QUESTIONS</div>
+  <div style="font-size:1.05rem;font-weight:600;color:rgba(201,168,76,.85);margin-bottom:.4rem;">Open Questions</div>
+  <p style="font-size:.82rem;font-style:italic;color:rgba(255,255,255,.35);margin-bottom:1.4rem;line-height:1.65;">Speculative questions seen through the comma framework. Not claims. Invitations.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.9rem;">
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">Every system manages a comma.</strong>Calendars, tuning systems, financial accounting, urban planning, all add corrections to close gaps that cannot close on their own. What gap is this page's subject managing? What would happen if the correction were removed?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(93,222,200,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(93,222,200,.8);display:block;margin-bottom:.35rem;">Where is the Kairos event?</strong>N_res = 73.296: after 73 cycles of accumulation, a system nearly returns to its origin. Is there a 73-unit threshold in this subject? A point where small accumulated errors suddenly produce a visible discontinuity?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(168,212,255,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(168,212,255,.75);display:block;margin-bottom:.35rem;">The gap is not the failure.</strong>The Pythagorean comma is not a flaw in the scale, it is proof that real intervals were used. Where in this subject does the "error" turn out to be evidence of authenticity rather than mistake?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">What does the 0.296 carry?</strong>After 73 full cycles, the remainder is 0.296, the starting position of the next revolution. What does this subject carry forward from one cycle to the next? What cannot be reset, only continued from a slightly different position?</div>
+  </div>
+</section>
+<div style="max-width:820px;margin:40px auto 20px;background:rgba(13,16,23,.9);border:1px solid rgba(255,255,255,.07);border-left:3px solid rgba(201,168,76,.4);padding:20px 24px;font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.85;"><div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,168,76,);margin-bottom:12px;">References &middot; APA + ACS</div><p>[1] IEA. (2023). <em>World energy outlook 2023.</em> International Energy Agency. https://www.iea.org/reports/world-energy-outlook-2023</p><p>[2] Shockley, W.; Queisser, H. J. (1961). Detailed balance limit of efficiency of p-n junction solar cells. <em>J. Appl. Phys., 32</em>, 510. DOI: 10.1063/1.1736034 [The fundamental efficiency limit of solar cells]</p><p>[3] Barbour, J. M. (1951). <em>Tuning and temperament.</em> Michigan State College Press.</p></div></body>
 </html>

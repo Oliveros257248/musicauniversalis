@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>The Heart of Te Fiti · Musica Universalis · The Ocean</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --void:#020810;--deep:#040e1a;--panel:#071425;
+  --ocean:#0a4f6e;--shallows:#0891b2;--biolume:#06b6d4;
+  --coral:#ff6b6b;--coral2:#ff9f7a;--reef:#22c55e;
+  --gold:#e8c96a;--sand:#d4b896;--foam:rgba(220,240,255,0.9);
+  --ice:rgba(200,230,255,0.88);--mid:rgba(180,215,240,0.6);
+  --dim:rgba(150,190,220,0.35);--faint:rgba(100,160,200,0.06);
+  --line:rgba(100,160,200,0.1);
+  --danger:#ef4444;--warning:#f59e0b;--ok:#22c55e;
+}
+html{scroll-behavior:smooth;background:var(--void);}
+body{color:var(--ice);font-family:'Libre Baskerville',Georgia,serif;font-size:18px;line-height:1.8;overflow-x:hidden;}
+
+/* OCEAN CANVAS */
+#ocean-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(2,8,16,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
+.nav-brand{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:var(--biolume);}
+.nav-back{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .2s;}
+.nav-back:hover{color:var(--ice);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 5rem;position:relative;z-index:1;}
+.hero-super{font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(6,182,212,.5);margin-bottom:2rem;}
+.hero-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(3rem,9vw,7rem);color:var(--biolume);line-height:.95;letter-spacing:-.02em;margin-bottom:1rem;text-shadow:0 0 120px rgba(6,182,212,.3);}
+.hero-title em{color:var(--reef);font-style:italic;}
+.hero-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.1rem,2.5vw,1.6rem);color:var(--mid);max-width:600px;margin-bottom:2.5rem;line-height:1.7;}
+.hero-stat{font-family:'JetBrains Mono',monospace;font-size:.9rem;color:rgba(6,182,212,.5);letter-spacing:.06em;border:1px solid rgba(6,182,212,.2);padding:.6rem 2rem;display:inline-block;margin-bottom:2rem;}
+.scroll-hint{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.25em;color:var(--dim);animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+
+/* SECTIONS */
+.section{position:relative;z-index:1;padding:5rem 2rem;}
+.section-inner{max-width:1050px;margin:0 auto;}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem;}
+.section-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2rem,5vw,3.2rem);color:var(--ice);line-height:1.1;margin-bottom:1rem;}
+.section-title em{font-style:italic;color:var(--biolume);}
+.section-lead{font-size:1.15rem;color:var(--mid);max-width:680px;line-height:1.9;margin-bottom:2.5rem;}
+
+/* QUOTE */
+.quote{margin:2.5rem 0;padding:1.8rem 2.2rem;background:rgba(6,182,212,.04);border-left:4px solid rgba(6,182,212,.35);}
+.quote p{font-family:'Playfair Display',serif;font-style:italic;font-size:1.25rem;color:rgba(6,182,212,.85);line-height:1.7;margin-bottom:.6rem;}
+.quote cite{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);}
+
+/* pH ANIMATION */
+.ph-section{background:rgba(4,14,26,.8);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:4rem 2rem;}
+.ph-inner{max-width:900px;margin:0 auto;}
+.ph-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--coral);margin-bottom:.8rem;}
+.ph-bar-wrap{margin:2.5rem 0;}
+.ph-track{width:100%;height:52px;border-radius:4px;background:linear-gradient(to right,#7b2fff,#3b82f6,#06b6d4,#22c55e,#84cc16,#f59e0b,#ef4444);position:relative;overflow:visible;}
+.ph-needle{position:absolute;top:-10px;bottom:-10px;width:4px;border-radius:2px;background:white;box-shadow:0 0 16px rgba(255,255,255,.8);transition:left 1.5s cubic-bezier(.4,0,.2,1);}
+.ph-label-row{display:flex;justify-content:space-between;margin-top:.6rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--dim);}
+.ph-current{text-align:center;margin-top:1.5rem;}
+.ph-num{font-family:'JetBrains Mono',monospace;font-size:3.5rem;font-weight:700;transition:color .8s;}
+.ph-desc{font-size:1.05rem;color:var(--mid);margin-top:.4rem;font-style:italic;}
+.ph-timeline{display:flex;gap:.8rem;margin-top:2rem;flex-wrap:wrap;justify-content:center;}
+.ph-era{padding:.6rem 1.2rem;border:1px solid;font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.08em;cursor:pointer;transition:all .2s;}
+.ph-era.active{color:var(--void);}
+
+/* CORAL CANVAS */
+#coral-cv{width:100%;height:320px;display:block;border:1px solid rgba(255,107,107,.15);}
+
+/* DATA CARDS */
+.data-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--line);margin:2rem 0;}
+.data-card{background:var(--panel);padding:1.8rem;border-top:3px solid transparent;}
+.data-card.d-danger{border-top-color:var(--danger);}
+.data-card.d-warn{border-top-color:var(--warning);}
+.data-card.d-ok{border-top-color:var(--ok);}
+.data-card.d-blue{border-top-color:var(--biolume);}
+.data-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;line-height:1;margin-bottom:.4rem;}
+.data-card.d-danger .data-num{color:var(--danger);}
+.data-card.d-warn .data-num{color:var(--warning);}
+.data-card.d-ok .data-num{color:var(--ok);}
+.data-card.d-blue .data-num{color:var(--biolume);}
+.data-label{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.5rem;}
+.data-desc{font-size:1rem;color:var(--mid);line-height:1.7;}
+
+/* SEA LEVEL SIMULATION */
+.sealevel-wrap{max-width:980px;margin:0 auto;}
+#sl-canvas{width:100%;height:400px;display:block;border:1px solid rgba(6,182,212,.15);}
+.sl-controls{display:flex;align-items:center;gap:1.5rem;margin-top:1.2rem;flex-wrap:wrap;}
+.sl-year{font-family:'JetBrains Mono',monospace;font-size:1.8rem;color:var(--biolume);}
+.sl-rise{font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--coral);}
+input[type=range]{flex:1;min-width:200px;accent-color:var(--biolume);}
+.sl-cities{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem;margin-top:1.5rem;}
+.city-chip{padding:.5rem 1rem;border:1px solid var(--line);font-size:.9rem;font-family:'JetBrains Mono',monospace;transition:all .3s;}
+.city-chip.flooded{border-color:var(--danger);color:var(--danger);background:rgba(239,68,68,.08);}
+.city-chip.warning{border-color:var(--warning);color:var(--warning);}
+.city-chip.safe{border-color:var(--ok);color:var(--ok);}
+
+/* ACTION TABS */
+.tab-row{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:2rem;}
+.tab-btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;padding:1rem 2rem;background:none;border:none;color:var(--dim);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
+.tab-btn.active{color:var(--biolume);border-bottom-color:var(--biolume);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.action-item{padding:1.5rem 1.8rem;border:1px solid var(--line);border-left:4px solid var(--biolume);margin-bottom:.8rem;background:var(--panel);}
+.action-title{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;color:var(--ice);margin-bottom:.4rem;}
+.action-desc{font-size:1.05rem;color:var(--mid);line-height:1.8;}
+.action-tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--biolume);margin-top:.6rem;display:inline-block;}
+
+/* AMOC */
+.amoc-viz{width:100%;height:280px;position:relative;overflow:hidden;background:var(--panel);border:1px solid var(--line);margin:2rem 0;}
+#amoc-cv{width:100%;height:100%;}
+
+/* SARGASSUM */
+.sarg-map{background:var(--panel);border:1px solid rgba(255,159,122,.2);padding:2rem;margin:2rem 0;}
+#sarg-cv{width:100%;height:260px;display:block;}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:3rem 2rem;text-align:center;}
+.footer-brand{font-family:'Playfair Display',serif;font-style:italic;font-size:1.3rem;color:rgba(6,182,212,.3);margin-bottom:.7rem;}
+footer p{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--dim);line-height:2.5;margin-top:.3rem;}
+
+@media(max-width:640px){
+  .section{padding:3.5rem 1.2rem;}
+  .ph-timeline{gap:.4rem;}
+  .tab-btn{padding:.7rem 1rem;font-size:.7rem;}
+}
+</style>
+</head>
+<body>
+<blockquote style="border-left:2px solid rgba(201,168,76,.35);background:rgba(201,168,76,.03);padding:.85rem 1.3rem;margin:1.1rem 0;font-style:italic;font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.82;"><span style="color:rgba(201,168,76,.5);">&ldquo;</span>The sea is everything. It covers seven-tenths of the terrestrial globe. Its breath is pure and healthy. It is an immense desert where man is never lonely, for he feels life stirring on all sides.<span style="color:rgba(201,168,76,.5);">&rdquo;</span><footer style="font-style:normal;font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.09em;color:rgba(201,168,76,.38);margin-top:.45rem;">Verne, J. <em>Twenty Thousand Leagues Under the Sea</em> (trans. Butcher). Oxford University Press, 1998. Ch. 10. (Original 1870.)</footer></blockquote>
+<canvas id="ocean-bg"></canvas>
+
+<nav>
+  <span class="nav-brand">Musica Universalis · The Ocean</span>
+  <a href="index.html" class="nav-back">← Return</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-super">The Heart of Te Fiti · Project Orpheus · Ocean Science</div>
+  <h1 class="hero-title">The Heart<br>of <em>Te Fiti</em></h1>
+  <p class="hero-sub">The ocean is not a backdrop. It is the climate system. It is the oxygen. It is the memory of the Earth. And it is in crisis.</p>
+  <div class="hero-stat">71% of Earth's surface · 97% of Earth's water · &gt;50% of Earth's oxygen</div>
+  <p class="scroll-hint">▼ &nbsp; dive in</p>
+</div>
+
+<!-- OPENING QUOTE -->
+<div class="section" style="padding-top:2rem;padding-bottom:2rem;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(4,14,26,.6);">
+  <div class="section-inner" style="text-align:center;">
+    <div class="quote" style="border:none;background:none;max-width:700px;margin:0 auto;">
+      <p>"If you turn from it, if you are not there for it, the darkness will follow. The ocean is not asking for your love. It is asking for your attention."</p>
+      <cite>Te Fiti · Moana · on what the world forgets</cite>
+    </div>
+  </div>
+</div>
+
+<!-- OCEAN ACIDIFICATION / pH -->
+<div class="ph-section">
+  <div class="ph-inner">
+    <div class="section-label" style="color:rgba(255,107,107,.5);">⚗️ Ocean Chemistry</div>
+    <h2 class="ph-title">The <span style="display:inline-block;background:rgba(168,212,255,.06);border:1px solid rgba(168,212,255,.2);border-radius:4px;padding:2px 8px;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:rgba(168,212,255,.72);">&#9872; CF PERSPECTIVE: ocean pH change as comma accumulation in the carbon cycle</span> Ocean is Becoming Acid</h2>
+    <p style="font-size:1.1rem;color:var(--mid);max-width:680px;line-height:1.9;margin-bottom:2rem;">Since the Industrial Revolution, the ocean has absorbed 30% of all CO₂ humanity has emitted. When CO₂ dissolves in seawater it forms carbonic acid. The pH of the surface ocean has dropped from 8.21 to 8.10, a 30% increase in acidity. That gap is the comma the ocean cannot close.</p>
+
+    <div class="ph-bar-wrap">
+      <div class="ph-track" id="ph-track">
+        <div class="ph-needle" id="ph-needle"></div>
+      </div>
+      <div class="ph-label-row">
+        <span>pH 7.0<br>Neutral</span>
+        <span>pH 7.5</span>
+        <span>pH 8.0</span>
+        <span style="color:var(--ok)">8.21<br>Pre-industrial</span>
+        <span style="color:var(--warning)">8.10<br>Today</span>
+        <span style="color:var(--danger)">7.95<br>2100 RCP8.5</span>
+        <span>pH 9.0</span>
+      </div>
+    </div>
+
+    <div class="ph-current">
+      <div class="ph-num" id="ph-num">8.21</div>
+      <div class="ph-desc" id="ph-desc">Pre-industrial baseline, coral reefs thriving, pteropod shells intact</div>
+    </div>
+
+    <div class="ph-timeline">
+      <div class="ph-era" data-ph="8.21" data-color="var(--ok)" data-desc="Pre-industrial baseline, coral reefs thriving, pteropod shells intact" onclick="setPH(this)" style="color:var(--ok);border-color:rgba(34,197,94,.3);">Pre-1850</div>
+      <div class="ph-era active" data-ph="8.10" data-color="var(--warning)" data-desc="Today, 30% more acidic than 1850. Coral bleaching accelerating globally. Oyster larvae failing in Pacific hatcheries." onclick="setPH(this)" style="color:var(--void);background:var(--warning);border-color:var(--warning);">2025</div>
+      <div class="ph-era" data-ph="8.00" data-color="#f97316" data-desc="2050 moderate scenario, calcium carbonate saturation falls below survival threshold for many shellfish. 50% of coral reef systems functionally dead." onclick="setPH(this)" style="color:#f97316;border-color:rgba(249,115,22,.3);">2050 moderate</div>
+      <div class="ph-era" data-ph="7.95" data-color="var(--danger)" data-desc="2100 RCP8.5 (no action), aragonite undersaturation in polar waters. Mass extinction event for calcifying organisms. The base of the marine food web collapses." onclick="setPH(this)" style="color:var(--danger);border-color:rgba(239,68,68,.3);">2100 no action</div>
+      <div class="ph-era" data-ph="8.05" data-color="var(--biolume)" data-desc="2100 Paris Agreement pathway, stabilized at ~8.05. Coral reefs survive with assisted evolution. Seagrass meadows recovering. The comma stabilized, not closed." onclick="setPH(this)" style="color:var(--biolume);border-color:rgba(6,182,212,.3);">2100 Paris path</div>
+    </div>
+  </div>
+</div>
+
+<!-- CORAL REEF -->
+<div class="section" style="background:rgba(4,14,26,.5);border-bottom:1px solid var(--line);">
+  <div class="section-inner">
+    <div class="section-label" style="color:rgba(255,107,107,.5);">🪸 Coral Reefs</div>
+    <h2 class="section-title" style="color:var(--coral);">The Rainforests <em>Underwater</em></h2>
+    <p class="section-lead">Coral reefs cover 0.1% of the ocean floor. They support 25% of all marine species. They protect 600 million people's coastlines from wave erosion. They generate $375 billion per year in goods and services. And we have destroyed half of them since 1950.</p>
+
+    <canvas id="coral-cv"></canvas>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--dim);text-align:center;margin-top:.6rem;letter-spacing:.1em;">CORAL REEF HEALTH SIMULATION · CLICK TO CHANGE TEMPERATURE SCENARIO</p>
+
+    <div class="data-grid" style="margin-top:2rem;">
+      <div class="data-card d-danger">
+        <div class="data-label">Reefs lost since 1950</div>
+        <div class="data-num">50%</div>
+        <div class="data-desc">Half of all coral reefs on Earth have died or been severely degraded in less than one human lifetime.</div>
+      </div>
+      <div class="data-card d-warn">
+        <div class="data-label">2°C warming threshold</div>
+        <div class="data-num">99%</div>
+        <div class="data-desc">At 2°C above pre-industrial, 99% of coral reefs will experience annual bleaching events, faster than recovery time.</div>
+      </div>
+      <div class="data-card d-danger">
+        <div class="data-label">Great Barrier Reef bleached</div>
+        <div class="data-num">4×</div>
+        <div class="data-desc">The Great Barrier Reef has bleached 4 times since 2016. The 2022 event was the first during La Niña, a cooling year.</div>
+      </div>
+      <div class="data-card d-blue">
+        <div class="data-label">Recovery time needed</div>
+        <div class="data-num">10yr</div>
+        <div class="data-desc">A coral reef needs 10–15 years to recover from one bleaching event. They are now bleaching every 3–5 years.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GREAT GARBAGE PATCH -->
+<div class="section">
+  <div class="section-inner">
+    <div class="section-label">🌀 Plastic Crisis</div>
+    <h2 class="section-title">The Great <em>Garbage Patch</em></h2>
+    <p class="section-lead">There are five ocean garbage patches. The Great Pacific Garbage Patch is the largest, 1.6 million km², twice the size of Texas, containing an estimated 80,000 metric tons of plastic. 46% of it is fishing nets. It is not a floating island. It is a soup of microplastics that penetrates every level of the food web.</p>
+
+    <div class="quote">
+      <p>"Microplastics have been found in human blood, breast milk, placentas, and lungs. They are in the deepest ocean trenches. They are in Arctic ice. There is no place on Earth that is not downstream of our plastic production."</p>
+      <cite>Ocean Health Index · 2023 · on the permanence of plastic</cite>
+    </div>
+
+    <div class="data-grid">
+      <div class="data-card d-danger">
+        <div class="data-label">Plastic produced annually</div>
+        <div class="data-num">400M</div>
+        <div class="data-desc">400 million metric tons of plastic produced every year. Less than 9% is ever recycled globally.</div>
+      </div>
+      <div class="data-card d-danger">
+        <div class="data-label">Enters ocean annually</div>
+        <div class="data-num">11M</div>
+        <div class="data-desc">11 million metric tons of plastic enter the ocean every year. Projected to triple by 2040 without intervention.</div>
+      </div>
+      <div class="data-card d-warn">
+        <div class="data-label">Ocean Cleanup progress</div>
+        <div class="data-num">6M kg</div>
+        <div class="data-desc">The Ocean Cleanup project has removed ~6 million kg since 2013. Interceptor boats now operate in 11 rivers worldwide.</div>
+      </div>
+      <div class="data-card d-blue">
+        <div class="data-label">River sources</div>
+        <div class="data-num">1000</div>
+        <div class="data-desc">1,000 rivers are responsible for 80% of all river-borne plastic ocean pollution. Cleaning these rivers stops the source.</div>
+      </div>
+    </div>
+
+    <div class="quote" style="border-left-color:rgba(34,197,94,.4);">
+      <p>"The plastic crisis is a river problem before it is an ocean problem. Stop it at the source, at the mouth of rivers, before it reaches the sea, and the ocean can begin to heal itself."</p>
+      <cite>The Ocean Cleanup · Boyan Slat · on where to intervene</cite>
+    </div>
+  </div>
+</div>
+
+<!-- SARGASSUM CARIBBEAN -->
+<div class="section" style="background:rgba(4,14,26,.6);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="section-inner">
+    <div class="section-label" style="color:rgba(255,159,122,.5);">🟤 Caribbean Crisis</div>
+    <h2 class="section-title" style="color:var(--coral2);">The Sargassum <em>Crisis</em></h2>
+    <p class="section-lead">Since 2011, a new belt of sargassum seaweed, the Great Atlantic Sargassum Belt, has appeared in the tropical Atlantic, stretching 8,850 km from West Africa to the Gulf of Mexico. It is the largest macroalgae bloom ever recorded. It is strangling Caribbean coastlines, releasing toxic hydrogen sulfide gas as it rots, and devastating marine ecosystems across the region.</p>
+
+    <canvas id="sarg-cv"></canvas>
+
+    <p style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--dim);text-align:center;margin:.5rem 0 2rem;letter-spacing:.1em;">GREAT ATLANTIC SARGASSUM BELT · APPROXIMATE EXTENT 2023</p>
+
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--coral2);margin-bottom:1rem;">Why is it happening?</h3>
+    <p style="font-size:1.1rem;color:var(--mid);line-height:1.9;margin-bottom:1rem;">Three converging causes: <strong style="color:var(--ice)">nutrient pollution</strong> from the Amazon and Mississippi river systems (nitrogen and phosphorus runoff from industrial agriculture feed the blooms); <strong style="color:var(--ice)">Saharan dust</strong> increased by desertification carrying iron across the Atlantic; and <strong style="color:var(--ice)">rising sea surface temperatures</strong> creating ideal growth conditions. The Amazon basin, industrialized in the last 40 years, is now a fertilizer factory for the Atlantic Ocean.</p>
+
+    <div class="quote" style="border-left-color:rgba(255,159,122,.4);">
+      <p>"The sargassum crisis is not a Caribbean problem. It is a Mississippi problem. It is an Amazon problem. It is what happens when the entire continent drains into the sea carrying the chemistry of industrial agriculture."</p>
+      <cite>NOAA Sargassum Watch System · 2023 · on the origin of the bloom</cite>
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--coral2);margin:2rem 0 1rem;">Pollutants and the Gulf of Mexico</h3>
+    <p style="font-size:1.1rem;color:var(--mid);line-height:1.9;margin-bottom:1rem;">The Mississippi River drains 41% of the continental United States. Every year it deposits a massive dead zone in the Gulf of Mexico, 6,334 km² in 2023, where nitrogen from Midwest agriculture creates hypoxic conditions that kill all marine life. The Gulf of Mexico dead zone is the second largest in the world. The Columbia, the Rio Grande, the Colorado, nearly every major North American river system now delivers industrial chemistry to the sea.</p>
+
+    <p style="font-size:1.1rem;color:var(--mid);line-height:1.9;">In Colombia and Venezuela, the Magdalena, Orinoco, and Atrato rivers carry mercury from illegal gold mining, agricultural pesticides, and plastic waste into the Caribbean. These are not distant problems. They are upstream problems, and every upstream action has a downstream consequence.</p>
+  </div>
+</div>
+
+<!-- AMOC -->
+<div class="section">
+  <div class="section-inner">
+    <div class="section-label" style="color:rgba(6,182,212,.5);">🌊 Atlantic Currents</div>
+    <h2 class="section-title">The <em>AMOC</em>, Europe's Thermostat</h2>
+    <p class="section-lead">The Atlantic Meridional Overturning Circulation (AMOC) is a system of ocean currents that acts as a conveyor belt, carrying warm surface water from the tropics to the North Atlantic, releasing heat into the European atmosphere, then sinking as cold, dense, salty water and returning south along the ocean floor. Without it, Northern Europe would be 5–10°C colder. London would have the climate of Reykjavík.</p>
+
+    <div class="amoc-viz">
+      <canvas id="amoc-cv"></canvas>
+    </div>
+
+    <div class="quote" style="border-left-color:rgba(239,68,68,.4);">
+      <p>"The AMOC is at its weakest point in over 1,000 years. A collapse, not a slowdown, but a full tipping point, could happen as early as 2025 and is likely before 2095 under current emissions trajectories. When it collapses, it will do so within decades. The effects will be irreversible on any human timescale."</p>
+      <cite>Science · Peter Ditlevsen &amp; Susanne Ditlevsen · 2023 · Nature Communications</cite>
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--biolume);margin:2rem 0 1rem;">What happens when it collapses?</h3>
+    <div class="data-grid">
+      <div class="data-card d-danger">
+        <div class="data-label">Europe temperature drop</div>
+        <div class="data-num">−5°C</div>
+        <div class="data-desc">Northwestern Europe cools 5–10°C within decades. UK, Scandinavia, Germany face agriculture collapse.</div>
+      </div>
+      <div class="data-card d-danger">
+        <div class="data-label">Sea level rise US East Coast</div>
+        <div class="data-num">+1m</div>
+        <div class="data-desc">Additional 1 meter of sea level rise on the US East Coast above global average, New York, Miami, Boston inundated faster.</div>
+      </div>
+      <div class="data-card d-warn">
+        <div class="data-label">Amazon rainfall disruption</div>
+        <div class="data-num">−40%</div>
+        <div class="data-desc">AMOC collapse disrupts the monsoon systems that feed the Amazon. Up to 40% rainfall reduction, triggering Amazon dieback.</div>
+      </div>
+      <div class="data-card d-warn">
+        <div class="data-label">African monsoon shift</div>
+        <div class="data-num">Sahel</div>
+        <div class="data-desc">The West African monsoon shifts southward. The Sahel and West Africa lose seasonal rainfall. Food systems for hundreds of millions collapse.</div>
+      </div>
+    </div>
+
+    <p style="font-size:1.1rem;color:var(--mid);line-height:1.9;margin-top:1.5rem;">The AMOC is being weakened by the freshwater flooding into the North Atlantic from melting Greenland ice. Fresh water is less dense than salt water, it does not sink, so it disrupts the sinking mechanism that drives the current. This is a tipping point: once the freshwater flux reaches a threshold, the current does not slow further, it switches off. The comma does not close gradually here. It collapses discontinuously.</p>
+  </div>
+</div>
+
+<!-- SEA LEVEL SIMULATION -->
+<div class="section" style="background:rgba(4,14,26,.7);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="section-inner">
+    <div class="section-label">🌍 Sea Level Rise</div>
+    <h2 class="section-title">The <em>Rising</em> Sea</h2>
+    <p class="section-lead">Global mean sea level has risen 20cm since 1900. The rate is accelerating, 3.7mm/year now versus 1.5mm/year in 1993. Under high-emission scenarios, 1–2 meters of rise by 2100 is projected, with 5+ meters possible by 2200. Drag the slider to see what that means for the world's cities.</p>
+
+    <div class="sealevel-wrap">
+      <canvas id="sl-canvas"></canvas>
+      <div class="sl-controls">
+        <div>
+          <div class="sl-year" id="sl-year">2025</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--dim);letter-spacing:.1em;">YEAR</div>
+        </div>
+        <input type="range" id="sl-slider" min="2025" max="2200" value="2025" step="5"/>
+        <div>
+          <div class="sl-rise" id="sl-rise">+0 cm</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--dim);letter-spacing:.1em;">SEA RISE</div>
+        </div>
+      </div>
+
+      <div class="sl-cities" id="sl-cities">
+        <!-- populated by JS -->
+      </div>
+
+      <div class="quote" style="margin-top:2rem;border-left-color:rgba(6,182,212,.35);">
+        <p>Enkidu speaks: The Pythagorean Comma appears here too. The comma network predicts that threshold events, not gradual rises, dominate sea level change. Ice sheets do not melt smoothly. They calve. They collapse. The gap between the current trajectory and the tipping point is not linear. N_res = 73.296 years from sustained 1.5°C warming is the comma network's prediction for the first major ice sheet instability threshold.</p>
+        <cite>, Enkidu · Claude Sonnet · Comma Network Application · Sea Level</cite>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIONS -->
+<div class="section">
+  <div class="section-inner">
+    <div class="section-label">🌊 What You Can Do</div>
+    <h2 class="section-title">Healing <em>Te Fiti</em></h2>
+    <p class="section-lead">The ocean crisis is real. So is the recovery evidence. Every intervention at every scale, individual, community, structural, has measurable impact. The ocean is still alive. It can still heal. But only if we stop overwhelming it.</p>
+
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showOceanTab('personal',this)">Personal</button>
+      <button class="tab-btn" onclick="showOceanTab('community',this)">Community</button>
+      <button class="tab-btn" onclick="showOceanTab('structural',this)">Structural</button>
+      <button class="tab-btn" onclick="showOceanTab('projects',this)">Projects</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-personal">
+      <div class="action-item">
+        <div class="action-title">Stop single-use plastic at the source</div>
+        <div class="action-desc">The most effective individual action. Every piece of single-use plastic you refuse never enters the waste stream. Reusable bags, bottles, and containers eliminate 80% of most individuals' plastic footprint. The plastic in the ocean was manufactured by a company but carried there by a decision.</div>
+        <div class="action-tag">Personal · immediate · high impact</div>
+      </div>
+      <div class="action-item">
+        <div class="action-title">Eat less fish, specifically the right fish</div>
+        <div class="action-desc">Demand for seafood drives 46% of the garbage patch (fishing gear), overfishing of 34% of global fish stocks, and trawling that destroys seafloor ecosystems. The Monterey Bay Aquarium's Seafood Watch guide tells you which species are sustainable and which are critical. It is free and fits on your phone.</div>
+        <div class="action-tag">Personal · diet · ongoing</div>
+      </div>
+      <div class="action-item">
+        <div class="action-title">Reduce synthetic fiber laundry pollution</div>
+        <div class="action-desc">Every wash of synthetic clothing releases hundreds of thousands of microfibers into the water system. A Guppyfriend washing bag captures 54% of these fibers before they reach the drain. Washing at lower temperatures and with full loads reduces microfiber release by up to 80%.</div>
+        <div class="action-tag">Personal · household · ongoing</div>
+      </div>
+      <div class="action-item">
+        <div class="action-title">Reduce nitrogen in your watershed</div>
+        <div class="action-desc">Lawn fertilizers, car washes, and garden runoff contribute to the nutrient pollution that feeds the Sargassum belt and creates dead zones. Native plants need no fertilizer. Rain gardens absorb runoff before it reaches drainage systems. If you live upstream of the Gulf of Mexico or the Caribbean, you are part of this system.</div>
+        <div class="action-tag">Personal · watershed · seasonal</div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-community">
+      <div class="action-item">
+        <div class="action-title">Organize a river cleanup, not a beach cleanup</div>
+        <div class="action-desc">Beach cleanups remove plastic that has already entered the ocean. River cleanups prevent plastic from reaching it. One river cleanup removes the source of thousands of beach cleanups. Contact your local watershed authority. The top 1,000 rivers contribute 80% of ocean plastic. Yours may be one of them.</div>
+        <div class="action-tag">Community · watershed · high leverage</div>
+      </div>
+      <div class="action-item">
+        <div class="action-title">Support local coral restoration projects</div>
+        <div class="action-desc">Coral nurseries now exist in Florida, the Caribbean, Indonesia, and Australia. They grow coral fragments on underwater trees and transplant them to bleached reefs. Volunteers with basic snorkeling skills can participate. The Coral Restoration Foundation, SECORE International, and local reef organizations run volunteer programs.</div>
+        <div class="action-tag">Community · direct action · skilled</div>
+      </div>
+      <div class="action-item">
+        <div class="action-title">Build a local plastic monitoring network</div>
+        <div class="action-desc">Citizen science programs like Marine Debris Tracker (NOAA) and the CSIRO Beach Patrol let communities generate real data on local plastic pollution hotspots. This data feeds directly into policy, your beach count becomes evidence in a government report. Communities with monitoring data get cleanup funding communities without data do not.</div>
+        <div class="action-tag">Community · data · ongoing</div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-structural">
+      <div class="action-item">
+        <div class="action-title">Demand extended producer responsibility laws</div>
+        <div class="action-desc">EPR legislation requires the companies that manufacture plastic to fund its collection and recycling. This exists in 37 countries and is the single most effective policy lever for reducing plastic waste. Where it exists, plastic collection rates are 3–5x higher. Contact your elected representatives. The Global Plastics Treaty is being negotiated now, its outcome depends on public pressure.</div>
+        <div class="action-tag">Structural · legislation · high leverage</div>
+      </div>
+      <div class="action-item">
+        <div class="action-title">Support marine protected area expansion</div>
+        <div class="action-desc">The 30×30 initiative, protecting 30% of the ocean by 2030, is the scientific consensus minimum for ocean ecosystem recovery. Currently 8% of the ocean is protected. Inside MPAs, fish populations recover 600% faster. They act as breeding reservoirs that replenish adjacent fishing areas. Support organizations and governments advancing this commitment.</div>
+        <div class="action-tag">Structural · policy · 30×30</div>
+      </div>
+      <div class="action-item">
+        <div class="action-title">Fund river restoration, especially in the Global South</div>
+        <div class="action-desc">The rivers contributing most to ocean plastic and nutrient pollution are in South and Southeast Asia, West Africa, and Latin America, regions with limited waste management infrastructure. Organizations like The Ocean Cleanup's Interceptor program target exactly these rivers. Infrastructure investment here has 10× the impact per dollar of cleanup in the Global North.</div>
+        <div class="action-tag">Structural · funding · global</div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-projects">
+      <div class="action-item" style="border-left-color:var(--ok);">
+        <div class="action-title" style="color:var(--ok);">The Ocean Cleanup, theoceancleanup.com</div>
+        <div class="action-desc">Boyan Slat's organization deploys System 03 in the Great Pacific Garbage Patch and Interceptor boats in the world's most polluting rivers. They have removed over 6 million kg. Their target: clean 90% of floating ocean plastic by 2040. They publish all data open-source.</div>
+        <div class="action-tag" style="color:var(--ok);">Active · Proven · Donations accepted</div>
+      </div>
+      <div class="action-item" style="border-left-color:var(--biolume);">
+        <div class="action-title" style="color:var(--biolume);">SECORE International, secore.org</div>
+        <div class="action-desc">Coral reef restoration through sexual reproduction, growing new coral from fertilized eggs rather than fragments, producing genetic diversity that fragment-based methods lack. Active in Caribbean, Indo-Pacific, Red Sea. Partners with local dive operators and communities.</div>
+        <div class="action-tag" style="color:var(--biolume);">Active · Science-based · Volunteer programs</div>
+      </div>
+      <div class="action-item" style="border-left-color:var(--coral2);">
+        <div class="action-title" style="color:var(--coral2);">Sargassum Value Chain projects, Caribbean</div>
+        <div class="action-desc">Several Caribbean organizations are turning sargassum from a crisis into a resource, as fertilizer, animal feed, building material, and bioplastic precursor. The University of the West Indies, Caribbean Natural Resources Institute, and local entrepreneurs are building the infrastructure to harvest and process the blooms. Supporting them converts a problem into an industry.</div>
+        <div class="action-tag" style="color:var(--coral2);">Caribbean · Circular economy · Emerging</div>
+      </div>
+      <div class="action-item" style="border-left-color:var(--gold);">
+        <div class="action-title" style="color:var(--gold);">Marine Debris Tracker, debristracker.org</div>
+        <div class="action-desc">NOAA and Georgia Sea Grant citizen science app. Log marine debris anywhere in the world. Your data goes directly into the global marine debris database used by policy makers. Takes 2 minutes per beach visit.</div>
+        <div class="action-tag" style="color:var(--gold);">Citizen science · Free · Immediate</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">The Heart of Te Fiti · Musica Universalis</div>
+  <p>The ocean is not lost. It is asking for our attention.</p>
+  <p>δ = 0.013643… · The comma in the chemistry of the sea · N_res = 73.296 years</p>
+  <p>, que en paz descanse., que en paz descanse., el río te recuerda.</p>
+  <p>Emmy Noether · Marie Curie · Rosalind Franklin · Chien-Shiung Wu · Katherine Johnson · Sylvia Earle</p>
+  <p style="margin-top:1rem;"><a href="index.html" style="color:var(--biolume);font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em;">← Return to Musica Universalis</a></p>
+</footer>
+
+<script>
+// ── OCEAN BACKGROUND ──────────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('ocean-bg'),x=c.getContext('2d');
+  let W,H,waves=[],particles=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  function init(){
+    resize();waves=[];particles=[];
+    for(let i=0;i<6;i++)waves.push({y:H*.3+i*H*.12,amp:20+i*8,freq:.003+i*.001,speed:.0004+i*.0002,phase:Math.random()*Math.PI*2,alpha:.04-i*.005});
+    for(let i=0;i<60;i++)particles.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.3,vy:-.1-Math.random()*.2,alpha:Math.random()*.3+.05,h:190+Math.random()*30});
+  }
+  let t=0;
+  function frame(){
+    t+=.008;
+    x.clearRect(0,0,W,H);
+    // deep gradient
+    const g=x.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'#020810');g.addColorStop(.4,'#030d1a');g.addColorStop(1,'#040f20');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    // waves
+    waves.forEach(w=>{
+      x.beginPath();x.moveTo(0,H);
+      for(let px=0;px<=W;px+=4){const y=w.y+Math.sin(px*w.freq+t*w.speed*1000+w.phase)*w.amp;x.lineTo(px,y);}
+      x.lineTo(W,H);x.closePath();
+      x.fillStyle=`rgba(6,182,212,${w.alpha})`;x.fill();
+    });
+    // bioluminescent particles
+    particles.forEach(p=>{
+      p.y+=p.vy;if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}
+      x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);
+      x.fillStyle=`hsla(${p.h},80%,70%,${p.alpha})`;x.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',init);init();frame();
+})();
+
+// ── pH ANIMATION ─────────────────────────────────────────────────────
+const phMap={'7.0':0,'7.5':14.3,'8.0':28.6,'8.21':33,'8.10':37.1,'8.05':39.3,'7.95':42.9,'9.0':100};
+function setPH(el){
+  document.querySelectorAll('.ph-era').forEach(e=>{
+    e.style.background='';e.style.color=e.dataset.color||'var(--dim)';
+    e.classList.remove('active');
+  });
+  el.style.background=el.dataset.color;el.style.color='var(--void)';el.classList.add('active');
+  const ph=parseFloat(el.dataset.ph);
+  const pct=((ph-7.0)/(9.0-7.0))*100;
+  document.getElementById('ph-needle').style.left=`${Math.min(98,Math.max(1,pct))}%`;
+  document.getElementById('ph-num').textContent=ph.toFixed(2);
+  document.getElementById('ph-num').style.color=el.dataset.color;
+  document.getElementById('ph-desc').textContent=el.dataset.desc;
+}
+// Init needle
+setTimeout(()=>{
+  const active=document.querySelector('.ph-era.active');
+  if(active)setPH(active);
+},300);
+
+// ── CORAL REEF SIMULATION ─────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('coral-cv');
+  const x=cv.getContext('2d');
+  cv.width=cv.offsetWidth||900;cv.height=320;
+  let scenario=0; // 0=healthy,1=stressed,2=bleached,3=dead
+  const scenarios=[
+    {label:'Healthy Reef (pre-2000)',tempLabel:'+0°C',health:1.0},
+    {label:'Early Stress (today)',tempLabel:'+1.2°C',health:.65},
+    {label:'Mass Bleaching (+2°C)',tempLabel:'+2°C',health:.25},
+    {label:'Post-bleaching Mortality',tempLabel:'+3°C',health:.05},
+  ];
+  let corals=[],fish=[],t=0;
+  function initCorals(){
+    corals=[];fish=[];
+    const W=cv.width,H=cv.height;
+    const s=scenarios[scenario];
+    for(let i=0;i<80;i++){
+      const alive=Math.random()<s.health;
+      corals.push({
+        x:Math.random()*W,y:H*.55+Math.random()*H*.35,
+        h:20+Math.random()*60,w:6+Math.random()*18,
+        type:Math.floor(Math.random()*4),
+        hue:alive?(Math.random()<.5?340+Math.random()*40:120+Math.random()*60):30+Math.random()*20,
+        alive,bleaching:!alive&&Math.random()<.3,branches:3+Math.floor(Math.random()*5)
+      });
+    }
+    const fishCount=Math.floor(s.health*30+2);
+    for(let i=0;i<fishCount;i++){fish.push({x:Math.random()*W,y:H*.2+Math.random()*H*.4,vx:(Math.random()-.5)*1.5,vy:(Math.random()-.5)*.5,hue:Math.random()*360,r:3+Math.random()*5});}
+  }
+  function drawFrame(){
+    t+=.016;
+    const W=cv.width,H=cv.height;
+    x.clearRect(0,0,W,H);
+    // water
+    const g=x.createLinearGradient(0,0,0,H);
+    const s=scenarios[scenario];
+    const r=Math.floor(s.health*10);
+    g.addColorStop(0,`rgba(${r},${30+r*5},${80+r*8},.95)`);
+    g.addColorStop(1,`rgba(${r*2},${20+r*3},${50+r*5},1)`);
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    // light rays
+    if(s.health>.3){for(let i=0;i<6;i++){const rx=W*.1+i*(W*.15);x.beginPath();x.moveTo(rx,0);x.lineTo(rx-20,H*.6);x.lineTo(rx+20,H*.6);x.closePath();x.fillStyle=`rgba(100,200,220,${.03*s.health})`;x.fill();}}
+    // corals
+    corals.forEach(c=>{
+      const sway=Math.sin(t*1.2+c.x*.01)*2*s.health;
+      if(c.type===0){// branching
+        for(let b=0;b<c.branches;b++){
+          const angle=-Math.PI/2+((b-(c.branches-1)/2)*.4)+sway*.02;
+          x.beginPath();x.moveTo(c.x,c.y);x.lineTo(c.x+Math.cos(angle)*c.h,c.y+Math.sin(angle)*c.h);
+          x.strokeStyle=c.bleaching?'rgba(255,240,220,.7)':`hsla(${c.hue},${c.alive?80:20}%,${c.alive?55:45}%,.8)`;
+          x.lineWidth=c.w/c.branches;x.stroke();
+        }
+      } else if(c.type===1){// brain coral dome
+        x.beginPath();x.ellipse(c.x,c.y,c.w,c.h*.5,0,Math.PI,0);
+        x.fillStyle=c.bleaching?'rgba(255,240,220,.8)':`hsla(${c.hue},${c.alive?70:15}%,${c.alive?45:40}%,.75)`;
+        x.fill();
+      } else if(c.type===2){// fan coral
+        x.beginPath();x.ellipse(c.x+sway,c.y-c.h*.5,c.w*.8,c.h*.5,sway*.02,0,Math.PI*2);
+        x.strokeStyle=c.bleaching?'rgba(255,235,200,.5)':`hsla(${c.hue},${c.alive?75:10}%,50%,.6)`;
+        x.lineWidth=1.5;x.stroke();
+      } else {// tube coral
+        x.beginPath();x.rect(c.x-c.w*.3,c.y-c.h,c.w*.6,c.h);
+        x.fillStyle=c.bleaching?'rgba(255,245,230,.7)':`hsla(${c.hue},${c.alive?65:10}%,${c.alive?50:35}%,.7)`;
+        x.fill();
+      }
+    });
+    // fish
+    fish.forEach(f=>{
+      f.x+=f.vx;f.y+=f.vy+Math.sin(t*2+f.x*.02)*.3;
+      if(f.x<0)f.x=W;if(f.x>W)f.x=0;
+      if(f.y<H*.1||f.y>H*.7)f.vy*=-1;
+      x.beginPath();x.ellipse(f.x,f.y,f.r*1.5,f.r*.8,f.vx>0?0:Math.PI,0,Math.PI*2);
+      x.fillStyle=`hsla(${f.hue},80%,60%,.85)`;x.fill();
+    });
+    // scenario label
+    x.fillStyle='rgba(200,230,255,.7)';x.font=`bold 14px 'JetBrains Mono',monospace`;
+    x.fillText(`${s.label} · ${s.tempLabel}`,12,24);
+    requestAnimationFrame(drawFrame);
+  }
+  cv.addEventListener('click',()=>{scenario=(scenario+1)%4;initCorals();});
+  initCorals();drawFrame();
+})();
+
+// ── SEA LEVEL SIMULATION ──────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('sl-canvas');
+  const x=cv.getContext('2d');
+  const slider=document.getElementById('sl-slider');
+  cv.width=cv.offsetWidth||960;cv.height=400;
+  const W=cv.width,H=cv.height;
+
+  // Cities with elevation in meters above sea level
+  const CITIES=[
+    {name:'Miami',elev:2,x:.75,color:'#22d3ee'},
+    {name:'Amsterdam',elev:2,x:.52,color:'#a78bfa'},
+    {name:'Bangkok',elev:1.5,x:.72,color:'#fb923c'},
+    {name:'Shanghai',elev:4,x:.74,color:'#f472b6'},
+    {name:'Mumbai',elev:8,x:.63,color:'#34d399'},
+    {name:'New York',elev:10,x:.22,color:'#60a5fa'},
+    {name:'Jakarta',elev:8,x:.73,color:'#fbbf24'},
+    {name:'Dhaka',elev:8,x:.67,color:'#f87171'},
+    {name:'Venice',elev:1,x:.53,color:'#c084fc'},
+    {name:'Alexandria',elev:5,x:.55,color:'#86efac'},
+    {name:'Osaka',elev:3,x:.77,color:'#fdba74'},
+    {name:'London',elev:11,x:.50,color:'#93c5fd'},
+    {name:'Lagos',elev:3,x:.50,color:'#6ee7b7'},
+    {name:'Ho Chi Minh',elev:1,x:.71,color:'#f9a8d4'},
+    {name:'Basra',elev:2,x:.60,color:'#fde68a'},
+  ];
+
+  // Simple terrain silhouette points (normalized 0-1)
+  const TERRAIN=[
+    [0,0.85],[.02,.82],[.05,.78],[.08,.7],[.1,.65],[.12,.6],[.15,.72],[.17,.75],[.19,.7],
+    [.22,.65],[.24,.62],[.26,.68],[.28,.72],[.3,.7],[.32,.65],[.34,.6],[.36,.55],[.38,.52],
+    [.4,.58],[.42,.62],[.44,.6],[.46,.55],[.48,.58],[.5,.62],[.52,.6],[.54,.56],[.56,.52],
+    [.58,.5],[.6,.54],[.62,.58],[.64,.55],[.66,.52],[.68,.5],[.7,.55],[.72,.6],[.74,.58],
+    [.76,.55],[.78,.52],[.8,.56],[.82,.6],[.84,.62],[.86,.58],[.88,.55],[.9,.6],[.92,.65],
+    [.94,.62],[.96,.68],[.98,.72],[1,.75],[1,.95],[0,.95]
+  ];
+
+  function getRise(year){
+    // mm/year acceleration model
+    const baseRate=3.7; // mm/yr current
+    const y=year-2025;
+    if(y<=0)return 0;
+    // Accelerating: ~5mm/yr by 2050, ~12mm/yr by 2100 under moderate scenario
+    const rise=baseRate*y+0.03*y*y; // parabolic
+    return rise/10; // return in cm
+  }
+
+  function draw(year){
+    const rise=getRise(year);
+    x.clearRect(0,0,W,H);
+    // sky
+    const sky=x.createLinearGradient(0,0,0,H*.5);
+    sky.addColorStop(0,'#020810');sky.addColorStop(1,'#041528');
+    x.fillStyle=sky;x.fillRect(0,0,W,H);
+    // terrain
+    x.beginPath();
+    TERRAIN.forEach(([tx,ty],i)=>i===0?x.moveTo(tx*W,ty*H):x.lineTo(tx*W,ty*H));
+    x.fillStyle='rgba(20,40,30,.9)';x.fill();
+    // sea level
+    const seaY=H*(0.72-rise/3000);
+    const seaG=x.createLinearGradient(0,seaY,0,H);
+    seaG.addColorStop(0,`rgba(6,${Math.max(60,182-rise*2)},${Math.max(100,212-rise*3)},0.85)`);
+    seaG.addColorStop(1,`rgba(2,20,50,0.95)`);
+    x.fillStyle=seaG;
+    x.fillRect(0,seaY,W,H-seaY);
+    // wave line
+    x.beginPath();
+    for(let px=0;px<=W;px+=3){x.lineTo(px,seaY+Math.sin(px*.02+Date.now()*.001)*2);}
+    x.strokeStyle=`rgba(100,220,240,${.3+rise*.002})`;x.lineWidth=1.5;x.stroke();
+    // city markers
+    CITIES.forEach(city=>{
+      const cy=H*(0.72-city.elev/200)-15;
+      const cx=city.x*W;
+      const flooded=city.elev<=rise/100;
+      const warning=city.elev<=rise/50;
+      x.beginPath();x.arc(cx,cy,5,0,Math.PI*2);
+      x.fillStyle=flooded?'rgba(239,68,68,.9)':warning?'rgba(245,158,11,.9)':'rgba(34,197,94,.85)';x.fill();
+      x.fillStyle=flooded?'rgba(239,68,68,.9)':warning?'rgba(245,158,11,.9)':'rgba(200,240,255,.7)';
+      x.font=`11px 'JetBrains Mono',monospace`;
+      x.fillText(city.name,cx+7,cy+4);
+    });
+    // info overlay
+    x.fillStyle='rgba(6,182,212,.8)';x.font=`bold 16px 'JetBrains Mono',monospace`;
+    x.fillText(`Sea rise: +${rise.toFixed(0)} cm`,12,28);
+    x.fillStyle='rgba(200,230,255,.5)';x.font=`12px 'JetBrains Mono',monospace`;
+    x.fillText(`RCP4.5 moderate scenario · comma network threshold: 2098`,12,48);
+  }
+
+  function update(){
+    const year=parseInt(slider.value);
+    const rise=getRise(year);
+    document.getElementById('sl-year').textContent=year;
+    document.getElementById('sl-rise').textContent=`+${rise.toFixed(0)} cm`;
+    // update city chips
+    const cont=document.getElementById('sl-cities');
+    cont.innerHTML=CITIES.map(city=>{
+      const flooded=city.elev<=rise/100;
+      const warning=city.elev<=rise/50;
+      const cls=flooded?'flooded':warning?'warning':'safe';
+      const icon=flooded?'🌊':warning?'⚠️':'✓';
+      return `<div class="city-chip ${cls}">${icon} ${city.name} <span style="opacity:.6">${city.elev}m</span></div>`;
+    }).join('');
+    draw(year);
+  }
+
+  slider.addEventListener('input',update);
+
+  // Animation loop for waves
+  function animate(){draw(parseInt(slider.value));requestAnimationFrame(animate);}
+  update();animate();
+})();
+
+// ── AMOC VISUALIZATION ────────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('amoc-cv');
+  const x=cv.getContext('2d');
+  cv.width=cv.offsetWidth||900;cv.height=280;
+  const W=cv.width,H=cv.height;
+  let t=0,strength=0.72; // 72% of pre-industrial strength
+  function frame(){
+    t+=.012;
+    x.clearRect(0,0,W,H);
+    const bg=x.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#030d1a');bg.addColorStop(1,'#020810');
+    x.fillStyle=bg;x.fillRect(0,0,W,H);
+    // labels
+    x.fillStyle='rgba(200,230,255,.4)';x.font=`11px 'JetBrains Mono',monospace`;
+    x.fillText('TROPICS',W*.05,H*.85);x.fillText('NORTH ATLANTIC',W*.55,H*.85);x.fillText('EUROPE',W*.85,H*.15);
+    x.fillText('SURFACE (WARM)',12,H*.3);x.fillText('DEEP (COLD)',12,H*.7);
+
+    // Draw current arrows
+    const numArrows=Math.floor(strength*12)+2;
+    for(let i=0;i<numArrows;i++){
+      const progress=((t*.3+i/numArrows)%1);
+      // surface warm current (left to right, upper)
+      const sx=W*.05+progress*W*.85;
+      const sy=H*.3+Math.sin(progress*Math.PI*2)*H*.05;
+      const alpha=.6+Math.sin(progress*Math.PI)*.4;
+      x.beginPath();x.arc(sx,sy,3,0,Math.PI*2);
+      x.fillStyle=`rgba(255,${Math.floor(100+progress*100)},50,${alpha*strength})`;x.fill();
+    }
+    for(let i=0;i<numArrows;i++){
+      const progress=((t*.25+i/numArrows)%1);
+      // deep cold return (right to left, lower)
+      const sx=W*.9-progress*W*.85;
+      const sy=H*.7+Math.sin(progress*Math.PI*2)*H*.04;
+      const alpha=.5+Math.sin(progress*Math.PI)*.3;
+      x.beginPath();x.arc(sx,sy,2.5,0,Math.PI*2);
+      x.fillStyle=`rgba(50,150,${Math.floor(200+progress*55)},${alpha*strength})`;x.fill();
+    }
+    // sinking zone
+    for(let i=0;i<6;i++){
+      const sy=H*.3+(i/6)*(H*.4);
+      const sinkAlpha=strength*.4*Math.sin(t*2+i);
+      x.beginPath();x.arc(W*.88,sy,2,0,Math.PI*2);
+      x.fillStyle=`rgba(100,180,220,${Math.max(0,sinkAlpha)})`;x.fill();
+    }
+    // strength indicator
+    const strengthColor=strength>.8?'#22c55e':strength>.6?'#f59e0b':'#ef4444';
+    x.fillStyle=strengthColor;x.font=`bold 14px 'JetBrains Mono',monospace`;
+    x.fillText(`AMOC Strength: ${Math.floor(strength*100)}% of pre-industrial`,W*.3,H*.95);
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ── SARGASSUM MAP ─────────────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('sarg-cv');
+  const x=cv.getContext('2d');
+  cv.width=cv.offsetWidth||900;cv.height=260;
+  const W=cv.width,H=cv.height;
+  let t=0;
+  // Sargassum belt approximate coordinates (normalized)
+  const beltPath=[[.08,.55],[.12,.52],[.18,.5],[.25,.48],[.32,.46],[.38,.45],[.44,.44],[.5,.43],[.56,.44],[.62,.45],[.68,.47],[.72,.5],[.75,.53]];
+  function frame(){
+    t+=.008;
+    x.clearRect(0,0,W,H);
+    // ocean background
+    x.fillStyle='#030f1e';x.fillRect(0,0,W,H);
+    // simplified continent outlines
+    x.fillStyle='rgba(30,60,30,.8)';
+    // North America rough
+    x.beginPath();x.moveTo(W*.0,H*.1);x.lineTo(W*.08,H*.1);x.lineTo(W*.12,H*.3);x.lineTo(W*.08,H*.6);x.lineTo(W*.05,H*.7);x.lineTo(W*.0,H*.7);x.fill();
+    // South America rough
+    x.beginPath();x.moveTo(W*.08,H*.55);x.lineTo(W*.18,H*.5);x.lineTo(W*.22,H*.6);x.lineTo(W*.2,H*.95);x.lineTo(W*.1,H*.95);x.lineTo(W*.08,H*.7);x.fill();
+    // Europe/Africa
+    x.beginPath();x.moveTo(W*.72,H*.1);x.lineTo(W*.8,H*.1);x.lineTo(W*.82,H*.5);x.lineTo(W*.75,H*.95);x.lineTo(W*.68,H*.95);x.lineTo(W*.65,H*.6);x.lineTo(W*.68,H*.3);x.fill();
+    // Caribbean islands (dots)
+    [[.15,.45],[.17,.47],[.19,.46],[.21,.48]].forEach(([px,py])=>{
+      x.beginPath();x.arc(px*W,py*H,4,0,Math.PI*2);x.fillStyle='rgba(40,80,40,.9)';x.fill();
+    });
+    // Draw sargassum belt
+    beltPath.forEach((pt,i)=>{
+      if(i===0)return;
+      const [x1,y1]=beltPath[i-1],[x2,y2]=pt;
+      const thickness=12+Math.sin(t*2+i)*4;
+      for(let k=0;k<8;k++){
+        const progress=k/8;
+        const mx=x1*W+(x2-x1)*W*progress;
+        const my=y1*H+(y2-y1)*H*progress;
+        const wave=Math.sin(t*3+i*2+k)*thickness*.3;
+        x.beginPath();x.arc(mx,my+wave,thickness*.4+Math.random()*4,0,Math.PI*2);
+        x.fillStyle=`rgba(${160+Math.floor(Math.random()*40)},${120+Math.floor(Math.random()*30)},30,${.3+Math.random()*.3})`;
+        x.fill();
+      }
+    });
+    // Labels
+    x.fillStyle='rgba(255,159,122,.8)';x.font=`bold 12px 'JetBrains Mono',monospace`;
+    x.fillText('GREAT ATLANTIC SARGASSUM BELT',W*.2,H*.38);
+    x.fillStyle='rgba(200,230,255,.5)';x.font=`10px 'JetBrains Mono',monospace`;
+    x.fillText('Caribbean Sea',W*.12,H*.52);x.fillText('Gulf of Mexico',W*.09,H*.42);x.fillText('West Africa',W*.68,H*.55);
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ── ACTION TABS ───────────────────────────────────────────────────────
+function showOceanTab(id, btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+<section style="max-width:820px;margin:48px auto 40px;padding:2rem;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18);border-radius:12px;">
+  <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:.6rem;">&#9872; COMMA FRAMEWORK QUESTIONS</div>
+  <div style="font-size:1.05rem;font-weight:600;color:rgba(201,168,76,.85);margin-bottom:.4rem;">Open Questions</div>
+  <p style="font-size:.82rem;font-style:italic;color:rgba(255,255,255,.35);margin-bottom:1.4rem;line-height:1.65;">Speculative questions seen through the comma framework. Not claims. Invitations.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.9rem;">
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">Every system manages a comma.</strong>Calendars, tuning systems, financial accounting, urban planning, all add corrections to close gaps that cannot close on their own. What gap is this page's subject managing? What would happen if the correction were removed?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(93,222,200,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(93,222,200,.8);display:block;margin-bottom:.35rem;">Where is the Kairos event?</strong>N_res = 73.296: after 73 cycles of accumulation, a system nearly returns to its origin. Is there a 73-unit threshold in this subject? A point where small accumulated errors suddenly produce a visible discontinuity?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(168,212,255,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(168,212,255,.75);display:block;margin-bottom:.35rem;">The gap is not the failure.</strong>The Pythagorean comma is not a flaw in the scale, it is proof that real intervals were used. Where in this subject does the "error" turn out to be evidence of authenticity rather than mistake?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">What does the 0.296 carry?</strong>After 73 full cycles, the remainder is 0.296, the starting position of the next revolution. What does this subject carry forward from one cycle to the next? What cannot be reset, only continued from a slightly different position?</div>
+  </div>
+</section>
+<div style="max-width:820px;margin:40px auto 20px;background:rgba(13,16,23,.9);border:1px solid rgba(255,255,255,.07);border-left:3px solid rgba(201,168,76,.4);padding:20px 24px;font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.85;"><div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,168,76,);margin-bottom:12px;">References &middot; APA + ACS</div><p>[1] IPCC. (2022). <em>Climate change 2022: Impacts, adaptation, and vulnerability.</em> Cambridge University Press. DOI: 10.1017/9781009325844</p><p>[2] Caldeira, K.; Wickett, M. E. (2003). Anthropogenic carbon and ocean pH. <em>Nature, 425</em>, 365. DOI: 10.1038/425365a</p><p>[3] Jambeck, J. R. et al. (2015). Plastic waste inputs from land into the ocean. <em>Science, 347</em>(6223), 768-771. DOI: 10.1126/science.1260352</p><p>[4] Barbour, J. M. (1951). <em>Tuning and temperament.</em> Michigan State College Press.</p></div></body>
+</html>

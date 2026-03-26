@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hero's Cycle, Who Is A Hero?</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050508;
+    --near: #0a0a10;
+    --white: #f0ede8;
+    --off: #b8b4ac;
+    --hero-gold: #e8c060;
+    --hero-dim: #6b5520;
+    --threshold: #c0784a;
+    --abyss: #3a2060;
+    --abyss-light: #8060c0;
+    --return: #3a6040;
+    --return-light: #70b080;
+    --call: #c05050;
+    --mentor: #5080c0;
+    --road: #c09040;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  canvas#bg { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+  /* grain */
+  body::before {
+    content:''; position:fixed; inset:0; z-index:999; pointer-events:none;
+    opacity:0.028;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:200px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.2rem clamp(1.5rem,5vw,4rem);
+    background:linear-gradient(to bottom, rgba(5,5,8,0.97) 60%, transparent);
+  }
+
+  nav .back {
+    font-family:'Rajdhani',sans-serif; font-weight:300;
+    font-size:0.65rem; letter-spacing:0.35em;
+    color:rgba(240,237,232,0.35); text-decoration:none;
+    text-transform:uppercase; transition:color 0.3s;
+  }
+  nav .back:hover { color:var(--white); }
+
+  nav .nav-label {
+    font-family:'Rajdhani',sans-serif; font-weight:300;
+    font-size:0.6rem; letter-spacing:0.3em;
+    color:rgba(232,192,96,0.3); text-transform:uppercase;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position:fixed; left:0; top:0; width:190px; height:100vh;
+    z-index:100; display:flex; flex-direction:column; justify-content:center;
+    padding:2rem 1.4rem;
+    border-right:1px solid rgba(232,192,96,0.07);
+    background:linear-gradient(to right, rgba(5,5,8,0.98) 78%, transparent);
+  }
+
+  #sidebar .idx-label {
+    font-family:'Rajdhani',sans-serif; font-weight:500;
+    font-size:0.5rem; letter-spacing:0.5em;
+    color:var(--hero-dim); text-transform:uppercase;
+    margin-bottom:1.8rem; opacity:0.7;
+  }
+
+  #sidebar a {
+    display:block;
+    font-family:'Libre Baskerville',serif; font-style:italic;
+    font-size:0.75rem; color:rgba(240,237,232,0.3);
+    text-decoration:none; padding:0.28rem 0 0.28rem 0.8rem;
+    border-left:1px solid transparent; margin-left:-0.81rem;
+    line-height:1.4; transition:color 0.3s, border-color 0.3s;
+  }
+  #sidebar a:hover, #sidebar a.active {
+    color:var(--hero-gold); border-color:var(--hero-gold);
+  }
+
+  /* ── MAIN ── */
+  main { margin-left:190px; position:relative; z-index:1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    justify-content:center; padding:8rem clamp(2rem,7vw,8rem);
+    position:relative; overflow:hidden;
+  }
+
+  /* giant circular wheel behind hero */
+  .wheel-bg {
+    position:absolute; top:50%; right:-5vw;
+    transform:translateY(-50%);
+    width:clamp(400px,55vw,700px); height:clamp(400px,55vw,700px);
+    border-radius:50%;
+    border:1px solid rgba(232,192,96,0.06);
+    pointer-events:none;
+    animation:spin 80s linear infinite;
+  }
+  .wheel-bg::before {
+    content:''; position:absolute; inset:10%;
+    border-radius:50%; border:1px solid rgba(232,192,96,0.04);
+  }
+  .wheel-bg::after {
+    content:''; position:absolute; inset:25%;
+    border-radius:50%; border:1px solid rgba(232,192,96,0.06);
+    animation:spin 40s linear infinite reverse;
+  }
+
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+  /* cross lines on wheel */
+  .wheel-line {
+    position:absolute; top:50%; left:50%;
+    width:100%; height:1px;
+    background:linear-gradient(to right, transparent, rgba(232,192,96,0.05), transparent);
+    transform-origin:0 0;
+  }
+
+  .hero-eyebrow {
+    font-family:'Rajdhani',sans-serif; font-weight:300;
+    font-size:0.6rem; letter-spacing:0.55em;
+    color:var(--hero-dim); text-transform:uppercase;
+    margin-bottom:1.5rem;
+    opacity:0; animation:rise 1s ease 0.3s forwards;
+  }
+
+  #hero h1 {
+    font-family:'Playfair Display',serif; font-weight:900;
+    font-size:clamp(3.5rem,10vw,9rem);
+    line-height:0.9; color:var(--white); letter-spacing:-0.01em;
+    opacity:0; animation:rise 1.2s ease 0.5s forwards;
+  }
+
+  #hero h1 .cycle { color:var(--hero-gold); font-style:italic; }
+  #hero h1 .the { font-style:italic; font-weight:400; font-size:0.5em; display:block; color:var(--off); margin-bottom:0.2em; }
+
+  .hero-sub {
+    margin-top:2.5rem; max-width:480px;
+    font-style:italic; font-size:1rem;
+    color:rgba(240,237,232,0.4);
+    opacity:0; animation:rise 1s ease 1s forwards;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding:7rem clamp(2rem,7vw,8rem);
+    position:relative;
+  }
+
+  section:not(:last-child)::after {
+    content:''; position:absolute;
+    bottom:0; left:clamp(2rem,7vw,8rem); right:clamp(2rem,7vw,8rem);
+    height:1px;
+    background:linear-gradient(to right, transparent, rgba(232,192,96,0.1), transparent);
+  }
+
+  .eyebrow {
+    font-family:'Rajdhani',sans-serif; font-weight:500;
+    font-size:0.52rem; letter-spacing:0.5em;
+    color:var(--hero-dim); text-transform:uppercase;
+    margin-bottom:1.5rem; opacity:0.7;
+  }
+
+  h2 {
+    font-family:'Playfair Display',serif; font-weight:700;
+    font-size:clamp(1.6rem,3.5vw,3rem);
+    color:var(--white); line-height:1.15;
+    letter-spacing:0.01em; margin-bottom:2rem;
+  }
+
+  .prose { max-width:650px; color:rgba(240,237,232,0.68); font-size:0.98rem; }
+  .prose p { margin-bottom:1.3rem; }
+  .prose em { color:var(--white); font-style:italic; }
+
+  /* ── THE CYCLE STEPS ── */
+  .cycle-steps {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(min(100%,300px),1fr));
+    gap:1px;
+    margin-top:3rem;
+    border:1px solid rgba(232,192,96,0.08);
+  }
+
+  .step {
+    padding:2rem 1.8rem; position:relative;
+    border:1px solid rgba(232,192,96,0.06);
+    overflow:hidden; transition:background 0.4s;
+  }
+
+  .step:hover { background:rgba(232,192,96,0.03); }
+
+  .step-num {
+    font-family:'Rajdhani',sans-serif; font-weight:600;
+    font-size:3.5rem; line-height:1;
+    position:absolute; top:1rem; right:1.5rem;
+    color:rgba(232,192,96,0.05);
+    pointer-events:none; user-select:none;
+    transition:color 0.4s;
+  }
+  .step:hover .step-num { color:rgba(232,192,96,0.1); }
+
+  .step-phase {
+    font-family:'Rajdhani',sans-serif; font-weight:500;
+    font-size:0.5rem; letter-spacing:0.4em;
+    text-transform:uppercase; margin-bottom:0.6rem;
+  }
+
+  .step-title {
+    font-family:'Playfair Display',serif; font-weight:700;
+    font-size:1.1rem; color:var(--white);
+    margin-bottom:0.8rem; line-height:1.25;
+  }
+
+  .step-text {
+    font-size:0.88rem; color:rgba(240,237,232,0.5); line-height:1.75;
+  }
+
+  /* color per phase */
+  .step.departure .step-phase { color:var(--call); }
+  .step.departure { border-top:2px solid rgba(192,80,80,0.3); }
+
+  .step.initiation .step-phase { color:var(--road); }
+  .step.initiation { border-top:2px solid rgba(192,144,64,0.3); }
+
+  .step.abyss-phase .step-phase { color:var(--abyss-light); }
+  .step.abyss-phase { border-top:2px solid rgba(58,32,96,0.6); }
+
+  .step.return-phase .step-phase { color:var(--return-light); }
+  .step.return-phase { border-top:2px solid rgba(58,96,64,0.4); }
+
+  /* ── WHO IS A HERO ── */
+  #who {
+    background:radial-gradient(ellipse at 70% 50%, rgba(232,192,96,0.04) 0%, transparent 60%);
+  }
+
+  .hero-def {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:2px; margin-top:2.5rem; max-width:800px;
+  }
+
+  .def-card {
+    padding:2rem 1.8rem;
+    border:1px solid rgba(232,192,96,0.07);
+    transition:background 0.4s;
+  }
+  .def-card:hover { background:rgba(232,192,96,0.03); }
+
+  .def-word {
+    font-family:'Playfair Display',serif; font-style:italic;
+    font-size:1.3rem; color:var(--hero-gold);
+    margin-bottom:0.5rem;
+  }
+
+  .def-text {
+    font-size:0.9rem; color:rgba(240,237,232,0.5); line-height:1.75;
+  }
+
+  .big-question {
+    font-family:'Playfair Display',serif; font-style:italic;
+    font-size:clamp(1.5rem,4vw,3.5rem);
+    color:rgba(240,237,232,0.08); line-height:1.2;
+    margin:3rem 0; max-width:700px;
+    transition:color 0.5s;
+  }
+  .big-question:hover { color:rgba(240,237,232,0.2); }
+
+  /* ── FAVORITES ── */
+  #favorites {
+    background:radial-gradient(ellipse at 20% 60%, rgba(80,128,192,0.05) 0%, transparent 55%);
+  }
+
+  .fav-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(min(100%,340px),1fr));
+    gap:2px; margin-top:3rem;
+  }
+
+  .fav-card {
+    padding:2.5rem 2rem; position:relative; overflow:hidden;
+    border:1px solid rgba(232,192,96,0.07);
+    transition:background 0.4s;
+  }
+  .fav-card:hover { background:rgba(255,255,255,0.02); }
+
+  .fav-card::before {
+    content:''; position:absolute; inset:0; opacity:0; transition:opacity 0.5s;
+  }
+  .fav-card:hover::before { opacity:1; }
+
+  /* unique accent per hero */
+  .fav-card.enkidu { border-left:3px solid rgba(122,171,106,0.4); }
+  .fav-card.enkidu::before { background:radial-gradient(ellipse at 20% 30%, rgba(122,171,106,0.06),transparent 70%); }
+
+  .fav-card.antigone { border-left:3px solid rgba(192,120,74,0.4); }
+  .fav-card.antigone::before { background:radial-gradient(ellipse at 20% 30%, rgba(192,120,74,0.06),transparent 70%); }
+
+  .fav-card.shahrazad { border-left:3px solid rgba(160,100,200,0.4); }
+  .fav-card.shahrazad::before { background:radial-gradient(ellipse at 20% 30%, rgba(160,100,200,0.06),transparent 70%); }
+
+  .fav-card.dante-hero { border-left:3px solid rgba(200,80,80,0.4); }
+  .fav-card.dante-hero::before { background:radial-gradient(ellipse at 20% 30%, rgba(200,80,80,0.06),transparent 70%); }
+
+  .fav-card.sirius-hero { border-left:3px solid rgba(122,154,191,0.4); }
+  .fav-card.sirius-hero::before { background:radial-gradient(ellipse at 20% 30%, rgba(122,154,191,0.06),transparent 70%); }
+
+  .fav-card.jp { border-left:3px solid rgba(255,234,160,0.4); }
+  .fav-card.jp::before { background:radial-gradient(ellipse at 20% 30%, rgba(255,234,160,0.06),transparent 70%); }
+
+  .fav-name {
+    font-family:'Playfair Display',serif; font-weight:700;
+    font-size:1.4rem; color:var(--white); margin-bottom:0.2rem;
+  }
+
+  .fav-from {
+    font-family:'Rajdhani',sans-serif; font-weight:300;
+    font-size:0.55rem; letter-spacing:0.3em; text-transform:uppercase;
+    color:var(--hero-dim); margin-bottom:1.2rem;
+  }
+
+  .fav-why {
+    font-size:0.92rem; color:rgba(240,237,232,0.55); line-height:1.8;
+    font-style:italic;
+  }
+
+  .fav-cycle {
+    margin-top:1.2rem; font-size:0.8rem;
+    color:rgba(232,192,96,0.35);
+    font-style:normal; font-family:'Rajdhani',sans-serif;
+    font-weight:400; letter-spacing:0.05em;
+  }
+
+  /* ── CAMPBELL QUOTE ── */
+  #campbell {
+    min-height:70vh; display:flex; align-items:center;
+    border-top:1px solid rgba(232,192,96,0.08);
+    border-bottom:1px solid rgba(232,192,96,0.08);
+  }
+
+  .campbell-inner { max-width:780px; }
+
+  .c-label {
+    font-family:'Rajdhani',sans-serif; font-weight:300;
+    font-size:0.55rem; letter-spacing:0.5em; text-transform:uppercase;
+    color:var(--hero-dim); margin-bottom:2.5rem; opacity:0.6;
+  }
+
+  .c-text {
+    font-family:'Playfair Display',serif; font-style:italic;
+    font-size:clamp(1.2rem,2.8vw,2rem); font-weight:400;
+    color:rgba(240,237,232,0.55); line-height:1.6;
+  }
+
+  .c-text strong { color:var(--hero-gold); font-style:normal; font-weight:700; }
+
+  .c-attr {
+    margin-top:2rem;
+    font-family:'Rajdhani',sans-serif; font-weight:300;
+    font-size:0.6rem; letter-spacing:0.35em; text-transform:uppercase;
+    color:rgba(232,192,96,0.25);
+  }
+
+  /* ── DIRECTORY ── */
+  #directory { padding-bottom:10rem; }
+
+  .dir-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(min(100%,260px),1fr));
+    gap:1px; margin-top:2.5rem;
+    border:1px solid rgba(232,192,96,0.07);
+  }
+
+  .dir-card {
+    padding:1.7rem 1.5rem;
+    border:1px solid rgba(232,192,96,0.05);
+    text-decoration:none; display:flex;
+    flex-direction:column; justify-content:space-between;
+    min-height:130px; transition:background 0.35s; position:relative;
+  }
+  .dir-card:hover { background:rgba(232,192,96,0.04); }
+
+  .dir-card::after {
+    content:''; position:absolute;
+    left:0; top:0; bottom:0; width:2px;
+    background:var(--hero-gold); transform:scaleY(0);
+    transform-origin:bottom; transition:transform 0.35s;
+  }
+  .dir-card:hover::after { transform:scaleY(1); }
+
+  .dc-label {
+    font-family:'Rajdhani',sans-serif; font-weight:400;
+    font-size:0.48rem; letter-spacing:0.4em;
+    color:var(--hero-dim); text-transform:uppercase;
+    margin-bottom:0.5rem; opacity:0.6;
+  }
+
+  .dc-title {
+    font-family:'Libre Baskerville',serif;
+    font-size:0.9rem; color:var(--white);
+    line-height:1.4; transition:color 0.3s;
+  }
+  .dir-card:hover .dc-title { color:var(--hero-gold); }
+
+  .dc-file {
+    font-family:'Rajdhani',sans-serif; font-weight:300;
+    font-size:0.5rem; letter-spacing:0.18em;
+    color:rgba(240,237,232,0.15); margin-top:0.8rem;
+    text-transform:lowercase;
+  }
+
+  .dir-card.current-page {
+    background:rgba(232,192,96,0.03);
+    border-color:rgba(232,192,96,0.15);
+  }
+
+  /* ── REVEAL ── */
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  /* ── ANIMS ── */
+  @keyframes rise {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:none; }
+  }
+
+  @media (max-width:768px) {
+    #sidebar { display:none; }
+    main { margin-left:0; }
+    section { padding:5rem 1.5rem; }
+    .hero-def { grid-template-columns:1fr; }
+    .wheel-bg { display:none; }
+  }
+</style>
+</head>
+<body>
+<blockquote style="border-left:2px solid rgba(201,168,76,.35);background:rgba(201,168,76,.03);padding:.85rem 1.3rem;margin:1.1rem 0;font-style:italic;font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.82;"><span style="color:rgba(201,168,76,.5);">&ldquo;</span>The cave you fear to enter holds the treasure you seek.<span style="color:rgba(201,168,76,.5);">&rdquo;</span><footer style="font-style:normal;font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.09em;color:rgba(201,168,76,.38);margin-top:.45rem;">Campbell, J. <em>Pathways to Bliss: Mythology and Personal Transformation.</em> New World Library, 2004. p. 24. (Joseph Campbell, 1904-1987.)</footer></blockquote>
+
+<canvas id="bg"></canvas>
+
+<nav>
+  <a href="home.html" class="back">← Homage to Literature</a>
+  <span class="nav-label">The Hero's Cycle</span>
+</nav>
+
+<div id="sidebar">
+  <div class="idx-label">Index</div>
+  <a href="#hero">The Cycle</a>
+  <a href="#campbell">Campbell</a>
+  <a href="#steps">The Stages</a>
+  <a href="#who">Who Is A Hero?</a>
+  <a href="#favorites">My Favorites</a>
+  <a href="#directory">Directory</a>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="wheel-bg">
+      <div class="wheel-line" style="transform:rotate(0deg)"></div>
+      <div class="wheel-line" style="transform:rotate(45deg)"></div>
+      <div class="wheel-line" style="transform:rotate(90deg)"></div>
+      <div class="wheel-line" style="transform:rotate(135deg)"></div>
+    </div>
+    <div class="hero-eyebrow">Joseph Campbell · The Monomyth</div>
+    <h1>
+      <span class="the">The</span>
+      <span class="cycle">Hero's</span><br>Cycle
+    </h1>
+    <div class="hero-sub">The same story, told ten thousand times, across every culture that ever sat around a fire. The hero leaves. The hero is broken. The hero returns changed, or does not return at all.</div>
+  </section>
+
+  <!-- CAMPBELL QUOTE -->
+  <section id="campbell">
+    <div class="campbell-inner reveal">
+      <div class="c-label">Joseph Campbell, The Hero With A Thousand Faces, 1949</div>
+      <div class="c-text">
+        A hero ventures forth from the world of common day into a region of supernatural wonder. <strong>Fabulous forces are there encountered and a decisive victory is won.</strong> The hero comes back from this mysterious adventure with the power to bestow boons on his fellow man.
+      </div>
+      <div class="c-text" style="margin-top:1.5rem; font-size:0.85em; color:rgba(240,237,232,0.3);">
+        But Campbell only mapped the shape. <em>The story already knew.</em> Gilgamesh knew. Odysseus knew. Every grandmother who ever told a child about the forest at night, she knew.
+      </div>
+      <div class="c-attr">, The Monomyth. The single story beneath all stories.</div>
+    </div>
+  </section>
+
+  <!-- THE STAGES -->
+  <section id="steps">
+    <div class="reveal">
+      <div class="eyebrow">II, The Seventeen Stages</div>
+      <h2><span style="display:inline-block;background:rgba(93,222,200,.06);border:1px solid rgba(93,222,200,.22);border-radius:4px;padding:2px 8px;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:rgba(93,222,200,.75);">&#9872; CF ARTICULATION: the hero cycle as a comma cycle: departure, accumulation, near-return but not quite the same</span> The Shape of Every Journey</h2>
+      <div class="prose">
+        <p>Campbell identified seventeen stages, grouped in three acts. Every culture does not use every stage, but the bones are always the same. <em>Departure. Initiation. Return.</em> That is all. The rest is ornament.</p>
+      </div>
+
+      <div class="cycle-steps">
+        <!-- DEPARTURE -->
+        <div class="step departure reveal">
+          <div class="step-num">01</div>
+          <div class="step-phase">Departure</div>
+          <div class="step-title">The Ordinary World</div>
+          <div class="step-text">Before the journey, there is the familiar. The village. The farm. The known. This is what the hero will lose, and what makes the loss meaningful.</div>
+        </div>
+
+        <div class="step departure reveal">
+          <div class="step-num">02</div>
+          <div class="step-phase">Departure</div>
+          <div class="step-title">The Call to Adventure</div>
+          <div class="step-text">Something disturbs the ordinary world. A messenger arrives. A wrong is committed. A vision appears. The call rarely comes politely.</div>
+        </div>
+
+        <div class="step departure reveal">
+          <div class="step-num">03</div>
+          <div class="step-phase">Departure</div>
+          <div class="step-title">Refusal of the Call</div>
+          <div class="step-text">The hero hesitates, or refuses outright. This is not weakness; it is the recognition that the journey will cost something. Gilgamesh does not refuse. Most do, once.</div>
+        </div>
+
+        <div class="step departure reveal">
+          <div class="step-num">04</div>
+          <div class="step-phase">Departure</div>
+          <div class="step-title">Meeting the Mentor</div>
+          <div class="step-text">Merlin. Virgil. Enkidu. The wise figure who gives the hero what they need for the first threshold, and then, crucially, cannot follow them past it.</div>
+        </div>
+
+        <div class="step departure reveal">
+          <div class="step-num">05</div>
+          <div class="step-phase">Departure</div>
+          <div class="step-title">Crossing the First Threshold</div>
+          <div class="step-text">The point of no return. The door closes behind. The hero enters the Special World and cannot simply walk back the same person they were. Dante steps into the dark wood.</div>
+        </div>
+
+        <!-- INITIATION -->
+        <div class="step initiation reveal">
+          <div class="step-num">06</div>
+          <div class="step-phase">Initiation</div>
+          <div class="step-title">Tests, Allies, Enemies</div>
+          <div class="step-text">The road of trials. The hero is tested. They meet companions who will help, adversaries who will hinder. They learn, slowly, the rules of the new world.</div>
+        </div>
+
+        <div class="step initiation reveal">
+          <div class="step-num">07</div>
+          <div class="step-phase">Initiation</div>
+          <div class="step-title">Approach to the Inmost Cave</div>
+          <div class="step-text">The preparation before the great ordeal. The hero pauses at the entrance. Everything learned so far must now be gathered and held.</div>
+        </div>
+
+        <!-- ABYSS -->
+        <div class="step abyss-phase reveal">
+          <div class="step-num">08</div>
+          <div class="step-phase">The Ordeal</div>
+          <div class="step-title">The Abyss, Death & Rebirth</div>
+          <div class="step-text">The hero dies, literally, symbolically, spiritually. Jonah in the whale. Dante at the bottom of Hell. Sirius's mind exploding before it centers. You cannot skip this stage. This is the whole point.</div>
+        </div>
+
+        <div class="step abyss-phase reveal">
+          <div class="step-num">09</div>
+          <div class="step-phase">The Ordeal</div>
+          <div class="step-title">The Reward</div>
+          <div class="step-text">Having survived the abyss, the hero seizes the prize, the sword, the elixir, the knowledge, the self. Gilgamesh seizes the plant of immortality. The snake takes it back. The lesson is still the reward.</div>
+        </div>
+
+        <!-- RETURN -->
+        <div class="step return-phase reveal">
+          <div class="step-num">10</div>
+          <div class="step-phase">Return</div>
+          <div class="step-title">The Road Back</div>
+          <div class="step-text">The return is its own journey. The hero must choose to bring back what they've learned. Some refuse. Some are chased. Some simply walk home and find it changed.</div>
+        </div>
+
+        <div class="step return-phase reveal">
+          <div class="step-num">11</div>
+          <div class="step-phase">Return</div>
+          <div class="step-title">Resurrection</div>
+          <div class="step-text">One final test at the threshold between worlds. The hero proves, to themselves and the world, that they are truly changed. Not the same person who left.</div>
+        </div>
+
+        <div class="step return-phase reveal">
+          <div class="step-num">12</div>
+          <div class="step-phase">Return</div>
+          <div class="step-title">Return With the Elixir</div>
+          <div class="step-text">The hero returns with something that heals or teaches the ordinary world. Even if it is only a story, carved on a rock, like Juan Pablo. The return is the gift.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IS A HERO -->
+  <section id="who">
+    <div class="reveal">
+      <div class="eyebrow">III, The Question</div>
+      <h2>Who Is A Hero?</h2>
+
+      <div class="prose">
+        <p>Not the strongest. Not the bravest. Not the one who wins. Campbell's hero is defined by the <em>willingness to go</em>, into the unknown, into the dark, into the thing they fear most, and to bring something back.</p>
+        <p>A hero is anyone who has crossed a threshold they cannot uncross, and returned to tell it.</p>
+      </div>
+
+      <div class="hero-def">
+        <div class="def-card">
+          <div class="def-word">The Warrior</div>
+          <div class="def-text">Strength as the tool of justice. Achilles, Gilgamesh, Arjuna. The warrior's flaw is always the same: believing that strength is the only tool.</div>
+        </div>
+        <div class="def-card">
+          <div class="def-word">The Wanderer</div>
+          <div class="def-text">Odysseus, Dante, Juan Pablo. Their journey is not conquest but comprehension. They do not defeat the world, they understand it.</div>
+        </div>
+        <div class="def-card">
+          <div class="def-word">The Martyr</div>
+          <div class="def-text">Antigone, Socrates, the Handmaid. They do not survive the ordeal. The return is made by their story, not their body. The boon is the example.</div>
+        </div>
+        <div class="def-card">
+          <div class="def-word">The Fool</div>
+          <div class="def-text">Don Quixote, Candide, Sirius. They do not know what they are doing is heroic. This, Campbell might argue, is the purest form.</div>
+        </div>
+      </div>
+
+      <div class="big-question">
+        Is a hero someone who chooses the journey, or someone the journey chooses?
+      </div>
+
+      <div class="prose">
+        <p>The honest answer: both. The call comes to everyone. Most people, <em>wisely, sanely</em>, decline it. The hero is the one who cannot quite manage to say no. Or who says no and goes anyway.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAVORITES -->
+  <section id="favorites">
+    <div class="reveal">
+      <div class="eyebrow">IV, My Favorite Heroes</div>
+      <h2><span style="display:inline-block;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.28);border-radius:4px;padding:2px 8px;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:rgba(201,168,76,.8);">&#9872; CF QUESTION: If N_res = 73.296, does the hero's journey require approximately 73 "steps" before the return is possible? What is the 0.296 the hero brings back?</span> Not The Loudest Ones.</h2>
+
+      <div class="fav-grid">
+
+        <div class="fav-card enkidu">
+          <div class="fav-name">Enkidu</div>
+          <div class="fav-from">The Epic of Gilgamesh · c. 2100 BCE</div>
+          <div class="fav-why">He was made from clay to humble a king, and instead became his other half. He gave up the wild to enter the city. He gave up his life so the gods could teach Gilgamesh something. He is the hero who enables the hero. He never gets enough credit.</div>
+          <div class="fav-cycle">Cycle: Ordinary World → Threshold → Mentor → Dies in the Abyss so another may return</div>
+        </div>
+
+        <div class="fav-card antigone">
+          <div class="fav-name">Antigone</div>
+          <div class="fav-from">Sophocles · c. 441 BCE</div>
+          <div class="fav-why">She refuses to accept the king's law as the highest law. She buries her brother. She does not win. She does not survive. But the play is named for her, not Creon, because moral clarity, even at the cost of everything, is its own kind of victory.</div>
+          <div class="fav-cycle">Cycle: Call → Refusal of the Refusal → Ordeal → No return. The elixir is the example.</div>
+        </div>
+
+        <div class="fav-card shahrazad">
+          <div class="fav-name">Shahrazad</div>
+          <div class="fav-from">One Thousand and One Nights · c. 800–1400 CE</div>
+          <div class="fav-why">She volunteers to marry a man who kills his wives at dawn. Her weapon is story. She tells one story inside another inside another until the king forgets to kill her, and then forgets to want to. She defeats death with narrative. The greatest hero trick of all.</div>
+          <div class="fav-cycle">Cycle: Crosses the threshold every night. Ordeal is sunrise. Reward is another day.</div>
+        </div>
+
+        <div class="fav-card dante-hero">
+          <div class="fav-name">Dante, The Pilgrim</div>
+          <div class="fav-from">Divina Commedia · 1320</div>
+          <div class="fav-why">He starts lost. <em>Midway through the journey of our life.</em> He does not want to descend. He is terrified at every step. He weeps in the Inferno. He nearly fails to climb Purgatory. The poem works because Dante the Pilgrim is not Dante the Poet, he is us, stumbling.</div>
+          <div class="fav-cycle">Cycle: Dark Wood → Descent (Abyss) → Ascent → Return with vision of the stars</div>
+        </div>
+
+        <div class="fav-card sirius-hero">
+          <div class="fav-name">Sirius</div>
+          <div class="fav-from">Our Stories · present day</div>
+          <div class="fav-why">He chases. He cannot stop chasing, Cat, Meme, the cosmic questions, the unanswerable WHY. But he returns. To Almihan. To his father's idea of the natural style. To the center. That is the complete cycle, run every day, quietly, without anyone naming it heroic.</div>
+          <div class="fav-cycle">Cycle: Ordinary world → Chase → Explosion (Ordeal) → Return to Almihan. Every day.</div>
+        </div>
+
+        <div class="fav-card jp">
+          <div class="fav-name">Juan Pablo</div>
+          <div class="fav-from">La Historia Más Importante · always</div>
+          <div class="fav-why">Un plebeyo que no conocía ningún país. He did not know the world, and traveled it anyway. He came back exhausted. He wrote his story on a rock. He did not know he was completing the monomyth. That is exactly why he did.</div>
+          <div class="fav-cycle">Cycle: Ordinary world → Long journey → Exhaustion (Ordeal) → Return → Writes the story on a rock</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DIRECTORY -->
+  <section id="directory">
+    <div class="reveal">
+      <div class="eyebrow">V, Full Site Directory</div>
+      <h2>All Pages</h2>
+
+      <div class="dir-grid">
+
+        <a class="dir-card" href="home.html">
+          <div><div class="dc-label">Main Site</div><div class="dc-title">What Is It To Learn From Literature?</div></div>
+          <div class="dc-file">home.html</div>
+        </a>
+
+        <a class="dir-card" href="index.html">
+          <div><div class="dc-label">Story Index</div><div class="dc-title">The Stars & Those Who Chase Them</div></div>
+          <div class="dc-file">index.html</div>
+        </a>
+
+        <a class="dir-card" href="sirius.html">
+          <div><div class="dc-label">Story I</div><div class="dc-title">Story of Sirius</div></div>
+          <div class="dc-file">sirius.html</div>
+        </a>
+
+        <a class="dir-card" href="orion-vs-cat.html">
+          <div><div class="dc-label">Story II</div><div class="dc-title">Orion vs Cat</div></div>
+          <div class="dc-file">orion-vs-cat.html</div>
+        </a>
+
+        <a class="dir-card" href="orion-vs-athena.html">
+          <div><div class="dc-label">Story III</div><div class="dc-title">Orion vs Athena</div></div>
+          <div class="dc-file">orion-vs-athena.html</div>
+        </a>
+
+        <a class="dir-card" href="orion-vs-scorpion.html">
+          <div><div class="dc-label">Story IV</div><div class="dc-title">Orion vs the Scorpion</div></div>
+          <div class="dc-file">orion-vs-scorpion.html</div>
+        </a>
+
+        <a class="dir-card" href="orion-gilgamesh-gemini.html">
+          <div><div class="dc-label">Story V</div><div class="dc-title">Orion & Gilgamesh at Gemini</div></div>
+          <div class="dc-file">orion-gilgamesh-gemini.html</div>
+        </a>
+
+        <a class="dir-card" href="juan-pablo.html">
+          <div><div class="dc-label">Story VI</div><div class="dc-title">La Historia de Juan Pablo</div></div>
+          <div class="dc-file">juan-pablo.html</div>
+        </a>
+
+        <a class="dir-card" href="gilgamesh.html">
+          <div><div class="dc-label">Story VII</div><div class="dc-title">Gilgamesh, Who? Why?</div></div>
+          <div class="dc-file">gilgamesh.html</div>
+        </a>
+
+        <a class="dir-card current-page" href="hero-cycle.html">
+          <div><div class="dc-label">Essay, You Are Here</div><div class="dc-title">The Hero's Cycle</div></div>
+          <div class="dc-file">hero-cycle.html</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// ── BACKGROUND, slow golden motes, slightly denser than clay ──
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+let W, H, motes = [];
+
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+function init() {
+  motes = [];
+  const n = Math.floor(W * H / 5500);
+  for (let i = 0; i < n; i++) {
+    motes.push({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.1+0.15,
+      a: Math.random()*0.18+0.02,
+      vx: (Math.random()-0.5)*0.09,
+      vy: (Math.random()-0.5)*0.06 - 0.015,
+      ph: Math.random()*Math.PI*2,
+      sp: Math.random()*0.003+0.001,
+      col: ['#e8c060','#b8b4ac','#f0ede8','#c08040','#8060c0'][Math.floor(Math.random()*5)]
+    });
+  }
+}
+
+function draw(t) {
+  ctx.clearRect(0,0,W,H);
+  for (const m of motes) {
+    m.x += m.vx; m.y += m.vy;
+    if (m.x < -5) m.x = W+5;
+    if (m.x > W+5) m.x = -5;
+    if (m.y < -5) m.y = H+5;
+    if (m.y > H+5) m.y = -5;
+    const a = m.a * (0.4 + 0.6*Math.sin(t*m.sp+m.ph));
+    ctx.beginPath();
+    ctx.arc(m.x, m.y, m.r, 0, Math.PI*2);
+    ctx.fillStyle = m.col;
+    ctx.globalAlpha = a;
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', () => { resize(); init(); });
+resize(); init();
+requestAnimationFrame(draw);
+
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.07 }
+);
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── SIDEBAR ACTIVE ──
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('#sidebar a');
+new IntersectionObserver(
+  entries => entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
+    }
+  }), { threshold: 0.35 }
+).observe
+? (() => {
+    const sio = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
+        }
+      }), { threshold: 0.35 }
+    );
+    sections.forEach(s => sio.observe(s));
+  })() : null;
+</script>
+
+<section style="max-width:820px;margin:48px auto 40px;padding:2rem;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.18);border-radius:12px;">
+  <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:.6rem;">&#9872; COMMA FRAMEWORK QUESTIONS</div>
+  <div style="font-size:1.05rem;font-weight:600;color:rgba(201,168,76,.85);margin-bottom:.4rem;">Open Questions</div>
+  <p style="font-size:.82rem;font-style:italic;color:rgba(255,255,255,.35);margin-bottom:1.4rem;line-height:1.65;">Speculative questions seen through the comma framework. Not claims. Invitations.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.9rem;">
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">Every system manages a comma.</strong>Calendars, tuning systems, financial accounting, urban planning, all add corrections to close gaps that cannot close on their own. What gap is this page's subject managing? What would happen if the correction were removed?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(93,222,200,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(93,222,200,.8);display:block;margin-bottom:.35rem;">Where is the Kairos event?</strong>N_res = 73.296: after 73 cycles of accumulation, a system nearly returns to its origin. Is there a 73-unit threshold in this subject? A point where small accumulated errors suddenly produce a visible discontinuity?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(168,212,255,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(168,212,255,.75);display:block;margin-bottom:.35rem;">The gap is not the failure.</strong>The Pythagorean comma is not a flaw in the scale, it is proof that real intervals were used. Where in this subject does the "error" turn out to be evidence of authenticity rather than mistake?</div>
+    <div style="background:rgba(0,0,0,.22);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:1rem;font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;"><strong style="color:rgba(201,168,76,.85);display:block;margin-bottom:.35rem;">What does the 0.296 carry?</strong>After 73 full cycles, the remainder is 0.296, the starting position of the next revolution. What does this subject carry forward from one cycle to the next? What cannot be reset, only continued from a slightly different position?</div>
+  </div>
+</section>
+<div style="max-width:820px;margin:40px auto 20px;background:rgba(13,16,23,.9);border:1px solid rgba(255,255,255,.07);border-left:3px solid rgba(201,168,76,.4);padding:20px 24px;font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.85;"><div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,168,76,);margin-bottom:12px;">References &middot; APA + ACS</div><p>[1] Campbell, J. (1949). <em>The hero with a thousand faces.</em> Pantheon Books.</p><p>[2] Campbell, J. (2004). <em>Pathways to bliss: Mythology and personal transformation.</em> New World Library.</p><p>[3] Jung, C. G. (1968). <em>The archetypes and the collective unconscious</em> (2nd ed., trans. Hull). Princeton University Press.</p></div></body>
+</html>
