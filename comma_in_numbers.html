@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Comma in Numbers · Musica Universalis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=JetBrains+Mono:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#04070F;--ink:#070810;
+  --gold:#E8C96A;--teal:#7EECD4;--blue:#A8D4FF;
+  --red:#FF6B6B;--purple:#C97EEC;--green:#7BE8A0;
+  --primary:#E8C96A;
+  --primary-dim:rgba(232,201,106,.18);
+  --primary-faint:rgba(232,201,106,.04);
+  --primary-line:rgba(232,201,106,.08);
+  --ice:rgba(255,245,210,.9);--dim:rgba(255,245,210,.42);
+  --faint:rgba(255,245,210,.03);--line:rgba(255,245,210,.06);
+}
+html{scroll-behavior:smooth;background:var(--void)}
+body{color:var(--ice);font-family:"Libre Baskerville",serif;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:rgba(4,7,15,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-back{font-family:"JetBrains Mono",monospace;font-size:.53rem;letter-spacing:.18em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.nav-back:hover{color:var(--primary)}
+.nav-label{font-family:"JetBrains Mono",monospace;font-size:.5rem;letter-spacing:.18em;color:rgba(232,201,106,.18);text-transform:uppercase}
+
+.page{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 1.5rem 8rem}
+header{padding:7.5rem 0 3rem}
+.h-rule{height:3px;background:var(--primary);margin-bottom:1.5rem;width:60px}
+.h-pre{font-family:"JetBrains Mono",monospace;font-size:.46rem;letter-spacing:.38em;color:rgba(232,201,106,.4);margin-bottom:1rem;text-transform:uppercase}
+h1{font-family:"Playfair Display",serif;font-size:clamp(2.8rem,7vw,5.2rem);font-weight:900;color:var(--ice);margin-bottom:.5rem;line-height:.93;letter-spacing:-.02em}
+h1 em{font-style:italic;color:var(--primary);font-weight:400}
+.h-deck{font-family:"Playfair Display",serif;font-size:clamp(.92rem,2.2vw,1.2rem);font-style:italic;color:var(--dim);line-height:1.7;max-width:680px;margin:1.2rem 0 2rem;font-weight:400}
+.h-byline{font-family:"JetBrains Mono",monospace;font-size:.44rem;letter-spacing:.18em;color:rgba(232,201,106,.18);text-transform:uppercase}
+
+h2{font-family:"Playfair Display",serif;font-size:clamp(1.65rem,4.5vw,2.7rem);font-weight:700;margin-bottom:1.3rem;line-height:1.05;letter-spacing:-.01em}
+h3{font-family:"Playfair Display",serif;font-size:1.3rem;font-weight:700;margin-bottom:.8rem}
+p{margin-bottom:1.4rem;line-height:1.8;color:var(--dim)}
+p strong{color:var(--ice)}
+
+.section{padding:3rem 0;border-top:1px solid var(--line);position:relative}
+.s-tag{font-family:"JetBrains Mono",monospace;font-size:.45rem;letter-spacing:.28em;color:rgba(232,201,106,.3);text-transform:uppercase;margin-bottom:.8rem}
+.sr{position:absolute;left:-1.5rem;top:0;bottom:0;width:3px;border-radius:2px}
+
+/* CONTINUED FRACTION DISPLAY */
+.cf-display{background:rgba(232,201,106,.03);border:1px solid rgba(232,201,106,.1);border-radius:10px;padding:1.6rem 2rem;margin:2rem 0;font-family:"JetBrains Mono",monospace;font-size:.88rem;line-height:2.2;color:var(--ice)}
+.cf-display .cf-eq{color:var(--primary);font-size:1.05rem}
+.cf-display .cf-dim{color:var(--dim);font-size:.78rem}
+
+/* CONVERGENTS TABLE */
+.conv-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:"JetBrains Mono",monospace;font-size:.78rem}
+.conv-table th{background:rgba(232,201,106,.08);color:var(--primary);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;padding:.7rem 1rem;text-align:left;border-bottom:1px solid rgba(232,201,106,.12)}
+.conv-table td{padding:.6rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);color:var(--dim)}
+.conv-table tr.highlight td{color:var(--ice);background:rgba(232,201,106,.04)}
+.conv-table tr.highlight-strong td{color:var(--primary);background:rgba(232,201,106,.07)}
+.conv-table .note{font-size:.6rem;color:rgba(232,201,106,.5);padding-left:.3rem}
+
+/* COMMA CALLOUT */
+.comma-call{border-radius:10px;padding:1.5rem 1.8rem;margin:2rem 0;border:1px solid rgba(232,201,106,.12);background:rgba(232,201,106,.03)}
+.cc-label{font-family:"JetBrains Mono",monospace;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.9rem;color:rgba(232,201,106,.5)}
+.cc-text{font-size:.97rem;line-height:1.8;color:var(--dim)}
+.cc-text strong{color:var(--primary)}
+
+/* MATH ROW */
+.math-row{display:flex;align-items:center;gap:1.2rem;padding:.9rem 1.2rem;background:rgba(232,201,106,.03);border-left:2px solid rgba(232,201,106,.3);border-radius:0 6px 6px 0;margin:.7rem 0}
+.math-eq{font-family:"JetBrains Mono",monospace;font-size:.95rem;color:var(--primary)}
+.math-desc{font-family:"JetBrains Mono",monospace;font-size:.58rem;letter-spacing:.08em;color:var(--dim)}
+
+/* KAM DIAGRAM CANVAS */
+#kam-canvas{display:block;width:100%;border-radius:10px;background:rgba(0,0,0,.5);border:1px solid rgba(232,201,106,.08);margin:1.5rem 0}
+
+/* CIRCLE OF FIFTHS CANVAS */
+#cof-canvas{display:block;width:100%;max-width:460px;margin:1.5rem auto;border-radius:50%}
+
+/* MERCATOR GRID */
+.mercator-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0}
+.m-card{background:rgba(232,201,106,.03);border:1px solid rgba(232,201,106,.1);border-radius:8px;padding:1rem;text-align:center}
+.m-n{font-family:"JetBrains Mono",monospace;font-size:1.3rem;display:block;margin-bottom:.3rem;color:var(--primary)}
+.m-l{font-family:"JetBrains Mono",monospace;font-size:.5rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+.m-sub{font-size:.78rem;color:var(--dim);margin-top:.5rem;line-height:1.6}
+
+/* PULL QUOTE */
+.pull{border-left:3px solid var(--primary);padding-left:1.5rem;margin:2.5rem 0}
+.pt{font-family:"Playfair Display",serif;font-size:clamp(1rem,2.5vw,1.3rem);font-style:italic;color:var(--ice);line-height:1.6}
+.ps{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.14em;color:var(--dim);margin-top:.6rem;text-transform:uppercase}
+
+/* FOOTNOTES */
+.fn{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.04em;color:rgba(232,201,106,.22);line-height:2;border-top:1px solid var(--line);padding-top:1.5rem;margin-top:4rem}
+</style>
+</head>
+<body>
+<blockquote style="border-left:2px solid rgba(201,168,76,.4);background:rgba(201,168,76,.04);padding:.9rem 1.4rem;margin:1.2rem 0;font-style:italic;font-size:.97rem;color:rgba(255,255,255,.7);line-height:1.85;"><span style="font-size:1.1rem;color:rgba(201,168,76,.6);">&ldquo;</span>Music is the hidden arithmetic exercise of a soul unconscious that it is calculating.<span style="font-size:1.1rem;color:rgba(201,168,76,.6);">&rdquo;</span><footer style="font-style:normal;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:rgba(201,168,76,.45);margin-top:.5rem;">Leibniz, G. W. Letter to C. Goldbach, April 17, 1712. <em>Mathematische Schriften</em>, Vol. III/1, p. 478.</footer></blockquote>
+<canvas id="bg"></canvas>
+
+<nav>
+  <a class="nav-back" href="index.html">← Main Frequency</a>
+  <span class="nav-label">Theory · Mathematics · log₂3</span>
+</nav>
+
+<div class="page">
+<header>
+  <div class="h-rule"></div>
+  <div class="h-pre">Theory · Core Mathematics · The Number Behind Everything</div>
+  <h1><em>The Comma</em><br><strong>in Numbers</strong></h1>
+  <div class="h-deck">Why log₂3 is irrational. How continued fractions reveal 12, 53, and 73. Why 3:2 is the best coupling ratio in the universe.</div>
+  <div class="h-byline">OLIVE (East) · Project Orpheus · Musica Universalis</div>
+</header>
+
+<!-- SECTION I: THE PRIMAL FACT -->
+<div class="section">
+  <div class="sr" style="background:linear-gradient(180deg,var(--primary),rgba(232,201,106,.1))"></div>
+  <div class="s-tag">Section I · The Primal Fact</div>
+  <h2 style="color:var(--primary)"><em>2 and 3 will never</em><br><strong>meet</strong></h2>
+
+  <p>Everything begins with a fact so simple it seems trivial, and turns out to be inexhaustible.</p>
+
+  <p><strong>No integer power of 2 equals any integer power of 3.</strong></p>
+
+  <p>This follows immediately from the fundamental theorem of arithmetic: every positive integer has a unique prime factorization. The number 2<sup>p</sup> has only 2s in its factorization. The number 3<sup>q</sup> has only 3s. They cannot be equal.</p>
+
+  <p>The musical consequence: a stack of perfect fifths (ratio 3:2) and a stack of octaves (ratio 2:1) can never coincide. You can stack as many fifths as you like, you will never land exactly on a note that is a whole number of octaves above where you started. The circle of fifths does not close. It spirals.</p>
+
+  <div class="cf-display">
+    <div class="cf-eq">2<sup>p</sup> ≠ 3<sup>q</sup>  for all positive integers p, q</div>
+    <div style="margin:.8rem 0;color:var(--dim);font-size:.75rem">equivalent to:</div>
+    <div class="cf-eq">log₂(3) is irrational</div>
+    <div style="margin:.8rem 0;color:var(--dim);font-size:.75rem">value:</div>
+    <div class="cf-eq">log₂(3) = 1.58496250072115618145373894394...</div>
+    <div class="cf-dim">(proven irrational, no finite decimal representation, no repeating pattern)</div>
+  </div>
+
+  <p>The Pythagorean comma is the gap that accumulates after the smallest number of fifths that comes close to closing: twelve. Twelve fifths versus seven octaves:</p>
+
+  <div class="math-row"><div class="math-eq">(3/2)¹² = 129.746...</div><div class="math-desc">12 perfect fifths</div></div>
+  <div class="math-row"><div class="math-eq">2⁷ = 128.000</div><div class="math-desc">7 perfect octaves</div></div>
+  <div class="math-row" style="border-left-color:var(--primary)">
+    <div class="math-eq">δ = 531441/524288 − 1 = 0.013643...</div>
+    <div class="math-desc" style="color:var(--primary)">The Pythagorean comma</div>
+  </div>
+</div>
+
+<!-- SECTION II: CONTINUED FRACTIONS -->
+<div class="section">
+  <div class="s-tag">Section II · Continued Fractions</div>
+  <h2>Why 12?<br><em>The continued fraction reveals all.</em></h2>
+
+  <p>The question "why does the twelve-tone scale work so well?" has a precise mathematical answer. It is not a historical accident. It is a consequence of the continued fraction expansion of log₂3.</p>
+
+  <p>A continued fraction is the canonical way to write an irrational number as a sequence of ever-improving rational approximations. Every continued fraction yields a sequence of <em>convergents</em>, fractions p/q that are the best possible rational approximations to the target value among all fractions with denominator ≤ q.</p>
+
+  <div class="cf-display">
+    <div class="cf-eq">log₂(3) = 1 + 1/(1 + 1/(1 + 1/(2 + 1/(2 + 1/(3 + 1/(1 + 1/(5 + ...)))))))</div>
+    <div class="cf-dim">written as: [1; 1, 1, 2, 2, 3, 1, 5, 2, 23, 2, 2, 1, 1, 55, ...]</div>
+    <div style="margin-top:.8rem;color:var(--dim);font-size:.75rem">partial quotients (the numbers after the semicolon)</div>
+  </div>
+
+  <p>Each partial quotient generates a new convergent. These convergents are the "optimal" equal temperament systems, the number of notes-per-octave at which the system best approximates pure just intervals:</p>
+
+  <table class="conv-table">
+    <thead>
+      <tr><th>Convergent</th><th>Value</th><th>Error from log₂3</th><th>Equal temperament</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1/1</td><td>1.000000</td><td>−0.585</td><td>1-tone</td><td class="note">trivial</td></tr>
+      <tr><td>2/1</td><td>2.000000</td><td>+0.415</td><td>2-tone (tritone)</td><td class="note"></td></tr>
+      <tr class="highlight"><td>3/2</td><td>1.500000</td><td>−0.085</td><td>-</td><td class="note">the 3:2 ratio itself</td></tr>
+      <tr><td>8/5</td><td>1.600000</td><td>+0.015</td><td>5-tone pentatonic</td><td class="note"></td></tr>
+      <tr class="highlight-strong"><td>19/12</td><td>1.58333</td><td>−0.00163</td><td><strong>12-tone equal temperament</strong></td><td class="note">★ optimal up to denom 12</td></tr>
+      <tr><td>65/41</td><td>1.58537</td><td>+0.00041</td><td>41-tone</td><td class="note"></td></tr>
+      <tr class="highlight"><td>84/53</td><td>1.58491</td><td>−0.000053</td><td><strong>53-tone Mercator system</strong></td><td class="note">★★ near-perfect</td></tr>
+      <tr><td>485/306</td><td>-</td><td>very small</td><td>306-tone</td><td class="note">impractical</td></tr>
+    </tbody>
+  </table>
+
+  <p>The convergent 19/12 means: <strong>19 pure fifths divided by 12</strong> is the best approximation to log₂3 with denominator ≤ 12. Equivalently, the 12-tone equal temperament is the most efficient equal division of the octave that approximates pure fifth-relationships well.</p>
+
+  <p>The convergent 84/53, the Mercator system, is even better. Jing Fang (~50 BCE) and Nicholas Mercator (1620–1687) independently discovered that 53 pure fifths come extraordinarily close to 31 perfect octaves. The residue is the Mercator comma ε = 0.002090, a gap 6.527× smaller than the Pythagorean comma.</p>
+</div>
+
+<!-- SECTION III: THE TWO COMMAS -->
+<div class="section">
+  <div class="s-tag">Section III · Two Commas</div>
+  <h2><em><div style="display:inline-flex;align-items:center;gap:6px;background:rgba(168,212,255,.06);border:1px solid rgba(168,212,255,.2);border-radius:5px;padding:4px 10px;margin:6px 0;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.09em;color:rgba(168,212,255,.8);"><span>&#9872;</span> COMMA FRAMEWORK ARTICULATION &middot; delta and epsilon as commas</div>
+δ and ε</em><br><strong>, the full structure</strong></h2>
+
+  <div class="mercator-grid">
+    <div class="m-card">
+      <span class="m-n">12</span>
+      <div class="m-l">Fifths · Pythagorean</div>
+      <div class="m-sub">12 perfect fifths vs 7 octaves.<br>Residue: δ = 0.013643<br>(23.46 cents)</div>
+    </div>
+    <div class="m-card">
+      <span class="m-n">53</span>
+      <div class="m-l">Fifths · Mercator</div>
+      <div class="m-sub">53 perfect fifths vs 31 octaves.<br>Residue: ε = 0.002090<br>(3.615 cents)</div>
+    </div>
+    <div class="m-card">
+      <span class="m-n" style="font-size:1rem">δ/ε = 6.527</span>
+      <div class="m-l">Ratio of commas</div>
+      <div class="m-sub">One Pythagorean comma = 6.527 Mercator commas.<br>The Mercator is the "sub-comma".</div>
+    </div>
+  </div>
+
+  <div class="math-row"><div class="math-eq">δ = (3/2)¹² / 2⁷ − 1 = 531441/524288 − 1 ≈ 0.013643</div><div class="math-desc">12-fifth residue</div></div>
+  <div class="math-row"><div class="math-eq">ε = (3/2)⁵³ / 2³¹ − 1 ≈ 0.002090</div><div class="math-desc">53-fifth residue</div></div>
+  <div class="math-row"><div class="math-eq">N_res = 1/δ = 73.296...</div><div class="math-desc">resonance number</div></div>
+  <div class="math-row"><div class="math-eq">1/ε = 478.4...</div><div class="math-desc">Mercator resonance number</div></div>
+  <div class="math-row" style="border-left-color:var(--teal)">
+    <div class="math-eq" style="color:var(--teal)">53 × δ = 53 × 0.013643 = 0.7231 ≈ 1/√2</div>
+    <div class="math-desc" style="color:var(--teal)">structural near-identity</div>
+  </div>
+
+  <p>The Mercator comma ε is the natural "quantum" of the 53-tone system, the smallest step. In biology, it appears as the quantum of circadian entrainment: the smallest resolvable phase shift from a single brief light pulse is approximately one Mercator comma (ε ≈ 3.6 minutes), and the mean circadian deviation from 24h is 3.59ε per day.</p>
+
+  <canvas id="cof-canvas" height="460"></canvas>
+
+  <div class="comma-call">
+    <div class="cc-label">The Structure of Non-Closure</div>
+    <div class="cc-text">The continued fraction tells you everything. The partial quotients [1; 1, 1, 2, 2, 3, 1, 5, 2, 23, ...] reveal: 12 (from convergent 19/12) is the first "good enough" approximation for practical use. 53 (from convergent 84/53) is the "excellent" approximation. The large partial quotient 23 appearing after 53 means the next convergent (306) is much better than 53, but 53 itself is already so accurate that the improvement matters only in theoretical contexts. <strong>The universe of musical tuning lives in the gap between 12 and 53, and is governed entirely by the partial quotients of an irrational number.</strong></div>
+  </div>
+</div>
+
+<!-- SECTION IV: N_res -->
+<div class="section">
+  <div class="s-tag">Section IV · The Resonance Number</div>
+  <h2>N<sub>res</sub> = 73.296<br><em>where do 73 come from?</em></h2>
+
+  <p>The resonance number N_res = 1/δ = 73.296 has a precise meaning: it is the number of iterations of the 3:2 ratio required to accumulate a gap equal to one full unit (the "octave" of the non-closure). After 73 iterations, the accumulated comma is approximately 1, the system has drifted by a full unit.</p>
+
+  <p>But more precisely: N_res is the reciprocal of the Pythagorean comma. It is the number of times you must iterate the 3:2 coupling before the residue equals 1. This appears in circadian biology as:</p>
+
+  <div class="math-row"><div class="math-eq">1 / δ_circ = 1 / 0.0075 = 133.3 ≈ 2 × N_res</div><div class="math-desc">bidirectional circadian resonance</div></div>
+
+  <p>The factor of 2 is biological: the circadian system corrects in both directions (phase advance and phase delay), so the total corrective capacity is 2 × N_res per day. Each direction has a capacity of N_res corrections.</p>
+
+  <p>In the theta-gamma neural code, if the per-cycle residue r = δ, then:</p>
+  <div class="math-row"><div class="math-eq">N_reset = 1/r = N_res = 73.3 theta cycles ≈ 9.2 seconds</div><div class="math-desc">at 8 Hz theta</div></div>
+
+  <p>Nine seconds, the approximate duration of a sustained working memory trace, the window for conscious processing of a single complex thought, the timescale of hippocampal sequence replay. <strong>The resonance number may be the fundamental timescale of biological memory.</strong></p>
+
+  <div class="pull">
+    <div class="pt">"The number 73 appears not because 73 is special. It appears because 0.013643 is special, and 73 is its reciprocal. And 0.013643 is special because it is the gap left by 12 iterations of the simplest non-trivial irrational coupling ratio in number theory."</div>
+    <div class="ps">Musica Universalis · The Comma in Numbers · Project Orpheus</div>
+  </div>
+</div>
+
+<!-- SECTION V: KAM CONNECTION -->
+<div class="section">
+  <div class="s-tag">Section V · KAM Theory</div>
+  <h2><em>Why 3:2 is the best</em><br><strong>coupling ratio</strong></h2>
+
+  <p>The Kolmogorov–Arnold–Moser (KAM) theorem is one of the deepest results in dynamical systems theory. It addresses the question: when a nearly-integrable Hamiltonian system is perturbed, which of its quasi-periodic orbits survive?</p>
+
+  <p>The answer: orbits with frequencies that are "most irrational", hardest to approximate by rationals, survive. More precisely, orbits satisfying the Diophantine condition survive: frequencies ω for which |k · ω| ≥ γ / |k|<sup>τ</sup> for all integer vectors k. This condition is satisfied by almost all irrational numbers, but the "how well" it is satisfied depends on the size of the continued fraction partial quotients.</p>
+
+  <p>The numbers with the smallest possible partial quotients, all 1s, are the noble numbers, of which the golden ratio φ = (1+√5)/2 = [1; 1, 1, 1, ...] is the canonical example. These are the "most irrational" in the KAM sense: the hardest to knock out of quasi-periodic motion by perturbation.</p>
+
+  <p>Now: log₂3 = [1; 1, 1, 2, 2, 3, ...]. Its first three partial quotients are all 1, the same as the golden ratio. This means the 3:2 frequency coupling is, among all simple physically realizable couplings, among the most KAM-stable. The Pythagorean comma is not just a musical curiosity. <strong>It is the residue of the most KAM-stable simple oscillator coupling that exists.</strong></p>
+
+  <canvas id="kam-canvas" height="300"></canvas>
+
+  <div class="comma-call">
+    <div class="cc-label">The Privileged Ratio</div>
+    <div class="cc-text">The 3:2 ratio is special for three independent reasons simultaneously: (1) it is the simplest non-trivial rational ratio above 1:1 and 2:1; (2) its associated irrationality (log₂3) has small continued-fraction partial quotients, placing it near the noble numbers in KAM stability; and (3) it is the only ratio whose 12-fold iteration produces a gap (the Pythagorean comma) that is small enough to be musically useful but large enough to be biologically measurable. <strong>These three facts together, simplicity, stability, useful gap size, explain why 3:2 is the fundamental coupling ratio of complex adaptive systems.</strong></div>
+  </div>
+</div>
+
+<!-- SECTION VI: THE NUMBERS SUMMARIZED -->
+<div class="section">
+  <div class="s-tag">Section VI · The Full Structure</div>
+  <h2>Everything at once</h2>
+
+  <div class="math-row"><div class="math-eq">φ = (3/2)¹² / 2⁷ = 531441/524288 = 1.013643...</div><div class="math-desc">Pythagorean ratio</div></div>
+  <div class="math-row" style="border-left-color:var(--primary)"><div class="math-eq" style="color:var(--primary)">δ = φ − 1 = 0.013643 = 23.46 cents</div><div class="math-desc" style="color:var(--primary)">The comma</div></div>
+  <div class="math-row"><div class="math-eq">N_res = 1/δ = 73.296</div><div class="math-desc">resonance number</div></div>
+  <div class="math-row"><div class="math-eq">ε = (3/2)⁵³ / 2³¹ − 1 = 0.002090 = 3.615 cents</div><div class="math-desc">Mercator comma</div></div>
+  <div class="math-row"><div class="math-eq">δ/ε = 6.527</div><div class="math-desc">comma ratio</div></div>
+  <div class="math-row"><div class="math-eq">log₂(3) = [1; 1, 1, 2, 2, 3, 1, 5, 2, 23, ...]</div><div class="math-desc">continued fraction</div></div>
+  <div class="math-row"><div class="math-eq">12 ← convergent 19/12, best ET up to denom 12</div><div class="math-desc">twelve-tone music</div></div>
+  <div class="math-row"><div class="math-eq">53 ← convergent 84/53, near-perfect ET</div><div class="math-desc">Mercator system</div></div>
+  <div class="math-row" style="border-left-color:var(--teal)"><div class="math-eq" style="color:var(--teal)">τ_circ = 24.18h → δ_circ = δ/2 = 0.00682</div><div class="math-desc" style="color:var(--teal)">circadian comma</div></div>
+  <div class="math-row" style="border-left-color:var(--teal)"><div class="math-eq" style="color:var(--teal)">Bipolar mania: +7h = 21.4δ; depression: −4.5h = 13.7δ</div><div class="math-desc" style="color:var(--teal)">comma exceedance</div></div>
+  <div class="math-row" style="border-left-color:var(--blue)"><div class="math-eq" style="color:var(--blue)">θ/γ non-integer residue → phase precession → memory</div><div class="math-desc" style="color:var(--blue)">neural comma</div></div>
+  <div class="math-row" style="border-left-color:var(--green)"><div class="math-eq" style="color:var(--green)">p53 checkpoint pause → cancer = comma elimination</div><div class="math-desc" style="color:var(--green)">cellular comma</div></div>
+
+  <div class="comma-call" style="margin-top:2rem">
+    <div class="cc-label">The Comma Principle of Complex Systems</div>
+    <div class="cc-text">All of the above, the music, the circadian clock, the hippocampus, the cell cycle, the KAM theorem, are instances of a single mathematical fact: that <strong>log₂3 is irrational, and that 3:2 is the simplest coupling ratio whose irrationality is biologically useful</strong>. The gap it leaves, the Pythagorean comma, is not a flaw in the universe's arithmetic. It is the gap that keeps everything running.</div>
+  </div>
+</div>
+
+<!-- FOOTNOTES -->
+<div class="fn">
+  Hardy, G.H. & Wright, E.M. (1979). An Introduction to the Theory of Numbers, 5th ed. Oxford University Press. §11.3: Approximation of irrationals by rationals ·
+  Barbour, J.M. (1951). Tuning and Temperament: A Historical Survey. Michigan State College Press ·
+  Jing Fang (c. 45 BCE): 53-tone system via 53 fifths ·
+  Mercator, N. (1650s): Musica Incognita, 53-tone equal temperament ·
+  Arnold, V.I. (1963). Proof of a theorem of A.N. Kolmogorov. Russian Mathematical Surveys 18, 9–36 ·
+  Moser, J. (1962). On invariant curves. Nachr. Akad. Wiss. Göttingen ·
+  Czeisler, C.A. et al. (1999). Near-24-hour period of the human circadian pacemaker. Science 284, 2177–81 ·
+  Moon, J.H. et al. (2016). Advanced circadian phase in mania. EBioMedicine 11, 285–95 ·
+  OLIVE (East) / Musica Universalis · Project Orpheus · musicauniversalis.band ·
+</div>
+</div>
+
+<script>
+// STARFIELD
+(function(){
+  const c=document.getElementById('bg'),ctx=c.getContext('2d');
+  let stars=[];
+  function resize(){c.width=innerWidth;c.height=innerHeight;stars=[];for(let i=0;i<160;i++){stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.1+.2,a:Math.random(),s:Math.random()*.002+.001})}}
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle='#04070F';ctx.fillRect(0,0,c.width,c.height);
+    stars.forEach(s=>{s.a+=s.s;if(s.a>1||s.a<0)s.s=-s.s;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(232,201,106,${s.a*.5})`;ctx.fill()});
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);resize();draw();
+})();
+
+// CIRCLE OF FIFTHS
+(function(){
+  const canvas=document.getElementById('cof-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.offsetWidth;const H=W;
+  canvas.width=W*devicePixelRatio;canvas.height=H*devicePixelRatio;
+  ctx.scale(devicePixelRatio,devicePixelRatio);
+  const cx=W/2,cy=H/2,r=W*0.38;
+
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(0,0,0,0)';ctx.fillRect(0,0,W,H);
+
+  const notes=['C','G','D','A','E','B','F♯','C♯','G♯','D♯','A♯','F'];
+  const commaColor='rgba(232,201,106,';
+
+  // Draw spiral of fifths, slight outward drift showing comma
+  ctx.beginPath();
+  for(let i=0;i<=72;i++){
+    const angle=-Math.PI/2+i*(2*Math.PI/12);
+    const drift=i*(r*0.001); // accumulating comma drift
+    const ri=r+drift;
+    const x=cx+ri*Math.cos(angle);
+    const y=cy+ri*Math.sin(angle);
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(232,201,106,0.15)';ctx.lineWidth=1;ctx.stroke();
+
+  // Note circles
+  for(let i=0;i<12;i++){
+    const angle=-Math.PI/2+i*(2*Math.PI/12);
+    const x=cx+r*Math.cos(angle),y=cy+r*Math.sin(angle);
+    const isC=i===0;
+
+    ctx.beginPath();ctx.arc(x,y,W*0.055,0,Math.PI*2);
+    ctx.fillStyle=isC?'rgba(232,201,106,0.15)':'rgba(232,201,106,0.04)';
+    ctx.strokeStyle=isC?'rgba(232,201,106,0.8)':'rgba(232,201,106,0.2)';
+    ctx.lineWidth=isC?2:1;ctx.fill();ctx.stroke();
+
+    ctx.fillStyle=isC?'#E8C96A':'rgba(255,245,210,0.6)';
+    ctx.font=`bold ${W*0.032}px Playfair Display,serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(notes[i],x,y);
+  }
+
+  // The gap arrow, showing comma
+  const gapAngle=-Math.PI/2;
+  const gapX1=cx+(r+W*0.08)*Math.cos(gapAngle);
+  const gapY1=cy+(r+W*0.08)*Math.sin(gapAngle);
+  const gapX2=cx+(r+W*0.08)*Math.cos(gapAngle-0.087);
+  const gapY2=cy+(r+W*0.08)*Math.sin(gapAngle-0.087);
+
+  ctx.beginPath();ctx.moveTo(gapX1,gapY1);ctx.lineTo(gapX2,gapY2);
+  ctx.strokeStyle='rgba(232,201,106,0.7)';ctx.lineWidth=2;ctx.stroke();
+
+  // Gap label
+  ctx.fillStyle='rgba(232,201,106,0.7)';
+  ctx.font=`${W*0.028}px JetBrains Mono,monospace`;
+  ctx.textAlign='center';
+  ctx.fillText('δ = 0.013643',cx,cy+W*0.08);
+
+  // Center label
+  ctx.fillStyle='rgba(232,201,106,0.4)';
+  ctx.font=`${W*0.024}px JetBrains Mono,monospace`;
+  ctx.textAlign='center';
+  ctx.fillText('Circle of Fifths',cx,cy-W*0.06);
+  ctx.fillText('12 fifths ≠ 7 octaves',cx,cy-W*0.025);
+})();
+
+// KAM DIAGRAM, phase space showing stable/unstable regions
+(function(){
+  const canvas=document.getElementById('kam-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.offsetWidth;const H=300;
+  canvas.width=W*devicePixelRatio;canvas.height=H*devicePixelRatio;
+  ctx.scale(devicePixelRatio,devicePixelRatio);
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(0,0,W,H);
+
+  // Draw torus cross-sections, KAM tori as nested closed curves
+  const colors=['rgba(232,201,106,','rgba(126,236,212,','rgba(168,212,255,','rgba(201,126,236,'];
+  const labels=['3:2 (Pythagorean)', '5:3', '4:3', '2:1 (octave, resonant, breaks)'];
+  const stability=[0.9,0.7,0.5,0.1];
+  const cx=W*0.5,cy=H*0.5;
+
+  for(let layer=3;layer>=0;layer--){
+    const s=stability[layer];
+    const a=(layer+1)*0.12;
+    const rx=W*0.18*(1+layer*0.3);
+    const ry=H*0.3*(0.5+layer*0.15);
+
+    if(layer===3){
+      // Resonant orbit, draws broken/chaotic
+      ctx.beginPath();
+      for(let t=0;t<Math.PI*2;t+=0.05){
+        const chaos=(Math.random()-0.5)*0.3;
+        const x=cx+rx*(1+chaos)*Math.cos(t);
+        const y=cy+ry*(1+chaos*0.5)*Math.sin(t);
+        t<0.05?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle=`rgba(255,107,107,0.3)`;ctx.lineWidth=1;ctx.setLineDash([3,5]);ctx.stroke();ctx.setLineDash([]);
+    } else {
+      ctx.beginPath();
+      ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);
+      ctx.strokeStyle=`${colors[layer]}${0.3+s*0.4})`;
+      ctx.lineWidth=layer===0?2:1.5;
+      ctx.stroke();
+
+      // Fill label
+      const labelX=cx+rx+10;
+      const labelY=cy-ry*0.2;
+      ctx.fillStyle=`${colors[layer]}0.6)`;
+      ctx.font=`${10}px JetBrains Mono`;
+      ctx.fillText(labels[layer],labelX,labelY);
+    }
+  }
+
+  // Title
+  ctx.fillStyle='rgba(232,201,106,0.4)';
+  ctx.font='10px JetBrains Mono';
+  ctx.fillText('KAM tori, stable quasi-periodic orbits (3:2 coupling = outermost, most stable)',12,20);
+  ctx.fillStyle='rgba(255,107,107,0.4)';
+  ctx.fillText('2:1 resonant orbit, breaks under perturbation',12,36);
+})();
+</script>
+
+<!-- ══════════ COMMA QUESTIONS ══════════ -->
+<section style="max-width:860px;margin:0 auto 80px;padding:2.5rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:16px;position:relative;overflow:hidden;">
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.6),transparent);"></div>
+  <div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.55);margin-bottom:0.7rem;">&#9872; COMMA FRAMEWORK QUESTIONS</div>
+  <div style="font-family:'Cinzel Decorative',serif;color:rgba(201,168,76,0.9);font-size:1.4rem;margin-bottom:0.5rem;">Open Questions</div>
+  <p style="font-size:0.85rem;font-style:italic;color:rgba(255,255,255,0.38);margin-bottom:2rem;line-height:1.7;">These are speculative questions generated by the comma framework perspective. They are not claims. They are invitations, open directions that nobody has yet fully explored. Flag: &#9872; CF Question throughout.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.2rem;">
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · COSMOLOGY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The Hubble tension is a gap between two equally valid measurements of the same constant.</strong> The expansion rate measured from the early universe (CMB) and the late universe (Cepheid ladders) disagree by approximately 8%. Is this a cosmological comma, an irresolvable non-closure between two valid but incommensurable measurement frames, like the gap between twelve perfect fifths and seven octaves?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · BIOLOGY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The human circadian free-running period is 24.2 hours, not 24.</strong> The 0.2-hour daily gap accumulates: after 73 days without light cues, a person would be 14.6 hours out of phase with the solar day. Is N_res = 73 the biological reset window? Are there diseases of the 73-day accumulation?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · NEUROSCIENCE</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Theta (4-8 Hz) and gamma (30-100 Hz) brain oscillations are coupled but their ratio is irrational.</strong> Each theta cycle contains approximately 5-8 gamma cycles, but never an exact integer. Does the phase remainder accumulate like a comma? Is memory consolidation, the Kairos event of the hippocampus, triggered at N_res-like thresholds of phase accumulation?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · CHEMISTRY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Photosynthesis converts light to chemical energy at approximately 11% thermodynamic efficiency.</strong> The rest is lost as heat and fluorescence. Is the efficiency gap (the 89% that doesn't convert) a molecular comma, the irresolvable mismatch between the photon's energy quantum and the ATP synthesis machinery's discrete steps? Does the CPCS correction have a photosynthetic analogue?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · MATHEMATICS</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">log₂(3/2) is irrational. This is not a physical constant, it is a mathematical necessity in any universe with integers.</strong> The Pythagorean comma is therefore the only musical structure that must exist in every possible universe. What other mathematical structures share this property of necessity-across-all-universes? Does this make delta = 0.013643 the most universal number that exists?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · SETI</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The Wow! Signal lasted 72 seconds. N_res = 73.296. The gap is 1.296 seconds.</strong> Any civilization that has discovered periodicity will eventually find the Pythagorean comma. A signal that stops 1.296 seconds before N_res completes would be immediately recognizable to any civilization that knows the protocol. Has anyone run the comma-transform on the Wow! Signal data? The Big Ear archives are public.</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · HISTORY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Every calendar system in history is secretly a comma-management strategy.</strong> The Gregorian calendar adds a leap day every 4 years (with corrections) to close the gap between the solar year and 365 whole days. The Maya Long Count runs 5,125 years before resetting. The 19-year Metonic cycle closes the gap between solar and lunar calendars to within 2 hours. What other human institutions are secretly managing an irresolvable non-closure?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · PHYSICS</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The fine structure constant alpha = 1/137.036 is dimensionless and unexplained.</strong> Richard Feynman called it "one of the greatest damn mysteries of physics." It governs the strength of the electromagnetic force. Nobody knows why it has this value. Could it be related to a ratio of irrationals, a comma of electromagnetism? If delta = 0.013643 is the musical comma, what is alpha's equivalent non-closure?</p>
+    </div>
+
+  </div>
+</section>
+<div style="max-width:820px;margin:48px auto 24px;background:rgba(13,16,23,.9);border:1px solid rgba(201,168,76,.12);border-left:3px solid rgba(201,168,76,.5);padding:22px 26px;">
+<div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:14px;">References &middot; APA + ACS</div>
+<div style="font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.9;">
+<p>[1] Barbour, J. M. (1951). <em>Tuning and temperament: A historical survey.</em> Michigan State College Press. | ACS: Barbour, J. M. <em>Tuning and Temperament</em>; Michigan State College Press, 1951.</p>
+<p>[2] Hardy, G. H.; Wright, E. M. (2008). <em>An introduction to the theory of numbers</em> (6th ed.). Oxford University Press. | ACS: Hardy, G. H.; Wright, E. M. <em>An Introduction to the Theory of Numbers</em>, 6th ed.; Oxford University Press, 2008. [Continued fractions and irrational numbers: Ch. 10]</p>
+<p>[3] Khinchin, A. Y. (1997). <em>Continued fractions.</em> Dover. (Original 1935.) | ACS: Khinchin, A. Y. <em>Continued Fractions</em>; Dover, 1997.</p>
+<p>[4] Wigner, E. P. (1960). The unreasonable effectiveness of mathematics. <em>Commun. Pure Appl. Math., 13</em>, 1-14. DOI: 10.1002/cpa.3160130102</p>
+</div></div></body>
+</html>

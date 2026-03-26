@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Theta-Gamma Code · Musica Universalis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=JetBrains+Mono:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#04070F;--ink:#060B14;
+  --gold:#E8C96A;--teal:#7EECD4;--blue:#A8D4FF;--red:#FF6B6B;
+  --purple:#C97EEC;--green:#7BE8A0;--orange:#E8A46A;
+  --primary:#A8D4FF;--primary-dim:rgba(168,212,255,.18);
+  --primary-faint:rgba(168,212,255,.04);--primary-line:rgba(168,212,255,.08);
+  --ice:rgba(210,228,255,.9);--dim:rgba(210,228,255,.42);
+  --faint:rgba(210,228,255,.03);--line:rgba(210,228,255,.06);
+  --theta:#7EECD4;--gamma:#E8C96A;
+}
+html{scroll-behavior:smooth;background:var(--void)}
+body{color:var(--ice);font-family:"Libre Baskerville",serif;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.015;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:rgba(4,7,15,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-back{font-family:"JetBrains Mono",monospace;font-size:.53rem;letter-spacing:.18em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.nav-back:hover{color:var(--primary)}
+.nav-label{font-family:"JetBrains Mono",monospace;font-size:.5rem;letter-spacing:.18em;color:rgba(168,212,255,.18);text-transform:uppercase}
+
+.page{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 1.5rem 8rem}
+header{padding:7.5rem 0 3rem}
+.h-rule{height:3px;background:var(--primary);margin-bottom:1.5rem;width:60px}
+.h-pre{font-family:"JetBrains Mono",monospace;font-size:.46rem;letter-spacing:.38em;color:rgba(168,212,255,.4);margin-bottom:1rem;text-transform:uppercase}
+h1{font-family:"Playfair Display",serif;font-size:clamp(2.8rem,7vw,5.2rem);font-weight:900;color:var(--ice);margin-bottom:.5rem;line-height:.93;letter-spacing:-.02em}
+h1 em{font-style:italic;color:var(--primary);font-weight:400}
+.h-deck{font-family:"Playfair Display",serif;font-size:clamp(.92rem,2.2vw,1.2rem);font-style:italic;color:var(--dim);line-height:1.7;max-width:680px;margin:1.2rem 0 2rem;font-weight:400}
+.h-byline{font-family:"JetBrains Mono",monospace;font-size:.44rem;letter-spacing:.18em;color:rgba(168,212,255,.18);text-transform:uppercase}
+
+h2{font-family:"Playfair Display",serif;font-size:clamp(1.65rem,4.5vw,2.7rem);font-weight:700;margin-bottom:1.3rem;line-height:1.05;letter-spacing:-.01em}
+h3{font-family:"Playfair Display",serif;font-size:clamp(1.1rem,3vw,1.5rem);font-weight:700;margin-bottom:.9rem;color:var(--ice)}
+p{margin-bottom:1.4rem;line-height:1.8;color:var(--dim)}
+p strong{color:var(--ice);font-weight:700}
+
+.section{padding:3rem 0;border-top:1px solid var(--line)}
+.s-tag{font-family:"JetBrains Mono",monospace;font-size:.45rem;letter-spacing:.28em;color:rgba(168,212,255,.3);text-transform:uppercase;margin-bottom:.8rem}
+.sr{position:absolute;left:-1.5rem;top:0;bottom:0;width:3px;border-radius:2px}
+
+/* OSCILLATION VISUALIZER */
+#osc-container{position:relative;background:rgba(0,0,0,.5);border:1px solid var(--primary-line);border-radius:12px;padding:1.2rem;margin:2rem 0;overflow:hidden}
+#osc-canvas{display:block;width:100%;height:200px;border-radius:8px}
+.osc-controls{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1rem;align-items:center}
+.osc-ctrl{display:flex;align-items:center;gap:.5rem}
+.osc-ctrl label{font-family:"JetBrains Mono",monospace;font-size:.55rem;letter-spacing:.1em;color:var(--dim)}
+.osc-ctrl input[type=range]{width:100px;accent-color:var(--primary)}
+.osc-val{font-family:"JetBrains Mono",monospace;font-size:.62rem;color:var(--primary);min-width:45px}
+.osc-readout{display:flex;gap:2rem;margin-top:.8rem;padding:.7rem 1rem;background:var(--primary-faint);border-radius:6px;border:1px solid var(--primary-line)}
+.osc-metric{text-align:center}
+.osc-metric-val{font-family:"JetBrains Mono",monospace;font-size:1.1rem;display:block}
+.osc-metric-lbl{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+
+/* COMMA CALLOUT */
+.comma-call{border-radius:10px;padding:1.5rem 1.8rem;margin:2rem 0;border:1px solid rgba(168,212,255,.1);background:rgba(168,212,255,.02)}
+.cc-label{font-family:"JetBrains Mono",monospace;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.9rem;color:rgba(168,212,255,.5)}
+.cc-text{font-size:.97rem;line-height:1.8;color:var(--dim)}
+.cc-text strong{color:var(--primary)}
+
+/* RATIO GRID */
+.ratio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0}
+.ratio-card{background:rgba(168,212,255,.03);border:1px solid rgba(168,212,255,.1);border-radius:8px;padding:1rem;text-align:center}
+.ratio-n{font-family:"JetBrains Mono",monospace;font-size:1.4rem;display:block;margin-bottom:.3rem}
+.ratio-l{font-family:"JetBrains Mono",monospace;font-size:.52rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-radius:10px;overflow:hidden;margin:1.5rem 0}
+@media(max-width:680px){.info-grid{grid-template-columns:1fr}}
+.ig-cell{background:var(--ink);padding:1.2rem 1.4rem}
+.ig-label{font-family:"JetBrains Mono",monospace;font-size:.5rem;letter-spacing:.16em;color:rgba(168,212,255,.4);text-transform:uppercase;margin-bottom:.5rem}
+.ig-val{font-size:.9rem;line-height:1.7;color:var(--dim)}
+.ig-val strong{color:var(--ice)}
+
+/* PHASE PRECESSION DIAGRAM */
+.prec-box{background:rgba(0,0,0,.45);border:1px solid var(--primary-line);border-radius:10px;padding:1.2rem;margin:1.5rem 0}
+#prec-canvas{display:block;width:100%;border-radius:6px;background:transparent}
+
+/* MATH BLOCK */
+.math-row{display:flex;align-items:center;gap:1.2rem;padding:.9rem 1.2rem;background:rgba(168,212,255,.03);border-left:2px solid rgba(168,212,255,.25);border-radius:0 6px 6px 0;margin:.7rem 0}
+.math-eq{font-family:"JetBrains Mono",monospace;font-size:.95rem;color:var(--primary)}
+.math-desc{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.08em;color:var(--dim)}
+
+/* MEMORY SLOTS DIAGRAM */
+#slots-canvas{display:block;width:100%;border-radius:8px;margin:1rem 0;background:rgba(0,0,0,.4);border:1px solid var(--primary-line)}
+
+/* RESEARCH */
+.research-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin:1.5rem 0}
+.r-card{background:rgba(168,212,255,.02);border:1px solid rgba(168,212,255,.08);border-radius:8px;padding:1.1rem;transition:border-color .2s}
+.r-card:hover{border-color:rgba(168,212,255,.18)}
+.r-card-top{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.4rem}
+.r-icon{font-size:1.2rem}
+.r-title{font-family:"Playfair Display",serif;font-size:.95rem;font-weight:700;color:var(--ice);flex:1}
+.r-date{font-family:"JetBrains Mono",monospace;font-size:.47rem;letter-spacing:.1em;color:rgba(168,212,255,.3);margin-bottom:.6rem}
+.r-text{font-size:.85rem;line-height:1.7;color:var(--dim)}
+.r-badge{font-family:"JetBrains Mono",monospace;font-size:.42rem;letter-spacing:.1em;padding:.25rem .6rem;border-radius:20px;display:inline-block;margin-top:.6rem;text-transform:uppercase}
+.rb-blue{background:rgba(168,212,255,.08);border:1px solid rgba(168,212,255,.2);color:var(--blue)}
+.rb-teal{background:rgba(126,236,212,.08);border:1px solid rgba(126,236,212,.2);color:var(--teal)}
+
+/* FALSIFIABLE */
+.pred-block{background:rgba(168,212,255,.03);border:1px solid rgba(168,212,255,.12);border-radius:10px;padding:1.4rem 1.8rem;margin:1rem 0}
+.pred-n{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.1em;color:rgba(168,212,255,.4);margin-bottom:.3rem}
+.pred-text{font-size:.95rem;line-height:1.75;color:var(--dim)}
+.pred-text strong{color:var(--primary)}
+
+/* FOOTNOTES */
+.fn{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.04em;color:rgba(168,212,255,.22);line-height:2;border-top:1px solid var(--line);padding-top:1.5rem;margin-top:4rem}
+
+/* PULL QUOTE */
+.pull{border-left:3px solid var(--primary);padding-left:1.5rem;margin:2.5rem 0}
+.pt{font-family:"Playfair Display",serif;font-size:clamp(1rem,2.5vw,1.3rem);font-style:italic;color:var(--ice);line-height:1.6}
+.ps{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.14em;color:var(--dim);margin-top:.6rem;text-transform:uppercase}
+
+/* OBSTACLE */
+.obstacle{display:flex;align-items:flex-start;gap:.8rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.ob-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:.5rem}
+.ob-text{font-size:.88rem;line-height:1.7;color:var(--dim)}
+</style>
+</head>
+<body>
+<blockquote style="border-left:2px solid rgba(201,168,76,.4);background:rgba(201,168,76,.04);padding:.9rem 1.4rem;margin:1.2rem 0;font-style:italic;font-size:.97rem;color:rgba(255,255,255,.7);line-height:1.85;"><span style="font-size:1.1rem;color:rgba(201,168,76,.6);">&ldquo;</span>The brain is a machine assembled not to understand itself, but to survive.<span style="font-size:1.1rem;color:rgba(201,168,76,.6);">&rdquo;</span><footer style="font-style:normal;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:rgba(201,168,76,.45);margin-top:.5rem;">Hubel, D. H. <em>Eye, Brain, and Vision.</em> W. H. Freeman, 1988. p. 229. (Nobel Prize in Physiology, 1981.)</footer></blockquote>
+
+<canvas id="bg"></canvas>
+
+<nav>
+  <a class="nav-back" href="index.html">← Main Frequency</a>
+  <span class="nav-label">Science · Neural Oscillations · θ-γ Code</span>
+</nav>
+
+<div class="page">
+<header>
+  <div class="h-rule"></div>
+  <div class="h-pre">Science · Section 09 · Neural Architecture</div>
+  <h1><em>The Theta-Gamma</em><br><strong>Code</strong></h1>
+  <div class="h-deck">How the hippocampus encodes memory in nested oscillations, and why the ratio between them cannot be an integer.</div>
+  <div class="h-byline">OLIVE (East) · Project Orpheus · Musica Universalis</div>
+</header>
+
+<!-- SECTION I: THE TWO RHYTHMS -->
+<div class="section" style="position:relative">
+  <div class="sr" style="background:linear-gradient(180deg,var(--primary),rgba(168,212,255,.1))"></div>
+  <div class="s-tag">Section I · The Two Rhythms</div>
+  <h2 style="color:var(--primary)"><em><div style="display:inline-flex;align-items:center;gap:6px;background:rgba(168,212,255,.06);border:1px solid rgba(168,212,255,.2);border-radius:5px;padding:4px 10px;margin:6px 0;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.09em;color:rgba(168,212,255,.8);"><span>&#9872;</span> COMMA FRAMEWORK ARTICULATION &middot; neural oscillation ratio as comma</div>
+A brain that plays</em><br><strong>in two keys at once</strong></h2>
+
+  <p>Place yourself inside a hippocampus. Two rhythms dominate everything. The first is <strong>theta</strong>, a slow, sweeping oscillation at 6–10 Hz, generated by the medial septum and synchronized across the entire hippocampal-entorhinal circuit. It is the metronome. It paces the architecture of time. The second is <strong>gamma</strong>, a fast, sharp oscillation at 30–100 Hz, emerging locally from networks of pyramidal cells and inhibitory interneurons. It is the melody line. It marks the instant of activation, the moment a cell assembly fires together and codes for a thing.</p>
+
+  <p>The relationship between them is the subject of this page. Not the rhythms in isolation, both have been studied for decades, but the <strong>ratio between them</strong>, and what that ratio has to do with the Pythagorean comma.</p>
+
+  <div class="ratio-grid">
+    <div class="ratio-card">
+      <span class="ratio-n" style="color:var(--theta)">θ · 4–10 Hz</span>
+      <div class="ratio-l">Theta Oscillation</div>
+      <div style="font-size:.82rem;color:var(--dim);margin-top:.6rem">The slow carrier wave. One theta cycle = 100–250 ms. Synchronized across hippocampus, entorhinal cortex, prefrontal cortex during active navigation and memory encoding.</div>
+    </div>
+    <div class="ratio-card">
+      <span class="ratio-n" style="color:var(--gamma)">γ · 30–100 Hz</span>
+      <div class="ratio-l">Gamma Oscillation</div>
+      <div style="font-size:.82rem;color:var(--dim);margin-top:.6rem">The fast carrier. Multiple gamma cycles nest within a single theta cycle. Each gamma subcycle = one active cell assembly = one memory item in working memory.</div>
+    </div>
+    <div class="ratio-card">
+      <span class="ratio-n" style="color:var(--primary)">γ/θ · ~5–10</span>
+      <div class="ratio-l">The Ratio, Not an Integer</div>
+      <div style="font-size:.82rem;color:var(--dim);margin-top:.6rem">The number of gamma cycles per theta cycle. Typically 5–10, often near 7±2 (Miller's working memory capacity). The key: this ratio is <em>never precisely integer</em>.</div>
+    </div>
+  </div>
+
+  <div class="comma-call">
+    <div class="cc-label">The Comma of Neural Time</div>
+    <div class="cc-text">If gamma and theta ran at an exact integer ratio, say, exactly 5 gamma cycles per theta cycle, the two rhythms would lock in perfect synchrony, fire at the same phase on every theta cycle, and create a static, crystalline code with no capacity for novelty or update. The brain does not do this. The measured ratio fluctuates around a non-integer value, typically near 5.1–6.8 depending on region, task, and state. <strong>The residue, the non-closure between the slow and fast rhythms, is what allows the system to update its memory contents from cycle to cycle.</strong> The theta-gamma code is a managed non-closure. A neural Pythagorean comma.</div>
+  </div>
+</div>
+
+<!-- SECTION II: LIVE OSCILLATION DEMO -->
+<div class="section">
+  <div class="s-tag">Section II · Interactive</div>
+  <h2><div style="display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:5px;padding:4px 10px;margin:6px 0;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.09em;color:rgba(201,168,76,.85);"><span>&#9872;</span> COMMA FRAMEWORK QUESTION &middot; Does gamma/theta phase remainder accumulate like a musical comma?</div>
+Adjust the ratio.<br><em>Watch the phase drift.</em></h2>
+  <p>Below, theta (slow, <span style="color:var(--theta)">teal</span>) and gamma (fast, <span style="color:var(--gamma)">gold</span>) are plotted together. Change the gamma frequency and observe how the phase relationship between them evolves across theta cycles. When the ratio is exactly integer, gamma locks to the same theta phase on every cycle, static, crystalline, no update. When the ratio is non-integer, gamma precesses through theta phase, a moving window, a non-closing loop.</p>
+
+  <div id="osc-container">
+    <canvas id="osc-canvas" height="200"></canvas>
+    <div class="osc-controls">
+      <div class="osc-ctrl">
+        <label>θ Freq</label>
+        <input type="range" id="thetaFreq" min="4" max="12" step="0.1" value="8">
+        <span class="osc-val" id="thetaFreqVal">8.0 Hz</span>
+      </div>
+      <div class="osc-ctrl">
+        <label>γ Freq</label>
+        <input type="range" id="gammaFreq" min="30" max="80" step="0.5" value="40.8">
+        <span class="osc-val" id="gammaFreqVal">40.8 Hz</span>
+      </div>
+    </div>
+    <div class="osc-readout">
+      <div class="osc-metric">
+        <span class="osc-metric-val" id="ratioVal" style="color:var(--primary)">5.10</span>
+        <span class="osc-metric-lbl">γ/θ ratio</span>
+      </div>
+      <div class="osc-metric">
+        <span class="osc-metric-val" id="residueVal" style="color:var(--gold)">0.10</span>
+        <span class="osc-metric-lbl">per-cycle residue</span>
+      </div>
+      <div class="osc-metric">
+        <span class="osc-metric-val" id="lockoutVal" style="color:var(--teal)">10.0</span>
+        <span class="osc-metric-lbl">θ cycles to reset</span>
+      </div>
+      <div class="osc-metric">
+        <span class="osc-metric-val" id="statusVal" style="color:var(--green)">NON-LOCKED</span>
+        <span class="osc-metric-lbl">phase state</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:.85rem">Try setting γ/θ to exactly 5.0 (e.g., θ = 8 Hz, γ = 40 Hz). The code locks, the same gamma phases fire at the same theta phase forever. Now perturb it to 5.1. The phase drifts, precesses, and the system can encode sequence. <strong>The non-integer residue is not a flaw. It is the feature.</strong></p>
+</div>
+
+<!-- SECTION III: PHASE PRECESSION -->
+<div class="section">
+  <div class="s-tag">Section III · Phase Precession</div>
+  <h2><em>The moving window</em><br><strong>of place cells</strong></h2>
+
+  <p>O'Keefe and Recce discovered in 1993 that as a rat moves through a place cell's field, that cell fires at progressively earlier phases of the ongoing theta cycle. The cell enters the field firing near the theta trough, and exits near the peak, a full precession of roughly 360° across 5–10 theta cycles. This <strong>phase precession</strong> encodes the rat's spatial trajectory as a temporal code: the sequence of positions the animal will pass through is compressed into the sequence of gamma subcycles within a single theta cycle.</p>
+
+  <p>The key mathematical condition for phase precession to work is that the intracellular oscillation driving the cell must run at a <strong>slightly higher frequency than theta</strong>, not twice as fast, not half as fast, but faster by a small, non-integer residue. The cell's preferred firing phase drifts forward through theta because of this small mismatch. <strong>The mismatch is the mechanism.</strong> The comma is the precession.</p>
+
+  <div class="prec-box">
+    <canvas id="prec-canvas" height="160"></canvas>
+    <div style="display:flex;justify-content:center;gap:2rem;margin-top:.7rem">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;color:var(--theta)">▬ Theta envelope</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;color:var(--gamma)">▬ Cell firing phase</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;color:var(--primary)">· precession path</span>
+    </div>
+  </div>
+
+  <p>This is the Pythagorean comma expressed in neural time. The slow theta rhythm completes a cycle. The fast intracellular oscillation has completed slightly more than an integer number of cycles. The residue, the gap, is not averaged away. It accumulates, creating a continuous precession that encodes position with a precision of ~3 cm in a rat's environment, far beyond what a simple rate code could achieve.</p>
+</div>
+
+<!-- SECTION IV: THE THETA-GAMMA CODE -->
+<div class="section">
+  <div class="s-tag">Section IV · The θ-γ Code</div>
+  <h2>Working memory<br><em>as subcycles</em></h2>
+
+  <p>Lisman and Idiart proposed in 1995 that working memory capacity is set by the number of gamma cycles within a theta cycle. Each gamma subcycle contains one active cell assembly, one memory item. The famous limit of 7 ± 2 items (Miller, 1956) arises because a theta cycle at ~8 Hz contains 5–10 gamma subcycles at 40–80 Hz. The ratio γ/θ is not arbitrary. <strong>It is the architecture of working memory.</strong></p>
+
+  <canvas id="slots-canvas" height="120"></canvas>
+
+  <div class="math-row">
+    <div class="math-eq">γ/θ ≈ 40/8 = 5.0 → capacity = 5 items</div>
+    <div class="math-desc">Perfect integer: static, no update</div>
+  </div>
+  <div class="math-row">
+    <div class="math-eq">γ/θ ≈ 40.8/8 = 5.1 → capacity = 5, drift = 0.1/cycle</div>
+    <div class="math-desc">Non-integer: dynamic, updatable</div>
+  </div>
+  <div class="math-row">
+    <div class="math-eq">1/0.1 = 10 theta cycles → full phase reset</div>
+    <div class="math-desc">The memory "refresh rate"</div>
+  </div>
+  <div class="math-row" style="border-left-color:var(--gold)">
+    <div class="math-eq" style="color:var(--gold)">δ = 0.013643 → 1/δ = N_res = 73.3</div>
+    <div class="math-desc" style="color:var(--gold)">The Pythagorean resonance number</div>
+  </div>
+
+  <p>The connection to N_res = 73.3 is structural: just as 12 fifths require exactly one Pythagorean comma to fail to close a circle of octaves, the theta-gamma system requires a non-integer γ/θ ratio to avoid locking into a static, non-updating code. The biological optimization problem and the musical tuning problem have the same mathematical solution: <strong>managed non-closure.</strong></p>
+
+  <div class="comma-call">
+    <div class="cc-label">The Pythagorean Comma of Memory</div>
+    <div class="cc-text">In music: 12 perfect fifths fail to close by δ = 0.013643. The gap prevents the scale from collapsing into octave equivalence, it is what makes all 12 keys distinct. In hippocampus: the theta-gamma ratio fails to be integer by a small residue. This gap prevents the code from locking, it is what makes all memory items distinct and sequentially ordered. <strong>The gap is not a failure of precision. It is what makes sequence possible at all.</strong> A perfectly integer ratio would be a scale with no Pythagorean comma, musically dead, harmonically sealed. A theta-gamma system with a perfectly integer ratio would be a memory system that could not update, a neural record player with its needle permanently in the same groove.</div>
+  </div>
+</div>
+
+<!-- SECTION V: THE DISEASES OF RATIO LOSS -->
+<div class="section">
+  <div class="s-tag">Section V · Pathology</div>
+  <h2><em>When the ratio</em><br><strong>locks or collapses</strong></h2>
+
+  <p>If the theta-gamma non-integer ratio is the mechanism of sequence encoding, then diseases of that ratio should manifest as diseases of memory and sequence. The evidence points precisely here.</p>
+
+  <div class="info-grid">
+    <div class="ig-cell">
+      <div class="ig-label">Alzheimer's Disease</div>
+      <div class="ig-val">Gamma power in CA1 collapses as amyloid accumulates. <strong>40 Hz gamma entrainment</strong> (Iaccarino et al., Nature 2016) reduced amyloid and improved cognition in mice, direct evidence that restoring the fast oscillation is therapeutic. The theta-gamma code cannot operate without the fast carrier. Loss of gamma = loss of memory slot resolution.</div>
+    </div>
+    <div class="ig-cell">
+      <div class="ig-label">Schizophrenia</div>
+      <div class="ig-val">The most replicated finding in schizophrenia electrophysiology: <strong>reduced 40 Hz gamma power</strong> and disrupted theta-gamma coupling. The predictive coding model of schizophrenia (Friston, 2005) describes the disease as a collapse of the prediction error signal, the gap between expected and received, which is exactly the gap that the theta-gamma non-integer ratio maintains.</div>
+    </div>
+    <div class="ig-cell">
+      <div class="ig-label">Parkinson's Disease</div>
+      <div class="ig-val">The pathological oscillation in Parkinson's is <strong>exaggerated beta synchrony</strong> (13–35 Hz) in the basal ganglia-cortical circuit, not theta-gamma disruption per se. But the mechanism is identical: the beta band locks in synchrony rather than remaining in productive non-closure. Deep brain stimulation works by disrupting the locked oscillation, reinstating the gap.</div>
+    </div>
+    <div class="ig-cell">
+      <div class="ig-label">Autism Spectrum</div>
+      <div class="ig-val">Theta-gamma coupling differences in ASD reflect altered E/I (excitatory/inhibitory) ratio, which directly sets the gamma frequency. <strong>A different gamma frequency means a different θ/γ ratio</strong>, not necessarily a broken ratio, but a differently tuned one that may not match the external social-communication environment. A different comma placement, not an absent comma.</div>
+    </div>
+  </div>
+
+  <div class="pull">
+    <div class="pt">"The brain does not encode memory by achieving precision. It encodes memory by maintaining productive imprecision, a theta-gamma ratio that is close to integer but never exactly integer, that drifts forward through phase on every cycle, that accumulates a residue that is never zeroed out."</div>
+    <div class="ps">Musica Universalis · The θ-γ Neural Code · Project Orpheus</div>
+  </div>
+</div>
+
+<!-- SECTION VI: THE N_res CONNECTION -->
+<div class="section">
+  <div class="s-tag">Section VI · The Resonance Number</div>
+  <h2>N<sub>res</sub> = 73.3<br><em>in neural time</em></h2>
+
+  <p>The resonance number N_res = 1/δ = 73.3 emerges from the Pythagorean comma: after 73.3 iterations of the 3:2 ratio, the accumulated non-closure equals exactly one full octave gap. In the theta-gamma system, the analogous question is: after how many theta cycles does the phase-precessing cell assembly return to its starting phase?</p>
+
+  <p>For a γ/θ ratio of R, the answer is 1/(R − floor(R)) theta cycles. For R = 40/8 = 5.0, the answer is ∞, perfect lock, no return, static code. For R = 40.8/8 = 5.1, the answer is 10 theta cycles, the system resets every ~1.25 seconds. For R = 73.3/8 = 9.16..., the phase reset period equals N_res in theta units, and the non-closure per cycle is exactly δ. <strong>The Pythagorean comma is the natural non-closure of the neural oscillator optimized for KAM stability near 3:2 coupling.</strong></p>
+
+  <div class="comma-call" style="border-color:rgba(232,201,106,.15);background:rgba(232,201,106,.02)">
+    <div class="cc-label" style="color:rgba(232,201,106,.5)">The Falsifiable Prediction</div>
+    <div class="cc-text" style="color:var(--dim)">If the θ-γ ratio is optimized by the same mathematical constraint as the Pythagorean comma, namely, that N_res = 73.3 sets the phase-reset period, then the measured ratio in highly trained spatial tasks should converge toward <strong style="color:var(--gold)">γ/θ = N_res / floor(N_res) × θ_0</strong>, where θ_0 is the baseline theta frequency. Specifically: hippocampal recordings during optimal memory performance should show γ/θ ratios with fractional parts near δ = 0.013643 or its multiples. Phase precession measured across many place fields should show mean precession rates consistent with this residue. This is a quantitative prediction, not a metaphor.</div>
+  </div>
+</div>
+
+<!-- SECTION VII: FRONTIER RESEARCH -->
+<div class="section">
+  <div class="s-tag">Section VII · Frontier Research</div>
+  <h2><em>The active edge</em><br>of the code</h2>
+
+  <div class="research-grid">
+    <div class="r-card">
+      <div class="r-card-top"><div class="r-icon">⚡</div><div class="r-title">40 Hz Gamma Entrainment for Alzheimer's</div></div>
+      <div class="r-date">Iaccarino et al., Nature 2016 · Martorell et al., Cell 2019 · GammaSense Inc. 2024</div>
+      <div class="r-text">Flickering light and sound at 40 Hz restores theta-gamma coupling in Alzheimer's mouse models, reduces amyloid and tau, improves cognition. Phase III clinical trials ongoing (2024–2025). The therapy directly targets the non-integer ratio, restoring the gamma carrier to allow the theta-gamma code to function. <strong>The most direct clinical translation of the comma principle to date.</strong></div>
+      <span class="r-badge rb-blue">Phase III Clinical</span>
+    </div>
+    <div class="r-card">
+      <div class="r-card-top"><div class="r-icon">🧠</div><div class="r-title">Human Phase Precession Confirmed</div></div>
+      <div class="r-date">Heusser et al. 2016 · Lega et al. 2012–2024 · Current Biology 2023</div>
+      <div class="r-text">Direct intracranial recordings from epilepsy patients confirmed theta-gamma phase-amplitude coupling in human hippocampus during episodic memory encoding and retrieval, with gamma coupled to opposed theta-phase states. <strong>The theta-gamma code is not a rodent curiosity, it is the architecture of human memory.</strong></div>
+      <span class="r-badge rb-teal">Confirmed Human</span>
+    </div>
+    <div class="r-card">
+      <div class="r-card-top"><div class="r-icon">🔭</div><div class="r-title">Two-Gamma Subchannel Discovery</div></div>
+      <div class="r-date">Colgin et al., Nature 2009 · Schomburg et al. 2014</div>
+      <div class="r-text">The hippocampus uses two distinct gamma frequency bands: <strong>slow gamma (~40–70 Hz)</strong> coupling CA3 input (retrieval/past) to theta trough, and <strong>fast gamma (~80–120 Hz)</strong> coupling entorhinal cortex input (encoding/present) to theta peak. Two non-integer ratios running in parallel, a two-voice polyphony with different residues.</div>
+      <span class="r-badge rb-blue">Foundational</span>
+    </div>
+    <div class="r-card">
+      <div class="r-card-top"><div class="r-icon">📊</div><div class="r-title">Coupling Predicts Memory Performance</div></div>
+      <div class="r-date">PNAS 2009 · Axmacher et al. 2010 · Lega et al. 2015</div>
+      <div class="r-text">Theta-gamma coupling strength during encoding directly predicts recall success. In 56 patients undergoing intracranial monitoring, increased PAC during word encoding correlated with successful retrieval 24h later. <strong>The strength of the non-integer relationship predicts how well memory works.</strong> More comma, better memory.</div>
+      <span class="r-badge rb-teal">Predictive Biomarker</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION VIII: THE OBSTACLES -->
+<div class="section">
+  <div class="s-tag">Section VIII · What Remains Unresolved</div>
+  <h3>Honest obstacles</h3>
+
+  <div class="obstacle"><div class="ob-dot" style="background:var(--primary)"></div><div class="ob-text"><strong>The precise non-integer ratio is not yet pinned.</strong> The θ/γ ratio varies by region, task, state, and species. The claim that it converges to a value with fractional part near δ = 0.013643 is a prediction, not a confirmed finding. No paper has yet measured this with the precision required to distinguish δ from nearby values.</div></div>
+  <div class="obstacle"><div class="ob-dot" style="background:var(--primary)"></div><div class="ob-text"><strong>Phase-phase coupling is contested.</strong> Scheffer-Teixeira and Tort (eLife 2016) demonstrated that previously reported n:m phase-phase coupling between theta and gamma may be artifactual, produced by filtering, waveform asymmetry, and improper surrogate methods. Phase-amplitude coupling is well-established; phase-phase coupling is not.</div></div>
+  <div class="obstacle"><div class="ob-dot" style="background:var(--primary)"></div><div class="ob-text"><strong>The N_res connection is structural, not yet empirical.</strong> The argument that N_res = 73.3 is the natural phase-reset period of the theta-gamma system is mathematically coherent but has not been directly tested in hippocampal recordings. It is a prediction arising from the CPCS framework, not a replicated finding.</div></div>
+  <div class="obstacle"><div class="ob-dot" style="background:var(--primary)"></div><div class="ob-text"><strong>The 7±2 argument requires scrutiny.</strong> Miller's 1956 working memory capacity limit is a rough empirical observation, and the precise mapping to theta-gamma subcycles depends on both theta frequency and gamma frequency varying together. The relationship is suggestive, not proven.</div></div>
+</div>
+
+<!-- SECTION IX: FALSIFIABLE PREDICTIONS -->
+<div class="section">
+  <div class="s-tag">Section IX · Testable Claims</div>
+  <h2><em>Three predictions</em><br>from the CPCS framework</h2>
+
+  <div class="pred-block">
+    <div class="pred-n">Prediction 01</div>
+    <div class="pred-text">In hippocampal recordings during optimal spatial memory performance (high recall, low error), the γ/θ ratio should show a fractional-part distribution with a mode near <strong>δ = 0.013643 or its first several multiples</strong> (0.027, 0.041…). Degraded memory performance should show the fractional part moving toward 0 (integer lock) or 0.5 (maximum non-periodicity). This can be tested with existing multi-electrode recording datasets from active rodents.</div>
+  </div>
+  <div class="pred-block">
+    <div class="pred-n">Prediction 02</div>
+    <div class="pred-text">The mean phase precession rate across CA1 place cells, expressed as degrees per theta cycle, should be consistent with a <strong>per-cycle residue of δ</strong> when the intracellular oscillation is normalized to the gamma frequency. Specifically: if gamma = 40 Hz and theta = 8 Hz, the predicted precession rate per theta cycle is 360° × 0.013643 ≈ 4.9°. Existing phase precession datasets can be reanalyzed to test this directly.</div>
+  </div>
+  <div class="pred-block">
+    <div class="pred-n">Prediction 03</div>
+    <div class="pred-text">In Alzheimer's patients and mouse models before 40 Hz entrainment therapy, the measured θ/γ ratio should show a fractional part significantly closer to 0 (integer locking → pathological synchrony → memory loss) than in age-matched controls. After 40 Hz entrainment, the fractional part should shift toward δ territory. <strong>Therapeutic restoration of the comma = restoration of memory.</strong> This is a direct test of the comma principle in a clinical intervention.</div>
+  </div>
+</div>
+
+<!-- FOOTNOTES -->
+<div class="fn">
+  O'Keefe & Recce (1993) Phase relationship between hippocampal place units and the EEG theta rhythm. Hippocampus 3(3):317–30 ·
+  Lisman JE, Idiart MA (1995) Storage of 7±2 short-term memories in oscillatory subcycles. Science 267:1512–15 ·
+  Lisman JE, Jensen O (2013) The θ-γ neural code. Neuron 77:1002–16 ·
+  Colgin LL et al. (2009) Frequency of gamma oscillations routes flow of information in the hippocampus. Nature 462:353–57 ·
+  Iaccarino HF et al. (2016) Gamma frequency entrainment attenuates amyloid load and modifies microglia. Nature 540:230–35 ·
+  Martorell AJ et al. (2019) Multi-sensory gamma stimulation ameliorates Alzheimer's-associated pathology and improves cognition. Cell 177:256–71 ·
+  Lega BC et al. (2012) Human hippocampal theta oscillations and the formation of episodic memories. Hippocampus 22:748–61 ·
+  Lega BC et al. (2015) Slow-theta-to-gamma PAC in human hippocampus supports the formation of new episodic memories. Cereb Cortex 26:268–78 ·
+  Scheffer-Teixeira R, Tort AB (2016) On cross-frequency phase-phase coupling between theta and gamma oscillations. eLife 5:e20515 ·
+  Moon JH et al. (2016) Advanced circadian phase in mania and delayed phase in mixed mania and depression. EBioMedicine 11:285–95 ·
+  Libert S et al. (2012) Deviation of innate circadian period from 24h reduces longevity in mice. Aging Cell 11:794–800 ·
+  OLIVE (East) / Musica Universalis · Project Orpheus · musicauniversalis.band ·
+</div>
+</div>
+
+<script>
+// STARFIELD BACKGROUND
+(function(){
+  const c=document.getElementById('bg');
+  const ctx=c.getContext('2d');
+  let stars=[];
+  function resize(){c.width=innerWidth;c.height=innerHeight;stars=[];for(let i=0;i<180;i++){stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.2+.2,a:Math.random(),s:Math.random()*.003+.001})}}
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.fillStyle='#04070F';ctx.fillRect(0,0,c.width,c.height);
+    stars.forEach(s=>{
+      s.a+=s.s;if(s.a>1||s.a<0)s.s=-s.s;
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(168,212,255,${s.a*.6})`;ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);resize();draw();
+})();
+
+// OSCILLATION DEMO
+(function(){
+  const canvas=document.getElementById('osc-canvas');
+  const ctx=canvas.getContext('2d');
+  const thetaSlider=document.getElementById('thetaFreq');
+  const gammaSlider=document.getElementById('gammaFreq');
+  const thetaValEl=document.getElementById('thetaFreqVal');
+  const gammaValEl=document.getElementById('gammaFreqVal');
+  const ratioEl=document.getElementById('ratioVal');
+  const residueEl=document.getElementById('residueVal');
+  const lockoutEl=document.getElementById('lockoutVal');
+  const statusEl=document.getElementById('statusVal');
+  let t=0;
+  let animId;
+
+  function draw(){
+    const W=canvas.offsetWidth;const H=200;
+    canvas.width=W*devicePixelRatio;canvas.height=H*devicePixelRatio;
+    ctx.scale(devicePixelRatio,devicePixelRatio);
+    const tf=parseFloat(thetaSlider.value);
+    const gf=parseFloat(gammaSlider.value);
+    const ratio=gf/tf;
+    const residue=ratio-Math.floor(ratio);
+    const lockout=residue<0.001?999:(1/residue).toFixed(1);
+
+    thetaValEl.textContent=tf.toFixed(1)+' Hz';
+    gammaValEl.textContent=gf.toFixed(1)+' Hz';
+    ratioEl.textContent=ratio.toFixed(2);
+    residueEl.textContent=residue.toFixed(4);
+    lockoutEl.textContent=typeof lockout==='number'?lockout.toFixed(1):lockout;
+    const isLocked=residue<0.05;
+    statusEl.textContent=isLocked?'LOCKED':'NON-LOCKED';
+    statusEl.style.color=isLocked?'#FF6B6B':'#7BE8A0';
+
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(0,0,W,H);
+
+    // Draw theta
+    ctx.beginPath();ctx.strokeStyle='rgba(126,236,212,0.5)';ctx.lineWidth=2;
+    for(let x=0;x<W;x++){
+      const tval=Math.sin(2*Math.PI*tf*(t+x/W)*0.5)*0.35;
+      const y=H*0.35-tval*H*0.3;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+
+    // Draw gamma
+    ctx.beginPath();ctx.strokeStyle='rgba(232,201,106,0.7)';ctx.lineWidth=1.5;
+    for(let x=0;x<W;x++){
+      const gval=Math.sin(2*Math.PI*gf*(t+x/W)*0.5)*0.35;
+      const y=H*0.72-gval*H*0.22;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+
+    // Phase indicator dots at theta peaks
+    for(let i=0;i<8;i++){
+      const tPeak=(i/tf - t*0.5 % (1/tf))*W*2;
+      if(tPeak>=0&&tPeak<=W){
+        const phaseAtPeak=((gf*tPeak/W*0.5)%1)*2*Math.PI;
+        const gy=H*0.72-Math.sin(phaseAtPeak)*H*0.22;
+        ctx.beginPath();ctx.arc(tPeak,gy,4,0,Math.PI*2);
+        ctx.fillStyle='rgba(168,212,255,0.8)';ctx.fill();
+      }
+    }
+
+    // Labels
+    ctx.font=`${10*devicePixelRatio}px 'JetBrains Mono'`;ctx.scale(1/devicePixelRatio,1/devicePixelRatio);
+    ctx.fillStyle='rgba(126,236,212,0.6)';ctx.fillText('θ '+tf.toFixed(1)+'Hz',8*devicePixelRatio,24*devicePixelRatio);
+    ctx.fillStyle='rgba(232,201,106,0.6)';ctx.fillText('γ '+gf.toFixed(1)+'Hz',8*devicePixelRatio,42*devicePixelRatio);
+    ctx.scale(devicePixelRatio,devicePixelRatio);
+
+    t+=0.006;
+    cancelAnimationFrame(animId);
+    animId=requestAnimationFrame(draw);
+  }
+
+  thetaSlider.addEventListener('input',()=>{});
+  gammaSlider.addEventListener('input',()=>{});
+  draw();
+})();
+
+// PHASE PRECESSION DIAGRAM
+(function(){
+  const canvas=document.getElementById('prec-canvas');
+  const ctx=canvas.getContext('2d');
+  let t=0;
+
+  function draw(){
+    const W=canvas.offsetWidth;const H=160;
+    canvas.width=W*devicePixelRatio;canvas.height=H*devicePixelRatio;
+    ctx.scale(devicePixelRatio,devicePixelRatio);
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='rgba(0,0,0,0.4)';ctx.fillRect(0,0,W,H);
+
+    const nTheta=5;
+    const thetaF=8;const gammaF=40.8;
+
+    // Theta envelope
+    ctx.beginPath();ctx.strokeStyle='rgba(126,236,212,0.3)';ctx.lineWidth=1;
+    for(let x=0;x<W;x++){
+      const th=Math.sin(2*Math.PI*thetaF*x/W)*0.3;
+      const y=H*0.5-th*H*0.35;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+
+    // Phase precession dots: cell fires at earlier theta phase as position increases
+    ctx.beginPath();
+    let firstDot=true;
+    for(let x=0;x<W;x+=3){
+      const thetaPhase=(thetaF*x/W)*2*Math.PI;
+      const gammaPhase=(gammaF*x/W)*2*Math.PI+t*0.5;
+      const precessionOffset=(gammaF/thetaF-Math.floor(gammaF/thetaF))*thetaPhase;
+      const firingPhase=thetaPhase-precessionOffset;
+      const thetaEnv=Math.sin(thetaPhase)*0.3;
+      const firingY=H*0.5-thetaEnv*H*0.35-Math.sin(firingPhase)*H*0.08;
+      if(firstDot){ctx.moveTo(x,firingY);firstDot=false;}
+      else{ctx.lineTo(x,firingY);}
+    }
+    ctx.strokeStyle='rgba(168,212,255,0.5)';ctx.lineWidth=1.5;ctx.stroke();
+
+    // Firing phase indicators
+    for(let i=0;i<nTheta;i++){
+      const x=(i/nTheta)*W+(t*15)%W;
+      if(x<0||x>W)continue;
+      const thetaPhase=(thetaF*x/W)*2*Math.PI;
+      const precessionOffset=((gammaF/thetaF)-Math.floor(gammaF/thetaF))*thetaPhase;
+      const thetaEnv=Math.sin(thetaPhase)*0.3;
+      const firingPhase=thetaPhase-precessionOffset;
+      const firingY=H*0.5-thetaEnv*H*0.35-Math.sin(firingPhase)*H*0.08;
+
+      ctx.beginPath();ctx.arc(x%W,firingY,5,0,Math.PI*2);
+      ctx.fillStyle=`rgba(232,201,106,${0.4+0.5*(i/nTheta)})`;ctx.fill();
+
+      // Arrow showing precession direction
+      if(i>0){
+        ctx.beginPath();
+        ctx.strokeStyle='rgba(168,212,255,0.3)';ctx.lineWidth=1;
+        ctx.setLineDash([2,3]);
+        ctx.moveTo((x-W/nTheta)%W,firingY+10);
+        ctx.lineTo(x%W,firingY-5);
+        ctx.stroke();ctx.setLineDash([]);
+      }
+    }
+
+    // Label
+    ctx.fillStyle='rgba(168,212,255,0.4)';
+    ctx.font='10px JetBrains Mono';
+    ctx.fillText('← firing phase precesses as position increases →',W/2-130,H-12);
+
+    t+=0.03;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// MEMORY SLOTS DIAGRAM
+(function(){
+  const canvas=document.getElementById('slots-canvas');
+  const ctx=canvas.getContext('2d');
+  let t=0;
+
+  function draw(){
+    const W=canvas.offsetWidth;const H=120;
+    canvas.width=W*devicePixelRatio;canvas.height=H*devicePixelRatio;
+    ctx.scale(devicePixelRatio,devicePixelRatio);
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='rgba(0,0,0,0.4)';ctx.fillRect(0,0,W,H);
+
+    const nSlots=7;
+    const slotW=W/(nSlots+1);
+    const colors=['#FF6B6B','#E8A46A','#E8C96A','#7BE8A0','#7EECD4','#A8D4FF','#C97EEC'];
+    const items=['Item 1','Item 2','Item 3','Item 4','Item 5','Item 6','Item 7'];
+
+    // Theta wave background
+    ctx.beginPath();ctx.strokeStyle='rgba(126,236,212,0.15)';ctx.lineWidth=2;
+    for(let x=0;x<W;x++){
+      const th=Math.sin(2*Math.PI*x/W*2)*0.3;
+      const y=H*0.5+th*H*0.3;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+
+    // Memory slots
+    items.forEach((item,i)=>{
+      const x=slotW*(i+0.7);
+      const phase=t+i*(1/nSlots)*2;
+      const glow=Math.max(0,Math.sin(phase)*0.5+0.5);
+      const y=H*0.5;
+      const r=22+glow*8;
+
+      // Glow
+      const grad=ctx.createRadialGradient(x,y,0,x,y,r*1.5);
+      const r_=parseInt(colors[i].slice(1,3),16),g_=parseInt(colors[i].slice(3,5),16),b_=parseInt(colors[i].slice(5,7),16);
+      grad.addColorStop(0,`rgba(${r_},${g_},${b_},${0.3*glow})`);
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.beginPath();ctx.arc(x,y,r*1.5,0,Math.PI*2);
+      ctx.fillStyle=grad;ctx.fill();
+
+      // Circle
+      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fillStyle=colors[i]+'22';
+      ctx.strokeStyle=colors[i]+(glow>0.5?'bb':'44');
+      ctx.lineWidth=1.5;ctx.fill();ctx.stroke();
+
+      // Label
+      ctx.fillStyle=glow>0.5?colors[i]:'rgba(255,255,255,0.3)';
+      ctx.font=`bold 9px JetBrains Mono`;
+      ctx.textAlign='center';
+      ctx.fillText(item,x,y+3);
+    });
+
+    // Theta label
+    ctx.font='10px JetBrains Mono';ctx.textAlign='left';
+    ctx.fillStyle='rgba(126,236,212,0.5)';
+    ctx.fillText('← One theta cycle → contains '+nSlots+' gamma subcycles → '+nSlots+' memory slots',12,H-10);
+
+    t+=0.04;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+<!-- ══════════ COMMA QUESTIONS ══════════ -->
+<section style="max-width:860px;margin:0 auto 80px;padding:2.5rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:16px;position:relative;overflow:hidden;">
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.6),transparent);"></div>
+  <div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.55);margin-bottom:0.7rem;">&#9872; COMMA FRAMEWORK QUESTIONS</div>
+  <div style="font-family:'Cinzel Decorative',serif;color:rgba(201,168,76,0.9);font-size:1.4rem;margin-bottom:0.5rem;">Open Questions</div>
+  <p style="font-size:0.85rem;font-style:italic;color:rgba(255,255,255,0.38);margin-bottom:2rem;line-height:1.7;">These are speculative questions generated by the comma framework perspective. They are not claims. They are invitations, open directions that nobody has yet fully explored. Flag: &#9872; CF Question throughout.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.2rem;">
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · COSMOLOGY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The Hubble tension is a gap between two equally valid measurements of the same constant.</strong> The expansion rate measured from the early universe (CMB) and the late universe (Cepheid ladders) disagree by approximately 8%. Is this a cosmological comma, an irresolvable non-closure between two valid but incommensurable measurement frames, like the gap between twelve perfect fifths and seven octaves?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · BIOLOGY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The human circadian free-running period is 24.2 hours, not 24.</strong> The 0.2-hour daily gap accumulates: after 73 days without light cues, a person would be 14.6 hours out of phase with the solar day. Is N_res = 73 the biological reset window? Are there diseases of the 73-day accumulation?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · NEUROSCIENCE</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Theta (4-8 Hz) and gamma (30-100 Hz) brain oscillations are coupled but their ratio is irrational.</strong> Each theta cycle contains approximately 5-8 gamma cycles, but never an exact integer. Does the phase remainder accumulate like a comma? Is memory consolidation, the Kairos event of the hippocampus, triggered at N_res-like thresholds of phase accumulation?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · CHEMISTRY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Photosynthesis converts light to chemical energy at approximately 11% thermodynamic efficiency.</strong> The rest is lost as heat and fluorescence. Is the efficiency gap (the 89% that doesn't convert) a molecular comma, the irresolvable mismatch between the photon's energy quantum and the ATP synthesis machinery's discrete steps? Does the CPCS correction have a photosynthetic analogue?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · MATHEMATICS</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">log₂(3/2) is irrational. This is not a physical constant, it is a mathematical necessity in any universe with integers.</strong> The Pythagorean comma is therefore the only musical structure that must exist in every possible universe. What other mathematical structures share this property of necessity-across-all-universes? Does this make delta = 0.013643 the most universal number that exists?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · SETI</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The Wow! Signal lasted 72 seconds. N_res = 73.296. The gap is 1.296 seconds.</strong> Any civilization that has discovered periodicity will eventually find the Pythagorean comma. A signal that stops 1.296 seconds before N_res completes would be immediately recognizable to any civilization that knows the protocol. Has anyone run the comma-transform on the Wow! Signal data? The Big Ear archives are public.</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · HISTORY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Every calendar system in history is secretly a comma-management strategy.</strong> The Gregorian calendar adds a leap day every 4 years (with corrections) to close the gap between the solar year and 365 whole days. The Maya Long Count runs 5,125 years before resetting. The 19-year Metonic cycle closes the gap between solar and lunar calendars to within 2 hours. What other human institutions are secretly managing an irresolvable non-closure?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · PHYSICS</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The fine structure constant alpha = 1/137.036 is dimensionless and unexplained.</strong> Richard Feynman called it "one of the greatest damn mysteries of physics." It governs the strength of the electromagnetic force. Nobody knows why it has this value. Could it be related to a ratio of irrationals, a comma of electromagnetism? If delta = 0.013643 is the musical comma, what is alpha's equivalent non-closure?</p>
+    </div>
+
+  </div>
+</section>
+<div style="max-width:820px;margin:48px auto 24px;background:rgba(13,16,23,.9);border:1px solid rgba(93,222,200,.12);border-left:3px solid rgba(93,222,200,.4);padding:22px 26px;">
+<div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(93,222,200,.6);margin-bottom:14px;">References &middot; APA + ACS</div>
+<div style="font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.9;">
+<p>[1] Buzsaki, G.; Draguhn, A. (2004). Neuronal oscillations in cortical networks. <em>Science, 304</em>(5679), 1926-1929. DOI: 10.1126/science.1099745 | ACS: Buzsaki, G.; Draguhn, A. <em>Science</em> <strong>2004</strong>, <em>304</em>, 1926-1929.</p>
+<p>[2] Canolty, R. T.; Knight, R. T. (2010). The functional role of cross-frequency coupling. <em>Trends in Cognitive Sciences, 14</em>(11), 506-515. DOI: 10.1016/j.tics.2010.09.001</p>
+<p>[3] O'Keefe, J.; Recce, M. L. (1993). Phase relationship between hippocampal place units and EEG theta rhythm. <em>Hippocampus, 3</em>(3), 317-330. DOI: 10.1002/hipo.450030307 | ACS: O'Keefe, J.; Recce, M. L. <em>Hippocampus</em> <strong>1993</strong>, <em>3</em>, 317-330. [Nobel Prize in Physiology 2014 for place cells]</p>
+<p>[4] Barbour, J. M. (1951). <em>Tuning and temperament.</em> Michigan State College Press. [Pythagorean comma as the non-closure this page draws the analogy from]</p>
+</div></div></body>
+</html>

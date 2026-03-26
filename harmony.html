@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silence or Music, The Search for Harmony</title>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=Teko:wght@300;400;500;600&family=Inconsolata:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void:      #020204;
+  --near:      #06060e;
+  --deep:      #0c0b18;
+  --white:     #f2efe8;
+  --silver:    #c0bcd4;
+  --dim:       #5a5870;
+  --gold:      #d4a840;
+  --gold-dim:  #5a4010;
+  --violet:    #7060b0;
+  --violet-b:  #a090e0;
+  --jade:      #3a8868;
+  --jade-b:    #60c090;
+  --red:       #b03828;
+  --red-b:     #e05040;
+  --amber:     #c88030;
+  --amber-b:   #f0b060;
+  --orpheus:   #8050a0;
+  --orpheus-b: #c080e0;
+  --jason:     #4070a0;
+  --jason-b:   #70b0e0;
+  --lear:      #c04030;
+  --lear-b:    #f07060;
+  --macbeth:   #203020;
+  --mercutio:  #d09020;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--void);
+  color: var(--silver);
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+body::after {
+  content:''; position:fixed; inset:0; z-index:997; pointer-events:none; opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;
+}
+
+#bgCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1.1rem clamp(1.5rem,5vw,4rem);
+  background:linear-gradient(to bottom,rgba(2,2,4,0.97) 60%,transparent);
+}
+.nav-back { font-family:'Teko',sans-serif; font-weight:300; font-size:0.7rem; letter-spacing:0.35em; color:rgba(192,188,212,0.3); text-decoration:none; text-transform:uppercase; transition:color 0.3s; }
+.nav-back:hover { color:var(--gold); }
+.nav-title { font-family:'Inconsolata',monospace; font-weight:200; font-size:0.6rem; letter-spacing:0.25em; color:rgba(112,96,176,0.35); }
+
+/* SIDEBAR */
+#sidebar {
+  position:fixed; left:0; top:0; width:185px; height:100vh;
+  z-index:100; display:flex; flex-direction:column; justify-content:center;
+  padding:2rem 1.3rem;
+  border-right:1px solid rgba(112,96,176,0.07);
+  background:linear-gradient(to right,rgba(2,2,4,0.98) 80%,transparent);
+  overflow-y:auto;
+}
+#sidebar .idx-label { font-family:'Teko',sans-serif; font-weight:300; font-size:0.52rem; letter-spacing:0.5em; color:rgba(112,96,176,0.4); text-transform:uppercase; margin-bottom:1.5rem; }
+#sidebar a { display:block; font-family:'Spectral',serif; font-style:italic; font-size:0.75rem; color:rgba(192,188,212,0.28); text-decoration:none; padding:0.25rem 0 0.25rem 0.7rem; border-left:1px solid transparent; margin-left:-0.71rem; line-height:1.35; transition:color 0.3s,border-color 0.3s; }
+#sidebar a:hover, #sidebar a.active { color:var(--gold); border-color:var(--gold); }
+
+main { margin-left:185px; position:relative; z-index:1; }
+
+section { padding:6.5rem clamp(2rem,6vw,7rem); position:relative; }
+section:not(:last-child)::after { content:''; position:absolute; bottom:0; left:clamp(2rem,6vw,7rem); right:clamp(2rem,6vw,7rem); height:1px; background:linear-gradient(to right,transparent,rgba(112,96,176,0.1),transparent); }
+
+.eyebrow { font-family:'Teko',sans-serif; font-weight:300; font-size:0.55rem; letter-spacing:0.5em; color:rgba(112,96,176,0.5); text-transform:uppercase; margin-bottom:1.3rem; }
+h2 { font-family:'Spectral',serif; font-weight:200; font-size:clamp(1.8rem,4vw,3.5rem); color:var(--white); line-height:1.1; letter-spacing:-0.01em; margin-bottom:1.8rem; }
+h2 em { font-style:italic; color:var(--gold); }
+h3 { font-family:'Teko',sans-serif; font-weight:400; font-size:1.2rem; letter-spacing:0.15em; color:var(--silver); margin:2rem 0 0.8rem; text-transform:uppercase; }
+.prose { max-width:660px; color:rgba(192,188,212,0.68); font-size:1rem; }
+.prose p { margin-bottom:1.3rem; }
+.prose em { color:var(--white); font-style:italic; }
+.prose strong { color:var(--white); font-weight:300; }
+
+/* HERO */
+#hero {
+  min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+  position:relative; overflow:hidden;
+}
+.hero-orb { position:absolute; border-radius:50%; filter:blur(100px); pointer-events:none; }
+.orb-a { width:700px; height:700px; background:radial-gradient(circle,rgba(112,96,176,0.08),transparent 70%); top:-20%; right:-15%; animation:orb 14s ease-in-out infinite alternate; }
+.orb-b { width:400px; height:400px; background:radial-gradient(circle,rgba(58,136,104,0.06),transparent 70%); bottom:0%; left:5%; animation:orb 11s ease-in-out 3s infinite alternate; }
+.orb-c { width:300px; height:300px; background:radial-gradient(circle,rgba(212,168,64,0.05),transparent 70%); top:40%; right:25%; animation:orb 9s ease-in-out 6s infinite alternate; }
+@keyframes orb { from{opacity:0.5;transform:scale(1)} to{opacity:1;transform:scale(1.2)} }
+
+.hero-eyebrow { font-family:'Teko',sans-serif; font-weight:300; font-size:0.55rem; letter-spacing:0.6em; color:rgba(112,96,176,0.5); text-transform:uppercase; margin-bottom:2rem; opacity:0; animation:rise 1s ease 0.3s forwards; }
+#hero h1 { font-family:'Spectral',serif; font-weight:200; font-size:clamp(3rem,8.5vw,8rem); line-height:0.95; color:var(--white); letter-spacing:-0.02em; opacity:0; animation:rise 1.3s ease 0.5s forwards; }
+#hero h1 .g { color:var(--gold); font-style:italic; }
+#hero h1 .or { color:var(--dim); font-size:0.5em; font-weight:200; display:block; margin:0.3em 0; }
+.hero-sub { margin-top:2.5rem; font-style:italic; font-weight:200; font-size:1.1rem; color:rgba(192,188,212,0.35); max-width:500px; opacity:0; animation:rise 1s ease 1.1s forwards; }
+@keyframes rise { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+
+/* HARMONY INTERACTIVE */
+#harmony { background:radial-gradient(ellipse at 70% 40%,rgba(58,136,104,0.05) 0%,transparent 60%); }
+
+#harmonyCanvas { display:block; width:100%; max-width:800px; height:280px; border:1px solid rgba(58,136,104,0.15); background:rgba(6,6,14,0.8); margin:1.5rem 0; border-radius:1px; }
+
+.harmony-controls { display:flex; gap:1rem; flex-wrap:wrap; align-items:center; margin-bottom:0.8rem; }
+.harm-btn { font-family:'Teko',sans-serif; font-weight:400; font-size:0.65rem; letter-spacing:0.25em; padding:0.45rem 1.1rem; background:none; border:1px solid rgba(58,136,104,0.25); color:var(--jade-b); cursor:pointer; text-transform:uppercase; transition:background 0.3s,border-color 0.3s; }
+.harm-btn:hover,.harm-btn.active { background:rgba(58,136,104,0.1); border-color:var(--jade-b); }
+.harm-slider-wrap { display:flex; align-items:center; gap:0.8rem; }
+.harm-slider-label { font-family:'Inconsolata',monospace; font-size:0.6rem; color:var(--dim); letter-spacing:0.1em; white-space:nowrap; }
+input[type=range] { -webkit-appearance:none; width:120px; height:2px; background:rgba(58,136,104,0.3); outline:none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:12px; height:12px; background:var(--jade-b); border-radius:50%; cursor:pointer; }
+
+/* SILENCE VS MUSIC */
+.versus {
+  display:grid; grid-template-columns:1fr 1fr; gap:2px; max-width:800px; margin:2.5rem 0;
+}
+.versus-cell { padding:3rem 2.5rem; position:relative; overflow:hidden; transition:background 0.5s; }
+.versus-cell.sil { background:rgba(6,6,14,0.8); border:1px solid rgba(192,188,212,0.06); }
+.versus-cell.mus { background:rgba(112,96,176,0.04); border:1px solid rgba(112,96,176,0.1); }
+.versus-cell:hover { background:rgba(192,188,212,0.03); }
+.vc-label { font-family:'Teko',sans-serif; font-weight:500; font-size:0.52rem; letter-spacing:0.5em; text-transform:uppercase; margin-bottom:1rem; }
+.sil .vc-label { color:rgba(192,188,212,0.3); }
+.mus .vc-label { color:var(--violet-b); }
+.vc-title { font-family:'Spectral',serif; font-weight:200; font-size:2rem; margin-bottom:1rem; line-height:1; }
+.sil .vc-title { color:rgba(192,188,212,0.5); }
+.mus .vc-title { color:var(--violet-b); }
+.vc-text { font-size:0.9rem; color:rgba(192,188,212,0.45); line-height:1.8; }
+
+/* BUDDHA */
+#buddha { background:radial-gradient(ellipse at 30% 50%,rgba(212,168,64,0.05) 0%,transparent 60%); }
+
+.buddha-path { max-width:680px; margin-top:2rem; }
+.path-step { display:grid; grid-template-columns:3rem 1fr; gap:1.2rem; padding:1.2rem 0; border-bottom:1px solid rgba(212,168,64,0.07); }
+.ps-num { font-family:'Teko',sans-serif; font-weight:600; font-size:1.8rem; color:rgba(212,168,64,0.15); line-height:1; padding-top:0.2rem; transition:color 0.3s; }
+.path-step:hover .ps-num { color:rgba(212,168,64,0.5); }
+.ps-name { font-family:'Teko',sans-serif; font-weight:400; font-size:0.85rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:0.3rem; }
+.ps-text { font-size:0.9rem; color:rgba(192,188,212,0.5); line-height:1.8; }
+
+.kill-box {
+  margin:3rem 0; padding:2.5rem 3rem;
+  border:1px solid rgba(212,168,64,0.12);
+  background:rgba(212,168,64,0.02); max-width:660px;
+  position:relative;
+}
+.kill-box::before { content:'"'; position:absolute; top:-1.5rem; left:1.5rem; font-family:'Spectral',serif; font-size:5rem; color:rgba(212,168,64,0.1); line-height:1; }
+.kill-quote { font-family:'Spectral',serif; font-style:italic; font-weight:200; font-size:clamp(1rem,2vw,1.4rem); color:rgba(192,188,212,0.5); line-height:1.6; }
+.kill-attr { font-family:'Inconsolata',monospace; font-size:0.6rem; letter-spacing:0.2em; color:rgba(212,168,64,0.3); margin-top:1.2rem; }
+
+/* MEDITATION */
+.meditation-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr)); gap:1px; margin-top:2rem; border:1px solid rgba(112,96,176,0.08); max-width:880px; }
+.med-card { padding:1.8rem 1.5rem; border:1px solid rgba(112,96,176,0.06); transition:background 0.4s; }
+.med-card:hover { background:rgba(112,96,176,0.04); }
+.med-icon { font-size:1.5rem; margin-bottom:0.7rem; }
+.med-title { font-family:'Teko',sans-serif; font-weight:400; font-size:0.75rem; letter-spacing:0.25em; color:var(--violet-b); text-transform:uppercase; margin-bottom:0.6rem; }
+.med-text { font-size:0.86rem; color:rgba(192,188,212,0.45); line-height:1.75; }
+
+/* MYTH DEBUNK */
+.debunk-list { max-width:660px; margin-top:1.5rem; }
+.debunk-item { border-bottom:1px solid rgba(192,188,212,0.05); }
+.debunk-header { display:flex; align-items:center; gap:1rem; padding:1rem 0; cursor:pointer; }
+.debunk-verdict { font-family:'Teko',sans-serif; font-size:0.6rem; letter-spacing:0.2em; padding:0.2rem 0.6rem; border-radius:1px; white-space:nowrap; }
+.debunk-verdict.myth { background:rgba(176,56,40,0.15); color:var(--red-b); border:1px solid rgba(176,56,40,0.3); }
+.debunk-verdict.truth { background:rgba(58,136,104,0.15); color:var(--jade-b); border:1px solid rgba(58,136,104,0.3); }
+.debunk-verdict.complex { background:rgba(212,168,64,0.12); color:var(--gold); border:1px solid rgba(212,168,64,0.25); }
+.debunk-q { font-style:italic; font-size:0.95rem; color:rgba(192,188,212,0.5); flex:1; }
+.debunk-toggle { font-family:'Inconsolata',monospace; font-size:0.9rem; color:rgba(192,188,212,0.25); margin-left:auto; transition:transform 0.3s; }
+.debunk-toggle.open { transform:rotate(45deg); }
+.debunk-body { padding:0 0 1rem 0; font-size:0.9rem; color:rgba(192,188,212,0.45); line-height:1.8; display:none; }
+.debunk-body.open { display:block; }
+
+/* SHAKESPEARE, THEATRICAL */
+#shakespeare { background:radial-gradient(ellipse at 80% 30%,rgba(176,56,40,0.05) 0%,transparent 55%); }
+
+.stage-wrap { max-width:750px; }
+
+.scene {
+  margin:2.5rem 0; padding:2.5rem;
+  border-left:3px solid transparent; position:relative;
+  transition:background 0.4s;
+}
+.scene:hover { background:rgba(192,188,212,0.02); }
+
+.scene.mercutio { border-color:rgba(208,144,32,0.4); }
+.scene.lear { border-color:rgba(192,64,48,0.4); }
+.scene.macbeth { border-color:rgba(32,48,32,0.6); }
+
+.scene-label { font-family:'Teko',sans-serif; font-weight:300; font-size:0.52rem; letter-spacing:0.45em; text-transform:uppercase; margin-bottom:1rem; }
+.scene.mercutio .scene-label { color:var(--mercutio); }
+.scene.lear .scene-label { color:var(--lear-b); }
+.scene.macbeth .scene-label { color:var(--jade-b); }
+
+.scream {
+  font-family:'Teko',sans-serif; font-weight:600;
+  font-size:clamp(2rem,5vw,4.5rem);
+  line-height:1; letter-spacing:0.03em; margin-bottom:1rem;
+  transition:letter-spacing 0.5s;
+}
+.scene.mercutio .scream { color:var(--mercutio); }
+.scene.lear .scream { color:var(--lear-b); }
+.scene.macbeth .scream { color:rgba(96,192,144,0.7); font-size:clamp(1.3rem,3vw,2.5rem); }
+.scene:hover .scream { letter-spacing:0.08em; }
+
+.scene-text { font-style:italic; font-size:0.95rem; color:rgba(192,188,212,0.45); line-height:1.8; max-width:560px; }
+.scene-freq { font-family:'Inconsolata',monospace; font-size:0.62rem; color:rgba(192,188,212,0.2); margin-top:0.8rem; letter-spacing:0.15em; }
+
+/* FREQUENCY SCREAM canvas */
+#screamCanvas { display:block; width:100%; max-width:750px; height:160px; border:1px solid rgba(112,96,176,0.1); background:rgba(6,6,14,0.8); margin-top:1.5rem; }
+
+/* ORPHEUS */
+#orpheus { background:radial-gradient(ellipse at 40% 60%,rgba(128,80,160,0.06) 0%,transparent 55%); }
+
+.orpheus-split { display:grid; grid-template-columns:1fr 1fr; gap:2px; max-width:840px; margin-top:2.5rem; }
+.orp-cell { padding:2.5rem 2rem; border:1px solid rgba(128,80,160,0.1); transition:background 0.4s; }
+.orp-cell:hover { background:rgba(128,80,160,0.04); }
+.orp-label { font-family:'Teko',sans-serif; font-weight:300; font-size:0.5rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--orpheus-b); margin-bottom:0.8rem; opacity:0.6; }
+.orp-title { font-family:'Spectral',serif; font-weight:200; font-size:1.4rem; color:var(--orpheus-b); margin-bottom:1rem; }
+.orp-text { font-size:0.9rem; color:rgba(192,188,212,0.45); line-height:1.8; font-style:italic; }
+
+/* JASON / GOLDEN FLEECE */
+#golden { background:radial-gradient(ellipse at 70% 50%,rgba(64,112,160,0.05) 0%,transparent 55%); }
+
+.fleece-question {
+  font-family:'Spectral',serif; font-weight:200; font-style:italic;
+  font-size:clamp(1.5rem,3.5vw,3rem); color:rgba(192,188,212,0.15);
+  max-width:680px; line-height:1.4; margin:2rem 0; transition:color 0.5s; cursor:default;
+}
+.fleece-question:hover { color:rgba(112,176,224,0.5); }
+
+/* DRAGON GAME */
+#dragon-section { background:var(--near); }
+
+#dragonGame { display:block; width:100%; max-width:750px; height:320px; border:1px solid rgba(200,128,48,0.2); background:rgba(6,6,14,0.95); cursor:crosshair; }
+.game-controls { display:flex; gap:1rem; margin-top:1rem; flex-wrap:wrap; align-items:center; }
+.game-btn { font-family:'Teko',sans-serif; font-weight:400; font-size:0.65rem; letter-spacing:0.25em; padding:0.45rem 1.1rem; background:none; border:1px solid rgba(200,128,48,0.3); color:var(--amber-b); cursor:pointer; text-transform:uppercase; transition:background 0.3s; }
+.game-btn:hover { background:rgba(200,128,48,0.1); border-color:var(--amber-b); }
+.game-stat { font-family:'Inconsolata',monospace; font-size:0.65rem; color:rgba(192,188,212,0.3); padding:0.4rem 0.8rem; border:1px solid rgba(192,188,212,0.08); }
+
+/* PROPHECY */
+#prophecy { background:radial-gradient(ellipse at 50% 50%,rgba(112,96,176,0.06) 0%,transparent 60%); }
+
+.oracle-box {
+  max-width:640px; margin:2.5rem 0; padding:3rem;
+  border:1px solid rgba(112,96,176,0.15);
+  background:rgba(112,96,176,0.03); position:relative;
+  cursor:pointer; transition:background 0.4s;
+}
+.oracle-box:hover { background:rgba(112,96,176,0.07); }
+.oracle-box::before { content:'CLICK FOR PROPHECY'; position:absolute; bottom:1rem; right:1.5rem; font-family:'Inconsolata',monospace; font-size:0.52rem; letter-spacing:0.2em; color:rgba(112,96,176,0.3); }
+.oracle-text { font-family:'Spectral',serif; font-style:italic; font-weight:200; font-size:clamp(1.1rem,2.5vw,1.8rem); color:rgba(192,188,212,0.4); line-height:1.5; min-height:4rem; transition:color 0.4s; }
+.oracle-box:hover .oracle-text { color:rgba(192,188,212,0.75); }
+
+/* RETURN */
+#return-section { min-height:90vh; display:flex; align-items:center; }
+
+.return-inner { max-width:720px; }
+.return-question { font-family:'Spectral',serif; font-weight:200; font-size:clamp(1.2rem,3vw,2.5rem); color:rgba(192,188,212,0.2); line-height:1.45; margin-bottom:2rem; transition:color 0.5s; cursor:default; }
+.return-question:hover { color:rgba(192,188,212,0.5); }
+.return-question .name { font-style:italic; }
+.return-question.enkidu { color:rgba(122,171,106,0.2); }
+.return-question.enkidu:hover { color:rgba(122,171,106,0.6); }
+.return-question.sirius { color:rgba(122,154,191,0.2); }
+.return-question.sirius:hover { color:rgba(122,154,191,0.6); }
+.return-answer { font-family:'Spectral',serif; font-style:italic; font-weight:200; font-size:1.1rem; color:rgba(212,168,64,0.35); max-width:540px; line-height:1.7; margin-top:3rem; }
+
+/* DIRECTORY */
+#directory { padding-bottom:10rem; }
+.dir-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr)); gap:1px; margin-top:2.5rem; border:1px solid rgba(112,96,176,0.07); }
+.dir-card { padding:1.5rem 1.3rem; border:1px solid rgba(112,96,176,0.05); text-decoration:none; display:flex; flex-direction:column; justify-content:space-between; min-height:115px; transition:background 0.35s; position:relative; overflow:hidden; }
+.dir-card:hover { background:rgba(112,96,176,0.04); }
+.dir-card::after { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
+.dir-card:hover::after { transform:scaleX(1); }
+.dc-label { font-family:'Teko',sans-serif; font-weight:300; font-size:0.46rem; letter-spacing:0.4em; color:rgba(112,96,176,0.45); text-transform:uppercase; margin-bottom:0.4rem; }
+.dc-title { font-family:'Spectral',serif; font-size:0.88rem; color:var(--white); line-height:1.4; transition:color 0.3s; }
+.dir-card:hover .dc-title { color:var(--gold); }
+.dc-file { font-family:'Inconsolata',monospace; font-weight:200; font-size:0.48rem; letter-spacing:0.18em; color:rgba(192,188,212,0.12); margin-top:0.7rem; }
+
+.reveal { opacity:0; transform:translateY(22px); transition:opacity 0.9s ease,transform 0.9s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+@media(max-width:768px) {
+  #sidebar{display:none} main{margin-left:0} section{padding:5rem 1.5rem}
+  .versus{grid-template-columns:1fr} .orpheus-split{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<blockquote style="border-left:2px solid rgba(201,168,76,.4);background:rgba(201,168,76,.04);padding:.9rem 1.4rem;margin:1.2rem 0;font-style:italic;font-size:.97rem;color:rgba(255,255,255,.7);line-height:1.85;"><span style="font-size:1.1rem;color:rgba(201,168,76,.6);">&ldquo;</span>I have nothing to say and I am saying it and that is poetry.<span style="font-size:1.1rem;color:rgba(201,168,76,.6);">&rdquo;</span><footer style="font-style:normal;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:rgba(201,168,76,.45);margin-top:.5rem;">Cage, J. "Lecture on Nothing." In: <em>Silence: Lectures and Writings.</em> Wesleyan University Press, 1961. p. 109.</footer></blockquote>
+<canvas id="bgCanvas"></canvas>
+
+<nav>
+  <a href="home.html" class="nav-back">← Homage to Literature</a>
+  <span class="nav-title">Silence · Music · Harmony · The Road</span>
+</nav>
+
+<div id="sidebar">
+  <div class="idx-label">Index</div>
+  <a href="#hero">The Question</a>
+  <a href="#harmony">What Is Harmony</a>
+  <a href="#silence-music">Silence or Music</a>
+  <a href="#buddha">The Buddha's Road</a>
+  <a href="#meditation">Meditation</a>
+  <a href="#myths">Myths Debunked</a>
+  <a href="#art">What Is Art</a>
+  <a href="#shakespeare">The Screams</a>
+  <a href="#orpheus">Orpheus</a>
+  <a href="#golden">The Golden Fleece</a>
+  <a href="#dragon-section">Play the Dragon</a>
+  <a href="#prophecy">Prophecy</a>
+  <a href="#return-section">Where We Return</a>
+  <a href="#directory">Directory</a>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-orb orb-a"></div>
+  <div class="hero-orb orb-b"></div>
+  <div class="hero-orb orb-c"></div>
+  <div class="hero-eyebrow">Silence · Music · Buddha · Shakespeare · Myth · Return</div>
+  <h1>
+    <em class="g">Silence</em><br>
+    <span class="or">or</span>
+    <em class="g">Music?</em>
+  </h1>
+  <div class="hero-sub">The question beneath all questions. Is the answer stillness, or the vibration that fills it? And where do we return when we have found out?</div>
+</section>
+
+<!-- HARMONY INTERACTIVE -->
+<section id="harmony">
+  <div class="reveal">
+    <div class="eyebrow">I, What Harmony Actually Is</div>
+    <h2>An Interactive Experience<br><em>of Harmony</em></h2>
+    <div class="prose">
+      <p>Harmony is not agreement. Harmony is <em>the relationship between tensions</em>. Two notes played together, each keeping its own identity, creating something neither contains alone. A third thing. The overtone. The resonance.</p>
+      <p>This is why harmony in music and harmony in life are not metaphors of each other. They are the same phenomenon operating at different scales. The Pythagoreans believed the cosmos was held together by harmonic ratios. They were not wrong, they were just early.</p>
+    </div>
+    <div class="harmony-controls">
+      <button class="harm-btn active" id="hUnison" onclick="setHarmony('unison')">Unison</button>
+      <button class="harm-btn" id="hOctave" onclick="setHarmony('octave')">Octave</button>
+      <button class="harm-btn" id="hFifth" onclick="setHarmony('fifth')">Perfect Fifth</button>
+      <button class="harm-btn" id="hThird" onclick="setHarmony('third')">Major Third</button>
+      <button class="harm-btn" id="hTritone" onclick="setHarmony('tritone')">Tritone ⚡</button>
+      <button class="harm-btn" id="hMinor" onclick="setHarmony('minor')">Minor Second</button>
+      <div class="harm-slider-wrap">
+        <span class="harm-slider-label">SPEED</span>
+        <input type="range" id="harmSpeed" min="0.3" max="3" step="0.1" value="1">
+      </div>
+    </div>
+    <canvas id="harmonyCanvas"></canvas>
+    <div id="harmDesc" style="margin-top:0.8rem;font-family:'Inconsolata',monospace;font-size:0.62rem;color:rgba(192,188,212,0.3);letter-spacing:0.08em;max-width:600px;line-height:1.9;">
+      UNISON, ratio 1:1, Two waves become one. Perfect agreement. No tension. No growth. Sometimes this is peace. Sometimes it is stagnation.
+    </div>
+    <div class="prose" style="margin-top:2rem;">
+      <p><em>The tritone</em>, the "diabolus in musica", was once banned by the medieval church. It creates maximum dissonance: the furthest interval from resolution. And yet jazz is built on it. Blues is built on it. The most emotionally complex music in the world <strong>lives</strong> in the tritone.</p>
+      <p>What does this tell us? That dissonance is not the enemy of harmony. It is its engine. The resolution feels like resolution <em>because</em> the tritone made you need it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SILENCE VS MUSIC -->
+<section id="silence-music">
+  <div class="reveal">
+    <div class="eyebrow">II, The Great Question</div>
+    <h2><div style="display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:5px;padding:4px 10px;margin:6px 0;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.09em;color:rgba(201,168,76,.85);"><span>&#9872;</span> COMMA FRAMEWORK QUESTION &middot; Is silence the equal-tempered fifth of music, closing cleanly but arriving nowhere?</div>
+Is Silence the Answer<br><em>or Music?</em></h2>
+    <div class="prose"><p>John Cage composed 4'33", four minutes and thirty-three seconds of a performer sitting at a piano, not playing. The audience heard coughing, wind, their own breath. The piece was not silence. It was the world. Cage's point: <em>there is no silence. There is only sound we chose not to make, and sound we forgot to hear.</em></p></div>
+    <div class="versus">
+      <div class="versus-cell sil">
+        <div class="vc-label">The Case for Silence</div>
+        <div class="vc-title">Silence</div>
+        <div class="vc-text">Silence is where you hear yourself think. It is the space between notes without which music is noise. The Buddha attained enlightenment in silence. Hypnos lives in silence. Every word ever written was found in silence first. The mystics of every tradition, Sufi, Zen, Christian, Vedic, all say the same thing: go quiet. The answer is already there.</div>
+      </div>
+      <div class="versus-cell mus">
+        <div class="vc-label">The Case for Music</div>
+        <div class="vc-title">Music</div>
+        <div class="vc-text">Music is the architecture of time. It is the only art form that exists entirely in duration, you cannot step back and see the whole painting. You must surrender to it, moment by moment. Orpheus moved rocks with it. Shahrazad used narrative in its place. Every culture that ever existed made music before it made writing. Music is the older language. Perhaps the original one.</div>
+      </div>
+    </div>
+    <div class="prose">
+      <p>The answer, of course, is that the question is false. Silence is the ground. Music is what rises from it. They are not opposites, silence is the canvas and music is the mark. You need both. The mark without the canvas is noise. The canvas without the mark is potential, not yet art.</p>
+      <p><em>What is art?</em> Art is the deliberate arrangement of experience in time or space so that it produces meaning that would not exist otherwise. Music is time-art. Painting is space-art. Literature is both. Life, if lived with intention, is all three.</p>
+      <p><em>What is the music of life?</em> The rhythm of sleep and waking. The harmony between what you want and what you have. The dissonance of grief, which resolves, eventually, into something you could not have reached without it. The silences between people who understand each other so well that words would only reduce the thing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUDDHA -->
+<section id="buddha">
+  <div class="reveal">
+    <div class="eyebrow">III, The Search for Enlightenment</div>
+    <h2>What Does the Buddha<br><em>Search For?</em></h2>
+    <div class="prose">
+      <p>Even the Buddha had a destination. Siddhartha Gautama was not born enlightened, he was born a prince, left the palace, starved himself nearly to death in asceticism, realised that was wrong, ate some rice, sat under a fig tree, and refused to move until he understood. <em>He had a destination. The destination was understanding.</em></p>
+      <p>This is the paradox at the heart of all contemplative traditions: the goal of the path is to stop needing a path. The destination is the dissolution of the idea of destination. You journey toward the realisation that there was nowhere to go.</p>
+    </div>
+
+    <div class="kill-box">
+      <div class="kill-quote">"If you meet the Buddha on the road, kill him."</div>
+      <div class="kill-attr">, Linji Yixuan, Tang Dynasty Zen Master, c. 850 CE</div>
+    </div>
+
+    <div class="prose">
+      <p>This is not violence. It is the most important instruction in Zen. If you think you have found the Buddha, if you have formed an idea of what enlightenment looks like, what a spiritual teacher should be, what the goal is, you have created an idol. <em>Kill it.</em> The real Buddha cannot be found on any road. The real Buddha is not an image you can carry.</p>
+      <p>The instruction applies to everything. If you meet the perfect life on the road, kill it. If you meet the perfect love, kill it. Not because they are not real, but because the moment you decide you have arrived, you have stopped moving. And Sirius knows: stopping is not the same as resting.</p>
+    </div>
+
+    <h3>The Eightfold Path, A Map, Not A Destination</h3>
+    <div class="buddha-path">
+      <div class="path-step"><div class="ps-num">1</div><div><div class="ps-name">Right View</div><div class="ps-text">To understand that suffering exists, that it has a cause, and that the cause can be addressed. This is not pessimism. It is a diagnosis before treatment.</div></div></div>
+      <div class="path-step"><div class="ps-num">2</div><div><div class="ps-name">Right Intention</div><div class="ps-text">To act from renunciation, from goodwill, from non-harm. Not because you must. Because you have understood why.</div></div></div>
+      <div class="path-step"><div class="ps-num">3</div><div><div class="ps-name">Right Speech</div><div class="ps-text">Words are not neutral. They create reality. To speak truthfully, kindly, and only when necessary is a practice, not a rule.</div></div></div>
+      <div class="path-step"><div class="ps-num">4</div><div><div class="ps-name">Right Action</div><div class="ps-text">Do not take what is not given. Do not harm. Do not lie to yourself about your actions.</div></div></div>
+      <div class="path-step"><div class="ps-num">5</div><div><div class="ps-name">Right Livelihood</div><div class="ps-text">What you do all day shapes who you are. Work that causes harm, even indirectly, will shape you toward harm.</div></div></div>
+      <div class="path-step"><div class="ps-num">6</div><div><div class="ps-name">Right Effort</div><div class="ps-text">The middle way. Neither the exhausted prince who starved himself nor the indulgent one who felt nothing. Effort without violence toward yourself.</div></div></div>
+      <div class="path-step"><div class="ps-num">7</div><div><div class="ps-name">Right Mindfulness</div><div class="ps-text">To observe what is actually happening, in the body, in the mind, in the moment, without immediately interpreting or escaping it.</div></div></div>
+      <div class="path-step"><div class="ps-num">8</div><div><div class="ps-name">Right Concentration</div><div class="ps-text">The deepening of attention until the boundary between the observer and the observed becomes negotiable. This is where music lives. This is where silence lives. They are the same place.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEDITATION -->
+<section id="meditation">
+  <div class="reveal">
+    <div class="eyebrow">IV, What Is Meditation</div>
+    <h2>Meditation, <em>Myths &amp; Truths</em></h2>
+    <div class="prose"><p>Not what you think it is. Not what Instagram says it is. Not even entirely what the meditation apps say it is. But also, perhaps more accessible than you fear.</p></div>
+    <div class="meditation-grid">
+      <div class="med-card"><div class="med-icon">🧘</div><div class="med-title">What It Actually Is</div><div class="med-text">The practice of observing the activity of the mind without immediately being swept away by it. Not emptying the mind, noticing what fills it.</div></div>
+      <div class="med-card"><div class="med-icon">🌊</div><div class="med-title">The Wandering Mind</div><div class="med-text">Your mind will wander. This is not failure. The practice is the returning, the moment you notice you were gone. That noticing IS the meditation.</div></div>
+      <div class="med-card"><div class="med-icon">🔬</div><div class="med-title">What Science Says</div><div class="med-text">8 weeks of regular practice measurably reduces amygdala reactivity, increases grey matter density in the prefrontal cortex, and lowers cortisol. This is not belief. It is MRI data.</div></div>
+      <div class="med-card"><div class="med-icon">🎵</div><div class="med-title">Music As Meditation</div><div class="med-text">Deep listening, attending to music with full attention, activates the same default mode network suppression as sitting meditation. Orpheus did not just perform. He meditated. Loudly.</div></div>
+      <div class="med-card"><div class="med-icon">⏱️</div><div class="med-title">How Long</div><div class="med-text">Research shows benefits from as little as 10 minutes daily. The Tibetan masters say: meditate for 20 minutes every day, unless you are very busy, in which case meditate for an hour.</div></div>
+      <div class="med-card"><div class="med-icon">🌙</div><div class="med-title">Sleep & Meditation</div><div class="med-text">Meditation and sleep are not the same, but they share a doorway. The hypnagogic state between waking and sleeping is where both traditions say the most interesting things happen.</div></div>
+    </div>
+
+    <h3 style="margin-top:3rem;">Myths & Debunks</h3>
+    <div class="debunk-list" id="debunkList"></div>
+  </div>
+</section>
+
+<!-- ART -->
+<section id="art">
+  <div class="reveal">
+    <div class="eyebrow">V, What Is Art / The Music of Life</div>
+    <h2>Hypnos! What Sweet<br><em>Melodies You Sing!</em></h2>
+    <div class="prose">
+      <p>The Orphic hymn to Hypnos begins this way, addressing the god of sleep as a musician. The ancients understood that sleep was a kind of song. That the body has a rhythm. That consciousness has a melody. That death has a key.</p>
+      <p>Art is the attempt to make that melody audible. To say: <em>this is what it felt like to be alive in this particular moment, in this particular skin, with this particular confusion and this particular love.</em></p>
+      <p>What is the music of life? It is not pleasant all the way through. It contains the tritone. It contains the rest. It contains the movement that returns to the tonic, not because the tonic was always right, but because without the journey away from it, the return means nothing.</p>
+    </div>
+    <div class="prose" style="margin-top:1.5rem;">
+      <p><em>Is the frequency too high?</em> Sometimes. Sometimes the world comes in at a frequency that overwhelms the instrument. Mercutio feels it. Lear feels it. The body registers the cosmos at a bandwidth it was not built to sustain. This is madness, not in the clinical sense, but in the prophetic one. The characters who scream in Shakespeare are not broken. They are tuned to a frequency the others cannot hear.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHAKESPEARE -->
+<section id="shakespeare">
+  <div class="reveal">
+    <div class="eyebrow">VI, The Screams of Literature</div>
+    <h2>When the Frequency<br><em>Is Too High</em></h2>
+    <div class="stage-wrap">
+
+      <div class="scene mercutio">
+        <div class="scene-label">Romeo & Juliet · Act III · Scene 1</div>
+        <div class="scream">A PLAGUE ON BOTH YOUR HOUSES!</div>
+        <div class="scene-text">Mercutio is dying from a wound he received in someone else's feud. He is the wittiest character in the play, the one who sees everything clearly, who cannot be fooled. And this is what clarity costs him. He is pierced by a sword meant for someone else, and he screams not in pain but in <em>comprehension</em>. He understood the system. He named it. The plague he calls down is not supernatural. It is sociological. It is structural. It arrives.</div>
+        <div class="scene-freq">FREQUENCY, His scream is at the pitch of systems that grind people who understand them. The curse lands because it is true.</div>
+      </div>
+
+      <div class="scene lear">
+        <div class="scene-label">King Lear · Act V · The Battlefield</div>
+        <div class="scream">A HORSE. A HORSE.<br>MY KINGDOM FOR A HORSE!</div>
+        <div class="scene-text">Wait, that is Richard III. But Lear's scream is worse because it is wordless first. He carries Cordelia's body and says: <em>"Howl, howl, howl, howl!"</em>, directing the audience to howl with him. He gave away his kingdom. He got nothing back. And at the end, on the heath in the storm, stripped of every title, every pretension, every protection, he finds himself. The storm is not his madness. The storm is the universe being honest with him for the first time. He could not bear the frequency. But he survived long enough to hear it clearly.</div>
+        <div class="scene-freq">FREQUENCY, Grief at maximum amplitude. The only response is to let it pass through you without trying to contain it.</div>
+      </div>
+
+      <div class="scene macbeth">
+        <div class="scene-label">Macbeth, Planning the Tragedy</div>
+        <div class="scream" style="font-size:clamp(1rem,2.5vw,2rem);letter-spacing:0.05em;">"I am in blood / Stepped in so far that, should I wade no more, / Returning were as tedious as go o'er."</div>
+        <div class="scene-text">Macbeth does not scream. That is what makes him terrifying. He plans quietly. He speaks in soliloquy, to himself, to the audience, never to the people around him. His tragedy is not passion. It is calculation. He sees exactly what he is doing and continues. The witches gave him a prophecy and he chose to make it literal. He is the hero who became the villain not from ignorance but from <em>too much ambition applied to too much intelligence in too little virtue.</em></div>
+        <div class="scene-freq">FREQUENCY, The low, steady hum of a decision you know is wrong, made anyway. The most dangerous frequency of all.</div>
+      </div>
+
+      <canvas id="screamCanvas"></canvas>
+      <div style="margin-top:0.8rem;font-family:'Inconsolata',monospace;font-size:0.6rem;color:rgba(192,188,212,0.2);letter-spacing:0.1em;">
+        Click the scream canvas to add a frequency event. Hover a scene to see its wave signature.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORPHEUS -->
+<section id="orpheus">
+  <div class="reveal">
+    <div class="eyebrow">VII, The Complicated One</div>
+    <h2>Orpheus Is <em>Complicated</em></h2>
+    <div class="prose"><p>He is the greatest musician who ever lived, the son of a Muse, taught by Apollo himself. His music moved rocks. Rivers stopped to listen. When he sang, the animals gathered, the trees leaned in. He descended into the underworld for love. He almost succeeded.</p></div>
+    <div class="orpheus-split">
+      <div class="orp-cell">
+        <div class="orp-label">The Gift</div>
+        <div class="orp-title">He Could Move the World</div>
+        <div class="orp-text">Hades wept. Persephone wept. The shades stopped their suffering to listen. No mortal had ever done this. His music was so true it made even death feel something. He was given Eurydice back, on one condition.</div>
+      </div>
+      <div class="orp-cell">
+        <div class="orp-label">The Failure</div>
+        <div class="orp-title">He Looked Back</div>
+        <div class="orp-text">One condition: do not look back until you have both crossed into the light. He looked back. Why? Doubt? Love? The need to verify that she was really there? Scholars argue. The myth does not explain. It only records the consequence: she was gone. Again. This time forever.</div>
+      </div>
+      <div class="orp-cell">
+        <div class="orp-label">The Lesson, Version 1</div>
+        <div class="orp-title">Trust the Process</div>
+        <div class="orp-text">Don't look back. The journey requires faith in the direction. Turning around is not reassurance, it is the catastrophe itself. The lesson is: sometimes love means walking forward without confirmation.</div>
+      </div>
+      <div class="orp-cell">
+        <div class="orp-label">The Lesson, Version 2</div>
+        <div class="orp-title">He Was Always Going to Look</div>
+        <div class="orp-text">Some scholars argue the looking back was inevitable, that the condition was designed to fail, that death cannot be permanently cheated. Perhaps the real lesson is not "don't look" but: <em>the music was always enough. The descent was the gift.</em> That he went, that is the heroism. The return was never the point.</div>
+      </div>
+    </div>
+    <div class="prose" style="margin-top:2rem;"><p>After losing her the second time, Orpheus played only dirges. He wandered. He refused the Maenads. They tore him apart. His head, severed, floated down the river Hebrus, still singing. Even in death, the music continued. <em>The frequency outlasts the instrument.</em></p></div>
+  </div>
+</section>
+
+<!-- GOLDEN FLEECE -->
+<section id="golden">
+  <div class="reveal">
+    <div class="eyebrow">VIII, The Journey & Its Meaning</div>
+    <h2>Is the Journey for the<br><em>Golden Fleece Necessary?</em></h2>
+    <div class="prose"><p>Jason needs the Golden Fleece to reclaim his throne from his uncle Pelias. He assembles the greatest crew of heroes ever gathered, the Argonauts. He sails through impossible obstacles: the Symplegades (clashing rocks), the sirens, the island of women, the dragon that never sleeps. He gets the Fleece. He returns. He loses the throne anyway. Medea, who helped him, whom he abandons, destroys everything he built.</p></div>
+    <div class="fleece-question">Was the Fleece necessary?</div>
+    <div class="prose">
+      <p>The Fleece is MacGuffin. The journey is the content. Every person Jason met changed him. Every obstacle demanded something of him. The Fleece gave the journey a direction, but the direction was never the destination. What he needed was to become someone who had crossed the Symplegades. He could not have become that by staying home.</p>
+      <p>This is true of every quest. The grail, the fleece, the plant of immortality, the answer to the question, <em>these are not the point</em>. The wanderer returns without the thing and wonders if they failed. They did not fail. The journey was the only possible curriculum for who they needed to become.</p>
+      <p>Gilgamesh knows this. Juan Pablo knows this. Sirius is learning it. The fleet returns to Almihan not because it found what it was looking for, but because it found out what the looking costs, and paid it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DRAGON GAME -->
+<section id="dragon-section">
+  <div class="reveal">
+    <div class="eyebrow">IX, Do You Want to Play?</div>
+    <h2>Do You Want to Play<br><em>the Dragon?</em></h2>
+    <div class="prose" style="margin-bottom:1.5rem;"><p>Every story needs an antagonist. Every journey needs something that guards the threshold. Click to play, you are the dragon. The hero enters from the left. You breathe fire. But fire is not the dragon's only power, the dragon also <em>speaks</em>. Sometimes the greatest dragons are the ones who ask the right question.</p></div>
+    <canvas id="dragonGame"></canvas>
+    <div class="game-controls">
+      <button class="game-btn" id="gameReset">↺ New Hero</button>
+      <button class="game-btn" id="gameQuestion">Ask A Question</button>
+      <div class="game-stat" id="gameStat">Heroes faced: 0 | Survived: 0</div>
+    </div>
+    <div id="gameMsg" style="margin-top:1rem;font-family:'Spectral',serif;font-style:italic;font-size:0.9rem;color:rgba(192,188,212,0.3);min-height:2rem;"></div>
+  </div>
+</section>
+
+<!-- PROPHECY -->
+<section id="prophecy">
+  <div class="reveal">
+    <div class="eyebrow">X, The Oracle</div>
+    <h2>What Is a Prophecy?</h2>
+    <div class="prose">
+      <p>A prophecy is not a prediction. It is a <em>revelation of structure</em>. The oracle at Delphi did not tell you what would happen, she told you what the pattern was, and left you to work out your place in it. Oedipus was not doomed by the prophecy. He was doomed by the specific combination of knowledge and action he chose in response to it.</p>
+      <p>Every prophecy contains an escape hatch. The exit is always the same: <em>do not do the thing the prophecy assumes you will do.</em> Macbeth could not be killed by a man of woman born, except by Macduff. The exception was always there. The witches knew he would not look for it.</p>
+      <p>Click below. The oracle will speak.</p>
+    </div>
+    <div class="oracle-box" id="oracleBox" onclick="newProphecy()">
+      <div class="oracle-text" id="oracleText">The oracle prepares...</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE WE RETURN -->
+<section id="return-section">
+  <div class="reveal">
+    <div class="return-inner">
+      <div class="eyebrow">XI, The Return</div>
+      <div class="return-question enkidu">Where do you return to, <span class="name">Enkidu?</span></div>
+      <div class="return-question">To the clay. To the first form. To the wild, which was never a place but a state of being without mediation between yourself and the world. Enkidu returns to what he was before the city taught him shame. He returns, in death, to the ground that made him. And Gilgamesh returns to the wall, the same wall, and sees it differently. The wall is the return. The wall was always where Enkidu lived.</div>
+      <div class="return-question sirius" style="margin-top:3rem;">Where do you return to, <span class="name">Sirius?</span></div>
+      <div class="return-question">To Almihan. Not because the chasing was wrong, the chasing is his nature, his joy, his curriculum. But the return is his center. Every orbit has one. Every frequency has a ground tone. Every melody, however far it wanders, hears the tonic and knows: <em>this is where it resolves.</em> Sirius does not return because the journey ended. He returns because returning is part of the rhythm. And he will go again. And return again. This is not failure. This is music.</div>
+      <div class="return-answer">
+        Silence or music?<br>
+        The answer is the breath between the notes.<br>
+        The answer is what you hear when you stop asking.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIRECTORY -->
+<section id="directory">
+  <div class="reveal">
+    <div class="eyebrow">XII, Full Directory</div>
+    <h2>All Pages</h2>
+    <div class="dir-grid">
+      <a class="dir-card" href="home.html"><div><div class="dc-label">Main</div><div class="dc-title">What Is It To Learn From Literature?</div></div><div class="dc-file">home.html</div></a>
+      <a class="dir-card" href="index.html"><div><div class="dc-label">Story Index</div><div class="dc-title">The Stars & Those Who Chase Them</div></div><div class="dc-file">index.html</div></a>
+      <a class="dir-card" href="sirius.html"><div><div class="dc-label">Story I</div><div class="dc-title">Story of Sirius</div></div><div class="dc-file">sirius.html</div></a>
+      <a class="dir-card" href="orion-vs-cat.html"><div><div class="dc-label">Story II</div><div class="dc-title">Orion vs Cat</div></div><div class="dc-file">orion-vs-cat.html</div></a>
+      <a class="dir-card" href="orion-vs-athena.html"><div><div class="dc-label">Story III</div><div class="dc-title">Orion vs Athena</div></div><div class="dc-file">orion-vs-athena.html</div></a>
+      <a class="dir-card" href="orion-vs-scorpion.html"><div><div class="dc-label">Story IV</div><div class="dc-title">Orion vs the Scorpion</div></div><div class="dc-file">orion-vs-scorpion.html</div></a>
+      <a class="dir-card" href="orion-gilgamesh-gemini.html"><div><div class="dc-label">Story V</div><div class="dc-title">Orion & Gilgamesh at Gemini</div></div><div class="dc-file">orion-gilgamesh-gemini.html</div></a>
+      <a class="dir-card" href="juan-pablo.html"><div><div class="dc-label">Story VI</div><div class="dc-title">La Historia de Juan Pablo</div></div><div class="dc-file">juan-pablo.html</div></a>
+      <a class="dir-card" href="gilgamesh.html"><div><div class="dc-label">Story VII</div><div class="dc-title">Gilgamesh, Who? Why?</div></div><div class="dc-file">gilgamesh.html</div></a>
+      <a class="dir-card" href="hero-cycle.html"><div><div class="dc-label">Essay</div><div class="dc-title">The Hero's Cycle</div></div><div class="dc-file">hero-cycle.html</div></a>
+      <a class="dir-card" href="health.html"><div><div class="dc-label">Health</div><div class="dc-title">David's Kingdom</div></div><div class="dc-file">health.html</div></a>
+      <a class="dir-card" href="music.html"><div><div class="dc-label">Music & Gods</div><div class="dc-title">Music, Sleep & the Night Gods</div></div><div class="dc-file">music.html</div></a>
+      <a class="dir-card" href="harmony.html" style="border-color:rgba(212,168,64,0.2);background:rgba(212,168,64,0.03)"><div><div class="dc-label">Harmony, You Are Here</div><div class="dc-title">Silence or Music? The Search</div></div><div class="dc-file">harmony.html</div></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ── REVEAL & SIDEBAR ──
+const io = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const sio = new IntersectionObserver(e=>e.forEach(x=>{
+  if(x.isIntersecting){const id=x.target.id;document.querySelectorAll('#sidebar a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));}
+}),{threshold:0.25});
+document.querySelectorAll('section[id]').forEach(s=>sio.observe(s));
+
+// ── BACKGROUND ──
+(function(){
+  const c=document.getElementById('bgCanvas'),ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  function init(){
+    pts=[];const n=Math.floor(W*H/6500);
+    for(let i=0;i<n;i++) pts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1+0.1,a:Math.random()*0.2+0.02,vx:(Math.random()-.5)*0.07,vy:(Math.random()-.5)*0.05-.01,ph:Math.random()*Math.PI*2,sp:Math.random()*.002+.0004,col:['#d4a840','#7060b0','#3a8868','#c0bcd4','#8050a0'][Math.floor(Math.random()*5)]});
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<-5)p.x=W+5;if(p.x>W+5)p.x=-5;
+      if(p.y<-5)p.y=H+5;if(p.y>H+5)p.y=-5;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.col;ctx.globalAlpha=p.a*(0.4+0.6*Math.sin(t*p.sp+p.ph));ctx.fill();
+    });
+    ctx.globalAlpha=1;requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',()=>{resize();init();});
+  resize();init();requestAnimationFrame(draw);
+})();
+
+// ── HARMONY CANVAS ──
+(function(){
+  const c=document.getElementById('harmonyCanvas'),ctx=c.getContext('2d');
+  c.width=c.offsetWidth||800;c.height=280;
+  const W=c.width,H=c.height;
+
+  const harmonies={
+    unison:   {r1:1,r2:1,   col1:'#60c090',col2:'#60c090',  desc:'UNISON, ratio 1:1, Two waves become one. Perfect agreement. No tension. No growth. Sometimes peace. Sometimes stagnation.'},
+    octave:   {r1:1,r2:2,   col1:'#60c090',col2:'#a090e0',  desc:'OCTAVE, ratio 1:2, The same note, doubled in frequency. Every tradition considers this the most natural harmony. Parent and child. The past and its echo.'},
+    fifth:    {r1:2,r2:3,   col1:'#70b0e0',col2:'#a090e0',  desc:'PERFECT FIFTH, ratio 2:3, The Pythagorean foundation of Western music. Stable, open, forward. The interval that built the modal system, the sonata, the blues.'},
+    third:    {r1:4,r2:5,   col1:'#f0b060',col2:'#60c090',  desc:'MAJOR THIRD, ratio 4:5, Warmth. Brightness. The sound of a chord that feels like sunlight. The interval of optimism.'},
+    tritone:  {r1:5,r2:7,   col1:'#e05040',col2:'#a090e0',  desc:'TRITONE, ratio 45:32 (irrational), Diabolus in musica. Maximum dissonance. Banned by medieval church. Built on by jazz, blues, and every music that deals honestly with tension.'},
+    minor:    {r1:8,r2:9,   col1:'#7060b0',col2:'#c0bcd4',  desc:'MINOR SECOND, ratio 8:9, The closest interval. Almost unison, but not. The gap between almost-agreement and agreement. The sound of a question not yet answered.'},
+  };
+
+  let current=harmonies.unison, t=0;
+  const speedSlider=document.getElementById('harmSpeed');
+
+  window.setHarmony=function(type){
+    current=harmonies[type];
+    document.getElementById('harmDesc').textContent=current.desc;
+    document.querySelectorAll('.harm-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('h'+type.charAt(0).toUpperCase()+type.slice(1)).classList.add('active');
+  };
+
+  function draw(){
+    ctx.fillStyle='rgba(6,6,14,0.25)';ctx.fillRect(0,0,W,H);
+    const spd=parseFloat(speedSlider.value);
+
+    // Wave 1
+    ctx.beginPath();
+    for(let x=0;x<W;x++){
+      const y=H/2+(Math.sin(x*0.02*current.r1+t*spd*0.04))*70;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle=current.col1;ctx.globalAlpha=0.7;ctx.lineWidth=2.5;ctx.stroke();
+
+    // Wave 2
+    ctx.beginPath();
+    for(let x=0;x<W;x++){
+      const y=H/2+(Math.sin(x*0.02*current.r2+t*spd*0.04*current.r2/current.r1))*70;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle=current.col2;ctx.globalAlpha=0.6;ctx.lineWidth=2;ctx.stroke();
+
+    // Resultant (sum)
+    ctx.beginPath();
+    for(let x=0;x<W;x++){
+      const y1=Math.sin(x*0.02*current.r1+t*spd*0.04)*70;
+      const y2=Math.sin(x*0.02*current.r2+t*spd*0.04*current.r2/current.r1)*70;
+      const y=H/2+(y1+y2)*0.5;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle='rgba(242,239,232,0.3)';ctx.globalAlpha=1;ctx.lineWidth=1.5;ctx.stroke();
+    ctx.globalAlpha=1;
+
+    t+=0.8;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── DEBUNK LIST ──
+const debunks=[
+  {q:'You need to clear your mind to meditate.', v:'myth', body:'This is the most common reason people give up. You do not need to clear your mind. You need to observe your mind. The thoughts will come. That is fine. The practice is noticing you got caught up in them, and returning. The return is the whole exercise.'},
+  {q:'Enlightenment is a permanent state.', v:'complex', body:'Most <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(168,212,255,.06);border:1px solid rgba(168,212,255,.2);border-radius:5px;padding:4px 10px;margin:6px 0;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.09em;color:rgba(168,212,255,.8);"><span>&#9872;</span> COMMA FRAMEWORK ARTICULATION &middot; Buddhist silence as the comma distributed rather than held</div>
+Buddhist teachers, including Theravada, Tibetan, and Zen, describe enlightenment as a process, not an arrival. Moments of clarity deepen. Old patterns resurface. The idea of a final, static "enlightened state" is itself a concept that some traditions say you must kill on the road.'},
+  {q:'Silence is the opposite of music.', v:'myth', body:'Silence is the ground on which music exists. John Cage spent his life demonstrating this. The rest in a score is not absence, it is instruction. Silence is the canvas. The note means nothing without the silence that preceded it and will follow it.'},
+  {q:'The Buddha taught that desire is evil.', v:'myth', body:'The Buddha taught that craving, particularly the craving for things to be other than they are, for permanent possession of impermanent things, causes suffering. Desire itself is more nuanced. The Eightfold Path is itself a desire: the desire to understand and to relieve suffering. This is intentional desire, directed wisely.'},
+  {q:'Orpheus failed because he loved too much.', v:'complex', body:'He failed because he looked back. Whether this was love, doubt, or the inevitable consequence of a test designed to fail, depends on which reading of the myth you follow. The version that says "love caused the failure" is the one that has been used to distrust emotion. The version that says "the test was impossible" is more interesting and, arguably, truer.'},
+  {q:'Meditation is religious and requires belief.', v:'myth', body:'Mindfulness-Based Stress Reduction (MBSR), developed by Jon Kabat-Zinn at UMass Medical School, stripped contemplative practice of all religious content. Clinical trials show measurable benefits for chronic pain, anxiety, depression, and immune function, with no required belief system.'},
+  {q:'Art requires suffering to be authentic.', v:'myth', body:'This is the Romantic myth, van Gogh\'s ear, Sylvia Plath\'s oven. Some art comes from suffering. Much great art comes from joy, from discipline, from problem-solving, from play. The myth of necessary suffering has kept many artists from seeking help, and romanticised mental illness in ways that kill people.'},
+  {q:'Prophecies in myth always come true.', v:'complex', body:'They come true, but not always in the way the character expected. The prophecy always contains the fatal assumption. Macbeth assumed "no man of woman born" was impossible, so he stopped there. He did not ask: born by what means, to what woman? The prophecy is always technically true. The hero is always wrong about which part is literal.'},
+];
+const dl=document.getElementById('debunkList');
+debunks.forEach((d,i)=>{
+  const item=document.createElement('div');item.className='debunk-item';
+  item.innerHTML=`<div class="debunk-header" onclick="toggleDebunk(${i})">
+    <span class="debunk-verdict ${d.v}">${d.v.toUpperCase()}</span>
+    <span class="debunk-q">${d.q}</span>
+    <span class="debunk-toggle" id="dt${i}">+</span>
+  </div><div class="debunk-body" id="db${i}">${d.body}</div>`;
+  dl.appendChild(item);
+});
+window.toggleDebunk=function(i){
+  const b=document.getElementById('db'+i),t=document.getElementById('dt'+i);
+  b.classList.toggle('open');t.classList.toggle('open');
+  t.textContent=t.classList.contains('open')?'×':'+';
+};
+
+// ── SCREAM CANVAS ──
+(function(){
+  const c=document.getElementById('screamCanvas'),ctx=c.getContext('2d');
+  c.width=c.offsetWidth||750;c.height=160;
+  const W=c.width,H=c.height;
+  let events=[],t=0;
+
+  c.addEventListener('click',e=>{
+    const rect=c.getBoundingClientRect();
+    const x=(e.clientX-rect.left)*(W/rect.width);
+    const freq=20+Math.random()*80;
+    const col=['#e05040','#f07060','#d09020','#60c090'][Math.floor(Math.random()*4)];
+    events.push({x,freq,amp:50+Math.random()*30,col,life:300,maxLife:300});
+  });
+
+  // hover scenes
+  document.querySelectorAll('.scene').forEach(s=>{
+    s.addEventListener('mouseenter',()=>{
+      const cols={mercutio:'#d09020',lear:'#e05040',macbeth:'#60c090'};
+      const key=s.classList[1];
+      events.push({x:W/2,freq:key==='mercutio'?45:key==='lear'?20:70,amp:40,col:cols[key]||'#a090e0',life:250,maxLife:250});
+    });
+  });
+
+  function draw(){
+    ctx.fillStyle='rgba(6,6,14,0.3)';ctx.fillRect(0,0,W,H);
+    ctx.beginPath();
+    for(let x=0;x<W;x++){
+      let y=H/2;
+      events.forEach(ev=>{
+        const dist=Math.abs(x-ev.x);
+        const wave=Math.sin(dist*ev.freq*0.002-t*0.05+ev.x*0.01)*ev.amp*(ev.life/ev.maxLife)*Math.exp(-dist*0.003);
+        y+=wave;
+      });
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle='rgba(160,144,224,0.6)';ctx.lineWidth=1.5;ctx.stroke();
+
+    events=events.filter(ev=>{
+      ctx.beginPath();
+      for(let x=0;x<W;x++){
+        const dist=Math.abs(x-ev.x);
+        const wave=Math.sin(dist*ev.freq*0.002-t*0.05+ev.x*0.01)*ev.amp*(ev.life/ev.maxLife)*Math.exp(-dist*0.002);
+        const y=H/2+wave;
+        x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle=ev.col;ctx.globalAlpha=(ev.life/ev.maxLife)*0.6;ctx.lineWidth=1;ctx.stroke();
+      ctx.globalAlpha=1;
+      ev.life--;
+      return ev.life>0;
+    });
+    t++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── DRAGON GAME ──
+(function(){
+  const c=document.getElementById('dragonGame'),ctx=c.getContext('2d');
+  c.width=c.offsetWidth||750;c.height=320;
+  const W=c.width,H=c.height;
+  let hero={x:-60,y:H/2-20,vx:1.2,alive:true,fleeing:false};
+  let dragon={x:W-100,y:H/2,hp:5};
+  let fires=[],heroCount=0,survived=0,t=0;
+  let gameMsg=document.getElementById('gameMsg');
+
+  const questions=[
+    '"What do you seek that you have not already been given?"',
+    '"If I let you pass, will you remember why you came?"',
+    '"The treasure is behind me. What will you trade for it?"',
+    '"Every hero who came before you is part of me now. Are you different?"',
+    '"What you call a monster, what do you call yourself?"',
+    '"The Fleece. The Grail. The answer. Are they the same thing?"',
+    '"Do you know the way back?"',
+  ];
+
+  function resetHero(){
+    heroCount++;
+    hero={x:-60,y:H/2-20+Math.random()*40-20,vx:1+Math.random()*0.6,alive:true,fleeing:false};
+    dragon.hp=5;
+    document.getElementById('gameStat').textContent=`Heroes faced: ${heroCount} | Survived: ${survived}`;
+  }
+  resetHero();
+
+  c.addEventListener('click',e=>{
+    const rect=c.getBoundingClientRect();
+    const mx=(e.clientX-rect.left)*(W/rect.width);
+    const my=(e.clientY-rect.top)*(H/rect.height);
+    fires.push({x:dragon.x,y:dragon.y,tx:mx,ty:my,vx:(mx-dragon.x)/20,vy:(my-dragon.y)/20,life:25,r:8});
+  });
+
+  document.getElementById('gameReset').onclick=resetHero;
+  document.getElementById('gameQuestion').onclick=()=>{
+    const q=questions[Math.floor(Math.random()*questions.length)];
+    gameMsg.textContent='Dragon speaks: '+q;
+    hero.fleeing=true;
+    setTimeout(()=>{if(hero.fleeing){hero.alive=false;survived++;document.getElementById('gameStat').textContent=`Heroes faced: ${heroCount} | Survived: ${survived}`;gameMsg.textContent='The hero reflects on the question and cannot continue. The question was more powerful than fire.';setTimeout(resetHero,2000);}},1500);
+  };
+
+  function draw(){
+    ctx.fillStyle='rgba(6,6,14,0.7)';ctx.fillRect(0,0,W,H);
+
+    // ground
+    ctx.fillStyle='rgba(42,36,24,0.5)';ctx.fillRect(0,H*0.65,W,H*0.35);
+
+    // dragon
+    const dragonPulse=Math.sin(t*0.05)*4;
+    ctx.save();ctx.translate(dragon.x,dragon.y+dragonPulse);
+    // body
+    ctx.beginPath();ctx.ellipse(0,0,55,28,0,0,Math.PI*2);ctx.fillStyle='#1a2a18';ctx.fill();
+    ctx.strokeStyle='rgba(200,128,48,0.4)';ctx.lineWidth=2;ctx.stroke();
+    // head
+    ctx.beginPath();ctx.ellipse(-50,-10,22,16,0.3,0,Math.PI*2);ctx.fillStyle='#1a2a18';ctx.fill();ctx.stroke();
+    // eye
+    ctx.beginPath();ctx.arc(-58,-14,4,0,Math.PI*2);ctx.fillStyle='#f0b060';ctx.fill();
+    // wing
+    ctx.beginPath();ctx.moveTo(10,-28);ctx.lineTo(50,-70);ctx.lineTo(30,-20);ctx.closePath();
+    ctx.fillStyle='rgba(42,56,36,0.8)';ctx.strokeStyle='rgba(200,128,48,0.3)';ctx.fill();ctx.stroke();
+    ctx.restore();
+
+    // hero
+    if(hero.alive && !hero.fleeing){
+      hero.x+=hero.vx;
+      if(hero.x>dragon.x-80){ hero.alive=false; survived++; document.getElementById('gameStat').textContent=`Heroes faced: ${heroCount} | Survived: ${survived}`; gameMsg.textContent='A hero slips past! A new one approaches...'; setTimeout(resetHero,1500); }
+    } else if(hero.fleeing){ hero.x-=2; if(hero.x<-60) resetHero(); }
+
+    if(hero.alive||hero.fleeing){
+      ctx.save();ctx.translate(hero.x,hero.y);
+      ctx.beginPath();ctx.ellipse(0,0,14,22,0,0,Math.PI*2);ctx.fillStyle='#b0a080';ctx.fill();
+      ctx.beginPath();ctx.arc(0,-28,12,0,Math.PI*2);ctx.fillStyle='#d0c0a0';ctx.fill();
+      // sword
+      if(!hero.fleeing){ctx.beginPath();ctx.moveTo(12,-20);ctx.lineTo(30,-5);ctx.strokeStyle='rgba(200,200,220,0.8)';ctx.lineWidth=3;ctx.stroke();}
+      ctx.restore();
+    }
+
+    // fires
+    fires=fires.filter(f=>{
+      f.x+=f.vx;f.y+=f.vy;f.life--;f.r*=0.95;
+      ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+      const grad=ctx.createRadialGradient(f.x,f.y,0,f.x,f.y,f.r);
+      grad.addColorStop(0,'rgba(255,200,80,0.9)');grad.addColorStop(1,'rgba(200,80,20,0)');
+      ctx.fillStyle=grad;ctx.fill();
+      // check hit
+      if(hero.alive&&Math.abs(f.x-hero.x)<20&&Math.abs(f.y-hero.y)<30){
+        hero.alive=false;gameMsg.textContent='The hero falls to dragon fire. A new one approaches...';setTimeout(resetHero,1500);
+      }
+      return f.life>0;
+    });
+
+    // instruction
+    ctx.font='11px Inconsolata,monospace';
+    ctx.fillStyle='rgba(192,188,212,0.15)';
+    ctx.fillText('CLICK TO BREATHE FIRE  |  ASK QUESTION TO STOP THE HERO',W/2-160,H-15);
+    t++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── PROPHECIES ──
+const prophecies=[
+  "The thing you seek is behind the door you keep walking past.",
+  "No weapon forged shall harm you, except the one you made yourself.",
+  "You will reach the destination. You will not recognise it.",
+  "The answer is yes. You already know what the question is.",
+  "The one you are waiting for has already arrived. You called them by the wrong name.",
+  "The wall will stand long after the builder. This was always the point.",
+  "Return is not failure. The tonic is not defeat. Resolve.",
+  "Sirius returns to Almihan. Enkidu returns to clay. You will return to the moment before the first question.",
+  "Kill what you meet on the road that tells you: this is it. This is the answer. You have arrived.",
+  "The frequency is not too high. Your instrument needs tuning.",
+  "The fleece exists. The journey exists. They are not the same object.",
+  "Music ends. Silence remains. Both were always there.",
+];
+let propIdx=Math.floor(Math.random()*prophecies.length);
+document.getElementById('oracleText').textContent=prophecies[propIdx];
+window.newProphecy=function(){
+  propIdx=(propIdx+1)%prophecies.length;
+  document.getElementById('oracleText').textContent=prophecies[propIdx];
+};
+</script>
+
+<!-- ══════════ COMMA QUESTIONS ══════════ -->
+<section style="max-width:860px;margin:0 auto 80px;padding:2.5rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:16px;position:relative;overflow:hidden;">
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.6),transparent);"></div>
+  <div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.55);margin-bottom:0.7rem;">&#9872; COMMA FRAMEWORK QUESTIONS</div>
+  <div style="font-family:'Cinzel Decorative',serif;color:rgba(201,168,76,0.9);font-size:1.4rem;margin-bottom:0.5rem;">Open Questions</div>
+  <p style="font-size:0.85rem;font-style:italic;color:rgba(255,255,255,0.38);margin-bottom:2rem;line-height:1.7;">These are speculative questions generated by the comma framework perspective. They are not claims. They are invitations, open directions that nobody has yet fully explored. Flag: &#9872; CF Question throughout.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.2rem;">
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · COSMOLOGY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The Hubble tension is a gap between two equally valid measurements of the same constant.</strong> The expansion rate measured from the early universe (CMB) and the late universe (Cepheid ladders) disagree by approximately 8%. Is this a cosmological comma, an irresolvable non-closure between two valid but incommensurable measurement frames, like the gap between twelve perfect fifths and seven octaves?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · BIOLOGY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The human circadian free-running period is 24.2 hours, not 24.</strong> The 0.2-hour daily gap accumulates: after 73 days without light cues, a person would be 14.6 hours out of phase with the solar day. Is N_res = 73 the biological reset window? Are there diseases of the 73-day accumulation?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · NEUROSCIENCE</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Theta (4-8 Hz) and gamma (30-100 Hz) brain oscillations are coupled but their ratio is irrational.</strong> Each theta cycle contains approximately 5-8 gamma cycles, but never an exact integer. Does the phase remainder accumulate like a comma? Is memory consolidation, the Kairos event of the hippocampus, triggered at N_res-like thresholds of phase accumulation?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · CHEMISTRY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Photosynthesis converts light to chemical energy at approximately 11% thermodynamic efficiency.</strong> The rest is lost as heat and fluorescence. Is the efficiency gap (the 89% that doesn't convert) a molecular comma, the irresolvable mismatch between the photon's energy quantum and the ATP synthesis machinery's discrete steps? Does the CPCS correction have a photosynthetic analogue?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · MATHEMATICS</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">log₂(3/2) is irrational. This is not a physical constant, it is a mathematical necessity in any universe with integers.</strong> The Pythagorean comma is therefore the only musical structure that must exist in every possible universe. What other mathematical structures share this property of necessity-across-all-universes? Does this make delta = 0.013643 the most universal number that exists?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · SETI</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The Wow! Signal lasted 72 seconds. N_res = 73.296. The gap is 1.296 seconds.</strong> Any civilization that has discovered periodicity will eventually find the Pythagorean comma. A signal that stops 1.296 seconds before N_res completes would be immediately recognizable to any civilization that knows the protocol. Has anyone run the comma-transform on the Wow! Signal data? The Big Ear archives are public.</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · HISTORY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Every calendar system in history is secretly a comma-management strategy.</strong> The Gregorian calendar adds a leap day every 4 years (with corrections) to close the gap between the solar year and 365 whole days. The Maya Long Count runs 5,125 years before resetting. The 19-year Metonic cycle closes the gap between solar and lunar calendars to within 2 hours. What other human institutions are secretly managing an irresolvable non-closure?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · PHYSICS</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The fine structure constant alpha = 1/137.036 is dimensionless and unexplained.</strong> Richard Feynman called it "one of the greatest damn mysteries of physics." It governs the strength of the electromagnetic force. Nobody knows why it has this value. Could it be related to a ratio of irrationals, a comma of electromagnetism? If delta = 0.013643 is the musical comma, what is alpha's equivalent non-closure?</p>
+    </div>
+
+  </div>
+</section>
+<div style="max-width:820px;margin:48px auto 24px;background:rgba(13,16,23,.9);border:1px solid rgba(201,168,76,.12);border-left:3px solid rgba(201,168,76,.4);padding:22px 26px;">
+<div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:14px;">References &middot; APA + ACS</div>
+<div style="font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.9;">
+<p>[1] Cage, J. (1961). <em>Silence: Lectures and writings.</em> Wesleyan University Press.</p>
+<p>[2] Thich Nhat Hanh. (1975). <em>The miracle of mindfulness.</em> Beacon Press.</p>
+<p>[3] Barbour, J. M. (1951). <em>Tuning and temperament.</em> Michigan State College Press.</p>
+<p>[4] Helmholtz, H. von. (1875). <em>On the sensations of tone</em> (trans. Ellis). Longmans, Green. [Consonance, dissonance, and the physics of musical perception]</p>
+</div></div></body>
+</html>

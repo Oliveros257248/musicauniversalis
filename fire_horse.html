@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Year of the Fire Horse · The Year of Living · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --void:#04030a;
+  --red:#c0392b;--crimson:#8b0000;--scarlet:#e74c3c;
+  --gold:#d4a017;--amber:#f0a500;--flame:#ff6b35;
+  --jade:#00a86b;--teal:#20b2aa;
+  --cosmic:#1a0a2e;--stardust:#6e5a8a;
+  --hobbit:#4a3728;--parchment:#f4e8c1;--moss:#5a7a3a;
+  --hero:#c9a84c;
+  --text:#f0e8d8;--soft:rgba(240,232,216,.6);--dim:rgba(180,160,120,.35);
+  --border:rgba(212,160,23,.12);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--text);font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.92;overflow-x:hidden;}
+
+/* ── CANVAS BG ── */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(4,3,10,.96);border-bottom:1px solid rgba(212,160,23,.15);padding:.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;}
+.nav-brand{font-family:'Cinzel Decorative',serif;font-size:.75rem;color:var(--gold);letter-spacing:.08em;}
+.nav-links{display:flex;gap:1rem;flex-wrap:wrap;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.08em;color:var(--dim);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-back{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--dim);text-decoration:none;transition:color .2s;}
+.nav-back:hover{color:var(--gold);}
+
+/* ── SECTION SYSTEM ── */
+.section{position:relative;z-index:1;padding:6rem 2rem;border-top:1px solid var(--border);}
+.sec-inner{max-width:980px;margin:0 auto;}
+.sec-label{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(212,160,23,.3);margin-bottom:.8rem;}
+p{font-size:1.05rem;line-height:1.92;color:rgba(240,232,216,.75);margin-bottom:1.25rem;}
+strong{color:var(--text);}
+
+/* ══════════════════════════════════════
+   PART 1: CHINESE NEW YEAR, red/gold/fire
+══════════════════════════════════════ */
+#cny{background:linear-gradient(160deg,#0a0204,#150408,#0a0204);}
+.cny-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9rem 2rem 4rem;position:relative;z-index:1;}
+.cny-zh{font-family:'Noto Serif SC',serif;font-size:clamp(5rem,16vw,12rem);color:var(--crimson);text-shadow:0 0 80px rgba(192,57,43,.35),0 0 160px rgba(139,0,0,.15);line-height:1;margin-bottom:.5rem;animation:flicker 4s ease-in-out infinite;}
+@keyframes flicker{0%,100%{opacity:1;}48%{opacity:.92;}50%{opacity:.98;}52%{opacity:.9;}54%{opacity:1;}}
+.cny-year{font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,5vw,3.8rem);color:var(--gold);letter-spacing:.06em;line-height:1.1;margin-bottom:.8rem;animation:rise 1.4s ease both;}
+.cny-sub{font-style:italic;font-size:clamp(1rem,2.3vw,1.4rem);color:rgba(240,180,80,.6);max-width:600px;line-height:1.88;margin-bottom:2rem;animation:rise 1.6s ease both;}
+@keyframes rise{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+.lantern-row{display:flex;justify-content:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap;}
+.lantern{font-size:2.5rem;animation:sway 3s ease-in-out infinite;display:inline-block;}
+.lantern:nth-child(2){animation-delay:.5s;}
+.lantern:nth-child(3){animation-delay:1s;}
+.lantern:nth-child(4){animation-delay:1.5s;}
+@keyframes sway{0%,100%{transform:rotate(-4deg);}50%{transform:rotate(4deg);}}
+
+/* CHINESE CALENDAR INFO */
+.cal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:rgba(192,57,43,.12);margin:1.5rem 0;}
+.cal-card{background:rgba(10,2,4,.92);padding:1.5rem;}
+.cal-card h4{font-family:'Cinzel Decorative',serif;font-size:.95rem;color:var(--gold);margin-bottom:.5rem;}
+.cal-card p{font-size:.95rem;color:rgba(240,210,160,.65);margin-bottom:0;}
+.cal-card .zh{font-family:'Noto Serif SC',serif;font-size:2rem;color:var(--crimson);display:block;margin-bottom:.3rem;}
+
+.element-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(192,57,43,.1);margin:1.5rem 0;}
+.el{background:rgba(8,2,3,.92);padding:1.2rem .8rem;text-align:center;}
+.el-sym{font-size:1.8rem;margin-bottom:.3rem;display:block;}
+.el-name{font-family:'Cinzel Decorative',serif;font-size:.72rem;color:var(--gold);}
+.el-desc{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--dim);margin-top:.2rem;display:block;}
+
+.fire-horse-box{background:linear-gradient(135deg,rgba(139,0,0,.15),rgba(212,160,23,.06));border:2px solid rgba(192,57,43,.3);padding:2rem;margin:2rem 0;text-align:center;}
+.fire-horse-box h3{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,4vw,2.5rem);color:var(--scarlet);margin-bottom:.8rem;}
+.fire-horse-box .prophecy{font-style:italic;font-size:1.12rem;color:rgba(240,190,80,.75);line-height:1.92;}
+
+/* ══════════════════════════════════════
+   PART 2: SIRIUS & THE LEAP INTO TIME
+══════════════════════════════════════ */
+#sirius{background:linear-gradient(160deg,#050312,#090518,#050312);}
+.sirius-hero{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem;position:relative;z-index:1;}
+.sirius-name{font-family:'Cinzel Decorative',serif;font-size:clamp(2.5rem,8vw,6rem);color:#7b68ee;text-shadow:0 0 60px rgba(123,104,238,.3);line-height:1;margin-bottom:.5rem;}
+.sirius-sub{font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(123,104,238,.4);margin-bottom:1.5rem;}
+.speech-bubble{background:rgba(123,104,238,.08);border:1px solid rgba(123,104,238,.25);padding:1.5rem 2rem;max-width:680px;margin:1rem auto;font-style:italic;font-size:1.1rem;color:rgba(200,190,255,.8);line-height:1.88;position:relative;}
+.speech-bubble::before{content:'🐕';position:absolute;top:-.8rem;left:1.5rem;font-size:1.5rem;}
+.dog-shout{font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,3.5vw,2.2rem);color:#7b68ee;margin:1.2rem 0;text-shadow:0 0 40px rgba(123,104,238,.4);}
+.wiggle-line{display:block;font-family:'Space Mono',monospace;font-size:.85rem;color:rgba(123,104,238,.5);letter-spacing:.12em;margin:1rem 0;animation:wiggle 1.5s ease-in-out infinite;}
+@keyframes wiggle{0%,100%{transform:scaleX(1);}50%{transform:scaleX(1.04);}}
+.lost-cry{font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,5vw,3.5rem);color:var(--scarlet);text-shadow:0 0 80px rgba(231,76,60,.3);line-height:1.15;margin:1.5rem 0;}
+
+/* STAR MAP CANVAS */
+#star-cv{display:block;width:100%;height:300px;max-width:700px;margin:0 auto;}
+
+/* SOLFEGGIO / CHAKRA */
+.solf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:rgba(100,80,200,.08);margin:1.5rem 0;}
+.solf-card{padding:1.4rem;text-align:center;}
+.solf-freq{font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;display:block;margin-bottom:.3rem;}
+.solf-name{font-family:'Cinzel Decorative',serif;font-size:.75rem;margin-bottom:.3rem;}
+.solf-desc{font-size:.88rem;color:var(--soft);line-height:1.65;}
+.chakra-row{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:rgba(100,80,200,.08);margin:1.5rem 0;}
+.chakra{padding:1rem .6rem;text-align:center;background:rgba(8,5,20,.9);}
+.chakra-sym{font-size:1.5rem;display:block;margin-bottom:.2rem;}
+.chakra-name{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.07em;color:var(--dim);}
+.chakra-hz{font-size:.7rem;color:var(--soft);}
+@media(max-width:600px){.chakra-row{grid-template-columns:repeat(4,1fr);}}
+
+/* TCM / ELEMENTAL BENDING */
+.tcm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:rgba(0,168,107,.08);margin:1.5rem 0;}
+.tcm-card{background:rgba(4,8,8,.92);padding:1.4rem;}
+.tcm-card h4{font-family:'Cinzel Decorative',serif;font-size:.9rem;color:var(--jade);margin-bottom:.5rem;}
+.tcm-card p{font-size:.92rem;color:rgba(160,220,180,.6);margin-bottom:0;}
+
+.reality-check{background:rgba(0,168,107,.05);border-left:3px solid rgba(0,168,107,.3);padding:1.4rem 1.8rem;margin:1.5rem 0;}
+.reality-check h4{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(0,168,107,.5);margin-bottom:.6rem;}
+.reality-check p{font-size:.95rem;color:rgba(160,220,180,.6);margin-bottom:.5rem;}
+.reality-check p:last-child{margin-bottom:0;}
+.myth-check{border-left-color:rgba(212,160,23,.3);}
+.myth-check h4{color:rgba(212,160,23,.5);}
+.myth-check p{color:rgba(240,210,140,.6);}
+
+/* RESOLUTION: HORSE + OWL */
+.resolution{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem;position:relative;z-index:1;}
+.resolution-line{font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3.5vw,2.4rem);color:var(--gold);line-height:1.4;margin:.8rem 0;text-shadow:0 0 60px rgba(212,160,23,.2);}
+.owl-moment{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,6vw,4rem);color:var(--amber);text-shadow:0 0 80px rgba(240,165,0,.25);margin:1.5rem 0;}
+
+/* ══════════════════════════════════════
+   PART 3: WHO'S CLOCK, deep indigo
+══════════════════════════════════════ */
+#clock{background:linear-gradient(160deg,#030510,#050820,#030510);}
+.clock-hero{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 3rem;}
+.clock-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,7vw,5.5rem);color:#7b68ee;text-shadow:0 0 80px rgba(123,104,238,.2);line-height:1.05;margin-bottom:1rem;}
+.star-trio{font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(123,104,238,.4);margin-bottom:1.5rem;}
+.awkward-q{font-size:1.18rem;font-style:italic;color:rgba(200,185,255,.65);margin-bottom:.6rem;line-height:1.75;}
+.big-q{font-family:'Cinzel Decorative',serif;font-size:clamp(1.4rem,4vw,2.6rem);color:#9d8ee0;margin:1.5rem 0 .5rem;line-height:1.2;}
+.protest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:rgba(123,104,238,.08);margin:1.5rem 0;}
+.protest-card{background:rgba(3,5,16,.95);padding:1.5rem;border-top:2px solid;}
+.protest-card h4{font-family:'Cinzel Decorative',serif;font-size:.95rem;margin-bottom:.5rem;}
+.protest-card p{font-size:.93rem;color:rgba(200,185,255,.6);margin-bottom:0;}
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(123,104,238,.08);margin:1.5rem 0;}
+.role{background:rgba(3,5,16,.95);padding:1.6rem;text-align:center;}
+.role-icon{font-size:2.5rem;display:block;margin-bottom:.7rem;}
+.role-title{font-family:'Cinzel Decorative',serif;font-size:1rem;margin-bottom:.5rem;}
+.role-jobs{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.07em;color:var(--dim);line-height:2;}
+@media(max-width:580px){.role-grid{grid-template-columns:1fr;}}
+
+/* ══════════════════════════════════════
+   PART 4: THE HOBBIT HOLE, warm amber
+══════════════════════════════════════ */
+#hobbit{background:linear-gradient(160deg,#0a0703,#120c04,#0a0703);}
+.hobbit-hero{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 3rem;}
+.hobbit-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,6vw,5rem);color:var(--hero);text-shadow:0 0 80px rgba(201,168,76,.2);line-height:1.05;margin-bottom:1rem;}
+.hobbit-door{font-size:6rem;margin:1rem 0;display:block;animation:breathe 4s ease-in-out infinite;}
+@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+.gandalf-speech{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);padding:1.8rem 2.2rem;max-width:680px;margin:1.5rem auto;font-style:italic;font-size:1.15rem;color:rgba(240,220,160,.8);line-height:1.92;position:relative;}
+.gandalf-speech::before{content:'"';position:absolute;top:-.4rem;left:.8rem;font-size:4rem;color:rgba(201,168,76,.15);font-family:'Cinzel Decorative',serif;line-height:1;}
+.shout{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,5vw,3.5rem);color:var(--flame);text-shadow:0 0 60px rgba(255,107,53,.3);margin:1rem 0;animation:pulse-g 1.8s ease-in-out infinite;}
+@keyframes pulse-g{0%,100%{text-shadow:0 0 40px rgba(255,107,53,.2);}50%{text-shadow:0 0 100px rgba(255,107,53,.5);}}
+
+/* SORTING HAT / RACES */
+.sort-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(201,168,76,.1);margin:1.5rem 0;}
+.sort{background:rgba(10,7,3,.95);padding:1.5rem;border-top:3px solid;}
+.sort h4{font-family:'Cinzel Decorative',serif;font-size:1rem;margin-bottom:.5rem;}
+.sort p{font-size:.92rem;line-height:1.72;margin-bottom:0;}
+@media(max-width:540px){.sort-grid{grid-template-columns:1fr;}}
+
+/* ══════════════════════════════════════
+   PART 5: HERO'S JOURNEY, gold
+══════════════════════════════════════ */
+#hero-journey{background:linear-gradient(160deg,#080604,#100e04,#080604);}
+.hero-hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 3rem;}
+.hero-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,6.5vw,5rem);color:var(--hero);text-shadow:0 0 80px rgba(201,168,76,.2);line-height:1.05;margin-bottom:1rem;}
+
+/* CAMPBELL CYCLE */
+.campbell{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,168,76,.08);margin:1.5rem 0;}
+.camp{background:rgba(8,6,4,.95);padding:1.3rem;}
+.camp-num{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(201,168,76,.3);letter-spacing:.1em;margin-bottom:.2rem;}
+.camp h4{font-family:'Cinzel Decorative',serif;font-size:.9rem;color:var(--hero);margin-bottom:.4rem;}
+.camp p{font-size:.88rem;color:rgba(240,220,140,.55);margin-bottom:0;line-height:1.72;}
+@media(max-width:580px){.campbell{grid-template-columns:1fr 1fr;}}
+
+/* HERO ROSTER */
+.hero-roster{columns:2;column-gap:2rem;margin:1.5rem 0;}
+.hero-entry{break-inside:avoid;padding:.55rem 0;border-bottom:1px solid rgba(201,168,76,.06);}
+.hero-name{font-family:'Cinzel Decorative',serif;font-size:.88rem;color:var(--hero);}
+.hero-from{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.08em;color:var(--dim);}
+.hero-stood{font-size:.9rem;color:rgba(240,220,140,.6);font-style:italic;line-height:1.6;}
+@media(max-width:520px){.hero-roster{columns:1;}}
+
+/* FINAL STAND */
+.final-stand{min-height:50vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem;background:radial-gradient(ellipse at center,rgba(201,168,76,.05),transparent 70%);}
+.final-q{font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,5vw,3.8rem);color:var(--hero);line-height:1.2;margin:.8rem 0;text-shadow:0 0 60px rgba(201,168,76,.2);}
+.call-to-arms{font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,3vw,2rem);color:var(--flame);margin:1.5rem 0;letter-spacing:.04em;}
+
+/* QUOTE BLOCKS */
+.qb{margin:2rem 0;padding:1.5rem 2rem;border-left:3px solid;background:rgba(0,0,0,.25);}
+.qb.red{border-color:rgba(192,57,43,.4);}
+.qb.gold{border-color:rgba(212,160,23,.35);}
+.qb.purple{border-color:rgba(123,104,238,.35);}
+.qb.jade{border-color:rgba(0,168,107,.35);}
+.qb.amber{border-color:rgba(201,168,76,.35);}
+.qb p{font-style:italic;font-size:1.1rem;margin-bottom:.3rem;}
+.qb.red p{color:rgba(255,160,140,.7);}
+.qb.gold p{color:rgba(240,210,100,.7);}
+.qb.purple p{color:rgba(200,190,255,.7);}
+.qb.jade p{color:rgba(160,235,185,.7);}
+.qb.amber p{color:rgba(240,215,130,.7);}
+.qb cite{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(180,160,100,.35);}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3rem 2rem;text-align:center;}
+footer p{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--dim);line-height:2.5;margin:.18rem 0;}
+footer a{color:var(--gold);text-decoration:none;}
+</style>
+</head>
+<body>
+<blockquote style="border-left:2px solid rgba(201,168,76,.4);background:rgba(201,168,76,.04);padding:.9rem 1.4rem;margin:1.2rem 0;font-style:italic;font-size:.97rem;color:rgba(255,255,255,.7);line-height:1.85;"><span style="font-size:1.1rem;color:rgba(201,168,76,.6);">&ldquo;</span>The heavenly motions are nothing but a continuous song for several voices, to be perceived by the intellect, not by the ear.<span style="font-size:1.1rem;color:rgba(201,168,76,.6);">&rdquo;</span><footer style="font-style:normal;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:rgba(201,168,76,.45);margin-top:.5rem;">Kepler, J. <em>Harmonices Mundi</em>, Book V, Ch. 7. Linz, 1619. Trans. Aiton, Duncan, Field; American Philosophical Society, 1997.</footer></blockquote>
+<canvas id="bg"></canvas>
+
+<nav>
+  <span class="nav-brand">The Year of the Fire Horse · 2026</span>
+  <div class="nav-links">
+    <a href="#cny">🐉 New Year</a>
+    <a href="#sirius">🌟 Sirius</a>
+    <a href="#frequencies">🎵 Frequencies</a>
+    <a href="#dragon">🐲 Dragon</a>
+    <a href="#clock">⏰ Whose Clock</a>
+    <a href="#hobbit">🚪 Adventure</a>
+    <a href="#hero-journey">⚔️ Hero</a>
+  </div>
+  <a href="index.html" class="nav-back">← Musica Universalis</a>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     PART 1: CHINESE NEW YEAR + FIRE HORSE
+══════════════════════════════════════════════ -->
+<div id="cny" class="section" style="padding-top:0;border:none;">
+<div class="cny-hero">
+  <div class="sec-label" style="animation:rise 1s ease both;">Chinese New Year · February 17, 2026</div>
+  <div class="cny-zh">馬</div>
+  <h1 class="cny-year">Year of the Fire Horse<br><span style="font-size:.55em;color:rgba(212,160,23,.7);">丙午年 · Bǐng Wǔ Nián</span></h1>
+  <p class="cny-sub">The rarest year in the sixty-year cycle. The most powerful. The most unpredictable. The Horse that gallops through fire and does not slow down.</p>
+  <div class="lantern-row">
+    <span class="lantern">🏮</span><span class="lantern">🐉</span><span class="lantern">🏮</span><span class="lantern">🐴</span><span class="lantern">🏮</span>
+  </div>
+</div>
+
+<div class="sec-inner">
+  <div class="sec-label">The Chinese Calendar, How It Works</div>
+  <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,4vw,3rem);color:var(--gold);margin-bottom:1rem;"><div style="display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:5px;padding:4px 10px;margin:6px 0;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.09em;color:rgba(201,168,76,.85);"><span>&#9872;</span> COMMA FRAMEWORK QUESTION &middot; Is the 60-year Chinese cycle (5 elements x 12 animals) a near-closure like N_res?</div>
+The 60-Year Cycle of Heaven and Earth</h2>
+
+  <p>The Chinese calendar is not a simple 12-animal cycle. It is a 60-year cycle created by the combination of two systems: the <strong>Twelve Earthly Branches</strong> (十二地支, the twelve animals) and the <strong>Ten Heavenly Stems</strong> (十天干, the five elements in their Yin and Yang aspects). Each year is assigned one of twelve animals AND one of five elemental energies. Since 12 and 10 share no common factors other than 2, their full combination produces 60 unique years before the cycle repeats.</p>
+
+  <div class="cal-grid">
+    <div class="cal-card">
+      <span class="zh">子丑寅卯…</span>
+      <h4>The Twelve Animals</h4>
+      <p>Rat, Ox, Tiger, Rabbit, Dragon, Snake, Horse, Goat, Monkey, Rooster, Dog, Pig. Each governs a year and is said to shape the temperament of those born under it. The Horse governs the 7th year of the cycle: passionate, free, driven by instinct and momentum.</p>
+    </div>
+    <div class="cal-card">
+      <span class="zh">甲乙丙丁…</span>
+      <h4>The Five Elements</h4>
+      <p>Wood, Fire, Earth, Metal, Water, each expressed in Yin and Yang, giving ten Heavenly Stems. Each element takes two consecutive years (one Yang, one Yin). 2026 is a Fire year (丙, Bǐng, the Yang aspect of Fire), the most active and expansive expression of the Fire element.</p>
+    </div>
+    <div class="cal-card">
+      <span class="zh">丙午</span>
+      <h4>Fire + Horse = 丙午</h4>
+      <p>The last Fire Horse year was 1966. Before that, 1906. These years are historically associated with radical change, upheaval, brilliant creativity, and dangerous overreach. The Horse is already the most energetic animal in the cycle, give it Fire as its element and you have a year that refuses to stop moving.</p>
+    </div>
+    <div class="cal-card">
+      <span class="zh">60年</span>
+      <h4>The Grand Cycle</h4>
+      <p>A complete cycle of 60 years is called a <em>jiǎzǐ</em> (甲子). Completing a jiǎzǐ, living through all 60 unique year-combinations, is considered a profound milestone. A person who has lived 60 years has seen every possible combination of Heaven and Earth once. Chinese 60th birthdays are major celebrations of this completion.</p>
+    </div>
+  </div>
+
+  <div class="fire-horse-box">
+    <h3>🔥 The Fire Horse of 2026 🐴</h3>
+    <p class="prophecy">The Horse burns brightest in Fire. A Fire Horse year gallops without looking back, it is the year of brilliant starts, volatile passions, cultural revolutions, and ideas that cannot be contained. Those born in this year are said to be uncommonly gifted and uncommonly difficult. The year itself carries this energy: it does not wait, it does not explain itself, and it absolutely does not turn around.</p>
+    <p class="prophecy" style="margin-top:.8rem;">For those awake to it, a Fire Horse year is not something that happens <em>to</em> you. It is an invitation. <strong>Will you match its pace?</strong></p>
+  </div>
+
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--gold);margin:2.5rem 0 .8rem;">The Five Elements as a Framework</h3>
+  <p>In Chinese cosmological thinking, the Five Elements (五行 wǔ xíng) are not passive materials, they are dynamic processes, cycles of generation and control that describe how all phenomena relate. The generating cycle: Wood feeds Fire; Fire creates Earth (ash); Earth produces Metal; Metal holds Water; Water nourishes Wood. The controlling cycle: Wood parts Earth; Earth dams Water; Water quenches Fire; Fire melts Metal; Metal cuts Wood. Every year, every season, every organ of the body, every emotion sits within this web of mutual influence.</p>
+  <div class="element-strip">
+    <div class="el" style="border-top:3px solid #4a9c4a;"><span class="el-sym">🌿</span><span class="el-name">Wood 木</span><span class="el-desc">Growth · Spring · Liver</span></div>
+    <div class="el" style="border-top:3px solid #c0392b;"><span class="el-sym">🔥</span><span class="el-name">Fire 火</span><span class="el-desc">Passion · Summer · Heart</span></div>
+    <div class="el" style="border-top:3px solid #8b7355;"><span class="el-sym">⛰️</span><span class="el-name">Earth 土</span><span class="el-desc">Stability · Late Summer · Spleen</span></div>
+    <div class="el" style="border-top:3px solid #aaa;"><span class="el-sym">⚔️</span><span class="el-name">Metal 金</span><span class="el-desc">Precision · Autumn · Lungs</span></div>
+    <div class="el" style="border-top:3px solid #2980b9;"><span class="el-sym">💧</span><span class="el-name">Water 水</span><span class="el-desc">Flow · Winter · Kidneys</span></div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PART 2: SIRIUS THE DOG JUMPS INTO TIME
+══════════════════════════════════════════════ -->
+<div id="sirius" class="section" style="background:linear-gradient(160deg,#050312,#090518,#050312);">
+<div class="sec-inner">
+  <div class="sirius-hero" style="padding:2rem 0;">
+    <div class="sirius-sub">🌟 Alpha Canis Majoris · 8.6 Light Years Away · −1.46 Magnitude</div>
+    <h2 class="sirius-name">Sirius</h2>
+    <p style="font-style:italic;color:rgba(180,170,255,.6);font-size:1.1rem;">The Dog Star. Brightest in the sky. Ancient Egyptians timed the flooding of the Nile by Sirius's heliacal rising. Every culture that has ever looked up has named it. Tonight it watches.</p>
+
+    <div class="speech-bubble">
+      "Well... I'm a Metal Snake and I want to jump ahead... <strong style="color:#a09ae0;">ROCK ON!!!!!</strong>"
+    </div>
+    <p style="font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(123,104,238,.4);letter-spacing:.15em;">🐕 SIRIUS, THE METAL SNAKE DOG, PREPARES FOR LAUNCH</p>
+    <div class="dog-shout">🐕💨 → CURRENT OF TIME →</div>
+    <span class="wiggle-line">〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰</span>
+    <div style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3.5vw,2rem);color:rgba(180,170,255,.7);margin:1rem 0;">Are you joining??? 🌀</div>
+    <div style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3.5vw,2rem);color:rgba(200,180,255,.6);margin:.5rem 0;">Where are we landing??? 🌊</div>
+    <div style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3.5vw,2rem);color:rgba(210,190,255,.7);margin:.5rem 0;">Are you ready??? ⚡</div>
+    <div class="dog-shout" style="font-size:clamp(2rem,7vw,4.5rem);margin:1.5rem 0;">WHAT YEAR IS IT??</div>
+    <span class="wiggle-line">〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰〰</span>
+
+    <canvas id="star-cv"></canvas>
+
+    <div class="lost-cry">ORION!!!!<br>I DON'T SEE THE STARS!!!<br>I'M LOSSSST 🐕💫</div>
+
+    <p style="font-size:1.1rem;color:rgba(180,170,255,.6);max-width:600px;font-style:italic;margin-top:1rem;">Lost in the current of time, between the stars, between the years, the dog tumbles through the space between the constellations, looking for familiar light.</p>
+    <p style="color:rgba(180,170,255,.5);font-size:.95rem;max-width:580px;">Orion the Hunter. Orion's Belt, three bright stars in a line, perfectly aligned with the three pyramids at Giza. The ancient Egyptians didn't just name the stars. They built their civilization around them. They aligned their temples. They timed their agriculture. The sky was the clock, the calendar, and the map.</p>
+    <p style="color:rgba(180,170,255,.5);font-size:.95rem;max-width:580px;">And Sirius, the Dog Star, rose just before the Nile flooded every year. When they saw Sirius again after 70 days of invisibility, they knew: the waters are coming. Get ready. It is time.</p>
+  </div>
+
+  <!-- RESOLUTION: THE HORSE FINDS THE DOG -->
+  <div class="resolution">
+    <div style="font-size:4rem;margin-bottom:.5rem;">🐴🌊🐕</div>
+    <p style="font-style:italic;color:rgba(212,160,23,.7);font-size:1.1rem;">And then, through the current, a fire horse appears. Galloping across the surface of time, mane bright as flame, it reaches into the water and pulls the dog out.</p>
+    <div class="resolution-line">It's time to charge ahead.</div>
+    <div class="resolution-line" style="color:var(--scarlet);">"The coldest night of the coldest year<br>comes right before the dawn."</div>
+    <div style="font-size:5rem;margin:1.5rem 0;animation:breathe 5s ease-in-out infinite;">🦉</div>
+    <div class="owl-moment">🌅 The Owl Flew At Dusk</div>
+    <p style="color:rgba(240,200,80,.5);font-style:italic;font-size:1.05rem;max-width:520px;margin:0 auto;">The owl is the sentinel between night and day. It burns through the last dark hours of winter with ancient knowledge in its eyes, then settles its wings as the light arrives. The dawn was always coming.</p>
+    <div style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.25em;color:rgba(212,160,23,.3);margin:1.5rem 0;text-transform:uppercase;">🔥 It Burns · And Then The Question Returns 🔥</div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PART 3: ELEMENTAL BENDING, TCM, SOLFEGGIO
+══════════════════════════════════════════════ -->
+<div id="frequencies" class="section" style="background:linear-gradient(160deg,#030a08,#050e0a,#030a08);">
+<div class="sec-inner">
+  <div class="sec-label">Ancient Truth · Modern Science · The Comma Framework</div>
+  <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,4.5vw,3.5rem);color:var(--jade);margin-bottom:1rem;"><div style="display:inline-flex;align-items:center;gap:6px;background:rgba(168,212,255,.06);border:1px solid rgba(168,212,255,.2);border-radius:5px;padding:4px 10px;margin:6px 0;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.09em;color:rgba(168,212,255,.8);"><span>&#9872;</span> COMMA FRAMEWORK ARTICULATION &middot; myths as compressed comma-cycle knowledge transmitted across N_res generations</div>
+Are the Old Myths True?</h2>
+  <p class="sec-lead" style="color:rgba(160,235,185,.65);">An era of elemental bending. Healers who move rivers with their voices. Monks who redirect chi with a touch. Are these myths? Or are they the poetic language of genuine phenomena that science has only recently begun to understand?</p>
+
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--jade);margin:2.5rem 0 .8rem;">Traditional Chinese Medicine, The Framework</h3>
+  <p>TCM is 3,000+ years old. It predates germ theory, chemistry, and neuroscience, but it observed patterns that modern medicine is only now understanding through different vocabulary. The Five Elements map to the organs, emotions, seasons, tastes, and sounds. This is not metaphor for the practitioners who developed it. It is a complete system of relationships.</p>
+
+  <div class="tcm-grid">
+    <div class="tcm-card">
+      <h4>Qi (氣), Vital Energy</h4>
+      <p>The concept of qi as a force that flows through channels (meridians) in the body is the foundation of acupuncture, acupressure, qigong, and tai chi. Modern science has not confirmed a specific anatomical substrate for meridians, but research on fascial planes (sheets of connective tissue) suggests these pathways may correspond to mechanical force transmission lines through the body. Whether qi is a metaphor for nervous system function, metabolic regulation, or something not yet named, the practice it generated has demonstrable effects.</p>
+    </div>
+    <div class="tcm-card">
+      <h4>Acupuncture, The Evidence</h4>
+      <p>Cochrane reviews (the gold standard of medical evidence synthesis) find acupuncture more effective than sham acupuncture for chronic pain, which means it is not purely placebo. The mechanism is debated: local release of endorphins and enkephalins; modulation of the default mode network in the brain; reduction of inflammatory cytokines; effects on the autonomic nervous system. The honest answer: it works for specific conditions, we don't fully know why, and it does so gently and with minimal side effects.</p>
+    </div>
+    <div class="tcm-card">
+      <h4>Acupressure & Pressure Points</h4>
+      <p>Pressure points (穴位 xuéwèi, "cave dwellings of qi") are specific locations on the body where applied pressure or stimulation produces measurable physiological effects. Many correspond to motor points (locations where nerve-muscle junctions concentrate), trigger points (hypersensitive muscle knots), or vessels. Applied pressure activates mechanoreceptors, which signal the brainstem and alter autonomic tone. The LI4 point (between thumb and index finger) is validated for headache and labour pain. P6 (inner wrist) is validated for nausea. The biological mechanism is real even if the traditional explanation differs from the biomedical one.</p>
+    </div>
+    <div class="tcm-card">
+      <h4>Buddhist Medicine & Mindfulness</h4>
+      <p>Buddhist medicine frames suffering as arising from three poisons: ignorance, attachment, and aversion. Its therapeutic approach, meditation, compassion training, mindful attention to present experience, has been extracted into Mindfulness-Based Stress Reduction (MBSR) and Mindfulness-Based Cognitive Therapy (MBCT), both of which have Level I evidence for preventing depressive relapse and managing chronic pain. The spiritual framework produces measurable neurological changes: increased grey matter density in the insula and prefrontal cortex; reduced amygdala reactivity; increased vagal tone.</p>
+    </div>
+    <div class="tcm-card">
+      <h4>Sound as Medicine, Ancient & Modern</h4>
+      <p>Tibetan singing bowls, Hindu mantras, Gregorian chant, and Sufi dhikr all use sound for healing and altered consciousness. Neuroscience supports a mechanism: rhythmic auditory stimulation entrains brainwaves (neural oscillations synchronise to rhythmic input). Infrasound (below 20Hz) is felt rather than heard, some studies link it to feelings of awe, unease, or presence in historical structures. Low-frequency vibration directly affects cell membrane permeability and cytoskeletal tension. Sound is a mechanical wave; biological systems are mechanical systems.</p>
+    </div>
+    <div class="tcm-card">
+      <h4>The Meridian / Fascia Connection</h4>
+      <p>The 12 primary meridians of Chinese medicine map remarkably well onto planes of continuous connective tissue when dissected under tension (Helene Langevin, Harvard/NIH). Fascial planes transmit mechanical signals through the whole body, a force applied at the foot propagates to the hip, the back, the neck. Acupuncture needles inserted into specific points and rotated produce measurable increases in fascial thickness and connective tissue deformation at distant sites via this mechanical network. The "energy channel" may be a force transmission channel.</p>
+    </div>
+  </div>
+
+  <div class="reality-check jade">
+    <h4>✓ What is demonstrably real</h4>
+    <p>The body is a mechanical, electrical, chemical, and acoustic system. Pressure applied to specific anatomical locations produces measurable neurological and systemic effects. Rhythmic sound entrains neural oscillations. Breathwork alters CO₂/O₂ balance, blood pH, and autonomic nervous system state. Movement practices like tai chi and qigong improve balance, reduce falls in elderly populations, lower blood pressure, and reduce inflammatory markers. Traditional medicine accumulated 3,000 years of observational data about what the body does under various interventions, that data is real, even if the explanatory framework needs updating.</p>
+  </div>
+
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--jade);margin:2.5rem 0 .8rem;" id="dragon">The Dragon Dance, Movement as Ritual Technology</h3>
+  <p>The dragon dance (舞龍 wǔ lóng) originated in Han Dynasty China (~200 BCE) as a ritual to bring rain and good harvest. Dozens of dancers carry a long dragon puppet on poles and move it in sinuous, flowing patterns that mimic the movement of water, specifically the way a river moves when carrying flood force. The dragon in Chinese mythology is not a European fire-breathing creature. It is a water deity: the master of rivers, rain, and seas. To dance the dragon is to embody the energy of flowing water and invite it into the world.</p>
+
+  <div class="tcm-grid">
+    <div class="tcm-card">
+      <h4>Could You Actually Bend Elements?</h4>
+      <p>Avatar's element-bending is poetic science: water bending corresponds to fluid dynamics and the mastery of hydraulic principles; earth bending to structural engineering and seismic understanding; fire bending to thermodynamics and combustion chemistry; air bending to fluid mechanics and pressure differential. What the martial arts underlying each bending style describe, the soft yielding of tai chi (water), the root stance of hung gar (earth), the aggressive extension of northern shaolin (fire), the flowing circles of ba gua zhang (air), are genuine biomechanical principles. You cannot literally move rivers, but mastering these movement principles changes how effectively you interact with physical force.</p>
+    </div>
+    <div class="tcm-card">
+      <h4>Can You Sing and Move Rivers?</h4>
+      <p>Not literally. But: the human voice can shatter glass at its resonant frequency (Enrico Caruso was said to do this repeatedly). Infrasound from large wind instruments has been measured to induce psychological effects in concert halls. Vibroacoustic therapy uses low-frequency sound transmitted through the body to reduce muscle spasm and anxiety. Large water bodies have resonant frequencies, a large enough source of coherent sound can induce standing waves in a body of water. The dragon dance principle, that rhythmic collective human movement and sound can alter the environment, is not entirely mythological.</p>
+    </div>
+  </div>
+
+  <!-- SOLFEGGIO FREQUENCIES -->
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--jade);margin:2.5rem 0 .8rem;" id="solfeggio">Solfeggio Frequencies, Myths &amp; Realities</h3>
+  <p>The solfeggio frequencies are a set of specific audio frequencies (396, 417, 528, 639, 741, 852 Hz and more in extended versions) claimed to have profound healing, transformation, and even DNA-repair properties. They originated in a 1999 book by Dr. Joseph Puleo and gained wide circulation in new age communities. What is true about them, and what does the comma framework say?</p>
+
+  <div class="solf-grid">
+    <div class="solf-card" style="background:rgba(139,0,0,.12);border-top:3px solid rgba(139,0,0,.4);">
+      <span class="solf-freq" style="color:#e57373;">396 Hz</span>
+      <span class="solf-name" style="color:rgba(229,115,115,.8);">Liberating Guilt</span>
+      <p class="solf-desc">UT, claimed to clear fear and guilt. Corresponds roughly to G4 in equal temperament (392 Hz). Musically: a fairly warm, resonant frequency. Psychologically: like most music in this range, it can be calming if the composition is calm. The specific healing claims have no RCT evidence.</p>
+    </div>
+    <div class="solf-card" style="background:rgba(230,126,0,.08);border-top:3px solid rgba(230,126,0,.3);">
+      <span class="solf-freq" style="color:#ffb74d;">417 Hz</span>
+      <span class="solf-name" style="color:rgba(255,183,77,.8);">Facilitating Change</span>
+      <p class="solf-desc">RE, claimed to facilitate change, undo situations. Corresponds to roughly G#4/Ab4. The "528 Hz repairs DNA" claim is the most widely circulated solfeggio myth, examined next. No peer-reviewed evidence for frequency-specific healing at this specificity.</p>
+    </div>
+    <div class="solf-card" style="background:rgba(0,128,0,.08);border-top:3px solid rgba(0,200,0,.3);">
+      <span class="solf-freq" style="color:#81c784;">528 Hz</span>
+      <span class="solf-name" style="color:rgba(129,199,132,.8);">DNA Repair · The "Love Frequency"</span>
+      <p class="solf-desc">MI, the most famous claim: 528 Hz "repairs DNA." The original claim comes from a paper by Rein (1998) that claimed exposure to 528 Hz increased UV light absorption by DNA. This study has never been replicated, used a non-standard UV absorption method, and has not appeared in peer-reviewed literature since. DNA repair is an enzymatic process involving dozens of proteins, it does not respond to ambient audio frequencies in the way claimed. What IS true: music at comfortable frequencies reduces cortisol, which does allow DNA repair mechanisms to function more efficiently, but this applies to any soothing music, not 528 Hz specifically.</p>
+    </div>
+    <div class="solf-card" style="background:rgba(0,100,200,.08);border-top:3px solid rgba(100,180,255,.3);">
+      <span class="solf-freq" style="color:#64b5f6;">639 Hz</span>
+      <span class="solf-name" style="color:rgba(100,181,246,.8);">Connecting Relationships</span>
+      <p class="solf-desc">FA, claimed to enhance communication and relationships. Close to D♭5. No evidence this specific frequency has unique relational effects beyond the general effect of music on social bonding (oxytocin release, neural synchrony during shared musical experience, which are real effects, but not frequency-specific).</p>
+    </div>
+    <div class="solf-card" style="background:rgba(100,0,200,.08);border-top:3px solid rgba(150,100,255,.3);">
+      <span class="solf-freq" style="color:#ba68c8;">741 Hz</span>
+      <span class="solf-name" style="color:rgba(186,104,200,.8);">Solving Problems · Awakening</span>
+      <p class="solf-desc">SOL, claimed to cleanse cells and solve problems. Approximately F#5. Interesting: 741 Hz is close to the tritone relationship with 528 Hz (528 × √2 ≈ 746.8). In the comma framework, the tritone is the zone of maximum tension and ambiguity. Perhaps this is the resonance that creators of this system were intuitively touching, though the specific healing claims remain unsubstantiated.</p>
+    </div>
+    <div class="solf-card" style="background:rgba(180,120,0,.08);border-top:3px solid rgba(220,180,60,.3);">
+      <span class="solf-freq" style="color:#ffd54f;">852 Hz</span>
+      <span class="solf-name" style="color:rgba(255,213,79,.8);">Returning to Spiritual Order</span>
+      <p class="solf-desc">LA, claimed to return to spiritual order. Close to A♭5. Note: 852 / 528 ≈ 1.614, remarkably close to the golden ratio (φ ≈ 1.618). Whether intentional or coincidental, this is a genuine mathematical relationship worth examining. The golden ratio appears throughout biological growth patterns and has acoustic significance.</p>
+    </div>
+  </div>
+
+  <div class="reality-check">
+    <h4>The Comma Framework Applied to Solfeggio Frequencies</h4>
+    <p>The Pythagorean comma tells us that the universe's vibrations cannot be perfectly mapped onto any closed system. Musical scales cannot resolve into perfect mathematics. Solfeggio frequencies are presented as a perfect healing system with exact frequencies, which should already raise scepticism from a comma perspective: perfection in this domain is always an approximation.</p>
+    <p>What IS genuinely interesting: these frequencies were derived from numerological analysis of Pythagorean arithmetic (digits summing to 3, 6, or 9), which connects to the same harmonic series that generates the comma. They are not random. The fact that they hit near-rational relationships with each other (528 × 3/2 ≈ 792, close to 741+... within about 7%) suggests someone was working with harmonic ratios, even if the healing claims are overextended.</p>
+    <p>The honest answer: <strong>music heals, sound affects the body, rhythm entrains the brain, these are real</strong>. The specific claim that 528 Hz uniquely repairs DNA and 396 Hz specifically clears guilt is not. The myth inflated a genuine insight into a marketing framework.</p>
+  </div>
+
+  <!-- CHAKRAS -->
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--jade);margin:2.5rem 0 .8rem;">Chakras, Ancient Map, Modern Body</h3>
+  <p>The chakra system originated in the Vedas (~1500 BCE) and was developed extensively in tantric traditions. Seven primary chakras are described as vortices of energy located along the central axis of the body, the spine, each associated with specific psychological, emotional, and physiological domains.</p>
+
+  <div class="chakra-row">
+    <div class="chakra" style="border-top:3px solid #ef4444;"><span class="chakra-sym">🔴</span><span class="chakra-name">Root · Muladhara</span><span class="chakra-hz">396 Hz · C</span></div>
+    <div class="chakra" style="border-top:3px solid #f97316;"><span class="chakra-sym">🟠</span><span class="chakra-name">Sacral · Svadhisthana</span><span class="chakra-hz">417 Hz · D</span></div>
+    <div class="chakra" style="border-top:3px solid #eab308;"><span class="chakra-sym">🟡</span><span class="chakra-name">Solar · Manipura</span><span class="chakra-hz">528 Hz · E</span></div>
+    <div class="chakra" style="border-top:3px solid #22c55e;"><span class="chakra-sym">🟢</span><span class="chakra-name">Heart · Anahata</span><span class="chakra-hz">639 Hz · F</span></div>
+    <div class="chakra" style="border-top:3px solid #3b82f6;"><span class="chakra-sym">🔵</span><span class="chakra-name">Throat · Vishuddha</span><span class="chakra-hz">741 Hz · G</span></div>
+    <div class="chakra" style="border-top:3px solid #6366f1;"><span class="chakra-sym">🟣</span><span class="chakra-name">Third Eye · Ajna</span><span class="chakra-hz">852 Hz · A</span></div>
+    <div class="chakra" style="border-top:3px solid #a855f7;"><span class="chakra-sym">⚪</span><span class="chakra-name">Crown · Sahasrara</span><span class="chakra-hz">963 Hz · B</span></div>
+  </div>
+
+  <p>The chakra locations correspond closely to major nerve plexi along the spine: the sacral plexus (root), celiac plexus (solar plexus/navel), cardiac plexus (heart), pharyngeal plexus (throat), and the pineal gland (third eye, interesting, as the pineal gland regulates melatonin and light-dark cycles). Whether chakras "are" nerve plexi, endocrine glands, or something else entirely, the ancient observers who developed this system were pointing at real anatomical and physiological concentrations of activity.</p>
+
+  <div class="qb jade">
+    <p>"You cannot pour water from an empty vessel. You cannot give what you do not have. The chakra system, whatever its ultimate ontological status, is a map of where humans store and deplete their energy. That map is practically useful, regardless of mechanism."</p>
+    <cite>, integrative health principle</cite>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PART 4: WHOSE CLOCK ARE YOU WORKING FOR?
+══════════════════════════════════════════════ -->
+<div id="clock" class="section" style="background:linear-gradient(160deg,#030510,#050820,#030510);">
+<div class="sec-inner">
+  <div class="clock-hero" style="padding:2rem 0 3rem;">
+    <div class="star-trio">Sirius · Orion · Gemini</div>
+    <h2 class="clock-title">Whose Clock<br>Are You Working For?</h2>
+    <p style="font-style:italic;color:rgba(180,170,255,.6);font-size:1.15rem;max-width:560px;">"Only the Heavens should rule my clock", but whose clock is actually running your days?</p>
+    <p style="color:rgba(160,150,220,.55);font-size:1rem;max-width:560px;">The stars move on their own schedule. They have for 13.8 billion years. They do not hold meetings. They do not have deadlines. They have never sat in traffic. And yet they keep perfect time, the kind of time that matters, the kind that nothing invented by humans has ever improved on.</p>
+    <div style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:#7b68ee;margin:1.5rem 0;">Who is ruling your heart and soul?<br>Who is the orchestrator of your life?</div>
+    <div style="font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.25em;color:rgba(123,104,238,.35);text-transform:uppercase;margin:1rem 0;">It is time to ask the awkward questions.</div>
+  </div>
+
+  <div class="protest-grid">
+    <div class="protest-card" style="border-color:rgba(123,104,238,.3);">
+      <h4 style="color:#9d8ee0;">Who's paying for this?</h4>
+      <p>Follow the money, honestly. Who funds your time? What do they receive in return? Is the exchange fair, to you, to them, to the people affected by the work? Most people never explicitly ask this question about their own lives. Most people accept the first answer they were handed.</p>
+    </div>
+    <div class="protest-card" style="border-color:rgba(123,104,238,.3);">
+      <h4 style="color:#9d8ee0;">Whose time am I working for?</h4>
+      <p>Your time is the only truly non-renewable resource you have. Every hour spent is gone. The question is not whether you spend it, you will. The question is whether the spending is chosen, or whether it simply happens to you by default. Who benefits when you spend time the way you currently do?</p>
+    </div>
+    <div class="protest-card" style="border-color:rgba(100,200,150,.2);">
+      <h4 style="color:#80e8b0;">Does this help humanity?</h4>
+      <p>Not in the abstract. Concretely: if you traced the direct effects of your daily work one, two, three steps out, who does it reach? Does it add to the world's store of wellbeing, knowledge, beauty, or justice? Or does it subtract? Most work is mixed. Knowing the mix is the beginning of agency.</p>
+    </div>
+    <div class="protest-card" style="border-color:rgba(200,160,80,.2);">
+      <h4 style="color:#e0c068;">What if you stopped?</h4>
+      <p>Thought experiment: if you stopped doing your current work tomorrow, what would realistically happen? To you? To the people around you? To the organization? The honest answer to this question tells you a great deal about how replaceable you are, how dependent you are, and therefore how much actual freedom of choice you have.</p>
+    </div>
+    <div class="protest-card" style="border-color:rgba(200,80,80,.2);">
+      <h4 style="color:#e07070;">Why do I have to sit in traffic?</h4>
+      <p>Two to four hours a day, every day. That is 500–1,000 hours a year. Over a 40-year career: 20,000–40,000 hours, the equivalent of 10 to 20 full years of waking life spent in a car. Can you protest? Can you work remotely? Can you advocate for urban design that doesn't require everyone to own a machine that weighs 2 tonnes to transport a body that weighs 70 kilograms across a distance that a bicycle or train could cover at comparable speed? The highway through your city is not a law of physics. It was a political choice, made in the mid-20th century, that can be unmade.</p>
+    </div>
+    <div class="protest-card" style="border-color:rgba(80,180,200,.2);">
+      <h4 style="color:#60c8d8;">If we fight for change, this becomes:</h4>
+      <p>Streets where children can walk to school. Cities designed for people, not cars. Remote work infrastructure that makes physical presence optional for knowledge work. 15-minute neighborhoods where everything you need is reachable without a car. Shorter working weeks (the evidence is strong: 4-day work weeks maintain productivity while dramatically improving wellbeing, health, and, importantly, carbon footprint). These are not utopian fantasies. They are policies implemented, right now, in cities and countries that chose to fight for them.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.8rem;color:#9d8ee0;margin:2.5rem 0 .8rem;">Who Are You?</h3>
+  <p style="color:rgba(200,185,255,.65);">Three questions that are actually one question. You don't answer them by thinking harder. You answer them by watching what you do when no one is telling you what to do.</p>
+
+  <div class="role-grid">
+    <div class="role" style="border-top:3px solid rgba(200,160,80,.3);">
+      <span class="role-icon">🎨</span>
+      <div class="role-title" style="color:var(--amber);">Memory Keeper</div>
+      <div class="role-jobs">Artist · Musician · Writer<br>Photographer · Filmmaker<br>Historian · Archivist<br>Protestor · Poet</div>
+      <p style="font-size:.88rem;color:rgba(240,200,100,.5);margin-top:.8rem;margin-bottom:0;line-height:1.7;">Those who hold the shape of the world in story and image, so that what was learned is not lost when the people who lived it are gone.</p>
+    </div>
+    <div class="role" style="border-top:3px solid rgba(100,200,150,.3);">
+      <span class="role-icon">🔧</span>
+      <div class="role-title" style="color:var(--jade);">Saviour</div>
+      <div class="role-jobs">Engineer · Medic · Technician<br>Builder · Scientist · Programmer<br>Farmer · Water systems worker<br>Emergency responder</div>
+      <p style="font-size:.88rem;color:rgba(160,235,185,.5);margin-top:.8rem;margin-bottom:0;line-height:1.7;">Those who make things work, who apply knowledge to physical reality and keep life moving forward when it would otherwise stop.</p>
+    </div>
+    <div class="role" style="border-top:3px solid rgba(123,104,238,.3);">
+      <span class="role-icon">🌐</span>
+      <div class="role-title" style="color:#9d8ee0;">Guide</div>
+      <div class="role-jobs">Leader · Social activist · Lawyer<br>Advocate · Teacher · Therapist<br>Community organiser<br>Parent · Elder · Mentor</div>
+      <p style="font-size:.88rem;color:rgba(200,185,255,.5);margin-top:.8rem;margin-bottom:0;line-height:1.7;">Those who move other people, who hold space, articulate direction, and make it possible for groups to act in ways that individuals cannot.</p>
+    </div>
+  </div>
+
+  <div class="qb purple">
+    <p>You may be all three at different times. You may be none of them yet, and all of them soon. The question is not which box you check. The question is whether you are living from your actual nature or from the expectations of the structures you inherited.</p>
+    <cite>, the awkward question · everyone eventually</cite>
+  </div>
+
+  <div class="big-q">What are your dreams? What are your aspirations?</div>
+  <p style="color:rgba(200,185,255,.65);font-size:1.05rem;">Not the answers you give at job interviews. The ones you think about when you're walking alone and no one is asking. The ones that feel slightly embarrassing to say out loud because they're too big, or too specific, or because someone once told you to be more realistic. Those.</p>
+
+  <div style="text-align:center;padding:2rem 0;">
+    <div class="star-trio">SIRIUS · ORION · GEMINI · RETURN</div>
+    <div class="sirius-name" style="font-size:clamp(1.8rem,5vw,3.5rem);margin:.5rem 0;color:#9d8ee0;">Is it time for an adventure?</div>
+    <div style="font-size:3.5rem;margin:1rem 0;">🌍 → 🏔️ → ✨</div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PART 5: THE HOBBIT HOLE + SORTING HAT
+══════════════════════════════════════════════ -->
+<div id="hobbit" class="section" style="background:linear-gradient(160deg,#080503,#100a04,#080503);">
+<div class="sec-inner">
+  <div class="hobbit-hero" style="padding:2rem 0 3rem;">
+    <div class="sec-label" style="color:rgba(201,168,76,.3);">The Unexpected Journey · The Shire · The Road Goes Ever On</div>
+    <h2 class="hobbit-title">Out of the Hobbit Hole</h2>
+    <span class="hobbit-door">🚪</span>
+    <p style="font-style:italic;color:rgba(240,215,130,.6);font-size:1.12rem;max-width:580px;">There is a perfectly comfortable hole, with round windows and a well-stocked pantry, and a very sensible reason to stay in it forever. And then one morning, someone knocks.</p>
+  </div>
+
+  <div class="gandalf-speech">
+    <p style="margin-bottom:.4rem;color:rgba(240,210,100,.85);font-weight:500;">Sirius Orion Gemini, appearing as Gandalf, leaning on a staff, eyes bright under a grey hat:</p>
+    "A Wizard is Never Late, Nor is He Early. He Arrives Precisely When He Means To."
+  </div>
+
+  <div style="text-align:center;margin:2rem 0;">
+    <div style="font-family:'Cinzel Decorative',serif;font-size:.85rem;color:rgba(201,168,76,.4);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.8rem;">Sirius switches back, now a dog with a wand 🐕🪄</div>
+    <div class="shout">I AM GOING ON AN ADVENTURE!!!</div>
+    <div style="font-size:4rem;margin:.8rem 0;">🐕🪄🎒⛰️</div>
+  </div>
+
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--hero);margin:2.5rem 0 .8rem;">Who Are You in the Story?</h3>
+
+  <div class="sort-grid">
+    <div class="sort" style="border-color:#d4a017;">
+      <h4 style="color:#f5d060;">Gryffindor 🦁</h4>
+      <p style="color:rgba(245,208,96,.65);">Courage, bravery, nerve, and chivalry. Gryffindors act when others freeze. They feel the fear and do it anyway. Their weakness is impulsiveness, charging ahead before fully understanding the situation. Their strength is that they make things happen when nothing else will. <em>Harry Potter, Hermione (sort of), Katniss, Aang, Aragorn.</em></p>
+    </div>
+    <div class="sort" style="border-color:#4287c7;">
+      <h4 style="color:#7ab8f5;">Ravenclaw 🦅</h4>
+      <p style="color:rgba(122,184,245,.65);">Intelligence, creativity, learning, wit. Ravenclaws think before they act, often so long that they miss the moment. Their gift is that when they act, they understand deeply. They are the ones who decode the map, translate the ancient language, solve the impossible puzzle. <em>Hermione (debatably), Kvothe, Senku (Dr. Stone), Luna Lovegood.</em></p>
+    </div>
+    <div class="sort" style="border-color:#4a9c4a;">
+      <h4 style="color:#80c880;">Hufflepuff 🦡</h4>
+      <p style="color:rgba(128,200,128,.65);">Dedication, patience, loyalty, hard work, fair play. Hufflepuffs are the people who actually keep the world running, they show up, they stay, they do what they said they would. They are underestimated and invaluable. In a rebuild scenario, a Hufflepuff is the engineer who still shows up when everything has gone wrong. <em>Sam Gamgee, Peeta Mellark, Neville Longbottom (late-stage).</em></p>
+    </div>
+    <div class="sort" style="border-color:#2d8a5c;">
+      <h4 style="color:#60c89a;">Slytherin 🐍</h4>
+      <p style="color:rgba(96,200,154,.65);">Ambition, cunning, resourcefulness, leadership, self-preservation. Slytherins understand power, how it works, who has it, how to get it and use it. Their weakness is confusing means with ends. Their strength is that nothing stops them when they know what they want. The best Slytherins direct this force toward genuine good. <em>Odysseus, Zuko (transformed), Daenerys (early), countless real-world leaders.</em></p>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--hero);margin:2.5rem 0 .8rem;">What Kind of Being Are You?</h3>
+  <div class="sort-grid">
+    <div class="sort" style="border-color:rgba(139,90,43,.6);">
+      <h4 style="color:#c8a56a;">Hobbit 🌿</h4>
+      <p style="color:rgba(200,165,106,.65);">Small, comfortable, domestic, but capable of astonishing courage when the stakes are personal. Hobbits change the world not because they are destined to, not because they are the strongest, but because they had the sense to feel the weight of what was wrong and the stubbornness not to give up. <em>The most underestimated power in any mythology.</em></p>
+    </div>
+    <div class="sort" style="border-color:rgba(100,80,200,.5);">
+      <h4 style="color:#a090e8;">Elf ✨</h4>
+      <p style="color:rgba(160,144,232,.65);">Long memory, deep craft, profound connection to place. Elves grieve when beauty is lost because they were there for its creation. Their gift is patience and artistry; their danger is becoming so attached to what was that they cannot embrace what must become. Ancient knowledge in service of the present moment.</p>
+    </div>
+    <div class="sort" style="border-color:rgba(200,100,80,.5);">
+      <h4 style="color:#e08878;">Dwarf ⛏️</h4>
+      <p style="color:rgba(224,136,120,.65);">Stubborn, skilled, proud. Dwarves know how things are made at a fundamental level, they understand material, craft, and the labour that transforms raw stuff into civilisation. Their danger is becoming so focused on the made thing that they forget who they made it for. Their gift is the world of reliable, excellent work.</p>
+    </div>
+    <div class="sort" style="border-color:rgba(200,180,100,.5);">
+      <h4 style="color:#e8d080;">Men (Humans) 🌍</h4>
+      <p style="color:rgba(232,208,128,.65);">Mortal, passionate, capable of extraordinary good and extraordinary evil, choosing in each moment which it will be. The gift of Men is endings, the urgency that mortality creates, the meaning that finitude gives to choice. All great human stories are about this: that we have a limited time, and what we do with it will have been forever.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PART 6: JOSEPH CAMPBELL + THE HERO ROSTER
+══════════════════════════════════════════════ -->
+<div id="hero-journey" class="section" style="background:linear-gradient(160deg,#080604,#100e04,#080604);">
+<div class="sec-inner">
+  <div class="hero-hero" style="padding:2rem 0 3rem;">
+    <div class="sec-label" style="color:rgba(201,168,76,.3);">Joseph Campbell · The Hero with a Thousand Faces · 1949</div>
+    <h2 class="hero-title">The Hero's Cycle</h2>
+    <p style="font-style:italic;color:rgba(240,215,130,.6);font-size:1.12rem;max-width:600px;">Every myth, from every culture, tells the same story. Campbell called it the monomyth: the journey of a human being who is called out of ordinary life, passes through the threshold of the unknown, survives trials that reshape them, and returns with something the community needed. The hero's journey is not a narrative formula. It is a description of how transformation actually works.</p>
+  </div>
+
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--hero);margin:1rem 0 .8rem;">The Comma Framework and the Hero's Journey</h3>
+  <p>The hero's cycle is the comma cycle. The ordinary world is equilibrium. The call to adventure is the first deviation, the gap appears. The refusal of the call is the attempt to close the gap by pretending it isn't there. The crossing of the threshold is accepting that the gap must be traversed. The road of trials is the accumulation of consequences. The supreme ordeal is the full confrontation with the gap. The return with the elixir is the integration of the gap, not its elimination, but its recognition as necessary. The comma is never solved. It is lived.</p>
+
+  <div class="campbell">
+    <div class="camp"><div class="camp-num">01</div><h4>The Ordinary World</h4><p>The hero's everyday life. Bilbo in the Shire. Harry at the Dursleys'. Katniss in District 12. Frodo without the Ring. Equilibrium, stable, known, constraining.</p></div>
+    <div class="camp"><div class="camp-num">02</div><h4>The Call to Adventure</h4><p>Something disrupts the ordinary. A letter. A knock on the door. An unjust death. A reaping. A Ring found in a dark tunnel. The gap appears and cannot be unfelt.</p></div>
+    <div class="camp"><div class="camp-num">03</div><h4>Refusal of the Call</h4><p>"I'm not the hero. I'm just a hobbit. I'm just a girl from District 12. I'm just a boy who lived in a cupboard under the stairs." The gap seems too large. The return to ordinary is tempting.</p></div>
+    <div class="camp"><div class="camp-num">04</div><h4>Meeting the Mentor</h4><p>Gandalf. Dumbledore. Haymitch. Obi-Wan Kenobi. The mentor does not cross the threshold for the hero, they cannot. But they give what is needed for the first step. A wizard arrives precisely when he means to.</p></div>
+    <div class="camp"><div class="camp-num">05</div><h4>Crossing the Threshold</h4><p>The point of no return. Leaving the Shire. Boarding the Hogwarts Express. Walking into the arena. The ordinary world is behind. There is only forward now.</p></div>
+    <div class="camp"><div class="camp-num">06</div><h4>Tests, Allies, Enemies</h4><p>The road reveals who is trustworthy and who is not. Skills are tested. New companions appear. The hero discovers capacities they didn't know they had, and limitations they cannot will away.</p></div>
+    <div class="camp"><div class="camp-num">07</div><h4>Approach to the Inmost Cave</h4><p>The dark wood. The underworld. The Ministry of Magic. The Capitol. The approach to the thing that is most feared. The hero's deepest wounds surface here. Dante must face Virgil's limits. Gilgamesh must face Enkidu's death.</p></div>
+    <div class="camp"><div class="camp-num">08</div><h4>The Supreme Ordeal</h4><p>Death and rebirth, metaphorical or literal. Harry faces Voldemort in the forest. Frodo at Mount Doom. Katniss after the arena. The hero is changed irrevocably. The gap is crossed.</p></div>
+    <div class="camp"><div class="camp-num">09</div><h4>The Road Back</h4><p>The hardest journey is often the return. The hero carries something the world needs, but the world did not change while they were away. The hero has changed. Frodo cannot return to who he was before. Neither can you.</p></div>
+  </div>
+
+  <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.5rem;color:var(--hero);margin:2.5rem 0 .8rem;">The Roster of Heroes, What They Stood For</h3>
+
+  <div class="hero-roster">
+    <div class="hero-entry">
+      <div class="hero-name">Odysseus / Ulysses</div>
+      <div class="hero-from">Homer's Odyssey · Tennyson's Ulysses · c. 800 BCE</div>
+      <div class="hero-stood">Ingenuity over strength. The complicated man who wants desperately to go home and destroys nearly everything in the attempt. That it is possible to be both brilliant and catastrophically flawed. That "to strive, to seek, to find, and not to yield."</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Gilgamesh</div>
+      <div class="hero-from">Epic of Gilgamesh · c. 2100 BCE · The first story written down</div>
+      <div class="hero-stood">The terror of death and the impossibility of escaping it. That grief for a friend teaches you more than any victory. That the walls you build are your legacy, the beautiful ordinary world deserves protection. That the gods have their own timeline and you cannot outrun it.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Dante Alighieri</div>
+      <div class="hero-from">The Divine Comedy · c. 1308–1320</div>
+      <div class="hero-stood">That the path to transcendence goes through the underworld, not around it. "In the middle of the journey of our life I came to myself within a dark wood where the straight way was lost." You have to lose the path to find the real one.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Jason</div>
+      <div class="hero-from">Argonautica · c. 270 BCE</div>
+      <div class="hero-stood">Collective heroism, the crew that makes the impossible possible. And the warning: that heroism with bad faith costs everything. Jason betrayed Medea. He died alone, struck by a beam from the rotting Argo. Heroes who betray their allies pay the full price.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Victor Frankenstein (& the Creature)</div>
+      <div class="hero-from">Mary Shelley · Frankenstein · 1818</div>
+      <div class="hero-stood">The responsibility of the maker for the made. That creation without care destroys both creator and creation. The Creature stood for recognition, to be seen, to be loved, to belong. Frankenstein failed him. The question is whether you will.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Guy Montag</div>
+      <div class="hero-from">Ray Bradbury · Fahrenheit 451 · 1953</div>
+      <div class="hero-stood">Books. Memory. The right of the mind to encounter ideas that disturb it. That burning knowledge is the first act of every tyranny. That one person who refuses to burn carries everything that everyone burned.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Frodo Baggins</div>
+      <div class="hero-from">J.R.R. Tolkien · The Lord of the Rings · 1954</div>
+      <div class="hero-stood">The power of small, ordinary courage. That the most important task was given to the one who had the least reason to be trusted with it. That mercy, even for Gollum, is not weakness but the thing that saves the world. That home is worth fighting for but cannot be returned to unchanged.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Katniss Everdeen</div>
+      <div class="hero-from">Suzanne Collins · The Hunger Games · 2008</div>
+      <div class="hero-stood">Survival as resistance. The girl who refused to be a symbol while being one anyway. That protecting the people you love is a political act. That revolution is not clean and its leaders are human.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Hermione Granger</div>
+      <div class="hero-from">J.K. Rowling · Harry Potter · 1997</div>
+      <div class="hero-stood">Intelligence as courage. That knowing things and taking them seriously is not bookishness but power. That the most important fight is the one for S.P.E.W., the unglamorous structural injustice that everyone else is too busy to care about.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Harry Potter</div>
+      <div class="hero-from">J.K. Rowling · Harry Potter · 1997</div>
+      <div class="hero-stood">That the person who did not ask to be the hero still has to show up. That love, specifically a mother's, is the oldest and most powerful magic. That dying for others is not defeat but the only move that wins.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Peeta Mellark</div>
+      <div class="hero-from">Suzanne Collins · The Hunger Games · 2008</div>
+      <div class="hero-stood">Kindness in the arena. Art as survival and humanity as strategy. That the baker's boy who paints may be the one who preserves the memory of what was worth saving. That love declared in public, even to your enemy, changes the game.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Luke Skywalker</div>
+      <div class="hero-from">George Lucas · Star Wars · 1977</div>
+      <div class="hero-stood">That the son does not have to become the father. That there is Light Side in everyone. That refusing to kill your enemy when you have the chance to, and choosing mercy, is the most powerful act in the entire universe.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Kvothe</div>
+      <div class="hero-from">Patrick Rothfuss · The Name of the Wind · 2007</div>
+      <div class="hero-stood">Names have power. That understanding the true nature of a thing, naming it precisely, gives you the ability to change it. That stories told about heroes are not what heroes are. That talent and tragedy are not enemies of each other.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Aang</div>
+      <div class="hero-from">Avatar: The Last Airbender · 2005</div>
+      <div class="hero-stood">That you do not have to kill to end an era. That joy and playfulness are not frivolous, they are what you are fighting to protect. That mastering all elements is mastering the self. That peace is harder than war and worth every bit of the difficulty.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Korra</div>
+      <div class="hero-from">The Legend of Korra · 2012</div>
+      <div class="hero-stood">That the Avatar cycle does not guarantee heroism, it must be earned again, differently, every time. That trauma is part of the story. That healing is not returning to who you were but becoming who you need to be next. That spirituality and politics are not separate problems.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Atticus Finch</div>
+      <div class="hero-from">Harper Lee · To Kill a Mockingbird · 1960</div>
+      <div class="hero-stood">Moral courage in an unjust legal system. That doing the right thing when you know you will lose is not futility but testimony, proof for history that not everyone was silent.</div>
+    </div>
+    <div class="hero-entry">
+      <div class="hero-name">Santiago</div>
+      <div class="hero-from">Paulo Coelho · The Alchemist · 1988</div>
+      <div class="hero-stood">That the treasure you seek is always somehow near where you started. That the journey itself is the transformation. That the universe speaks to those who are listening for their Personal Legend. That when you want something with your whole soul the universe conspires to give it to you, not easily, but truly.</div>
+    </div>
+  </div>
+
+  <!-- FINAL STAND -->
+  <div class="final-stand">
+    <div class="sec-label">The Question That Does Not Go Away</div>
+    <div class="final-q">What did they stand up for?</div>
+    <div class="final-q" style="color:var(--scarlet);">What will <em>you</em> stand up for?</div>
+
+    <p style="color:rgba(240,215,130,.55);max-width:600px;font-size:1.05rem;margin:1.5rem auto;">Every hero on that list was, at some point, just a person in an ordinary place, with ordinary fears, and a situation that had not yet asked anything of them. They became heroes not because they were chosen, but because when the moment arrived, they made a choice. The moment always arrives. It is arriving now.</p>
+
+    <div class="call-to-arms">It's time to disrupt your cycle.<br>It's time to live.</div>
+
+    <div class="qb amber" style="max-width:680px;margin:1.5rem auto;text-align:left;">
+      <p>"The cave you fear to enter holds the treasure you seek. The very cave you most dread to explore is the one that contains exactly what is needed to begin the next stage of the journey."</p>
+      <cite>, Joseph Campbell · The Hero with a Thousand Faces</cite>
+    </div>
+
+    <div class="qb red" style="max-width:680px;margin:1rem auto;text-align:left;">
+      <p>"Not all those who wander are lost. The old that is strong does not wither. Deep roots are not reached by the frost."</p>
+      <cite>, J.R.R. Tolkien · The Fellowship of the Ring</cite>
+    </div>
+
+    <div class="qb gold" style="max-width:680px;margin:1rem auto;text-align:left;">
+      <p>"It is not our abilities that show what we truly are. It is our choices."</p>
+      <cite>, Albus Dumbledore · Harry Potter and the Chamber of Secrets</cite>
+    </div>
+
+    <div style="margin:2.5rem 0;">
+      <p style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.1rem,3vw,2rem);color:rgba(201,168,76,.6);">You have a place in this world, through the social relationships that make you real to others, the work that makes you useful, and the story you are in the middle of writing right now.</p>
+      <div style="font-size:3rem;margin:1.5rem 0;">🐕🏮🐴🦉⚗️⚔️🌍</div>
+      <div style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,4.5vw,3.2rem);color:var(--gold);text-shadow:0 0 60px rgba(212,160,23,.2);margin:1rem 0;">
+        Who are you?<br>
+        <span style="color:var(--flame);">Who do you want to be?</span>
+      </div>
+      <p style="font-style:italic;color:rgba(240,215,130,.5);max-width:520px;margin:.8rem auto;">The fire horse does not wait. The owl has seen the dawn. Sirius is rising. The door of the hobbit hole is open. The adventure is already under way.</p>
+    </div>
+  </div>
+
+  <!-- CONNECTIONS -->
+  <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(201,168,76,.1);">
+    <h3 style="font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--hero);margin-bottom:1rem;">Related Pages in Musica Universalis</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
+      <a href="musica_universalis_final.html" style="display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);color:var(--gold);text-decoration:none;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,.14)'" onmouseout="this.style.background='rgba(201,168,76,.06)'">🌀 Musica Universalis</a>
+      <a href="conversations_with_enkidu.html" style="display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);color:var(--gold);text-decoration:none;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;transition:all .2s;" onmouseover="this.style.background='rgba(201,168,76,.14)'" onmouseout="this.style.background='rgba(201,168,76,.06)'">𒀭 Enkidu · Gilgamesh</a>
+      <a href="after_the_end.html" style="display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);color:var(--gold);text-decoration:none;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;transition:all .2s;">📖 After the End</a>
+      <a href="dr_stone.html" style="display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);color:var(--gold);text-decoration:none;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;transition:all .2s;">⚗️ Dr. Stone</a>
+      <a href="learn_music.html" style="display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);color:var(--gold);text-decoration:none;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;transition:all .2s;">🎹 Learn Music</a>
+      <a href="rescue_plan.html" style="display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);color:var(--gold);text-decoration:none;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;transition:all .2s;">🌿 Rescue Plan</a>
+      <a href="walls_of_uruk.html" style="display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);color:var(--gold);text-decoration:none;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;transition:all .2s;">🏛️ Walls of Uruk</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer>
+  <p style="font-family:'Cinzel Decorative',serif;font-size:.85rem;color:rgba(212,160,23,.18);margin-bottom:.5rem;">Year of the Fire Horse · 丙午年 · 2026</p>
+  <p>Sirius · Orion · Gemini · "Only the Heavens should rule my clock"</p>
+  <p>The comma is the gap between where you are and where the story needs you to go.</p>
+  <p style="margin-top:1rem;">
+    <a href="index.html">← Musica Universalis</a> &nbsp;·&nbsp;
+    <a href="dr_stone.html">Dr. Stone →</a> &nbsp;·&nbsp;
+    <a href="after_the_end.html">After the End →</a> &nbsp;·&nbsp;
+    <a href="conversations_with_enkidu.html">Enkidu →</a> &nbsp;·&nbsp;
+    <a href="directory.html">Directory →</a>
+  </p>
+</footer>
+
+<script>
+'use strict';
+
+// ─── ANIMATED BACKGROUND ──────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('bg'),x=c.getContext('2d');
+  let W,H;
+  const stars=[];const dragons=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  function init(){
+    resize();
+    stars.length=0;
+    for(let i=0;i<300;i++){
+      stars.push({px:Math.random(),py:Math.random(),r:.3+Math.random()*1.2,
+        a:.08+Math.random()*.4,f:Math.random()*628,
+        col:Math.random()<.15?'rgba(192,57,43,':`rgba(${180+Math.floor(Math.random()*30)},${160+Math.floor(Math.random()*30)},${80+Math.floor(Math.random()*60)},`});
+    }
+    // Floating lanterns / sparks
+    for(let i=0;i<18;i++){
+      dragons.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+        vx:(Math.random()-.5)*.25,vy:-.1-Math.random()*.2,
+        size:3+Math.random()*6,a:.15+Math.random()*.25,col:'rgba(212,100,30,'});
+    }
+  }
+  let t=0;
+  function frame(){
+    t+=.012;
+    x.clearRect(0,0,W,H);
+    x.fillStyle='#04030a';x.fillRect(0,0,W,H);
+    stars.forEach(s=>{
+      const a=s.a*(0.6+0.4*Math.sin(t+s.f));
+      x.beginPath();x.arc(s.px*W,s.py*H,s.r,0,Math.PI*2);
+      x.fillStyle=s.col+a+')';x.fill();
+    });
+    dragons.forEach(d=>{
+      d.x+=d.vx+Math.sin(t*.7+d.y*.002)*.2;d.y+=d.vy;
+      if(d.y<-20){d.y=H+10;d.x=Math.random()*W;}
+      if(d.x<0)d.x=W;if(d.x>W)d.x=0;
+      const a=d.a*(0.5+0.5*Math.sin(t*1.5+d.x*.003));
+      x.beginPath();x.arc(d.x,d.y,d.size,0,Math.PI*2);
+      x.fillStyle=d.col+a+')';x.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',init);init();frame();
+})();
+
+// ─── STAR MAP (SIRIUS / ORION / GEMINI) ───────────────────────────────
+(function(){
+  const cv=document.getElementById('star-cv');
+  if(!cv)return;
+  const x=cv.getContext('2d');
+  const W=cv.width=Math.min(700,window.innerWidth-40);
+  cv.height=300;const H=300;
+  const CX=W/2,CY=H/2;
+
+  // Constellation data (schematic positions, not accurate RA/Dec)
+  const constellations={
+    orion:{
+      stars:[
+        {n:'Betelgeuse',x:.38,y:.22,r:4,c:'rgba(255,140,80,'},
+        {n:'Rigel',     x:.62,y:.78,r:3.5,c:'rgba(180,200,255,'},
+        {n:'Bellatrix', x:.62,y:.22,r:2.5,c:'rgba(160,180,255,'},
+        {n:'Mintaka',   x:.42,y:.50,r:2,c:'rgba(180,200,255,'},
+        {n:'Alnilam',   x:.50,y:.50,r:2.2,c:'rgba(180,200,255,'},
+        {n:'Alnitak',   x:.58,y:.50,r:2,c:'rgba(180,200,255,'},
+        {n:'Saiph',     x:.38,y:.78,r:2.5,c:'rgba(160,180,255,'},
+      ],
+      lines:[[0,3],[1,6],[2,3],[3,4],[4,5],[0,4],[1,5],[6,5]],
+      label:'ORION',lx:.5,ly:.08,col:'rgba(180,200,255,'
+    },
+    canis_major:{
+      stars:[
+        {n:'Sirius',x:.20,y:.38,r:5.5,c:'rgba(220,230,255,',glow:true},
+        {n:'Adhara', x:.22,y:.72,r:2.5,c:'rgba(200,220,255,'},
+        {n:'Wezen',  x:.32,y:.65,r:2.2,c:'rgba(255,200,120,'},
+      ],
+      lines:[[0,1],[0,2],[1,2]],
+      label:'SIRIUS ★',lx:.15,ly:.25,col:'rgba(220,230,255,'
+    },
+    gemini:{
+      stars:[
+        {n:'Castor', x:.78,y:.20,r:2.8,c:'rgba(200,210,255,'},
+        {n:'Pollux', x:.82,y:.28,r:3,c:'rgba(255,200,150,'},
+        {n:'Alhena', x:.75,y:.52,r:2,c:'rgba(190,200,255,'},
+      ],
+      lines:[[0,2],[1,2],[0,1]],
+      label:'GEMINI',lx:.83,ly:.1,col:'rgba(200,210,255,'
+    }
+  };
+
+  let t=0;
+  function frame(){
+    t+=.008;
+    x.clearRect(0,0,W,H);
+    x.fillStyle='#03020a';x.fillRect(0,0,W,H);
+    // background field
+    for(let i=0;i<120;i++){
+      const bx=((i*73+131)%W),by=((i*47+97)%H);
+      const a=.06+.04*Math.sin(t+i*.5);
+      x.beginPath();x.arc(bx,by,.5+Math.random()*.4,0,Math.PI*2);
+      x.fillStyle=`rgba(200,200,200,${a})`;x.fill();
+    }
+    // draw constellations
+    Object.values(constellations).forEach(con=>{
+      // lines
+      con.lines.forEach(([a,b])=>{
+        const s1=con.stars[a],s2=con.stars[b];
+        x.beginPath();
+        x.moveTo(s1.x*W,s1.y*H);x.lineTo(s2.x*W,s2.y*H);
+        x.strokeStyle=con.col+'0.18)';x.lineWidth=1;x.stroke();
+      });
+      // stars
+      con.stars.forEach(s=>{
+        if(s.glow){
+          // Sirius glow pulse
+          const gr=x.createRadialGradient(s.x*W,s.y*H,0,s.x*W,s.y*H,s.r*8);
+          const pulse=0.5+0.5*Math.sin(t*2);
+          gr.addColorStop(0,'rgba(220,230,255,'+(0.6+0.3*pulse)+')');
+          gr.addColorStop(.4,'rgba(180,200,255,'+(0.2*pulse)+')');
+          gr.addColorStop(1,'rgba(180,200,255,0)');
+          x.beginPath();x.arc(s.x*W,s.y*H,s.r*8,0,Math.PI*2);
+          x.fillStyle=gr;x.fill();
+        }
+        x.beginPath();x.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+        x.fillStyle=s.c+(0.7+0.3*Math.sin(t+s.x*10))+')';x.fill();
+        // labels
+        x.fillStyle=con.col+'0.35)';x.font="8px 'Space Mono',monospace";
+        x.textAlign='center';x.fillText(s.n,s.x*W,s.y*H-s.r-3);
+      });
+      // constellation label
+      x.fillStyle=con.col+'0.45)';x.font="bold 9px 'Space Mono',monospace";
+      x.textAlign='center';x.letterSpacing='.15em';
+      x.fillText(con.label,con.lx*W,con.ly*H);
+    });
+    // "I'M LOST" dog indicator
+    const dogX=W*(.35+.02*Math.sin(t*.8)),dogY=H*(.55+.04*Math.sin(t*.6));
+    x.font='16px serif';x.textAlign='center';x.textBaseline='middle';
+    x.fillText('🐕',dogX,dogY);
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+
+<!-- ══════════ COMMA QUESTIONS ══════════ -->
+<section style="max-width:860px;margin:0 auto 80px;padding:2.5rem;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:16px;position:relative;overflow:hidden;">
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.6),transparent);"></div>
+  <div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.55);margin-bottom:0.7rem;">&#9872; COMMA FRAMEWORK QUESTIONS</div>
+  <div style="font-family:'Cinzel Decorative',serif;color:rgba(201,168,76,0.9);font-size:1.4rem;margin-bottom:0.5rem;">Open Questions</div>
+  <p style="font-size:0.85rem;font-style:italic;color:rgba(255,255,255,0.38);margin-bottom:2rem;line-height:1.7;">These are speculative questions generated by the comma framework perspective. They are not claims. They are invitations, open directions that nobody has yet fully explored. Flag: &#9872; CF Question throughout.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.2rem;">
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · COSMOLOGY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The Hubble tension is a gap between two equally valid measurements of the same constant.</strong> The expansion rate measured from the early universe (CMB) and the late universe (Cepheid ladders) disagree by approximately 8%. Is this a cosmological comma, an irresolvable non-closure between two valid but incommensurable measurement frames, like the gap between twelve perfect fifths and seven octaves?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · BIOLOGY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The human circadian free-running period is 24.2 hours, not 24.</strong> The 0.2-hour daily gap accumulates: after 73 days without light cues, a person would be 14.6 hours out of phase with the solar day. Is N_res = 73 the biological reset window? Are there diseases of the 73-day accumulation?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · NEUROSCIENCE</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Theta (4-8 Hz) and gamma (30-100 Hz) brain oscillations are coupled but their ratio is irrational.</strong> Each theta cycle contains approximately 5-8 gamma cycles, but never an exact integer. Does the phase remainder accumulate like a comma? Is memory consolidation, the Kairos event of the hippocampus, triggered at N_res-like thresholds of phase accumulation?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · CHEMISTRY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Photosynthesis converts light to chemical energy at approximately 11% thermodynamic efficiency.</strong> The rest is lost as heat and fluorescence. Is the efficiency gap (the 89% that doesn't convert) a molecular comma, the irresolvable mismatch between the photon's energy quantum and the ATP synthesis machinery's discrete steps? Does the CPCS correction have a photosynthetic analogue?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · MATHEMATICS</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">log₂(3/2) is irrational. This is not a physical constant, it is a mathematical necessity in any universe with integers.</strong> The Pythagorean comma is therefore the only musical structure that must exist in every possible universe. What other mathematical structures share this property of necessity-across-all-universes? Does this make delta = 0.013643 the most universal number that exists?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · SETI</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The Wow! Signal lasted 72 seconds. N_res = 73.296. The gap is 1.296 seconds.</strong> Any civilization that has discovered periodicity will eventually find the Pythagorean comma. A signal that stops 1.296 seconds before N_res completes would be immediately recognizable to any civilization that knows the protocol. Has anyone run the comma-transform on the Wow! Signal data? The Big Ear archives are public.</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · HISTORY</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">Every calendar system in history is secretly a comma-management strategy.</strong> The Gregorian calendar adds a leap day every 4 years (with corrections) to close the gap between the solar year and 365 whole days. The Maya Long Count runs 5,125 years before resetting. The 19-year Metonic cycle closes the gap between solar and lunar calendars to within 2 hours. What other human institutions are secretly managing an irresolvable non-closure?</p>
+    </div>
+
+    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(201,168,76,0.14);border-radius:10px;padding:1.2rem;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(93,222,200,0.7);margin-bottom:0.5rem;">&#9872; CF QUESTION · PHYSICS</div>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.72);line-height:1.75;"><strong style="color:rgba(201,168,76,0.9);">The fine structure constant alpha = 1/137.036 is dimensionless and unexplained.</strong> Richard Feynman called it "one of the greatest damn mysteries of physics." It governs the strength of the electromagnetic force. Nobody knows why it has this value. Could it be related to a ratio of irrationals, a comma of electromagnetism? If delta = 0.013643 is the musical comma, what is alpha's equivalent non-closure?</p>
+    </div>
+
+  </div>
+</section>
+<div style="max-width:820px;margin:48px auto 24px;background:rgba(13,16,23,.9);border:1px solid rgba(201,168,76,.12);border-left:3px solid rgba(201,168,76,.4);padding:22px 26px;">
+<div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:14px;">References &middot; APA + ACS</div>
+<div style="font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.9;">
+<p>[1] Kepler, J. (1619/1997). <em>Harmonices Mundi</em> (trans. Aiton, Duncan, Field). American Philosophical Society.</p>
+<p>[2] Murray, C. D.; Dermott, S. F. (1999). <em>Solar system dynamics.</em> Cambridge University Press. [Orbital resonances and the comma analogy]</p>
+<p>[3] Neugebauer, O. (1975). <em>A history of ancient mathematical astronomy.</em> Springer. [Babylonian astronomical cycles]</p>
+<p>[4] Barbour, J. M. (1951). <em>Tuning and temperament.</em> Michigan State College Press.</p>
+</div></div></body>
+</html>
