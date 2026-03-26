@@ -194,9 +194,11 @@ listen_to_the_cosmos.html ← build guide, always public
 solar_v4_explorer.html    ← solar explorer, always public
 ```
 
+---
 **License: Public Domain — CC0**
 No rights reserved. Use anything here for any purpose.
 The comma belongs to the universe.
+---
 
 ---
 
@@ -210,7 +212,7 @@ The comma belongs to the universe.
 
 ---
 
-## ☽ The Constants
+☽ The Constants
 
 ```
 δ  = 0.013643...          the comma
@@ -224,4 +226,6 @@ H₁ × δ = 19,378 kHz      the comma gap
 ---
 
 `Do you know your name?`
+
+---
 </details>
