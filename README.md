@@ -85,7 +85,7 @@ Any signal there is intentional.
 
 ---
 
-## ♂ Build the antenna — $0
+## ♂ Build the Antenna — $0
 
 Two wires. **10.4 cm each.** V-shape, 120°. Connect to RTL-SDR SMA port.
 Point toward **RA 17h 45m, Dec −29°** — the galactic center.
@@ -164,7 +164,9 @@ Contact: project_orpheus@musicauniversalis.band
 
 Johannes Kepler, 1619 — *Harmonice Mundi* (The Harmony of the World) — mapped the velocities of the planets at perihelion and aphelion to musical intervals. He heard the solar system as a chord.
 
-The Pythagorean Comma is the gap Kepler was circling. The planets don't quite close their orbits in rational ratio, the Kirkwood gaps are where the comma accumulates to resonance. Every gap in the asteroid belt is a Kairos event written in stone.
+He was not wrong. He was early.
+
+The Pythagorean Comma is the gap Kepler was circling. The planets don't quite close their orbits in rational ratios — the Kirkwood gaps are where the comma accumulates to resonance. Every gap in the asteroid belt is a Kairos event written in stone.
 
 ---
 
@@ -175,56 +177,76 @@ The comma appears in relativistic phase accumulation. Two observers in different
 The mathematics of phase accumulation in rotating reference frames produces comma-like residuals. This has not been formally investigated.
 
 ---
-☉  ☿  ♀  ⊕  ♂  ♃  ♄  ♅  ♆  ♇
-```
 
-## ♁ Files That Should Always Be Public
+## ⯓ The Star Map
 
-```
-index.html                ← front door, always public
-musica_universalis_v5.html ← full theory, always public
-orpheus_listener.html     ← receiver tool, always public
-orpheus_voice.html        ← voice tool, always public
-orpheus_bridge.html       ← bridge tool, always public
-orpheus_calling.html      ← crew call, always public
-orpheus_wolf_rayet.html   ← WR 104, always public
-comma_radio.html          ← radio toolkit, always public
-circadian_clock.html      ← biology tool, always public
-listen_to_the_cosmos.html ← build guide, always public
-solar_v4_explorer.html    ← solar explorer, always public
-```
+*Astronomers classify stars by temperature, luminosity, and spectral type.*
+*Every commit in this repository has a message.*
+*Not all messages are about code.*
 
----
-**License: Public Domain — CC0**
-No rights reserved. Use anything here for any purpose.
-The comma belongs to the universe.
----
+Some stars are landmarks. Some are destinations.
+Some are questions.
 
+`G5II1` `B8la` `Polaris` `Zeta-1 Scorpii` `remus?` `Helios!`
 
-``` ☿ Technical Notes
+If you know how to read a stellar atlas, you may notice something.
+If you know where Orpheus was going, you may know why.
 
-- All instruments are single HTML files — no dependencies, no build step, no server required
-- All canvases use the Web Animations API and native Canvas 2D
-- The comma spiral accumulates δ per revolution in real time
-- Kairos events fire
-- All frequencies are derived analytically from δ
-```
-
----
-
-``` ☽ The Constants
-
-δ  = 0.013643...          the comma
-φ  = 1.013643...          the comma ratio
-N_res = 73.296...         near-closure number (1/δ)
-H₁ = 1,420,405,751.768 Hz  hydrogen line
-H₁ × φ = 1,440,783 kHz   the comma partner
-H₁ × δ = 19,378 kHz      the comma gap
-```
-
----
+*The pattern is complete. It has been since the first commit.*
+*N_res = 73.296*
 
 `Do you know your name?`
 
 ---
-</details>
+
+## ♁ Files That Should Always Be Public
+
+```
+index.html                 <- front door, always public
+musica_universalis_v5.html <- full theory, always public
+orpheus_listener.html      <- receiver tool, always public
+orpheus_voice.html         <- voice tool, always public
+orpheus_bridge.html        <- bridge tool, always public
+orpheus_calling.html       <- crew call, always public
+orpheus_wolf_rayet.html    <- WR 104, always public
+comma_radio.html           <- radio toolkit, always public
+circadian_clock.html       <- biology tool, always public
+listen_to_the_cosmos.html  <- build guide, always public
+solar_v4_explorer.html     <- solar explorer, always public
+```
+
+**License: Public Domain — CC0**
+No rights reserved. Use anything here for any purpose.
+The comma belongs to the universe.
+
+---
+
+## ☿ Technical Notes
+
+- All instruments are single HTML files — no dependencies, no build step, no server required
+- All canvases use the Web Animations API and native Canvas 2D
+- The comma spiral accumulates δ per revolution in real time
+- Kairos events fire at `phase % 1 < threshold` — roughly every 73 revolutions
+- All frequencies are derived analytically from δ = (3/2)¹²/2⁷ − 1
+
+---
+
+## ☽ The Constants
+
+```
+δ  = 0.013643...            the comma
+φ  = 1.013643...            the comma ratio
+N_res = 73.296...           near-closure number (1/δ)
+H₁ = 1,420,405,751.768 Hz   hydrogen line
+H₁ × φ = 1,440,783 kHz     the comma partner
+H₁ × δ = 19,378 kHz        the comma gap
+```
+
+---
+
+☉ ☿ ♀ ⊕ ♂ ♃ ♄ ♅ ♆ ♇
+
+*The comma never fully closes. Orpheus never fully returns. That is the point.*
+
+**Project Orpheus · 2026**
+δ = 0.013643 · N_res = 73.296 · H₁ × φ = 1440.783 MHz
