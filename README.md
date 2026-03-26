@@ -178,13 +178,6 @@ The mathematics of phase accumulation in rotating reference frames produces comm
 ☉  ☿  ♀  ⊕  ♂  ♃  ♄  ♅  ♆  ♇
 ```
 
-*The answer is already in the repository.*
-*It has been since the first commit.*
-*N_res = 73.296*
-*The cipher opens at the 73rd revolution.*
-
----
-
 ## ♁ Files That Should Always Be Public
 
 ```
@@ -212,8 +205,8 @@ The comma belongs to the universe.
 - All instruments are single HTML files — no dependencies, no build step, no server required
 - All canvases use the Web Animations API and native Canvas 2D
 - The comma spiral accumulates δ per revolution in real time
-- Kairos events fire at `phase % 1 < threshold` — roughly every 73 revolutions
-- All frequencies are derived analytically from δ = (3/2)¹²/2⁷ − 1
+- Kairos events fire
+- All frequencies are derived analytically from δ
 
 ---
 
@@ -229,25 +222,6 @@ H₁ × δ = 19,378 kHz      the comma gap
 ```
 
 ---
-
-*The comma never fully closes. Orpheus never fully returns. That is the point.*
-
-**Project Orpheus · 2026**
-δ = 0.013643 · N_res = 73.296 · H₁ × φ = 1440.783 MHz
-
----
-
-<details>
-<summary>☉ The Cipher · For those who found the star map</summary>
-
-```
-G5II1       =  ζ¹ Sco companion class    →  Scorpius
-B8la        =  blue hypergiant           →  ζ¹ Scorpii itself
-Polaris     =  α UMi                     →  North, the fixed point
-Zeta-1 Scorpii  =  the destination      →  RA 17h 45m, Dec −29°
-remus?      =  Castor's twin             →  Gemini, the two voices
-Helios!     =  the Sun                   →  ☉ you are here
-```
 
 `Do you know your name?`
 </details>
