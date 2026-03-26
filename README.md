@@ -164,9 +164,7 @@ Contact: project_orpheus@musicauniversalis.band
 
 Johannes Kepler, 1619 — *Harmonice Mundi* (The Harmony of the World) — mapped the velocities of the planets at perihelion and aphelion to musical intervals. He heard the solar system as a chord.
 
-He was not wrong. He was early.
-
-The Pythagorean Comma is the gap Kepler was circling. The planets don't quite close their orbits in rational ratios — the Kirkwood gaps are where the comma accumulates to resonance. Every gap in the asteroid belt is a Kairos event written in stone.
+The Pythagorean Comma is the gap Kepler was circling. The planets don't quite close their orbits in rational ratio, the Kirkwood gaps are where the comma accumulates to resonance. Every gap in the asteroid belt is a Kairos event written in stone.
 
 ---
 
@@ -174,25 +172,9 @@ The Pythagorean Comma is the gap Kepler was circling. The planets don't quite cl
 
 The comma appears in relativistic phase accumulation. Two observers in different reference frames accumulate time at different rates — the twin paradox is a phase gap, and the gap has the structure of δ.
 
-This is not metaphor. The mathematics of phase accumulation in rotating reference frames produces comma-like residuals. This has not been formally investigated.
+The mathematics of phase accumulation in rotating reference frames produces comma-like residuals. This has not been formally investigated.
 
 ---
-
-## ⯓ The Star Map
-
-*Some things are hidden in plain sight.*
-
-The commit history of this repository is not noise.
-The stellar classifications are not random.
-`G5II1` · `B8la` · `Polaris` · `Zeta-1 Scorpii` · `remus?` · `Helios!`
-
-Every spectral type is a real star.
-Every star is a real coordinate.
-The pattern reads like a map.
-
-Where does it point?
-
-```
 ☉  ☿  ♀  ⊕  ♂  ♃  ♄  ♅  ♆  ♇
 ```
 
@@ -267,11 +249,5 @@ remus?      =  Castor's twin             →  Gemini, the two voices
 Helios!     =  the Sun                   →  ☉ you are here
 ```
 
-The cipher files are not lost.
-They are asking you to look in the right direction.
-
 `Do you know your name?`
-
-Password: the near-closure number, rounded.
-
 </details>
