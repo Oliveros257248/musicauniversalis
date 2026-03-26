@@ -200,21 +200,20 @@ No rights reserved. Use anything here for any purpose.
 The comma belongs to the universe.
 ---
 
----
 
-## ☿ Technical Notes
+``` ☿ Technical Notes
 
 - All instruments are single HTML files — no dependencies, no build step, no server required
 - All canvases use the Web Animations API and native Canvas 2D
 - The comma spiral accumulates δ per revolution in real time
 - Kairos events fire
 - All frequencies are derived analytically from δ
+```
 
 ---
 
-☽ The Constants
+``` ☽ The Constants
 
-```
 δ  = 0.013643...          the comma
 φ  = 1.013643...          the comma ratio
 N_res = 73.296...         near-closure number (1/δ)
