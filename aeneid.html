@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aeneid · Virgil · Musica Universalis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #04070F;
+      --bg2: #070C18;
+      --bg3: #0A1020;
+      --gold: #C9A84C;
+      --gold-dim: #8A6F2E;
+      --gold-pale: #F0D898;
+      --cream: #E8DFC8;
+      --muted: #7A8AA0;
+      --accent-blue: #3A6EA8;
+      --accent-red: #8B2020;
+      --border: rgba(201,168,76,0.18);
+      --border-strong: rgba(201,168,76,0.4);
+      --text: #C8D0DC;
+      --text-dim: #6A7A90;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.75;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Stars background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 34% 7%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 58% 22%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 76% 4%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 89% 31%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 48%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 23% 63%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 47% 71%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 67% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 91% 68%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 15% 85%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 42% 92%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 79% 88%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(2px 2px at 50% 50%, rgba(201,168,76,0.12) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(4,7,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      height: 52px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    nav a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      flex-shrink: 0;
+    }
+    nav a:first-child { color: var(--gold); font-weight: 500; }
+    nav a:hover { color: var(--gold-pale); }
+    nav .sep { color: var(--border-strong); font-size: 0.9rem; flex-shrink: 0; }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 6rem 2rem 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 1.4rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--gold-pale);
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 60px rgba(201,168,76,0.2);
+      margin-bottom: 0.4rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--cream);
+    }
+    .hero-sub {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+    .hero-divider {
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+      margin: 0 auto 2.5rem;
+    }
+    .hero-latin {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--cream);
+      line-height: 1.6;
+      margin-bottom: 0.6rem;
+    }
+    .hero-trans {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      font-style: normal;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Layout ── */
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    /* ── TOC ── */
+    .toc-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold-dim);
+      padding: 2rem 2.5rem;
+      margin-bottom: 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.5rem 2rem;
+    }
+    .toc-card h3 {
+      grid-column: 1 / -1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .toc-card a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      padding: 0.2rem 0;
+    }
+    .toc-card a:hover { color: var(--gold-pale); }
+    .toc-card a span {
+      color: var(--gold-dim);
+      margin-right: 0.5rem;
+    }
+
+    /* ── Section ── */
+    .book-section {
+      margin-bottom: 5rem;
+      scroll-margin-top: 70px;
+    }
+    .book-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+    .book-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--gold-dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .book-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold-pale);
+    }
+    .book-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    /* ── Content grid ── */
+    .book-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+    @media (max-width: 720px) {
+      .book-content { grid-template-columns: 1fr; }
+    }
+
+    .col-latin, .col-english {
+      padding: 1.8rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+    }
+    .col-latin {
+      border-left: 2px solid var(--gold-dim);
+    }
+    .col-english {
+      border-left: 2px solid var(--accent-blue);
+    }
+
+    .col-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .col-latin .col-label { color: var(--gold-dim); }
+    .col-english .col-label { color: #3A6EA8; }
+
+    .col-latin p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--cream);
+    }
+    .col-english p {
+      font-size: 0.93rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    /* ── Highlight verses ── */
+    .verse-highlight {
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.6rem;
+      background: rgba(201,168,76,0.05);
+      border-left: 3px solid var(--gold);
+    }
+    .verse-highlight p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--gold-pale);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin: 0;
+    }
+    .verse-highlight .trans {
+      font-family: 'Libre Baskerville', serif;
+      font-style: normal;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    /* ── Comma annotation ── */
+    .comma-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--gold);
+      background: rgba(201,168,76,0.08);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      margin: 0.8rem 0;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Characters panel ── */
+    .characters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-bottom: 4rem;
+    }
+    .char-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 1.4rem 1.6rem;
+      transition: border-color 0.2s;
+    }
+    .char-card:hover { border-color: var(--gold-dim); }
+    .char-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-pale);
+      margin-bottom: 0.2rem;
+    }
+    .char-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 0.7rem;
+    }
+    .char-desc {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* ── Themes section ── */
+    .themes-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 4rem;
+    }
+    .theme-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 1.6rem;
+    }
+    .theme-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+    .theme-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+    .theme-body {
+      font-size: 0.84rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Underworld panel ── */
+    .underworld-block {
+      background: linear-gradient(135deg, #07040F, #040710);
+      border: 1px solid rgba(138,32,32,0.4);
+      border-left: 3px solid var(--accent-red);
+      padding: 2rem 2.5rem;
+      margin-bottom: 4rem;
+    }
+    .underworld-block h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: #C85050;
+      margin-bottom: 1rem;
+    }
+    .underworld-block p {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+    }
+    .underworld-block .verse-highlight {
+      border-left-color: var(--accent-red);
+      background: rgba(139,32,32,0.06);
+    }
+    .underworld-block .verse-highlight p {
+      color: #D48080;
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+    footer a { color: var(--gold-dim); text-decoration: none; }
+    footer a:hover { color: var(--gold); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero { animation: fadeUp 0.9s ease both; }
+    .toc-card { animation: fadeUp 0.9s 0.15s ease both; }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="https://musicauniversalis.band/index.html">Musica Universalis</a>
+  <span class="sep">·</span>
+  <a href="https://musicauniversalis.band/directory.html">Directory</a>
+  <span class="sep">·</span>
+  <a href="https://musicauniversalis.band/musica_universalis_v5_v6.html">Theory</a>
+  <span class="sep">·</span>
+  <a href="https://musicauniversalis.band/philosophy_of_life.html">Philosophy</a>
+  <span class="sep">·</span>
+  <a href="https://musicauniversalis.band/harmonice_mundi.html">Kepler</a>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-label">Musica Universalis · Mythology & Epic · 29–19 BCE</div>
+  <h1><em>Aeneid</em></h1>
+  <div class="hero-sub">Publius Vergilius Maro · A Foundation Epic</div>
+  <div class="hero-divider"></div>
+  <div class="hero-latin">Arma virumque canō, Trōiae quī prīmus ab ōrīs<br>Ītaliam, fātō profugus, Lāvīniaque vēnit lītora.</div>
+  <div class="hero-trans">I sing of arms and the man, who first from the shores of Troy, exiled by Fate, came to Italy and the Lavinian coast.</div>
+</div>
+
+<!-- Main -->
+<div class="page-wrapper">
+
+  <!-- TOC -->
+  <div class="toc-card">
+    <h3>Contents · 12 Books</h3>
+    <a href="#intro"><span>✦</span>Introduction</a>
+    <a href="#characters"><span>✦</span>Characters</a>
+    <a href="#themes"><span>✦</span>Major Themes</a>
+    <a href="#book1"><span>I</span>Storm & Arrival at Carthage</a>
+    <a href="#book2"><span>II</span>The Fall of Troy</a>
+    <a href="#book3"><span>III</span>Wanderings</a>
+    <a href="#book4"><span>IV</span>Dido & Aeneas</a>
+    <a href="#book5"><span>V</span>Funeral Games</a>
+    <a href="#book6"><span>VI</span>The Underworld</a>
+    <a href="#book7"><span>VII</span>Arrival in Latium</a>
+    <a href="#book8"><span>VIII</span>Alliance & Evander</a>
+    <a href="#book9"><span>IX</span>Siege of the Camp</a>
+    <a href="#book10"><span>X</span>Battle & Pallas</a>
+    <a href="#book11"><span>XI</span>Truce & Camilla</a>
+    <a href="#book12"><span>XII</span>Final Duel</a>
+  </div>
+
+  <!-- Introduction -->
+  <div class="book-section" id="intro">
+    <div class="section-label">Introduction</div>
+    <div class="book-content">
+      <div class="col-english" style="grid-column: 1 / -1; border-left: 2px solid var(--gold-dim);">
+        <div class="col-label" style="color: var(--gold-dim);">About the Aeneid</div>
+        <p>The <em>Aeneid</em> is a Latin epic poem written by Virgil (Publius Vergilius Maro) between approximately 29 and 19 BCE. It tells the legendary story of Aeneas, a Trojan hero who travels to Italy and becomes an ancestor of the Romans. Commissioned in the spirit of the Augustan age, it ties the founding of Rome to divine destiny — fate itself as an irresistible current.</p>
+        <br>
+        <p>Virgil draws heavily on Homer's <em>Iliad</em> and <em>Odyssey</em>: Books I–VI mirror the <em>Odyssey</em>'s wandering structure, while Books VII–XII echo the <em>Iliad</em>'s warfare. Yet the <em>Aeneid</em> is no mere imitation. It interrogates heroism with a melancholy the Greeks rarely allowed themselves — the cost of empire, the grief of necessary sacrifice, the weight of carrying a civilization on one's back.</p>
+        <br>
+        <p>The poem was unfinished at Virgil's death in 19 BCE. He asked for it to be destroyed. Augustus Caesar refused. What we have is the version Virgil could not perfect — and perhaps that incompleteness is its deepest truth.</p>
+        <div class="comma-note">⚐ CF · Necessary incompleteness · δ = 0.013643 · The comma that does not close</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Characters -->
+  <div class="book-section" id="characters">
+    <div class="section-label">Dramatis Personae</div>
+    <div class="characters-grid">
+      <div class="char-card">
+        <div class="char-name">Aeneas</div>
+        <div class="char-role">Trojan Hero · Son of Venus & Anchises</div>
+        <div class="char-desc">The dutiful hero — <em>pius Aeneas</em> — defined not by glory but by obligation. He carries the household gods of Troy and the weight of fate. He does not choose his destiny; he endures it.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-name">Dido</div>
+        <div class="char-role">Queen of Carthage</div>
+        <div class="char-desc">The poem's most fully human character. A widow who built a city from nothing, who loved Aeneas without deception, and who was destroyed by a god's manipulation. Her tragedy is the cost of empire's foundation.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-name">Juno</div>
+        <div class="char-role">Queen of the Gods · Antagonist</div>
+        <div class="char-desc">Relentless enemy of the Trojans since the Judgement of Paris. She storms against fate itself, knowing she cannot win, but prolonging the suffering at every turn. Divine obsession as a force of nature.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-name">Jupiter</div>
+        <div class="char-role">King of the Gods · Fatum</div>
+        <div class="char-desc">The voice of destiny. He does not drive events so much as confirm what must be: Rome shall be eternal. His speeches are the architecture of fate made audible.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-name">Turnus</div>
+        <div class="char-role">Rutulian King · Antagonist</div>
+        <div class="char-desc">The noble warrior who stands in the way of Rome's founding. Brave, passionate, sympathetic — and doomed. He is an Achilles figure, the old heroic code colliding with the new order.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-name">Anchises</div>
+        <div class="char-role">Aeneas's Father</div>
+        <div class="char-desc">Carried out of burning Troy on Aeneas's back. He dies before reaching Italy, but speaks again from the Underworld, showing his son the souls of Rome's future great men.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-name">Venus</div>
+        <div class="char-role">Goddess of Love · Mother of Aeneas</div>
+        <div class="char-desc">Protective, cunning, and divine. She intervenes to shield her son and arranges the love between Dido and Aeneas — which she knows will end in flame.</div>
+      </div>
+      <div class="char-card">
+        <div class="char-name">Lavinia</div>
+        <div class="char-role">Latin Princess · Aeneas's Destined Wife</div>
+        <div class="char-desc">She speaks almost no words in the poem. She blushes once. She is a prize, a prophecy, a future — but the poem denies her interiority. Her silence is its own kind of wound.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Themes -->
+  <div class="book-section" id="themes">
+    <div class="section-label">Major Themes</div>
+    <div class="themes-row">
+      <div class="theme-card">
+        <div class="theme-icon">⚖</div>
+        <div class="theme-title">Fate vs. Human Will</div>
+        <div class="theme-body">The Aeneid posits a universe governed by <em>fatum</em> — inescapable destiny. Yet the gods struggle, heroes resist, and people suffer as if outcomes were uncertain. The tension between predetermination and agency is never resolved; it is lived through.</div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon">🔥</div>
+        <div class="theme-title">The Cost of Empire</div>
+        <div class="theme-body">Rome's founding is glorious and terrible. Dido dies. Turnus begs for mercy and is killed. Pallas falls. The poem is haunted by what must be sacrificed for civilization — and it never lets us forget the sacrifice was real.</div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon">⚓</div>
+        <div class="theme-title">Pietas — Duty</div>
+        <div class="theme-body"><em>Pietas</em> is not piety in a modern sense but duty: to family, gods, and state. Aeneas suppresses desire, grief, and love in service of something larger than himself. It is a kind of heroism that is very hard to love.</div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon">🌊</div>
+        <div class="theme-title">Displacement & Home</div>
+        <div class="theme-body">Troy is ash. Carthage is forbidden. Italy is promised but must be won by blood. The wandering of Books I–VI is not just geographic — it is the condition of a people who carry their identity in a box of household gods and a child named Ascanius.</div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon">🌒</div>
+        <div class="theme-title">Grief & Memory</div>
+        <div class="theme-body">The most devastating lines in the poem are not about war but loss. <em>Sunt lacrimae rerum</em> — there are tears in the nature of things. Aeneas sees Troy on Carthaginian walls and weeps. The past cannot be unburned.</div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon">✦</div>
+        <div class="theme-title">Divine Providence</div>
+        <div class="theme-body">The gods are real, interventionist, and morally complicated. Jupiter decrees; Juno obstructs; Venus schemes. The universe is not neutral. But divine favor does not mean the absence of suffering — only its direction toward a larger design.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book I -->
+  <div class="book-section" id="book1">
+    <div class="book-header">
+      <span class="book-num">Book I</span>
+      <span class="book-title">Storm & Arrival at Carthage</span>
+      <span class="book-subtitle">Iuno · Aeolus · Dido</span>
+    </div>
+    <div class="book-content">
+      <div class="col-latin">
+        <div class="col-label">Virgil · Latin</div>
+        <p>Arma virumque canō, Trōiae quī prīmus ab ōrīs Ītaliam, fātō profugus, Lāvīniaque vēnit lītora—multum ille et terrīs iactātus et altō vī superum saevae memorem Iūnōnis ob īram...</p>
+        <br>
+        <p>Mūsa, mihī causās memorā, quō nūmine laesō, quidve dolēns rēgīna deum tot volvere cāsūs īnsīgnem pietāte virum, tot adīre labōrēs impulerit.</p>
+      </div>
+      <div class="col-english">
+        <div class="col-label">Translation</div>
+        <p>I sing of arms and the man, who first from the shores of Troy, exiled by fate, came to Italy and the Lavinian coast — much buffeted on land and sea by the power of the gods, because of fierce Juno's unforgetting anger...</p>
+        <br>
+        <p>Tell me, Muse, the causes: how was divine will offended? Why did the queen of the gods force a man renowned for piety to endure such trials, to face so many hardships?</p>
+      </div>
+    </div>
+    <div class="verse-highlight" style="margin-top: 1.5rem;">
+      <p>Tantae mōlis erat Rōmānam condere gentem.</p>
+      <div class="trans">So great was the effort to found the Roman race.</div>
+    </div>
+    <div style="font-size:0.88rem; color: var(--text-dim); line-height:1.75; margin-top: 1.5rem;">
+      Juno, still furious over the Judgement of Paris and the prophecy that Troy's descendants will destroy her beloved Carthage, convinces Aeolus to unleash a catastrophic storm on Aeneas's fleet. Neptune calms the sea. The Trojans land on the African coast, near Carthage. Venus disguises herself and steers her son toward the city. Aeneas sees Trojan scenes painted on Dido's temple walls — the whole history of his people rendered in Carthaginian art — and weeps: <em>sunt lacrimae rerum.</em> Dido receives the Trojans warmly. Venus, fearing for her son, sends Cupid to make Dido fall in love with Aeneas.
+    </div>
+  </div>
+
+  <!-- Book II -->
+  <div class="book-section" id="book2">
+    <div class="book-header">
+      <span class="book-num">Book II</span>
+      <span class="book-title">The Fall of Troy</span>
+      <span class="book-subtitle">Laocoon · The Wooden Horse · Creusa</span>
+    </div>
+    <div class="book-content">
+      <div class="col-latin">
+        <div class="col-label">Virgil · Latin</div>
+        <p>Conticuēre omnēs intentīque ōra tenēbant; inde torō pater Aenēas sīc ōrsus ab altō: Īnfandum, rēgīna, iubēs renovāre dolōrem...</p>
+      </div>
+      <div class="col-english">
+        <div class="col-label">Translation</div>
+        <p>All fell silent, their faces fixed with attention. From his high couch, Father Aeneas began: "Unspeakable grief, O queen, you bid me to renew..."</p>
+      </div>
+    </div>
+    <div style="font-size:0.88rem; color: var(--text-dim); line-height:1.75; margin-top: 1.5rem;">
+      At Dido's banquet, Aeneas narrates the fall of Troy — the wooden horse, the treachery of Sinon, Laocoon's death by serpents as divine punishment or divine warning. Troy burns. Aeneas carries his father Anchises on his back, holds his son Ascanius by the hand. He loses his wife Creusa in the chaos. He returns to find her — only her shade, which tells him to go on. He is not spared the knowledge of what he has lost; he is only commanded forward.
+    </div>
+    <div class="verse-highlight">
+      <p>Hīc amor, haec patria est.</p>
+      <div class="trans">Here is love; here is my homeland.</div>
+    </div>
+  </div>
+
+  <!-- Book III -->
+  <div class="book-section" id="book3">
+    <div class="book-header">
+      <span class="book-num">Book III</span>
+      <span class="book-title">Wanderings</span>
+      <span class="book-subtitle">Harpies · Cyclopes · Anchises's Death</span>
+    </div>
+    <div style="font-size:0.88rem; color: var(--text-dim); line-height:1.75;">
+      The Trojans sail from ruin to ruin. They attempt to settle in Thrace — the ground bleeds from a murdered prince buried beneath it. They receive Apollo's oracle at Delos. They mistake Crete for their destined homeland. They encounter the Harpies on the Strophades islands, who foul their food and prophecy misery. They visit Buthrotum, where Helenus and Andromache have built a miniature Troy — a beautiful, melancholy simulacrum of what was lost. They pass the land of the Cyclopes, narrowly escaping. Anchises, the burden carried out of Troy, the living memory of the past, dies in Sicily. His death is mentioned almost in passing — which makes it worse.
+    </div>
+  </div>
+
+  <!-- Book IV -->
+  <div class="book-section" id="book4">
+    <div class="book-header">
+      <span class="book-num">Book IV</span>
+      <span class="book-title">Dido & Aeneas</span>
+      <span class="book-subtitle">Love · Abandonment · The Pyre</span>
+    </div>
+    <div class="book-content">
+      <div class="col-latin">
+        <div class="col-label">Virgil · Latin</div>
+        <p>At rēgīna gravī iamdudum saucia cūrā vulnus alit vēnīs et caecō carpitur ignī...</p>
+        <br>
+        <p>Nusquam tūta fidēs... sed rēs Argolica iussu dīvum dēscendere ad Mānīs... sequere Ītaliam ventīs, pete rēgna per undās.</p>
+      </div>
+      <div class="col-english">
+        <div class="col-label">Translation</div>
+        <p>But the queen, already wounded long by a heavy care, feeds the hurt in her veins and is consumed by hidden fire...</p>
+        <br>
+        <p>Nowhere is faith safe... but Italy's destiny by divine command bids me descend to the shades... follow Italy with the winds, seek the kingdom across the waves.</p>
+      </div>
+    </div>
+    <div style="font-size:0.88rem; color: var(--text-dim); line-height:1.75; margin-top: 1.5rem;">
+      The poem's most devastating book. Dido loves Aeneas. Jupiter sends Mercury to command Aeneas to leave. He prepares to slip away in secret. Dido confronts him. Aeneas, with terrible gentleness, says he does not choose to go — fate commands it. He never actually said he loved her. Dido curses him and Carthage in a final prophecy: from her bones will rise Hannibal, and Carthage and Rome will be enemies forever. She builds a pyre under pretense of burning his memory, climbs it, and falls on his sword. The fleet watches the distant fire from the sea. Aeneas does not turn back.
+    </div>
+    <div class="verse-highlight">
+      <p>Varium et mūtābile semper fēmina.</p>
+      <div class="trans">Woman is ever a changeable and fickle thing.</div>
+    </div>
+    <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.5rem; font-style: italic;">Spoken by Mercury — not Virgil. The poem does not endorse it; Dido's constancy destroys her.</div>
+  </div>
+
+  <!-- Book V -->
+  <div class="book-section" id="book5">
+    <div class="book-header">
+      <span class="book-num">Book V</span>
+      <span class="book-title">Funeral Games for Anchises</span>
+      <span class="book-subtitle">Sicily · Fire · Palinurus</span>
+    </div>
+    <div style="font-size:0.88rem; color: var(--text-dim); line-height:1.75;">
+      Back in Sicily, Aeneas holds elaborate funeral games in his father's honor — boat races, foot races, boxing, archery. An Iliadic echo, but with Roman political significance: the games establish community, hierarchy, and the prototype of Roman public life. Juno, unable to destroy the fleet, inspires the Trojan women (tired of wandering) to burn the ships. Jupiter douses the fires with rain. Aeneas leaves the old and weary in Sicily. The helmsman Palinurus falls asleep at the tiller and is swept overboard — a casualty of the journey's relentlessness, not battle.
+    </div>
+  </div>
+
+  <!-- Book VI -->
+  <div class="book-section" id="book6">
+    <div class="book-header">
+      <span class="book-num">Book VI</span>
+      <span class="book-title">The Underworld</span>
+      <span class="book-subtitle">The Sibyl · Elysium · Roman Souls</span>
+    </div>
+    <div class="underworld-block">
+      <h3>Descent into Avernus</h3>
+      <p>The fulcrum of the poem. At Cumae, Aeneas consults the Sibyl, who guides him through the entrance to the Underworld. He carries a golden bough as passport. He crosses Acheron, passes through the Fields of Mourning where Dido's shade walks and will not look at him, descends through Tartarus, and ascends to Elysium. There Anchises shows him the souls of Rome's future great men — Romulus, Augustus, Marcellus — a vision of what his suffering is building.</p>
+      <div class="verse-highlight">
+        <p>Facilis dēscēnsus Avernō;<br>noctes atque dies patet ātrī iānua Dītis;<br>sed revocare gradum superāsque evādere ad aurās,<br>hoc opus, hic labor est.</p>
+        <div class="trans">Easy is the descent to Avernus; night and day the gate of black Dis stands open; but to recall one's steps and pass out to the upper air — that is the task, that the labor.</div>
+      </div>
+      <p style="margin-top: 1rem;">Anchises explains metempsychosis — the cycle of souls. He shows the souls waiting to be reborn, then points to the great Roman future. His final speech on Roman destiny ends not with triumph but with the young Marcellus, dead before his time, who will be mourned by all. Even the vision of empire is shadowed by grief. Aeneas exits through the Gate of Ivory — the gate of false dreams — and the poem never explains why.</p>
+      <div class="verse-highlight">
+        <p>Tū Mārcellus eris. Mānibus date līlia plēnīs...</p>
+        <div class="trans">You shall be Marcellus. Give lilies with full hands...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Books VII–XII summary -->
+  <div class="book-section" id="book7">
+    <div class="book-header">
+      <span class="book-num">Books VII–XII</span>
+      <span class="book-title">The War in Italy · The Iliadic Half</span>
+      <span class="book-subtitle">Latium · Turnus · The Founding</span>
+    </div>
+    <div style="font-size:0.88rem; color: var(--text-dim); line-height:1.75; margin-bottom: 2rem;">
+      The second half of the poem shifts from wandering to warfare. Aeneas arrives in Latium, where King Latinus has been warned by prophecy to give his daughter Lavinia to a foreign stranger. Juno intervenes again, inflaming the Latin tribes against the Trojans. Turnus, betrothed to Lavinia, becomes the champion of the old order.
+    </div>
+
+    <div class="characters-grid" style="margin-bottom: 2rem;">
+      <div class="char-card" id="book8">
+        <div class="char-name">Book VIII · Alliance</div>
+        <div class="char-role">Evander · The Shield of Aeneas</div>
+        <div class="char-desc">Aeneas visits Evander, a Greek king settled at the future site of Rome. Vulcan, at Venus's request, forges Aeneas a divine shield depicting the future history of Rome, including Augustus's victory at Actium. Aeneas lifts the shield without understanding what it shows — he carries his descendants' glory on his back as he once carried his father.</div>
+      </div>
+      <div class="char-card" id="book9">
+        <div class="char-name">Book IX · Siege</div>
+        <div class="char-role">Nisus & Euryalus</div>
+        <div class="char-desc">Two young Trojan soldiers — Nisus and his beloved Euryalus — attempt a night raid and are killed. Their deaths are the poem's most intimate tragedy: a mother's grief, a friendship that becomes a shared death. The poem mourns them explicitly: <em>fortunati ambo</em> — both fortunate, because they will be remembered.</div>
+      </div>
+      <div class="char-card" id="book10">
+        <div class="char-name">Book X · Pallas Falls</div>
+        <div class="char-role">Aeneas · Turnus · The Turn</div>
+        <div class="char-desc">Turnus kills young Pallas, Evander's son, entrusted to Aeneas's care. He strips Pallas's sword-belt as a trophy. This act will decide the poem's ending. Aeneas rages and kills indiscriminately through the battle.</div>
+      </div>
+      <div class="char-card" id="book11">
+        <div class="char-name">Book XI · Camilla</div>
+        <div class="char-role">The Warrior Maiden</div>
+        <div class="char-desc">Camilla, a warrior woman consecrated to Diana, fights brilliantly for Turnus. She is killed not in fair combat but while distracted by the glitter of a priest's golden armor — desire for beautiful things leads her astray. Her death is presented with genuine tenderness.</div>
+      </div>
+    </div>
+
+    <div class="book-section" id="book12">
+      <div class="book-header">
+        <span class="book-num">Book XII</span>
+        <span class="book-title">The Final Duel</span>
+        <span class="book-subtitle">Turnus · Aeneas · The Sword Belt</span>
+      </div>
+      <div style="font-size:0.88rem; color: var(--text-dim); line-height:1.75;">
+        Jupiter and Juno reach a final accord: Juno will stop opposing Aeneas if the Latins keep their name and language — Rome will be Latin, not Trojan. She agrees. The war is decided. Turnus and Aeneas face each other. Turnus is weakened by divine interference; his sword breaks. He is wounded. He asks for mercy — return my body to my father. Aeneas hesitates, almost relents.
+      </div>
+      <div class="verse-highlight" style="margin-top: 1.5rem;">
+        <p>Ille oculīs postquam saevī mōnimenta dolōris<br>exuviāsque hausit, furiīs accēnsus et īrā<br>terribilem īnfremuit...</p>
+        <div class="trans">When he had drunk in with his eyes the memorial of savage grief — the trophy of that armor — blazing with fury and with rage, he roared terribly...</div>
+      </div>
+      <div style="font-size:0.88rem; color: var(--text-dim); line-height:1.75; margin-top: 1.2rem;">
+        Aeneas sees the sword-belt of Pallas on Turnus's shoulder. Grief and rage flood through him. He drives the sword home. The poem ends not with triumph but with Turnus's life <em>indignata</em> — indignant — fleeing to the shades. The final word is the shadow. Rome's founding is accomplished; the poem cannot celebrate.
+      </div>
+      <div class="verse-highlight">
+        <p>Vitaque cum gemitū fugit indignāta sub umbrās.</p>
+        <div class="trans">And his life, indignant, fled with a groan to the shades.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comma connection -->
+  <div style="background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 2rem 2.5rem; margin-bottom: 4rem;">
+    <div class="section-label" style="margin-bottom: 1rem;">⚐ CF Articulation · The Comma Reading</div>
+    <p style="font-size: 0.9rem; color: var(--text-dim); line-height: 1.8;">
+      The <em>Aeneid</em> is structured around a gap that will not close. Fate decrees Rome. History will produce Rome. And yet the poem is saturated with grief, resistance, and mourning that no decree erases. Aeneas carries out every command and the poem does not let him be happy about it. The gap between what must be and what is felt — between <em>fatum</em> and human experience — is the poem's comma: the interval that cannot be perfectly resolved, the system that must contain its own necessary error to function at all.
+    </p>
+    <br>
+    <p style="font-size: 0.9rem; color: var(--text-dim); line-height: 1.8;">
+      <em>Sunt lacrimae rerum</em> — there are tears in the nature of things — is the delta of the epic. Not a failure but a structural feature. All coherence, Virgil seems to say, emerges from the inability to fully close.
+    </p>
+    <div class="comma-note" style="margin-top: 1rem;">δ = 0.013643 · N_res = 73.296 · The comma that does not close</div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div style="margin-bottom: 0.8rem;">
+    <a href="https://musicauniversalis.band/index.html">Musica Universalis</a>
+    &nbsp;·&nbsp;
+    <a href="https://musicauniversalis.band/directory.html">Directory</a>
+    &nbsp;·&nbsp;
+    <a href="https://musicauniversalis.band/philosophy_of_life.html">Philosophy of Life</a>
+  </div>
+  <div>Aeneid · Publius Vergilius Maro · 29–19 BCE · Summary & Commentary</div>
+  <div style="margin-top: 0.5rem; opacity: 0.5;">
+    This page was composed with assistance from Claude (Anthropic) · Musica Universalis Educational Project
+  </div>
+</footer>
+
+</body>
+</html>

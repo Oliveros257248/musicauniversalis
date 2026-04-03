@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Rainbow Mystery · Cyanine Dyes for Everyone</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void:#03050B;
+  --deep:#080E1C;
+  --card:#0C1422;
+  --card2:#101928;
+  --gold:#F0C040;
+  --gold2:#FFE080;
+  --blue:#6AB4FF;
+  --teal:#40DEC8;
+  --purple:#C880F0;
+  --red:#FF6060;
+  --green:#60E080;
+  --orange:#FF9040;
+  --pink:#FF80C0;
+  --ice:rgba(210,230,255,.92);
+  --dim:rgba(210,230,255,.55);
+  --faint:rgba(210,230,255,.25);
+  --ghost:rgba(210,230,255,.1);
+  --border:rgba(210,230,255,.08);
+  --fn:'Nunito',sans-serif;
+  --fm:'JetBrains Mono',monospace;
+  --fs:'Space Grotesk',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void);
+  color:var(--ice);
+  font-family:var(--fn);
+  font-size:17px;
+  line-height:1.75;
+  overflow-x:hidden;
+}
+
+/* ── STARS ── */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.9;transform:scale(1.4)}}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;inset-x:0;z-index:100;
+  height:52px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;
+  background:rgba(3,5,11,.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px);
+}
+.nav-logo{font-family:var(--fs);font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.04em}
+.nav-sub{font-family:var(--fm);font-size:9px;color:var(--teal);letter-spacing:.2em;text-transform:uppercase}
+.nav-back{font-family:var(--fm);font-size:9px;color:var(--dim);text-decoration:none;letter-spacing:.14em;
+  padding:6px 14px;border:1px solid var(--border);transition:color .2s,border-color .2s}
+.nav-back:hover{color:var(--gold);border-color:rgba(240,192,64,.3)}
+
+/* ── WRAP ── */
+.wrap{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:100px 28px 120px}
+
+/* ── HERO ── */
+.hero{text-align:center;padding:20px 0 60px;margin-bottom:20px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--fm);font-size:9px;letter-spacing:.3em;color:var(--teal);
+  text-transform:uppercase;margin-bottom:24px;
+}
+.hero-badge::before,.hero-badge::after{content:'';width:36px;height:1px;background:var(--teal);opacity:.4}
+h1{
+  font-family:var(--fs);font-size:clamp(36px,7vw,72px);font-weight:700;
+  line-height:1.05;letter-spacing:-.03em;
+  background:linear-gradient(135deg,var(--gold2),var(--gold),var(--orange));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:16px;
+}
+.hero-sub{
+  font-size:19px;color:var(--dim);max-width:620px;margin:0 auto 32px;
+  line-height:1.6;font-weight:400;
+}
+.hero-note{
+  font-family:var(--fm);font-size:10px;color:var(--faint);
+  letter-spacing:.12em;margin-top:12px;
+}
+
+/* ── SECTION CARDS ── */
+.section{margin-bottom:64px}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:32px 36px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--accent,linear-gradient(90deg,var(--gold),transparent));
+}
+.card.blue::before{background:linear-gradient(90deg,var(--blue),transparent)}
+.card.teal::before{background:linear-gradient(90deg,var(--teal),transparent)}
+.card.purple::before{background:linear-gradient(90deg,var(--purple),transparent)}
+.card.green::before{background:linear-gradient(90deg,var(--green),transparent)}
+.card.red::before{background:linear-gradient(90deg,var(--red),transparent)}
+.card.orange::before{background:linear-gradient(90deg,var(--orange),transparent)}
+.card.pink::before{background:linear-gradient(90deg,var(--pink),transparent)}
+
+/* ── SECTION HEADING ── */
+.sec-label{
+  font-family:var(--fm);font-size:9px;letter-spacing:.25em;
+  color:var(--teal);text-transform:uppercase;margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
+h2{
+  font-family:var(--fs);font-size:clamp(22px,3.5vw,30px);font-weight:700;
+  color:#dce8ff;margin-bottom:18px;line-height:1.2;
+}
+h2 em{color:var(--gold);font-style:normal}
+h3{
+  font-family:var(--fs);font-size:17px;font-weight:700;
+  color:var(--ice);margin:24px 0 10px;
+}
+p{color:var(--dim);margin-bottom:14px;font-size:16.5px;line-height:1.8}
+p strong{color:var(--ice);font-weight:700}
+p em{color:var(--teal)}
+
+/* ── BIG NUMBERS ── */
+.big-num{
+  font-family:var(--fs);font-size:clamp(48px,8vw,88px);font-weight:800;
+  line-height:1;letter-spacing:-.04em;
+}
+.stat-row{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
+.stat{
+  flex:1;min-width:140px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px 20px;
+  text-align:center;
+}
+.stat-val{font-family:var(--fm);font-size:22px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.stat-lab{font-family:var(--fm);font-size:9.5px;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;line-height:1.4}
+
+/* ── ANALOGY BOX ── */
+.analogy{
+  background:rgba(64,222,200,.05);
+  border:1px solid rgba(64,222,200,.15);
+  border-left:3px solid var(--teal);
+  border-radius:0 12px 12px 0;
+  padding:18px 22px;
+  margin:18px 0;
+}
+.analogy-head{
+  font-family:var(--fm);font-size:9px;letter-spacing:.22em;
+  color:var(--teal);text-transform:uppercase;margin-bottom:8px;
+}
+.analogy p{font-size:15.5px;margin-bottom:0;color:var(--ice)}
+
+/* ── CALLOUT ── */
+.callout{
+  background:rgba(240,192,64,.05);
+  border:1px solid rgba(240,192,64,.18);
+  border-left:3px solid var(--gold);
+  border-radius:0 12px 12px 0;
+  padding:18px 22px;
+  margin:18px 0;
+}
+.callout-head{
+  font-family:var(--fm);font-size:9px;letter-spacing:.22em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:8px;
+}
+.callout p{font-size:15.5px;margin-bottom:0;color:var(--ice)}
+
+/* ── MOLECULE VISUAL ── */
+.mol-row{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}
+.mol-chip{
+  display:flex;flex-direction:column;align-items:center;
+  gap:6px;padding:16px 20px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:12px;
+  flex:1;min-width:120px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s;
+}
+.mol-chip::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--cc,var(--gold))}
+.mol-name{font-family:var(--fs);font-size:18px;font-weight:800;color:var(--ice)}
+.mol-wave{font-family:var(--fm);font-size:12px;font-weight:700}
+.mol-eV{font-family:var(--fm);font-size:10px;color:var(--faint)}
+.mol-state{font-family:var(--fm);font-size:9px;color:var(--dim);letter-spacing:.1em}
+.mol-note{font-family:var(--fm);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+
+/* ── SPECTRUM BAR ── */
+.spectrum-wrap{margin:28px 0;border-radius:12px;overflow:hidden;padding:24px;background:rgba(255,255,255,.02);border:1px solid var(--border)}
+.spectrum-label{font-family:var(--fm);font-size:9px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;margin-bottom:14px}
+.spectrum-bar{
+  height:32px;border-radius:8px;margin-bottom:10px;
+  background:linear-gradient(90deg,
+    #7B00D4 0%,#3300CC 8%,#0000FF 18%,#0088FF 26%,
+    #00CCFF 34%,#00EE44 42%,#AACC00 50%,#FFCC00 58%,
+    #FF8800 65%,#FF2200 73%,#990000 82%,#550000 100%);
+}
+.spectrum-ticks{display:flex;justify-content:space-between;font-family:var(--fm);font-size:9.5px;color:var(--faint)}
+.spec-dot{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  margin-top:14px;
+}
+.spec-dot-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.spec-pill{
+  padding:6px 14px;border-radius:100px;
+  font-family:var(--fm);font-size:10px;font-weight:700;
+  border:1.5px solid;display:flex;align-items:center;gap:6px;
+}
+
+/* ── MUSICAL BLOCK ── */
+.music-row{display:flex;gap:0;margin:20px 0;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.music-step{
+  flex:1;padding:20px 16px;text-align:center;
+  border-right:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+}
+.music-step:last-child{border-right:none}
+.music-note{font-family:var(--fs);font-size:40px;font-weight:900;line-height:1}
+.music-roman{font-family:var(--fm);font-size:11px;color:var(--dim);letter-spacing:.14em;margin-top:4px}
+.music-mol{font-family:var(--fm);font-size:10px;font-weight:700;margin-top:6px}
+.music-desc{font-size:12px;color:var(--dim);margin-top:6px;line-height:1.4}
+.arrow-between{display:flex;align-items:center;justify-content:center;padding:0 4px;font-size:24px;color:var(--faint);background:rgba(255,255,255,.02)}
+
+/* ── PREDICTION BOX ── */
+.predict{
+  background:rgba(96,224,128,.04);
+  border:1px solid rgba(96,224,128,.15);
+  border-left:3px solid var(--green);
+  border-radius:0 12px 12px 0;
+  padding:20px 24px;margin:20px 0;
+}
+.predict-head{font-family:var(--fm);font-size:9px;letter-spacing:.22em;color:var(--green);text-transform:uppercase;margin-bottom:10px}
+.predict p{color:var(--ice);font-size:15.5px;margin-bottom:0}
+
+/* ── QUOTE ── */
+.pull-quote{
+  text-align:center;padding:40px 20px;margin:32px 0;
+  font-family:var(--fs);font-size:clamp(20px,3.5vw,28px);
+  font-weight:700;color:var(--gold);line-height:1.3;
+}
+.pull-quote span{color:var(--dim);font-weight:400;font-size:.72em;display:block;margin-top:10px}
+
+/* ── CANVAS CHARTS ── */
+.chart-wrap{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:20px;margin:20px 0}
+.chart-title{font-family:var(--fm);font-size:9.5px;letter-spacing:.18em;color:var(--dim);text-transform:uppercase;margin-bottom:14px}
+canvas{width:100%;display:block}
+
+/* ── EMOJI SECTION ICONS ── */
+.sec-icon{font-size:32px;margin-bottom:12px;display:block}
+
+/* ── FOOTER ── */
+footer{
+  text-align:center;padding:48px 28px 64px;
+  border-top:1px solid var(--border);
+  font-family:var(--fm);font-size:10px;
+  color:var(--faint);line-height:2;
+}
+footer a{color:var(--gold);text-decoration:none}
+
+/* ── STEP LADDER ── */
+.ladder{display:flex;flex-direction:column;gap:0;margin:20px 0}
+.rung{
+  display:flex;align-items:flex-start;gap:20px;
+  padding:18px 0;border-bottom:1px solid var(--border);
+}
+.rung:last-child{border-bottom:none}
+.rung-num{
+  font-family:var(--fs);font-size:28px;font-weight:900;
+  color:var(--gold);min-width:40px;line-height:1;margin-top:2px;
+}
+.rung-text{flex:1}
+.rung-title{font-family:var(--fs);font-size:15px;font-weight:700;color:var(--ice);margin-bottom:4px}
+.rung-body{font-size:14.5px;color:var(--dim);margin-bottom:0}
+
+/* ── COMIC PANEL ── */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+@media(max-width:600px){.panels{grid-template-columns:1fr}}
+.panel{
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:12px;padding:18px;
+}
+.panel-emoji{font-size:36px;margin-bottom:10px;display:block}
+.panel-title{font-family:var(--fs);font-size:14px;font-weight:700;color:var(--ice);margin-bottom:6px}
+.panel-body{font-size:13.5px;color:var(--dim);line-height:1.6}
+
+@media(max-width:640px){
+  .card{padding:22px 18px}
+  .music-note{font-size:28px}
+  .stat-val{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars" style="position:fixed;inset:0;z-index:0;pointer-events:none"></canvas>
+
+<nav>
+  <div>
+    <div class="nav-logo">Musica Universalis</div>
+    <div class="nav-sub">The Rainbow Mystery &middot; For Everyone</div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <a href="directory.html" class="nav-back">Directory</a>
+    <a href="dft_results.html" class="nav-back" style="color:var(--gold);border-color:rgba(240,192,64,.25)">Full Paper &rarr;</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <div class="hero-badge">For Everyone &middot; No Chemistry Required &middot; Any Country &middot; Any Device</div>
+  <h1>The Rainbow<br>Mystery</h1>
+  <p class="hero-sub">We pointed a very powerful computer at some glowing dye molecules and found something that musicians have known about for 2,000 years — hiding inside the chemistry.</p>
+  <div class="hero-note">Based on real DFT calculations &middot; CAM-B3LYP/6-31G* &middot; ORCA 6.1.1 &middot; Completed March 2026</div>
+  <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <span style="font-family:var(--fm);font-size:9.5px;color:var(--faint);letter-spacing:.12em">&#127760; This page is designed to be readable in any country &middot; Share freely &middot; Translate with your browser &middot; No login needed</span>
+  </div>
+</header>
+
+<!-- ═══ PART 1: WHAT ARE WE EVEN LOOKING AT ═══ -->
+<section class="section">
+  <div class="card teal">
+    <div class="sec-label">Part 1 &mdash; The Setup</div>
+    <span class="sec-icon">🧪</span>
+    <h2>What are <em>cyanine dyes</em>?</h2>
+    <p>Have you ever used a highlighter marker? The bright, glowing color comes from dye molecules that absorb certain colors of light and bounce others back at your eyes. Cyanine dyes are a special family of these molecules used in medical imaging, solar cells, and bioscience — they glow in the near-infrared, which is the light just beyond red that cameras can see but human eyes can't.</p>
+    <p>What makes them special is their shape: they are long chains of carbon atoms, alternating between single and double bonds, with a positive electrical charge at each end. Think of them like a molecular tug-of-war — two charged ends pulling on a chain of electrons in the middle.</p>
+
+    <div class="analogy">
+      <div class="analogy-head">🎸 Analogy — Guitar Strings</div>
+      <p>Imagine a guitar string. The longer the string, the lower the note. Cyanine dyes work the same way: the <strong>longer the chain</strong>, the <strong>redder (lower-energy) the light</strong> it absorbs. A short Cy7 molecule absorbs around 750 nm (deep red). A longer chain should keep shifting toward infrared. That was the prediction. That is NOT what happened.</p>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-val">6</div>
+        <div class="stat-lab">molecules<br>computed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">Cy7–Cy15</div>
+        <div class="stat-lab">chain lengths<br>studied</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">14 cores</div>
+        <div class="stat-lab">laptop CPU<br>Windows 10</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">~50 hrs</div>
+        <div class="stat-lab">total compute<br>time</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PART 2: THE NORMAL RESULTS ═══ -->
+<section class="section">
+  <div class="card blue">
+    <div class="sec-label">Part 2 &mdash; The Normal Part</div>
+    <span class="sec-icon">📏</span>
+    <h2>First, the <em>expected</em> results</h2>
+    <p>For the first four molecules — Cy7⁺, Cy9⁺, Cy11⁰, and Cy11⁺ — everything worked exactly as predicted. Longer chain = redder light. The computer confirmed real minimum-energy structures (no imaginary wiggles, which means the geometry is stable). We also found something interesting in the orbital energies.</p>
+
+    <h3>What's a "bond length alternation"?</h3>
+    <p>In the molecule chain, the bonds aren't all the same length. Single bonds are longer (~1.43 Å), double bonds are shorter (~1.37 Å). The <strong>Bond Length Alternation (BLA)</strong> is just the average difference between them. Think of it as: how much does the molecule "breathe" — how alternating is it? A perfectly even chain would have BLA = 0. A very alternating chain has a high BLA.</p>
+
+    <div class="analogy">
+      <div class="analogy-head">🌊 Analogy — Ocean Waves</div>
+      <p>BLA is like wave height. A perfectly calm ocean = BLA of 0. Rough seas = big BLA. These dye molecules live somewhere in between, and exactly where they sit tells us how their electrons are distributed and what color light they absorb.</p>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Bond Length Alternation across the series &mdash; measured from DFT output files</div>
+      <canvas id="blaChart" height="220"></canvas>
+    </div>
+
+    <div class="callout">
+      <div class="callout-head">✨ The Weird Coincidence (First One)</div>
+      <p>When we divided the average BLA by a very specific number — the <strong>Pythagorean Comma</strong> (0.013643...) — we got 3.685. All four confirmed molecules land in the same band between 3× and 4× the comma. The comma is a music theory number. More on this later.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PART 3: CY13 ANOMALY ═══ -->
+<section class="section">
+  <div class="card purple">
+    <div class="sec-label">Part 3 &mdash; Where Everything Breaks</div>
+    <span class="sec-icon">🤯</span>
+    <h2>Cy13: <em>The Molecule That Went Blue</em></h2>
+    <p>Here is where the story gets strange. Based on the pattern from Cy7–Cy11, the next molecule (Cy13, a longer chain) should absorb around <strong>1200 nm</strong> — very deep infrared. Instead, the DFT calculation produced something completely unexpected.</p>
+
+    <div class="panels">
+      <div class="panel">
+        <span class="panel-emoji">📋</span>
+        <div class="panel-title">What we predicted</div>
+        <div class="panel-body">~1200 nm. Deeper red/infrared. Same pattern as before. Boring. Explainable.</div>
+      </div>
+      <div class="panel">
+        <span class="panel-emoji">💙</span>
+        <div class="panel-title">What actually happened</div>
+        <div class="panel-body"><strong>494 nm. Blue-green light.</strong> The molecule jumped backward across the entire visible spectrum.</div>
+      </div>
+      <div class="panel">
+        <span class="panel-emoji">👻</span>
+        <div class="panel-title">The S1 state went dark</div>
+        <div class="panel-body">The state that's normally bright (S1) became completely invisible — a "ghost" state absorbing at >10,000 nm (far infrared). Weird.</div>
+      </div>
+      <div class="panel">
+        <span class="panel-emoji">🔦</span>
+        <div class="panel-title">S5 lit up instead</div>
+        <div class="panel-body">The <em>fifth</em> excited state became the bright one. In all previous molecules, only S1 matters. Here, the fifth state stole all the light.</div>
+      </div>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-head">🎵 Analogy — Why the Fifth State?</div>
+      <p>Here's the CPCS explanation: the bond alternation at Cy13 (BLA/δ = 4.602 ≈ 9/2) means the molecule has a kind of internal "resonance frequency" that matches its fifth energy level. It's like a tuning fork that only vibrates at a specific pitch. When the molecule's structure hits this ratio, light couples most strongly to the fifth rung of the energy ladder — not the first. The number 9/2 is related to the <strong>perfect fifth</strong> in music (the ratio 3:2, squared). That's not a coincidence according to the CPCS framework.</p>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val" style="color:var(--purple)">494 nm</div><div class="stat-lab">actual absorption<br>(blue-green)</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--purple)">4.602δ</div><div class="stat-lab">BLA/comma ratio<br>≈ 9/2</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--purple)">S0→S5</div><div class="stat-lab">which state<br>is bright</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--purple)">f=2.807</div><div class="stat-lab">oscillator<br>strength</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PART 4: CY15 RETURN ═══ -->
+<section class="section">
+  <div class="card orange">
+    <div class="sec-label">Part 4 &mdash; The Return</div>
+    <span class="sec-icon">🔴</span>
+    <h2>Cy15: <em>It Came Back (Sort Of)</em></h2>
+    <p>After the Cy13 shock, we ran Cy15 — an even longer chain. The calculation took <strong>16 hours and 2 minutes</strong> on the laptop, completed normally, and produced 71 geometry steps and 70 snapshots of the absorption spectrum.</p>
+    <p>The chain BLA collapsed almost to zero: 0.01933 Å = 1.417× the comma. The bridge was nearly fully smoothed out — all the C–C bonds were almost the same length. And the dominant absorption:</p>
+
+    <div class="big-num" style="color:var(--gold);text-align:center;margin:28px 0">683 nm 🔴</div>
+    <p style="text-align:center;margin-bottom:28px">Red light. The molecule came back from blue toward red.</p>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val" style="color:var(--gold)">683 nm</div><div class="stat-lab">absorption<br>(red)</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--gold)">1.417δ</div><div class="stat-lab">BLA/comma<br>≈ 3/2</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--gold)">S0→S3</div><div class="stat-lab">bright<br>state</div></div>
+      <div class="stat"><div class="stat-val" style="color:var(--gold)">f=5.495</div><div class="stat-lab">strongest in<br>the series ⭐</div></div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-head">🎺 The Loudest Note</div>
+      <p>f = 5.495 means Cy15 absorbs light more strongly than any other molecule in the series. When the bridge delocalizes (BLA → 0), the electrons can slosh freely across the whole chain — and that gives the maximum possible "brightness." The resolution of the anomaly is the loudest moment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PART 5: THE ARC ═══ -->
+<section class="section">
+  <div class="card">
+    <div class="sec-label">Part 5 &mdash; The Big Picture</div>
+    <span class="sec-icon">🌈</span>
+    <h2>The <em>Spectral Arc</em></h2>
+    <p>Put all five molecules side by side and you see a shape that no one predicted:</p>
+
+    <div class="spectrum-wrap">
+      <div class="spectrum-label">Visible &amp; near-infrared spectrum &mdash; where each molecule absorbs</div>
+      <div class="spectrum-bar"></div>
+      <div class="spectrum-ticks">
+        <span>400 nm</span><span>500 nm</span><span>600 nm</span>
+        <span>700 nm</span><span>800 nm</span><span>900 nm</span>
+      </div>
+    </div>
+
+    <div class="mol-row">
+      <div class="mol-chip" style="--cc:#AA3300">
+        <div class="mol-name">Cy7⁺</div>
+        <div class="mol-wave" style="color:#AA3300">~760 nm</div>
+        <div class="mol-eV">1.63 eV</div>
+        <div class="mol-state">S0→S1</div>
+        <div class="mol-note" style="color:#AA3300">NIR</div>
+      </div>
+      <div class="mol-chip" style="--cc:#881100">
+        <div class="mol-name">Cy9⁺</div>
+        <div class="mol-wave" style="color:#881100">~850 nm</div>
+        <div class="mol-eV">1.46 eV</div>
+        <div class="mol-state">S0→S1</div>
+        <div class="mol-note" style="color:#881100">NIR</div>
+      </div>
+      <div class="mol-chip" style="--cc:#660000">
+        <div class="mol-name">Cy11⁺</div>
+        <div class="mol-wave" style="color:#660000">~920 nm</div>
+        <div class="mol-eV">1.35 eV</div>
+        <div class="mol-state">S0→S1</div>
+        <div class="mol-note" style="color:#660000">NIR</div>
+      </div>
+      <div class="mol-chip" style="--cc:#C07EEC;border-color:rgba(192,126,236,.3)">
+        <div class="mol-name" style="color:var(--purple)">Cy13⁺ ★</div>
+        <div class="mol-wave" style="color:var(--purple)">494 nm</div>
+        <div class="mol-eV">2.51 eV</div>
+        <div class="mol-state" style="color:var(--purple)">S0→S5</div>
+        <div class="mol-note" style="color:var(--purple)">ANOMALY</div>
+      </div>
+      <div class="mol-chip" style="--cc:#F5DC90;border-color:rgba(245,220,144,.3)">
+        <div class="mol-name" style="color:var(--gold)">Cy15⁺ ✦</div>
+        <div class="mol-wave" style="color:var(--gold)">683 nm</div>
+        <div class="mol-eV">1.82 eV</div>
+        <div class="mol-state" style="color:var(--gold)">S0→S3</div>
+        <div class="mol-note" style="color:var(--gold)">RETURN</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap" style="margin-top:24px">
+      <div class="chart-title">Energy arc &mdash; photon energy (eV) vs molecule &mdash; the arc shape</div>
+      <canvas id="arcChart" height="240"></canvas>
+    </div>
+
+    <p>The series starts in the NIR (invisible), jumps <strong>86% higher in energy</strong> at Cy13 (blue-green, visible), then partially returns to red at Cy15. But it doesn't make it all the way back. The tonic band center would be around 843 nm. Cy15 lands at 683 nm — <strong>160 nm short</strong>. It can't fully return. That gap is the point.</p>
+  </div>
+</section>
+
+<!-- ═══ PART 6: MUSIC CONNECTION ═══ -->
+<section class="section">
+  <div class="card green">
+    <div class="sec-label">Part 6 &mdash; The Music Theory Part</div>
+    <span class="sec-icon">🎵</span>
+    <h2>Why does this look like <em>music</em>?</h2>
+    <p>Here is the strangest part. The bond-length alternation ratios at the two weird molecules are not random numbers. They are very close to two specific musical fractions:</p>
+
+    <div class="ladder">
+      <div class="rung">
+        <div class="rung-num">9/2</div>
+        <div class="rung-text">
+          <div class="rung-title">Cy13⁺ — BLA/δ = 4.602 ≈ 9/2</div>
+          <div class="rung-body">The fraction 9/2 = 3²/2¹. In music, if you stack two perfect fifths (going C→G→D in raw, non-octave-folded numbers), you get 9/4. Doubled = 9/2. This is the musical interval of a major ninth — two fifths stacked up without reducing. Cy13 sits exactly at this harmonic position.</div>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="rung-num">3/2</div>
+        <div class="rung-text">
+          <div class="rung-title">Cy15⁺ — BLA/δ = 1.417 ≈ 3/2</div>
+          <div class="rung-body">The fraction 3/2 is the <strong>perfect fifth</strong> — the most consonant interval in music after the octave. G is a perfect fifth above C. Cy15 sits at this position. The resolution of the anomaly lands on the first step of the harmonic spiral.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>The Spiral of Fifths</h3>
+    <p>In music, if you keep going up by perfect fifths from C, you get: C → G → D → A → E → B → F# → ... After 12 steps you almost get back to C — but not quite. You overshoot by a tiny amount called the <strong>Pythagorean Comma</strong> (about 1/4 of a semitone, or 23.46 cents). The spiral never closes perfectly. Musicians have struggled with this for 2,000 years.</p>
+
+    <div class="music-row">
+      <div class="music-step">
+        <div class="music-note" style="color:var(--blue)">C</div>
+        <div class="music-roman">I &mdash; TONIC</div>
+        <div class="music-mol" style="color:var(--blue)">Cy7–Cy11</div>
+        <div class="music-desc">NIR, 760–920 nm<br>home base</div>
+      </div>
+      <div class="arrow-between">→</div>
+      <div class="music-step">
+        <div class="music-note" style="color:var(--purple)">G</div>
+        <div class="music-roman">V &mdash; FIFTH</div>
+        <div class="music-mol" style="color:var(--purple)">Cy13⁺ ★</div>
+        <div class="music-desc">blue, 494 nm<br>the anomaly</div>
+      </div>
+      <div class="arrow-between">→</div>
+      <div class="music-step">
+        <div class="music-note" style="color:var(--gold)">D</div>
+        <div class="music-roman">II &mdash; SUPERTONIC</div>
+        <div class="music-mol" style="color:var(--gold)">Cy15⁺ ✦</div>
+        <div class="music-desc">red, 683 nm<br>partial return</div>
+      </div>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-head">🎼 What C → G → D means</div>
+      <p>In music this is called <strong>I → V → II</strong>: you leave home (tonic), go to the dominant (perfect fifth), then land on the supertonic. It's a classic pre-cadence move — you're setting up to return home, but the series stops at D. It never completes the journey back to C. Just like the Pythagorean spiral — you can never fully close it.</p>
+    </div>
+
+    <h3>The Molecular Comma</h3>
+    <p>The cyanine series at Cy15 lands 0.47 eV above where it started. To fully return to the tonic band, it would need to be at 843 nm. It's at 683 nm. The difference — that gap — is what this paper calls <strong>the molecular Pythagorean comma</strong>: a permanent energy offset left behind by traversing the 3:2 ratio once. Just as the musical comma is the error left by stacking 12 fifths, the molecular comma is the error left by one molecular fifth-step.</p>
+  </div>
+</section>
+
+<!-- ═══ PART 7: THE NOTEBOOK ═══ -->
+<section class="section">
+  <div class="card pink">
+    <div class="sec-label">Part 7 &mdash; The Spooky Part</div>
+    <span class="sec-icon">📓</span>
+    <h2>The prediction was made <em>before the calculation</em></h2>
+    <p>In January 2026, before any of the Cy13 or Cy15 calculations existed, a notebook sketch was drawn showing exactly this arc: red (NIR) dipping to blue (Cy13 anomaly) and returning to red (Cy15). The sketch even labeled it as "Cyanine dye = Electromagnetic Spectrum?"</p>
+    <p>The Cy15 calculation completed March 31, 2026 — three months after the sketch. The DFT output matched the sketch in both direction and ordering. The prediction preceded the computation.</p>
+
+    <div class="pull-quote">
+      "The sketch was correct."
+      <span>January 2026 notebook entry — confirmed March 2026 by ORCA 6.1.1</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PART 8: PREDICTION ═══ -->
+<section class="section">
+  <div class="card red">
+    <div class="sec-label">Part 8 &mdash; What's Next</div>
+    <span class="sec-icon">🔭</span>
+    <h2>The next <em>test</em></h2>
+    <p>If the cyanine series is genuinely following the spiral of fifths, then Cy17⁺ should NOT return to the NIR band. It should continue spiraling — landing at a BLA/δ ratio of about 1.688 (spiral step 3), and a wavelength different from everything before.</p>
+
+    <div class="predict">
+      <div class="predict-head">🎯 Falsifiable Prediction</div>
+      <p>Cy17⁺ dominant bright state: <strong>NOT in the 760–920 nm range</strong>. Should continue to a new position on the harmonic spiral. BLA/δ ≈ (3/2)³ octave-reduced ≈ 1.688. If this is wrong, the CPCS framework needs revision. If this is right, the cyanine series is the first molecule shown to traverse the Pythagorean spiral of fifths in its light absorption properties as its chain length grows.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SUMMARY ═══ -->
+<section class="section">
+  <div class="card teal">
+    <div class="sec-label">Summary &mdash; The Short Version</div>
+    <span class="sec-icon">⭐</span>
+    <h2>Everything in <em>six sentences</em></h2>
+    <div class="ladder">
+      <div class="rung"><div class="rung-num">1</div><div class="rung-text"><div class="rung-body">Cyanine dye molecules absorb infrared light, and normally longer chains = redder light.</div></div></div>
+      <div class="rung"><div class="rung-num">2</div><div class="rung-text"><div class="rung-body">For Cy7–Cy11 this worked perfectly, and their bond alternation values are all clustered near 3.685× the Pythagorean Comma.</div></div></div>
+      <div class="rung"><div class="rung-num">3</div><div class="rung-text"><div class="rung-body">Cy13 broke the rule completely — it absorbed blue-green light (494 nm) instead of deep infrared, routing its light to the fifth excited state.</div></div></div>
+      <div class="rung"><div class="rung-num">4</div><div class="rung-text"><div class="rung-body">Cy15 partially returned to red (683 nm), the loudest absorption in the series — but couldn't make it all the way back to the starting band.</div></div></div>
+      <div class="rung"><div class="rung-num">5</div><div class="rung-text"><div class="rung-body">The bond ratios at Cy13 and Cy15 are 9/2 and 3/2 — positions 2 and 1 on the Pythagorean spiral of fifths, mapping to C→G→D in music.</div></div></div>
+      <div class="rung"><div class="rung-num">6</div><div class="rung-text"><div class="rung-body">The energy gap that remains at Cy15 (0.47 eV) is the molecular analogue of the Pythagorean comma — the gap that appears whenever you traverse the 3:2 ratio and can't fully return.</div></div></div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<footer>
+  <p><a href="dft_results.html">Full Technical Paper</a> &middot; <a href="index.html">Musica Universalis</a> &middot; <a href="directory.html">Directory</a></p>
+  <p>CAM-B3LYP/6-31G* &middot; ORCA 6.1.1 &middot; Cy7–Cy15⁺ complete &middot; March 2026</p>
+  <p style="margin-top:14px;color:rgba(210,230,255,.12)">Sara Oliveros G&oacute;mez &middot; HCP M.S. Chemical Engineering &middot; Stanford University &middot; B.S. ChBE &middot; Georgia Institute of Technology</p>
+  <p style="margin-top:10px;color:rgba(210,230,255,.1);font-size:9px;max-width:600px;margin-left:auto;margin-right:auto">Sonnet 4.6 was used for information, code building and references. Information is encouraged to be verified using discrepancy and bias verification methods of your own, with your own Quantum Computer! Happy Bounce!</p>
+</footer>
+
+<script>
+// ── STARS ──
+(function(){
+  const c=document.getElementById('stars');
+  const ctx=c.getContext('2d');
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  const stars=Array.from({length:200},()=>({
+    x:Math.random()*window.innerWidth,
+    y:Math.random()*window.innerHeight,
+    r:Math.random()*1.5+.3,
+    o:Math.random()*.7+.1,
+    s:Math.random()*3000+1500,
+    t:Math.random()*3000
+  }));
+  function draw(ts){
+    ctx.clearRect(0,0,c.width,c.height);
+    stars.forEach(s=>{
+      const phase=(ts-s.t)/s.s;
+      const op=s.o*(0.4+0.6*Math.abs(Math.sin(phase*Math.PI)));
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(210,230,255,${op})`;ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+// ── BLA CHART ──
+(function(){
+  const canvas=document.getElementById('blaChart');
+  if(!canvas)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||700;const H=220;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  canvas.style.width=W+'px';canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+
+  const data=[
+    {n:7,bla:0.04762,label:'Cy7⁺',col:'#9EC8F5',note:'760nm'},
+    {n:9,bla:0.04902,label:'Cy9⁺',col:'#5DDEC8',note:'850nm'},
+    {n:11,bla:0.05037,label:'Cy11⁺',col:'#62E08A',note:'920nm'},
+    {n:13,bla:0.06279,label:'Cy13⁺★',col:'#C07EEC',note:'494nm ANOMALY'},
+    {n:15,bla:0.01933,label:'Cy15⁺',col:'#F5DC90',note:'683nm RETURN'},
+  ];
+
+  const PAD={l:52,r:20,t:20,b:48};
+  const cw=W-PAD.l-PAD.r,ch=H-PAD.t-PAD.b;
+  const xs=data.map((_,i)=>PAD.l+i*(cw/(data.length-1)));
+  const maxB=0.07,minB=0.01;
+  const ys=data.map(d=>PAD.t+ch-(d.bla-minB)/(maxB-minB)*ch);
+
+  // grid
+  [0.02,0.03,0.04,0.05,0.06].forEach(v=>{
+    const y=PAD.t+ch-(v-minB)/(maxB-minB)*ch;
+    ctx.strokeStyle='rgba(210,230,255,.07)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(PAD.l+cw,y);ctx.stroke();
+    ctx.fillStyle='rgba(210,230,255,.3)';ctx.font='9px JetBrains Mono,monospace';
+    ctx.textAlign='right';ctx.fillText(v.toFixed(2)+' Å',PAD.l-6,y+3);
+  });
+
+  // line
+  ctx.beginPath();ctx.moveTo(xs[0],ys[0]);
+  xs.forEach((x,i)=>{if(i)ctx.lineTo(x,ys[i])});
+  ctx.strokeStyle='rgba(210,230,255,.2)';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);
+
+  // points
+  data.forEach((d,i)=>{
+    const x=xs[i],y=ys[i];
+    const grd=ctx.createRadialGradient(x,y,0,x,y,22);
+    grd.addColorStop(0,d.col+'30');grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd;ctx.beginPath();ctx.arc(x,y,22,0,Math.PI*2);ctx.fill();
+
+    ctx.beginPath();ctx.arc(x,y,9,0,Math.PI*2);
+    ctx.fillStyle=d.col+'CC';ctx.fill();
+    ctx.strokeStyle=d.col;ctx.lineWidth=1.5;ctx.stroke();
+
+    ctx.fillStyle=d.col;ctx.font='bold 10px Nunito,sans-serif';
+    ctx.textAlign='center';ctx.fillText(d.label,x,H-PAD.b+14);
+    ctx.fillStyle='rgba(210,230,255,.5)';ctx.font='9px JetBrains Mono,monospace';
+    ctx.fillText(d.note,x,H-PAD.b+26);
+  });
+})();
+
+// ── ARC CHART ──
+(function(){
+  const canvas=document.getElementById('arcChart');
+  if(!canvas)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||700;const H=240;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  canvas.style.width=W+'px';canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+
+  const data=[
+    {label:'Cy7⁺',eV:1.631,col:'#9EC8F5',wave:'760nm'},
+    {label:'Cy9⁺',eV:1.459,col:'#5DDEC8',wave:'850nm'},
+    {label:'Cy11⁺',eV:1.348,col:'#62E08A',wave:'920nm'},
+    {label:'Cy13⁺★',eV:2.510,col:'#C07EEC',wave:'494nm'},
+    {label:'Cy15⁺',eV:1.815,col:'#F5DC90',wave:'683nm'},
+  ];
+
+  const PAD={l:52,r:20,t:20,b:48};
+  const cw=W-PAD.l-PAD.r,ch=H-PAD.t-PAD.b;
+  const xs=data.map((_,i)=>PAD.l+i*(cw/(data.length-1)));
+  const eMin=1.0,eMax=2.8;
+  const ys=data.map(d=>PAD.t+ch-(d.eV-eMin)/(eMax-eMin)*ch);
+
+  // tonic band fill
+  const tonicY_top=PAD.t+ch-(1.63-eMin)/(eMax-eMin)*ch;
+  const tonicY_bot=PAD.t+ch-(1.35-eMin)/(eMax-eMin)*ch;
+  ctx.fillStyle='rgba(98,224,138,.06)';
+  ctx.fillRect(PAD.l,tonicY_top,cw,tonicY_bot-tonicY_top);
+  ctx.fillStyle='rgba(98,224,138,.4)';
+  ctx.font='8px JetBrains Mono,monospace';ctx.textAlign='left';
+  ctx.fillText('tonic band',PAD.l+4,tonicY_top+12);
+
+  // "full return" dashed line at 843nm = 1.47eV
+  const returnY=PAD.t+ch-(1.47-eMin)/(eMax-eMin)*ch;
+  ctx.strokeStyle='rgba(240,192,64,.25)';ctx.lineWidth=1;ctx.setLineDash([3,5]);
+  ctx.beginPath();ctx.moveTo(xs[4]-30,returnY);ctx.lineTo(xs[4]+30,returnY);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(240,192,64,.4)';ctx.font='8px JetBrains Mono,monospace';
+  ctx.textAlign='center';ctx.fillText('full return = 843nm',xs[4],returnY-5);
+
+  // eV grid
+  [1.5,2.0,2.5].forEach(v=>{
+    const y=PAD.t+ch-(v-eMin)/(eMax-eMin)*ch;
+    ctx.strokeStyle='rgba(210,230,255,.07)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(PAD.l+cw,y);ctx.stroke();
+    ctx.fillStyle='rgba(210,230,255,.3)';ctx.font='9px JetBrains Mono,monospace';
+    ctx.textAlign='right';ctx.fillText(v.toFixed(1)+' eV',PAD.l-6,y+3);
+  });
+
+  // curve with smooth bezier
+  ctx.beginPath();ctx.moveTo(xs[0],ys[0]);
+  for(let i=1;i<xs.length;i++){
+    const mx=(xs[i-1]+xs[i])/2;
+    ctx.bezierCurveTo(mx,ys[i-1],mx,ys[i],xs[i],ys[i]);
+  }
+  ctx.strokeStyle='rgba(210,230,255,.25)';ctx.lineWidth=2;ctx.stroke();
+
+  // fill under curve gradient
+  ctx.beginPath();ctx.moveTo(xs[0],ys[0]);
+  for(let i=1;i<xs.length;i++){
+    const mx=(xs[i-1]+xs[i])/2;
+    ctx.bezierCurveTo(mx,ys[i-1],mx,ys[i],xs[i],ys[i]);
+  }
+  ctx.lineTo(xs[xs.length-1],PAD.t+ch);ctx.lineTo(xs[0],PAD.t+ch);ctx.closePath();
+  const grad=ctx.createLinearGradient(0,PAD.t,0,PAD.t+ch);
+  grad.addColorStop(0,'rgba(192,126,236,.15)');grad.addColorStop(1,'transparent');
+  ctx.fillStyle=grad;ctx.fill();
+
+  // points
+  data.forEach((d,i)=>{
+    const x=xs[i],y=ys[i];
+    const grd=ctx.createRadialGradient(x,y,0,x,y,24);
+    grd.addColorStop(0,d.col+'40');grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd;ctx.beginPath();ctx.arc(x,y,24,0,Math.PI*2);ctx.fill();
+
+    ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);
+    ctx.fillStyle=d.col+'CC';ctx.fill();
+    ctx.strokeStyle=d.col;ctx.lineWidth=2;ctx.stroke();
+
+    ctx.fillStyle=d.col;ctx.font='bold 10px Nunito,sans-serif';
+    ctx.textAlign='center';ctx.fillText(d.label,x,H-PAD.b+14);
+    ctx.fillStyle='rgba(210,230,255,.45)';ctx.font='9px JetBrains Mono,monospace';
+    ctx.fillText(d.eV.toFixed(2)+' eV',x,y-16);
+  });
+
+  // arrow showing gap
+  const gapX=xs[4]+36;
+  const gapTop=returnY;const gapBot=ys[4];
+  ctx.strokeStyle='rgba(240,192,64,.6)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(gapX,gapTop);ctx.lineTo(gapX,gapBot);ctx.stroke();
+  ctx.fillStyle='rgba(240,192,64,.8)';ctx.font='bold 9px JetBrains Mono,monospace';
+  ctx.textAlign='left';
+  ctx.fillText('0.47 eV',gapX+5,(gapTop+gapBot)/2+3);
+  ctx.fillStyle='rgba(240,192,64,.5)';ctx.font='8px JetBrains Mono,monospace';
+  ctx.fillText('the molecular',gapX+5,(gapTop+gapBot)/2+15);
+  ctx.fillText('comma',gapX+5,(gapTop+gapBot)/2+26);
+})();
+</script>
+</body>
+</html>

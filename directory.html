@@ -3,583 +3,875 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Directory · Musica Universalis · All 45 Pages</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<title>Directory · Musica Universalis · Navigate the Cosmos</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;700&family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --void:#04070F;--gold:#E8C96A;--teal:#7EECD4;--blue:#A8D4FF;
+  --void:#02040D;--gold:#E8C96A;--teal:#7EECD4;--blue:#A8D4FF;
   --red:#FF6B6B;--purple:#C97EEC;--green:#7BE8A0;--orange:#E8A46A;
-  --ice:rgba(220,232,255,.9);--dim:rgba(220,232,255,.42);
-  --faint:rgba(220,232,255,.04);--line:rgba(220,232,255,.07);
+  --ice:rgba(220,232,255,.92);--dim:rgba(220,232,255,.45);
+  --faint:rgba(220,232,255,.04);--line:rgba(220,232,255,.08);
 }
-html{scroll-behavior:smooth;background:var(--void)}
-body{color:var(--ice);font-family:"Libre Baskerville",serif;overflow-x:hidden}
-#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:rgba(4,7,15,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav-back{font-family:"JetBrains Mono",monospace;font-size:.53rem;letter-spacing:.18em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color .2s}
-.nav-back:hover{color:var(--gold)}
-.nav-label{font-family:"JetBrains Mono",monospace;font-size:.5rem;letter-spacing:.18em;color:rgba(232,201,106,.35);text-transform:uppercase}
-.page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 1.5rem 6rem}
-header{text-align:center;padding:5.5rem 0 3rem}
-.h-pre{font-family:"JetBrains Mono",monospace;font-size:.5rem;letter-spacing:.35em;color:var(--dim);margin-bottom:1.2rem;text-transform:uppercase}
-h1{font-family:"Playfair Display",serif;font-size:clamp(2.2rem,6vw,4rem);font-weight:400;font-style:italic;color:var(--gold);margin-bottom:.4rem;line-height:1.05}
-.h-sub{font-family:"JetBrains Mono",monospace;font-size:.56rem;letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
-.search-wrap{max-width:520px;margin:2rem auto 1.5rem;position:relative}
-.search-input{width:100%;background:var(--faint);border:1px solid var(--line);border-radius:2rem;padding:.7rem 1.5rem .7rem 2.8rem;color:var(--ice);font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.06em;outline:none;transition:border-color .2s}
-.search-input:focus{border-color:rgba(232,201,106,.4)}
-.search-input::placeholder{color:var(--dim)}
-.si{position:absolute;left:.95rem;top:50%;transform:translateY(-50%);color:var(--dim);pointer-events:none;font-size:.85rem}
-.search-count{text-align:center;font-family:"JetBrains Mono",monospace;font-size:.5rem;letter-spacing:.14em;color:var(--dim);margin-top:.5rem}
-.filters{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0 2.5rem}
-.fb{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.1em;padding:.28rem .85rem;border-radius:20px;border:1px solid var(--line);background:var(--faint);color:var(--dim);cursor:pointer;text-transform:uppercase;transition:all .15s}
-.fb:hover{border-color:var(--dim);color:var(--ice)}
-.fb.active{color:#04070F;font-weight:700}
-.fb[data-cat="all"].active{background:var(--gold);border-color:var(--gold)}
-.fb[data-cat="theory"].active{background:var(--teal);border-color:var(--teal)}
-.fb[data-cat="science"].active{background:var(--blue);border-color:var(--blue)}
-.fb[data-cat="philosophy"].active{background:var(--purple);border-color:var(--purple)}
-.fb[data-cat="cipher"].active{background:var(--gold);border-color:var(--gold)}
-.fb[data-cat="signal"].active{background:var(--green);border-color:var(--green)}
-.fb[data-cat="astronomy"].active{background:var(--blue);border-color:var(--blue)}
-.fb[data-cat="language"].active{background:var(--teal);border-color:var(--teal)}
-.fb[data-cat="myth"].active{background:var(--orange);border-color:var(--orange)}
-.fb[data-cat="health"].active{background:var(--green);border-color:var(--green)}
-.fb[data-cat="crew"].active{background:var(--red);border-color:var(--red)}
-.sec-div{margin:2.5rem 0 1rem;display:flex;align-items:center;gap:1rem}
-.sd-lbl{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap}
-.sd-line{flex:1;height:1px;background:var(--line)}
-.sd-ct{font-family:"JetBrains Mono",monospace;font-size:.46rem;letter-spacing:.1em;color:var(--dim)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:.5rem}
-a.card{display:block;background:var(--void);padding:1.15rem 1.3rem;text-decoration:none;transition:background .15s;position:relative;border-left:3px solid transparent;cursor:pointer;-webkit-user-select:none;user-select:none;}
-a.card:hover{background:rgba(220,232,255,.035)}
-a.card:active{background:rgba(220,232,255,.06)}
-a.card.hidden{display:none}
-a.card.t-theory{color:var(--teal)}
-a.card.t-science{color:var(--blue)}
-a.card.t-philosophy{color:var(--purple)}
-a.card.t-cipher{color:var(--gold)}
-a.card.t-signal{color:var(--green)}
-a.card.t-astronomy{color:var(--blue)}
-a.card.t-language{color:var(--teal)}
-a.card.t-myth{color:var(--orange)}
-a.card.t-crew{color:var(--red)}
-a.card.t-health{color:var(--green)}
-a.card.t-hub{color:var(--gold)}
-a.card:hover{border-left-color:currentColor}
-.c-top{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.45rem}
-.c-ico{font-size:1.25rem;flex-shrink:0;line-height:1;margin-top:.05rem}
-.c-info{flex:1;min-width:0}
-.c-title{font-family:"Playfair Display",serif;font-size:.93rem;font-style:italic;line-height:1.22;margin-bottom:.1rem;color:currentColor}
-.c-file{font-family:"JetBrains Mono",monospace;font-size:.41rem;letter-spacing:.1em;color:var(--dim);text-transform:lowercase}
-.c-desc{font-size:.76rem;color:rgba(220,232,255,.42);line-height:1.55;padding-left:2rem;margin-bottom:.42rem}
-.c-tag{display:inline-block;margin-left:2rem;font-family:"JetBrains Mono",monospace;font-size:.39rem;letter-spacing:.09em;padding:.11rem .44rem;border-radius:10px;border:1px solid rgba(255,255,255,.1);text-transform:uppercase;color:currentColor;opacity:.7}
-.stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;padding:2rem 0;border-top:1px solid var(--line);margin-top:3rem}
-.stat{text-align:center}
-.sn{font-family:"JetBrains Mono",monospace;font-size:1.5rem;color:var(--gold);display:block}
-.sl{font-family:"JetBrains Mono",monospace;font-size:.46rem;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
-.no-results{text-align:center;padding:3rem;display:none;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.14em;color:var(--dim)}
-footer{position:relative;z-index:1;text-align:center;padding:2.5rem 2rem;border-top:1px solid var(--line)}
-.fl{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.13em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color .2s;margin:0 .6rem}
-.fl:hover{color:var(--gold)}
-.fd{font-family:"JetBrains Mono",monospace;font-size:.5rem;letter-spacing:.16em;color:rgba(232,201,106,.28);margin-bottom:.8rem}
+html{background:var(--void)}
+body{color:var(--ice);overflow-x:hidden;margin:0}
 
-<style>
-@keyframes omshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-.fb[data-cat="ophiuchus"].active{background:#39ff9a;border-color:#39ff9a;color:#04070F}
-button.card{display:block;width:100%;text-align:left;background:var(--void);padding:1.15rem 1.3rem;transition:background .15s;position:relative;border-left:3px solid transparent;cursor:pointer;border-top:none;border-right:none;border-bottom:none;font-family:inherit;font-size:inherit}
-button.card:hover{background:rgba(220,232,255,.035);border-left-color:currentColor}
-button.card.hidden{display:none}
-button.card.t-ophiuchus{color:#39ff9a}
-.lock-pip{position:absolute;top:.7rem;right:.9rem;font-size:.75rem;opacity:.5}
-</style>
+/* ── SHARED NAV ────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;inset-x:0;z-index:400;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.6rem 1.8rem;
+  background:rgba(2,4,13,.9);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  transition:background .4s;
+}
+.nav-back{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.18em;color:var(--dim);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.nav-back:hover{color:var(--gold)}
+.nav-center{font-family:'JetBrains Mono',monospace;font-size:.46rem;letter-spacing:.18em;color:rgba(232,201,106,.3);text-transform:uppercase}
+.toggle-btn{
+  display:flex;align-items:center;gap:.45rem;cursor:pointer;
+  font-family:'JetBrains Mono',monospace;font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--faint);border:1px solid var(--line);border-radius:20px;
+  padding:.28rem .85rem;color:var(--dim);transition:all .2s;white-space:nowrap;
+}
+.toggle-btn:hover{border-color:rgba(232,201,106,.4);color:var(--gold)}
+.toggle-btn .ti{font-size:.85rem}
+
+/* ── CANVASES  -  both fixed, z-index 0 and 1 ─────────────────── */
+/* Van Gogh canvas  -  simple mode bg */
+#vgCanvas{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;
+  opacity:1;transition:opacity .7s ease;
+}
+/* Argonautica canvas  -  fancy mode bg */
+#argoCanvas{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;
+  opacity:0;transition:opacity .7s ease;
+}
+body.fancy #vgCanvas{opacity:0}
+body.fancy #argoCanvas{opacity:1;pointer-events:all;cursor:crosshair}
+
+/* ── SIMPLE MODE ─────────────────────────────────────────────── */
+/* Scrollable content, floats over the Van Gogh painting */
+#simpleMode{
+  position:relative;z-index:10;
+  min-height:100vh;
+  transition:opacity .5s,transform .5s;
+}
+body.fancy #simpleMode{opacity:0;pointer-events:none;transform:translateY(8px)}
+
+/* Painted header */
+.vg-header{
+  text-align:center;padding:5.5rem 2rem 2.5rem;
+  /* text sits in a dark vignette so it reads against the painting */
+  background:radial-gradient(ellipse 80% 60% at 50% 40%, rgba(2,4,20,.55) 0%, transparent 100%);
+}
+.vg-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,201,106,.5);margin-bottom:1rem}
+.vg-h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,6vw,4.5rem);font-weight:700;font-style:italic;color:var(--gold);line-height:.95;margin-bottom:.35rem;text-shadow:0 2px 24px rgba(0,0,0,.8)}
+.vg-sub{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.22em;color:var(--dim);text-transform:uppercase}
+
+/* Search sits in a frosted pill */
+.vg-search{
+  max-width:480px;margin:1.8rem auto 1.2rem;
+  display:flex;align-items:center;gap:.5rem;
+  background:rgba(2,4,20,.7);backdrop-filter:blur(16px);
+  border:1px solid rgba(232,201,106,.2);border-radius:30px;
+  padding:.45rem 1.1rem .45rem .9rem;
+}
+.vg-search input{
+  background:none;border:none;outline:none;flex:1;
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;color:var(--ice);
+}
+.vg-search input::placeholder{color:rgba(220,232,255,.28)}
+#vgCount{font-family:'JetBrains Mono',monospace;font-size:.4rem;letter-spacing:.08em;color:var(--dim);white-space:nowrap}
+
+/* Filter pills */
+.vg-filters{
+  display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;
+  padding:.5rem 2rem 1.5rem;
+}
+.vgfb{
+  font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.22rem .75rem;border-radius:16px;
+  border:1px solid rgba(220,232,255,.12);
+  background:rgba(2,4,20,.55);backdrop-filter:blur(10px);
+  color:rgba(220,232,255,.45);cursor:pointer;transition:all .15s;
+}
+.vgfb:hover{border-color:rgba(220,232,255,.3);color:var(--ice)}
+.vgfb.active{color:#02040D;font-weight:700}
+.vgfb[data-cat="all"].active{background:var(--gold);border-color:var(--gold)}
+.vgfb[data-cat="theory"].active{background:var(--teal);border-color:var(--teal)}
+.vgfb[data-cat="science"].active{background:var(--blue);border-color:var(--blue)}
+.vgfb[data-cat="philosophy"].active{background:var(--purple);border-color:var(--purple)}
+.vgfb[data-cat="cipher"].active{background:var(--gold);border-color:var(--gold)}
+.vgfb[data-cat="signal"].active{background:var(--green);border-color:var(--green)}
+.vgfb[data-cat="astronomy"].active{background:var(--blue);border-color:var(--blue)}
+.vgfb[data-cat="language"].active{background:var(--teal);border-color:var(--teal)}
+.vgfb[data-cat="myth"].active{background:var(--orange);border-color:var(--orange)}
+.vgfb[data-cat="health"].active{background:var(--green);border-color:var(--green)}
+.vgfb[data-cat="crew"].active{background:var(--red);border-color:var(--red)}
+
+/* Section labels */
+.sec-div{
+  max-width:1100px;margin:2rem auto .8rem;
+  padding:0 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.sd-lbl{font-family:'JetBrains Mono',monospace;font-size:.46rem;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap}
+.sd-line{flex:1;height:1px;background:rgba(220,232,255,.08)}
+.sd-ct{font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.1em;color:var(--dim)}
+
+/* Cards  -  painted glass style */
+.vg-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(285px,1fr));
+  gap:1px;background:rgba(220,232,255,.05);
+  border:1px solid rgba(220,232,255,.06);
+  border-radius:8px;overflow:hidden;
+  max-width:1100px;margin:0 auto;
+  padding:0 1.5rem;
+  /* Override grid on the wrapper */
+  display:block;padding:0;
+}
+.vg-grid-inner{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(285px,1fr));
+  gap:1px;background:rgba(220,232,255,.05);
+  border:1px solid rgba(220,232,255,.06);
+  border-radius:8px;overflow:hidden;
+  max-width:1100px;margin:0 auto 1rem;
+}
+a.vcard{
+  display:block;
+  background:rgba(5,8,28,.72);backdrop-filter:blur(14px);
+  padding:1.1rem 1.25rem;text-decoration:none;
+  border-left:3px solid transparent;transition:background .15s;
+}
+a.vcard:hover{background:rgba(5,8,28,.88)}
+a.vcard.hidden{display:none}
+a.vcard.t-theory{color:var(--teal);border-left-color:var(--teal)}
+a.vcard.t-science{color:var(--blue);border-left-color:var(--blue)}
+a.vcard.t-philosophy{color:var(--purple);border-left-color:var(--purple)}
+a.vcard.t-cipher{color:var(--gold);border-left-color:var(--gold)}
+a.vcard.t-signal{color:var(--green);border-left-color:var(--green)}
+a.vcard.t-astronomy{color:var(--blue);border-left-color:var(--blue)}
+a.vcard.t-language{color:var(--teal);border-left-color:var(--teal)}
+a.vcard.t-myth{color:var(--orange);border-left-color:var(--orange)}
+a.vcard.t-crew{color:var(--red);border-left-color:var(--red)}
+a.vcard.t-health{color:var(--green);border-left-color:var(--green)}
+a.vcard.t-hub{color:var(--gold);border-left-color:var(--gold)}
+.vc-top{display:flex;align-items:flex-start;gap:.65rem;margin-bottom:.4rem}
+.vc-ico{font-size:1.1rem;flex-shrink:0;line-height:1;margin-top:.08rem}
+.vc-info{flex:1;min-width:0}
+.vc-title{font-family:'Playfair Display',serif;font-size:.9rem;font-style:italic;line-height:1.2;color:currentColor;margin-bottom:.08rem}
+.vc-file{font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.1em;color:var(--dim)}
+.vc-desc{font-family:'Crimson Pro',serif;font-size:.78rem;color:rgba(220,232,255,.4);line-height:1.5;padding-left:1.75rem;margin-bottom:.3rem}
+.vc-tag{display:inline-block;margin-left:1.75rem;font-family:'JetBrains Mono',monospace;font-size:.36rem;letter-spacing:.08em;padding:.08rem .38rem;border-radius:8px;border:1px solid rgba(255,255,255,.08);text-transform:uppercase;color:currentColor;opacity:.6}
+
+.vg-no-results{text-align:center;padding:3rem;display:none;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.14em;color:var(--dim)}
+.vg-footer{text-align:center;padding:3rem 2rem;font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.1em;color:rgba(232,201,106,.22);line-height:2.2}
+.vg-footer a{color:rgba(232,201,106,.3);text-decoration:none}
+.vg-footer a:hover{color:var(--gold)}
+
+/* ── FANCY MODE OVERLAY ──────────────────────────────────────── */
+#fancyUI{
+  position:fixed;inset:0;z-index:20;pointer-events:none;
+  opacity:0;transition:opacity .6s;
+}
+body.fancy #fancyUI{opacity:1;pointer-events:all}
+
+/* Fancy tooltip */
+#ftip{position:fixed;z-index:500;pointer-events:none;opacity:0;transition:opacity .12s;max-width:268px}
+.ftip-in{background:rgba(1,2,14,.96);backdrop-filter:blur(22px);border:1px solid rgba(220,232,255,.12);border-radius:6px;padding:.75rem 1rem}
+.ftip-con{font-family:'JetBrains Mono',monospace;font-size:.34rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.2rem}
+.ftip-title{font-family:'Cinzel',serif;font-size:.82rem;letter-spacing:.02em;line-height:1.18;margin-bottom:.2rem;color:rgba(220,232,255,.95)}
+.ftip-desc{font-family:'Crimson Pro',serif;font-size:.78rem;color:rgba(220,232,255,.45);line-height:1.5;margin-bottom:.28rem}
+.ftip-file{font-family:'JetBrains Mono',monospace;font-size:.32rem;letter-spacing:.08em;color:rgba(220,232,255,.22)}
+.ftip-cta{font-family:'JetBrains Mono',monospace;font-size:.35rem;letter-spacing:.1em;margin-top:.35rem;color:rgba(220,232,255,.33)}
+
+/* Fancy search */
+.f-search{
+  position:absolute;top:3rem;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:.5rem;
+  background:rgba(1,2,14,.9);backdrop-filter:blur(20px);
+  border:1px solid rgba(220,232,255,.1);border-radius:30px;
+  padding:.36rem 1rem .36rem .8rem;width:320px;max-width:84vw;
+}
+.f-search input{background:none;border:none;outline:none;flex:1;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.06em;color:rgba(220,232,255,.85)}
+.f-search input::placeholder{color:rgba(220,232,255,.2)}
+#fscount{font-family:'JetBrains Mono',monospace;font-size:.37rem;letter-spacing:.08em;color:rgba(220,232,255,.25);white-space:nowrap}
+
+/* Mini map */
+.fminimap{position:absolute;right:1rem;top:3rem;width:70px;height:136px;background:rgba(1,2,14,.72);backdrop-filter:blur(10px);border:1px solid rgba(220,232,255,.07);border-radius:4px;overflow:hidden}
+#miniCv{width:70px;height:136px}
+.mmvp{position:absolute;left:0;right:0;border-top:1px solid rgba(232,201,106,.4);border-bottom:1px solid rgba(232,201,106,.4);pointer-events:none;background:rgba(232,201,106,.04)}
+
+/* Legend */
+.fleg{position:absolute;right:1rem;bottom:1rem;background:rgba(1,2,14,.82);backdrop-filter:blur(12px);border:1px solid rgba(220,232,255,.07);border-radius:5px;padding:.5rem .7rem}
+.fleg-h{font-family:'JetBrains Mono',monospace;font-size:.32rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(220,232,255,.22);margin-bottom:.35rem}
+.fleg-r{display:flex;align-items:center;gap:.38rem;margin-bottom:.18rem;font-family:'Cinzel',serif;font-size:.4rem;letter-spacing:.04em;color:rgba(220,232,255,.48)}
+.fleg-d{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.fscroll-hint{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.35rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(220,232,255,.16);pointer-events:none;animation:fh 5s ease forwards;white-space:nowrap}
+@keyframes fh{0%{opacity:0}15%{opacity:1}75%{opacity:1}100%{opacity:0}}
+
+@media(max-width:640px){.vg-grid-inner{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
-<div id="omodal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(4,7,15,.96);backdrop-filter:blur(18px);align-items:center;justify-content:center">
-  <div style="text-align:center;padding:52px 48px;border:1px solid rgba(57,255,154,.12);max-width:340px;width:90%;background:rgba(4,7,15,.6)">
-    <span style="font-size:2.2rem;margin-bottom:20px;opacity:.2;display:block">&#x26CE;</span>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:#39ff9a;margin-bottom:4px">Ophiuchus &middot; Restricted</div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(57,255,154,.3);margin-bottom:36px">Passphrase required</div>
-    <input type="password" id="ompw" placeholder="&middot;&middot;&middot;" autocomplete="off" spellcheck="false" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(57,255,154,.15);color:#39ff9a;font-family:'JetBrains Mono',monospace;font-size:18px;letter-spacing:6px;text-align:center;padding:10px 0;outline:none;caret-color:#39ff9a;margin-bottom:24px;display:block">
-    <div style="display:flex;gap:10px;justify-content:center">
-      <button onclick="omUnlock()" style="font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.14em;text-transform:uppercase;padding:9px 22px;background:transparent;cursor:pointer;border:1px solid rgba(57,255,154,.25);color:#39ff9a;border-radius:2px">Enter</button>
-      <button onclick="omClose()" style="font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.14em;text-transform:uppercase;padding:9px 22px;background:transparent;cursor:pointer;border:1px solid rgba(220,232,255,.1);color:rgba(220,232,255,.28);border-radius:2px">Cancel</button>
+
+<!-- Van Gogh canvas  -  always behind simple mode -->
+<canvas id="vgCanvas"></canvas>
+<!-- Argonautica canvas  -  behind fancy mode -->
+<canvas id="argoCanvas"></canvas>
+
+<nav>
+  <a href="index.html" class="nav-back">&#x2190; Index</a>
+  <div class="nav-center">Navigate the Cosmos</div>
+  <button class="toggle-btn" id="modeBtn" onclick="toggleMode()">
+    <span class="ti">&#x2736;</span>
+    <span class="tlabel">Fancy Argonautica</span>
+  </button>
+</nav>
+
+<!-- SIMPLE MODE -->
+<div id="simpleMode">
+  <div class="vg-header">
+    <div class="vg-eyebrow">Musica Universalis &middot; Complete Navigation</div>
+    <h1 class="vg-h1">The Directory</h1>
+    <p class="vg-sub">All pages &middot; Navigate by constellation</p>
+    <div style="margin-top:1.2rem;display:flex;justify-content:center">
+      <a href="dft_kids.html" style="display:inline-flex;align-items:center;gap:10px;background:rgba(64,222,200,.08);border:1px solid rgba(64,222,200,.25);border-radius:8px;padding:.55rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;color:rgba(64,222,200,.85);text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(64,222,200,.16)';this.style.borderColor='rgba(64,222,200,.45)'" onmouseout="this.style.background='rgba(64,222,200,.08)';this.style.borderColor='rgba(64,222,200,.25)'">
+        &#x1F308; &nbsp;NEW HERE? START WITH THE RAINBOW MYSTERY &mdash; the science explained for everyone
+      </a>
     </div>
-    <div id="omerr" style="font-family:'JetBrains Mono',monospace;font-size:.37rem;letter-spacing:.1em;color:#ff6b6b;margin-top:14px;min-height:14px;text-transform:uppercase"></div>
+  </div>
+  <div class="vg-search">
+    <span style="color:rgba(220,232,255,.28);font-size:.75rem">&#x2736;</span>
+    <input id="vgSearch" placeholder="Search pages..." autocomplete="off">
+    <span id="vgCount"></span>
+  </div>
+  <div class="vg-filters" id="vgFilters">
+    <button class="vgfb active" data-cat="all">All</button>
+    <button class="vgfb" data-cat="theory">Theory</button>
+    <button class="vgfb" data-cat="science">Science</button>
+    <button class="vgfb" data-cat="philosophy">Philosophy</button>
+    <button class="vgfb" data-cat="cipher">Cipher</button>
+    <button class="vgfb" data-cat="signal">Signal</button>
+    <button class="vgfb" data-cat="astronomy">Astronomy</button>
+    <button class="vgfb" data-cat="language">Language</button>
+    <button class="vgfb" data-cat="myth">Myth</button>
+    <button class="vgfb" data-cat="health">Health</button>
+    <button class="vgfb" data-cat="crew">Crew</button>
+  </div>
+  <div id="vgSections"></div>
+  <div class="vg-no-results" id="vgNoRes">No stars in this constellation</div>
+  <div class="vg-footer">
+    &delta; = 0.013643 &middot; N_res = 73.296 &middot; musicauniversalis.band<br>
+    <a href="index.html">Index</a> &middot;
+    <a href="comma_explorers_guide.html">Explorer's Guide</a> &middot;
+    <a href="musica_universalis_v5_v6.html">Theory</a>
   </div>
 </div>
-<nav>
-  <a href="index.html" class="nav-back">← Main Frequency</a>
-  <span class="nav-label">Site Directory · All 45 Pages</span>
-</nav>
-<div class="page">
-<header>
-  <p class="h-pre">Musica Universalis · Project Orpheus · Complete Index</p>
-  <h1>Directory</h1>
-  <p class="h-sub">Every instrument. Every transmission. Every page.</p>
-</header>
-<div class="search-wrap">
-  <span class="si">⌕</span>
-  <input class="search-input" id="q" type="text" placeholder="Search pages, topics, keywords..." oninput="doSearch()">
-  <p class="search-count" id="sc">54 pages · δ = 0.013643</p>
-</div>
-<div class="filters">
-  <button class="fb active" data-cat="all" onclick="setCat('all')">All · 54</button>
-  <button class="fb" data-cat="theory" onclick="setCat('theory')">Theory · 3</button>
-  <button class="fb" data-cat="science" onclick="setCat('science')">Science · 9</button>
-  <button class="fb" data-cat="philosophy" onclick="setCat('philosophy')">Philosophy · 14</button>
-  <button class="fb" data-cat="cipher" onclick="setCat('cipher')">Cipher · 3</button>
-  <button class="fb" data-cat="signal" onclick="setCat('signal')">Signal · 5</button>
-  <button class="fb" data-cat="astronomy" onclick="setCat('astronomy')">Astronomy · 6</button>
-  <button class="fb" data-cat="language" onclick="setCat('language')">Language · 2</button>
-  <button class="fb" data-cat="myth" onclick="setCat('myth')">Myth · 2</button>
-  <button class="fb" data-cat="health" onclick="setCat('health')">Health · 5</button>
-  <button class="fb" data-cat="crew" onclick="setCat('crew')">Crew · 3</button>
-  <button class="fb" data-cat="ophiuchus" onclick="setCat('ophiuchus')">&#x26CE; Ophiuchus &middot; 3</button>
+
+<!-- FANCY MODE -->
+<div id="fancyUI">
+  <div class="f-search">
+    <span style="color:rgba(220,232,255,.28);font-size:.72rem">&#x2736;</span>
+    <input id="fsearch" placeholder="search the stars..." autocomplete="off">
+    <span id="fscount"></span>
+  </div>
+  <div class="fminimap"><canvas id="miniCv" width="70" height="136"></canvas><div class="mmvp" id="mmvp"></div></div>
+  <div class="fleg">
+    <div class="fleg-h">Constellation</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#FFE580"></div>Argo / Hub / Crew</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#B8CFFF"></div>Centaurus / Theory</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#9BB8FF"></div>Crux / Science</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#FFB060"></div>Ara / Philosophy</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#7EECD4"></div>Vela / Signal</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#DDEEFF"></div>Carina / Astronomy</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#FFD4A0"></div>Corona / Language</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#FF9060"></div>Lupus / Myth</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#90E8A0"></div>Musca / Health</div>
+    <div class="fleg-r"><div class="fleg-d" style="background:#C8A8FF"></div>Circinus / Cipher</div>
+  </div>
+  <div class="fscroll-hint">&#x2193; scroll south through the Milky Way &#x2193;</div>
 </div>
 
-<!-- HUB -->
-<div class="sec-div" data-sec="hub"><span class="sd-lbl" style="color:var(--gold)">Hub</span><div class="sd-line"></div><span class="sd-ct">3 pages</span></div>
-<div class="grid" id="grid-hub">
-<a class="card t-hub" href="index.html" data-cat="hub" data-s="musica universalis main frequency home index orpheus hub landing">
-  <div class="c-top"><span class="c-ico">🌐</span><div class="c-info"><div class="c-title">Musica Universalis · Main Frequency</div><div class="c-file">index.html</div></div></div>
-  <div class="c-desc">The central hub. All transmissions originate here. Landing frequency for Project Orpheus.</div>
-  <span class="c-tag">Hub · Index · Home</span>
-</a>
-<a class="card t-hub" href="directory.html" data-cat="hub" data-s="directory all pages index site map complete list">
-  <div class="c-top"><span class="c-ico">📡</span><div class="c-info"><div class="c-title">Directory · This Page</div><div class="c-file">directory.html</div></div></div>
-  <div class="c-desc">Complete index of all 37 pages. Searchable, filterable by category. Every instrument accounted for.</div>
-  <span class="c-tag">Hub · Directory · 37 Pages</span>
-</a>
-</div>
+<div id="ftip"><div class="ftip-in">
+  <div class="ftip-con" id="fc"></div>
+  <div class="ftip-title" id="ft2"></div>
+  <div class="ftip-desc" id="fd2"></div>
+  <div class="ftip-file" id="ff2"></div>
+  <div class="ftip-cta">click to open &#x2192;</div>
+</div></div>
 
-<!-- THEORY -->
-<div class="sec-div" data-sec="theory"><span class="sd-lbl" style="color:var(--teal)">Theory</span><div class="sd-line"></div><span class="sd-ct">2 pages</span></div>
-<div class="grid" id="grid-theory">
-<a class="card t-theory" href="musica_universalis_v5.html" data-cat="theory" data-s="musica universalis theory harmony spheres pythagoras frequency resonance cosmos music mathematics 13 sections complete">
-  <div class="c-top"><span class="c-ico">♩</span><div class="c-info"><div class="c-title">Musica Universalis · Complete Theory</div><div class="c-file">musica_universalis_v5.html</div></div></div>
-  <div class="c-desc">The complete theoretical framework. Harmony of the spheres, the comma of Pythagoras, the mathematical structure of the cosmos as music. 13 sections.</div>
-  <span class="c-tag">Theory · Harmony · Pythagoras · Cosmos · δ</span>
-</a>
-<a class="card t-theory" href="harmonice_mundi.html" data-cat="theory" data-s="Kepler Harmonice Mundi harmony spheres orbital resonance three laws ellipse velocity ratio comma delta planetary music voices soprano alto tenor bass 1619 verdicts orrery">
-  <div class="c-top"><span class="c-ico">♪</span><div class="c-info"><div class="c-title">Harmonice Mundi · Johannes Kepler</div><div class="c-file">harmonice_mundi.html</div></div></div>
-  <div class="c-desc">A tribute to the man who heard the planets sing before telescopes confirmed it. Three laws: all confirmed. Planetary velocity ratios as musical intervals.</div>
-  <span class="c-tag">Kepler · Three Laws · Planetary Music · Comma · Verdicts · 1619</span>
-</a>
-<a class="card t-theory" href="ancient_calendars.html" data-cat="theory" data-s="calendar Maya Aztec Babylon Babylonian Hindu Greek Gregorian Julian pagan Chronos Kairos Aion sleep time perception gadfly Enkidu Utnapishtim Gilgamesh Tzolkin Haab Long Count sexagesimal Yuga Brahma age calculator">
-  <div class="c-top"><span class="c-ico">🕰</span><div class="c-info"><div class="c-title">Ancient Calendars · The Map of Time</div><div class="c-file">ancient_calendars.html</div></div></div>
-  <div class="c-desc">Maya, Babylon, Hindu cosmology. Interactive clock. Age calculator in 10 systems. Chronos vs Kairos vs Aion.</div>
-  <span class="c-tag">Maya · Babylon · Hindu · Gregorian · Chronos · Kairos · Aion · Interactive</span>
-</a>
-</div>
+<script data-cfasync="false">
+// ═══════════════════════════════════════════════════════════════
+//  PAGE DATA
+// ═══════════════════════════════════════════════════════════════
+const PAGES=[
+  {title:"Comma Explorer's Guide",    file:"comma_explorers_guide.html",    cat:"hub",       icon:"🗺️",tags:"guide",   desc:"Six interest-based paths through the entire theory. The navigator's map."},
+  {title:"Directory",                 file:"directory.html",                cat:"hub",       icon:"✦",  tags:"nav",    desc:"Complete navigation. You are here."},
+  {title:"Musica Universalis V5/V6",  file:"musica_universalis_v5_v6.html", cat:"theory",    icon:"🎵", tags:"theory", desc:"The main theory page. Music, planets, chemistry, all connected by delta."},
+  {title:"Harmonice Mundi",           file:"harmonice_mundi.html",          cat:"theory",    icon:"🪐", tags:"kepler", desc:"Kepler's solar system explorer. 3D orbital resonances, Bode's law."},
+  {title:"Ancient Calendars",         file:"ancient_calendars.html",        cat:"theory",    icon:"📅", tags:"kairos", desc:"Maya, Babylon, Hindu. Live clocks. Chronos, Kairos, Aion."},
+  {title:"QED · Light and Matter",    file:"qed_theory.html",               cat:"science",   icon:"⚛️",tags:"qed",    desc:"Quantum electrodynamics. Cyanine dyes as experimental QED. Cy13+ Perfect Fifth Anomaly."},
+  {title:"Cyanine DFT Results",       file:"dft_results.html",              cat:"science",   icon:"⚗️",tags:"dft",    desc:"Complete CAM-B3LYP/6-31G* · Cy7–Cy15⁺ · Spectral arc: NIR → 494 nm blue → 683 nm red · Perfect Fifth Anomaly + Major-Tone Return. COMPLETE."},
+  {title:"The Rainbow Mystery ★",      file:"dft_kids.html",                 cat:"science",   icon:"🌈",tags:"dft kids accessible",desc:"The cyanine results explained for a 9th grader. No chemistry background needed. Music, molecules, and the Pythagorean comma in plain language. For everyone in the world."},
+  {title:"Probability & Nature",      file:"probability_nature.html",       cat:"science",   icon:"📊", tags:"stats",  desc:"Statistics in ecology and climate. Weather, rewilding. Live charts."},
+  {title:"Emotions as Frequency",     file:"emotions_as_frequency.html",    cat:"science",   icon:"〰️",tags:"eeg",    desc:"Are emotions Hz? Love as harmony, trauma as dissonance."},
+  {title:"Economics",                 file:"economics.html",                cat:"science",   icon:"⚖️",tags:"econ",   desc:"Keynes vs Hayek. Veblen goods. Fear kills banks."},
+  {title:"Origins of Life",           file:"origins_of_life.html",          cat:"science",   icon:"🧬", tags:"krebs",  desc:"Krebs cycle, Miller-Urey. Prebiotic chemistry simulator."},
+  {title:"Astrobiology & Climate",    file:"astrobiology_climate.html",     cat:"science",   icon:"🌍", tags:"astro",  desc:"Europa, Mars. Climate kinetics. Biosignatures."},
+  {title:"What Is Alive",             file:"what_is_alive.html",            cat:"science",   icon:"🐺", tags:"ecology",desc:"Wolves, deer, Lotka-Volterra. Yellowstone trophic cascade."},
+  {title:"Biology of the Mind",       file:"biology_of_the_mind.html",      cat:"science",   icon:"🧠", tags:"neuro",  desc:"Neuroscience, fMRI, Neuralink. Brain as frequency machine."},
+  {title:"The Fabric of Everything",  file:"physics_everything.html",       cat:"science",   icon:"∞",  tags:"physics",desc:"Time dilation, black holes, Hawking radiation, string theory."},
+  {title:"Age of the Universe",       file:"age_of_universe.html",          cat:"science",   icon:"📡", tags:"cmb",    desc:"CMB, Hubble constant, 13.8 billion years."},
+  {title:"Solar Future",              file:"solar_future.html",             cat:"science",   icon:"☀️",tags:"sun",    desc:"Sunlight as medicine. Vitamin D, circadian, photobiomodulation."},
+  {title:"Circadian Clock",           file:"circadian_clock.html",          cat:"science",   icon:"🌙", tags:"sleep",  desc:"Sleep, REM, glymphatic clearance. 12 sections, live simulator."},
+  {title:"Philosophy of Life",        file:"philosophy_of_life.html",       cat:"philosophy",icon:"☉",  tags:"stoic",  desc:"Meaning, mortality. Stoicism, existentialism."},
+  {title:"Philosophy of Destiny",     file:"philosophy_of_destiny.html",    cat:"philosophy",icon:"✴️",tags:"chaos",  desc:"Determinism, free will. Laplace's demon."},
+  {title:"Philosophy of Attraction",  file:"philosophy_of_attraction.html", cat:"philosophy",icon:"♋", tags:"plato",  desc:"Why we're drawn to what we're drawn to. Plato, attachment theory."},
+  {title:"The Good Place",            file:"good_place.html",               cat:"philosophy",icon:"🍃", tags:"place",  desc:"What makes a place good? Geography, memory, attachment."},
+  {title:"Philosophy of Gods",        file:"philosophy_of_gods.html",       cat:"philosophy",icon:"⚡", tags:"theol",  desc:"Ontological argument. Problem of evil."},
+  {title:"Sophia's Search",           file:"sophias_search.html",           cat:"philosophy",icon:"🔭", tags:"gnosis", desc:"Gnostic Sophia, her fall from the Pleroma."},
+  {title:"Philosophy of Violence",    file:"philosophy_of_violence.html",   cat:"philosophy",icon:"⚔️",tags:"justice",desc:"When is violence justified? Fanon, Gandhi, Arendt."},
+  {title:"Not Null",                  file:"not_null.html",                 cat:"cipher",    icon:"∅",  tags:"null",   desc:"Philosophy of presence. What it means to be not-null."},
+  {title:"Orpheus Cipher",            file:"orpheus_cipher.html",           cat:"cipher",    icon:"🔑", tags:"cipher", desc:"Frequency-encoded message. To decode it you must know what you're looking for."},
+  {title:"I Am Still Lost",           file:"orpheus_cipher_i_am_still_so_lost.html",cat:"cipher",icon:"💫",tags:"lost",desc:"The cipher that doesn't resolve. Some frequencies echo until answered."},
+  {title:"Quantum Vigenere",          file:"quantum_vigenere.html",         cat:"cipher",    icon:"🧮", tags:"crypto", desc:"Vigenere cipher whose key rotates by delta."},
+  {title:"American Dream · Banned",   file:"american_dream_banned.html",    cat:"cipher",    icon:"🇺🇸",tags:"culture",desc:"What was the American Dream and where did it go?"},
+  {title:"Orpheus Listener",          file:"orpheus_listener.html",         cat:"signal",    icon:"🎧", tags:"audio",  desc:"Live audio analysis. Maps your sound to the comma in real time."},
+  {title:"Orpheus Voice",             file:"orpheus_voice.html",            cat:"signal",    icon:"🎙️",tags:"synth",  desc:"Voice synthesizer. Hear any comma coordinate as sound."},
+  {title:"Orpheus Bridge",            file:"orpheus_bridge.html",           cat:"signal",    icon:"🌉", tags:"tuner",  desc:"Real-time tuner. Maps the gap between you and the comma."},
+  {title:"Comma Radio",               file:"comma_radio.html",              cat:"signal",    icon:"📻", tags:"radio",  desc:"A radio that plays only at comma-derived frequencies."},
+  {title:"Listen to the Cosmos",      file:"listen_to_the_cosmos.html",     cat:"signal",    icon:"🌌", tags:"pulsar", desc:"Pulsar frequencies, CMB, planetary resonances. Live sonification."},
+  {title:"Solar System Explorer",     file:"solar_v7_explorer.html",        cat:"signal",    icon:"☉",  tags:"solar",  desc:"WebGL v7. Orbital resonances, ghost trails, Bode's law."},
+  {title:"Stellar Radio",             file:"stellar-radio.html",            cat:"signal",    icon:"📡", tags:"tx",     desc:"Transmit music to distant stars at the speed of light."},
+  {title:"Stars Written",             file:"stars_written.html",            cat:"astronomy", icon:"⭐", tags:"stars",  desc:"The sky above you right now. Real-time star positions."},
+  {title:"Stellar Periodic Table",    file:"stellar_periodic_table.html",   cat:"astronomy", icon:"⚗️",tags:"nucl",   desc:"Every element and where it was forged."},
+  {title:"Wolf-Rayet Stars",          file:"orpheus_wolf_rayet.html",       cat:"astronomy", icon:"💥", tags:"wr104",  desc:"The most violent stars. WR spectra, death, the comma at the edge."},
+  {title:"Sirius · The Dog Star",     file:"sirius.html",                   cat:"astronomy", icon:"◉",  tags:"sirius", desc:"Sirius A and B. Egyptian heliacal rising, Dogon cosmology."},
+  {title:"Sirius Chasing",            file:"sirius_chasing.html",           cat:"astronomy", icon:"🏃", tags:"chase",  desc:"The pursuit of the signal across unreachable distances."},
+  {title:"Age of the Universe",       file:"age_of_universe.html",          cat:"astronomy", icon:"📡", tags:"cmb",    desc:"CMB, Hubble constant, 13.8 billion years."},
+  {title:"Nata Language",             file:"nata_language.html",            cat:"language",  icon:"🗣️",tags:"conlang",desc:"Constructed language built on frequency ratios."},
+  {title:"Language Periodic Table",   file:"language_periodic_table.html",  cat:"language",  icon:"🔤", tags:"pie",    desc:"All human language families mapped. PIE at top."},
+  {title:"Tower of Babel",            file:"tower_of_babel.html",           cat:"language",  icon:"🗼", tags:"babel",  desc:"What would a universal language look like?"},
+  {title:"What the Heck is Brandon?", file:"brandon_decoder.html",          cat:"language",  icon:"🔮", tags:"null",   desc:"Null/Not-Null theory decoded in plain language."},
+  {title:"Monsters and Men",          file:"monsters_and_men.html",         cat:"myth",      icon:"🐉", tags:"myth",   desc:"Gilgamesh and Enkidu. Mythology as species memory."},
+  {title:"World History",             file:"world_history.html",            cat:"myth",      icon:"🌎", tags:"empire", desc:"Civilizations as frequency patterns. Rise, resonance, fall."},
+  {title:"Art of Power",              file:"art_of_power.html",             cat:"myth",      icon:"👑", tags:"power",  desc:"Machiavelli, Robert Greene, Sun Tzu."},
+  {title:"Mental Health Reality",     file:"modern_diseases.html",          cat:"health",    icon:"🧠", tags:"mh",     desc:"Real numbers, stigma vs truth. 5-10 min daily practices."},
+  {title:"David's Kingdom",           file:"davids_kingdom.html",       cat:"health",    icon:"🏥", tags:"harm",   desc:"22 sections. Opioids, fentanyl, STIs, harm reduction."},
+  {title:"Kingdom of Medicine",       file:"kingdom_of_medicine.html",      cat:"health",    icon:"⚕️",tags:"med",    desc:"From wound dressing to CRISPR. Seven tools that ruptured medicine."},
+  {title:"FTIR Drug Checking",        file:"ftir_guide.html",               cat:"health",    icon:"⚛",  tags:"ftir",   desc:"Infrared spectroscopy for harm reduction. Detect fentanyl, xylazine."},
+  {title:"COVID-19 · Real Numbers",   file:"covid_real_numbers.html",       cat:"health",    icon:"🦠", tags:"covid",  desc:"The pandemic from Dec 2019 to today."},
+  {title:"Self-Healing",              file:"self_healing.html",             cat:"health",    icon:"☽",  tags:"meditate",desc:"Buddhist monk vs Mozart. Four Noble Truths."},
+  {title:"The Pharmacopoeia",         file:"drugs_and_healing.html",        cat:"health",    icon:"🌿", tags:"psych",  desc:"Psychedelic research. Microdosing, EMDR, going outside."},
+  {title:"Sustainable Home",          file:"sustainable_home.html",         cat:"health",    icon:"🏕",  tags:"climate",desc:"Climate mapping, passive solar, rammed earth, finding water."},
+  {title:"Breathe",                   file:"breathe.html",                  cat:"health",    icon:"☽",  tags:"relax",  desc:"Solar system, ocean waves, delta-corrected breathing, EMDR."},
+  {title:"Kairos Log",                file:"kairos_log.html",               cat:"crew",      icon:"📖", tags:"kairos", desc:"The crew journal. Moments marked in Kairos time."},
+  {title:"Orpheus Calling",           file:"orpheus_calling.html",          cat:"crew",      icon:"📢", tags:"mission",desc:"The mission statement. Why we're sending signals."},
+  {title:"Orpheus Transmission",      file:"orpheus_transmission.html",     cat:"crew",      icon:"📤", tags:"archive",desc:"The encoded message. The archive. Everything sent."},
+];
 
-<!-- SCIENCE -->
-<div class="sec-div" data-sec="science"><span class="sd-lbl" style="color:var(--blue)">Science</span><div class="sd-line"></div><span class="sd-ct">12 pages</span></div>
-<div class="grid" id="grid-science">
-<a class="card t-science" href="probability_nature.html" data-cat="science" data-s="probability statistics nature natural climate weather sea temperature pollution CO2 comma pythagorean ecology Bayesian Lorenz normal distribution Dario regenerative rewilding feedback loop carbon biodiversity">
-  <div class="c-top"><span class="c-ico">&#x1F4CA;</span><div class="c-info"><div class="c-title">Probability &amp; Statistics &middot; Nature Is Natural</div><div class="c-file">probability_nature.html</div></div></div>
-  <div class="c-desc">What is probability? What is statistics? How does the Pythagorean comma appear in ecological and climate systems? How do we predict the weather, measure rising sea temperature, track pollution, and keep the natural natural? Dario screams. The Lorenz system. Bayesian climate models. The comma of ecology. Live animated distribution demo and real climate data charts.</div>
-  <span class="c-tag">Probability &middot; Statistics &middot; Climate &middot; Nature &middot; Comma &middot; Weather &middot; Ecology &middot; Dario</span>
-</a>
-<a class="card t-science" href="emotions_as_frequency.html" data-cat="science" data-s="emotions frequency solfeggio Hz brainwaves EEG delta theta alpha beta gamma mania trauma healing resonance dissonance love synchrony universe">
-  <div class="c-top"><span class="c-ico">🎵</span><div class="c-info"><div class="c-title">Emotions as Frequency</div><div class="c-file">emotions_as_frequency.html</div></div></div>
-  <div class="c-desc">Five questions examined against the evidence: emotions as Hz signatures, mania, love as harmonic event, trauma as suspended chord, universe as song.</div>
-  <span class="c-tag">Emotions · Solfeggio · Mania · Trauma · Love · Verdicts</span>
-</a>
-<a class="card t-science" href="origins_of_life.html" data-cat="science" data-s="origins life krebs cycle TCA citric acid ATP miller urey experiment amino acids abiotic synthesis hydrothermal vent RNA world prebiotic comma biological loop">
-  <div class="c-top"><span class="c-ico">🧬</span><div class="c-info"><div class="c-title">Origins of Life · Krebs Cycle · Miller-Urey</div><div class="c-file">origins_of_life.html</div></div></div>
-  <div class="c-desc">Krebs cycle as the biological comma. Origins of life and the four unsolved problems. Miller-Urey 1953. Interactive prebiotic chemistry simulator.</div>
-  <span class="c-tag">Krebs · Origins · Miller-Urey · Simulation · Prebiotic</span>
-</a>
-<a class="card t-science" href="astrobiology_climate.html" data-cat="science" data-s="astrobiology exoplanets Europa Enceladus Mars biosignatures earth composition crust mantle core climate change CO2 greenhouse kinetics tipping points">
-  <div class="c-top"><span class="c-ico">🌍</span><div class="c-info"><div class="c-title">Astrobiology · Earth · Climate Simulator</div><div class="c-file">astrobiology_climate.html</div></div></div>
-  <div class="c-desc">Life beyond Earth: Europa, Enceladus, Mars, Titan. Earth composition layer by layer. Interactive climate kinetics. Tipping points.</div>
-  <span class="c-tag">Astrobiology · Climate Kinetics · CO₂ · Tipping Points · What Is Alive</span>
-</a>
-<a class="card t-science" href="what_is_alive.html" data-cat="science" data-s="wolves deer predator prey Lotka Volterra ecology kinetics invasive species extinction Yellowstone trophic cascade rewilding">
-  <div class="c-top"><span class="c-ico">🐺</span><div class="c-info"><div class="c-title">What Is Alive · Wolves & Deer · Extinction</div><div class="c-file">what_is_alive.html</div></div></div>
-  <div class="c-desc">Lotka–Volterra predator–prey simulation with vegetation. Wolves, deer, 7 scenarios including Yellowstone reintroduction and extinction run.</div>
-  <span class="c-tag">Lotka-Volterra · Wolves · Yellowstone · Invasive Species · Extinction</span>
-</a>
-<a class="card t-science" href="biology_of_the_mind.html" data-cat="science" data-s="biology neuroscience brain cancer alzheimer parkinson fMRI ECT neuralink quantum biology apoptosis sleep memory neural oscillations">
-  <div class="c-top"><span class="c-ico">🧠</span><div class="c-info"><div class="c-title">The Biology of the Mind</div><div class="c-file">biology_of_the_mind.html</div></div></div>
-  <div class="c-desc">Cancer, Alzheimer's, Parkinson's, fMRI explained, ECT myths debunked. Neuralink ethics. Quantum biology.</div>
-  <span class="c-tag">Neuroscience · Cancer · Alzheimer · Parkinson · Neuralink · Quantum Bio</span>
-</a>
-<a class="card t-science" href="dft_results.html" data-cat="science" data-s="DFT cyanine dyes quantum chemistry CAM-B3LYP geometry optimization BLA bond length alternation near-infrared arxiv pythagorean comma">
-  <div class="c-top"><span class="c-ico">⚗</span><div class="c-info"><div class="c-title" style="color:#5DDEC8">Cyanine DFT Results</div><div class="c-file">dft_results.html</div></div></div>
-  <div class="c-desc">CAM-B3LYP/6-31G* geometry optimizations on four near-infrared cyanine dyes. The comma as the natural unit of bond alternation.</div>
-  <span class="c-tag">CAM-B3LYP · BLA · Cyanine · ArXiv-Ready</span>
-</a>
-<a class="card t-science" href="physics_everything.html" data-cat="science" data-s="physics time gravity string theory black holes white holes einstein special relativity general relativity twin paradox twin paradox travellers hawking radiation gravitational waves dark matter dark energy quantum gravity myths">
-  <div class="c-top"><span class="c-ico">∞</span><div class="c-info"><div class="c-title">The Fabric of Everything · Deep Physics</div><div class="c-file">physics_everything.html</div></div></div>
-  <div class="c-desc">Time dilation, gravitational waves, black holes, Hawking radiation, white holes, string theory. The twin paradox resolved: two travellers, different ages on reunion. 9 open questions. 9 physics myths debunked.</div>
-  <span class="c-tag">Time · Gravity · Black Holes · String Theory · Twin Paradox · Myths</span>
-</a>
-<a class="card t-science" href="age_of_universe.html" data-cat="science" data-s="age universe CMB cosmic microwave background Hubble constant big bang cosmology 13.8 billion years WMAP Planck acoustic oscillations">
-  <div class="c-top"><span class="c-ico">🌌</span><div class="c-info"><div class="c-title">How Old is the Universe?</div><div class="c-file">age_of_universe.html</div></div></div>
-  <div class="c-desc">The CMB, the Hubble constant, and the deep time of 13.8 billion years.</div>
-  <span class="c-tag">Cosmology · CMB · Hubble · 13.8 Billion Years · Big Bang</span>
-</a>
-<a class="card t-science" href="solar_future.html" data-cat="science" data-s="solar future sunlight light therapy dark therapy SAD seasonal affective disorder circadian melatonin serotonin vitamin D photobiomodulation">
-  <div class="c-top"><span class="c-ico">☀</span><div class="c-info"><div class="c-title">Solar Future · Sunlight · Light Therapy</div><div class="c-file">solar_future.html</div></div></div>
-  <div class="c-desc">Why sunlight is the original medicine. Light therapy for SAD, dark therapy, melatonin, amber glasses, bipolar stabilization.</div>
-  <span class="c-tag">Sunlight · Light Therapy · SAD · Circadian · Dark Therapy · Vitamin D</span>
-</a>
-<a class="card t-science" href="circadian_clock.html" data-cat="science" data-s="circadian clock biological oscillator sleep wake cycle melatonin cortisol SCN suprachiasmatic nucleus comma body rhythm light dark 24 hour zeitgeber necessity sleep learning SWS REM glymphatic memory consolidation dysregulation social jetlag shift work night shift chronotype clock modification caffeine alarm">
-  <div class="c-top"><span class="c-ico">🕰</span><div class="c-info"><div class="c-title">Circadian Clock · Necessity, Sleep & the Architecture of Time</div><div class="c-file">circadian_clock.html</div></div></div>
-  <div class="c-desc">Is the clock necessary? (Yes; clock-knockout mice die earlier.) What are the natural zeitgebers? What does circadian dysregulation do to the body? What actually happens during sleep; SWS, REM, glymphatic clearance, memory transfer? Is sleep necessary to learn? Advantages and disadvantages of overriding the clock artificially. 12 sections with live simulators.</div>
-  <span class="c-tag">Circadian · Sleep · Zeitgebers · Dysregulation · Memory · Learning · REM · SWS · Chronotype · Social Jetlag</span>
-</a>
-  <div class="c-desc">The biological oscillator that governs sleep, hormones, metabolism, and immunity.</div>
-  <span class="c-tag">Circadian · Clock · Sleep · Oscillation · Comma</span>
-</a>
-<a class="card t-science" href="economics.html" data-cat="science" data-s="economics consumer producer supply demand equilibrium Keynes Hayek Veblen Ellie Tragakes monopoly oligopoly compound interest stochastic noise gadfly bank run fear trust Irish cows Inishkea St Patrick">
-  <div class="c-top"><span class="c-ico">$</span><div class="c-info"><div class="c-title">Economics in a Nutshell</div><div class="c-file">economics.html</div></div></div>
-  <div class="c-desc">Ellie Tragakes on markets. Keynes vs Hayek. Compound interest. Irish cows swim to Inishkea. Fear kills banks. Trust restores them.</div>
-  <span class="c-tag">Ellie Tragakes · Keynes · Hayek · Veblen · Wealth · Poverty · Irish Cows</span>
-</a>
-</div>
-
-<!-- PHILOSOPHY -->
-<div class="sec-div" data-sec="philosophy"><span class="sd-lbl" style="color:var(--purple)">Philosophy</span><div class="sd-line"></div><span class="sd-ct">14 pages</span></div>
-<div class="grid" id="grid-philosophy">
-<a class="card t-philosophy" href="american_dream_banned.html" data-cat="philosophy" data-s="Steinbeck Of Mice and Men banned Angelou caged bird Morrison Beloved Atticus Finch To Kill a Mockingbird American dream justice injustice literature banned books censorship Tom Robinson Maya Angelou Toni Morrison Harper Lee">
-  <div class="c-top"><span class="c-ico">&#x1F4DA;</span><div class="c-info"><div class="c-title">The Dream &amp; The Fight · Steinbeck · Angelou · Morrison · Atticus</div><div class="c-file">american_dream_banned.html</div></div></div>
-  <div class="c-desc">What was Steinbeck's dream and how did he kill it? Why was Of Mice and Men banned? What was Maya Angelou singing about? What was Toni Morrison fighting for? The fight for a dream and the injustices inside it. Atticus Finch's defense. The literature of American justice; and why every book on this page was banned.</div>
-  <span class="c-tag">Steinbeck &middot; Angelou &middot; Morrison &middot; Atticus &middot; Banned Books &middot; American Dream &middot; Justice &middot; Literature</span>
-</a>
-<a class="card t-philosophy" href="world_history.html" data-cat="philosophy" data-s="world history WWII World War II Allied Axis cold war nuclear weapons protest peaceful violent bystander effect civic action rights resistance Sophie Scholl Rosa Parks Vasili Arkhipov Stanislav Petrov Malala colonialism slavery civil rights democracy fascism">
-  <div class="c-top"><span class="c-ico">🌍</span><div class="c-info"><div class="c-title">The Actual History of the World · Rights, Protest & Civic Action</div><div class="c-file">world_history.html</div></div></div>
-  <div class="c-desc">The real history from writing to colonialism to WWII (who was on what side) to the Cold War to nuclear weapons (12,000 still exist; why). What a peaceful protest is. How to protect yourself. The most impactful civic actions. Violating the bystander effect. Name someone: Vasili Arkhipov, Stanislav Petrov, Sophie Scholl, Rosa Parks, Malala.</div>
-  <span class="c-tag">History · WWII · Cold War · Nuclear · Protest · Rights · Bystander Effect · Civic Action</span>
-</a>
-<a class="card t-philosophy" href="monsters_and_men.html" data-cat="philosophy" data-s="monsters men human being what is human Camus Locke Nietzsche Sartre Singer Beauvoir Democritus atom electron particle quantum wave duality uncertainty sunlight artificial light skin vitamin D photon become electron routine habit shift art music create making Dario philosophy humanist existentialism absurdism">
-  <div class="c-top"><span class="c-ico">⚛️</span><div class="c-info"><div class="c-title">Of Monsters and Men · What It Means to Be Human</div><div class="c-file">monsters_and_men.html</div></div></div>
-  <div class="c-desc">Seven philosophers argue about what a human being is. Sunlight vs artificial light on your skin. The atom that kept dividing; from Democritus to quarks. Why nobody knows what particles are. A guide to becoming the electron: shift your habits, live in uncertainty, build the world with art.</div>
-  <span class="c-tag">Camus · Nietzsche · Locke · Singer · Electron · Quantum · Art · Habit · Light · Human</span>
-</a>
-<a class="card t-philosophy" href="art_of_power.html" data-cat="philosophy" data-s="art of war sun tzu machiavelli the prince dostoevsky crime punishment grand inquisitor conviction leaders authoritarian psychology Arendt banality of evil Milgram Zimbardo golden paradox violence obedience">
-  <div class="c-top"><span class="c-ico">⚔</span><div class="c-info"><div class="c-title">The Art of Power</div><div class="c-file">art_of_power.html</div></div></div>
-  <div class="c-desc">Sun Tzu · Machiavelli · Dostoevsky · Drama · Conviction · Psychology of an Authoritarian · The Golden Paradox · Humans Capable of Violence.</div>
-  <span class="c-tag">Sun Tzu · Machiavelli · Dostoevsky · Authoritarian · Violence · Power · Milgram</span>
-</a>
-<a class="card t-philosophy" href="not_null.html" data-cat="philosophy" data-s="null not null N/N-N logic definedness calculus epistemic operators incorporate neg_define query licensed threshold Pythagorean comma sol fa thedivinememe philosophy of knowing uncertainty">
-  <div class="c-top"><span class="c-ico">∅</span><div class="c-info"><div class="c-title">Not-Null / Null · N/N-N Logic · thedivinememe</div><div class="c-file">not_null.html</div></div></div>
-  <div class="c-desc">NULL is not false; it is not-yet-evaluated. NOT-NULL is sufficiency, not certainty. The three operators. The Pythagorean comma between ν_raw and ν.</div>
-  <span class="c-tag">N/N-N Logic · Null · Definedness · Epistemic · Operators · Sol · Fa</span>
-</a>
-<a class="card t-philosophy" href="philosophy_of_life.html" data-cat="philosophy" data-s="philosophy life meaning existence consciousness death Camus Sartre absurdism existentialism what is life">
-  <div class="c-top"><span class="c-ico">🌿</span><div class="c-info"><div class="c-title">Philosophy of Life</div><div class="c-file">philosophy_of_life.html</div></div></div>
-  <div class="c-desc">What does it mean to be alive? Meaning, consciousness, the absurd, and whether existence precedes essence.</div>
-  <span class="c-tag">Life · Meaning · Existentialism · Absurdism</span>
-</a>
-<a class="card t-philosophy" href="sirius_chasing.html" data-cat="philosophy" data-s="sol fa educational tempo gaze encourage bystander effect Milgram karma Vygotsky ZPD flow Csikszentmihalyi Dweck growth mindset Buber I-Thou educator teacher learning speed language">
-  <div class="c-top"><span class="c-ico">★</span><div class="c-info"><div class="c-title">On Learning · Educational Tempo · The Bystander</div><div class="c-file">sirius_chasing.html</div></div></div>
-  <div class="c-desc">Sol and Fa move impossibly fast. What it means to match someone's educational tempo. The bystander effect: physical, psychological, karmic.</div>
-  <span class="c-tag">Education · Tempo · Gaze · Bystander · Karma · Vygotsky · Buber</span>
-</a>
-<a class="card t-philosophy" href="divine_meme.html" data-cat="philosophy" data-s="sol fa mountain desert absurd Camus Sisyphus scorching night sky stars home harmony dialogue">
-  <div class="c-top"><span class="c-ico">🏔</span><div class="c-info"><div class="c-title">The Divine Fa · Sol and Fa</div><div class="c-file">divine_meme.html</div></div></div>
-  <div class="c-desc">One lives in the mountain. One lives in the desert. Both look up at the same sky. For a friend.</div>
-  <span class="c-tag">Absurd · Mountain · Desert · the cosmos · Camus · Dialogue</span>
-</a>
-<a class="card t-philosophy" href="philosophy_of_destiny.html" data-cat="philosophy" data-s="destiny fate Moirai game theory Gilgamesh free will determinism kairos threads choice">
-  <div class="c-top"><span class="c-ico">🧵</span><div class="c-info"><div class="c-title">The Philosophy of Destiny</div><div class="c-file">philosophy_of_destiny.html</div></div></div>
-  <div class="c-desc">The Moirai, game theory, Gilgamesh. Free will, determinism, and the kairos moments where the thread branches.</div>
-  <span class="c-tag">Destiny · Fate · Moirai · Game Theory · Gilgamesh · Kairos</span>
-</a>
-<a class="card t-philosophy" href="philosophy_of_attraction.html" data-cat="philosophy" data-s="attraction love AERS aesthetics ethics resonance spirituality beauty desire philosophy four dimensions">
-  <div class="c-top"><span class="c-ico">✦</span><div class="c-info"><div class="c-title">The Philosophy of Attraction · A·E·R·S</div><div class="c-file">philosophy_of_attraction.html</div></div></div>
-  <div class="c-desc">A·E·R·S; four dimensions of attraction: Aesthetic, Ethical, Resonant, Spiritual.</div>
-  <span class="c-tag">Attraction · AERS · Love · Beauty · Resonance</span>
-</a>
-<a class="card t-philosophy" href="good_place.html" data-cat="philosophy" data-s="good place ethics moral philosophy afterlife virtue consequentialism deontology what makes something good">
-  <div class="c-top"><span class="c-ico">📍</span><div class="c-info"><div class="c-title">Is This The Good Place?</div><div class="c-file">good_place.html</div></div></div>
-  <div class="c-desc">Moral philosophy through virtue, consequence, and duty. What makes a place; or a life; good?</div>
-  <span class="c-tag">Ethics · Virtue · Consequentialism · Good Place</span>
-</a>
-<a class="card t-philosophy" href="philosophy_of_gods.html" data-cat="philosophy" data-s="gods religion Greek pantheon Zeus Athena world religions Buddhism Taoism Hinduism Islam Christianity family tree canvas stoicism CBT DBT psychology Plato Aristotle therapy">
-  <div class="c-top"><span class="c-ico">⚡</span><div class="c-info"><div class="c-title">The Philosophy of Gods · Philosophies vs Psychology</div><div class="c-file">philosophy_of_gods.html</div></div></div>
-  <div class="c-desc">Greek divine family tree (Canvas2D). World religions. Stoicism, Epicureanism, Buddhism mapped onto CBT, DBT, ACT.</div>
-  <span class="c-tag">Gods · Greek Pantheon · World Religions · Stoicism · CBT · DBT · Therapy</span>
-</a>
-<a class="card t-philosophy" href="sophias_search.html" data-cat="philosophy" data-s="bad faith power Tolkien child safety trafficking trauma myths Simone de Beauvoir Sartre freedom authenticity">
-  <div class="c-top"><span class="c-ico">🔍</span><div class="c-info"><div class="c-title">The Search</div><div class="c-file">sophias_search.html</div></div></div>
-  <div class="c-desc">Bad faith, power, Tolkien, child safety, trafficking, trauma, myths.</div>
-  <span class="c-tag">Bad Faith · Power · Tolkien · Trauma · Myths</span>
-</a>
-<a class="card t-philosophy" href="philosophy_of_violence.html" data-cat="philosophy" data-s="violence war ethics just war theory Hannah Arendt Frantz Fanon power force harm conflict colonial">
-  <div class="c-top"><span class="c-ico">⚔</span><div class="c-info"><div class="c-title">Philosophy of Violence</div><div class="c-file">philosophy_of_violence.html</div></div></div>
-  <div class="c-desc">What is violence? When is it justified? Just war theory, Hannah Arendt, Fanon on colonial violence.</div>
-  <span class="c-tag">Violence · Ethics · Just War · Arendt · Fanon · Power</span>
-</a>
-</div>
-
-<!-- CIPHER -->
-<div class="sec-div" data-sec="cipher"><span class="sd-lbl" style="color:var(--gold)">Cipher</span><div class="sd-line"></div><span class="sd-ct">3 pages</span></div>
-<div class="grid" id="grid-cipher">
-<a class="card t-cipher" href="orpheus_cipher.html" data-cat="cipher" data-s="orpheus cipher NATA 72 characters encoded message cryptography frequency alphabet decode">
-  <div class="c-top"><span class="c-ico">🔐</span><div class="c-info"><div class="c-title">Orpheus Cipher I</div><div class="c-file">orpheus_cipher.html</div></div></div>
-  <div class="c-desc">NATA cipher; 72 characters. The first encoded transmission from Project Orpheus.</div>
-  <span class="c-tag">Cipher · NATA · 72 Chars · Orpheus</span>
-</a>
-<a class="card t-cipher" href="orpheus_cipher_i_am_still_lost.html" data-cat="cipher" data-s="orpheus cipher NATA 73 characters I am still lost second transmission changed">
-  <div class="c-top"><span class="c-ico">🔑</span><div class="c-info"><div class="c-title">I Am Still Lost · Cipher II</div><div class="c-file">orpheus_cipher_i_am_still_lost.html</div></div></div>
-  <div class="c-desc">NATA cipher; 73 characters. The second transmission. The message changed by exactly one character.</div>
-  <span class="c-tag">Cipher · NATA · 73 Chars · Still Lost</span>
-</a>
-<a class="card t-cipher" href="quantum_vigenere.html" data-cat="cipher" data-s="quantum vigenere cipher encryption decryption polyalphabetic substitution key encode decode">
-  <div class="c-top"><span class="c-ico">🌀</span><div class="c-info"><div class="c-title">Quantum Vigenère</div><div class="c-file">quantum_vigenere.html</div></div></div>
-  <div class="c-desc">A Vigenère cipher where the key shifts with the state of the system.</div>
-  <span class="c-tag">Cipher · Vigenère · Quantum · Encryption</span>
-</a>
-</div>
-
-<!-- SIGNAL -->
-<div class="sec-div" data-sec="signal"><span class="sd-lbl" style="color:var(--green)">Signal</span><div class="sd-line"></div><span class="sd-ct">5 pages</span></div>
-<div class="grid" id="grid-signal">
-<a class="card t-signal" href="orpheus_listener.html" data-cat="signal" data-s="orpheus listener radio WebSDR 19378 kHz shortwave signal frequency receive antenna live">
-  <div class="c-top"><span class="c-ico">📻</span><div class="c-info"><div class="c-title">Orpheus Listener</div><div class="c-file">orpheus_listener.html</div></div></div>
-  <div class="c-desc">Live shortwave radio via WebSDR. Tuned to 19,378 kHz.</div>
-  <span class="c-tag">Signal · WebSDR · 19378 kHz · Shortwave · Live</span>
-</a>
-<a class="card t-signal" href="orpheus_voice.html" data-cat="signal" data-s="orpheus voice microphone live recording audio signal transmission speak frequency spectrum">
-  <div class="c-top"><span class="c-ico">🎙</span><div class="c-info"><div class="c-title">Orpheus Voice</div><div class="c-file">orpheus_voice.html</div></div></div>
-  <div class="c-desc">Live microphone capture and analysis. Your voice as signal.</div>
-  <span class="c-tag">Signal · Voice · Microphone · Live · Audio</span>
-</a>
-<a class="card t-signal" href="orpheus_bridge.html" data-cat="signal" data-s="orpheus bridge WebSDR decoder signal analysis radio transmission decode pattern">
-  <div class="c-top"><span class="c-ico">🌉</span><div class="c-info"><div class="c-title">Orpheus Bridge</div><div class="c-file">orpheus_bridge.html</div></div></div>
-  <div class="c-desc">WebSDR combined with a decoder. The bridge between receiving and understanding.</div>
-  <span class="c-tag">Signal · Bridge · WebSDR · Decoder</span>
-</a>
-<a class="card t-signal" href="comma_radio.html" data-cat="signal" data-s="comma radio WAV export audio signal frequency generate download produce">
-  <div class="c-top"><span class="c-ico">📡</span><div class="c-info"><div class="c-title">Comma Radio</div><div class="c-file">comma_radio.html</div></div></div>
-  <div class="c-desc">Generate and export WAV audio files. The comma as sound.</div>
-  <span class="c-tag">Signal · WAV · Export · Audio · Comma</span>
-</a>
-<a class="card t-signal" href="listen_to_the_cosmos.html" data-cat="signal" data-s="listen cosmos radio receiver 25 dollars SDR software defined radio setup instructions how to">
-  <div class="c-top"><span class="c-ico">🌠</span><div class="c-info"><div class="c-title">Listen to the Cosmos</div><div class="c-file">listen_to_the_cosmos.html</div></div></div>
-  <div class="c-desc">How to receive cosmic signals for $25. Software-defined radio setup guide.</div>
-  <span class="c-tag">Signal · SDR · $25 Receiver · Cosmic · Tutorial</span>
-</a>
-</div>
-
-<!-- ASTRONOMY -->
-<div class="sec-div" data-sec="astronomy"><span class="sd-lbl" style="color:var(--blue)">Astronomy</span><div class="sd-line"></div><span class="sd-ct">6 pages</span></div>
-<div class="grid" id="grid-astronomy">
-<a class="card t-astronomy" href="solar_v7_explorer.html" data-cat="astronomy" data-s="solar system explorer 3D planets moons orbits zoom AU celestial body center Kepler heliocentric Jupiter Saturn Apophis simulation WebGL">
-  <div class="c-top"><span class="c-ico">&#x2609;</span><div class="c-info"><div class="c-title">Solar System Explorer v7</div><div class="c-file">solar_v7_explorer.html</div></div></div>
-  <div class="c-desc">Live 3D WebGL solar system simulation. All 8 planets, dwarf planets, 15 moons, Apophis 99942. Left-side zoom panel with AU input field, vertical slider, and celestial body center-lock dropdown &mdash; focus any planet or moon at screen center with one click. Rosettes, orbit trails, velocity hodographs, Copernicus view, time controls.</div>
-  <span class="c-tag">Solar System &middot; 3D &middot; WebGL &middot; Orbits &middot; Zoom AU &middot; Center Lock &middot; Moons &middot; Apophis</span>
-</a>
-<a class="card t-astronomy" href="stars_written.html" data-cat="astronomy" data-s="stars written sky Babylonian Greek mythology constellations zodiac MUL.APIN Orion Taurus Scorpius Pleiades Sirius Milky Way precession zodiac legends night sky myths Ishtar Anu Enlil Shamash">
-  <div class="c-top"><span class="c-ico">✦</span><div class="c-info"><div class="c-title">The Story Written in the Stars · Babylonian vs Greek</div><div class="c-file">stars_written.html</div></div></div>
-  <div class="c-desc">What IS the story written in the stars? Babylonian MUL.APIN tablets vs Greek catasterism. How the sky moves through the night. The zodiac's true origin. Orion, Taurus, Scorpius, Sirius, the Pleiades, the Milky Way; same stars, two completely different stories. Interactive sky map with both naming traditions. The Pythagorean comma of precession.</div>
-  <span class="c-tag">Babylonian · Greek · Constellations · Zodiac · MUL.APIN · Sky Map · Mythology · Precession</span>
-</a>
-<a class="card t-astronomy" href="stellar_periodic_table.html" data-cat="astronomy" data-s="stellar periodic table stars elements nucleosynthesis spectral class HR diagram main sequence types O B A F G K M">
-  <div class="c-top"><span class="c-ico">⭐</span><div class="c-info"><div class="c-title">Periodic Table of Stars</div><div class="c-file">stellar_periodic_table.html</div></div></div>
-  <div class="c-desc">Every stellar spectral class arranged as a periodic table. The HR diagram reimagined.</div>
-  <span class="c-tag">Stars · Spectral Class · HR Diagram · Nucleosynthesis</span>
-</a>
-<a class="card t-astronomy" href="orpheus_wolf_rayet.html" data-cat="astronomy" data-s="Wolf-Rayet WR 104 pinwheel nebula binary star cataclysmic variable gamma ray burst pointed earth">
-  <div class="c-top"><span class="c-ico">💫</span><div class="c-info"><div class="c-title">Wolf-Rayet · WR 104</div><div class="c-file">orpheus_wolf_rayet.html</div></div></div>
-  <div class="c-desc">WR 104; the pinwheel star pointed at Earth.</div>
-  <span class="c-tag">Wolf-Rayet · WR 104 · Pinwheel · GRB · Binary</span>
-</a>
-<a class="card t-astronomy" href="solar_v4_explorer.html" data-cat="astronomy" data-s="solar system explorer planets orbits interactive simulation sun earth moon Jupiter Saturn">
-  <div class="c-top"><span class="c-ico">☀</span><div class="c-info"><div class="c-title">Solar System Explorer</div><div class="c-file">solar_v4_explorer.html</div></div></div>
-  <div class="c-desc">Interactive solar system simulation. Planetary orbits, relative scales, orbital mechanics.</div>
-  <span class="c-tag">Solar System · Planets · Orbits · Interactive</span>
-</a>
-<a class="card t-astronomy" href="sirius.html" data-cat="astronomy" data-s="rasalhague star still point alpha ophiuchi fixed reference ophiuchus">
-  <div class="c-top"><span class="c-ico">✦</span><div class="c-info"><div class="c-title">Rasalhague · The Still Point</div><div class="c-file">sirius.html</div></div></div>
-  <div class="c-desc">Rasalhague; NATA Aleph. The brightest star in the night sky as a fixed point of reference.</div>
-  <span class="c-tag">Rasalhague · Still Point · Alpha Ophiuchi</span>
-</a>
-</div>
-
-<!-- LANGUAGE -->
-<div class="sec-div" data-sec="language"><span class="sd-lbl" style="color:var(--teal)">Language</span><div class="sd-line"></div><span class="sd-ct">2 pages</span></div>
-<div class="grid" id="grid-language">
-<a class="card t-language" href="nata_language.html" data-cat="language" data-s="NATA language stellar alphabet constructed language conlang symbols characters writing system orpheus">
-  <div class="c-top"><span class="c-ico">🔡</span><div class="c-info"><div class="c-title">NATA Stellar Alphabet</div><div class="c-file">nata_language.html</div></div></div>
-  <div class="c-desc">The NATA constructed language. Stellar alphabet; characters derived from astronomical forms.</div>
-  <span class="c-tag">NATA · Conlang · Alphabet · Stellar · Symbols</span>
-</a>
-<a class="card t-language" href="language_periodic_table.html" data-cat="language" data-s="language periodic table linguistics phonemes morphemes grammar language families syntax semantics">
-  <div class="c-top"><span class="c-ico">🗣</span><div class="c-info"><div class="c-title">Periodic Table of Language</div><div class="c-file">language_periodic_table.html</div></div></div>
-  <div class="c-desc">The elements of human language arranged as a periodic table.</div>
-  <span class="c-tag">Language · Linguistics · Phonemes · Grammar · Periodic Table</span>
-</a>
-</div>
-
-<!-- MYTH -->
-<div class="sec-div" data-sec="myth"><span class="sd-lbl" style="color:var(--orange)">Myth</span><div class="sd-line"></div><span class="sd-ct">2 pages</span></div>
-<div class="grid" id="grid-myth">
-<a class="card t-myth" href="tower_of_babel.html" data-cat="myth" data-s="tower of babel myth language diversity origin confusion God architecture Mesopotamia Ziggurat">
-  <div class="c-top"><span class="c-ico">🏛</span><div class="c-info"><div class="c-title">Tower of Babel</div><div class="c-file">tower_of_babel.html</div></div></div>
-  <div class="c-desc">The myth of the Tower; why language fractured, what unity costs.</div>
-  <span class="c-tag">Myth · Babel · Language · Unity · Division</span>
-</a>
-<a class="card t-myth" href="wake_pan_up.html" data-cat="myth" data-s="Pan Greek god nature music pipes wild awakening sleep myth Arcadia panic call">
-  <div class="c-top"><span class="c-ico">🌾</span><div class="c-info"><div class="c-title">Wake Pan Up</div><div class="c-file">wake_pan_up.html</div></div></div>
-  <div class="c-desc">Pan; the god of wilderness, music, and panic; is sleeping.</div>
-  <span class="c-tag">Myth · Pan · Nature · Music · Wild · Awakening</span>
-</a>
-</div>
-
-<!-- HEALTH -->
-<div class="sec-div" data-sec="health"><span class="sd-lbl" style="color:var(--green)">Health</span><div class="sd-line"></div><span class="sd-ct">5 pages</span></div>
-<div class="grid" id="grid-health">
-<a class="card t-health" href="modern_diseases.html" data-cat="health" data-s="Alzheimers Parkinsons bipolar schizophrenia autism cancer neurodegenerative modern disease comma framework research obstacles CAR-T immunotherapy mRNA vaccine liquid biopsy gamma entrainment DBS chronotherapy KarXT CRISPR frontier medicine">
-  <div class="c-top"><span class="c-ico">&#x1F9EC;</span><div class="c-info"><div class="c-title">Modern Diseases &amp; The Comma Framework</div><div class="c-file">modern_diseases.html</div></div></div>
-  <div class="c-desc">Alzheimer's, Parkinson's, Bipolar Disorder, Schizophrenia, Autism, and Cancer through the Pythagorean Comma framework. What breaks, why it breaks, what the frontier research is finding, and what obstacles remain. Neural oscillations, dopamine loops, mood cycles, prediction error, E/I balance, cell cycle checkpoints; all six as comma failures.</div>
-  <span class="c-tag">Alzheimer's &middot; Parkinson's &middot; Bipolar &middot; Schizophrenia &middot; Autism &middot; Cancer &middot; Frontier Research &middot; Comma Framework</span>
-</a>
-<a class="card t-health" href="self_healing.html" data-cat="health" data-s="self healing buddhist monk enlightenment silence music Mozart peace movement meditation Four Noble Truths Eightfold Path breath yoga walking dance singing Vipassana mindfulness MBSR Thich Nhat Hanh Pema Chodron what is peace what is movement healing body nervous system vagus nerve">
-  <div class="c-top"><span class="c-ico">☽</span><div class="c-info"><div class="c-title">Self-Healing · Silence, Music &amp; the Path Within</div><div class="c-file">self_healing.html</div></div></div>
-  <div class="c-desc">The Buddhist monk vs Mozart: what is more beautiful? The solution in silence and the solution in music. The Four Noble Truths, the Eightfold Path. What is movement? What is peace? Where do they intersect? A breathing practice built into the page.</div>
-  <span class="c-tag">Buddhism · Silence · Mozart · Peace · Movement · Meditation · Healing · Breath</span>
-</a>
-<a class="card t-health" href="drugs_and_healing.html" data-cat="health" data-s="drugs pharmacology drug development cost pharmaceutical pipeline psilocybin MDMA LSD microdosing EMDR music therapy art therapy nature ecotherapy psychedelics suppression schedule I controlled substances hallucinogens FDA breakthrough therapy neuroplasticity healing natural synthetic potency">
-  <div class="c-top"><span class="c-ico">🌿</span><div class="c-info"><div class="c-title">The Pharmacopoeia · Drugs, Healing &amp; Suppressed Science</div><div class="c-file">drugs_and_healing.html</div></div></div>
-  <div class="c-desc">What is a drug? The real cost of development vs manufacturing. Why psychedelic research was suppressed for 25 years. Natural vs synthetic potency. The truth about microdosing, EMDR, music therapy, art therapy, and going outside.</div>
-  <span class="c-tag">Pharmacology · Psychedelics · Suppression · EMDR · Microdosing · Healing</span>
-</a>
-<a class="card t-health" href="davids_kingdom.html" data-cat="health" data-s="harm reduction opioids mental health gender Narcan drug checking safe sex addiction overdose prevention fentanyl">
-  <div class="c-top"><span class="c-ico">🛡</span><div class="c-info"><div class="c-title">To David's Kingdom · Harm Reduction</div><div class="c-file">davids_kingdom.html</div></div></div>
-  <div class="c-desc">Harm reduction without judgment. Opioids, overdose prevention, Narcan, mental health, gender medicine.</div>
-  <span class="c-tag">Harm Reduction · Opioids · Narcan · Mental Health · Gender</span>
-</a>
-</div>
-
-<!-- CREW -->
-<div class="sec-div" data-sec="crew"><span class="sd-lbl" style="color:var(--red)">Crew</span><div class="sd-line"></div><span class="sd-ct">3 pages</span></div>
-<div class="grid" id="grid-crew">
-<a class="card t-crew" href="kairos_log.html" data-cat="crew" data-s="kairos log crew journal entries field notes project orpheus transmissions moments">
-  <div class="c-top"><span class="c-ico">📓</span><div class="c-info"><div class="c-title">Kairos Log</div><div class="c-file">kairos_log.html</div></div></div>
-  <div class="c-desc">The ship's log. Field notes from the crew of Project Orpheus.</div>
-  <span class="c-tag">Crew · Log · Kairos · Journal · Orpheus</span>
-</a>
-<a class="card t-crew" href="orpheus_calling.html" data-cat="crew" data-s="orpheus calling crew mission statement project purpose signal transmission calling">
-  <div class="c-top"><span class="c-ico">📢</span><div class="c-info"><div class="c-title">Orpheus Calling</div><div class="c-file">orpheus_calling.html</div></div></div>
-  <div class="c-desc">The call. Who is Orpheus calling? The mission statement of the project.</div>
-  <span class="c-tag">Crew · Orpheus · Calling · Mission · Signal</span>
-</a>
-<a class="card t-crew" href="orpheus_transmission.html" data-cat="crew" data-s="orpheus transmission signal message broadcast encrypted crew record archive">
-  <div class="c-top"><span class="c-ico">📨</span><div class="c-info"><div class="c-title">Orpheus Transmission</div><div class="c-file">orpheus_transmission.html</div></div></div>
-  <div class="c-desc">The transmission itself. What has been broadcast. The record of the signal going out.</div>
-  <span class="c-tag">Crew · Transmission · Signal · Broadcast · Orpheus</span>
-</a>
-</div>
-
-
-<!-- OPHIUCHUS -->
-<div class="sec-div" data-sec="ophiuchus"><span class="sd-lbl" style="color:#39ff9a">&#x26CE; Ophiuchus</span><div class="sd-line" style="background:rgba(57,255,154,.1)"></div><span class="sd-ct">3 pages &middot; Restricted</span></div>
-<div class="grid" id="grid-ophiuchus" style="border-color:rgba(57,255,154,.1)">
-<button class="card t-ophiuchus" onclick="omOpen('cosmic-receiver.html')" data-cat="ophiuchus" data-s="cosmic receiver sol fa rasalhague what are they saying ai oracle live real-time bogota sky 1977 light">
-  <span class="lock-pip">&#x1F512;</span>
-  <div class="c-top"><span class="c-ico">&#x26CE;</span><div class="c-info"><div class="c-title">Cosmic Receiver</div><div class="c-file">cosmic-receiver.html</div></div></div>
-  <div class="c-desc">What Sol, Fa, and Rasalhague are saying at every moment. The light reaching Earth now left the star in 1977. An AI oracle listens to the sky and transcribes what the three are saying right now.</div>
-  <span class="c-tag">Live Oracle &middot; Sol &middot; Fa &middot; Rasalhague &middot; AI</span>
-</button>
-<button class="card t-ophiuchus" onclick="omOpen('sol_fa_ophiuchus.html')" data-cat="ophiuchus" data-s="sol fa ophiuchus comma chronicle pythagorean comma mythology circle fifths animated kairos countdowns solstices equinoxes n_res 73.3 daily voices civil dawn bogota">
-  <span class="lock-pip">&#x1F512;</span>
-  <div class="c-top"><span class="c-ico">&phi;</span><div class="c-info"><div class="c-title">Sol &middot; Fa &middot; Ophiuchus &middot; The Comma Chronicle</div><div class="c-file">sol_fa_ophiuchus.html</div></div></div>
-  <div class="c-desc">The Pythagorean comma as mythology. The circle of fifths animated. Kairos countdowns to solstices, equinoxes, and the N_res = 73.3 day closing cycle. Daily voices generated at civil dawn in Bogot&aacute;.</div>
-  <span class="c-tag">Music &middot; Myth &middot; Clock &middot; Comma &middot; Bogot&aacute;</span>
-</button>
-<button class="card t-ophiuchus" onclick="omOpen('stellar-radio.html')" data-cat="ophiuchus" data-s="stellar radio transmission rasalhague transmit music alpha ophiuchi 48.6 light-years playlist live spotify loop forever beam arrives tonight 73.3">
-  <span class="lock-pip">&#x1F512;</span>
-  <div class="c-top"><span class="c-ico">&#x25C9;</span><div class="c-info"><div class="c-title">Stellar Radio &middot; Transmission to Rasalhague</div><div class="c-file">stellar-radio.html</div></div></div>
-  <div class="c-desc">Transmit music to Alpha Ophiuchi, 48.6 light-years away. Load a playlist or capture live Spotify audio. Loop forever. The beam arrives tonight. The comma closes after 73.3 transmissions.</div>
-  <span class="c-tag">Live Capture &middot; Loop &middot; Rasalhague &middot; 48.6 LY</span>
-</button>
-</div>
-
-<div class="no-results" id="no-results">No pages found matching your search.</div>
-
-<div class="stats">
-  <div class="stat"><span class="sn">54</span><span class="sl">Total Pages</span></div>
-  <div class="stat"><span class="sn">11</span><span class="sl">Categories</span></div>
-  <div class="stat"><span class="sn">0.013643</span><span class="sl">δ · Pythagorean Comma</span></div>
-  <div class="stat"><span class="sn">∞</span><span class="sl">Transmissions Possible</span></div>
-</div>
-</div>
-
-<footer>
-  <p class="fd">δ = 0.013643 · Musica Universalis · Project Orpheus</p>
-  <a href="index.html" class="fl">← Main Frequency</a>
-  <a href="kairos_log.html" class="fl">Kairos Log</a>
-  <a href="orpheus_cipher_i_am_still_lost.html" class="fl">I Am Still Lost</a>
-</footer>
-
-<script>
+// ═══════════════════════════════════════════════════════════════
+//  VAN GOGH MILKY WAY CANVAS
+//  Swirling painted sky in deep indigo, cobalt, gold
+//  Thick brushstroke texture, glowing whorls
+// ═══════════════════════════════════════════════════════════════
 (function(){
-  const c=document.getElementById("bg");if(!c)return;
-  const ctx=c.getContext("2d");let W,H,t=0;
-  function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
-  resize();window.addEventListener("resize",resize);
-  const stars=[];
-  for(let i=0;i<180;i++)stars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.2,a:Math.random()*.5+.08,tw:Math.random()*Math.PI*2,sp:Math.random()*.015+.008});
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    stars.forEach(s=>{const a=s.a*(0.65+0.35*Math.sin(t*s.sp+s.tw));ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);ctx.fillStyle="rgba(220,232,255,"+a+")";ctx.fill();});
-    t++;requestAnimationFrame(draw);
+  const cv = document.getElementById('vgCanvas');
+  const ctx = cv.getContext('2d');
+  let W, H, t = 0;
+
+  function resize(){ W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  // Whirls  -  Van Gogh's signature circular brushstroke masses
+  // Positioned to evoke Starry Night composition
+  const WHIRLS = [
+    // Moon / bright orb  -  upper right
+    {cx:.82, cy:.12, r:.10, speed:.0006, col:[255,232,140], bright:1.0, cw:true},
+    // Large galaxy swirl  -  center right
+    {cx:.65, cy:.32, r:.22, speed:.0004, col:[80,120,200], bright:.7, cw:false},
+    // Medium swirl  -  left mid
+    {cx:.28, cy:.40, r:.16, speed:.0005, col:[60,90,180], bright:.65, cw:true},
+    // Small swirl  -  upper center
+    {cx:.50, cy:.22, r:.12, speed:.0007, col:[100,140,220], bright:.55, cw:false},
+    // Distant swirl  -  right
+    {cx:.78, cy:.55, r:.14, speed:.0004, col:[70,100,190], bright:.5, cw:true},
+    // Lower left whirl
+    {cx:.18, cy:.65, r:.18, speed:.0003, col:[55,80,175], bright:.6, cw:false},
+    // The Milky Way band  -  a wide horizontal swirl spanning the canvas
+    {cx:.50, cy:.50, r:.55, speed:.00025, col:[120,150,220], bright:.35, cw:true},
+  ];
+
+  // Stars  -  Van Gogh stars are large radiant halos, not dots
+  const VG_STARS = Array.from({length: 120}, () => ({
+    x: Math.random(), y: Math.random() * .75,
+    r: Math.random() * 3.5 + .8,
+    ph: Math.random() * Math.PI * 2,
+    sp: Math.random() * 3 + 2,
+    col: Math.random() < .3
+      ? [255, 232 + Math.random()*20, 100 + Math.random()*80]   // warm gold
+      : [180 + Math.random()*60, 200 + Math.random()*40, 255],  // cool blue-white
+  }));
+
+  // Brushstroke blobs  -  the distinctive Van Gogh thick paint texture
+  // Pre-generate a large set
+  const STROKES = [];
+  for(let i = 0; i < 600; i++){
+    STROKES.push({
+      x: Math.random(), y: Math.random(),
+      len: Math.random() * 60 + 15,
+      w: Math.random() * 5 + 2,
+      angle: Math.random() * Math.PI * 2,
+      // Colours: deep indigo, cobalt, prussian blue, with golden highlights
+      col: (() => {
+        const v = Math.random();
+        if(v < .08) return [255, 220, 80];    // gold
+        if(v < .18) return [200, 220, 255];   // pale blue
+        if(v < .38) return [80, 110, 195];    // cobalt
+        if(v < .62) return [50, 70, 165];     // prussian blue
+        if(v < .80) return [30, 45, 130];     // deep indigo
+        return [20, 30, 100];                 // midnight
+      })(),
+      a: Math.random() * .35 + .05,
+    });
   }
-  draw();
+
+  function drawVG(){
+    ctx.clearRect(0, 0, W, H);
+
+    // Deep blue-black base
+    const base = ctx.createLinearGradient(0, 0, W * .3, H);
+    base.addColorStop(0, '#0A0E28');
+    base.addColorStop(.5, '#060A1E');
+    base.addColorStop(1, '#040818');
+    ctx.fillStyle = base;
+    ctx.fillRect(0, 0, W, H);
+
+    // Draw brushstrokes  -  the painted texture layer
+    STROKES.forEach(s => {
+      const sx = s.x * W, sy = s.y * H;
+      ctx.save();
+      ctx.translate(sx, sy);
+      ctx.rotate(s.angle);
+      const g = ctx.createLinearGradient(-s.len/2, 0, s.len/2, 0);
+      const [r, g2, b] = s.col;
+      g.addColorStop(0, `rgba(${r},${g2},${b},0)`);
+      g.addColorStop(.5, `rgba(${r},${g2},${b},${s.a})`);
+      g.addColorStop(1, `rgba(${r},${g2},${b},0)`);
+      ctx.beginPath();
+      ctx.lineWidth = s.w;
+      ctx.strokeStyle = g;
+      ctx.moveTo(-s.len/2, 0);
+      ctx.lineTo(s.len/2, 0);
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    // Draw whirls  -  the glowing circular masses
+    WHIRLS.forEach(w => {
+      const cx = w.cx * W, cy = w.cy * H;
+      const rPx = w.r * Math.min(W, H);
+      const phase = t * w.speed * (w.cw ? 1 : -1);
+
+      // Draw concentric swirl rings
+      for(let ring = 0; ring < 8; ring++){
+        const rr = rPx * (.2 + ring * .12);
+        const opacity = w.bright * (.4 - ring * .04) * (.6 + .4 * Math.sin(t * .003 + w.cx * 10));
+        if(opacity <= 0) continue;
+        const [r2, g3, b] = w.col;
+        ctx.beginPath();
+        ctx.arc(cx, cy, rr, phase + ring * .3, phase + Math.PI * 2 + ring * .3);
+        ctx.strokeStyle = `rgba(${r2},${g3},${b},${opacity * .5})`;
+        ctx.lineWidth = 3 - ring * .25;
+        ctx.stroke();
+      }
+
+      // Soft glow center
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, rPx * .5);
+      const [r2, g3, b] = w.col;
+      grd.addColorStop(0, `rgba(${r2},${g3},${b},${w.bright * .3})`);
+      grd.addColorStop(1, `rgba(${r2},${g3},${b},0)`);
+      ctx.beginPath(); ctx.arc(cx, cy, rPx * .5, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+    });
+
+    // Van Gogh stars  -  radiant halos with golden shimmer
+    VG_STARS.forEach(s => {
+      const sx = s.x * W, sy = s.y * H;
+      const pulse = .6 + .4 * Math.sin(t / s.sp + s.ph);
+      const rr = (s.r + pulse * 1.5);
+      const [r2, g3, b] = s.col;
+
+      // Outer halo
+      const halo = ctx.createRadialGradient(sx, sy, 0, sx, sy, rr * 5);
+      halo.addColorStop(0, `rgba(${r2},${g3},${b},${.5 * pulse})`);
+      halo.addColorStop(.4, `rgba(${r2},${g3},${b},${.2 * pulse})`);
+      halo.addColorStop(1, `rgba(${r2},${g3},${b},0)`);
+      ctx.beginPath(); ctx.arc(sx, sy, rr * 5, 0, Math.PI * 2);
+      ctx.fillStyle = halo; ctx.fill();
+
+      // Star core
+      ctx.beginPath(); ctx.arc(sx, sy, rr, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r2},${g3},${b},${.9 * pulse})`; ctx.fill();
+    });
+
+    // Milky Way band  -  a diagonal luminous haze
+    const bandGrd = ctx.createLinearGradient(W * .9, 0, W * .1, H);
+    bandGrd.addColorStop(0, 'rgba(120,145,220,0)');
+    bandGrd.addColorStop(.3, 'rgba(120,145,220,.06)');
+    bandGrd.addColorStop(.5, 'rgba(150,170,235,.09)');
+    bandGrd.addColorStop(.7, 'rgba(120,145,220,.06)');
+    bandGrd.addColorStop(1, 'rgba(120,145,220,0)');
+    ctx.fillStyle = bandGrd;
+    ctx.fillRect(0, 0, W, H);
+
+    // Hills / ground silhouette at the bottom  -  Starry Night signature
+    // A rolling dark landscape
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    // Rolling hills
+    ctx.bezierCurveTo(W * .05, H * .82, W * .12, H * .78, W * .20, H * .80);
+    ctx.bezierCurveTo(W * .28, H * .82, W * .32, H * .72, W * .38, H * .74);
+    ctx.bezierCurveTo(W * .44, H * .76, W * .48, H * .82, W * .55, H * .80);
+    ctx.bezierCurveTo(W * .62, H * .78, W * .68, H * .70, W * .75, H * .72);
+    ctx.bezierCurveTo(W * .82, H * .74, W * .88, H * .80, W, H * .82);
+    ctx.lineTo(W, H); ctx.closePath();
+    const hillGrd = ctx.createLinearGradient(0, H * .72, 0, H);
+    hillGrd.addColorStop(0, 'rgba(8,12,30,.92)');
+    hillGrd.addColorStop(1, 'rgba(2,3,12,.98)');
+    ctx.fillStyle = hillGrd; ctx.fill();
+
+    t++;
+    requestAnimationFrame(drawVG);
+  }
+  drawVG();
 })();
 
-let activeCat="all";
+// ═══════════════════════════════════════════════════════════════
+//  ARGONAUTICA CANVAS (FANCY MODE)
+// ═══════════════════════════════════════════════════════════════
+const argoCv = document.getElementById('argoCanvas');
+const actx = argoCv.getContext('2d');
+const miniCv = document.getElementById('miniCv');
+const mctx = miniCv.getContext('2d');
+let AW, AH, MAP_H;
+let argoScrollY = 0, argoTarget = 0, at = 0;
+let hovStar = null, amx = -999, amy = -999, fquery = '';
+const MAP_SCALE = 5.2;
 
-function doSearch(){
-  const q=document.getElementById("q").value.toLowerCase().trim();
-  let vis=0;
-  document.querySelectorAll("a.card,button.card").forEach(function(card){
-    const cat=card.dataset.cat||"";
-    const s=(card.dataset.s||"").toLowerCase();
-    const txt=card.textContent.toLowerCase();
-    const matchCat=activeCat==="all"||cat===activeCat;
-    const matchQ=!q||s.includes(q)||txt.includes(q);
-    const show=matchCat&&matchQ;
-    card.classList.toggle("hidden",!show);
-    if(show)vis++;
-  });
-  document.querySelectorAll(".sec-div").forEach(function(div){
-    const sec=div.dataset.sec;
-    const grid=document.getElementById("grid-"+sec);
-    if(!grid)return;
-    const anyVis=grid.querySelectorAll("a.card:not(.hidden),button.card:not(.hidden)").length>0;
-    div.style.display=anyVis?"flex":"none";
-    grid.style.display=anyVis?"grid":"none";
-  });
-  document.getElementById("sc").textContent=vis+" page"+(vis!==1?"s":"")+" · δ = 0.013643";
-  document.getElementById("no-results").style.display=vis===0?"block":"none";
+function resizeArgo(){
+  AW = argoCv.width = window.innerWidth;
+  AH = argoCv.height = window.innerHeight;
+  MAP_H = AH * MAP_SCALE;
+}
+resizeArgo();
+window.addEventListener('resize', () => { resizeArgo(); });
+
+const CAT = {
+  hub:        {r:255,g:232,b:100,name:'Argo Navis',       myth:'The Great Ship'},
+  crew:       {r:255,g:218,b:118,name:'Puppis',           myth:'The Stern'},
+  signal:     {r:100,g:220,b:200,name:'Vela',             myth:'The Sails'},
+  astronomy:  {r:200,g:222,b:255,name:'Carina',           myth:'The Keel'},
+  science:    {r:140,g:175,b:255,name:'Crux',             myth:'The Southern Cross'},
+  theory:     {r:175,g:205,b:255,name:'Centaurus',        myth:'The Wise Centaur'},
+  myth:       {r:255,g:140,b:85, name:'Lupus',            myth:'The Wolf'},
+  philosophy: {r:255,g:168,b:80, name:'Ara',              myth:'The Altar'},
+  language:   {r:255,g:210,b:148,name:'Corona Australis', myth:'The Southern Crown'},
+  health:     {r:130,g:225,b:148,name:'Musca',            myth:'The Fly'},
+  cipher:     {r:195,g:158,b:255,name:'Circinus',         myth:'The Compass'},
+};
+
+const STARS = [
+  {title:"Comma Explorer's Guide",   file:"comma_explorers_guide.html",    cat:"hub",       r:3.8,x:.50,y:.028,desc:"Six paths through the theory. The navigator's map."},
+  {title:"Directory",                file:"directory.html",                cat:"hub",       r:2.5,x:.60,y:.058,desc:"Complete navigation. You are here."},
+  {title:"Orpheus Calling",          file:"orpheus_calling.html",          cat:"crew",      r:2.8,x:.38,y:.090,desc:"The mission statement. Why we're sending signals into the dark."},
+  {title:"Kairos Log",               file:"kairos_log.html",               cat:"crew",      r:2.2,x:.62,y:.108,desc:"The crew journal. Moments marked in Kairos time."},
+  {title:"Orpheus Transmission",     file:"orpheus_transmission.html",     cat:"crew",      r:2.2,x:.44,y:.128,desc:"The encoded message. The archive. Everything sent."},
+  {title:"Orpheus Listener",         file:"orpheus_listener.html",         cat:"signal",    r:2.8,x:.28,y:.162,desc:"Live audio analysis. Maps your sound to the comma in real time."},
+  {title:"Orpheus Voice",            file:"orpheus_voice.html",            cat:"signal",    r:2.2,x:.56,y:.175,desc:"Voice synthesizer. Hear any comma coordinate as sound."},
+  {title:"Orpheus Bridge",           file:"orpheus_bridge.html",           cat:"signal",    r:2.0,x:.40,y:.195,desc:"Real-time tuner. The gap between you and the comma."},
+  {title:"Comma Radio",              file:"comma_radio.html",              cat:"signal",    r:2.4,x:.68,y:.210,desc:"A radio that plays only at comma-derived frequencies."},
+  {title:"Listen to the Cosmos",     file:"listen_to_the_cosmos.html",     cat:"signal",    r:2.2,x:.25,y:.228,desc:"Pulsar frequencies, CMB, planetary resonances. Live sonification."},
+  {title:"Solar System Explorer",    file:"solar_v7_explorer.html",        cat:"signal",    r:2.6,x:.70,y:.235,desc:"WebGL v7. Orbital resonances, ghost trails, Bode's law."},
+  {title:"Stellar Radio",            file:"stellar-radio.html",            cat:"signal",    r:2.0,x:.50,y:.248,desc:"Transmit music to distant stars at the speed of light."},
+  {title:"Stars Written",            file:"stars_written.html",            cat:"astronomy", r:2.5,x:.22,y:.272,desc:"The sky above you right now. Real-time star positions."},
+  {title:"Wolf-Rayet Stars",         file:"orpheus_wolf_rayet.html",       cat:"astronomy", r:2.9,x:.74,y:.278,desc:"The most violent stars. WR104, the comma in plasma."},
+  {title:"Sirius · The Dog Star",    file:"sirius.html",                   cat:"astronomy", r:3.3,x:.40,y:.298,desc:"Sirius A and B. Egyptian heliacal rising. The brightest star."},
+  {title:"Stellar Periodic Table",   file:"stellar_periodic_table.html",   cat:"astronomy", r:2.2,x:.62,y:.310,desc:"Every element and where it was forged."},
+  {title:"Sirius Chasing",           file:"sirius_chasing.html",           cat:"astronomy", r:2.0,x:.80,y:.318,desc:"The pursuit of the signal across unreachable distances."},
+  {title:"Age of the Universe",      file:"age_of_universe.html",          cat:"astronomy", r:2.4,x:.30,y:.328,desc:"CMB, Hubble constant, 13.8 billion years."},
+  {title:"QED · Light and Matter",   file:"qed_theory.html",               cat:"science",   r:3.5,x:.46,y:.362,desc:"Cyanine dyes as experimental QED. Cy13+ Perfect Fifth Anomaly."},
+  {title:"Cyanine DFT Results",      file:"dft_results.html",              cat:"science",   r:3.0,x:.64,y:.378,desc:"Cy7–Cy15⁺ complete. Spectral arc NIR→blue→red. Perfect Fifth + Major-Tone Return."},
+  {title:"Rainbow Mystery",           file:"dft_kids.html",                 cat:"science",   r:2.2,x:.67,y:.41, desc:"Cyanine results in plain language. For everyone."},
+  {title:"Circadian Clock",          file:"circadian_clock.html",          cat:"science",   r:2.5,x:.28,y:.392,desc:"Sleep, REM, glymphatic clearance. 12 sections, live simulator."},
+  {title:"Probability & Nature",     file:"probability_nature.html",       cat:"science",   r:2.0,x:.78,y:.395,desc:"Statistics in ecology and climate. Weather, rewilding."},
+  {title:"Emotions as Frequency",    file:"emotions_as_frequency.html",    cat:"science",   r:2.2,x:.20,y:.408,desc:"Are emotions measured in Hz?"},
+  {title:"Origins of Life",          file:"origins_of_life.html",          cat:"science",   r:2.4,x:.56,y:.412,desc:"Krebs cycle, Miller-Urey. Prebiotic chemistry simulator."},
+  {title:"Astrobiology & Climate",   file:"astrobiology_climate.html",     cat:"science",   r:2.2,x:.36,y:.425,desc:"Europa, Mars. Climate kinetics. Biosignatures."},
+  {title:"Biology of the Mind",      file:"biology_of_the_mind.html",      cat:"science",   r:2.4,x:.70,y:.432,desc:"Neuroscience, fMRI, Neuralink. Brain as frequency machine."},
+  {title:"The Fabric of Everything", file:"physics_everything.html",       cat:"science",   r:2.8,x:.44,y:.442,desc:"Time dilation, black holes, Hawking radiation, string theory."},
+  {title:"What Is Alive",            file:"what_is_alive.html",            cat:"science",   r:2.0,x:.82,y:.445,desc:"Wolves, deer, Lotka-Volterra. Yellowstone trophic cascade."},
+  {title:"Solar Future",             file:"solar_future.html",             cat:"science",   r:2.0,x:.24,y:.450,desc:"Sunlight as medicine. Vitamin D, circadian entrainment."},
+  {title:"Economics",                file:"economics.html",                cat:"science",   r:1.9,x:.62,y:.452,desc:"Keynes vs Hayek. Veblen goods. Fear kills banks."},
+  {title:"Musica Universalis V5/V6", file:"musica_universalis_v5_v6.html", cat:"theory",    r:4.0,x:.48,y:.485,desc:"The main theory page. Music, planets, chemistry, all connected by delta."},
+  {title:"Harmonice Mundi",          file:"harmonice_mundi.html",          cat:"theory",    r:2.9,x:.26,y:.505,desc:"Kepler's solar system explorer. 3D orbital resonances."},
+  {title:"Ancient Calendars",        file:"ancient_calendars.html",        cat:"theory",    r:2.5,x:.70,y:.515,desc:"Maya, Babylon, Hindu. Live clocks. Chronos, Kairos, Aion."},
+  {title:"Monsters and Men",         file:"monsters_and_men.html",         cat:"myth",      r:2.6,x:.30,y:.562,desc:"Gilgamesh and Enkidu. Mythology as species memory."},
+  {title:"World History",            file:"world_history.html",            cat:"myth",      r:2.4,x:.60,y:.572,desc:"Civilizations as frequency patterns. Rise, resonance, fall."},
+  {title:"Art of Power",             file:"art_of_power.html",             cat:"myth",      r:2.2,x:.44,y:.590,desc:"Machiavelli, Robert Greene, Sun Tzu."},
+  {title:"David's Kingdom",          file:"davids_kingdom.html",       cat:"myth",      r:2.0,x:.74,y:.600,desc:"22 sections. A complete myth and medicine archive."},
+  {title:"Philosophy of Life",       file:"philosophy_of_life.html",       cat:"philosophy",r:2.9,x:.36,y:.638,desc:"Meaning, mortality. Stoicism, existentialism."},
+  {title:"Philosophy of Gods",       file:"philosophy_of_gods.html",       cat:"philosophy",r:2.4,x:.62,y:.648,desc:"Ontological argument. Problem of evil."},
+  {title:"Philosophy of Destiny",    file:"philosophy_of_destiny.html",    cat:"philosophy",r:2.2,x:.24,y:.662,desc:"Determinism, free will. Laplace's demon."},
+  {title:"Philosophy of Attraction", file:"philosophy_of_attraction.html", cat:"philosophy",r:2.1,x:.54,y:.672,desc:"Why we're drawn to what we're drawn to."},
+  {title:"The Good Place",           file:"good_place.html",               cat:"philosophy",r:2.0,x:.76,y:.680,desc:"What makes a place good? Geography, memory, attachment."},
+  {title:"Sophia's Search",          file:"sophias_search.html",           cat:"philosophy",r:2.3,x:.40,y:.692,desc:"Gnostic Sophia, her fall from the Pleroma."},
+  {title:"Philosophy of Violence",   file:"philosophy_of_violence.html",   cat:"philosophy",r:2.0,x:.66,y:.702,desc:"When is violence justified? Fanon, Gandhi, Arendt."},
+  {title:"Not Null",                 file:"not_null.html",                 cat:"philosophy",r:2.3,x:.28,y:.712,desc:"What it means to be not-null in a universe that defaults to void."},
+  {title:"Nata Language",            file:"nata_language.html",            cat:"language",  r:2.7,x:.44,y:.738,desc:"Constructed language built on frequency ratios."},
+  {title:"Language Periodic Table",  file:"language_periodic_table.html",  cat:"language",  r:2.2,x:.64,y:.748,desc:"All human language families mapped. PIE at top."},
+  {title:"Tower of Babel",           file:"tower_of_babel.html",           cat:"language",  r:2.4,x:.30,y:.758,desc:"What would a universal language look like?"},
+  {title:"What the Heck is Brandon?",file:"brandon_decoder.html",          cat:"language",  r:2.0,x:.74,y:.762,desc:"Null/Not-Null theory decoded in plain language."},
+  {title:"Mental Health Reality",    file:"modern_diseases.html",          cat:"health",    r:2.7,x:.34,y:.802,desc:"Real numbers, stigma vs truth. 5-10 min daily practices."},
+  {title:"Kingdom of Medicine",      file:"kingdom_of_medicine.html",      cat:"health",    r:2.4,x:.62,y:.812,desc:"From wound dressing to CRISPR. Seven tools that ruptured medicine."},
+  {title:"The Pharmacopoeia",        file:"drugs_and_healing.html",        cat:"health",    r:2.2,x:.46,y:.826,desc:"Psychedelic research. Microdosing, EMDR, going outside."},
+  {title:"COVID-19 · Real Numbers",  file:"covid_real_numbers.html",       cat:"health",    r:2.0,x:.74,y:.834,desc:"The pandemic from Dec 2019 to today."},
+  {title:"Self-Healing",             file:"self_healing.html",             cat:"health",    r:2.4,x:.24,y:.842,desc:"Buddhist monk vs Mozart. Four Noble Truths."},
+  {title:"Sustainable Home",         file:"sustainable_home.html",         cat:"health",    r:2.2,x:.56,y:.850,desc:"Climate mapping, passive solar, rammed earth, finding water."},
+  {title:"Breathe",                  file:"breathe.html",                  cat:"health",    r:2.9,x:.40,y:.860,desc:"Solar system, ocean waves, delta-corrected breathing, EMDR."},
+  {title:"Orpheus Cipher",           file:"orpheus_cipher.html",           cat:"cipher",    r:2.9,x:.36,y:.882,desc:"Frequency-encoded message. To decode it you must know what you're looking for."},
+  {title:"I Am Still Lost",          file:"orpheus_cipher_i_am_still_so_lost.html",cat:"cipher",r:2.3,x:.58,y:.892,desc:"The cipher that doesn't resolve. Some frequencies echo until answered."},
+  {title:"Quantum Vigenere",         file:"quantum_vigenere.html",         cat:"cipher",    r:2.0,x:.26,y:.900,desc:"Vigenere cipher whose key rotates by delta."},
+  {title:"American Dream · Banned",  file:"american_dream_banned.html",    cat:"cipher",    r:2.0,x:.72,y:.906,desc:"What was the American Dream and where did it go?"},
+  {title:"Still Lost",               file:"orpheus_cipher_still_lost.html",cat:"cipher",    r:2.0,x:.46,y:.916,desc:"Still no resolution. Still echoing."},
+  {title:"Orpheus Calling - Return", file:"orpheus_calling.html",          cat:"crew",      r:2.2,x:.42,y:.945,desc:"The return transmission. The Argo comes home."},
+  {title:"Orpheus Transmission - End",file:"orpheus_transmission.html",   cat:"crew",      r:2.5,x:.58,y:.960,desc:"The last signal. The Fleece recovered. The song remembered."},
+];
+
+const LINES=[[0,1],[2,3],[3,4],[2,4],[5,6],[6,7],[7,8],[5,9],[8,10],[9,11],[12,13],[13,14],[14,15],[12,16],[15,17],[18,19],[19,20],[20,21],[18,21],[22,23],[23,24],[24,25],[22,25],[26,27],[26,28],[27,28],[29,30],[30,31],[29,31],[32,33],[33,34],[34,35],[36,37],[37,38],[38,39],[36,40],[37,41],[38,42],[39,43],[36,43],[44,45],[45,46],[46,47],[47,48],[49,50],[50,51],[51,52],[52,53],[53,48],[54,55],[55,56],[56,57],[54,57],[54,56],[58,59]];
+const WPS=[{y:.028,txt:'ARGO NAVIS - departure'},{y:.090,txt:'PUPPIS - the stern'},{y:.162,txt:'VELA - the sails'},{y:.272,txt:'CARINA - the keel'},{y:.362,txt:'CRUX - the navigator\'s cross'},{y:.485,txt:'CENTAURUS - the wise centaur'},{y:.562,txt:'LUPUS - the wolf'},{y:.638,txt:'ARA - the altar'},{y:.738,txt:'CORONA AUSTRALIS - the crown'},{y:.802,txt:'MUSCA - the fly'},{y:.882,txt:'CIRCINUS - the compass'},{y:.945,txt:'RETURN - the Argo comes home'}];
+
+const FMW=Array.from({length:2800},()=>{const a=Math.random(),s=(Math.random()-.5)*(.20+Math.random()*.14),h=Math.random();return{bx:(0.92-a*1.05)+s*Math.sin(.48),by:a+(s*Math.cos(.48)*.28),r:Math.random()*1.1+.04,a:Math.random()*.20+.012,col:h<.25?[255,210,142]:h<.55?[192,208,255]:[250,246,232]}});
+const FFIELD=Array.from({length:850},()=>({bx:Math.random(),by:Math.random(),r:Math.random()*.85+.06,a:Math.random()*.5+.06,ph:Math.random()*Math.PI*2,sp:Math.random()*6+3,col:(()=>{const v=Math.random();return v<.008?[148,175,255]:v<.04?[182,205,255]:v<.16?[220,236,255]:v<.33?[255,243,198]:v<.58?[255,222,125]:v<.80?[255,172,88]:[255,108,72]})()}));
+
+// Scroll
+argoCv.addEventListener('wheel',e=>{
+  if(document.body.classList.contains('fancy')){
+    e.preventDefault();
+    argoTarget=Math.max(0,Math.min(MAP_H-AH,argoTarget+e.deltaY*1.9));
+  }
+},{passive:false});
+let ty0=0;
+argoCv.addEventListener('touchstart',e=>{ty0=e.touches[0].clientY},{passive:true});
+argoCv.addEventListener('touchmove',e=>{const dy=ty0-e.touches[0].clientY;ty0=e.touches[0].clientY;argoTarget=Math.max(0,Math.min(MAP_H-AH,argoTarget+dy*2.1));},{passive:true});
+window.addEventListener('keydown',e=>{if(!document.body.classList.contains('fancy'))return;if(e.key==='Home')argoTarget=0;if(e.key==='End')argoTarget=MAP_H-AH;});
+argoCv.addEventListener('mousemove',e=>{amx=e.clientX;amy=e.clientY});
+argoCv.addEventListener('mouseleave',()=>{amx=-999;amy=-999;hovStar=null;document.getElementById('ftip').style.opacity='0'});
+argoCv.addEventListener('click',()=>{if(hovStar)window.location.href=hovStar.file});
+
+function showFTip(s,sx,sy){
+  const c=CAT[s.cat];
+  document.getElementById('fc').textContent=c.name+' - '+c.myth;
+  document.getElementById('fc').style.color=`rgba(${c.r},${c.g},${c.b},.65)`;
+  document.getElementById('ft2').textContent=s.title;
+  document.getElementById('ft2').style.color=`rgb(${c.r},${c.g},${c.b})`;
+  document.getElementById('fd2').textContent=s.desc;
+  document.getElementById('ff2').textContent=s.file;
+  const tip=document.getElementById('ftip');
+  tip.style.opacity='1';
+  let tx=sx+20,ty=sy-22;
+  if(tx+275>window.innerWidth)tx=sx-285;
+  if(ty+135>window.innerHeight)ty=window.innerHeight-140;
+  if(ty<50)ty=52;
+  tip.style.left=tx+'px';tip.style.top=ty+'px';
 }
 
-function setCat(cat){
-  activeCat=cat;
-  document.querySelectorAll(".fb").forEach(function(b){b.classList.toggle("active",b.dataset.cat===cat)});
-  doSearch();
+function drawArgo(){
+  const isFancy=document.body.classList.contains('fancy');
+  if(!isFancy){at++;requestAnimationFrame(drawArgo);return;}
+
+  argoScrollY+=(argoTarget-argoScrollY)*.11;
+  actx.clearRect(0,0,AW,AH);
+  const bg=actx.createLinearGradient(AW*.3,0,0,AH);
+  bg.addColorStop(0,'#010209');bg.addColorStop(1,'#020412');
+  actx.fillStyle=bg;actx.fillRect(0,0,AW,AH);
+
+  FMW.forEach(d=>{const sx=d.bx*AW,sy=d.by*MAP_H-argoScrollY;if(sy<-4||sy>AH+4)return;const[r,g,b]=d.col;actx.beginPath();actx.arc(sx,sy,d.r,0,Math.PI*2);actx.fillStyle=`rgba(${r},${g},${b},${d.a})`;actx.fill();});
+  FFIELD.forEach(s=>{const sx=s.bx*AW,sy=s.by*MAP_H-argoScrollY;if(sy<-3||sy>AH+3)return;const a=s.a*(.5+.5*Math.sin(at/s.sp+s.ph));const[r,g,b]=s.col;actx.beginPath();actx.arc(sx,sy,s.r,0,Math.PI*2);actx.fillStyle=`rgba(${r},${g},${b},${a})`;actx.fill();});
+
+  // Argo route
+  actx.beginPath();STARS.forEach((s,i)=>{const sx=s.x*AW,sy=s.y*MAP_H-argoScrollY;i===0?actx.moveTo(sx,sy):actx.lineTo(sx,sy);});
+  actx.strokeStyle='rgba(255,224,100,.05)';actx.lineWidth=.9;actx.stroke();
+
+  // Constellation lines
+  LINES.forEach(([a,b])=>{const pa=STARS[a],pb=STARS[b];if(!pa||!pb)return;const sax=pa.x*AW,say=pa.y*MAP_H-argoScrollY,sbx=pb.x*AW,sby=pb.y*MAP_H-argoScrollY;if(Math.max(say,sby)<-12||Math.min(say,sby)>AH+12)return;const c=CAT[pa.cat];const ma=!fquery||pa.title.toLowerCase().includes(fquery)||pa.cat.includes(fquery),mb=!fquery||pb.title.toLowerCase().includes(fquery)||pb.cat.includes(fquery);actx.beginPath();actx.moveTo(sax,say);actx.lineTo(sbx,sby);actx.strokeStyle=`rgba(${c.r},${c.g},${c.b},${(ma||mb)?.15:.025})`;actx.lineWidth=.75;actx.stroke();});
+
+  // Waypoint labels
+  actx.font='400 9.5px "JetBrains Mono",monospace';actx.textAlign='left';
+  WPS.forEach(w=>{const sy=w.y*MAP_H-argoScrollY;if(sy<38||sy>AH+8)return;actx.fillStyle='rgba(220,235,255,.1)';actx.fillText(w.txt,14,sy);});
+
+  // Hover
+  hovStar=null;let bestD=22;
+  STARS.forEach(s=>{const sx=s.x*AW,sy=s.y*MAP_H-argoScrollY;if(sy<-25||sy>AH+25)return;const d=Math.hypot(amx-sx,amy-sy);if(d<bestD){bestD=d;hovStar=s;hovStar._sx=sx;hovStar._sy=sy;}});
+  argoCv.style.cursor=hovStar?'pointer':'crosshair';
+  if(hovStar)showFTip(hovStar,hovStar._sx,hovStar._sy);
+  else document.getElementById('ftip').style.opacity='0';
+
+  // Stars
+  STARS.forEach(s=>{
+    const sx=s.x*AW,sy=s.y*MAP_H-argoScrollY;
+    if(sy<-35||sy>AH+35)return;
+    const c=CAT[s.cat];
+    const mq=!fquery||s.title.toLowerCase().includes(fquery)||s.desc.toLowerCase().includes(fquery)||s.cat.includes(fquery);
+    const isH=hovStar===s,al=mq?1:.05,rm=isH?2.2:1;
+    const hr=(s.r*5+(isH?14:0))*rm;
+    const g2=actx.createRadialGradient(sx,sy,0,sx,sy,hr);
+    g2.addColorStop(0,`rgba(${c.r},${c.g},${c.b},${.22*al*(isH?2:1)})`);
+    g2.addColorStop(1,`rgba(${c.r},${c.g},${c.b},0)`);
+    actx.beginPath();actx.arc(sx,sy,hr,0,Math.PI*2);actx.fillStyle=g2;actx.fill();
+    actx.beginPath();actx.arc(sx,sy,s.r*rm,0,Math.PI*2);
+    actx.fillStyle=`rgba(${c.r},${c.g},${c.b},${al})`;actx.fill();
+    if(mq&&s.r>=2.8){const spk=s.r*3.5+Math.sin(at*.04+s.x*20)*s.r*.6;actx.beginPath();actx.moveTo(sx-spk,sy);actx.lineTo(sx+spk,sy);actx.moveTo(sx,sy-spk);actx.lineTo(sx,sy+spk);actx.strokeStyle=`rgba(${c.r},${c.g},${c.b},${.28*al})`;actx.lineWidth=.65;actx.stroke();}
+    if(isH){actx.font='500 11px "Cinzel",serif';actx.textAlign='center';actx.fillStyle=`rgba(${c.r},${c.g},${c.b},.9)`;actx.fillText(s.title,sx,sy-s.r*2.5-7);actx.textAlign='left';}
+  });
+
+  // Mini map
+  mctx.fillStyle='#010209';mctx.fillRect(0,0,70,136);
+  for(let y=0;y<136;y++){mctx.fillStyle='rgba(192,208,255,.05)';mctx.fillRect(70-(y/136)*48-10,y,20,1);}
+  STARS.forEach(s=>{const c=CAT[s.cat];mctx.beginPath();mctx.arc(s.x*70,s.y*136,s.r*.55,0,Math.PI*2);mctx.fillStyle=`rgba(${c.r},${c.g},${c.b},${!fquery||s.title.toLowerCase().includes(fquery)||s.cat.includes(fquery)?1:.15})`;mctx.fill();});
+  const vp=document.getElementById('mmvp');vp.style.top=(argoScrollY/MAP_H)*136+'px';vp.style.height=Math.max(5,(AH/MAP_H)*136)+'px';
+
+  at++;requestAnimationFrame(drawArgo);
+}
+drawArgo();
+
+// Fancy search
+document.getElementById('fsearch').addEventListener('input',function(){fquery=this.value.toLowerCase().trim();const n=STARS.filter(s=>!fquery||s.title.toLowerCase().includes(fquery)||s.desc.toLowerCase().includes(fquery)||s.cat.includes(fquery)).length;document.getElementById('fscount').textContent=fquery?n+' stars':STARS.length+' pages';});
+document.getElementById('fscount').textContent=STARS.length+' pages';
+
+// ═══════════════════════════════════════════════════════════════
+//  MODE TOGGLE  -  fixed resize bug
+// ═══════════════════════════════════════════════════════════════
+let isFancy = false;
+function toggleMode(){
+  isFancy = !isFancy;
+  document.body.classList.toggle('fancy', isFancy);
+  const btn = document.getElementById('modeBtn');
+  if(isFancy){
+    btn.querySelector('.tlabel').textContent = 'Simple Version';
+    btn.querySelector('.ti').textContent = '☰';
+    argoScrollY = 0; argoTarget = 0;
+    // Double RAF ensures CSS transition has applied and canvas is visible
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      resizeArgo();
+      argoTarget = 0; argoScrollY = 0;
+    }));
+    // Belt-and-suspenders: also resize after 120ms for slow transitions
+    setTimeout(() => { resizeArgo(); }, 120);
+  } else {
+    btn.querySelector('.tlabel').textContent = 'Fancy Argonautica';
+    btn.querySelector('.ti').textContent = '✶';
+    document.getElementById('ftip').style.opacity = '0';
+  }
 }
 
-doSearch();
-</script>
+// ═══════════════════════════════════════════════════════════════
+//  SIMPLE MODE  -  card grid
+// ═══════════════════════════════════════════════════════════════
+const CAT_COLORS = {hub:'gold',theory:'teal',science:'blue',philosophy:'purple',cipher:'gold',signal:'green',astronomy:'blue',language:'teal',myth:'orange',health:'green',crew:'red'};
+const SECTIONS = [
+  {key:'hub',       label:'Argo Navis',        myth:'the great ship'},
+  {key:'crew',      label:'Puppis',             myth:'the stern'},
+  {key:'signal',    label:'Vela',               myth:'the sails'},
+  {key:'astronomy', label:'Carina',             myth:'the keel'},
+  {key:'science',   label:'Crux',               myth:'the navigator\'s cross'},
+  {key:'theory',    label:'Centaurus',          myth:'the wise centaur'},
+  {key:'myth',      label:'Lupus',              myth:'the wolf'},
+  {key:'philosophy',label:'Ara',                myth:'the altar'},
+  {key:'language',  label:'Corona Australis',   myth:'the southern crown'},
+  {key:'health',    label:'Musca',              myth:'the fly'},
+  {key:'cipher',    label:'Circinus',           myth:'the compass'},
+];
 
-<script>
-const _oh='79c8af456ad94daabc449f39778d1d92db2e03bb6c5cc9c056e3c10b9cbf0782';
-function _os(s){function rr(v,a){return(v>>>a)|(v<<(32-a))}const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];let h=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];const b=[];for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);if(c<128)b.push(c);else if(c<2048)b.push((c>>6)|192,(c&63)|128);else b.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128)}const bl=b.length*8;b.push(0x80);while(b.length%64!==56)b.push(0);b.push(0,0,0,0,(bl>>>24)&255,(bl>>>16)&255,(bl>>>8)&255,bl&255);for(let i=0;i<b.length;i+=64){const w=[];for(let j=0;j<16;j++)w.push((b[i+j*4]<<24)|(b[i+j*4+1]<<16)|(b[i+j*4+2]<<8)|b[i+j*4+3]);for(let j=16;j<64;j++){const s0=rr(w[j-15],7)^rr(w[j-15],18)^(w[j-15]>>>3);const s1=rr(w[j-2],17)^rr(w[j-2],19)^(w[j-2]>>>10);w.push((w[j-16]+s0+w[j-7]+s1)>>>0)}let[a,b2,cc,d,e,f,g,hh]=h;for(let j=0;j<64;j++){const S1=rr(e,6)^rr(e,11)^rr(e,25);const ch=(e&f)^(~e&g);const t1=(hh+S1+ch+K[j]+w[j])>>>0;const S0=rr(a,2)^rr(a,13)^rr(a,22);const maj=(a&b2)^(a&cc)^(b2&cc);const t2=(S0+maj)>>>0;hh=g;g=f;f=e;e=(d+t1)>>>0;d=cc;cc=b2;b2=a;a=(t1+t2)>>>0}h[0]=(h[0]+a)>>>0;h[1]=(h[1]+b2)>>>0;h[2]=(h[2]+cc)>>>0;h[3]=(h[3]+d)>>>0;h[4]=(h[4]+e)>>>0;h[5]=(h[5]+f)>>>0;h[6]=(h[6]+g)>>>0;h[7]=(h[7]+hh)>>>0}return h.map(v=>v.toString(16).padStart(8,'0')).join('')}
-let _ou=null;
-function omOpen(url){_ou=url;const m=document.getElementById('omodal');m.style.display='flex';document.getElementById('ompw').value='';document.getElementById('omerr').textContent='';setTimeout(()=>document.getElementById('ompw').focus(),80)}
-function omClose(){document.getElementById('omodal').style.display='none';_ou=null}
-function omUnlock(){const v=document.getElementById('ompw').value.trim();if(_os(v)===_oh){omClose();window.open(_ou,'_blank')}else{document.getElementById('omerr').textContent='Access denied';const inp=document.getElementById('ompw');inp.style.animation='none';void inp.offsetHeight;inp.style.animation='omshake .4s';inp.value='';setTimeout(()=>{inp.style.animation='';document.getElementById('omerr').textContent=''},600)}}
-document.getElementById('ompw').addEventListener('keydown',function(e){if(e.key==='Enter')omUnlock();document.getElementById('omerr').textContent=''});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')omClose()});
+let vgFilter = 'all', vgQuery = '';
+
+function buildSections(){
+  const container = document.getElementById('vgSections');
+  container.innerHTML = '';
+  SECTIONS.forEach(sec => {
+    const pages = PAGES.filter(p => p.cat === sec.key);
+    const div = document.createElement('div');
+    div.dataset.section = sec.key;
+    div.innerHTML = `
+      <div class="sec-div">
+        <span class="sd-lbl" style="color:var(--${CAT_COLORS[sec.key]})">${sec.label}</span>
+        <span style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.78rem;color:var(--dim)">&nbsp;${sec.myth}</span>
+        <div class="sd-line"></div>
+        <span class="sd-ct">${pages.length} pages</span>
+      </div>
+      <div class="vg-grid-inner" id="vggrid-${sec.key}">
+        ${pages.map(p => `<a href="${p.file}" class="vcard t-${p.cat}"
+            data-cat="${p.cat}"
+            data-search="${p.title.toLowerCase()} ${p.desc.toLowerCase()} ${p.tags}">
+          <div class="vc-top">
+            <div class="vc-ico">${p.icon}</div>
+            <div class="vc-info">
+              <div class="vc-title">${p.title}</div>
+              <div class="vc-file">${p.file}</div>
+            </div>
+          </div>
+          <div class="vc-desc">${p.desc}</div>
+          <span class="vc-tag">${p.tags.toUpperCase()}</span>
+        </a>`).join('')}
+      </div>`;
+    container.appendChild(div);
+  });
+}
+buildSections();
+
+document.getElementById('vgCount').textContent = PAGES.length + ' pages';
+
+function vgUpdate(){
+  let visible = 0;
+  document.querySelectorAll('.vcard').forEach(card => {
+    const matchCat = vgFilter === 'all' || card.dataset.cat === vgFilter;
+    const matchQ = !vgQuery || card.dataset.search.includes(vgQuery);
+    const show = matchCat && matchQ;
+    card.classList.toggle('hidden', !show);
+    if(show) visible++;
+  });
+  // Hide empty sections
+  SECTIONS.forEach(sec => {
+    const sdiv = document.querySelector(`[data-section="${sec.key}"]`);
+    if(!sdiv) return;
+    const anyVisible = sdiv.querySelectorAll('.vcard:not(.hidden)').length > 0;
+    sdiv.style.display = anyVisible ? '' : 'none';
+  });
+  document.getElementById('vgCount').textContent =
+    visible === PAGES.length ? PAGES.length + ' pages' : visible + ' of ' + PAGES.length;
+  document.getElementById('vgNoRes').style.display = visible === 0 ? 'block' : 'none';
+}
+
+document.getElementById('vgSearch').addEventListener('input', function(){
+  vgQuery = this.value.toLowerCase().trim();
+  vgUpdate();
+});
+document.getElementById('vgFilters').addEventListener('click', e => {
+  const b = e.target.closest('.vgfb');
+  if(!b) return;
+  document.querySelectorAll('.vgfb').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  vgFilter = b.dataset.cat;
+  vgUpdate();
+});
+vgUpdate();
 </script>
 </body>
 </html>

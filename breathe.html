@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Breathe · Musica Universalis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#030509;
+  --gold:#D4A843;
+  --teal:#5DDEC8;
+  --blue:#7EB8F5;
+  --purple:#C07EEC;
+  --rose:#E86E8A;
+  --ice:rgba(220,232,255,.88);
+  --dim:rgba(220,232,255,.35);
+  --faint:rgba(220,232,255,.06);
+  --delta:0.013643265319087;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--void)}
+body{font-family:'Cormorant Garamond',Georgia,serif;color:var(--ice)}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.65rem 1.8rem;
+  background:rgba(3,5,9,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(220,232,255,.06);
+}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--gold);text-decoration:none;letter-spacing:.02em}
+.nav-links{display:flex;gap:0}
+.nav-link{
+  font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim);text-decoration:none;
+  padding:.3rem .8rem;transition:color .2s;border-right:1px solid rgba(220,232,255,.06)
+}
+.nav-link:first-child{border-left:1px solid rgba(220,232,255,.06)}
+.nav-link:hover,.nav-link.active{color:var(--ice)}
+
+/* ── SCENES ── */
+.scene{
+  position:fixed;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .9s ease;
+}
+.scene.active{opacity:1;pointer-events:all}
+canvas.full{position:absolute;inset:0;width:100%;height:100%}
+
+/* ── SCENE LABEL ── */
+.scene-label{
+  position:absolute;top:4.5rem;left:50%;transform:translateX(-50%);
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.15rem;color:var(--dim);letter-spacing:.06em;
+  pointer-events:none;text-align:center;
+}
+
+/* ── BREATHING UI (Scene 3) ── */
+.breath-ui{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:1.2rem;
+}
+.breath-ring-wrap{position:relative;width:280px;height:280px}
+#breathCanvas{position:absolute;inset:0}
+.breath-center{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.breath-word{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.7rem;color:var(--ice);letter-spacing:.06em;
+  transition:opacity .4s;
+}
+.breath-count{
+  font-family:'JetBrains Mono',monospace;font-size:2.4rem;
+  color:var(--teal);letter-spacing:.04em;margin-top:.15rem;
+}
+.breath-delta{
+  font-family:'JetBrains Mono',monospace;font-size:.46rem;
+  letter-spacing:.18em;color:rgba(93,222,200,.4);text-transform:uppercase;
+  margin-top:.2rem;
+}
+
+/* ── SPEED CONTROL ── */
+.speed-control{
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  z-index:2;position:relative;
+}
+.speed-label{
+  font-family:'JetBrains Mono',monospace;font-size:.46rem;
+  letter-spacing:.2em;color:var(--dim);text-transform:uppercase;
+}
+.speed-row{display:flex;align-items:center;gap:.8rem}
+input[type=range]{
+  -webkit-appearance:none;width:180px;height:2px;
+  background:rgba(220,232,255,.15);border-radius:2px;outline:none;
+  cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+  background:var(--teal);cursor:pointer;
+  box-shadow:0 0 8px rgba(93,222,200,.5);
+}
+.speed-val{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;
+  color:var(--teal);min-width:3rem;text-align:left;
+}
+.breath-phase-dots{
+  display:flex;gap:.6rem;margin-top:.2rem;
+}
+.phase-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(220,232,255,.15);transition:background .3s;
+}
+.phase-dot.active-in{background:var(--teal)}
+.phase-dot.active-hold{background:var(--gold)}
+.phase-dot.active-out{background:var(--rose)}
+
+/* ── BOTTOM SELECTOR ── */
+.selector{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:center;gap:0;
+  border-top:1px solid rgba(220,232,255,.06);
+  background:rgba(3,5,9,.85);backdrop-filter:blur(20px);
+}
+.sel-btn{
+  font-family:'JetBrains Mono',monospace;font-size:.48rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);
+  padding:.9rem 2.2rem;cursor:pointer;border:none;background:none;
+  border-right:1px solid rgba(220,232,255,.06);
+  transition:all .2s;position:relative;
+}
+.sel-btn:first-child{border-left:1px solid rgba(220,232,255,.06)}
+.sel-btn:hover{color:var(--ice)}
+.sel-btn.active{color:var(--ice)}
+.sel-btn.active::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+}
+.sel-btn:nth-child(1).active::after{background:var(--gold)}
+.sel-btn:nth-child(2).active::after{background:var(--teal)}
+.sel-btn:nth-child(3).active::after{background:var(--purple)}
+.sel-btn:nth-child(4).active::after{background:var(--rose)}
+.sel-btn:nth-child(1).active{color:var(--gold)}
+.sel-btn:nth-child(2).active{color:var(--teal)}
+.sel-btn:nth-child(3).active{color:var(--purple)}
+.sel-btn:nth-child(4).active{color:var(--rose)}
+
+
+/* ── SKY WINDOW ── */
+.sky-ui{
+  position:relative;z-index:2;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:.8rem;
+  background:rgba(3,5,9,.55);backdrop-filter:blur(12px);
+  border:1px solid rgba(220,232,255,.06);border-radius:16px;
+  padding:1.4rem 2rem;max-width:420px;width:90%;
+}
+.sky-btn{
+  font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);background:rgba(220,232,255,.04);
+  border:1px solid rgba(220,232,255,.1);border-radius:4px;
+  padding:.45rem 1.1rem;cursor:pointer;transition:all .2s;
+}
+.sky-btn:hover{color:var(--ice);border-color:rgba(220,232,255,.3);background:rgba(220,232,255,.08)}
+.sky-info{
+  font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.12em;
+  color:var(--dim);text-align:center;line-height:1.9;max-width:380px;
+}
+.sky-time{
+  font-family:'Cormorant Garamond',serif;font-size:1.6rem;letter-spacing:.06em;
+  color:var(--gold);font-style:italic;
+}
+.sky-bodies{display:flex;gap:2rem;justify-content:center;align-items:flex-end;flex-wrap:wrap}
+.sky-body{text-align:center}
+.sky-body-icon{font-size:2.2rem;line-height:1;margin-bottom:.3rem}
+.sky-body-name{font-family:'JetBrains Mono',monospace;font-size:.45rem;letter-spacing:.14em;color:var(--dim)}
+.sky-body-alt{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--ice);font-style:italic}
+
+/* ── EPILEPSY WARNING ── */
+.epilepsy-warn{
+  background:rgba(212,168,67,.07);
+  border:1px solid rgba(212,168,67,.25);
+  border-left:3px solid var(--gold);
+  border-radius:0 8px 8px 0;
+  padding:.7rem 1rem;
+  margin-bottom:.8rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.46rem;
+  letter-spacing:.1em;
+  line-height:1.9;
+  color:rgba(212,168,67,.8);
+  max-width:500px;
+  text-align:left;
+}
+.epilepsy-warn strong{color:var(--gold);letter-spacing:.14em}
+
+/* ── EMDR SLOW-DOWN TOGGLE ── */
+.emdr-slowdown{
+  display:flex;align-items:center;gap:.8rem;
+  justify-content:center;margin-top:.4rem;flex-wrap:wrap;
+}
+.slowdown-btn{
+  font-family:'JetBrains Mono',monospace;font-size:.46rem;letter-spacing:.13em;
+  text-transform:uppercase;
+  padding:.35rem .9rem;border-radius:4px;cursor:pointer;
+  border:1px solid rgba(220,232,255,.12);
+  background:rgba(220,232,255,.04);color:var(--dim);
+  transition:all .25s;
+}
+.slowdown-btn.active{
+  border-color:rgba(93,222,200,.5);
+  background:rgba(93,222,200,.1);
+  color:var(--teal);
+}
+.slowdown-btn:hover{color:var(--ice);border-color:rgba(220,232,255,.3)}
+.emdr-max-warn{
+  font-family:'JetBrains Mono',monospace;font-size:.44rem;letter-spacing:.1em;
+  color:rgba(232,110,138,.7);display:none;text-align:center;margin-top:.2rem;
+}
+.emdr-max-warn.visible{display:block}
+
+/* ── EMDR ── */
+.emdr-ui{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:1.4rem;
+}
+.emdr-track{
+  position:relative;
+  width:min(560px, 90vw);height:12px;
+  border-radius:20px;
+  background:rgba(220,232,255,.05);
+  border:1px solid rgba(220,232,255,.08);
+}
+.emdr-dot{
+  position:absolute;top:50%;transform:translate(-50%,-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:var(--rose);
+  box-shadow:0 0 18px rgba(232,110,138,.7),0 0 40px rgba(232,110,138,.25);
+  transition:background .3s;
+}
+.emdr-trail{
+  position:absolute;top:50%;transform:translateY(-50%);
+  height:2px;border-radius:2px;
+  background:linear-gradient(90deg,rgba(232,110,138,0),rgba(232,110,138,.25),rgba(232,110,138,0));
+  pointer-events:none;
+}
+.emdr-controls{
+  display:flex;flex-direction:column;align-items:center;gap:.9rem;
+}
+.emdr-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;justify-content:center}
+.emdr-label{
+  font-family:'JetBrains Mono',monospace;font-size:.46rem;
+  letter-spacing:.2em;color:var(--dim);text-transform:uppercase;
+  min-width:5rem;text-align:right;
+}
+.emdr-info{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:.92rem;color:var(--dim);text-align:center;
+  max-width:420px;line-height:1.8;
+}
+.emdr-hz{
+  font-family:'JetBrains Mono',monospace;font-size:.48rem;
+  letter-spacing:.16em;color:rgba(232,110,138,.4);
+  text-transform:uppercase;
+}
+.emdr-colour-row{display:flex;gap:.5rem;justify-content:center}
+.emdr-col-btn{
+  width:20px;height:20px;border-radius:50%;border:2px solid transparent;
+  cursor:pointer;transition:all .2s;opacity:.55;
+}
+.emdr-col-btn:hover,.emdr-col-btn.chosen{opacity:1;border-color:rgba(220,232,255,.5);transform:scale(1.15)}
+
+/* Grain overlay */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
+  opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Musica Universalis</a>
+  <div class="nav-links">
+    <a href="#" class="nav-link active">Breathe</a>
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="directory.html" class="nav-link">Directory</a>
+  </div>
+</nav>
+
+<!-- ══ SCENE 1: SOLAR SYSTEM ══ -->
+<div class="scene active" id="scene-solar">
+  <canvas class="full" id="solarCanvas"></canvas>
+  <div class="scene-label">The solar system, slowly turning</div>
+</div>
+
+<!-- ══ SCENE 2: OCEAN WAVES ══ -->
+<div class="scene" id="scene-waves">
+  <canvas class="full" id="waveCanvas"></canvas>
+  <div class="scene-label">Waves arriving, always</div>
+</div>
+
+<!-- ══ SCENE 3: BREATHING ══ -->
+<div class="scene" id="scene-breath">
+  <div class="breath-ui">
+    <div class="breath-ring-wrap">
+      <canvas id="breathCanvas" width="280" height="280"></canvas>
+      <div class="breath-center">
+        <div class="breath-word" id="breathWord">breathe in</div>
+        <div class="breath-count" id="breathCount">4</div>
+        <div class="breath-delta" id="breathDelta">δ · 4.000</div>
+      </div>
+    </div>
+    <div class="breath-phase-dots">
+      <div class="phase-dot active-in" id="dot-in" title="inhale"></div>
+      <div class="phase-dot" id="dot-hold" title="hold"></div>
+      <div class="phase-dot" id="dot-out" title="exhale"></div>
+    </div>
+    <div class="speed-control">
+      <div class="speed-label">Breath cycle speed</div>
+      <div class="speed-row">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--dim)">slow</span>
+        <input type="range" id="speedSlider" min="0.3" max="2.5" step="0.05" value="1">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--dim)">fast</span>
+        <span class="speed-val" id="speedVal">1.00×</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCENE 4: EMDR ══ -->
+<div class="scene" id="scene-emdr">
+  <div class="scene-label">Follow the light — let your eyes move gently</div>
+  <div class="emdr-ui" style="width:100%;max-width:700px;display:flex;flex-direction:column;align-items:center;gap:.7rem">
+
+    <div class="epilepsy-warn">
+      <strong>⚠ EPILEPSY &amp; PHOTOSENSITIVITY NOTICE</strong><br>
+      Moving light stimulus. Do not use if you have photosensitive epilepsy or seizure triggers. Keep speed below 1.5 Hz. Stop if you feel discomfort.
+    </div>
+
+    <!-- Canvas replaces the old track div — handles all three modes -->
+    <canvas id="emdrCanvas" style="width:100%;height:120px;border-radius:12px;background:rgba(220,232,255,.03);border:1px solid rgba(220,232,255,.06)"></canvas>
+
+    <div class="emdr-hz" id="emdrHz">1.0 Hz · linear</div>
+
+    <div class="emdr-controls">
+      <!-- Mode selector -->
+      <div class="emdr-row" style="justify-content:center;gap:.5rem;margin-bottom:.3rem">
+        <button class="slowdown-btn active" id="modeLinear" onclick="emdrSetMode('linear')">↔ Linear</button>
+        <button class="slowdown-btn" id="modeCircle" onclick="emdrSetMode('circle')">◯ Circle</button>
+        <button class="slowdown-btn" id="modeRainbow" onclick="emdrSetMode('rainbow')">◈ Rainbow</button>
+      </div>
+
+      <div class="emdr-row">
+        <span class="emdr-label">Speed</span>
+        <input type="range" id="emdrSpeed" min="0.2" max="2.5" step="0.1" value="1.0" style="width:140px">
+        <span class="speed-val" id="emdrSpeedVal" style="color:var(--rose)">1.0 Hz</span>
+      </div>
+      <div class="emdr-max-warn" id="emdrMaxWarn">⚠ Maximum safe speed — consider slowing down</div>
+      <div class="emdr-slowdown">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.44rem;letter-spacing:.12em;color:var(--dim)">Ramp:</span>
+        <button class="slowdown-btn" id="btnSlowDown" onclick="emdrRamp('down')">↘ Slow</button>
+        <button class="slowdown-btn" id="btnSpeedUp" onclick="emdrRamp('up')">↗ Build</button>
+        <button class="slowdown-btn" id="btnRampOff" onclick="emdrRamp('off')">· Hold</button>
+      </div>
+      <div class="emdr-row">
+        <span class="emdr-label">Size</span>
+        <input type="range" id="emdrSize" min="10" max="32" step="2" value="20" style="width:140px">
+      </div>
+      <!-- Colour row only shows when not in rainbow mode -->
+      <div class="emdr-row" id="emdrColourRow">
+        <span class="emdr-label">Colour</span>
+        <div class="emdr-colour-row" id="emdrColours">
+          <div class="emdr-col-btn chosen" data-col="#E86E8A" style="background:#E86E8A"></div>
+          <div class="emdr-col-btn" data-col="#5DDEC8" style="background:#5DDEC8"></div>
+          <div class="emdr-col-btn" data-col="#D4A843" style="background:#D4A843"></div>
+          <div class="emdr-col-btn" data-col="#7EB8F5" style="background:#7EB8F5"></div>
+          <div class="emdr-col-btn" data-col="#C07EEC" style="background:#C07EEC"></div>
+          <div class="emdr-col-btn" data-col="#ffffff" style="background:#fff"></div>
+        </div>
+      </div>
+    </div>
+    <p class="emdr-info">
+      Eye Movement Desensitisation and Reprocessing. Follow the dot with your eyes only — do not turn your head. <strong>Linear</strong>: classic bilateral. <strong>Circle</strong>: rotational bilateral — some find this calmer. <strong>Rainbow</strong>: colour cycles through the spectrum as the dot moves. Breathe slowly.
+    </p>
+  </div>
+</div>
+
+<!-- ══ SCENE 5: SKY WINDOW ══ -->
+<div class="scene" id="scene-sky">
+  <canvas class="full" id="skyCanvas"></canvas>
+  <div class="sky-ui" style="position:relative;z-index:2">
+    <div class="sky-time" id="skyTimeDisplay"></div>
+    <div class="sky-bodies" id="skyBodies"></div>
+    <div class="sky-info" id="skyInfo">Loading sky data…</div>
+    <button class="sky-btn" id="skyLocBtn" onclick="requestSkyLocation()">
+      ◎ Share my location for live sky
+    </button>
+    <div class="sky-info" style="opacity:.4;font-size:.42rem">
+      Location is never stored or sent anywhere · used only in your browser to compute sun/moon positions
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCENE 6: FOREST RAIN ══ -->
+<div class="scene" id="scene-forest">
+  <canvas class="full" id="forestCanvas"></canvas>
+  <div class="scene-label">Rain on leaves — you are grounded</div>
+</div>
+
+<!-- ══ BOTTOM SELECTOR ══ -->
+<!-- ══ SCENE 7: YOUNG'S INTERFERENCE ══ -->
+<div class="scene" id="scene-interference">
+  <canvas class="full" id="interferenceCanvas"></canvas>
+  <div class="scene-label" id="interferenceLabel">Wave interference — light through slits</div>
+</div>
+
+<div class="selector" style="flex-wrap:wrap;gap:.2rem">
+  <button class="sel-btn active" id="btn-solar" onclick="switchScene('solar')">☉ Solar</button>
+  <button class="sel-btn" id="btn-waves" onclick="switchScene('waves')">〰 Waves</button>
+  <button class="sel-btn" id="btn-breath" onclick="switchScene('breath')">◎ Breathe</button>
+  <button class="sel-btn" id="btn-emdr" onclick="switchScene('emdr')">👁 EMDR</button>
+  <button class="sel-btn" id="btn-sky" onclick="switchScene('sky')">✦ Sky</button>
+  <button class="sel-btn" id="btn-forest" onclick="switchScene('forest')">🌿 Forest</button>
+  <button class="sel-btn" id="btn-interference" onclick="switchScene('interference')">〜 Interference</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  SCENE SWITCHER
+// ═══════════════════════════════════════════════════════════
+const scenes = ['solar','waves','breath','emdr','sky','forest','interference'];
+let currentScene = 'solar';
+
+function switchScene(name) {
+  scenes.forEach(s => {
+    document.getElementById('scene-'+s).classList.toggle('active', s===name);
+    document.getElementById('btn-'+s).classList.toggle('active', s===name);
+  });
+  currentScene = name;
+  if(name==='waves') initWaves();
+  if(name==='emdr') initEMDR();
+  if(name==='sky') initSky();
+  if(name==='forest') initForest();
+  if(name==='interference') initInterference();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SCENE 1 — SOLAR SYSTEM
+// ═══════════════════════════════════════════════════════════
+(function initSolar() {
+  const cv = document.getElementById('solarCanvas');
+  const ctx = cv.getContext('2d');
+  let W, H, t = 0;
+
+  function resize() {
+    W = cv.width = cv.offsetWidth;
+    H = cv.height = cv.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Planet data: [name, orbit_r_frac, size, speed_mult, color, moons]
+  const PLANETS = [
+    ['Mercury', .09, 3,   4.74,  '#C8B8A0', []],
+    ['Venus',   .14, 5.2, 1.85,  '#E8D08A', []],
+    ['Earth',   .20, 5.5, 1.00,  '#7EB8F5', [{r:8,size:1.8,spd:13.4,col:'#D0D0D0'}]],
+    ['Mars',    .27, 4,   0.53,  '#D4735A', []],
+    ['Jupiter', .40, 11,  0.084, '#D4A86A', [
+      {r:14,size:1.6,spd:3.5,col:'#E8E8C8'},
+      {r:18,size:1.4,spd:2.1,col:'#D8C898'},
+    ]],
+    ['Saturn',  .55, 9,   0.034, '#E8D4A0', [
+      {r:12,size:1.5,spd:2.8,col:'#E0E0C0'},
+    ]],
+    ['Uranus',  .70, 7,   0.012, '#9ADEE0', []],
+    ['Neptune', .84, 6.5, 0.006, '#7090E8', []],
+  ];
+
+  // Starfield
+  const stars = Array.from({length:300}, () => ({
+    x: Math.random(), y: Math.random(),
+    r: Math.random() * .9 + .08,
+    a: Math.random() * .5 + .06,
+    ph: Math.random() * Math.PI * 2,
+    sp: Math.random() * 4 + 2,
+  }));
+
+  // Ghost trail storage
+  const trails = {};
+  PLANETS.forEach(p => { trails[p[0]] = []; });
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Deep space gradient
+    const bg = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*.7);
+    bg.addColorStop(0, 'rgba(8,12,28,.98)');
+    bg.addColorStop(1, 'rgba(3,5,9,1)');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Stars
+    stars.forEach(s => {
+      const a = s.a * (.5 + .5 * Math.sin(t / s.sp + s.ph));
+      ctx.beginPath();
+      ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(220,232,255,${a})`;
+      ctx.fill();
+    });
+
+    const cx = W/2, cy = H/2;
+    const maxR = Math.min(W, H) * .46;
+
+    // Sun glow
+    const sg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 28);
+    sg.addColorStop(0, 'rgba(255,220,80,1)');
+    sg.addColorStop(.4, 'rgba(255,180,40,.8)');
+    sg.addColorStop(1, 'rgba(255,120,20,0)');
+    ctx.beginPath(); ctx.arc(cx, cy, 28, 0, Math.PI*2);
+    ctx.fillStyle = sg; ctx.fill();
+    // Sun corona pulse
+    const cr = 32 + 4 * Math.sin(t * .02);
+    const cg = ctx.createRadialGradient(cx, cy, 18, cx, cy, cr);
+    cg.addColorStop(0, 'rgba(255,200,60,0)');
+    cg.addColorStop(1, 'rgba(255,200,60,.07)');
+    ctx.beginPath(); ctx.arc(cx, cy, cr, 0, Math.PI*2);
+    ctx.fillStyle = cg; ctx.fill();
+
+    PLANETS.forEach(([name, rfrac, size, spd, col, moons]) => {
+      const orbitR = rfrac * maxR;
+      const angle = t * spd * .0003;
+      const px = cx + Math.cos(angle) * orbitR;
+      const py = cy + Math.sin(angle) * orbitR;
+
+      // Orbit ring
+      ctx.beginPath(); ctx.arc(cx, cy, orbitR, 0, Math.PI*2);
+      ctx.strokeStyle = 'rgba(220,232,255,.04)';
+      ctx.lineWidth = .5; ctx.stroke();
+
+      // Ghost trail
+      const trail = trails[name];
+      trail.push({x:px, y:py, t: Date.now()});
+      if (trail.length > 120) trail.shift();
+      trail.forEach((pt, i) => {
+        const alpha = (i / trail.length) * .22;
+        ctx.beginPath(); ctx.arc(pt.x, pt.y, size*.35, 0, Math.PI*2);
+        ctx.fillStyle = col.replace('#', 'rgba(') + `,${alpha})`;
+        // convert hex to rgba properly
+        const r = parseInt(col.slice(1,3),16);
+        const g = parseInt(col.slice(3,5),16);
+        const b = parseInt(col.slice(5,7),16);
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+        ctx.fill();
+      });
+
+      // Saturn rings
+      if (name === 'Saturn') {
+        ctx.save();
+        ctx.translate(px, py);
+        ctx.rotate(Math.PI * .22);
+        ctx.scale(1, .3);
+        ctx.beginPath(); ctx.arc(0, 0, size*2.2, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(232,212,160,.35)';
+        ctx.lineWidth = 3; ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, size*2.8, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(232,212,160,.18)';
+        ctx.lineWidth = 2; ctx.stroke();
+        ctx.restore();
+      }
+
+      // Planet glow
+      const pg = ctx.createRadialGradient(px, py, 0, px, py, size*2.5);
+      const r2 = parseInt(col.slice(1,3),16);
+      const g2 = parseInt(col.slice(3,5),16);
+      const b2 = parseInt(col.slice(5,7),16);
+      pg.addColorStop(0, `rgba(${r2},${g2},${b2},.15)`);
+      pg.addColorStop(1, `rgba(${r2},${g2},${b2},0)`);
+      ctx.beginPath(); ctx.arc(px, py, size*2.5, 0, Math.PI*2);
+      ctx.fillStyle = pg; ctx.fill();
+
+      // Planet body
+      ctx.beginPath(); ctx.arc(px, py, size, 0, Math.PI*2);
+      ctx.fillStyle = col; ctx.fill();
+
+      // Moons
+      moons.forEach(m => {
+        const ma = t * m.spd * .003;
+        const mx = px + Math.cos(ma) * m.r;
+        const my = py + Math.sin(ma) * m.r;
+        ctx.beginPath(); ctx.arc(mx, my, m.size, 0, Math.PI*2);
+        ctx.fillStyle = m.col; ctx.fill();
+      });
+    });
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  SCENE 2 — OCEAN WAVES
+// ═══════════════════════════════════════════════════════════
+let wavesInited = false;
+function initWaves() {
+  if (wavesInited) return;
+  wavesInited = true;
+
+  const cv = document.getElementById('waveCanvas');
+  const ctx = cv.getContext('2d');
+  let W, H, t = 0;
+
+  function resize() {
+    W = cv.width = cv.offsetWidth;
+    H = cv.height = cv.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Foam particles
+  const foam = Array.from({length: 60}, () => ({
+    x: Math.random(),
+    y: .55 + Math.random() * .12,
+    r: Math.random() * 2.5 + .5,
+    a: Math.random() * .4 + .1,
+    spd: Math.random() * .0008 + .0003,
+    ph: Math.random() * Math.PI * 2,
+    vx: (Math.random() - .5) * .0004,
+  }));
+
+  function waveY(x, t, layer) {
+    const configs = [
+      // [amplitude_frac, freq, speed, phase]
+      [.045, 1.8,  .018, 0],
+      [.025, 2.8,  .024, 1.2],
+      [.015, 4.2,  .031, 2.7],
+      [.010, 6.0,  .041, 0.9],
+      [.030, 1.2,  .012, 3.4],
+    ];
+    const [af, freq, spd, ph] = configs[layer];
+    return Math.sin(x * freq * Math.PI + t * spd + ph) * af;
+  }
+
+  function drawWave(baseY, layers, color, alpha, filled) {
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    for (let i = 0; i <= W; i += 2) {
+      const xf = i / W;
+      let y = baseY;
+      layers.forEach(l => { y += waveY(xf, t, l) * H; });
+      i === 0 ? ctx.moveTo(i, y) : ctx.lineTo(i, y);
+    }
+    if (filled) {
+      ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
+      ctx.fillStyle = color.replace('XXX', alpha);
+      ctx.fill();
+    } else {
+      ctx.strokeStyle = color.replace('XXX', alpha);
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Sky gradient
+    const sky = ctx.createLinearGradient(0, 0, 0, H * .58);
+    sky.addColorStop(0, '#030814');
+    sky.addColorStop(.5, '#0A1828');
+    sky.addColorStop(1, '#0D2040');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H * .58);
+
+    // Moon
+    const moonX = W * .72, moonY = H * .14;
+    const mg = ctx.createRadialGradient(moonX, moonY, 0, moonX, moonY, 45);
+    mg.addColorStop(0, 'rgba(255,245,220,.95)');
+    mg.addColorStop(.5, 'rgba(255,240,200,.7)');
+    mg.addColorStop(1, 'rgba(255,240,200,0)');
+    ctx.beginPath(); ctx.arc(moonX, moonY, 22, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,245,220,.92)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(moonX, moonY, 45, 0, Math.PI*2);
+    ctx.fillStyle = mg; ctx.fill();
+
+    // Stars (nocturnal ocean)
+    if (!wavesInited._stars) {
+      wavesInited._stars = true;
+      wavesInited.stars = Array.from({length:120}, () => ({
+        x: Math.random(), y: Math.random() * .52,
+        r: Math.random() * .8 + .1,
+        ph: Math.random() * Math.PI * 2,
+        sp: Math.random() * 3 + 2,
+      }));
+    }
+    wavesInited.stars && wavesInited.stars.forEach(s => {
+      const a = (.15 + .12 * Math.sin(t / s.sp + s.ph));
+      ctx.beginPath(); ctx.arc(s.x*W, s.y*H, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(220,232,255,${a})`; ctx.fill();
+    });
+
+    // Moonpath on water
+    const mp = ctx.createLinearGradient(W*.55, H*.5, W*.85, H);
+    mp.addColorStop(0, 'rgba(255,245,200,0)');
+    mp.addColorStop(.3, 'rgba(255,245,200,.06)');
+    mp.addColorStop(.7, 'rgba(255,245,200,.04)');
+    mp.addColorStop(1, 'rgba(255,245,200,0)');
+    ctx.fillStyle = mp;
+    ctx.fillRect(W*.55, H*.48, W*.3, H*.52);
+
+    // Deep water layers (back to front)
+    const waterBase = H * .52;
+    // Deep dark water
+    const dw = ctx.createLinearGradient(0, waterBase, 0, H);
+    dw.addColorStop(0, '#060E20');
+    dw.addColorStop(.4, '#081428');
+    dw.addColorStop(1, '#0A1830');
+    ctx.fillStyle = dw; ctx.fillRect(0, waterBase, W, H - waterBase);
+
+    // Wave layers — back to front
+    drawWave(waterBase + H*.01, [4], 'rgba(10,30,60,XXX)', '.9', true);
+    drawWave(waterBase + H*.03, [0,4], 'rgba(12,35,70,XXX)', '.85', true);
+    drawWave(waterBase + H*.05, [0,1], 'rgba(8,28,58,XXX)', '.8', true);
+    drawWave(waterBase + H*.07, [0,1,4], 'rgba(10,32,65,XXX)', '.75', true);
+    // Mid waves with teal tint
+    drawWave(waterBase + H*.10, [0,1,2], 'rgba(20,60,90,XXX)', '.7', true);
+    drawWave(waterBase + H*.12, [0,1,2,3], 'rgba(15,50,80,XXX)', '.8', true);
+    // Foreground waves
+    drawWave(waterBase + H*.16, [0,1,2], 'rgba(18,55,85,XXX)', '.85', true);
+    drawWave(waterBase + H*.20, [0,2,3], 'rgba(12,42,70,XXX)', '.9', true);
+
+    // Wave crests with teal highlight
+    drawWave(waterBase + H*.08, [0,1,2], 'rgba(80,200,200,XXX)', '.12', false);
+    drawWave(waterBase + H*.14, [0,1,2,3], 'rgba(100,210,210,XXX)', '.10', false);
+
+    // Foam particles
+    foam.forEach(f => {
+      f.x += f.vx;
+      f.ph += .01;
+      if (f.x < 0) f.x = 1;
+      if (f.x > 1) f.x = 0;
+      const fy = f.y * H + Math.sin(f.ph) * H * .008;
+      const fa = f.a * (.6 + .4 * Math.sin(t * f.spd + f.ph));
+      ctx.beginPath(); ctx.arc(f.x * W, fy, f.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(220,240,255,${fa})`; ctx.fill();
+    });
+
+    // Shore horizon glow
+    const hg = ctx.createLinearGradient(0, waterBase-4, 0, waterBase+20);
+    hg.addColorStop(0, 'rgba(80,180,200,.18)');
+    hg.addColorStop(1, 'rgba(80,180,200,0)');
+    ctx.fillStyle = hg; ctx.fillRect(0, waterBase-4, W, 24);
+
+    t++;
+    if (currentScene === 'waves') {
+      requestAnimationFrame(draw);
+    } else {
+      wavesInited = false; // reset so it restarts cleanly next time
+    }
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SCENE 3 — BREATHING
+// ═══════════════════════════════════════════════════════════
+(function initBreath() {
+  const cv = document.getElementById('breathCanvas');
+  const ctx = cv.getContext('2d');
+  const W = 280, H = 280, cx = 140, cy = 140;
+
+  const DELTA = 0.013643265319087;
+  // Comma-corrected breathing: base counts × (1 + δ)
+  // 4-count inhale, 4-count hold, 6-count exhale, 2-count hold
+  // Applied delta correction: each phase duration * (1 + n·δ)
+  const BASE = { in: 4, holdIn: 4, out: 6, holdOut: 2 };
+
+  let speed = 1.0;
+  let t = 0;
+
+  const slider = document.getElementById('speedSlider');
+  const speedVal = document.getElementById('speedVal');
+  slider.addEventListener('input', () => {
+    speed = parseFloat(slider.value);
+    speedVal.textContent = speed.toFixed(2) + '×';
+  });
+
+  // Phase sequence with comma correction
+  function getPhaseDuration(base, n) {
+    // comma-corrected: duration * (1 + n*δ) where n is the beat index
+    return (base / speed) * (1 + n * DELTA) * 60; // frames at ~60fps
+  }
+
+  // Total cycle
+  function getTotalCycle() {
+    return getPhaseDuration(BASE.in, 1) +
+           getPhaseDuration(BASE.holdIn, 2) +
+           getPhaseDuration(BASE.out, 3) +
+           getPhaseDuration(BASE.holdOut, 4);
+  }
+
+  const wordEl = document.getElementById('breathWord');
+  const countEl = document.getElementById('breathCount');
+  const deltaEl = document.getElementById('breathDelta');
+  const dotIn = document.getElementById('dot-in');
+  const dotHold = document.getElementById('dot-hold');
+  const dotOut = document.getElementById('dot-out');
+
+  // Particle ring
+  const particles = Array.from({length: 60}, (_, i) => ({
+    angle: (i / 60) * Math.PI * 2,
+    r: 105 + (Math.random() - .5) * 8,
+    size: Math.random() * 2.2 + .4,
+    ph: Math.random() * Math.PI * 2,
+    sp: Math.random() * .02 + .008,
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    const total = getTotalCycle();
+    const tMod = t % total;
+
+    const d_in      = getPhaseDuration(BASE.in, 1);
+    const d_holdIn  = getPhaseDuration(BASE.holdIn, 2);
+    const d_out     = getPhaseDuration(BASE.out, 3);
+
+    let phase, progress, beatCount, deltaNote;
+
+    if (tMod < d_in) {
+      phase = 'in';
+      progress = tMod / d_in;
+      const remaining = Math.ceil((1 - progress) * BASE.in);
+      beatCount = remaining;
+      deltaNote = (BASE.in * (1 + 1 * DELTA)).toFixed(3);
+    } else if (tMod < d_in + d_holdIn) {
+      phase = 'holdIn';
+      progress = (tMod - d_in) / d_holdIn;
+      const remaining = Math.ceil((1 - progress) * BASE.holdIn);
+      beatCount = remaining;
+      deltaNote = (BASE.holdIn * (1 + 2 * DELTA)).toFixed(3);
+    } else if (tMod < d_in + d_holdIn + d_out) {
+      phase = 'out';
+      progress = (tMod - d_in - d_holdIn) / d_out;
+      const remaining = Math.ceil((1 - progress) * BASE.out);
+      beatCount = remaining;
+      deltaNote = (BASE.out * (1 + 3 * DELTA)).toFixed(3);
+    } else {
+      phase = 'holdOut';
+      progress = (tMod - d_in - d_holdIn - d_out) / getPhaseDuration(BASE.holdOut, 4);
+      const remaining = Math.ceil((1 - progress) * BASE.holdOut);
+      beatCount = remaining;
+      deltaNote = (BASE.holdOut * (1 + 4 * DELTA)).toFixed(3);
+    }
+
+    // Ring radius: breathes with inhale/exhale
+    let ringR;
+    if (phase === 'in') {
+      ringR = 70 + 40 * easeInOut(progress);
+    } else if (phase === 'holdIn') {
+      ringR = 110;
+    } else if (phase === 'out') {
+      ringR = 110 - 40 * easeInOut(progress);
+    } else {
+      ringR = 70;
+    }
+
+    // Color per phase
+    const phaseColor = {
+      in: [93,222,200],
+      holdIn: [212,168,67],
+      out: [232,110,138],
+      holdOut: [168,200,255],
+    }[phase];
+    const [pr,pg,pb] = phaseColor;
+
+    // Background glow
+    const bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 140);
+    bg.addColorStop(0, `rgba(${pr},${pg},${pb},.04)`);
+    bg.addColorStop(1, 'rgba(3,5,9,0)');
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+    // Outer dim ring
+    ctx.beginPath(); ctx.arc(cx, cy, 118, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(220,232,255,.06)';
+    ctx.lineWidth = 1; ctx.stroke();
+
+    // Progress arc
+    const startAngle = -Math.PI/2;
+    let arcProgress;
+    // Full arc around the cycle
+    arcProgress = tMod / total;
+
+    // Glowing arc
+    ctx.beginPath();
+    ctx.arc(cx, cy, 118, startAngle, startAngle + arcProgress * Math.PI * 2);
+    ctx.strokeStyle = `rgba(${pr},${pg},${pb},.55)`;
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // Phase arc dot
+    const dotAngle = startAngle + arcProgress * Math.PI * 2;
+    ctx.beginPath(); ctx.arc(
+      cx + Math.cos(dotAngle)*118, cy + Math.sin(dotAngle)*118,
+      5, 0, Math.PI*2
+    );
+    ctx.fillStyle = `rgba(${pr},${pg},${pb},1)`; ctx.fill();
+    ctx.beginPath(); ctx.arc(
+      cx + Math.cos(dotAngle)*118, cy + Math.sin(dotAngle)*118,
+      10, 0, Math.PI*2
+    );
+    ctx.fillStyle = `rgba(${pr},${pg},${pb},.2)`; ctx.fill();
+
+    // Inner breathing circle
+    const ig = ctx.createRadialGradient(cx, cy, 0, cx, cy, ringR);
+    ig.addColorStop(0, `rgba(${pr},${pg},${pb},.18)`);
+    ig.addColorStop(.6, `rgba(${pr},${pg},${pb},.08)`);
+    ig.addColorStop(1, `rgba(${pr},${pg},${pb},0)`);
+    ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, Math.PI*2);
+    ctx.fillStyle = ig; ctx.fill();
+
+    ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, Math.PI*2);
+    ctx.strokeStyle = `rgba(${pr},${pg},${pb},.45)`;
+    ctx.lineWidth = 1.5; ctx.stroke();
+
+    // Floating particles
+    particles.forEach(p => {
+      p.ph += p.sp * speed;
+      const pr2 = p.r * (ringR / 105);
+      const px = cx + Math.cos(p.angle + t*.003) * pr2;
+      const py = cy + Math.sin(p.angle + t*.003) * pr2;
+      const a = .25 + .2 * Math.sin(p.ph);
+      const ps = p.size * (.8 + .4 * (ringR/110));
+      ctx.beginPath(); ctx.arc(px, py, ps, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${phaseColor[0]},${phaseColor[1]},${phaseColor[2]},${a})`;
+      ctx.fill();
+    });
+
+    // Update UI
+    const words = {in:'breathe in', holdIn:'hold', out:'breathe out', holdOut:'rest'};
+    wordEl.textContent = words[phase];
+    countEl.textContent = beatCount;
+    deltaEl.textContent = `δ · ${deltaNote}`;
+
+    // Dots
+    dotIn.className = 'phase-dot' + (phase==='in' ? ' active-in' : '');
+    dotHold.className = 'phase-dot' + ((phase==='holdIn'||phase==='holdOut') ? ' active-hold' : '');
+    dotOut.className = 'phase-dot' + (phase==='out' ? ' active-out' : '');
+
+    t += speed;
+    requestAnimationFrame(draw);
+  }
+
+  function easeInOut(t) {
+    return t < .5 ? 2*t*t : -1+(4-2*t)*t;
+  }
+
+  draw();
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  SCENE 4 — EMDR  (linear · circle · rainbow)
+// ═══════════════════════════════════════════════════════════
+let emdrInited = false;
+let emdrMode = 'linear'; // 'linear' | 'circle' | 'rainbow'
+
+function emdrSetMode(mode) {
+  emdrMode = mode;
+  ['Linear','Circle','Rainbow'].forEach(m => {
+    document.getElementById('mode'+m).classList.toggle('active', m.toLowerCase()===mode);
+  });
+  // Hide colour picker in rainbow mode (colours are automatic)
+  document.getElementById('emdrColourRow').style.opacity = mode === 'rainbow' ? '0.3' : '1';
+  document.getElementById('emdrColourRow').style.pointerEvents = mode === 'rainbow' ? 'none' : '';
+  const hz = parseFloat(document.getElementById('emdrSpeed').value);
+  document.getElementById('emdrHz').textContent = hz.toFixed(1) + ' Hz · ' + mode;
+}
+
+function hslToHex(h, s, l) {
+  s /= 100; l /= 100;
+  const a = s * Math.min(l, 1 - l);
+  const f = n => { const k = (n + h/30) % 12; return l - a * Math.max(-1, Math.min(k-3, 9-k, 1)); };
+  return '#' + [f(0),f(8),f(4)].map(x => Math.round(x*255).toString(16).padStart(2,'0')).join('');
+}
+
+function initEMDR() {
+  if (emdrInited) return;
+  emdrInited = true;
+
+  const cv      = document.getElementById('emdrCanvas');
+  const ctx     = cv.getContext('2d');
+  const speedSl = document.getElementById('emdrSpeed');
+  const speedVl = document.getElementById('emdrSpeedVal');
+  const sizeSl  = document.getElementById('emdrSize');
+  const hzEl    = document.getElementById('emdrHz');
+  const colBtns = document.querySelectorAll('.emdr-col-btn');
+
+  let hz       = 1.0;
+  let dotSize  = 20;
+  let dotColor = '#E86E8A';
+  let phase    = 0;
+  let lastTime = null;
+
+  // Resize canvas to its display size
+  function resizeEmdr() {
+    cv.width  = cv.offsetWidth  || 600;
+    cv.height = cv.offsetHeight || 120;
+  }
+  resizeEmdr();
+  window.addEventListener('resize', resizeEmdr);
+
+  speedSl.addEventListener('input', () => {
+    hz = parseFloat(speedSl.value);
+    speedVl.textContent = hz.toFixed(1) + ' Hz';
+    hzEl.textContent = hz.toFixed(1) + ' Hz · ' + emdrMode;
+    document.getElementById('emdrMaxWarn').classList.toggle('visible', hz >= 2.4);
+  });
+
+  sizeSl.addEventListener('input', () => { dotSize = parseInt(sizeSl.value); });
+
+  colBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      colBtns.forEach(b => b.classList.remove('chosen'));
+      btn.classList.add('chosen');
+      dotColor = btn.dataset.col;
+    });
+  });
+
+  function frame(ts) {
+    if (!lastTime) lastTime = ts;
+    const dt = Math.min((ts - lastTime) / 1000, 0.05);
+    lastTime = ts;
+
+    const W = cv.width, H = cv.height;
+    const cx = W / 2, cy = H / 2;
+
+    // Phase advance
+    phase = (phase + dt * hz) % 1;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // ── Current colour ──
+    let col, r, g, bv;
+    if (emdrMode === 'rainbow') {
+      // Hue cycles with position in the stroke
+      const hue = (phase * 360 * 3) % 360; // cycle 3× per oscillation for richness
+      col = hslToHex(hue, 100, 62);
+    } else {
+      col = dotColor;
+    }
+    r  = parseInt(col.slice(1,3),16);
+    g  = parseInt(col.slice(3,5),16);
+    bv = parseInt(col.slice(5,7),16);
+
+    let dotX, dotY;
+
+    if (emdrMode === 'circle') {
+      // ── CIRCLE MODE ──
+      // Dot traces a full ellipse; crossing midline preserves bilateral activation
+      const rx = W * 0.38, ry = H * 0.34;
+      const angle = phase * Math.PI * 2 - Math.PI / 2; // start at top
+      dotX = cx + Math.cos(angle) * rx;
+      dotY = cy + Math.sin(angle) * ry;
+
+      // Draw orbit ring
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(220,232,255,.06)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Rainbow trail along the orbit
+      if (emdrMode === 'rainbow') {
+        const steps = 80;
+        for (let i = 0; i < steps; i++) {
+          const a0 = ((phase - i/steps * 0.35) * Math.PI * 2 - Math.PI/2 + Math.PI*4) % (Math.PI*2);
+          const a1 = ((phase - (i+1)/steps * 0.35) * Math.PI * 2 - Math.PI/2 + Math.PI*4) % (Math.PI*2);
+          const hue = ((phase * 360 * 3) - i * 2 + 720) % 360;
+          const tc = hslToHex(hue, 100, 55);
+          const tr = parseInt(tc.slice(1,3),16), tg = parseInt(tc.slice(3,5),16), tb = parseInt(tc.slice(5,7),16);
+          const alpha = (1 - i/steps) * 0.35;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(a0)*rx, cy + Math.sin(a0)*ry);
+          ctx.lineTo(cx + Math.cos(a1)*rx, cy + Math.sin(a1)*ry);
+          ctx.strokeStyle = `rgba(${tr},${tg},${tb},${alpha})`;
+          ctx.lineWidth = dotSize * 0.45 * (1 - i/steps * 0.6);
+          ctx.lineCap = 'round';
+          ctx.stroke();
+        }
+      } else {
+        // Solid trail arc
+        const trailAngle = 0.35 * Math.PI * 2;
+        const endAngle = angle;
+        const startAngle = angle - trailAngle;
+        ctx.beginPath();
+        ctx.arc(cx, cy, (rx + ry) / 2, startAngle, endAngle);
+        // No — use ellipse parametric for trail
+        ctx.beginPath();
+        for (let i = 0; i <= 40; i++) {
+          const a = startAngle + (endAngle - startAngle) * (i / 40);
+          const px = cx + Math.cos(a) * rx, py = cy + Math.sin(a) * ry;
+          i === 0 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
+        }
+        ctx.strokeStyle = `rgba(${r},${g},${bv},.18)`;
+        ctx.lineWidth = dotSize * 0.5;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+
+    } else {
+      // ── LINEAR MODE (default + rainbow) ──
+      const pingpong = phase < .5 ? phase * 2 : (1 - phase) * 2;
+      const eased = pingpong < .5 ? 2*pingpong*pingpong : -1+(4-2*pingpong)*pingpong;
+      const pad = dotSize + 8;
+      dotX = pad + eased * (W - pad * 2);
+      dotY = cy;
+
+      // Trail
+      const trailLen = dotSize * 5;
+      const movingRight = phase < .5;
+      const trailX1 = movingRight ? Math.max(pad, dotX - trailLen) : dotX;
+      const trailX2 = movingRight ? dotX : Math.min(W - pad, dotX + trailLen);
+
+      if (emdrMode === 'rainbow') {
+        // Rainbow gradient trail
+        const grad = ctx.createLinearGradient(trailX1, cy, trailX2, cy);
+        const steps = 8;
+        for (let i = 0; i <= steps; i++) {
+          const hue = ((phase * 360 * 3) + (movingRight ? -i : i) * 18 + 720) % 360;
+          const tc = hslToHex(hue, 100, 60);
+          const tr = parseInt(tc.slice(1,3),16), tg = parseInt(tc.slice(3,5),16), tb = parseInt(tc.slice(5,7),16);
+          grad.addColorStop(movingRight ? 1-i/steps : i/steps, `rgba(${tr},${tg},${tb},${0.25 * (1-i/steps)})`);
+        }
+        ctx.beginPath();
+        ctx.moveTo(trailX1, cy);
+        ctx.lineTo(trailX2, cy);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = dotSize * 0.55;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(trailX1, cy);
+        ctx.lineTo(trailX2, cy);
+        ctx.strokeStyle = `rgba(${r},${g},${bv},.2)`;
+        ctx.lineWidth = dotSize * 0.55;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+    }
+
+    // ── Dot glow ──
+    const glow = ctx.createRadialGradient(dotX, dotY, 0, dotX, dotY, dotSize * 2.2);
+    glow.addColorStop(0, `rgba(${r},${g},${bv},.35)`);
+    glow.addColorStop(1, `rgba(${r},${g},${bv},0)`);
+    ctx.beginPath(); ctx.arc(dotX, dotY, dotSize * 2.2, 0, Math.PI*2);
+    ctx.fillStyle = glow; ctx.fill();
+
+    // ── Dot body ──
+    const dotGrad = ctx.createRadialGradient(dotX - dotSize*0.28, dotY - dotSize*0.28, 0, dotX, dotY, dotSize);
+    dotGrad.addColorStop(0, `rgba(255,255,255,.9)`);
+    dotGrad.addColorStop(0.4, `rgba(${r},${g},${bv},1)`);
+    dotGrad.addColorStop(1, `rgba(${Math.max(0,r-40)},${Math.max(0,g-40)},${Math.max(0,bv-40)},.9)`);
+    ctx.beginPath(); ctx.arc(dotX, dotY, dotSize, 0, Math.PI*2);
+    ctx.fillStyle = dotGrad; ctx.fill();
+
+    if (currentScene === 'emdr') {
+      requestAnimationFrame(frame);
+    } else {
+      emdrInited = false;
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
+// Inject ramp ticker into EMDR frame loop
+(function patchEMDRRamp() {
+  const orig = window._emdrFramePatch;
+  // We'll hook into the animation via a shared tick
+  let rampInterval = setInterval(() => {
+    if (typeof emdrInited === 'undefined') return;
+    const sl = document.getElementById('emdrSpeed');
+    if (!sl) return;
+    const cur = parseFloat(sl.value);
+    if (_emdrRampMode === 'down' && cur > 0.2) {
+      const next = Math.max(0.2, cur - 0.02);
+      sl.value = next;
+      sl.dispatchEvent(new Event('input'));
+    } else if (_emdrRampMode === 'up' && cur < 2.5) {
+      const next = Math.min(2.5, cur + 0.02);
+      sl.value = next;
+      sl.dispatchEvent(new Event('input'));
+    }
+  }, 300);
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  SCENE 5 — SKY WINDOW (Sun / Moon / Stars)
+//  Computes real sun & moon positions from lat/lng + time
+// ═══════════════════════════════════════════════════════════
+let skyInited = false;
+let skyLat = null, skyLng = null;
+let skyAnimId = null;
+
+function requestSkyLocation() {
+  if (!navigator.geolocation) {
+    document.getElementById('skyInfo').textContent =
+      'Geolocation not available in this browser. Showing sky for equator/UTC.';
+    skyLat = 0; skyLng = 0;
+    initSky();
+    return;
+  }
+  document.getElementById('skyInfo').textContent = 'Requesting location…';
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      skyLat = pos.coords.latitude;
+      skyLng = pos.coords.longitude;
+      document.getElementById('skyLocBtn').style.display = 'none';
+      document.getElementById('skyInfo').textContent =
+        `${skyLat.toFixed(2)}°, ${skyLng.toFixed(2)}° · updating live`;
+      if (!skyInited) initSky();
+    },
+    err => {
+      document.getElementById('skyInfo').textContent =
+        'Location denied — showing sky for equator/UTC.';
+      skyLat = 0; skyLng = 0;
+      if (!skyInited) initSky();
+    }
+  );
+}
+
+// ── Solar/Lunar position math (approximate, no external lib) ──
+function julianDay(d) {
+  // d = JS Date
+  return d / 86400000 + 2440587.5;
+}
+function sunPosition(lat, lng, date) {
+  // Based on NOAA simplified solar position algorithm (±1°)
+  const JD = julianDay(date);
+  const n = JD - 2451545.0;
+  const L = (280.460 + 0.9856474 * n) % 360;
+  const g = ((357.528 + 0.9856003 * n) % 360) * Math.PI / 180;
+  const lambda = (L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2*g)) * Math.PI / 180;
+  const epsilon = 23.439 * Math.PI / 180;
+  const sinDec = Math.sin(epsilon) * Math.sin(lambda);
+  const dec = Math.asin(sinDec);
+  // Hour angle
+  const UT = (date.getUTCHours() + date.getUTCMinutes()/60 + date.getUTCSeconds()/3600);
+  const GMST = (6.697375 + 0.0657098242 * n + UT) % 24;
+  const LMST = (GMST + lng / 15) % 24;
+  const RA_h = (Math.atan2(Math.cos(epsilon)*Math.sin(lambda), Math.cos(lambda)) * 180/Math.PI / 15 + 24) % 24;
+  const HA = (LMST - RA_h) * 15 * Math.PI / 180;
+  const latR = lat * Math.PI / 180;
+  const sinAlt = Math.sin(latR)*Math.sin(dec) + Math.cos(latR)*Math.cos(dec)*Math.cos(HA);
+  const alt = Math.asin(Math.max(-1, Math.min(1, sinAlt))) * 180 / Math.PI;
+  const cosAz = (Math.sin(dec) - Math.sin(latR)*sinAlt) / (Math.cos(latR)*Math.cos(Math.asin(sinAlt)));
+  let az = Math.acos(Math.max(-1, Math.min(1, cosAz))) * 180 / Math.PI;
+  if (Math.sin(HA) > 0) az = 360 - az;
+  return { alt, az };
+}
+
+function moonPosition(lat, lng, date) {
+  // Simplified lunar position (±2°)
+  const JD = julianDay(date);
+  const d = JD - 2451545.0;
+  const L_moon = (218.316 + 13.176396 * d) % 360;
+  const M_moon = (134.963 + 13.064993 * d) % 360 * Math.PI / 180;
+  const F_moon = (93.272  + 13.229350 * d) % 360 * Math.PI / 180;
+  const lon_m  = (L_moon + 6.289 * Math.sin(M_moon)) * Math.PI / 180;
+  const lat_m  = 5.128 * Math.sin(F_moon) * Math.PI / 180;
+  const dec_m  = Math.asin(Math.sin(lat_m)*Math.cos(23.439*Math.PI/180) +
+                            Math.cos(lat_m)*Math.sin(23.439*Math.PI/180)*Math.sin(lon_m));
+  const RA_m   = Math.atan2(Math.sin(lon_m)*Math.cos(23.439*Math.PI/180) -
+                              Math.tan(lat_m)*Math.sin(23.439*Math.PI/180), Math.cos(lon_m));
+  const UT = (date.getUTCHours() + date.getUTCMinutes()/60 + date.getUTCSeconds()/3600);
+  const n2 = JD - 2451545.0;
+  const GMST = (6.697375 + 0.0657098242 * n2 + UT) % 24;
+  const LMST = (GMST + lng / 15) % 24;
+  const RA_h_m = (RA_m * 180/Math.PI / 15 + 48) % 24;
+  const HA_m = (LMST - RA_h_m) * 15 * Math.PI / 180;
+  const latR = lat * Math.PI / 180;
+  const sinAlt = Math.sin(latR)*Math.sin(dec_m) + Math.cos(latR)*Math.cos(dec_m)*Math.cos(HA_m);
+  const alt = Math.asin(Math.max(-1,Math.min(1,sinAlt))) * 180/Math.PI;
+  // Moon phase (0=new, 0.5=full)
+  const phase_d = d % 29.53058770576;
+  const phase = phase_d / 29.53;
+  return { alt, phase };
+}
+
+function moonPhaseEmoji(phase) {
+  // phase 0=new, 0.5=full
+  if (phase < 0.0625) return '🌑';
+  if (phase < 0.1875) return '🌒';
+  if (phase < 0.3125) return '🌓';
+  if (phase < 0.4375) return '🌔';
+  if (phase < 0.5625) return '🌕';
+  if (phase < 0.6875) return '🌖';
+  if (phase < 0.8125) return '🌗';
+  if (phase < 0.9375) return '🌘';
+  return '🌑';
+}
+
+function initSky() {
+  if (skyInited) return;
+  skyInited = true;
+  if (skyLat === null) { skyLat = 0; skyLng = 0; }
+
+  const cv = document.getElementById('skyCanvas');
+  const ctx = cv.getContext('2d');
+  let W, H;
+
+  function resize() { W = cv.width = cv.offsetWidth; H = cv.height = cv.offsetHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Star field (fixed positions, random for aesthetics)
+  const bgStars = Array.from({length: 280}, () => ({
+    x: Math.random(), y: Math.random(),
+    r: Math.random() * 1.1 + 0.15,
+    ph: Math.random() * Math.PI * 2,
+    sp: Math.random() * 4 + 2,
+    col: Math.random() < 0.15 ? [255,220,160] : Math.random() < 0.1 ? [180,200,255] : [220,232,255],
+  }));
+
+  let frame = 0;
+
+  function draw() {
+    if (currentScene !== 'sky') { skyInited = false; return; }
+    ctx.clearRect(0, 0, W, H);
+
+    const now = new Date();
+    const sun  = sunPosition(skyLat, skyLng, now);
+    const moon = moonPosition(skyLat, skyLng, now);
+    const isDay = sun.alt > -6; // civil twilight
+    const isDusk = sun.alt > -18 && sun.alt <= 6;
+
+    // ── Sky gradient based on sun altitude ──
+    const t = Math.max(-18, Math.min(90, sun.alt));
+    // t: -18 (full night) to 90 (zenith noon)
+    const dayFrac = Math.max(0, Math.min(1, (t + 18) / 108));
+
+    const sky = ctx.createLinearGradient(0, 0, 0, H);
+    if (t < -6) {
+      // Night: deep navy to void
+      sky.addColorStop(0, `hsl(230,45%,${3 + dayFrac*4}%)`);
+      sky.addColorStop(1, `hsl(225,35%,${2 + dayFrac*3}%)`);
+    } else if (t < 10) {
+      // Dusk/dawn: purple-orange horizon
+      sky.addColorStop(0, `hsl(${220 - dayFrac*40},55%,${8 + dayFrac*18}%)`);
+      sky.addColorStop(0.5, `hsl(${30 + dayFrac*10},${60*dayFrac}%,${5 + dayFrac*25}%)`);
+      sky.addColorStop(1, `hsl(25,${50*dayFrac}%,${4 + dayFrac*18}%)`);
+    } else {
+      // Day: blue sky
+      const blueness = Math.min(1, (t - 10) / 40);
+      sky.addColorStop(0, `hsl(${210 + blueness*10},${50+blueness*20}%,${25+blueness*35}%)`);
+      sky.addColorStop(1, `hsl(205,${40+blueness*15}%,${35+blueness*25}%)`);
+    }
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, W, H);
+
+    // ── Stars (only visible at night/dusk) ──
+    const starAlpha = Math.max(0, Math.min(1, (-sun.alt - 2) / 12));
+    if (starAlpha > 0.01) {
+      bgStars.forEach(s => {
+        const a = starAlpha * (s.r / 1.3) * (0.4 + 0.6 * Math.sin(frame / s.sp + s.ph));
+        ctx.beginPath();
+        ctx.arc(s.x * W, s.y * H * 0.85, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${s.col[0]},${s.col[1]},${s.col[2]},${a})`;
+        ctx.fill();
+      });
+    }
+
+    // ── Sun position on canvas ──
+    // alt: -90 to 90 → canvas y: H*0.9 (horizon) to H*0.08 (zenith)
+    // az: 0=N, 90=E, 180=S, 270=W → canvas x
+    const horizonY = H * 0.72;
+    const zenithY  = H * 0.06;
+    const sunAlt01 = Math.max(0, Math.min(1, (sun.alt + 6) / 96));
+    const sunY = horizonY - sunAlt01 * (horizonY - zenithY);
+    // azimuth: map 0–360 to canvas x with South (180°) at center
+    const sunAzNorm = ((sun.az - 180 + 360) % 360) / 360;
+    const sunX = W * (0.15 + sunAzNorm * 0.7);
+
+    if (sun.alt > -12) {
+      const sunAlpha = Math.min(1, (sun.alt + 12) / 18);
+      // Sun glow
+      const sunSize = 28 + Math.max(0, (1 - sunAlt01) * 12); // bigger near horizon
+      const sg = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, sunSize * 4);
+      if (isDusk) {
+        sg.addColorStop(0, `rgba(255,180,60,${sunAlpha * 0.9})`);
+        sg.addColorStop(0.3, `rgba(255,100,20,${sunAlpha * 0.4})`);
+        sg.addColorStop(1, 'rgba(255,80,10,0)');
+      } else {
+        sg.addColorStop(0, `rgba(255,235,150,${sunAlpha * 0.85})`);
+        sg.addColorStop(0.4, `rgba(255,200,80,${sunAlpha * 0.2})`);
+        sg.addColorStop(1, 'rgba(255,200,80,0)');
+      }
+      ctx.beginPath(); ctx.arc(sunX, sunY, sunSize * 4, 0, Math.PI * 2);
+      ctx.fillStyle = sg; ctx.fill();
+      // Sun body
+      ctx.beginPath(); ctx.arc(sunX, sunY, sunSize, 0, Math.PI * 2);
+      ctx.fillStyle = isDusk ? `rgba(255,160,40,${sunAlpha})` : `rgba(255,235,150,${sunAlpha})`;
+      ctx.fill();
+    }
+
+    // ── Moon ──
+    const moonAlt01 = Math.max(0, Math.min(1, (moon.alt + 6) / 96));
+    const moonY = horizonY - moonAlt01 * (horizonY - zenithY) - 40; // offset from sun
+    const moonX = W * 0.72; // simplified fixed position
+    if (moon.alt > -6 && sun.alt < 30) {
+      const moonAlpha = Math.min(1, (moon.alt + 6) / 12) * Math.min(1, (10 - sun.alt) / 16);
+      const mg = ctx.createRadialGradient(moonX, moonY, 0, moonX, moonY, 55);
+      mg.addColorStop(0, `rgba(255,248,230,${moonAlpha * 0.95})`);
+      mg.addColorStop(0.5, `rgba(240,235,215,${moonAlpha * 0.5})`);
+      mg.addColorStop(1, 'rgba(240,235,215,0)');
+      ctx.beginPath(); ctx.arc(moonX, moonY, 55, 0, Math.PI * 2);
+      ctx.fillStyle = mg; ctx.fill();
+      ctx.beginPath(); ctx.arc(moonX, moonY, 19, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,248,228,${moonAlpha})`; ctx.fill();
+      // Moon phase shadow
+      const shadowX = moonX + (moon.phase < 0.5 ? -1 : 1) * 4;
+      ctx.beginPath(); ctx.arc(shadowX, moonY, 18, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(8,12,28,${moonAlpha * Math.abs(Math.sin(moon.phase * Math.PI)) * 0.85})`;
+      ctx.fill();
+    }
+
+    // ── Horizon glow / land silhouette ──
+    const ground = ctx.createLinearGradient(0, horizonY - 4, 0, H);
+    if (isDay) {
+      ground.addColorStop(0, 'rgba(60,120,40,.85)');
+      ground.addColorStop(0.05, 'rgba(30,70,20,.9)');
+      ground.addColorStop(1, 'rgba(10,30,10,1)');
+    } else {
+      ground.addColorStop(0, 'rgba(8,18,10,.95)');
+      ground.addColorStop(1, 'rgba(3,7,5,1)');
+    }
+    ctx.fillStyle = ground;
+    ctx.fillRect(0, horizonY - 4, W, H - horizonY + 4);
+
+    // ── Horizon glow if dusk/dawn ──
+    if (isDusk) {
+      const hg = ctx.createLinearGradient(0, horizonY - 40, 0, horizonY + 10);
+      hg.addColorStop(0, 'rgba(255,100,20,0)');
+      hg.addColorStop(0.6, `rgba(255,80,10,${0.18 * Math.max(0, 1 - Math.abs(sun.alt)/12)})`);
+      hg.addColorStop(1, 'rgba(255,80,10,0)');
+      ctx.fillStyle = hg; ctx.fillRect(0, horizonY - 40, W, 50);
+    }
+
+    // ── Update UI text overlay ──
+    const hours = now.getHours().toString().padStart(2,'0');
+    const mins  = now.getMinutes().toString().padStart(2,'0');
+    const secs  = now.getSeconds().toString().padStart(2,'0');
+    document.getElementById('skyTimeDisplay').textContent = `${hours}:${mins}:${secs}`;
+
+    const phase_emoji = moonPhaseEmoji(moon.phase);
+    const skyPeriod = sun.alt > 0 ? 'Day' : sun.alt > -6 ? 'Civil Twilight' :
+                      sun.alt > -12 ? 'Nautical Twilight' : sun.alt > -18 ? 'Astronomical Twilight' : 'Night';
+    const bodies = document.getElementById('skyBodies');
+    bodies.innerHTML =
+      `<div class="sky-body"><div class="sky-body-icon">☀</div><div class="sky-body-alt">${sun.alt.toFixed(1)}°</div><div class="sky-body-name">Sun · ${skyPeriod}</div></div>` +
+      `<div class="sky-body"><div class="sky-body-icon">${phase_emoji}</div><div class="sky-body-alt">${moon.alt.toFixed(1)}°</div><div class="sky-body-name">Moon · ${(moon.phase * 100).toFixed(0)}% cycle</div></div>`;
+
+    frame++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SCENE 6 — FOREST RAIN  (richer colors + improved drops)
+// ═══════════════════════════════════════════════════════════
+let forestInited = false;
+function initForest() {
+  if (forestInited) return;
+  forestInited = true;
+
+  const cv = document.getElementById('forestCanvas');
+  const ctx = cv.getContext('2d');
+  let W, H, t = 0;
+
+  function resize() { W = cv.width = cv.offsetWidth; H = cv.height = cv.offsetHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Rich forest canopy colors — multiple species
+  const TREE_COLS = [
+    {dark:'#0A2210',mid:'#0D2E14',light:'#112E16',accent:'#1A4020'}, // deep evergreen
+    {dark:'#1A2E08',mid:'#223808',light:'#2A4210',accent:'#3A5218'}, // olive-lime
+    {dark:'#0E200E',mid:'#142A12',light:'#1C3618',accent:'#243E20'}, // forest green
+    {dark:'#1E1A08',mid:'#2A2408',light:'#34300C',accent:'#4A4010'}, // autumn gold-dark
+    {dark:'#180E20',mid:'#221228',light:'#2C1A32',accent:'#3A2440'}, // twilight purple-green
+    {dark:'#0A1E1A',mid:'#102820',light:'#163028',accent:'#204038'}, // teal-green
+  ];
+
+  // Rain drop styles: fine mist, medium drops, heavy drops, diagonal
+  const drops = Array.from({length: 280}, (_, i) => {
+    const type = i < 80 ? 'mist' : i < 180 ? 'medium' : i < 240 ? 'heavy' : 'streak';
+    return {
+      x: Math.random(),
+      y: Math.random(),
+      len: type==='mist' ? Math.random()*4+1 : type==='medium' ? Math.random()*12+5 : type==='heavy' ? Math.random()*20+10 : Math.random()*28+12,
+      spd: type==='mist' ? Math.random()*0.003+0.001 : type==='medium' ? Math.random()*0.006+0.003 : type==='heavy' ? Math.random()*0.01+0.006 : Math.random()*0.009+0.005,
+      alpha: type==='mist' ? Math.random()*0.18+0.04 : type==='medium' ? Math.random()*0.3+0.1 : type==='heavy' ? Math.random()*0.45+0.15 : Math.random()*0.25+0.08,
+      w: type==='mist' ? 0.3 : type==='medium' ? 0.6 : type==='heavy' ? 1.2 : 0.5,
+      angle: type==='streak' ? -0.15 : -0.06, // slight diagonal
+      col: type==='heavy' ? [180,220,240] : [160,200,220],
+      type,
+    };
+  });
+
+  // Puddle ripples
+  const ripples = [];
+  let rippleTimer = 0;
+
+  // Trees — each gets a random color scheme from TREE_COLS
+  const trees = [
+    {x:.03,h:.58,w:50,type:'pine',ci:0},
+    {x:.11,h:.64,w:38,type:'pine',ci:2},
+    {x:.19,h:.50,w:62,type:'round',ci:1},
+    {x:.27,h:.60,w:36,type:'pine',ci:5},
+    {x:.35,h:.46,w:68,type:'round',ci:3},
+    {x:.42,h:.54,w:44,type:'pine',ci:0},
+    {x:.50,h:.68,w:34,type:'pine',ci:2},
+    {x:.57,h:.48,w:60,type:'round',ci:4},
+    {x:.65,h:.62,w:40,type:'pine',ci:1},
+    {x:.72,h:.44,w:64,type:'round',ci:5},
+    {x:.80,h:.58,w:38,type:'pine',ci:3},
+    {x:.88,h:.52,w:52,type:'round',ci:0},
+    {x:.95,h:.56,w:42,type:'pine',ci:2},
+  ];
+
+  function drawPine(x, y, w, h, cols) {
+    const layers = 6;
+    for (let i = 0; i < layers; i++) {
+      const ly = y - h * (i / layers);
+      const lw = w * (1 - i / layers * 0.65);
+      const lh = h * 0.22;
+      // Each layer slightly different shade
+      const shade = i % 2 === 0 ? cols.dark : cols.mid;
+      ctx.beginPath();
+      ctx.moveTo(x, ly - lh);
+      ctx.lineTo(x + lw/2, ly + lh*0.3);
+      ctx.lineTo(x - lw/2, ly + lh*0.3);
+      ctx.closePath();
+      ctx.fillStyle = shade;
+      ctx.fill();
+      // Subtle highlight on left edge
+      if (i < 3) {
+        ctx.beginPath();
+        ctx.moveTo(x - lw/2, ly + lh*0.3);
+        ctx.lineTo(x, ly - lh);
+        ctx.strokeStyle = cols.accent + '44';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+    }
+    // Trunk
+    ctx.fillStyle = '#140A04';
+    ctx.fillRect(x - 3, y, 6, h * 0.1);
+  }
+
+  function drawRound(x, y, w, h, cols) {
+    // Main canopy
+    ctx.beginPath();
+    ctx.ellipse(x, y - h*0.52, w*0.44, h*0.50, 0, 0, Math.PI*2);
+    ctx.fillStyle = cols.dark;
+    ctx.fill();
+    // Secondary canopy blobs for depth
+    ctx.beginPath();
+    ctx.ellipse(x - w*0.14, y - h*0.64, w*0.30, h*0.34, -0.25, 0, Math.PI*2);
+    ctx.fillStyle = cols.mid;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(x + w*0.18, y - h*0.60, w*0.26, h*0.32, 0.2, 0, Math.PI*2);
+    ctx.fillStyle = cols.mid;
+    ctx.fill();
+    // Top highlight blob
+    ctx.beginPath();
+    ctx.ellipse(x + w*0.04, y - h*0.72, w*0.18, h*0.20, -0.1, 0, Math.PI*2);
+    ctx.fillStyle = cols.light;
+    ctx.fill();
+    // Trunk
+    ctx.fillStyle = '#120806';
+    ctx.fillRect(x - 5, y - h*0.06, 10, h*0.08);
+  }
+
+  function draw() {
+    if (currentScene !== 'forest') { forestInited = false; return; }
+    ctx.clearRect(0, 0, W, H);
+
+    const groundY = H * 0.60;
+
+    // ── Sky: deep forest atmosphere ──
+    const sky = ctx.createLinearGradient(0, 0, 0, groundY);
+    sky.addColorStop(0, '#020806');
+    sky.addColorStop(0.5, '#040C08');
+    sky.addColorStop(1, '#061008');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, W, groundY);
+
+    // ── Ground: rich dark earth with moss tones ──
+    const ground = ctx.createLinearGradient(0, groundY, 0, H);
+    ground.addColorStop(0, '#060E08');
+    ground.addColorStop(0.3, '#050C07');
+    ground.addColorStop(0.7, '#040A06');
+    ground.addColorStop(1, '#030804');
+    ctx.fillStyle = ground; ctx.fillRect(0, groundY, W, H - groundY);
+
+    // Bioluminescent moss glow at ground line
+    const mossGlow = ctx.createLinearGradient(0, groundY - 8, 0, groundY + 30);
+    mossGlow.addColorStop(0, 'rgba(30,100,40,.0)');
+    mossGlow.addColorStop(0.4, `rgba(25,90,35,${0.06 + 0.03 * Math.sin(t * 0.007)})`);
+    mossGlow.addColorStop(1, 'rgba(20,70,28,.0)');
+    ctx.fillStyle = mossGlow; ctx.fillRect(0, groundY - 8, W, 40);
+
+    // ── Draw trees (back layer — smaller) ──
+    trees.forEach((tr, idx) => {
+      const tx = tr.x * W;
+      const cols = TREE_COLS[tr.ci];
+      // Back trees slightly smaller/darker
+      ctx.save();
+      ctx.globalAlpha = 0.75;
+      ctx.scale(1, 0.85);
+      if (tr.type === 'pine') drawPine(tx, groundY / 0.85, tr.w * 0.7, tr.h * H * 0.7, TREE_COLS[(tr.ci + 3) % TREE_COLS.length]);
+      else drawRound(tx, groundY / 0.85, tr.w * 0.7, tr.h * H * 0.7, TREE_COLS[(tr.ci + 3) % TREE_COLS.length]);
+      ctx.restore();
+    });
+
+    // ── RAIN ── layered by type
+    ['mist','medium','heavy','streak'].forEach(type => {
+      drops.filter(d => d.type === type).forEach(d => {
+        d.y += d.spd;
+        if (d.y > 1.05) { d.y = -0.04; d.x = Math.random(); }
+        const x1 = d.x * W;
+        const y1 = d.y * H;
+        const dx = Math.sin(d.angle) * d.len;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x1 + dx, y1 - d.len);
+        ctx.strokeStyle = `rgba(${d.col[0]},${d.col[1]},${d.col[2]},${d.alpha})`;
+        ctx.lineWidth = d.w;
+        ctx.stroke();
+      });
+    });
+
+    // ── Draw trees (front layer — full) ──
+    trees.forEach((tr) => {
+      const tx = tr.x * W;
+      const cols = TREE_COLS[tr.ci];
+      if (tr.type === 'pine') drawPine(tx, groundY, tr.w, tr.h * H, cols);
+      else drawRound(tx, groundY, tr.w, tr.h * H, cols);
+    });
+
+    // Canopy drip effect — drops from leaf edges
+    if (t % 4 === 0 && Math.random() < 0.4) {
+      ripples.push({
+        x: Math.random() * W,
+        y: groundY + Math.random() * H * 0.12,
+        r: 0, maxR: Math.random() * 22 + 6, isDroplet: true,
+      });
+    }
+
+    // ── PUDDLE RIPPLES ──
+    rippleTimer++;
+    if (rippleTimer % 14 === 0) {
+      ripples.push({
+        x: Math.random() * W,
+        y: groundY + H * 0.05 + Math.random() * H * 0.12,
+        r: 0, maxR: Math.random() * 30 + 8, isDroplet: false,
+      });
+    }
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const rip = ripples[i];
+      rip.r += rip.isDroplet ? 0.5 : 0.7;
+      const a = Math.max(0, (rip.isDroplet ? 0.45 : 0.28) * (1 - rip.r / rip.maxR));
+      const col = rip.isDroplet ? '140,200,220' : '100,160,180';
+      ctx.beginPath();
+      ctx.ellipse(rip.x, rip.y, rip.r, rip.r * 0.3, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${col},${a})`;
+      ctx.lineWidth = rip.isDroplet ? 0.6 : 0.9;
+      ctx.stroke();
+      if (rip.r >= rip.maxR) ripples.splice(i, 1);
+    }
+
+    // Rising mist
+    const mist = ctx.createLinearGradient(0, groundY - 30, 0, groundY + 60);
+    mist.addColorStop(0, 'rgba(100,160,130,0)');
+    mist.addColorStop(0.4, `rgba(90,150,120,${0.035 + 0.015*Math.sin(t*0.006)})`);
+    mist.addColorStop(1, 'rgba(80,140,110,0)');
+    ctx.fillStyle = mist; ctx.fillRect(0, groundY - 30, W, 90);
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SCENE 7 — YOUNG'S DOUBLE-SLIT / WAVE INTERFERENCE
+//  4 wave sources arranged in a 2×2 grid on a barrier
+//  Shows constructive (bright) and destructive (dark) zones
+//  Rendered as ripple patterns on a dark "puddle" surface
+// ═══════════════════════════════════════════════════════════
+let interferenceInited = false;
+function initInterference() {
+  if (interferenceInited) return;
+  interferenceInited = true;
+
+  const cv = document.getElementById('interferenceCanvas');
+  const ctx = cv.getContext('2d');
+  let W, H, t = 0;
+
+  // Off-screen canvas at reduced resolution for the pixel computation
+  // We compute at SCALE=3 downscale then drawImage to fill screen — fast enough for 60fps
+  const SCALE = 3; // compute every Nth pixel
+  let offCV = document.createElement('canvas');
+  let offCtx = offCV.getContext('2d');
+  let imgData = null;
+
+  function resize() {
+    W = cv.width  = cv.offsetWidth  || window.innerWidth;
+    H = cv.height = cv.offsetHeight || window.innerHeight;
+    offCV.width  = Math.ceil(W / SCALE);
+    offCV.height = Math.ceil(H / SCALE);
+    imgData = offCtx.createImageData(offCV.width, offCV.height);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const WAVELENGTH = 90;   // pixels at full res
+  const SPEED = 0.055;     // phase advance per frame
+
+  // 4 sources in 2×2 grid — classic 2D Young's arrangement
+  // Two columns (left/right slit) × two rows (top/bottom slit)
+  const SRCS = [
+    {xf:0.36, yf:0.40},
+    {xf:0.64, yf:0.40},
+    {xf:0.36, yf:0.60},
+    {xf:0.64, yf:0.60},
+  ];
+
+  function draw() {
+    if (currentScene !== 'interference') { interferenceInited = false; return; }
+
+    const OW = offCV.width, OH = offCV.height;
+    const k = (2 * Math.PI) / (WAVELENGTH / SCALE);
+    const data = imgData.data;
+
+    // Source positions in downscaled coords
+    const srcs = SRCS.map(s => ({x: s.xf * OW, y: s.yf * OH}));
+
+    // ── Pixel pass (at reduced resolution) ──
+    for (let py = 0; py < OH; py++) {
+      for (let px = 0; px < OW; px++) {
+        let amp = 0;
+        for (let s = 0; s < srcs.length; s++) {
+          const dx = px - srcs[s].x;
+          const dy = py - srcs[s].y;
+          const r = Math.sqrt(dx*dx + dy*dy) + 0.001;
+          // Amplitude: 1/sqrt(1 + r/12) so it decays gently
+          const decay = 1 / Math.sqrt(1 + r / 12);
+          amp += Math.cos(k * r - SPEED * t) * decay;
+        }
+        // amp: roughly -4 .. +4 → norm -1 .. +1
+        const norm = Math.max(-1, Math.min(1, amp * 0.25));
+
+        const i4 = (py * OW + px) * 4;
+        // Constructive (norm > 0): warm white-gold → cyan
+        // Destructive (norm < 0): deep indigo-void
+        // Map through a spectrum: gold at peaks, void at troughs
+        if (norm >= 0) {
+          const v = norm * norm; // sharpen peaks
+          data[i4]   = Math.round(v * 255 * 0.85 + 2);  // R
+          data[i4+1] = Math.round(v * 255 * 0.95 + 3);  // G
+          data[i4+2] = Math.round(v * 255 * 1.00 + 5);  // B
+          data[i4+3] = Math.round(v * 255 + 8);
+        } else {
+          const v = norm * norm;
+          data[i4]   = Math.round(v * 20);
+          data[i4+1] = Math.round(v * 40);
+          data[i4+2] = Math.round(v * 80 + 4);
+          data[i4+3] = Math.round(v * 180 + 6);
+        }
+      }
+    }
+
+    // ── Render ──
+    // Black base
+    ctx.fillStyle = '#030508';
+    ctx.fillRect(0, 0, W, H);
+
+    // Upload low-res image
+    offCtx.putImageData(imgData, 0, 0);
+
+    // Scale up with pixelated → smooth (nearest-neighbor then bilinear via browser)
+    ctx.save();
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(offCV, 0, 0, W, H);
+    ctx.restore();
+
+    // ── Source glows ──
+    const fullSrcs = SRCS.map(s => ({x: s.xf * W, y: s.yf * H}));
+    fullSrcs.forEach((s) => {
+      const grd = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, 36);
+      grd.addColorStop(0, 'rgba(255,255,240,1)');
+      grd.addColorStop(0.2, 'rgba(200,230,255,.7)');
+      grd.addColorStop(1, 'rgba(80,160,220,0)');
+      ctx.fillStyle = grd;
+      ctx.beginPath(); ctx.arc(s.x, s.y, 36, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(s.x, s.y, 4, 0, Math.PI*2);
+      ctx.fillStyle = '#FFFFFF'; ctx.fill();
+    });
+
+    // ── Barrier lines (dashed, suggesting the slit plate) ──
+    const x1 = SRCS[0].xf * W, x2 = SRCS[1].xf * W;
+    const y1 = SRCS[0].yf * H, y2 = SRCS[2].yf * H;
+    ctx.strokeStyle = 'rgba(160,200,255,.2)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 7]);
+    [[x1, y1-30, x1, y2+30],[x2, y1-30, x2, y2+30]].forEach(([ax,ay,bx,by]) => {
+      ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+    });
+    ctx.setLineDash([]);
+
+    // ── Labels ──
+    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(180,220,255,.45)';
+    ['S₁','S₂'].forEach((lbl, i) => ctx.fillText(lbl, fullSrcs[i].x, y1 - 36));
+    ['S₃','S₄'].forEach((lbl, i) => ctx.fillText(lbl, fullSrcs[i+2].x, y2 + 42));
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(180,220,255,.22)';
+    ctx.fillText('constructive interference → bright fringes', 12, 18);
+    ctx.fillText('destructive interference → dark fringes', 12, 30);
+    ctx.fillText('4 coherent sources · Young\'s experiment · λ = ' + WAVELENGTH + 'px', 12, H - 10);
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+</script>
+</body>

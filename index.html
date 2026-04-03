@@ -16,7 +16,7 @@
   --glow:rgba(232,201,106,.08);
 }
 html{scroll-behavior:smooth;background:var(--void);height:100%}
-body{color:var(--ice);font-family:"EB Garamond",Georgia,serif;overflow-x:hidden;min-height:100vh}
+body{color:var(--ice);font-family:"EB Garamond",Georgia,serif;overflow-x:hidden;min-height:100vh;scroll-padding-top:80px}
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.012;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -27,26 +27,94 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-links a{font-family:"JetBrains Mono",monospace;font-size:.34rem;letter-spacing:.07em;color:var(--dim);text-decoration:none;padding:.15rem .38rem;text-transform:uppercase;transition:color .15s;border-radius:3px}
 .nav-links a:hover{color:var(--gold)}
 .page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 1.5rem 8rem}
-.hero{text-align:center;padding:7rem 2rem 4rem;position:relative}
+.hero{text-align:center;padding:7rem 2rem 5rem;position:relative;background:transparent;min-height:100vh;overflow:hidden}
 #hero-c{position:absolute;inset:0;z-index:0;pointer-events:none}
 .hero-content{position:relative;z-index:2}
-.h-eye{font-family:"JetBrains Mono",monospace;font-size:.42rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,201,106,.3);margin-bottom:1rem}
-.hero h1{font-family:"Cinzel Decorative",serif;font-size:clamp(2rem,5vw,4rem);font-weight:400;color:var(--gold);letter-spacing:.1em;line-height:1.05;margin-bottom:.4rem}
-.hero h1 span{color:rgba(220,232,255,.7);font-size:0.65em;display:block;margin-top:.3rem;font-family:"Cinzel",serif;font-weight:400;letter-spacing:.2em}
-.h-rule{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:.9rem auto}
-.h-sub{font-family:"EB Garamond",serif;font-style:italic;font-size:1.05rem;color:var(--dim);max-width:560px;line-height:2.1;margin:0 auto 2.2rem}
-.delta{display:inline-flex;align-items:center;gap:.5rem;background:rgba(232,201,106,.05);border:1px solid rgba(232,201,106,.12);border-radius:20px;padding:.3rem 1rem;margin:0 auto .5rem;font-family:"JetBrains Mono",monospace;font-size:.45rem;letter-spacing:.12em;color:rgba(232,201,106,.5)}
-.sec-head{display:flex;align-items:center;gap:.8rem;margin:3rem 0 1.2rem}
-.sh-lbl{font-family:"JetBrains Mono",monospace;font-size:.46rem;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap}
-.sh-line{flex:1;height:1px;background:var(--line)}
-.sh-ct{font-family:"JetBrains Mono",monospace;font-size:.42rem;letter-spacing:.1em;color:var(--dim)}
+
+/* ── TELESCOPE WINDOW OVERLAY ── */
+/* Sits between the fixed #bg canvas and the hero content */
+/* Creates a dark panel with one narrow horizontal slit that reveals the planets */
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  /* We use a CSS clip approach: dark top, slit gap, dark bottom */
+  /* The slit is positioned at ~42% height  -  where the planet row sits */
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(4,7,15,0.97) 0%,
+      rgba(4,7,15,0.97) calc(42% - 38px),
+      rgba(4,7,15,0.0)  calc(42% - 38px),
+      rgba(4,7,15,0.0)  calc(42% + 38px),
+      rgba(4,7,15,0.97) calc(42% + 38px),
+      rgba(4,7,15,0.97) 100%
+    );
+}
+/* Soft feathered edges on the slit window */
+.hero-overlay::before{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent calc(42% - 52px),
+      rgba(4,7,15,0.6) calc(42% - 52px),
+      rgba(4,7,15,0.0) calc(42% - 32px),
+      rgba(4,7,15,0.0) calc(42% + 32px),
+      rgba(4,7,15,0.6) calc(42% + 52px),
+      transparent calc(42% + 52px),
+      transparent 100%
+    );
+}
+.hero-overlay::after{
+  content:'';position:absolute;left:0;right:0;pointer-events:none;
+  top:calc(42% - 38px);
+  height:76px;
+  border-top:1px solid rgba(232,201,106,0.18);
+  border-bottom:1px solid rgba(232,201,106,0.18);
+  box-shadow:
+    0 -1px 0 0 rgba(232,201,106,0.06),
+    0  1px 0 0 rgba(232,201,106,0.06);
+}
+/* Slit label  -  appears at the right edge of the window */
+.slit-label{
+  position:absolute;
+  right:1.5rem;
+  top:calc(42% + 42px);
+  z-index:3;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.36rem;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(232,201,106,0.35);
+  pointer-events:none;
+}
+  content:'';position:absolute;left:0;right:0;pointer-events:none;
+  top:calc(42% - 38px);
+  height:76px;
+  border-top:1px solid rgba(232,201,106,0.18);
+  border-bottom:1px solid rgba(232,201,106,0.18);
+  box-shadow:
+    0 -1px 0 0 rgba(232,201,106,0.06),
+    0  1px 0 0 rgba(232,201,106,0.06);
+}
+.h-eye{font-family:"JetBrains Mono",monospace;font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,201,106,.5);margin-bottom:1.5rem;font-weight:500}
+.hero h1{font-family:"Cinzel Decorative",serif;font-size:clamp(2rem,5vw,4rem);font-weight:700;color:var(--gold);letter-spacing:.1em;line-height:1.05;margin-bottom:.6rem}
+.hero h1 span{color:rgba(220,232,255,.85);font-size:0.65em;display:block;margin-top:.5rem;font-family:"Cinzel",serif;font-weight:600;letter-spacing:.2em}
+.h-rule{width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:1.5rem auto}
+.h-sub{font-family:"EB Garamond",serif;font-style:normal;font-size:1.15rem;color:rgba(220,232,255,.95);max-width:850px;line-height:2.2;margin:0 auto 3rem;font-weight:500;text-align:left}
+.h-sub strong{font-weight:700}
+.h-sub a{transition:all .2s}
+.h-sub a:hover{opacity:.8;transform:translateY(-1px)}
+.delta{display:inline-flex;align-items:center;gap:.6rem;background:rgba(232,201,106,.08);border:2px solid rgba(232,201,106,.18);border-radius:24px;padding:.5rem 1.4rem;margin:0 auto .5rem;font-family:"JetBrains Mono",monospace;font-size:.58rem;letter-spacing:.14em;color:rgba(232,201,106,.65);font-weight:600}
+.sec-head{display:flex;align-items:center;gap:.8rem;margin:5rem 0 2rem}
+.sh-lbl{font-family:"JetBrains Mono",monospace;font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;white-space:nowrap;font-weight:600}
+.sh-line{flex:1;height:2px;background:linear-gradient(90deg,var(--line),transparent)}
+.sh-ct{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.1em;color:var(--dim);font-weight:500}
 .inst-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:visible}
 a.inst,button.inst{display:block;background:var(--void);padding:1.2rem 1.3rem;text-decoration:none;transition:background .15s;position:relative;border-left:3px solid transparent;cursor:pointer;width:100%;text-align:left;border-top:none;border-right:none;border-bottom:none;font-family:inherit}
 a.inst:hover,button.inst:hover{background:rgba(220,232,255,.03)}
 a.inst:active,button.inst:active{background:rgba(220,232,255,.06)}
 .inst-icon{font-size:1.5rem;display:block;margin-bottom:.35rem;line-height:1}
-.inst-name{font-family:"Cinzel",serif;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem;line-height:1.3}
-.inst-desc{font-size:.8rem;color:var(--dim);line-height:1.7;margin-bottom:.35rem}
+.inst-name{font-family:"Cinzel",serif;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;line-height:1.3;font-weight:600}
+.inst-desc{font-size:.85rem;color:var(--dim);line-height:1.8;margin-bottom:.45rem;font-weight:400}
 .inst-tag{font-family:"JetBrains Mono",monospace;font-size:.33rem;letter-spacing:.08em;text-transform:uppercase;opacity:.45}
 a.inst.it{color:var(--teal);border-left-color:var(--teal)}
 a.inst.itb{color:var(--gold);border-left-color:var(--gold)}
@@ -62,11 +130,11 @@ a.inst.icr{color:var(--red);border-left-color:var(--red)}
 a.inst.ifr{color:var(--rose);border-left-color:var(--rose)}
 .inst-name,.inst-desc,.inst-tag{color:inherit}
 .inst-desc{color:var(--dim)!important}
-.comma-box{background:var(--glow);border:1px solid rgba(232,201,106,.12);border-radius:8px;padding:1.4rem 1.6rem;margin:2.5rem 0;text-align:center}
-.cb-delta{font-family:"JetBrains Mono",monospace;font-size:2.2rem;color:var(--gold);letter-spacing:.06em;display:block;margin-bottom:.3rem}
-.cb-eq{font-family:"JetBrains Mono",monospace;font-size:.42rem;letter-spacing:.14em;color:rgba(232,201,106,.45);margin-bottom:.4rem}
-.cb-prose{font-family:"EB Garamond",serif;font-style:italic;font-size:.93rem;color:var(--dim);line-height:2}
-footer{position:relative;z-index:1;text-align:center;padding:2.5rem;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.1em;color:rgba(220,232,255,.18)}
+.comma-box{background:var(--glow);border:1px solid rgba(232,201,106,.12);border-radius:8px;padding:2rem 2rem;margin:4rem 0;text-align:center}
+.cb-delta{font-family:"JetBrains Mono",monospace;font-size:2.6rem;color:var(--gold);letter-spacing:.06em;display:block;margin-bottom:.4rem;font-weight:700}
+.cb-eq{font-family:"JetBrains Mono",monospace;font-size:.48rem;letter-spacing:.14em;color:rgba(232,201,106,.5);margin-bottom:.6rem;font-weight:500}
+.cb-prose{font-family:"EB Garamond",serif;font-style:normal;font-size:1rem;color:rgba(220,232,255,.85);line-height:2.2;font-weight:500}
+footer{position:relative;z-index:1;text-align:center;padding:2.5rem 2rem 28rem;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:.4rem;letter-spacing:.1em;color:rgba(220,232,255,.18)}
 @keyframes omshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 button.om-card{display:block;width:100%;text-align:left;border-top:none;border-right:none;border-bottom:none;font-family:inherit;cursor:pointer;background:var(--void);padding:1.2rem 1.3rem;transition:background .15s;position:relative;border-left:3px solid transparent}
 button.om-card .inst-desc{color:var(--dim)!important}
@@ -75,31 +143,16 @@ button.om-card:hover{background:rgba(57,255,154,.03)}
 </head>
 <body>
 <canvas id="bg"></canvas>
-<!-- OPHIUCHUS MODAL -->
+<!-- Modal styles removed -->
 <style>
-@keyframes omshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-.om-card{display:block;width:100%;text-align:left;border-top:none;border-right:none;border-bottom:none;font-family:inherit;cursor:pointer;padding:1.2rem 1.3rem;background:var(--void);transition:background .15s;position:relative;border-left:3px solid transparent}
-.om-card:hover{background:rgba(220,232,255,.03);border-left-color:currentColor}
+/* Removed Ophiuchus modal styles */
 </style>
-<div id="omodal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(4,7,15,.96);backdrop-filter:blur(18px);align-items:center;justify-content:center">
-  <div style="text-align:center;padding:52px 48px;border:1px solid rgba(57,255,154,.12);max-width:340px;width:90%;background:rgba(4,7,15,.6)">
-    <span style="font-size:2.2rem;margin-bottom:20px;opacity:.2;display:block">&#x26CE;</span>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:#39ff9a;margin-bottom:4px">Ophiuchus &middot; Restricted</div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(57,255,154,.3);margin-bottom:36px">Passphrase required</div>
-    <input type="password" id="ompw" placeholder="&middot;&middot;&middot;" autocomplete="off" spellcheck="false" style="width:100%;background:transparent;border:none;border-bottom:1px solid rgba(57,255,154,.15);color:#39ff9a;font-family:'JetBrains Mono',monospace;font-size:18px;letter-spacing:6px;text-align:center;padding:10px 0;outline:none;caret-color:#39ff9a;margin-bottom:24px;display:block">
-    <div style="display:flex;gap:10px;justify-content:center">
-      <button onclick="omUnlock()" style="font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.14em;text-transform:uppercase;padding:9px 22px;background:transparent;cursor:pointer;border:1px solid rgba(57,255,154,.25);color:#39ff9a;border-radius:2px">Enter</button>
-      <button onclick="omClose()" style="font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.14em;text-transform:uppercase;padding:9px 22px;background:transparent;cursor:pointer;border:1px solid rgba(220,232,255,.1);color:rgba(220,232,255,.28);border-radius:2px">Cancel</button>
-    </div>
-    <div id="omerr" style="font-family:'JetBrains Mono',monospace;font-size:.37rem;letter-spacing:.1em;color:#ff6b6b;margin-top:14px;min-height:14px;text-transform:uppercase"></div>
-  </div>
-</div>
 
 <nav>
   <a href="index.html" class="nav-brand">Musica Universalis</a>
   <div class="nav-links">
     <a href="directory.html">Directory</a>
-    <a href="musica_universalis_v5.html">Theory</a>
+    <a href="musica_universalis_v5_v6.html">Theory</a>
     <a href="economics.html">Economics</a>
     <a href="ancient_calendars.html">Calendars</a>
     <a href="harmonice_mundi.html">Kepler</a>
@@ -110,12 +163,82 @@ button.om-card:hover{background:rgba(57,255,154,.03)}
 <div class="page">
 <section class="hero">
   <canvas id="hero-c"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="slit-label">☉ solar system · live</div>
   <div class="hero-content">
-    <div class="h-eye">&delta; = 0.013643 &middot; N_res = 73.296 &middot; The Pythagorean Comma</div>
+    <div class="h-eye">MUSICA UNIVERSALIS V5 &middot; EDUCATIONAL GATEWAY</div>
     <h1>MUSICA UNIVERSALIS<span>The Signal Library</span></h1>
     <div class="h-rule"></div>
-    <p class="h-sub">Forty instruments. One frequency. The comma that holds the cosmos together and the questions it refuses to answer. Begin anywhere.</p>
-    <div class="delta">&delta; = 531441/524288 &minus; 1 = 0.013643 &middot; The Gap Between the Perfect and the Actual</div>
+    
+    <div class="h-sub">
+      <div style="font-family:'Cinzel Decorative',serif;font-size:2.2rem;font-weight:700;color:var(--gold);margin-bottom:1.8rem;text-align:center;letter-spacing:0.08em">Welcome!!!!</div>
+      
+      <div style="margin-bottom:1.8rem;text-align:center">
+        This is an educational website introducing the <strong style="color:var(--gold)">comma framework</strong>, a vision of unified system dynamics born from incommensurability and required errors.
+      </div>
+      
+      <div style="margin-bottom:1rem;font-size:1.2rem;color:var(--teal);font-weight:700;text-align:center">What does this even mean?</div>
+      <div style="margin-bottom:1.8rem;text-align:center">
+        It means that <strong>perfect intervals cannot build perfect scales!</strong>
+      </div>
+      
+      <div style="margin-bottom:1rem;font-size:1.2rem;color:var(--teal);font-weight:700;text-align:center">Why not?</div>
+      <div style="margin-bottom:1.8rem;text-align:center">
+        We will explore the Pythagorean comma (δ = 0.013643) which measures this fundamental gap.
+      </div>
+      
+      <div style="margin-bottom:2.5rem;text-align:center">
+        What begins as a musical curiosity has extended across physics, chemistry, and cosmology: <em style="color:var(--gold)">all systems are built from necessary error; all coherence emerges from the inability to close. <span style="display:inline-block;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:0.08rem 0.38rem;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.07em;color:rgba(201,168,76,0.7);vertical-align:middle;">&#9872; CF ARTICULATION</span></em>
+      </div>
+      
+      <div style="width:80%;height:2px;background:linear-gradient(90deg,transparent,var(--teal),var(--gold),var(--teal),transparent);margin:2.5rem auto"></div>
+      
+      <div style="margin-top:2.5rem;margin-bottom:1.5rem;font-size:1.3rem;font-weight:700;color:var(--blue);text-align:center">How to navigate this website:</div>
+      
+      <div style="margin-bottom:1.5rem;text-align:center">
+        Explore different topics and their view through the comma framework.
+      </div>
+      
+      <div style="margin-bottom:1.5rem;text-align:center">
+        Start with <strong><a href="qed_theory.html" style="color:var(--gold);text-decoration:none;border-bottom:2px solid var(--gold)">the cyanine data and foundation of the theory</a></strong> for a complete theoretical exposition, or...
+      </div>
+      
+      <div style="margin-bottom:1.5rem;text-align:center">
+        Try <strong><a href="musica_universalis_v5_v6.html" style="color:var(--blue);text-decoration:none;border-bottom:2px solid var(--blue)">Musica Universalis Theory</a></strong> for an accessible introduction!!!!!!!!!
+      </div>
+      
+      <div style="margin-bottom:1.5rem;text-align:center">
+        New here? Try <strong><a href="dft_kids.html" style="color:var(--teal);text-decoration:none;border-bottom:2px solid var(--teal)">The Rainbow Mystery</a></strong> &mdash; the core chemistry explained for a 9th grader. No background needed. Available in any country, any device.
+      </div>
+      
+      <div style="margin-bottom:1.5rem;text-align:center">
+        New here? Start with <strong><a href="dft_kids.html" style="color:var(--teal);text-decoration:none;border-bottom:2px solid var(--teal)">The Rainbow Mystery</a></strong> &mdash; the core chemistry result explained for a 9th grader, no background needed.
+      </div>
+      
+      <div style="margin-bottom:1.5rem;text-align:center">
+        Explore the cosmos with <strong><a href="harmonice_mundi.html" style="color:var(--purple);text-decoration:none;border-bottom:2px solid var(--purple)">Kepler's Solar Explorer</a></strong> and see planetary orbits as musical intervals!
+      </div>
+      
+      <div style="margin-bottom:3rem;text-align:center">
+        Protected pages (🔒) explore applications in astrology, mythology, and live cosmic data. <em style="color:var(--dim)">Can you track the code?</em>
+      </div>
+    </div>
+    
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;max-width:860px;margin:0 auto 2rem;">
+    <div style="flex:1;min-width:220px;max-width:360px;background:rgba(232,201,106,0.06);border-left:2px solid rgba(232,201,106,0.4);padding:0.75rem 1rem;font-family:'EB Garamond',serif;font-style:italic;font-size:0.95rem;color:rgba(220,232,255,0.75);line-height:1.8;border-radius:0 4px 4px 0;">
+      "There is geometry in the humming of the strings, there is music in the spacing of the spheres."
+      <div style="font-style:normal;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.09em;color:rgba(232,201,106,0.5);margin-top:0.4rem;">Pythagoras (c. 570-495 BCE) · attr. Aristotle, <em>Metaphysics</em> I.5</div>
+    </div>
+    <div style="flex:1;min-width:220px;max-width:360px;background:rgba(126,236,212,0.05);border-left:2px solid rgba(126,236,212,0.35);padding:0.75rem 1rem;font-family:'EB Garamond',serif;font-style:italic;font-size:0.95rem;color:rgba(220,232,255,0.75);line-height:1.8;border-radius:0 4px 4px 0;">
+      "Music is the hidden arithmetic exercise of a soul unconscious that it is calculating."
+      <div style="font-style:normal;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.09em;color:rgba(126,236,212,0.45);margin-top:0.4rem;">G. W. Leibniz, Letter to C. Goldbach, April 17, 1712. <em>Mathematische Schriften</em>, Vol. III/1, p. 478.</div>
+    </div>
+    <div style="flex:1;min-width:220px;max-width:360px;background:rgba(168,212,255,0.05);border-left:2px solid rgba(168,212,255,0.3);padding:0.75rem 1rem;font-family:'EB Garamond',serif;font-style:italic;font-size:0.95rem;color:rgba(220,232,255,0.75);line-height:1.8;border-radius:0 4px 4px 0;">
+      "The miracle of the appropriateness of the language of mathematics for the formulation of the laws of physics is a wonderful gift which we neither understand nor deserve."
+      <div style="font-style:normal;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.09em;color:rgba(168,212,255,0.45);margin-top:0.4rem;">Wigner, E. P. <em>Commun. Pure Appl. Math.</em> 1960, 13, 1-14. DOI: 10.1002/cpa.3160130102</div>
+    </div>
+  </div>
+  <div class="delta">&delta; = 0.013643 &middot; N_res = 73.296 &middot; The comma that does not close</div>
   </div>
 </section>
 
@@ -126,7 +249,7 @@ button.om-card:hover{background:rgba(57,255,154,.03)}
   <span class="sh-ct">The frequency, the comma, the cosmos</span>
 </div>
 <div class="inst-grid">
-  <a class="inst it" href="musica_universalis_v5.html">
+  <a class="inst it" href="musica_universalis_v5_v6.html">
     <span class="inst-icon">&#x267E;</span>
     <div class="inst-name">Musica Universalis &middot; The Theory</div>
     <div class="inst-desc">The complete theoretical framework. &delta; = 0.013643. The Pythagorean comma as the gap in the cosmic tuning. 13 sections. The question the universe has been asking since it began.</div>
@@ -135,7 +258,7 @@ button.om-card:hover{background:rgba(57,255,154,.03)}
   <a class="inst it" href="harmonice_mundi.html">
     <span class="inst-icon">&#x1FA90;</span>
     <div class="inst-name">Harmonice Mundi &middot; Kepler</div>
-    <div class="inst-desc">Kepler's 1619 masterwork. Planetary orbits as musical intervals. 11 verdicts &mdash; confirmed, partial, speculative, disproved, and one transcendent: Earth sings the Pythagorean comma. Interactive orrery.</div>
+    <div class="inst-desc">Kepler's 1619 masterwork. Planetary orbits as musical intervals. 11 verdicts -- confirmed, partial, speculative, disproved, and one transcendent: Earth sings the Pythagorean comma. Interactive orrery.</div>
     <span class="inst-tag">KEPLER &middot; HARMONICE MUNDI &middot; COMMA &middot; ORBITS &middot; VERDICTS</span>
   </a>
   <a class="inst it" href="ancient_calendars.html">
@@ -148,122 +271,383 @@ button.om-card:hover{background:rgba(57,255,154,.03)}
 
 <!-- SCIENCE -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--blue)">Science &middot; 12 pages</span>
+  <span class="sh-lbl" style="color:var(--blue)">Science &middot; 14 pages</span>
   <div class="sh-line"></div>
   <span class="sh-ct">Evidence, mechanism, the body of the universe</span>
 </div>
 <div class="inst-grid">
-  <a class="inst isc" href="probability_nature.html"><span class="inst-icon">&#128202;</span><div class="inst-name">Probability &amp; Statistics &middot; Nature Is Natural</div><div class="inst-desc">Probability, statistics, the Pythagorean comma in ecology and climate systems. Weather prediction, sea temperature rise, pollution tracking, rewilding. Dario screams. The comma of ecology. Live charts and interactive distribution demo.</div><span class="inst-tag">PROBABILITY &middot; STATISTICS &middot; CLIMATE &middot; NATURE &middot; COMMA &middot; DARIO</span></a>
-  <a class="instions_as_frequency.html"><span class="inst-icon">〰</span><div class="inst-name">Emotions as Frequency</div><div class="inst-desc">Five questions: Are emotions Hz? What is inner detuning? Love as harmony. Trauma as dissonance. The universe as song.</div><span class="inst-tag">EMOTIONS &middot; HZ &middot; EEG &middot; MANIA &middot; TRAUMA</span></a>
-  <a class="inst isc" href="economics.html"><span class="inst-icon">&#x2696;</span><div class="inst-name">Economics in a Nutshell</div><div class="inst-desc">The circular flow. Keynes vs Hayek. Veblen goods. Compound interest. Irish cows swimming to Inishkea. Fear kills banks. Trust restores them.</div><span class="inst-tag">ECONOMICS &middot; SUPPLY &middot; DEMAND &middot; COMPOUND</span></a>
-  <a class="inst isc" href="origins_of_life.html"><span class="inst-icon">&#x1F9EC;</span><div class="inst-name">Origins of Life</div><div class="inst-desc">The Krebs cycle. Miller-Urey. Prebiotic chemistry simulator.</div><span class="inst-tag">KREBS &middot; MILLER-UREY &middot; PREBIOTIC &middot; RNA WORLD</span></a>
-  <a class="inst isc" href="astrobiology_climate.html"><span class="inst-icon">&#x1F30D;</span><div class="inst-name">Astrobiology &middot; Climate</div><div class="inst-desc">Europa, Enceladus, Mars. Earth's composition. Climate kinetics simulator. Biosignatures, tipping points.</div><span class="inst-tag">ASTROBIOLOGY &middot; CLIMATE &middot; CO2 &middot; BIOSIGNATURES</span></a>
-  <a class="inst isc" href="what_is_alive.html"><span class="inst-icon">&#x1F43A;</span><div class="inst-name">What Is Alive</div><div class="inst-desc">Wolves, deer, Lotka-Volterra. Invasive species. Extinction. Yellowstone trophic cascade.</div><span class="inst-tag">ECOLOGY &middot; LOTKA-VOLTERRA &middot; EXTINCTION</span></a>
-  <a class="inst isc" href="biology_of_the_mind.html"><span class="inst-icon">&#x1F9E0;</span><div class="inst-name">Biology of the Mind</div><div class="inst-desc">Neuroscience, cancer, Alzheimer, Parkinson, fMRI, ECT, Neuralink, quantum biology.</div><span class="inst-tag">NEUROSCIENCE &middot; CANCER &middot; ALZHEIMER &middot; NEURALINK</span></a>
-  <a class="inst isc" href="dft_results.html"><span class="inst-icon">&#x2697;</span><div class="inst-name">Cyanine DFT &middot; Quantum Chemistry</div><div class="inst-desc">DFT study of cyanine dyes. CAM-B3LYP geometry optimization. Bond length alternation. Near-infrared absorption.</div><span class="inst-tag">DFT &middot; CYANINE &middot; CAM-B3LYP &middot; BLA &middot; NIR</span></a>
-  <a class="inst isc" href="physics_everything.html"><span class="inst-icon">&#x221E;</span><div class="inst-name">The Fabric of Everything</div><div class="inst-desc">Time dilation, gravity, black holes, Hawking radiation, string theory. The twin paradox &mdash; two travellers split by velocity.</div><span class="inst-tag">TIME &middot; GRAVITY &middot; BLACK HOLES &middot; STRING THEORY</span></a>
-  <a class="inst isc" href="age_of_universe.html"><span class="inst-icon">&#x1F4E1;</span><div class="inst-name">Age of the Universe</div><div class="inst-desc">The CMB. Hubble constant tension. 13.8 billion years. The universe's first chord, still ringing.</div><span class="inst-tag">CMB &middot; HUBBLE &middot; BIG BANG &middot; COSMOLOGY</span></a>
-  <a class="inst isc" href="solar_future.html"><span class="inst-icon">&#x2600;</span><div class="inst-name">Solar Future &middot; Light &amp; Mind</div><div class="inst-desc">Why sunlight is the original medicine. Vitamin D, circadian entrainment, serotonin, photobiomodulation. Dark therapy.</div><span class="inst-tag">SUNLIGHT &middot; LIGHT THERAPY &middot; SAD &middot; CIRCADIAN</span></a>
-  <a class="inst ihe" href="modern_diseases.html"><span class="inst-icon">&#129516;</span><div class="inst-name">Modern Diseases &amp; The Comma Framework</div><div class="inst-desc">Alzheimer's, Parkinson's, Bipolar, Schizophrenia, Autism, and Cancer through the Pythagorean Comma framework. Frontier research 2023–2025. Neural oscillation loss, dopamine loop lock, mood cycle escape, prediction error collapse, E/I imbalance, cell checkpoint removal. Six comma failures. One framework.</div><span class="inst-tag">ALZHEIMER'S &middot; PARKINSON'S &middot; BIPOLAR &middot; SCHIZOPHRENIA &middot; AUTISM &middot; CANCER</span></a>
-  <a class="inst isc" href="circadian_clock.html"><span class="inst-icon">&#x1F319;</span><div class="inst-name">Circadian Clock · Necessity, Sleep &amp; Time</div><div class="inst-desc">Is the clock necessary? What happens during sleep; SWS, REM, glymphatic clearance? Is sleep needed to learn? The natural zeitgebers. Dysregulation. Advantages and costs of overriding the clock. 12 sections with live simulator.</div><span class="inst-tag">CIRCADIAN &middot; SLEEP &middot; ZEITGEBERS &middot; REM &middot; SWS &middot; LEARNING &middot; CHRONOTYPE</span></a>
+  <a class="inst isc" href="qed_theory.html">
+    <span class="inst-icon">&#x269B;</span>
+    <div class="inst-name">QED &middot; The Theory of Light and Matter</div>
+    <div class="inst-desc">Dirac's electron meets Maxwell's photon. The QED Lagrangian, Feynman diagrams, renormalization. Cyanine dye spectra as experimental QED. The Pythagorean comma as a molecular fine structure constant. 146&times; improvement over standard PIB.</div>
+    <div style="margin-top:.4rem">
+      <a href="dft_kids.html" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:5px;background:rgba(64,222,200,.08);border:1px solid rgba(64,222,200,.2);border-radius:4px;padding:.1rem .45rem;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.09em;color:rgba(64,222,200,.7);text-decoration:none" onmouseover="this.style.background='rgba(64,222,200,.16)'" onmouseout="this.style.background='rgba(64,222,200,.08)'">&starf; See the cyanine results explained simply</a>
+    </div>
+    <span class="inst-tag">QED &middot; DIRAC &middot; MAXWELL &middot; FEYNMAN &middot; CYANINE &middot; COMMA &middot; &delta; = 0.013643</span>
+  </a>
+  <a class="inst isc" href="probability_nature.html">
+    <span class="inst-icon">&#128202;</span>
+    <div class="inst-name">Probability &amp; Statistics &middot; Nature Is Natural</div>
+    <div class="inst-desc">Probability, statistics, the Pythagorean comma in ecology and climate systems. Weather prediction, sea temperature rise, pollution tracking, rewilding. The comma of ecology. Live charts and interactive distribution demo.</div>
+    <span class="inst-tag">PROBABILITY &middot; STATISTICS &middot; CLIMATE &middot; NATURE &middot; COMMA</span>
+  </a>
+  <a class="inst isc" href="emotions_as_frequency.html">
+    <span class="inst-icon">&#12316;</span>
+    <div class="inst-name">Emotions as Frequency</div>
+    <div class="inst-desc">Five questions: Are emotions Hz? What is inner detuning? Love as harmony. Trauma as dissonance. The universe as song.</div>
+    <span class="inst-tag">EMOTIONS &middot; HZ &middot; EEG &middot; MANIA &middot; TRAUMA</span>
+  </a>
+  <a class="inst isc" href="economics.html">
+    <span class="inst-icon">&#x2696;</span>
+    <div class="inst-name">Economics in a Nutshell</div>
+    <div class="inst-desc">The circular flow. Keynes vs Hayek. Veblen goods. Compound interest. Irish cows swimming to Inishkea. Fear kills banks. Trust restores them.</div>
+    <span class="inst-tag">ECONOMICS &middot; SUPPLY &middot; DEMAND &middot; COMPOUND</span>
+  </a>
+  <a class="inst isc" href="origins_of_life.html">
+    <span class="inst-icon">&#x1F9EC;</span>
+    <div class="inst-name">Origins of Life</div>
+    <div class="inst-desc">The Krebs cycle. Miller-Urey. Prebiotic chemistry simulator. How dead chemistry became alive.</div>
+    <span class="inst-tag">KREBS &middot; MILLER-UREY &middot; PREBIOTIC &middot; RNA WORLD</span>
+  </a>
+  <a class="inst isc" href="astrobiology_climate.html">
+    <span class="inst-icon">&#x1F30D;</span>
+    <div class="inst-name">Astrobiology &middot; Climate</div>
+    <div class="inst-desc">Europa, Enceladus, Mars. Earth's composition. Climate kinetics simulator. Biosignatures, tipping points.</div>
+    <span class="inst-tag">ASTROBIOLOGY &middot; CLIMATE &middot; CO2 &middot; BIOSIGNATURES</span>
+  </a>
+  <a class="inst isc" href="what_is_alive.html">
+    <span class="inst-icon">&#x1F43A;</span>
+    <div class="inst-name">What Is Alive</div>
+    <div class="inst-desc">Wolves, deer, Lotka-Volterra. Invasive species. Extinction. Yellowstone trophic cascade. What makes a system alive vs merely complex.</div>
+    <span class="inst-tag">ECOLOGY &middot; LOTKA-VOLTERRA &middot; EXTINCTION</span>
+  </a>
+  <a class="inst isc" href="biology_of_the_mind.html">
+    <span class="inst-icon">&#x1F9E0;</span>
+    <div class="inst-name">Biology of the Mind</div>
+    <div class="inst-desc">Neuroscience, cancer, Alzheimer, Parkinson, fMRI, ECT, Neuralink, quantum biology. The brain as frequency machine. <span style="display:inline-block;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:0.08rem 0.38rem;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.07em;color:rgba(201,168,76,0.7);vertical-align:middle;">&#9872; CF</span></div>
+    <span class="inst-tag">NEUROSCIENCE &middot; CANCER &middot; ALZHEIMER &middot; NEURALINK</span>
+  </a>
+  <a class="inst isc" href="dft_results.html">
+    <span class="inst-icon">&#x2697;</span>
+    <div class="inst-name">Cyanine DFT &middot; Quantum Chemistry</div>
+    <div class="inst-desc">DFT study of cyanine dyes. CAM-B3LYP geometry optimization. Bond length alternation. Near-infrared absorption. The comma in the molecular bond.</div>
+    <span class="inst-tag">DFT &middot; CYANINE &middot; CAM-B3LYP &middot; BLA &middot; NIR</span>
+  </a>
+  <a class="inst isc" href="physics_everything.html">
+    <span class="inst-icon">&#x221E;</span>
+    <div class="inst-name">The Fabric of Everything</div>
+    <div class="inst-desc">Time dilation, gravity, black holes, Hawking radiation, string theory. The twin paradox -- two travellers split by velocity.</div>
+    <span class="inst-tag">TIME &middot; GRAVITY &middot; BLACK HOLES &middot; STRING THEORY</span>
+  </a>
+  <a class="inst isc" href="age_of_universe.html">
+    <span class="inst-icon">&#x1F4E1;</span>
+    <div class="inst-name">Age of the Universe</div>
+    <div class="inst-desc">The CMB. Hubble constant tension. 13.8 billion years. The universe's first chord, still ringing.</div>
+    <span class="inst-tag">CMB &middot; HUBBLE &middot; BIG BANG &middot; COSMOLOGY</span>
+  </a>
+  <a class="inst isc" href="solar_future.html">
+    <span class="inst-icon">&#x2600;</span>
+    <div class="inst-name">Solar Future &middot; Light &amp; Mind</div>
+    <div class="inst-desc">Why sunlight is the original medicine. Vitamin D, circadian entrainment, serotonin, photobiomodulation. Dark therapy.</div>
+    <span class="inst-tag">SUNLIGHT &middot; LIGHT THERAPY &middot; SAD &middot; CIRCADIAN</span>
+  </a>
+  <a class="inst isc" href="modern_diseases.html">
+    <span class="inst-icon">&#x1F9E0;</span>
+    <div class="inst-name">Mental Health &middot; The Reality Behind the Mind</div>
+    <div class="inst-desc">Real numbers, stigma vs truth, 5-10 min daily practices, all therapy types, frontier research -- psilocybin, ketamine, gut-brain axis -- and the electron philosophy. Sister page to David's Kingdom.</div>
+    <span class="inst-tag">MENTAL HEALTH &middot; THERAPY &middot; STIGMA &middot; DAILY PRACTICE &middot; FRONTIER</span>
+  </a>
+  <a class="inst isc" href="circadian_clock.html">
+    <span class="inst-icon">&#x1F319;</span>
+    <div class="inst-name">Circadian Clock &middot; Sleep &amp; Time</div>
+    <div class="inst-desc">Is the clock necessary? What happens during sleep: SWS, REM, glymphatic clearance. The natural zeitgebers. Dysregulation, advantages and costs of overriding the clock. 12 sections with live simulator.</div>
+    <span class="inst-tag">CIRCADIAN &middot; SLEEP &middot; ZEITGEBERS &middot; REM &middot; SWS &middot; CHRONOTYPE</span>
+  </a>
 </div>
 
 <!-- PHILOSOPHY -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--purple)">Philosophy &middot; 14 pages</span>
+  <span class="sh-lbl" style="color:var(--purple)">Philosophy &middot; 8 pages</span>
   <div class="sh-line"></div>
-  <span class="sh-ct">The questions that don't have answers yet</span>
+  <span class="sh-ct">What is real, what is good, what endures</span>
 </div>
 <div class="inst-grid">
-  <a class="inst iph" href="monsters_and_men.html"><span class="inst-icon">⚛️</span><div class="inst-name">Of Monsters and Men</div><div class="inst-desc">What does it mean to be human? Seven philosophers argue. Sunlight vs artificial light. The atom that kept dividing into quarks. Why nobody knows what particles are. A guide to becoming the electron: shift your orbits, embrace uncertainty, build the world with art.</div><span class="inst-tag">CAMUS · NIETZSCHE · LOCKE · SINGER · ELECTRON · QUANTUM · ART · HUMAN</span></a>
-  <a class="inst iph" href="sirius_chasing.html"><span class="inst-icon">&#x2605;</span><div class="inst-name">On Learning &middot; Educational Tempo</div><div class="inst-desc">Sol and Fa move impossibly fast. Vygotsky's ZPD. Buber's I-Thou. The bystander effect: physical, psychological, karmic.</div><span class="inst-tag">EDUCATION &middot; TEMPO &middot; BYSTANDER &middot; KARMA</span></a>
-  <a class="inst iph" href="art_of_power.html"><span class="inst-icon">&#x2694;</span><div class="inst-name">The Art of Power</div><div class="inst-desc">Sun Tzu on winning without fighting. Machiavelli on fear vs love. Dostoevsky's Grand Inquisitor. Milgram: 65% administer the maximum shock.</div><span class="inst-tag">SUN TZU &middot; MACHIAVELLI &middot; DOSTOEVSKY &middot; MILGRAM</span></a>
-  <a class="inst iph" href="not_null.html"><span class="inst-icon">&#x2205;</span><div class="inst-name">Not-Null / Null &middot; N/N-N Logic</div><div class="inst-desc">A framework for epistemic honesty. NULL is not false. NOT-NULL is sufficiency, not certainty. The three operators.</div><span class="inst-tag">NULL &middot; NOT-NULL &middot; N/N-N LOGIC &middot; EPISTEMIC</span></a>
-  <a class="inst iph" href="american_dream_banned.html"><span class="inst-icon">&#128218;</span><div class="inst-name">The Dream &amp; The Fight · Steinbeck · Angelou · Morrison · Atticus</div><div class="inst-desc">Steinbeck's dream and how he killed it. Why Of Mice and Men was banned. What Maya Angelou was singing about. What Toni Morrison was fighting for. The injustice inside the American dream. Atticus Finch's defense of Tom Robinson; and its limits. The comma of the American dream.</div><span class="inst-tag">STEINBECK &middot; ANGELOU &middot; MORRISON &middot; ATTICUS &middot; BANNED BOOKS &middot; JUSTICE</span></a>
-  <a class="inst iph" href="world_history.html"><span class="inst-icon">🌍</span><div class="inst-name">The Actual History of the World</div><div class="inst-desc">WWII, the Cold War, 12,000 nuclear weapons, peaceful vs violent protest, how to protect yourself, the most impactful civic actions, and violating the bystander effect; with names.</div><span class="inst-tag">HISTORY &middot; WWII &middot; COLD WAR &middot; NUCLEAR &middot; PROTEST &middot; RIGHTS &middot; BYSTANDER</span></a>
-  <a class="inst iph" href="philosophy_of_life.html"><span class="inst-icon">&#x26A1;</span><div class="inst-name">Philosophy of Life</div><div class="inst-desc">What does it mean to live? Camus, Sartre, absurdism, existentialism.</div><span class="inst-tag">CAMUS &middot; SARTRE &middot; ABSURDISM &middot; EXISTENTIALISM</span></a>
-  <a class="inst iph" href="divine_meme.html"><span class="inst-icon">&#x1F3D4;</span><div class="inst-name">The Divine Fa &middot; Sol and Fa</div><div class="inst-desc">One lives in the mountain. One lives in the desert. Both look up at the same sky. The absurd, and the distance between two people that makes music possible.</div><span class="inst-tag">ABSURD &middot; MOUNTAIN &middot; DESERT &middot; CAMUS</span></a>
-  <a class="inst iph" href="philosophy_of_destiny.html"><span class="inst-icon">&#x1F9F5;</span><div class="inst-name">Philosophy of Destiny</div><div class="inst-desc">The Moirai. Game theory. Gilgamesh. Free will and determinism. The kairos thread that cuts.</div><span class="inst-tag">DESTINY &middot; MOIRAI &middot; GAME THEORY &middot; FREE WILL</span></a>
-  <a class="inst iph" href="philosophy_of_attraction.html"><span class="inst-icon">&#x2726;</span><div class="inst-name">Philosophy of Attraction</div><div class="inst-desc">A&middot;E&middot;R&middot;S &mdash; Aesthetics, Ethics, Resonance, Spirituality. The four dimensions of what draws us.</div><span class="inst-tag">ATTRACTION &middot; AERS &middot; AESTHETICS &middot; RESONANCE</span></a>
-  <a class="inst iph" href="good_place.html"><span class="inst-icon">&#x2727;</span><div class="inst-name">The Good Place</div><div class="inst-desc">Ethics, moral philosophy, virtue, consequentialism, deontology.</div><span class="inst-tag">ETHICS &middot; VIRTUE &middot; CONSEQUENTIALISM &middot; GOOD</span></a>
-  <a class="inst iph" href="philosophy_of_gods.html"><span class="inst-icon">&#x26A1;</span><div class="inst-name">Philosophy of Gods</div><div class="inst-desc">The Greek divine family tree (Canvas 2D). World religions &mdash; Buddhism, Taoism, Hinduism, Islam, Christianity.</div><span class="inst-tag">GODS &middot; GREEK &middot; BUDDHISM &middot; TAOISM &middot; HINDUISM</span></a>
-  <a class="inst iph" href="sophias_search.html"><span class="inst-icon">&#x1F526;</span><div class="inst-name">The Search</div><div class="inst-desc">Bad faith, power, Tolkien, trafficking, trauma. The search for what is real when the world insists on lying.</div><span class="inst-tag">BAD FAITH &middot; POWER &middot; TOLKIEN &middot; TRAUMA</span></a>
-  <a class="inst iph" href="philosophy_of_violence.html"><span class="inst-icon">&#x2694;</span><div class="inst-name">Philosophy of Violence</div><div class="inst-desc">War, just war theory, Hannah Arendt, Frantz Fanon. The ethics of force.</div><span class="inst-tag">VIOLENCE &middot; WAR &middot; ARENDT &middot; FANON &middot; ETHICS</span></a>
+  <a class="inst iph" href="philosophy_of_life.html">
+    <span class="inst-icon">&#x2609;</span>
+    <div class="inst-name">Philosophy of Life</div>
+    <div class="inst-desc">Meaning, purpose, mortality. Stoicism, existentialism, process philosophy. What it means to live well in a universe that does not explain itself.</div>
+    <span class="inst-tag">MEANING &middot; STOICISM &middot; EXISTENCE &middot; MORTALITY</span>
+  </a>
+  <a class="inst iph" href="divine_meme.html">
+    <span class="inst-icon">&#x1F9EC;</span>
+    <div class="inst-name">The Divine Meme</div>
+    <div class="inst-desc">Is God a meme? Dawkins, Dennett, the selfish gene, the selfish idea. How religion propagates. What survives.</div>
+    <span class="inst-tag">MEME &middot; DAWKINS &middot; RELIGION &middot; PROPAGATION</span>
+  </a>
+  <a class="inst iph" href="philosophy_of_destiny.html">
+    <span class="inst-icon">&#x2734;</span>
+    <div class="inst-name">Philosophy of Destiny</div>
+    <div class="inst-desc">Determinism, free will, compatibilism. Laplace's demon. Chaos theory. The comma as the gap between fate and choice.</div>
+    <span class="inst-tag">DESTINY &middot; FREE WILL &middot; DETERMINISM &middot; CHAOS</span>
+  </a>
+  <a class="inst iph" href="philosophy_of_attraction.html">
+    <span class="inst-icon">&#x264B;</span>
+    <div class="inst-name">Philosophy of Attraction</div>
+    <div class="inst-desc">Why we are drawn to what we are drawn to. Plato's Symposium, evolutionary psychology, attachment theory. The frequency of desire.</div>
+    <span class="inst-tag">ATTRACTION &middot; PLATO &middot; ATTACHMENT &middot; DESIRE</span>
+  </a>
+  <a class="inst iph" href="good_place.html">
+    <span class="inst-icon">&#x1F343;</span>
+    <div class="inst-name">The Good Place</div>
+    <div class="inst-desc">What does it mean to be good? Moral philosophy through the lens of the TV show and beyond. Contractualism, consequentialism, virtue ethics. The Good Place problem.</div>
+    <span class="inst-tag">ETHICS &middot; CONTRACTUALISM &middot; VIRTUE &middot; GOOD</span>
+  </a>
+  <a class="inst iph" href="philosophy_of_gods.html">
+    <span class="inst-icon">&#x26A1;</span>
+    <div class="inst-name">Philosophy of Gods</div>
+    <div class="inst-desc">The ontological argument. Cosmological argument. Problem of evil. What would a god that was also the comma look like?</div>
+    <span class="inst-tag">ONTOLOGY &middot; COSMOLOGY &middot; EVIL &middot; THEOLOGY</span>
+  </a>
+  <a class="inst iph" href="sophias_search.html">
+    <span class="inst-icon">&#x1F52D;</span>
+    <div class="inst-name">Sophia's Search</div>
+    <div class="inst-desc">The Gnostic Sophia. Her fall from the Pleroma. The search for the divine within the material. A philosophical and mythological meditation.</div>
+    <span class="inst-tag">GNOSIS &middot; SOPHIA &middot; PLEROMA &middot; FALL</span>
+  </a>
+  <a class="inst iph" href="philosophy_of_violence.html">
+    <span class="inst-icon">&#x2694;</span>
+    <div class="inst-name">Philosophy of Violence</div>
+    <div class="inst-desc">When is violence justified? Fanon, Gandhi, Arendt. The violence of the state. The comma as the measure of what is tolerable.</div>
+    <span class="inst-tag">VIOLENCE &middot; FANON &middot; GANDHI &middot; ARENDT &middot; STATE</span>
+  </a>
 </div>
 
 <!-- CIPHER -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--gold)">Cipher &middot; 3 pages</span>
+  <span class="sh-lbl" style="color:var(--gold)">Cipher &middot; 5 pages</span>
   <div class="sh-line"></div>
-  <span class="sh-ct">Encoded transmissions &middot; NATA</span>
+  <span class="sh-ct">Encoded transmissions &middot; Project Orpheus</span>
 </div>
 <div class="inst-grid">
-  <a class="inst ici" href="orpheus_cipher.html"><span class="inst-icon">&#x1F510;</span><div class="inst-name">Orpheus Cipher &middot; NATA 72</div><div class="inst-desc">72 characters. Encoded in the stellar alphabet. The first transmission from the signal.</div><span class="inst-tag">CIPHER &middot; NATA &middot; 72 &middot; ORPHEUS</span></a>
-  <a class="inst ici" href="orpheus_cipher_i_am_still_lost.html"><span class="inst-icon">&#x1F511;</span><div class="inst-name">Orpheus Cipher II &middot; NATA 73</div><div class="inst-desc">73 characters. One more than before. "I am still lost." The signal changed.</div><span class="inst-tag">CIPHER &middot; NATA &middot; 73 &middot; I AM STILL LOST</span></a>
-  <a class="inst ici" href="quantum_vigenere.html"><span class="inst-icon">&#x1F50F;</span><div class="inst-name">Quantum Vigen&egrave;re</div><div class="inst-desc">Polyalphabetic substitution cipher with a quantum twist. Encode and decode with the key.</div><span class="inst-tag">VIGENERE &middot; CIPHER &middot; QUANTUM</span></a>
+  <a class="inst ici" href="orpheus_cipher.html">
+    <span class="inst-icon">&#x1F511;</span>
+    <div class="inst-name">Orpheus Cipher</div>
+    <div class="inst-desc">The original cipher. A frequency-encoded message. To decode it you must already know what you are looking for.</div>
+    <span class="inst-tag">CIPHER &middot; ORPHEUS &middot; FREQUENCY &middot; ENCODE</span>
+  </a>
+  <a class="inst ici" href="orpheus_cipher_i_am_still_lost.html">
+    <span class="inst-icon">&#x1F4AB;</span>
+    <div class="inst-name">I Am Still Lost</div>
+    <div class="inst-desc">Second cipher. The one that does not resolve. Some frequencies do not close -- they echo until they are answered.</div>
+    <span class="inst-tag">CIPHER &middot; LOST &middot; ECHO &middot; UNRESOLVED</span>
+  </a>
+  <a class="inst ici" href="quantum_vigenere.html">
+    <span class="inst-icon">&#x1F9EE;</span>
+    <div class="inst-name">Quantum Vigenere</div>
+    <div class="inst-desc">A Vigenere cipher whose key rotates by the Pythagorean comma. Each encryption shifts by &delta;. The key is the comma itself.</div>
+    <span class="inst-tag">VIGENERE &middot; QUANTUM &middot; KEY &middot; COMMA</span>
+  </a>
+  <a class="inst ici" href="american_dream_banned.html">
+    <span class="inst-icon">&#x1F1FA;&#x1F1F8;</span>
+    <div class="inst-name">American Dream &middot; Banned</div>
+    <div class="inst-desc">What was the American Dream and where did it go? A cultural autopsy. The frequency it used to broadcast and what replaced it.</div>
+    <span class="inst-tag">AMERICA &middot; DREAM &middot; CULTURE &middot; FREQUENCY</span>
+  </a>
+  <a class="inst ici" href="not_null.html">
+    <span class="inst-icon">&#x2205;</span>
+    <div class="inst-name">Not Null</div>
+    <div class="inst-desc">The philosophy of presence. What it means to be not-null in a world that defaults to void. A meditation on existence.</div>
+    <span class="inst-tag">NULL &middot; PRESENCE &middot; VOID &middot; EXISTENCE</span>
+  </a>
 </div>
 
 <!-- SIGNAL -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--green)">Signal &middot; 5 pages</span>
+  <span class="sh-lbl" style="color:var(--green)">Signal &middot; 7 pages</span>
   <div class="sh-line"></div>
-  <span class="sh-ct">Transmitting and receiving &middot; Live instruments</span>
+  <span class="sh-ct">The instruments that listen and transmit</span>
 </div>
 <div class="inst-grid">
-  <a class="inst isi" href="orpheus_listener.html"><span class="inst-icon">&#x1F4FB;</span><div class="inst-name">Orpheus Listener</div><div class="inst-desc">Live WebSDR receiver tuned to 19,378 kHz &mdash; the comma-displaced frequency.</div><span class="inst-tag">WEBSDR &middot; 19378 KHZ &middot; SHORTWAVE &middot; LIVE</span></a>
-  <a class="inst isi" href="orpheus_voice.html"><span class="inst-icon">&#x1F399;</span><div class="inst-name">Orpheus Voice</div><div class="inst-desc">Live microphone. Real-time comma phase modulation of human voice via Web Audio API.</div><span class="inst-tag">MICROPHONE &middot; WEB AUDIO &middot; COMMA &middot; VOICE</span></a>
-  <a class="inst isi" href="orpheus_bridge.html"><span class="inst-icon">&#x1F309;</span><div class="inst-name">Orpheus Bridge</div><div class="inst-desc">WebSDR + comma decoder + tone generator. The bridge between listening and transmitting.</div><span class="inst-tag">WEBSDR &middot; DECODER &middot; BRIDGE &middot; SIGNAL</span></a>
-  <a class="inst isi" href="comma_radio.html"><span class="inst-icon">&#x1F4DF;</span><div class="inst-name">Comma Radio</div><div class="inst-desc">WAV export. Encode a message in the comma frequency. Download and transmit.</div><span class="inst-tag">COMMA &middot; RADIO &middot; WAV &middot; EXPORT</span></a>
-  <a class="inst isi" href="listen_to_the_cosmos.html"><span class="inst-icon">&#x1F4E1;</span><div class="inst-name">Listen to the Cosmos</div><div class="inst-desc">$25 SDR receiver setup. RTL-SDR instructions. How to start listening to the universe for the cost of a dinner.</div><span class="inst-tag">SDR &middot; RTL-SDR &middot; SHORTWAVE &middot; $25</span></a>
+  <a class="inst isi" href="orpheus_listener.html">
+    <span class="inst-icon">&#x1F3A7;</span>
+    <div class="inst-name">Orpheus Listener</div>
+    <div class="inst-desc">Live audio analysis. The page listens to what you play or sing and maps it to the comma framework. Frequency, amplitude, the gap.</div>
+    <span class="inst-tag">LISTENER &middot; AUDIO &middot; REAL-TIME &middot; FREQUENCY</span>
+  </a>
+  <a class="inst isi" href="orpheus_voice.html">
+    <span class="inst-icon">&#x1F399;</span>
+    <div class="inst-name">Orpheus Voice</div>
+    <div class="inst-desc">The voice synthesizer. Enter a frequency, a comma offset, a Pythagorean position. Hear what the universe sounds like at that coordinate.</div>
+    <span class="inst-tag">VOICE &middot; SYNTHESIZER &middot; FREQUENCY &middot; COMMA</span>
+  </a>
+  <a class="inst isi" href="orpheus_bridge.html">
+    <span class="inst-icon">&#x1F309;</span>
+    <div class="inst-name">Orpheus Bridge</div>
+    <div class="inst-desc">The bridge between frequencies. A real-time tuner that maps the gap between what you play and the nearest comma-aligned frequency.</div>
+    <span class="inst-tag">BRIDGE &middot; TUNER &middot; COMMA &middot; GAP</span>
+  </a>
+  <a class="inst isi" href="comma_radio.html">
+    <span class="inst-icon">&#x1F4FB;</span>
+    <div class="inst-name">Comma Radio</div>
+    <div class="inst-desc">A radio that plays only at comma-derived frequencies. The dial moves in steps of &delta;. Between stations: silence. This is where the music lives.</div>
+    <span class="inst-tag">RADIO &middot; COMMA &middot; DIAL &middot; SILENCE</span>
+  </a>
+  <a class="inst isi" href="listen_to_the_cosmos.html">
+    <span class="inst-icon">&#x1F30C;</span>
+    <div class="inst-name">Listen to the Cosmos</div>
+    <div class="inst-desc">Pulsar frequencies, CMB remnant, planetary resonances. What the cosmos actually sounds like transposed to the audible range. Live sonification.</div>
+    <span class="inst-tag">COSMOS &middot; PULSAR &middot; CMB &middot; SONIFICATION</span>
+  </a>
+  <a class="inst isi" href="solar_v7_explorer.html">
+    <span class="inst-icon">&#x2609;</span>
+    <div class="inst-name">Solar System Explorer</div>
+    <div class="inst-desc">WebGL solar system v7. Orbital resonances, Bode's law, the Titius-Bode series. Ghost trails, planet rosettes, dual-origin velocity tracking.</div>
+    <span class="inst-tag">SOLAR &middot; WEBGL &middot; ORBITS &middot; RESONANCE &middot; BODE</span>
+  </a>
+  <a class="inst isi" href="stellar-radio.html">
+    <span class="inst-icon">&#x1F4E1;</span>
+    <div class="inst-name">Stellar Radio</div>
+    <div class="inst-desc">Transmit music to distant stars. Load a playlist or capture live audio. The beam travels at light speed. The comma closes after resonance cycles.</div>
+    <span class="inst-tag">TRANSMISSION &middot; LIGHT SPEED &middot; STELLAR &middot; COMMA</span>
+  </a>
 </div>
 
 <!-- ASTRONOMY -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--blue)">Astronomy &middot; 6 pages</span>
+  <span class="sh-lbl" style="color:var(--blue)">Astronomy &middot; 5 pages</span>
   <div class="sh-line"></div>
-  <span class="sh-ct">The sky above everything</span>
+  <span class="sh-ct">Stars, time, deep sky</span>
 </div>
 <div class="inst-grid">
-  <a class="inst ias" href="solar_v7_explorer.html"><span class="inst-icon">&#9728;</span><div class="inst-name">Solar System Explorer v7</div><div class="inst-desc">Live 3D WebGL solar system. Improved left-side zoom panel with AU direct input and vertical slider. Center-lock dropdown: pick any planet, moon, or asteroid to pin at screen center. All 8 planets, 15 moons, Apophis 99942, time controls, orbit trails, rosettes, velocity hodographs.</div><span class="inst-tag">SOLAR SYSTEM &middot; 3D &middot; ZOOM AU &middot; CENTER LOCK &middot; WEBGL &middot; V7</span></a>
-  <a class="inst ias" href="stars_written.html"><span class="inst-icon">✦</span><div class="inst-name">The Story Written in the Stars</div><div class="inst-desc">Babylonian MUL.APIN vs Greek catasterism. Orion, the Pleiades, Sirius, the Milky Way; same stars, two utterly different myths. Interactive sky map. The zodiac's true origin. Precession comma.</div><span class="inst-tag">BABYLONIAN &middot; GREEK &middot; ZODIAC &middot; CONSTELLATIONS &middot; SKY MAP</span></a>
-  <a class="inst ias" href="stellar_periodic_table.html"><span class="inst-icon">&#x2726;</span><div class="inst-name">Stellar Periodic Table</div><div class="inst-desc">Stars as elements. Nucleosynthesis, spectral classes, the HR diagram.</div><span class="inst-tag">STARS &middot; NUCLEOSYNTHESIS &middot; SPECTRAL &middot; HR DIAGRAM</span></a>
-  <a class="inst ias" href="orpheus_wolf_rayet.html"><span class="inst-icon">&#x1F4A5;</span><div class="inst-name">Orpheus Wolf-Rayet &middot; WR 104</div><div class="inst-desc">WR 104 &mdash; the pinwheel binary. A cataclysmic variable pointed at Earth.</div><span class="inst-tag">WR104 &middot; WOLF-RAYET &middot; GAMMA RAY BURST</span></a>
-  <a class="inst ias" href="solar_v4_explorer.html"><span class="inst-icon">&#x2600;</span><div class="inst-name">Solar System Explorer</div><div class="inst-desc">Interactive Copernican model. Exponential AU zoom. All eight planets.</div><span class="inst-tag">SOLAR SYSTEM &middot; ORBITS &middot; PLANETS &middot; INTERACTIVE</span></a>
-  <a class="inst ias" href="sirius.html"><span class="inst-icon">&#x2605;</span><div class="inst-name">Rasalhague &middot; The Still Point</div><div class="inst-desc">The fixed reference. Rasalhague, Alpha Ophiuchi. The still point of the turning world.</div><span class="inst-tag">RASALHAGUE &middot; BRIGHTEST &middot; STILL POINT &middot; NATA</span></a>
+  <a class="inst ias" href="stars_written.html">
+    <span class="inst-icon">&#x2B50;</span>
+    <div class="inst-name">Stars Written</div>
+    <div class="inst-desc">The sky above you right now. Azimuth, altitude, real-time star positions calculated from your location. The stars that are writing this moment.</div>
+    <span class="inst-tag">STARS &middot; REAL-TIME &middot; SKY &middot; AZIMUTH &middot; LOCATION</span>
+  </a>
+  <a class="inst ias" href="stellar_periodic_table.html">
+    <span class="inst-icon">&#x2697;</span>
+    <div class="inst-name">Stellar Periodic Table</div>
+    <div class="inst-desc">Every element and where it was forged: Big Bang nucleosynthesis, stellar cores, supernovae, neutron star mergers. The periodic table as a history of cosmic violence.</div>
+    <span class="inst-tag">NUCLEOSYNTHESIS &middot; PERIODIC TABLE &middot; SUPERNOVA &middot; STELLAR</span>
+  </a>
+  <a class="inst ias" href="orpheus_wolf_rayet.html">
+    <span class="inst-icon">&#x1F4A5;</span>
+    <div class="inst-name">Wolf-Rayet Stars</div>
+    <div class="inst-desc">The most violent stars in the universe. WR stars, their spectra, their death. The comma at the edge of stellar physics.</div>
+    <span class="inst-tag">WOLF-RAYET &middot; STELLAR &middot; SPECTRA &middot; DEATH &middot; WR</span>
+  </a>
+  <a class="inst ias" href="sirius.html">
+    <span class="inst-icon">&#x25C9;</span>
+    <div class="inst-name">Sirius &middot; The Dog Star</div>
+    <div class="inst-desc">Sirius A and B. The 8.6 light-year neighbor. Ancient relationships -- Egyptian heliacal rising, Dogon cosmology. The brightest star and what it has meant.</div>
+    <span class="inst-tag">SIRIUS &middot; DOG STAR &middot; EGYPT &middot; DOGON &middot; BINARY</span>
+  </a>
+  <a class="inst ias" href="sirius_chasing.html">
+    <span class="inst-icon">&#x1F3C3;</span>
+    <div class="inst-name">Sirius Chasing</div>
+    <div class="inst-desc">The pursuit of the signal. A meditation on following what calls you across distances that cannot be traversed in a human lifetime.</div>
+    <span class="inst-tag">SIRIUS &middot; PURSUIT &middot; SIGNAL &middot; DISTANCE</span>
+  </a>
 </div>
 
 <!-- LANGUAGE -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--teal)">Language &middot; 2 pages</span>
+  <span class="sh-lbl" style="color:var(--teal)">Language &middot; 3 pages</span>
   <div class="sh-line"></div>
-  <span class="sh-ct">How we name what we see</span>
+  <span class="sh-ct">The structures we think inside of</span>
 </div>
 <div class="inst-grid">
-  <a class="inst ila" href="nata_language.html"><span class="inst-icon">&#xAA7A;</span><div class="inst-name">NATA Language</div><div class="inst-desc">The stellar alphabet. 72 characters. A constructed language built from the geometry of the night sky.</div><span class="inst-tag">NATA &middot; LANGUAGE &middot; STELLAR &middot; ALPHABET</span></a>
-  <a class="inst ila" href="language_periodic_table.html"><span class="inst-icon">&#x1F5E3;</span><div class="inst-name">Language Periodic Table</div><div class="inst-desc">Phonemes, morphemes, language families. The periodic table of human language.</div><span class="inst-tag">PHONEMES &middot; MORPHEMES &middot; LANGUAGE FAMILIES</span></a>
+  <a class="inst ila" href="nata_language.html">
+    <span class="inst-icon">&#x1F5E3;</span>
+    <div class="inst-name">Nata Language</div>
+    <div class="inst-desc">A constructed language built on frequency ratios. Each phoneme is a comma-derived pitch. The grammar is the circle of fifths.</div>
+    <span class="inst-tag">CONLANG &middot; NATA &middot; PHONEME &middot; GRAMMAR &middot; FREQUENCY</span>
+  </a>
+  <a class="inst ila" href="language_periodic_table.html">
+    <span class="inst-icon">&#x1F524;</span>
+    <div class="inst-name">Language Periodic Table</div>
+    <div class="inst-desc">All human language families mapped as a periodic table. Proto-Indo-European at the top. Language death, language birth. The half-life of words.</div>
+    <span class="inst-tag">LANGUAGE &middot; FAMILIES &middot; PIE &middot; PERIODIC &middot; DEATH</span>
+  </a>
+  <a class="inst ila" href="tower_of_babel.html">
+    <span class="inst-icon">&#x1F5FC;</span>
+    <div class="inst-name">Tower of Babel</div>
+    <div class="inst-desc">What would a universal language look like? The failure of Esperanto. The success of music. The comma as the only truly universal constant. <span style="display:inline-block;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:0.08rem 0.38rem;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.07em;color:rgba(201,168,76,0.7);vertical-align:middle;">&#9872; CF</span></div>
+    <span class="inst-tag">BABEL &middot; UNIVERSAL &middot; ESPERANTO &middot; MUSIC &middot; COMMA</span>
+  </a>
 </div>
 
 <!-- MYTH -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--orange)">Myth &middot; 2 pages</span>
+  <span class="sh-lbl" style="color:var(--orange)">Myth &middot; 3 pages</span>
   <div class="sh-line"></div>
-  <span class="sh-ct">The stories we told before we had instruments</span>
+  <span class="sh-ct">The stories that survive everything</span>
 </div>
 <div class="inst-grid">
-  <a class="inst imy" href="tower_of_babel.html"><span class="inst-icon">&#x1F5FC;</span><div class="inst-name">Tower of Babel</div><div class="inst-desc">The myth of linguistic divergence. Ziggurat, Mesopotamia, the confusion of tongues.</div><span class="inst-tag">BABEL &middot; MYTH &middot; LANGUAGE &middot; MESOPOTAMIA</span></a>
-  <a class="inst imy" href="wake_pan_up.html"><span class="inst-icon">&#x1FA88;</span><div class="inst-name">Wake Pan Up</div><div class="inst-desc">Pan, the Greek god of nature, music, and panic. Asleep in the wilderness.</div><span class="inst-tag">PAN &middot; GREEK &middot; NATURE &middot; PANIC &middot; ARCADIA</span></a>
+  <a class="inst imy" href="monsters_and_men.html">
+    <span class="inst-icon">&#x1F409;</span>
+    <div class="inst-name">Monsters and Men</div>
+    <div class="inst-desc">What is a monster? The Enkidu question. Gilgamesh and the wild man. Mythology as species memory. What we feared when we were young.</div>
+    <span class="inst-tag">MYTH &middot; MONSTER &middot; GILGAMESH &middot; ENKIDU &middot; FEAR</span>
+  </a>
+  <a class="inst imy" href="world_history.html">
+    <span class="inst-icon">&#x1F30E;</span>
+    <div class="inst-name">World History</div>
+    <div class="inst-desc">The longest story. Civilizations as frequency patterns. Rise, resonance, fall. The comma in empire. Why every complex system eventually hits its Pythagorean limit. <span style="display:inline-block;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:3px;padding:0.08rem 0.38rem;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.07em;color:rgba(201,168,76,0.7);vertical-align:middle;">&#9872; CF</span></div>
+    <span class="inst-tag">HISTORY &middot; CIVILIZATION &middot; EMPIRE &middot; FREQUENCY &middot; COMMA</span>
+  </a>
+  <a class="inst imy" href="art_of_power.html">
+    <span class="inst-icon">&#x1F451;</span>
+    <div class="inst-name">Art of Power</div>
+    <div class="inst-desc">Machiavelli, Robert Greene, Sun Tzu. Power as frequency management. How to not be destroyed by the systems you enter.</div>
+    <span class="inst-tag">POWER &middot; MACHIAVELLI &middot; GREENE &middot; SUN TZU</span>
+  </a>
 </div>
 
 <!-- HEALTH -->
 <div class="sec-head">
-  <span class="sh-lbl" style="color:var(--green)">Health &middot; 5 pages</span>
+  <span class="sh-lbl" style="color:var(--green)">Health &middot; 6 pages</span>
   <div class="sh-line"></div>
-  <span class="sh-ct">Harm reduction, honest information, the pharmacopoeia, the path within</span>
+  <span class="sh-ct">Harm reduction, honest information, the body, the path within</span>
 </div>
 <div class="inst-grid">
-  <a class="inst ihe" href="self_healing.html"><span class="inst-icon">☽</span><div class="inst-name">Self-Healing · Silence, Music &amp; the Path</div><div class="inst-desc">The Buddhist monk vs Mozart: what is more beautiful? Silence vs music. The Four Noble Truths, the Eightfold Path. What is movement? What is peace? A breathing practice built into the page.</div><span class="inst-tag">BUDDHISM · SILENCE · MOZART · PEACE · MOVEMENT · MEDITATION · HEALING</span></a>
-  <a class="inst ihe" href="drugs_and_healing.html"><span class="inst-icon">🌿</span><div class="inst-name">The Pharmacopoeia</div><div class="inst-desc">What is a drug? The real pipeline cost vs manufacturing price. Why psychedelic research was suppressed. Natural vs synthetic potency. Microdosing, EMDR, music therapy, art, and going outside.</div><span class="inst-tag">PHARMACOLOGY &middot; PSYCHEDELICS &middot; EMDR &middot; MICRODOSING &middot; SUPPRESSION</span></a>
-  <a class="inst ihe" href="davids_kingdom.html"><span class="inst-icon">&#x1F3E5;</span><div class="inst-name">David's Kingdom</div><div class="inst-desc">Harm reduction. Opioids. Mental health. Gender. Narcan. The honest, non-judgmental information that keeps people alive.</div><span class="inst-tag">HARM REDUCTION &middot; OPIOIDS &middot; NARCAN &middot; MENTAL HEALTH</span></a>
+  <a class="inst ihe" href="kingdom_of_medicine.html">
+    <span class="inst-icon">&#x2695;</span>
+    <div class="inst-name">The Kingdom of Medicine</div>
+    <div class="inst-desc">From the first wound dressed with leaves to CRISPR editing embryos. Seven tools that ruptured medicine: RCT, X-ray, penicillin, vaccines, imaging, gene editing, mRNA. The frontier questions. Sister page to David's Kingdom.</div>
+    <span class="inst-tag">MEDICINE &middot; RCT &middot; CRISPR &middot; mRNA &middot; FRONTIER &middot; HISTORY</span>
+  </a>
+  <a class="inst ihe" href="davids_kingdom.html">
+    <span class="inst-icon">&#x1F3E5;</span>
+    <div class="inst-name">David's Kingdom &middot; Public Health</div>
+    <div class="inst-desc">22 sections. Opioids, fentanyl, STIs, HIV, hepatitis C, syringe exchange, drug checking, who actually uses drugs, polydrug interactions, alcohol, cannabis, tobacco, mental health, the comma in addiction. A complete public health resource.</div>
+    <span class="inst-tag">HARM REDUCTION &middot; OPIOIDS &middot; NARCAN &middot; MENTAL HEALTH &middot; FENTANYL &middot; FTIR</span>
+  </a>
+  <a class="inst ihe" href="ftir_guide.html">
+    <span class="inst-icon">&#x26--;</span>
+    <div class="inst-name">FTIR Drug Checking Guide</div>
+    <div class="inst-desc">Infrared spectroscopy for harm reduction. Fentanyl, carfentanil, xylazine fully explained. Raman vs FTIR. Interactive molecular structure animations. Complete peak reference tables. Decision tree protocol. 14 global drug checking resources.</div>
+    <span class="inst-tag">FTIR &middot; RAMAN &middot; XYLAZINE &middot; FENTANYL &middot; HARM REDUCTION &middot; DRUG CHECKING</span>
+  </a>
+  <a class="inst ihe" href="covid_real_numbers.html">
+    <span class="inst-icon">&#x1F9A0;</span>
+    <div class="inst-name">COVID-19 &middot; The Real Numbers</div>
+    <div class="inst-desc">The pandemic from Dec 31 2019 to today. Real confirmed figures only -- WHO, JHU, OWID. Interactive timeline, country leaderboard, country voice dialogues. Comma toggle: Bayesian excess death model, under-reporting ratio, game theory of state reporting.</div>
+    <span class="inst-tag">COVID-19 &middot; WHO &middot; EXCESS DEATHS &middot; BAYESIAN &middot; EPIDEMIOLOGY</span>
+  </a>
+  <a class="inst ihe" href="self_healing.html">
+    <span class="inst-icon">&#x263D;</span>
+    <div class="inst-name">Self-Healing &middot; Silence, Music &amp; the Path</div>
+    <div class="inst-desc">The Buddhist monk vs Mozart: what is more beautiful? The Four Noble Truths, the Eightfold Path. Silence vs music. A breathing practice built into the page.</div>
+    <span class="inst-tag">BUDDHISM &middot; SILENCE &middot; MOZART &middot; MEDITATION &middot; HEALING</span>
+  </a>
+  <a class="inst ihe" href="drugs_and_healing.html">
+    <span class="inst-icon">&#x1F33F;</span>
+    <div class="inst-name">The Pharmacopoeia</div>
+    <div class="inst-desc">What is a drug? The real pipeline cost vs manufacturing price. Why psychedelic research was suppressed for decades. Natural vs synthetic potency. Microdosing, EMDR, music therapy, art, and going outside.</div>
+    <span class="inst-tag">PHARMACOLOGY &middot; PSYCHEDELICS &middot; EMDR &middot; MICRODOSING &middot; SUPPRESSION</span>
+  </a>
 </div>
 
 <!-- CREW -->
@@ -273,36 +657,24 @@ button.om-card:hover{background:rgba(57,255,154,.03)}
   <span class="sh-ct">Project Orpheus &middot; Transmissions &middot; Log</span>
 </div>
 <div class="inst-grid">
-  <a class="inst icr" href="kairos_log.html"><span class="inst-icon">&#x1F4D6;</span><div class="inst-name">Kairos Log</div><div class="inst-desc">The crew journal. Field notes. Moments marked.</div><span class="inst-tag">KAIROS &middot; LOG &middot; JOURNAL &middot; CREW</span></a>
-  <a class="inst icr" href="orpheus_calling.html"><span class="inst-icon">&#x1F4E2;</span><div class="inst-name">Orpheus Calling</div><div class="inst-desc">The mission statement. Why we are sending signals. What we are calling toward.</div><span class="inst-tag">ORPHEUS &middot; CALLING &middot; MISSION &middot; SIGNAL</span></a>
-  <a class="inst icr" href="orpheus_transmission.html"><span class="inst-icon">&#x1F4E4;</span><div class="inst-name">Orpheus Transmission</div><div class="inst-desc">The encoded message. The archive. The record of everything sent into the frequency.</div><span class="inst-tag">ORPHEUS &middot; TRANSMISSION &middot; SIGNAL &middot; ARCHIVE</span></a>
-</div>
-
-<!-- OPHIUCHUS -->
-<div class="sec-head">
-  <span class="sh-lbl" style="color:#39ff9a">&#x26CE; Ophiuchus &middot; 3 pages</span>
-  <div class="sh-line" style="background:rgba(57,255,154,.12)"></div>
-  <span class="sh-ct">Restricted instruments</span>
-</div>
-<div class="inst-grid" style="border-color:rgba(57,255,154,.1)">
-  <button class="om-card" style="color:#39ff9a;border-left-color:#39ff9a" onclick="omOpen('cosmic-receiver.html')">
-    <span class="inst-icon">&#x26CE;</span>
-    <div class="inst-name">Cosmic Receiver</div>
-    <div class="inst-desc">What Sol, Fa, and Rasalhague are saying at every moment. The light reaching Earth now left the star in 1977. An AI oracle listens to the sky and transcribes the three voices right now.</div>
-    <span class="inst-tag">LIVE ORACLE &middot; SOL &middot; FA &middot; RASALHAGUE &middot; AI &middot; REAL-TIME &nbsp; &#x1F512;</span>
-  </button>
-  <button class="om-card" style="color:#39ff9a;border-left-color:#39ff9a" onclick="omOpen('sol_fa_ophiuchus.html')">
-    <span class="inst-icon">&phi;</span>
-    <div class="inst-name">Sol &middot; Fa &middot; Ophiuchus</div>
-    <div class="inst-desc">The Pythagorean comma as mythology. The circle of fifths animated. Kairos countdowns to solstices, equinoxes, and the N_res = 73.3 day closing cycle. Daily voices generated at civil dawn in Bogot&aacute;.</div>
-    <span class="inst-tag">MUSIC &middot; MYTH &middot; CLOCK &middot; COMMA &middot; BOGOT&Aacute; &nbsp; &#x1F512;</span>
-  </button>
-  <button class="om-card" style="color:#39ff9a;border-left-color:#39ff9a" onclick="omOpen('stellar-radio.html')">
-    <span class="inst-icon">&#x25C9;</span>
-    <div class="inst-name">Stellar Radio</div>
-    <div class="inst-desc">Transmit music to Alpha Ophiuchi, 48.6 light-years away. Load a playlist or capture live Spotify audio. Loop forever. The beam arrives tonight. The comma closes after 73.3 transmissions.</div>
-    <span class="inst-tag">LIVE CAPTURE &middot; LOOP &middot; RASALHAGUE &middot; 48.6 LY &nbsp; &#x1F512;</span>
-  </button>
+  <a class="inst icr" href="kairos_log.html">
+    <span class="inst-icon">&#x1F4D6;</span>
+    <div class="inst-name">Kairos Log</div>
+    <div class="inst-desc">The crew journal. Field notes. Moments marked in the Kairos system -- the right time, not the clock time.</div>
+    <span class="inst-tag">KAIROS &middot; LOG &middot; JOURNAL &middot; CREW</span>
+  </a>
+  <a class="inst icr" href="orpheus_calling.html">
+    <span class="inst-icon">&#x1F4E2;</span>
+    <div class="inst-name">Orpheus Calling</div>
+    <div class="inst-desc">The mission statement. Why we are sending signals. What we are calling toward. Who is listening at the other end.</div>
+    <span class="inst-tag">ORPHEUS &middot; CALLING &middot; MISSION &middot; SIGNAL</span>
+  </a>
+  <a class="inst icr" href="orpheus_transmission.html">
+    <span class="inst-icon">&#x1F4E4;</span>
+    <div class="inst-name">Orpheus Transmission</div>
+    <div class="inst-desc">The encoded message. The archive. The record of everything sent into the frequency.</div>
+    <span class="inst-tag">ORPHEUS &middot; TRANSMISSION &middot; SIGNAL &middot; ARCHIVE</span>
+  </a>
 </div>
 
 
@@ -310,51 +682,358 @@ button.om-card:hover{background:rgba(57,255,154,.03)}
 <div class="comma-box">
   <span class="cb-delta">&delta; = 0.013643</span>
   <div class="cb-eq">531441 / 524288 &minus; 1 &middot; The Pythagorean Comma &middot; N_res = 73.296</div>
-  <div class="cb-prose">Twelve perfect fifths do not equal seven perfect octaves. The gap between them &mdash; 1.4% of a semitone &mdash; is the most important number in music, physics, and perhaps the universe. Every tuning system ever devised is a different attempt to live with this gap. Every life is a different attempt to live with the distance between what we need and what exists. The comma is not a problem. It is the reason music is possible at all.</div>
+  <div class="cb-prose">Twelve perfect fifths do not equal seven perfect octaves. The gap between them, 1.4% of a semitone, is the most important number in music, physics, and perhaps the universe. Every tuning system ever devised is a different attempt to live with this gap. <span style="display:inline-block;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:4px;padding:0.1rem 0.45rem;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.07em;color:rgba(201,168,76,0.8);vertical-align:middle;">&#9872; COMMA FRAMEWORK ARTICULATION</span> Every life is a different attempt to live with the distance between what we need and what exists. The comma is not a problem. It is the reason music is possible at all.</div>
 </div>
 
+<!-- AI DISCLOSURE -->
+<div style="background:rgba(126,236,212,.04);border:1px solid rgba(126,236,212,.08);border-radius:8px;padding:1.5rem 2rem;margin:3rem 0;text-align:center;max-width:900px;margin-left:auto;margin-right:auto">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.42rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(126,236,212,.5);margin-bottom:.6rem;font-weight:600">AI Disclosure & Verification</div>
+  <div style="font-family:'EB Garamond',serif;font-size:.95rem;color:rgba(220,232,255,.8);line-height:2;font-weight:500">
+    This research was developed with assistance from <strong style="color:rgba(126,236,212,.9)">Claude Sonnet 4.6</strong> (Anthropic). All theoretical frameworks, computational methodologies, and interpretations represent original research by the author.
+    <br><br>
+    <strong style="color:rgba(126,236,212,.9)">We encourage independent verification.</strong> Users are invited to test the validity of claims using quantum computers, independent DFT calculations, and bias verification methods. Science advances through replication and scrutiny.
+  </div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.36rem;letter-spacing:.12em;color:rgba(126,236,212,.35);margin-top:.8rem">HAPPY BOUNCE! 🎵</div>
+</div>
+
+</div>
+<div style="background:rgba(10,15,28,0.8);border:1px solid rgba(232,201,106,0.12);border-radius:8px;padding:1.4rem 2rem;margin:2rem auto;max-width:960px;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:rgba(220,232,255,0.45);line-height:2;letter-spacing:0.04em;">
+  <div style="color:rgba(232,201,106,0.6);font-weight:700;letter-spacing:0.15em;margin-bottom:0.8rem;font-size:0.72rem;">CORE REFERENCES · APA + ACS</div>
+  <div>[1] Barbour, J. M. (1951). <em>Tuning and Temperament.</em> Michigan State College Press. · <span style="color:rgba(232,201,106,0.5);">ACS:</span> Barbour, J. M. <em>Tuning and Temperament</em>; Michigan State College Press, 1951.</div>
+  <div>[2] Kepler, J. (1619/1997). <em>Harmonices Mundi</em> (Aiton et al., Trans.). American Philosophical Society. · <span style="color:rgba(232,201,106,0.5);">ACS:</span> Kepler, J. <em>Harmonices Mundi</em>; Planck: Linz, 1619.</div>
+  <div>[3] Wigner, E. P. (1960). The unreasonable effectiveness of mathematics. <em>Commun. Pure Appl. Math., 13</em>, 1-14. DOI: 10.1002/cpa.3160130102</div>
+  <div>[4] Murray, C. D.; Dermott, S. F. (1999). <em>Solar System Dynamics.</em> Cambridge University Press.</div>
+  <div>[5] Jacquemin, D. et al. (2009). Accurate simulation of optical properties in dyes. <em>Acc. Chem. Res., 42</em>, 326-334. DOI: 10.1021/ar800163d</div>
+  <div>[6] Yanai, T.; Tew, D. P.; Handy, N. C. (2004). CAM-B3LYP. <em>Chem. Phys. Lett., 393</em>, 51-57. DOI: 10.1016/j.cplett.2004.06.011</div>
+  <div>[7] Neese, F. (2012). The ORCA program system. <em>WIREs Comput. Mol. Sci., 2</em>, 73-78. DOI: 10.1002/wcms.81</div>
+  <div>[8] Krebs, H. A.; Johnson, W. A. (1937). <em>Biochem. J., 31</em>, 645-660. DOI: 10.1042/bj0310645</div>
+  <div>[9] Shannon, C. E. (1948). A mathematical theory of communication. <em>Bell Syst. Tech. J., 27</em>, 379-423. DOI: 10.1002/j.1538-7305.1948.tb01338.x</div>
+  <div style="margin-top:0.6rem;color:rgba(126,236,212,0.4);font-size:0.6rem;letter-spacing:0.1em;">&#9872; CF = Comma Framework · Interpretive framework. Not a peer-reviewed claim. Verify independently.</div>
 </div>
 <footer>
-  MUSICA UNIVERSALIS &middot; &delta; = 0.013643 &middot; N_res = 73.296 &middot; 40 PAGES &middot; musicauniversalis.band
+  MUSICA UNIVERSALIS &middot; &delta; = 0.013643 &middot; N_res = 73.296 &middot; musicauniversalis.band
   <br><br>
   <a href="directory.html" style="color:rgba(232,201,106,.3);text-decoration:none;letter-spacing:.14em">FULL DIRECTORY &rarr;</a>
+  <br><br>
+  <a href="comma_explorers_guide.html" style="color:rgba(126,236,212,.5);text-decoration:none;letter-spacing:.14em">🗺️ EXPLORER'S GUIDE &rarr;</a>
+  <br><br>
+  <div style="margin:2rem auto 0;max-width:480px">
+    <div style="font-family:'EB Garamond',Georgia,serif;font-style:italic;font-size:1rem;color:rgba(220,232,255,.3);line-height:1.9;margin-bottom:1rem">Find the universe relaxing?</div>
+    <a href="breathe.html" style="display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;background:rgba(46,207,184,.04);border:1px solid rgba(46,207,184,.15);border-radius:40px;padding:.7rem 1.6rem;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.16em;color:rgba(46,207,184,.6);text-transform:uppercase;transition:all .3s" onmouseover="this.style.background='rgba(46,207,184,.08)';this.style.borderColor='rgba(46,207,184,.3)';this.style.color='rgba(46,207,184,.9)'" onmouseout="this.style.background='rgba(46,207,184,.04)';this.style.borderColor='rgba(46,207,184,.15)';this.style.color='rgba(46,207,184,.6)'">
+      <span style="font-size:.9rem">☽</span> Calming animations &rarr; <span style="opacity:.45">☉ 〰 ◎ 👁</span>
+    </a>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.38rem;letter-spacing:.13em;color:rgba(220,232,255,.14);margin-top:.8rem">SOLAR SYSTEM &middot; OCEAN WAVES &middot; BREATHING WITH &delta; &middot; EMDR</div>
+  </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ENHANCED SOLAR SYSTEM WITH KAIROS WOBBLES, MOONS, RINGS, ASTEROID BELT
 (function(){
   const bg=document.getElementById('bg');if(!bg)return;
   const ctx=bg.getContext('2d');let W,H;
   function resize(){W=bg.width=window.innerWidth;H=bg.height=window.innerHeight}
   resize();window.addEventListener('resize',resize);
+  
+  const DELTA = 0.013643;  // Pythagorean comma
+  const NRES = 2*Math.PI/DELTA;  // ~73.296 resonance number
+  
+  // Sun at center  -  always bright
+  const sun = {x: 0.5, y: 0.5, r: 8};
+  const sunBrightness = 1.0; // never dims
+  
+  // Planets with ACCURATE data and moons
+  const planets = [
+    {name:'Mercury', dist:60,  speed:0.9,  r:2,   color:'#a0a0a0', T:0.241, moons:[]},
+    {name:'Venus',   dist:90,  speed:0.65, r:3.5, color:'#e8b84b', T:0.615, moons:[]},
+    {name:'Earth',   dist:130, speed:0.5,  r:3.5, color:'#4090e0', T:1.000, moons:[
+      {name:'Moon', offset:12, speed:13.4, r:1.2, color:'#c8c0b8'}
+    ]},
+    {name:'Mars',    dist:180, speed:0.4,  r:3,   color:'#d04020', T:1.881, moons:[
+      {name:'Phobos', offset:8, speed:31.5, r:0.8, color:'#a08880'},
+      {name:'Deimos', offset:14, speed:12.1, r:0.7, color:'#a09090'}
+    ]},
+    {name:'Jupiter', dist:280, speed:0.22, r:9,   color:'#c8a878', T:11.86, moons:[
+      {name:'Io',       offset:14, speed:17.7, r:1.5, color:'#e8d060'},
+      {name:'Europa',   offset:20, speed:11.6, r:1.3, color:'#d0d8e0'},
+      {name:'Ganymede', offset:26, speed:7.15, r:1.8, color:'#b8b0a0'},
+      {name:'Callisto', offset:34, speed:5.12, r:1.6, color:'#887860'}
+    ]},
+    {name:'Saturn',  dist:360, speed:0.16, r:8,   color:'#e0c86a', T:29.46, hasRings:true, moons:[
+      {name:'Titan',  offset:32, speed:6.27,  r:1.7, color:'#d0a860'},
+      {name:'Rhea',   offset:22, speed:11.07, r:1.0, color:'#c0b8b0'},
+      {name:'Iapetus', offset:44, speed:3.45, r:1.1, color:'#988880'}
+    ]},
+    {name:'Uranus',  dist:450, speed:0.12, r:5.5, color:'#80e0e0', T:84.01, moons:[
+      {name:'Titania', offset:20, speed:8.71, r:1.2, color:'#90c8c8'}
+    ]},
+    {name:'Neptune', dist:520, speed:0.09, r:5.5, color:'#4060d0', T:164.8, moons:[
+      {name:'Triton', offset:24, speed:5.88, r:1.4, color:'#6080c0'}
+    ]}
+  ];
+  
+  // Asteroid belt (scattered objects)
+  const asteroidBelt = [];
+  for(let i=0; i<80; i++) {
+    asteroidBelt.push({
+      angle: Math.random() * Math.PI * 2,
+      dist: 220 + Math.random() * 40,  // Between Mars and Jupiter
+      r: 0.4 + Math.random() * 0.8,
+      color: '#888888',
+      speed: 0.3 + Math.random() * 0.1,
+      offset: Math.random() * Math.PI * 2
+    });
+  }
+  
+  // Notable objects
+  const notableObjects = [
+    {name:'Ceres', dist:245, speed:0.26, r:1.5, color:'#b0a8a0', T:4.607},  // Dwarf planet in belt
+    {name:'Pluto', dist:580, speed:0.075, r:2, color:'#c0a890', T:248.0}    // Dwarf planet
+  ];
+  
+  // Distant stars
   const stars=[];
-  for(let i=0;i<250;i++)stars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.1+.15,a:Math.random()*.35+.04,ph:Math.random()*Math.PI*2,sp:Math.random()*2+1.5});
+  for(let i=0;i<300;i++)stars.push({
+    x:Math.random(), y:Math.random(), r:Math.random()*0.9+.15,
+    a:Math.random()*.3+.03, ph:Math.random()*Math.PI*2, sp:Math.random()*2.5+1.5
+  });
+  
   let t=0;
-  function draw(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{const a=s.a*(0.5+0.5*Math.sin(t/s.sp+s.ph));ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(220,232,255,${a})`;ctx.fill();});t++;requestAnimationFrame(draw);}
+  
+  function draw(){
+    if(W <= 0 || H <= 0) return;
+    ctx.clearRect(0,0,W,H);
+    
+    // Sun stays bright  -  no dimming
+    
+    // Draw distant stars
+    stars.forEach(s=>{
+      const a=s.a*(0.5+0.5*Math.sin(t/s.sp+s.ph));
+      if(s.r > 0) {
+        ctx.beginPath();
+        ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(220,232,255,${a})`;
+        ctx.fill();
+      }
+    });
+    
+    const cx = sun.x * W;
+    const cy = sun.y * H;
+    
+    // Draw orbital paths (very subtle)
+    planets.forEach(p => {
+      if(p.dist > 0) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, p.dist, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(220,232,255,0.03)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    });
+    
+    // Draw asteroid belt
+    asteroidBelt.forEach(a => {
+      const angle = a.angle + t * a.speed * 0.0003 + a.offset;
+      const px = cx + Math.cos(angle) * a.dist;
+      const py = cy + Math.sin(angle) * a.dist;
+      if(a.r > 0) {
+        ctx.beginPath();
+        ctx.arc(px, py, a.r, 0, Math.PI * 2);
+        ctx.fillStyle = a.color;
+        ctx.globalAlpha = 0.3;
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+      }
+    });
+    
+    // Draw sun  -  brilliant, multi-layer corona
+    if(sun.r > 0) {
+      // Outermost corona pulse
+      const pulseR = sun.r * 18 + Math.sin(t * 0.018) * sun.r * 3;
+      const corona3 = ctx.createRadialGradient(cx, cy, sun.r * 4, cx, cy, pulseR);
+      corona3.addColorStop(0, 'rgba(255,220,80,0.04)');
+      corona3.addColorStop(1, 'rgba(255,180,20,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, pulseR, 0, Math.PI * 2);
+      ctx.fillStyle = corona3; ctx.fill();
+
+      // Mid corona
+      const corona2R = sun.r * 9 + Math.sin(t * 0.025) * sun.r;
+      const corona2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, corona2R);
+      corona2.addColorStop(0,   'rgba(255,240,140,0.22)');
+      corona2.addColorStop(0.4, 'rgba(255,200,60,0.10)');
+      corona2.addColorStop(1,   'rgba(255,160,20,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, corona2R, 0, Math.PI * 2);
+      ctx.fillStyle = corona2; ctx.fill();
+
+      // Inner glow
+      const glowR = sun.r * 3.5;
+      const innerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
+      innerGlow.addColorStop(0,   'rgba(255,255,200,0.95)');
+      innerGlow.addColorStop(0.3, 'rgba(255,230,100,0.7)');
+      innerGlow.addColorStop(0.7, 'rgba(255,180,40,0.3)');
+      innerGlow.addColorStop(1,   'rgba(255,140,20,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, glowR, 0, Math.PI * 2);
+      ctx.fillStyle = innerGlow; ctx.fill();
+
+      // Sun disc  -  bright white-gold core
+      const disc = ctx.createRadialGradient(cx, cy, 0, cx, cy, sun.r);
+      disc.addColorStop(0,   'rgba(255,255,230,1)');
+      disc.addColorStop(0.5, 'rgba(255,240,140,1)');
+      disc.addColorStop(1,   'rgba(255,200,60,0.9)');
+      ctx.beginPath(); ctx.arc(cx, cy, sun.r, 0, Math.PI * 2);
+      ctx.fillStyle = disc; ctx.fill();
+    }
+    
+    // Draw planets with Kairos wobbles
+    planets.forEach(p => {
+      const time = t * 0.0008;
+      const revs = time / p.T;
+      const commaPhase = revs * DELTA;
+      const nearestK = Math.round(commaPhase);
+      const kairosProximity = Math.abs(commaPhase - nearestK);
+      const isKairos = kairosProximity < 0.05 && revs > 0.5;
+      
+      // Kairos wobble
+      const wobbleAmp = isKairos ? Math.sin(t * 0.008) * 0.12 : 0;
+      const wobblePhase = isKairos ? Math.cos(t * 0.005) * 0.08 : 0;
+      
+      const angle = t * p.speed * 0.0008;
+      const wobbledR = p.dist * (1 + wobbleAmp);
+      const wobbledAngle = angle + wobblePhase;
+      const px = cx + wobbledR * Math.cos(wobbledAngle);
+      const py = cy + wobbledR * Math.sin(wobbledAngle);
+      
+      if(p.r > 0) {
+        // Kairos glow
+        if(isKairos) {
+          const kGrad = ctx.createRadialGradient(px, py, 0, px, py, p.r * 4);
+          kGrad.addColorStop(0, 'rgba(232,201,106,0.4)');
+          kGrad.addColorStop(1, 'rgba(232,201,106,0)');
+          ctx.beginPath();
+          ctx.arc(px, py, p.r * 4, 0, Math.PI * 2);
+          ctx.fillStyle = kGrad;
+          ctx.fill();
+        }
+        
+        // Planet glow
+        const hex = p.color.replace('#', '');
+        const r = parseInt(hex.substr(0,2), 16);
+        const g = parseInt(hex.substr(2,2), 16);
+        const b = parseInt(hex.substr(4,2), 16);
+        
+        const pGlowR = p.r * 2.2;
+        if(pGlowR > 0) {
+          const pGrad = ctx.createRadialGradient(px, py, 0, px, py, pGlowR);
+          pGrad.addColorStop(0, `rgba(${r},${g},${b},0.3)`);
+          pGrad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+          ctx.beginPath();
+          ctx.arc(px, py, pGlowR, 0, Math.PI * 2);
+          ctx.fillStyle = pGrad;
+          ctx.fill();
+        }
+        
+        // Planet body
+        ctx.beginPath();
+        ctx.arc(px, py, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        
+        // Saturn's rings
+        if(p.hasRings) {
+          ctx.beginPath();
+          ctx.ellipse(px, py, p.r * 2.2, p.r * 0.6, 0.4, 0, Math.PI * 2);
+          ctx.strokeStyle = `${p.color}55`;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+        
+        // Draw moons
+        if(p.moons && p.moons.length > 0) {
+          p.moons.forEach(moon => {
+            const moonAngle = t * moon.speed * 0.001;
+            const moonX = px + Math.cos(moonAngle) * moon.offset;
+            const moonY = py + Math.sin(moonAngle) * moon.offset;
+            
+            if(moon.r > 0) {
+              ctx.beginPath();
+              ctx.arc(moonX, moonY, moon.r, 0, Math.PI * 2);
+              ctx.fillStyle = moon.color;
+              ctx.globalAlpha = 0.8;
+              ctx.fill();
+              ctx.globalAlpha = 1.0;
+            }
+          });
+        }
+      }
+    });
+    
+    // Draw notable objects (Ceres, Pluto)
+    notableObjects.forEach(obj => {
+      const angle = t * obj.speed * 0.0008;
+      const px = cx + Math.cos(angle) * obj.dist;
+      const py = cy + Math.sin(angle) * obj.dist;
+      
+      if(obj.r > 0) {
+        ctx.beginPath();
+        ctx.arc(px, py, obj.r, 0, Math.PI * 2);
+        ctx.fillStyle = obj.color;
+        ctx.globalAlpha = 0.7;
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+      }
+    });
+    
+    t++;
+    requestAnimationFrame(draw);
+  }
   draw();
 })();
+
+// HERO CANVAS - Spiral of Fifths (RED THEME)
 (function(){
   const c=document.getElementById('hero-c');if(!c)return;
   const ctx=c.getContext('2d');let W,H,t=0;
   function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight}
   resize();window.addEventListener('resize',resize);
-  function draw(){ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2,maxR=Math.min(cx,cy)-20;for(let i=0;i<12;i++){const angle=-Math.PI/2+t*.0003+(i/12)*Math.PI*2;const r=maxR*(0.3+0.7*i/12);const x=cx+r*Math.cos(angle),y=cy+r*Math.sin(angle);const a=0.06-0.005*i;ctx.beginPath();ctx.arc(x,y,2.5,0,Math.PI*2);ctx.fillStyle=`rgba(232,201,106,${a})`;ctx.fill();}const gangle=-Math.PI/2+t*.0003;ctx.beginPath();ctx.arc(cx,cy,maxR*.97,gangle-0.014,gangle+0.014);ctx.strokeStyle="rgba(232,201,106,0.08)";ctx.lineWidth=3;ctx.stroke();t++;requestAnimationFrame(draw);}
+  function draw(){
+    if(W <= 0 || H <= 0) {
+      requestAnimationFrame(draw);
+      return;
+    }
+    ctx.clearRect(0,0,W,H);
+    const cx=W/2,cy=H/2,maxR=Math.min(cx,cy)-20;
+    
+    // Only draw if maxR is positive
+    if(maxR > 0) {
+      for(let i=0;i<12;i++){
+        const angle=-Math.PI/2+t*.0003+(i/12)*Math.PI*2;
+        const r=maxR*(0.3+0.7*i/12);
+        if(r > 0) {
+          const x=cx+r*Math.cos(angle),y=cy+r*Math.sin(angle);
+          const a=0.06-0.005*i;
+          ctx.beginPath();
+          ctx.arc(x,y,2.5,0,Math.PI*2);
+          ctx.fillStyle=`rgba(212,80,80,${a})`;  // Red instead of gold
+          ctx.fill();
+        }
+      }
+      const gangle=-Math.PI/2+t*.0003;
+      const arcR = maxR*.97;
+      if(arcR > 0) {
+        ctx.beginPath();
+        ctx.arc(cx,cy,arcR,gangle-0.014,gangle+0.014);
+        ctx.strokeStyle="rgba(212,80,80,0.08)";  // Red instead of gold
+        ctx.lineWidth=3;
+        ctx.stroke();
+      }
+    }
+    t++;
+    requestAnimationFrame(draw);
+  }
   draw();
 })();
+
 window.addEventListener('scroll',()=>{const nav=document.querySelector('nav');if(nav)nav.style.background=scrollY>40?"rgba(4,7,15,.99)":"rgba(4,7,15,.97)";});
 </script>
-
-<script>
-const _oh='79c8af456ad94daabc449f39778d1d92db2e03bb6c5cc9c056e3c10b9cbf0782';
-function _os(s){function rr(v,a){return(v>>>a)|(v<<(32-a))}const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];let h=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];const b=[];for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);if(c<128)b.push(c);else if(c<2048)b.push((c>>6)|192,(c&63)|128);else b.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128)}const bl=b.length*8;b.push(0x80);while(b.length%64!==56)b.push(0);b.push(0,0,0,0,(bl>>>24)&255,(bl>>>16)&255,(bl>>>8)&255,bl&255);for(let i=0;i<b.length;i+=64){const w=[];for(let j=0;j<16;j++)w.push((b[i+j*4]<<24)|(b[i+j*4+1]<<16)|(b[i+j*4+2]<<8)|b[i+j*4+3]);for(let j=16;j<64;j++){const s0=rr(w[j-15],7)^rr(w[j-15],18)^(w[j-15]>>>3);const s1=rr(w[j-2],17)^rr(w[j-2],19)^(w[j-2]>>>10);w.push((w[j-16]+s0+w[j-7]+s1)>>>0)}let[a,b2,cc,d,e,f,g,hh]=h;for(let j=0;j<64;j++){const S1=rr(e,6)^rr(e,11)^rr(e,25);const ch=(e&f)^(~e&g);const t1=(hh+S1+ch+K[j]+w[j])>>>0;const S0=rr(a,2)^rr(a,13)^rr(a,22);const maj=(a&b2)^(a&cc)^(b2&cc);const t2=(S0+maj)>>>0;hh=g;g=f;f=e;e=(d+t1)>>>0;d=cc;cc=b2;b2=a;a=(t1+t2)>>>0}h[0]=(h[0]+a)>>>0;h[1]=(h[1]+b2)>>>0;h[2]=(h[2]+cc)>>>0;h[3]=(h[3]+d)>>>0;h[4]=(h[4]+e)>>>0;h[5]=(h[5]+f)>>>0;h[6]=(h[6]+g)>>>0;h[7]=(h[7]+hh)>>>0}return h.map(v=>v.toString(16).padStart(8,'0')).join('')}
-let _ou=null;
-function omOpen(url){_ou=url;const m=document.getElementById('omodal');m.style.display='flex';document.getElementById('ompw').value='';document.getElementById('omerr').textContent='';setTimeout(()=>document.getElementById('ompw').focus(),80)}
-function omClose(){document.getElementById('omodal').style.display='none';_ou=null}
-function omUnlock(){const v=document.getElementById('ompw').value.trim();if(_os(v)===_oh){omClose();window.open(_ou,'_blank')}else{document.getElementById('omerr').textContent='Access denied';const inp=document.getElementById('ompw');inp.style.animation='none';void inp.offsetHeight;inp.style.animation='omshake .4s';inp.value='';setTimeout(()=>{inp.style.animation='';document.getElementById('omerr').textContent=''},600)}}
-document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('ompw').addEventListener('keydown',function(e){if(e.key==='Enter')omUnlock();document.getElementById('omerr').textContent=''});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')omClose()});
-});
-</script>
-
+-e 
 </body>
 </html>
