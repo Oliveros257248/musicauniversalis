@@ -396,19 +396,25 @@ The comma belongs to the universe.
 ## ☽ XV. THE CONSTANTS
 
 ```
-╔══════════════════════════════════════════════════════════════════╗
-║  THE COMMA FRAMEWORK: CORE CONSTANTS                          ║
-╠══════════════════════════════════════════════════════════════════╣
-║  δ        = 0.013643265319087    the comma                     ║
-║  φ        = 1.013643265319087    the comma ratio               ║
-║  N_res    = 73.2960599…          near-closure number (1/δ)     ║
-║  BLA/δ    = 3.685 (mean)         cyanine structural constant   ║
-║  H₁       = 1,420,405,751.768 Hz hydrogen line                 ║
-║  H₁ × φ   = 1,440,783 kHz       the comma partner             ║
-║  H₁ × δ   = 19,378 kHz          the comma gap                 ║
-║  Cy7⁺ gap = 3.550 eV             series begins                 ║
-║  Cy15⁺ gap= 1.857 eV             Major-Tone Return             ║
-╚══════════════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║   THE COMMA FRAMEWORK  ·  CORE CONSTANTS                                    ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║   δ          =   0.013643265319087        the comma                         ║
+║   φ          =   1.013643265319087        the comma ratio                   ║
+║   N_res      =   73.2960599...            near-closure number  (1/δ)        ║
+║   BLA/δ      =   3.685  (mean)            cyanine structural constant       ║
+║                                                                              ║
+║   H₁         =   1,420,405,751.768 Hz    hydrogen line                      ║
+║   H₁ × φ     =   1,440,783 kHz           the comma partner                  ║
+║   H₁ × δ     =   19,378 kHz              the comma gap                      ║
+║                                                                              ║
+║   Cy7⁺  gap  =   3.550 eV                series begins                      ║
+║   Cy15⁺ gap  =   1.857 eV                Major-Tone Return                  ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
@@ -416,12 +422,18 @@ The comma belongs to the universe.
 <div align="center">
 
 ```
-☉  ☿  ♀  ⊕  ♂  ♃  ♄  ♅  ♆  ♇
+  ·  ·  ·  ✦  ·  ·  ·  ·  ✦  ·  ·  ·  ·  ✦  ·  ·  ·
+```
+
+```
+  ☉   ☿   ♀   ⊕   ♂   ♃   ♄   ♅   ♆   ♇
 ```
 
 *Twelve perfect fifths.*
 *Seven perfect octaves.*
 *One irreducible gap.*
+
+&nbsp;
 
 *The comma never fully closes.*
 *That is not the tragedy.*
@@ -429,17 +441,33 @@ The comma belongs to the universe.
 
 ---
 
+&nbsp;
+
 **Abr · 2026**
+
 *Sara Oliveros Gómez*
 
-*Chemical and Biomolecular Engineering - Georgia Institute of Technology BS'23*
-*Chemical Engineering - Stanford University HCP MS'27*
+&nbsp;
 
+*Chemical and Biomolecular Engineering*
+*Georgia Institute of Technology · BS 2023*
 
-`δ = 0.013643` · `N_res = 73.296` · `H₁ × φ = 1440.783 MHz`
-`531441 / 524288 − 1` · `The gap that makes music possible`
+&nbsp;
+
+*Chemical Engineering, HCP*
+*Stanford University · MS 2027*
+
+&nbsp;
+
+`δ = 0.013643` &nbsp;·&nbsp; `N_res = 73.296` &nbsp;·&nbsp; `H₁ × φ = 1440.783 MHz`
+
+`531441 / 524288 − 1` &nbsp;·&nbsp; `The gap that makes music possible`
+
+&nbsp;
 
 *Do you hear the music? What is YOUR song?*
+
+&nbsp;
 
 `I'll be hearing...`
 
