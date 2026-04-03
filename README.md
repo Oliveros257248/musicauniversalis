@@ -287,25 +287,13 @@ The twin paradox may be a comma paradox.
 
 ## ⯓ X. THE STAR MAP
 
-*Astronomers classify stars by temperature, luminosity, and spectral type.*
-*Every commit in this repository has a message.*
-*Not all messages are about code.*
-
-```
-G5II1       B8la        Polaris
-Zeta-1 Scorpii          remus?        Helios!
 ```
 
 Some stars are landmarks. Some are destinations. Some are questions.
 
-If you know how to read a stellar atlas, you may notice a pattern.
-If you know what Orpheus was looking for, you may know why these stars were chosen.
-If you know the name of the 73rd star, you may already be crew.
-
 *The pattern is complete. It has been since the first commit.*
 
 ```
-N_res = 73.296
 Do you know your name?
 ```
 
@@ -349,7 +337,7 @@ The Argo does not sail alone.
 - **The Communicator:** translation, outreach, making it findable across languages
 - **The Archivist:** documentation, reproducibility, open data, long-term preservation
 
-The manifest is open. The voyage has begun.
+The manifest is open. The voyage has begun. The Argos has sailed! Did you answer the call?
 
 **Contact:** project_orpheus@musicauniversalis.band
 
@@ -390,6 +378,8 @@ davids_kingdom.html           ← public health, always public
 **License: Public Domain: CC0**
 No rights reserved. Use anything here for any purpose, anywhere, forever.
 The comma belongs to the universe.
+From my Quantum Brain to yours... Enjoy!
+Happy Bounce!!!
 
 ---
 
