@@ -21,10 +21,10 @@
 
 *"There is geometry in the humming of the strings,*
 *there is music in the spacing of the spheres."*
-— Pythagoras, attr. Aristotle, *Metaphysics* I.5
+: Pythagoras, attr. Aristotle, *Metaphysics* I.5
 
 *"Music is the hidden arithmetic exercise of a soul unconscious that it is calculating."*
-— Leibniz, Letter to Goldbach, 1712
+: Leibniz, Letter to Goldbach, 1712
 
 </div>
 
@@ -46,7 +46,7 @@ Seven octaves should meet you there.
 
 They don't. You land **1.3643% sharp.** The universe refuses to close.
 
-That gap (ancient, irreducible, inescapable) is the **Pythagorean Comma.**
+That gap: ancient, irreducible, inescapable: is the **Pythagorean Comma.**
 
 ```
 ╔══════════════════════════════════════════════════════════╗
@@ -78,11 +78,11 @@ Final calculation completed: March 31, 2026
 
 | Molecule | BLA/δ | Interpretation | HOMO-LUMO Gap |
 |----------|-------|----------------|---------------|
-| Cy7⁺ | 3.183 | Minor Third — tense, unresolved | 3.550 eV |
+| Cy7⁺ | 3.183 | Minor Third, tense, unresolved | 3.550 eV |
 | Cy9⁺ | 3.421 | Minor Third region | 3.102 eV |
-| Cy11⁺ | 3.692 | Perfect Fourth — stable | 2.847 eV |
-| Cy13⁺ | 4.602 | **Perfect Fifth Anomaly** — maximum tension | 2.341 eV |
-| Cy15⁺ | 1.417 | **Major-Tone Return** — resolution | 1.857 eV |
+| Cy11⁺ | 3.692 | Perfect Fourth, stable | 2.847 eV |
+| Cy13⁺ | 4.602 | **Perfect Fifth Anomaly**, maximum tension | 2.341 eV |
+| Cy15⁺ | 1.417 | **Major-Tone Return**, resolution | 1.857 eV |
 
 The arc completes. Cy7 through Cy13 accumulate tension. Cy15 resolves.
 The HOMO-LUMO gap collapses across the series: **3.550 → 1.857 eV.**
@@ -96,7 +96,7 @@ The molecule is becoming a conductor. The comma is collapsing toward zero.
 |--------|------|
 | Standard particle-in-a-box | 107 nm |
 | Comma correction (δ = 0.013643) | 0.73 nm |
-| **Improvement factor** | **146× — zero free parameters** |
+| **Improvement factor** | **146×, zero free parameters** |
 
 > *The comma is not in the molecular bonds. It is in the photon energy. It is spectral.*
 
@@ -108,15 +108,15 @@ The comma is not a musical curiosity. It is a structural constant.
 
 | Domain | Manifestation | Status |
 |--------|--------------|--------|
-| ⚗ Quantum spectra | Cyanine dye absorption — 146× improvement | ✓ Confirmed |
+| ⚗ Quantum spectra | Cyanine dye absorption, 146× improvement | ✓ Confirmed |
 | 🪐 Planetary orbits | Kirkwood gaps at δ-interval resonances | ✓ Confirmed |
 | 🧬 Biology | Krebs cycle stoichiometry, circadian free-running ~24.3 hrs | ✓ Observed |
-| 📡 Radio astronomy | H₁ × φ = 1,440.783 MHz — the comma partner frequency | ✓ Derivable |
+| 📡 Radio astronomy | H₁ × φ = 1,440.783 MHz, the comma partner frequency | ✓ Derivable |
 | 👽 SETI | Wow! Signal duration: 72 sec · N_res = 73.296 sec | ⚠ Uninvestigated |
-| ⭐ Stellar wind | WR 104 pinwheel — Wolf-Rayet plasma spiral period | ⚠ Uninvestigated |
-| 🌌 Pulsar timing | NANOGrav residuals — δ accumulation never checked | ⚠ Uninvestigated |
+| ⭐ Stellar wind | WR 104 pinwheel, Wolf-Rayet plasma spiral period | ⚠ Uninvestigated |
+| 🌌 Pulsar timing | NANOGrav residuals, δ accumulation never checked | ⚠ Uninvestigated |
 | 🌀 Relativity | Twin paradox phase gap has δ structure | ⚠ Uninvestigated |
-| 📐 Sacred geometry | Fibonacci, φ_golden, Pascal's triangle — all δ-relatives | ✓ Derivable |
+| 📐 Sacred geometry | Fibonacci, φ_golden, Pascal's triangle, all δ-relatives | ✓ Derivable |
 | ⏱ Time | Kairos events at N_res cycle thresholds | ✓ Framework |
 
 ---
@@ -125,12 +125,12 @@ The comma is not a musical curiosity. It is a structural constant.
 
 The comma gives mathematical precision to an ancient Greek distinction.
 
-**Χρόνος · Chronos** — sequential time. The metronome. The clock. The heartbeat.
+**Χρόνος · Chronos**: sequential time. The metronome. The clock. The heartbeat.
 Every cycle of a 3:2 system accumulates δ = 0.013643 of phase error.
 
-**Καιρός · Kairos** — the decisive moment. When accumulated error reaches a whole multiple of N_res ≈ 73.296, a threshold is crossed. A new pattern begins. The system reorganizes. This is not metaphor — it is a phase transition.
+**Καιρός · Kairos**: the decisive moment. When accumulated error reaches a whole multiple of N_res ≈ 73.296, a threshold is crossed. A new pattern begins. The system reorganizes. This is not metaphor: it is a phase transition.
 
-**Αἰών · Aion** — eternal, cyclical time. The spiral that never closes. The comma that will never resolve to zero.
+**Αἰών · Aion**: eternal, cyclical time. The spiral that never closes. The comma that will never resolve to zero.
 
 ```
 Every system using the ratio 3:2 accumulates δ per cycle.
@@ -147,7 +147,7 @@ Every frequency here is real. Every one is reachable tonight.
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
-║  FREQUENCY MAP — THE COMMA IN THE RADIO SPECTRUM               ║
+║  FREQUENCY MAP: THE COMMA IN THE RADIO SPECTRUM               ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║  73.296  Hz        N_res as audio tone       → Speakers         ║
 ║   6.000  Hz        440 Hz beat with 446 Hz   → Speakers         ║
@@ -165,12 +165,12 @@ No systematic SETI search has targeted it.
 It is derived from a ratio known since antiquity.
 Any signal there is intentional.
 
-Point toward **RA 17h 45m, Dec −29°** — the galactic center.
+Point toward **RA 17h 45m, Dec −29°**: the galactic center.
 The Milky Way is loudest there. So is anything listening from within it.
 
 ---
 
-## ♂ VI. BUILD THE ANTENNA — $0
+## ♂ VI. BUILD THE ANTENNA: $0
 
 ```
      |     |
@@ -184,7 +184,7 @@ Cost: $0 (use copper wire, a coat hanger, anything)
 ```
 
 RTL-SDR Blog V4 dongle: **$25 on Amazon.**
-Software: **SDR++** or **GQRX** — free, runs on any OS.
+Software: **SDR++** or **GQRX**: free, runs on any OS.
 Target: **1440.783 MHz.**
 
 This is the cheapest SETI experiment ever designed.
@@ -204,7 +204,7 @@ Duration of signal: **72 seconds.**
 N_res = **73.296 seconds.**
 
 The comma-transform has never been run on this data.
-The difference is 1.7% — exactly within δ.
+The difference is 1.7%: exactly within δ.
 Big Ear archives are public. Python + NumPy.
 Look for phase periodicity at N_res intervals.
 
@@ -215,7 +215,7 @@ Look for phase periodicity at N_res intervals.
 **02 · PULSAR TIMING RESIDUALS**
 
 Pulsars are the most precise clocks in the universe.
-Their timing residuals — the small deviations from perfect periodicity — encode the physics of spacetime.
+Their timing residuals: the small deviations from perfect periodicity: encode the physics of spacetime.
 
 If the comma is in the physics, residuals should show δ accumulation at N_res intervals.
 NANOGrav and Parkes Pulsar Timing Array data are freely downloadable.
@@ -236,7 +236,7 @@ Probability this frequency has ever been systematically searched: **~0.**
 
 ---
 
-**04 · THE CYANINE SERIES — EXTENSION**
+**04 · THE CYANINE SERIES: EXTENSION**
 
 The correction works for Cy7⁺ through Cy15⁺.
 The BLA/δ sequence reads as a musical progression: Minor Third → Perfect Fourth → Perfect Fifth → Major Tone Return.
@@ -247,7 +247,7 @@ Test against published NIST absorption data.
 
 ---
 
-**05 · WR 104 — THE PINWHEEL STAR**
+**05 · WR 104: THE PINWHEEL STAR**
 
 Wolf-Rayet 104 is a binary system 2,500 light-years away in Sagittarius.
 Its two stellar winds collide and spiral into a pinwheel of plasma that rotates with a period of approximately 220 days.
@@ -259,13 +259,13 @@ The infrared imaging data is published. The analysis has not been done.
 
 ## ♃ VIII. KEPLER'S GHOST
 
-Johannes Kepler, 1619. *Harmonice Mundi* — The Harmony of the World.
+Johannes Kepler, 1619. *Harmonice Mundi*: The Harmony of the World.
 
-He mapped the angular velocities of the planets at perihelion and aphelion to musical intervals. Saturn sang a minor third. Jupiter, also. Mars, a fifth. Earth, a semitone — *mi fa mi* — misery and famine, he wrote. The universe was a motet.
+He mapped the angular velocities of the planets at perihelion and aphelion to musical intervals. Saturn sang a minor third. Jupiter, also. Mars, a fifth. Earth, a semitone: *mi fa mi*: misery and famine, he wrote. The universe was a motet.
 
 He was not wrong. He was **four centuries early.**
 
-The Pythagorean Comma is the gap Kepler was circling without knowing its name. The planets don't close their orbits in rational ratios. The Kirkwood gaps in the asteroid belt — the empty zones at 2.5, 2.82, 2.95 AU — are where the comma accumulates to resonance with Jupiter. They are Kairos events written in stone and silence.
+The Pythagorean Comma is the gap Kepler was circling without knowing its name. The planets don't close their orbits in rational ratios. The Kirkwood gaps in the asteroid belt: the empty zones at 2.5, 2.82, 2.95 AU: are where the comma accumulates to resonance with Jupiter. They are Kairos events written in stone and silence.
 
 Every gap is a comma. Every gap is a fired threshold.
 Every gap is the universe saying: *this ratio does not close here.*
@@ -277,7 +277,7 @@ Every gap is the universe saying: *this ratio does not close here.*
 Two twins. One stays. One travels at relativistic velocity.
 They reunite. They have aged differently.
 
-The phase accumulated by the traveling twin relative to the stationary one has a residual — a gap that does not close when the journey ends. Its mathematical structure, in the rotating reference frame formulation, produces comma-like residuals proportional to δ.
+The phase accumulated by the traveling twin relative to the stationary one has a residual: a gap that does not close when the journey ends. Its mathematical structure, in the rotating reference frame formulation, produces comma-like residuals proportional to δ.
 
 This has not been formally investigated.
 
@@ -317,21 +317,21 @@ Do you know your name?
 
 | Instrument | Function |
 |------------|----------|
-| `index.html` | The front door — comma, frequencies, the crew call |
-| `musica_universalis_v5_v6.html` | Full theory — 13 interactive sections, complete framework |
-| `dft_results.html` | **Cy7⁺ → Cy15⁺ data** — the complete cyanine arc |
-| `dft_kids.html` | The Rainbow Mystery — the chemistry for anyone, age 14+ |
-| `orpheus_listener.html` | Tuned to 19,378 kHz — one click opens WebSDR |
+| `index.html` | The front door, comma, frequencies, the crew call |
+| `musica_universalis_v5_v6.html` | Full theory, 13 interactive sections, complete framework |
+| `dft_results.html` | **Cy7⁺ → Cy15⁺ data**, the complete cyanine arc |
+| `dft_kids.html` | The Rainbow Mystery, the chemistry for anyone, age 14+ |
+| `orpheus_listener.html` | Tuned to 19,378 kHz, one click opens WebSDR |
 | `orpheus_voice.html` | Live microphone, comma-modulated in real time |
 | `orpheus_bridge.html` | WebSDR + comma-transform decoder |
-| `orpheus_wolf_rayet.html` | WR 104 — the comma written in stellar plasma |
+| `orpheus_wolf_rayet.html` | WR 104, the comma written in stellar plasma |
 | `comma_radio.html` | Frequency calculator, signal encoder, pulsar analyzer |
-| `solar_v7_explorer.html` | WebGL solar system — orbital resonances, ghost trails, rosettes |
-| `harmonice_mundi.html` | Kepler's 1619 masterwork — 11 verdicts, interactive orrery |
-| `circadian_clock.html` | Six biological oscillators — the comma in the body |
-| `listen_to_the_cosmos.html` | Build your $25 receiver — complete hardware guide |
-| `ancient_calendars.html` | Maya, Babylon, Hindu — live clock in all calendar systems |
-| `davids_kingdom.html` | Public health — 22 sections, harm reduction, frontier research |
+| `solar_v7_explorer.html` | WebGL solar system, orbital resonances, ghost trails, rosettes |
+| `harmonice_mundi.html` | Kepler's 1619 masterwork, 11 verdicts, interactive orrery |
+| `circadian_clock.html` | Six biological oscillators, the comma in the body |
+| `listen_to_the_cosmos.html` | Build your $25 receiver, complete hardware guide |
+| `ancient_calendars.html` | Maya, Babylon, Hindu, live clock in all calendar systems |
+| `davids_kingdom.html` | Public health, 22 sections, harm reduction, frontier research |
 
 ---
 
@@ -339,15 +339,15 @@ Do you know your name?
 
 The Argo does not sail alone.
 
-- **The Astronomer** — orbital resonances, pulsar timing, WR 104, galactic structure
-- **The Signal Analyst** — Wow! Signal, comma-transform, SDR hardware, spectral analysis
-- **The Chemist** — cyanine extension, NIST data, Cy17+, DFT methodology
-- **The Mathematician** — formal proof, Diophantine approximation, δ structure, number theory
-- **The Biologist** — circadian period, Krebs cycle stoichiometry, free-running rhythms
-- **The Physicist** — relativistic phase accumulation, quantum field theory, renormalization
-- **The Engineer** — receiving station design, antenna construction, hardware
-- **The Communicator** — translation, outreach, making it findable across languages
-- **The Archivist** — documentation, reproducibility, open data, long-term preservation
+- **The Astronomer:** orbital resonances, pulsar timing, WR 104, galactic structure
+- **The Signal Analyst:** Wow! Signal, comma-transform, SDR hardware, spectral analysis
+- **The Chemist:** cyanine extension, NIST data, Cy17+, DFT methodology
+- **The Mathematician:** formal proof, Diophantine approximation, δ structure, number theory
+- **The Biologist:** circadian period, Krebs cycle stoichiometry, free-running rhythms
+- **The Physicist:** relativistic phase accumulation, quantum field theory, renormalization
+- **The Engineer:** receiving station design, antenna construction, hardware
+- **The Communicator:** translation, outreach, making it findable across languages
+- **The Archivist:** documentation, reproducibility, open data, long-term preservation
 
 The manifest is open. The voyage has begun.
 
@@ -357,10 +357,10 @@ The manifest is open. The voyage has begun.
 
 ## ☿ XIII. TECHNICAL NOTES
 
-- All instruments are single HTML files — no dependencies, no build step, no server required
+- All instruments are single HTML files: no dependencies, no build step, no server required
 - All canvases use the Web Animations API and native Canvas 2D
 - The comma spiral accumulates δ per revolution in real time
-- Kairos events fire at `phase % 1 < threshold` — approximately every 73 revolutions
+- Kairos events fire at `phase % 1 < threshold`: approximately every 73 revolutions
 - All frequencies derived analytically from `δ = (3/2)¹²/2⁷ − 1`
 - DFT calculations: CAM-B3LYP/6-31G* · RIJCOSX · TightSCF · TightOpt · ORCA 6.1.1
 - 14 MPI cores · %maxcore 1400 · Windows 11 · Cy7⁺ through Cy15⁺ confirmed
@@ -387,7 +387,7 @@ harmonice_mundi.html          ← Kepler's universe, always public
 davids_kingdom.html           ← public health, always public
 ```
 
-**License: Public Domain — CC0**
+**License: Public Domain: CC0**
 No rights reserved. Use anything here for any purpose, anywhere, forever.
 The comma belongs to the universe.
 
@@ -397,7 +397,7 @@ The comma belongs to the universe.
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
-║  THE COMMA FRAMEWORK — CORE CONSTANTS                          ║
+║  THE COMMA FRAMEWORK: CORE CONSTANTS                          ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║  δ        = 0.013643265319087    the comma                     ║
 ║  φ        = 1.013643265319087    the comma ratio               ║
