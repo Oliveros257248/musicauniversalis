@@ -46,7 +46,7 @@ Seven octaves should meet you there.
 
 They don't. You land **1.3643% sharp.** The universe refuses to close.
 
-That gap — ancient, irreducible, inescapable — is the **Pythagorean Comma.**
+That gap (ancient, irreducible, inescapable) is the **Pythagorean Comma.**
 
 ```
 ╔══════════════════════════════════════════════════════════╗
